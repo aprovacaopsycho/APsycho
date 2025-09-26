@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa Equipe - Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+            --text-light: #f0f0f0;
+            --text-dark: #a0a0a0;
+        }
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        .section-title { 
+            font-weight: 900; 
+            color: var(--text-light);
+        }
+        .section-subtitle {
+             color: var(--primary-purple);
+        }
+        .card {
+             background-color: var(--bg-card);
+             border-radius: 0.75rem;
+             border: 1px solid #333;
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+         .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(159, 84, 255, 0.3);
+            border-color: var(--primary-purple);
+        }
+         .cta-button { 
+            transition: all 0.3s ease; 
+            background-color: var(--accent-pink);
+            color: var(--text-light);
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+        .cta-button:hover { 
+            background-color: transparent;
+            color: var(--accent-pink);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                 <a href="index.html" class="flex items-center">
+                    <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
+                    <span class="text-xl font-black text-text-light tracking-wider">
+                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
+                    </span>
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html#sobre" class="text-text-dark hover:text-accent-pink transition">O Curso</a>
+                <a href="equipe.html" class="text-accent-pink font-bold transition">Nossa Equipe</a>
+                <a href="dicas.html" class="text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
+                <a href="simuladores.html" class="text-text-dark hover:text-accent-pink transition">Simuladores</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button-equipe" class="text-text-dark hover:text-accent-pink focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu-equipe" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">O Curso</a>
+            <a href="equipe.html" class="block py-2 text-accent-pink font-bold transition">Nossa Equipe</a>
+            <a href="dicas.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
+            <a href="simuladores.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Simuladores</a>
+        </div>
+    </header>
+
+    <main class="py-20">
+        <div class="container mx-auto px-6">
+            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">A Mente por Trás da Sua Aprovação</h1>
+            <p class="text-center section-subtitle mb-12">Conheça quem vai guiar você até a vaga dos seus sonhos.</p>
+
+            <!-- Professor Section -->
+            <div class="card max-w-4xl mx-auto md:grid md:grid-cols-3 md:gap-0 items-center overflow-hidden shadow-lg">
+                <div class="md:col-span-1">
+                    <img src="https://placehold.co/400x500/1c1b29/f0f0f0?text=Prof.+Nathanael" alt="[Foto do Professor Nathanael Lacerda]" class="w-full h-full object-cover">
+                </div>
+                <div class="md:col-span-2 p-8">
+                    <h2 class="text-3xl font-bold text-text-light">Nathanael Lacerda</h2>
+                    <p class="font-semibold text-accent-blue mb-4">Professor & Mentor Principal</p>
+                    <div class="space-y-4 text-text-dark">
+                        <p>Com mais de uma década de experiência em sala de aula, Nathanael Lacerda não é apenas um especialista em matemática, Raciocínio Lógico e testes psicotécnicos. Ele é a prova viva de que o método funciona.</p>
+                        <p>A sua jornada é a sua maior credencial: <strong class="text-text-light">aprovado nos concorridos concursos da PM-PB (2018) e da PRF (2021)</strong>, ele conhece na pele cada desafio que você está prestes a enfrentar.</p>
+                        <p>Graduado em Matemática e pós-graduado no uso de tecnologias para educação, ele une o rigor acadêmico com a vivência prática de quem já esteve do outro lado. Ele não apenas ensina o caminho; ele já trilhou essa jornada com sucesso e agora está aqui para garantir que você também a trilhe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suporte Section -->
+             <div class="max-w-5xl mx-auto mt-20">
+                 <h2 class="text-3xl md:text-4xl text-center mb-2 section-title">Equipe de Suporte Dedicada</h2>
+                 <p class="text-center section-subtitle mb-12">Estamos com você em cada etapa.</p>
+                 <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Suporte Member 1 -->
+                    <div class="card text-center p-8">
+                        <img src="https://placehold.co/150x150/1c1b29/f0f0f0?text=Suporte" alt="[Foto do Membro da Equipe]" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-primary-purple">
+                        <h3 class="text-2xl font-bold text-text-light">Ana Silva</h3>
+                        <p class="font-semibold text-accent-blue mb-4">Coordenadora de Suporte</p>
+                        <p class="text-text-dark">Responsável por garantir que todas as suas dúvidas sejam respondidas rapidamente, organizando o fluxo de atendimento e assegurando a melhor experiência para você.</p>
+                    </div>
+                    <!-- Suporte Member 2 -->
+                    <div class="card text-center p-8">
+                        <img src="https://placehold.co/150x150/1c1b29/f0f0f0?text=Suporte" alt="[Foto do Membro da Equipe]" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-primary-purple">
+                        <h3 class="text-2xl font-bold text-text-light">Lucas Costa</h3>
+                        <p class="font-semibold text-accent-blue mb-4">Especialista em Plataforma</p>
+                        <p class="text-text-dark">Nosso especialista técnico que cuida de toda a plataforma de simuladores e materiais, garantindo que sua preparação seja fluida e sem interrupções.</p>
+                    </div>
+                </div>
+                 <div class="text-center mt-12">
+                     <a href="https://wa.me/5585991982168?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20a%20mentoria%20e%20o%20suporte%20oferecido." target="_blank" class="cta-button font-bold py-3 px-8 rounded-md text-lg inline-flex items-center">
+                        Fale Com Nossa Equipe
+                    </a>
+                 </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <footer class="border-t border-gray-800 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm text-text-dark">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button-equipe').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu-equipe');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
+
