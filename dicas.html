@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicas de Testes - Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+            --text-light: #f0f0f0;
+            --text-dark: #a0a0a0;
+        }
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        .section-title { 
+            font-weight: 900; 
+            color: var(--text-light);
+        }
+        .section-subtitle {
+             color: var(--primary-purple);
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                     <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
+                    <span class="text-xl font-black text-text-light tracking-wider">
+                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
+                    </span>
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html#sobre" class="text-text-dark hover:text-accent-pink transition">O Curso</a>
+                <a href="equipe.html" class="text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
+                <a href="dicas.html" class="text-accent-pink font-bold transition">Dicas de Testes</a>
+                <a href="simuladores.html" class="text-text-dark hover:text-accent-pink transition">Simuladores</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button-dicas" class="text-text-dark hover:text-accent-pink focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu-dicas" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">O Curso</a>
+            <a href="equipe.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
+            <a href="dicas.html" class="block py-2 text-accent-pink font-bold transition">Dicas de Testes</a>
+            <a href="simuladores.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Simuladores</a>
+        </div>
+    </header>
+
+    <main class="py-20">
+        <div class="container mx-auto px-6">
+            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Dicas Essenciais para os Principais Testes</h1>
+            <p class="text-center section-subtitle mb-12">Conheça os detalhes que fazem a diferença na sua aprovação.</p>
+
+            <div x-data="{ openTab: 1 }" class="max-w-4xl mx-auto">
+                <div class="flex border-b border-gray-700 mb-8">
+                    <button @click="openTab = 1" :class="{ 'text-accent-pink border-accent-pink': openTab === 1, 'text-text-dark border-transparent': openTab !== 1 }" class="flex-1 py-3 px-4 font-bold border-b-2 transition">BFP (Personalidade)</button>
+                    <button @click="openTab = 2" :class="{ 'text-accent-pink border-accent-pink': openTab === 2, 'text-text-dark border-transparent': openTab !== 2 }" class="flex-1 py-3 px-4 font-bold border-b-2 transition">TEADI (Atenção)</button>
+                    <button @click="openTab = 3" :class="{ 'text-accent-pink border-accent-pink': openTab === 3, 'text-text-dark border-transparent': openTab !== 3 }" class="flex-1 py-3 px-4 font-bold border-b-2 transition">MVR (Memória)</button>
+                </div>
+
+                <div x-show="openTab === 1" x-cloak class="bg-bg-card p-8 rounded-lg shadow-lg">
+                    <div class="md:grid md:grid-cols-3 md:gap-8 items-center">
+                        <div class="md:col-span-1 mb-6 md:mb-0">
+                            <img src="https://images.unsplash.com/photo-1557862921-37829c790f19?q=80&w=800&auto=format&fit=crop" alt="[Imagem de uma pessoa concentrada respondendo a um questionário]" class="rounded-lg object-cover w-full h-48 md:h-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <h3 class="text-2xl font-bold text-text-light mb-4">Teste de Personalidade (BFP)</h3>
+                            <div class="space-y-4">
+                                <p><strong class="text-accent-blue">O que é:</strong> Avalia 5 traços de personalidade: Neuroticismo, Extroversão, Abertura, Amabilidade e Conscienciosidade.</p>
+                                <p><strong class="text-accent-blue">Tempo:</strong> Geralmente sem tempo limite, mas o ideal é concluir em até 25 minutos (média de 12 segundos por questão).</p>
+                                <p><strong class="text-accent-blue">Meta:</strong> Não há "certo" ou "errado", mas sim adequação ao perfil. O esperado para a carreira policial é, por exemplo, baixo Neuroticismo, alta Amabilidade e alta Conscienciosidade.</p>
+                                <p><strong class="text-accent-blue">Dica de Ouro:</strong> Autoconhecimento é a chave. Compreenda o que a carreira policial exige e como seu perfil se encaixa. Evite tentar "adivinhar" a resposta certa; o teste identifica inconsistências, e é aí que a nossa mentoria entra para te orientar a mostrar o seu melhor de forma genuína.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div x-show="openTab === 2" x-cloak class="bg-bg-card p-8 rounded-lg shadow-lg">
+                     <div class="md:grid md:grid-cols-3 md:gap-8 items-center">
+                        <div class="md:col-span-1 mb-6 md:mb-0">
+                             <img src="https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?q=80&w=800&auto=format&fit=crop" alt="[Imagem de vários símbolos geométricos, representando atenção a detalhes]" class="rounded-lg object-cover w-full h-48 md:h-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <h3 class="text-2xl font-bold text-text-light mb-4">Teste de Atenção Dividida (TEADI)</h3>
+                             <div class="space-y-4">
+                                <p><strong class="text-accent-blue">O que é:</strong> Mede sua capacidade de manter o foco em múltiplos estímulos simultaneamente. Você precisa encontrar 3 símbolos-alvo em meio a vários distratores.</p>
+                                <p><strong class="text-accent-blue">Tempo:</strong> 3 minutos. Velocidade e precisão são fundamentais.</p>
+                                <p><strong class="text-accent-blue">Meta:</strong> A pontuação é calculada por: <code class="bg-bg-dark px-2 py-1 rounded">Acertos - (Erros + Omissões)</code>. Uma pontuação alta (acima de 18 no nosso simulador) é considerada excelente.</p>
+                                <p><strong class="text-accent-blue">Dica de Ouro:</strong> Crie um padrão de varredura visual. Em vez de procurar aleatoriamente, "leia" a folha em zigue-zague (esquerda para a direita, depois direita para a esquerda na linha de baixo). Isso otimiza o tempo e garante que você não pule nenhuma parte.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div x-show="openTab === 3" x-cloak class="bg-bg-card p-8 rounded-lg shadow-lg">
+                     <div class="md:grid md:grid-cols-3 md:gap-8 items-center">
+                        <div class="md:col-span-1 mb-6 md:mb-0">
+                            <img src="https://images.unsplash.com/photo-1534349987332-3e112a41c28f?q=80&w=800&auto=format&fit=crop" alt="[Imagem de uma cabeça com engrenagens, simbolizando memória e cognição]" class="rounded-lg object-cover w-full h-48 md:h-full">
+                        </div>
+                        <div class="md:col-span-2">
+                            <h3 class="text-2xl font-bold text-text-light mb-4">Teste de Memória Visual (MVR)</h3>
+                             <div class="space-y-4">
+                                <p><strong class="text-accent-blue">O que é:</strong> Avalia sua capacidade de memorizar e reconhecer estímulos visuais (figuras, formas, rostos) após um curto período.</p>
+                                <p><strong class="text-accent-blue">Tempo:</strong> Dividido em duas fases. Fase de memorização (aprox. 1 minuto) e fase de reconhecimento (aprox. 1 minuto).</p>
+                                <p><strong class="text-accent-blue">Meta:</strong> Maximizar o número de acertos (reconhecer as figuras corretas) e minimizar os erros (apontar figuras que não estavam na primeira fase).</p>
+                                <p><strong class="text-accent-blue">Dica de Ouro:</strong> Use a técnica de associação. Durante a fase de memorização, crie uma pequena história ou uma conexão entre as figuras. Por exemplo, se vir um "barco", uma "chave" e uma "casa", imagine "peguei a chave do barco para abrir a casa". Essa narrativa ajuda a fixar as imagens na memória de longo prazo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="border-t border-gray-800 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm text-text-dark">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        document.getElementById('mobile-menu-button-dicas').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu-dicas');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
+
