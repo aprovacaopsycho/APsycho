@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria dos Aprovados - Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+            --text-light: #f0f0f0;
+            --text-dark: #a0a0a0;
+        }
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        .section-title { 
+            font-weight: 900; 
+            color: var(--text-light);
+        }
+        .section-subtitle {
+             color: var(--primary-purple);
+        }
+        .gallery-card {
+             background-color: var(--bg-card);
+             border-radius: 0.75rem;
+             border: 1px solid #333;
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+             overflow: hidden;
+             position: relative;
+        }
+         .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(159, 84, 255, 0.3);
+            border-color: var(--primary-purple);
+        }
+        .gallery-card img {
+            transition: transform 0.4s ease;
+        }
+        .gallery-card:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-card .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(28, 27, 41, 1) 20%, rgba(28, 27, 41, 0) 100%);
+            padding: 1.5rem 1rem 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                 <a href="index.html" class="flex items-center">
+                    <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
+                    <span class="text-xl font-black text-text-light tracking-wider">
+                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
+                    </span>
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html#sobre" class="text-text-dark hover:text-accent-pink transition">O Curso</a>
+                <a href="equipe.html" class="text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
+                <a href="galeria.html" class="text-accent-pink font-bold transition">Galeria</a>
+                <a href="dicas.html" class="text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
+                <a href="simuladores.html" class="text-text-dark hover:text-accent-pink transition">Simuladores</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button-galeria" class="text-text-dark hover:text-accent-pink focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu-galeria" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">O Curso</a>
+            <a href="equipe.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
+            <a href="galeria.html" class="block py-2 text-accent-pink font-bold transition">Galeria</a>
+            <a href="dicas.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
+            <a href="simuladores.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Simuladores</a>
+        </div>
+    </header>
+
+    <main class="py-20">
+        <div class="container mx-auto px-6">
+            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Galeria dos Aprovados</h1>
+            <p class="text-center section-subtitle mb-12">O sucesso deles é a nossa maior recompensa. O próximo pode ser você!</p>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Card do Aprovado 1 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno1.png" alt="[Foto do Aluno Aprovado]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light"></h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovado PM-MG</p>
+                    </div>
+                </div>
+                <!-- Card do Aprovado 2 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno2.png" alt="[Foto da Aluna Aprovada]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Matheus Farias</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovada SEAS-CE</p>
+                    </div>
+                </div>
+                <!-- Card do Aprovado 3 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno3.png" alt="[Foto do Aluno Aprovado]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Guilherme Ferreira</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovado SEAS-CE</p>
+                    </div>
+                </div>
+                <!-- Card do Aprovado 4 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno4.png" alt="[Foto do Aluno Aprovado]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Rafael Ferreira</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovado SEAS-CE</p>
+                    </div>
+                </div>
+                <!-- Card do Aprovado 5 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno5.png" alt="[Foto da Aluna Aprovada]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Camilla Moreira</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovada SEAS-CE</p>
+                    </div>
+                </div>
+                <!-- Card do Aprovado 6 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno6.png" alt="[Foto do Aluno Aprovado]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Giovanna Alves</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovado PM-MG</p>
+                    </div>
+                </div>
+                 <!-- Card do Aprovado 7 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno7.png" alt="[Foto do Aluno Aprovado]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Luiza Pinheiro</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovado PM-MG</p>
+                    </div>
+                </div>
+                 <!-- Card do Aprovado 8 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno8.png" alt="[Foto da Aluna Aprovada]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Ricardos Nunes</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovada CBM-PE CFO</p>
+                    </div>
+                </div>
+                 <!-- Adicione mais cards conforme necessário -->
+                <!-- Card do Aprovado 9 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno9.png" alt="[Foto da Aluna Aprovada]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">João Emanuel</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovada PM-PE</p>
+                    </div>
+                </div>
+                <!-- Card do Aprovado 10 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno10.png" alt="[Foto do Aluno Aprovado]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Daniel Silva</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovado PM-PE</p>
+                    </div>
+                </div>
+                 <!-- Card do Aprovado 11 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno7.png" alt="[Foto do Aluno Aprovado]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Jefferson Santos</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovado PM-PE</p>
+                    </div>
+                </div>
+                 <!-- Card do Aprovado 12 -->
+                <div class="gallery-card">
+                    <img src="galeria/aluno12.png" alt="[Foto da Aluna Aprovada]" class="w-full h-full object-cover">
+                    <div class="overlay">
+                        <h3 class="font-bold text-lg text-text-light">Pedro Henrique</h3>
+                        <p class="text-sm text-accent-blue font-semibold">Aprovada PM-PE</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="border-t border-gray-800 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm text-text-dark">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('mobile-menu-button-galeria').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu-galeria');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
