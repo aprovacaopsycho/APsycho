@@ -59,6 +59,18 @@
             padding: 1.5rem 1rem 1rem;
             text-align: center;
         }
+        .cta-button { 
+            transition: all 0.3s ease; 
+            background-color: var(--accent-pink);
+            color: var(--text-light);
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+        .cta-button:hover { 
+            background-color: transparent;
+            color: var(--accent-pink);
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -200,6 +212,20 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Seção de Chamada para Ação -->
+            <section class="mt-20 py-20 bg-bg-card rounded-lg">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-text-light">Venha Fazer Parte Deste Time de Aprovados!</h2>
+                    <p class="max-w-2xl mx-auto text-lg text-text-dark mb-10">
+                        Sua foto pode ser a próxima nesta galeria. A preparação correta é o que separa os candidatos dos aprovados. Não espere mais para começar a sua jornada.
+                    </p>
+                    <a href="https://wa.me/5585991982168?text=Olá!%20Vi%20a%20galeria%20dos%20aprovados%20e%20quero%20fazer%20parte%20desse%20time!" target="_blank" class="cta-button font-bold py-4 px-10 rounded-md text-lg inline-flex items-center shadow-lg mx-auto">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.024 3.78A6.248 6.248 0 003.78 10.024c0 1.63.62 3.122 1.673 4.227l-1.22 3.658 3.76-.99A6.248 6.248 0 0010.024 16.27a6.248 6.248 0 006.246-6.246 6.248 6.248 0 00-6.246-6.244zm0 11.268a5.02 5.02 0 01-2.52-.693l-.178-.107-1.875.495.504-1.83-.117-.184a5.02 5.02 0 01-3.03-4.595A5.024 5.024 0 0110.024 5.02a5.024 5.024 0 015.024 5.024 5.024 5.024 0 01-5.024 5.024z"></path></svg>
+                        QUERO SER O PRÓXIMO APROVADO
+                    </a>
+                </div>
+            </section>
         </div>
     </main>
     
@@ -217,3 +243,4 @@
     </script>
 </body>
 </html>
+
