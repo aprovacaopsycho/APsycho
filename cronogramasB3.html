@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronogramas de Estudo - Aprovação Psycho</title>
+    <!-- Ícone do site -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- TailwindCSS para estilização -->
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=2KHmpufiJGNxkllWI_kvlYx6trP1vSjyiEFEk5PgGMTQ9ruFipFWUOD75Gzq_VtGc5aOCaqhODl3Y3sr0IBWxcYIRnRNqPwuZzEYPytIjUnzFeu6yNEtd4cBoIX3NTDBPHlbBRh-qdqs6O0XmjNcJwTafwlavufN3_OsPwCGNoUqjgU5klMqsBOhanwFyPkQpdKlMniwmscf-RS7KN2KQNfe9wr6P_9KF94iPbCWoN9YCCKY06qrq4yfXQiihihH" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- AlpineJS para interatividade -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <!-- CryptoJS para geração de hashes SHA-256 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <!-- Carrega a lista de hashes válidos; este arquivo é gerado pelo script Python e
+         define a variável global VALID_HASHES. Sem depender de fetch, funciona localmente. -->
+    <script src="hashes.js"></script>
+    <style>
+        /* Variáveis de cor para uma aparência consistente e configurável */
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+            --text-light: #f0f0f0;
+            --text-dark: #a0a0a0;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+        /* Estilização dos títulos e cartões */
+        .section-title { font-weight: 900; color: var(--text-light); }
+        .section-subtitle { color: var(--primary-purple); }
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 0.75rem;
+            border: 1px solid #333;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(159, 84, 255, 0.3);
+            border-color: var(--primary-purple);
+        }
+        /* Botão principal de ação */
+        .cta-button {
+            transition: all 0.3s ease;
+            background-color: var(--accent-pink);
+            color: var(--text-light);
+            border: 2px solid var(--accent-pink);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--accent-pink);
+            transform: scale(1.05);
+        }
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body x-data="cronogramaManager()">
+    <!-- Cabeçalho -->
+    <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
+                    <span class="text-xl font-black" style="color: var(--text-light);">
+                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
+                    </span>
+                </a>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html#sobre" class="hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
+                <a href="equipe.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
+                <a href="galeria.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
+                <a href="cronogramas.html" class="font-bold transition" style="color: var(--accent-pink);">Cronogramas</a>
+                <a href="dicas.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
+                <a href="simuladores.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button-cronogramas" class="focus:outline-none" style="color: var(--text-dark);">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu-cronogramas" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html#sobre" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
+            <a href="equipe.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
+            <a href="galeria.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
+            <a href="cronogramas.html" class="block py-2 font-bold transition" style="color: var(--accent-pink);">Cronogramas</a>
+            <a href="dicas.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
+            <a href="simuladores.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
+        </div>
+    </header>
+    <!-- Conteúdo principal -->
+    <main class="py-20">
+        <div class="container mx-auto px-6">
+            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Cronogramas de Estudo Focados na Sua Aprovação</h1>
+            <p class="text-center section-subtitle mb-12">Planejamento e estratégia para otimizar seu tempo e garantir o melhor desempenho.</p>
+
+            <div class="max-w-4xl mx-auto space-y-8">
+                <!-- Cartão principal -->
+                <div class="card p-8 flex flex-col md:flex-row items-center gap-8">
+                    <div class="flex-shrink-0">
+                        <svg class="w-24 h-24" style="color: var(--accent-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636L4.222 4.222m15.556 15.556l-1.414-1.414M4.222 19.778l1.414-1.414M19.778 4.222l-1.414 1.414"></path>
+                            <circle cx="12" cy="12" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-2xl font-bold mb-2" style="color: var(--text-light);">Cronograma - Carreiras Policiais Ceará</h2>
+                        <p class="mb-4" style="color: var(--text-dark);">Um plano de estudos completo e detalhado, cobrindo todas as disciplinas essenciais para os concursos da <strong style="color: var(--text-light);">Polícia Militar (PMCE)</strong>, <strong style="color: var(--text-light);">Polícia Civil (PCCE)</strong> e <strong style="color: var(--text-light);">Corpo de Bombeiros (CBMCE)</strong>.</p>
+                        <button @click="showModal = true" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Cronograma</button>
+                    </div>
+                </div>
+                <!-- Placeholder para futuros cronogramas -->
+                <div class="card p-8 flex flex-col md:flex-row items-center gap-8 opacity-50">
+                    <div class="flex-shrink-0">
+                        <svg class="w-24 h-24" style="color: var(--text-dark);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-2xl font-bold mb-2" style="color: var(--text-light);">Novos Cronogramas em Breve</h2>
+                        <p class="mb-4" style="color: var(--text-dark);">Estamos a preparar mais materiais de alta qualidade para outros concursos. Fique atento às novidades!</p>
+                        <span class="bg-gray-700 text-gray-400 font-semibold py-2 px-6 rounded-md inline-block cursor-not-allowed">Em Breve</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Seção de Chamada para Ação -->
+            <section class="mt-20 py-20 bg-bg-card rounded-lg">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-text-light">Venha Fazer Parte Deste Time de Aprovados!</h2>
+                    <p class="max-w-2xl mx-auto text-lg text-text-dark mb-10">
+                        Quer ter acesso a esse material exclusivo? Venha fazer parte desse time. A preparação correta é o que separa os candidatos dos aprovados. Não espere mais para começar a sua jornada.
+                    </p>
+                    <a href="https://wa.me/5585991982168?text=Olá!%20Vi%20a%20galeria%20dos%20aprovados%20e%20quero%20fazer%20parte%20desse%20time!" target="_blank" class="cta-button font-bold py-4 px-10 rounded-md text-lg inline-flex items-center shadow-lg mx-auto">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.024 3.78A6.248 6.248 0 003.78 10.024c0 1.63.62 3.122 1.673 4.227l-1.22 3.658 3.76-.99A6.248 6.248 0 0010.024 16.27a6.248 6.248 0 006.246-6.246 6.248 6.248 0 00-6.246-6.244zm0 11.268a5.02 5.02 0 01-2.52-.693l-.178-.107-1.875.495.504-1.83-.117-.184a5.02 5.02 0 01-3.03-4.595A5.024 5.024 0 0110.024 5.02a5.024 5.024 0 015.024 5.024 5.024 5.024 0 01-5.024 5.024z"></path></svg>
+                        QUERO QUERO TER ACESSO AO CRONOGRAMA
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- Modal para solicitar chave de acesso -->
+    <div x-show="showModal" x-cloak class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
+         x-transition:enter="ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div @click.away="showModal = false" class="rounded-lg shadow-xl p-8 w-full max-w-md" style="background-color: var(--bg-card);"
+             x-transition:enter="ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+            <h3 class="text-2xl font-bold mb-4" style="color: var(--text-light);">Acesso ao Cronograma</h3>
+            <p class="mb-6" style="color: var(--text-dark);">Digite seu e‑mail e número de inscrição para validar a sua chave de acesso.</p>
+            <div class="space-y-4">
+                <input type="email" x-model="accessEmail" placeholder="Digite seu e‑mail"
+                       class="w-full p-3 border rounded-md focus:ring-2 focus:ring-accent-pink focus:border-accent-pink transition" style="background-color: var(--bg-dark); border-color: #333; color: var(--text-light);">
+                <input type="text" x-model="accessInscricao" placeholder="Digite seu número de inscrição"
+                       class="w-full p-3 border rounded-md focus:ring-2 focus:ring-accent-pink focus:border-accent-pink transition" style="background-color: var(--bg-dark); border-color: #333; color: var(--text-light);">
+                <button @click="validateAccess" :disabled="isLoading" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center disabled:opacity-50">
+                    <span x-show="!isLoading">Validar e Abrir PDF</span>
+                    <span x-show="isLoading" class="flex items-center">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Validando...
+                    </span>
+                </button>
+                <p x-show="error" x-text="error" class="text-red-400 text-sm text-center" x-transition></p>
+            </div>
+        </div>
+    </div>
+    <footer class="border-t border-gray-800 mt-20">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm" style="color: var(--text-dark);">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+    <script>
+        /*
+         * Este componente AlpineJS valida a chave de acesso sem expor dados sensíveis.
+         * A lista de hashes válidos está embutida no código na propriedade `validHashes`.
+         * Quando o usuário insere e‑mail e número de inscrição, geramos uma hash SHA‑256
+         * da concatenação (e‑mail em minúsculas + inscrição). Se a hash existir em
+         * `validHashes`, redirecionamos para o PDF previamente gerado em
+         * `pdf_com_chaves/<hash>.pdf`. Caso contrário, exibimos uma mensagem de erro.
+         */
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('cronogramaManager', () => ({
+                showModal: false,
+                accessEmail: '',
+                accessInscricao: '',
+                error: '',
+                isLoading: false,
+                // Lista de hashes válidas (gerada a partir de chaves_completo.json)
+                validHashes: [],
+                // Função de inicialização para carregar hashes da variável global VALID_HASHES.
+                init() {
+                    // Verifica se a variável global foi definida pelo script hashes.js
+                    if (Array.isArray(window.VALID_HASHES)) {
+                        this.validHashes = window.VALID_HASHES;
+                    } else {
+                        // Caso a variável não exista, exibe erro no console e mensagem ao usuário
+                        console.error('VALID_HASHES não foi definida. Certifique-se de que hashes.js está presente.');
+                        this.error = 'Não foi possível carregar a lista de chaves.';
+                    }
+                },
+                async validateAccess() {
+                    this.error = '';
+                    const email = this.accessEmail.trim().toLowerCase();
+                    const inscricao = this.accessInscricao.trim();
+                    if (!email || !inscricao) {
+                        this.error = 'Por favor, preencha ambos os campos.';
+                        return;
+                    }
+                    this.isLoading = true;
+                    // Gera a hash (SHA-256) usando CryptoJS
+                    const concatenado = email + inscricao;
+                    const hash = CryptoJS.SHA256(concatenado).toString();
+                    if (!this.validHashes.includes(hash)) {
+                        this.isLoading = false;
+                        this.error = 'E-mail ou número de inscrição inválido!';
+                        return;
+                    }
+                    // Redireciona para o PDF previamente gerado
+                    const pdfPath = `pdf_com_chaves/${hash}.pdf`;
+                    // Abre em nova aba (ou aciona download, dependendo do navegador)
+                    window.open(pdfPath, '_blank');
+                    this.isLoading = false;
+                    this.showModal = false;
+                    this.accessEmail = '';
+                    this.accessInscricao = '';
+                }
+            }));
+        });
+        // Toggle do menu móvel
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('mobile-menu-button-cronogramas').addEventListener('click', function() {
+                const menu = document.getElementById('mobile-menu-cronogramas');
+                menu.classList.toggle('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
