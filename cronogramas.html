@@ -7,17 +7,18 @@
     <!-- Ícone do site -->
     <link rel="icon" type="image/png" href="favicon.png">
     <!-- TailwindCSS para estilização -->
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=8CPwkA4B35y5L9GZK4mpEMUS3rMvcGRlzJSu5X1X9eOAK_-fkM4MXGHZ2RwLIg6Fv2adxpv5prN7IvHpFUJzVjPmsv_Sf1qBiSyzBeuenvxLZVbtNT9qjqU9c4S7LYvyYXY-0AsKwx-WCKsWaPplLzIFg67PCurZdcIVE_5J_uImb4S_C5LXj79E6kchLV7JUgu_x5_oCtlVtdSj1WzqMst7OotT4zoxVqdTragSq_25nAXgiO5zwmge6rbQXpqf" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=2KHmpufiJGNxkllWI_kvlYx6trP1vSjyiEFEk5PgGMTQ9ruFipFWUOD75Gzq_VtGc5aOCaqhODl3Y3sr0IBWxcYIRnRNqPwuZzEYPytIjUnzFeu6yNEtd4cBoIX3NTDBPHlbBRh-qdqs6O0XmjNcJwTafwlavufN3_OsPwCGNoUqjgU5klMqsBOhanwFyPkQpdKlMniwmscf-RS7KN2KQNfe9wr6P_9KF94iPbCWoN9YCCKY06qrq4yfXQiihihH" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <!-- AlpineJS para interatividade -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <!-- PDF-Lib para personalização do PDF -->
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
     <!-- CryptoJS para geração de hashes SHA-256 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <!-- Carrega a lista de hashes válidos; este arquivo é gerado pelo script Python e
+         define a variável global VALID_HASHES. Sem depender de fetch, funciona localmente. -->
+    <script src="hashes.js"></script>
     <style>
         /* Variáveis de cor para uma aparência consistente e configurável */
         :root {
@@ -136,6 +137,19 @@
                     </div>
                 </div>
             </div>
+            <!-- Seção de Chamada para Ação -->
+            <section class="mt-20 py-20 bg-bg-card rounded-lg">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold mb-4 text-text-light">Venha Fazer Parte Deste Time de Aprovados!</h2>
+                    <p class="max-w-2xl mx-auto text-lg text-text-dark mb-10">
+                        Quer ter acesso a esse material exclusivo? Venha fazer parte desse time. A preparação correta é o que separa os candidatos dos aprovados. Não espere mais para começar a sua jornada.
+                    </p>
+                    <a href="https://wa.me/5585991982168?text=Olá!%20Vi%20a%20galeria%20dos%20aprovados%20e%20quero%20fazer%20parte%20desse%20time!" target="_blank" class="cta-button font-bold py-4 px-10 rounded-md text-lg inline-flex items-center shadow-lg mx-auto">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.024 3.78A6.248 6.248 0 003.78 10.024c0 1.63.62 3.122 1.673 4.227l-1.22 3.658 3.76-.99A6.248 6.248 0 0010.024 16.27a6.248 6.248 0 006.246-6.246 6.248 6.248 0 00-6.246-6.244zm0 11.268a5.02 5.02 0 01-2.52-.693l-.178-.107-1.875.495.504-1.83-.117-.184a5.02 5.02 0 01-3.03-4.595A5.024 5.024 0 0110.024 5.02a5.024 5.024 0 015.024 5.024 5.024 5.024 0 01-5.024 5.024z"></path></svg>
+                        QUERO QUERO TER ACESSO AO CRONOGRAMA
+                    </a>
+                </div>
+            </section>
         </div>
     </main>
     <!-- Modal para solicitar chave de acesso -->
@@ -182,11 +196,11 @@
     <script>
         /*
          * Este componente AlpineJS valida a chave de acesso sem expor dados sensíveis.
-         * A lista de hashes válida é carregada de um arquivo externo (chaves.json),
-         * permitindo atualizar inscrições sem editar o HTML. As hashes são geradas
-         * aplicando SHA-256 ao e‑mail (em minúsculas) concatenado com o número de
-         * inscrição, tornando impossível recuperar as credenciais originais a partir
-         * do código da página.
+         * A lista de hashes válidos está embutida no código na propriedade `validHashes`.
+         * Quando o usuário insere e‑mail e número de inscrição, geramos uma hash SHA‑256
+         * da concatenação (e‑mail em minúsculas + inscrição). Se a hash existir em
+         * `validHashes`, redirecionamos para o PDF previamente gerado em
+         * `pdf_com_chaves/<hash>.pdf`. Caso contrário, exibimos uma mensagem de erro.
          */
         document.addEventListener('alpine:init', () => {
             Alpine.data('cronogramaManager', () => ({
@@ -195,18 +209,18 @@
                 accessInscricao: '',
                 error: '',
                 isLoading: false,
-                hashData: [],
+                // Lista de hashes válidas (gerada a partir de chaves_completo.json)
+                validHashes: [],
+                // Função de inicialização para carregar hashes da variável global VALID_HASHES.
                 init() {
-                    // Carrega o arquivo de hashes válidas uma única vez na inicialização
-                    fetch('chaves.json')
-                        .then(res => res.json())
-                        .then(data => {
-                            this.hashData = data;
-                        })
-                        .catch(err => {
-                            console.error('Erro ao carregar chaves.json', err);
-                            this.error = 'Não foi possível carregar a lista de chaves.';
-                        });
+                    // Verifica se a variável global foi definida pelo script hashes.js
+                    if (Array.isArray(window.VALID_HASHES)) {
+                        this.validHashes = window.VALID_HASHES;
+                    } else {
+                        // Caso a variável não exista, exibe erro no console e mensagem ao usuário
+                        console.error('VALID_HASHES não foi definida. Certifique-se de que hashes.js está presente.');
+                        this.error = 'Não foi possível carregar a lista de chaves.';
+                    }
                 },
                 async validateAccess() {
                     this.error = '';
@@ -217,53 +231,22 @@
                         return;
                     }
                     this.isLoading = true;
-                    // Calcula o hash usando CryptoJS
+                    // Gera a hash (SHA-256) usando CryptoJS
                     const concatenado = email + inscricao;
                     const hash = CryptoJS.SHA256(concatenado).toString();
-                    // Procura a hash no array carregado
-                    const record = this.hashData.find(entry => entry.hash === hash);
-                    if (!record) {
+                    if (!this.validHashes.includes(hash)) {
                         this.isLoading = false;
-                        this.error = 'Chave de acesso inválida.';
+                        this.error = 'E-mail ou número de inscrição inválido!';
                         return;
                     }
-                    try {
-                        // Carrega o PDF base
-                        const { PDFDocument, rgb, StandardFonts } = PDFLib;
-                        const pdfPath = 'cronograma-pc-pm-cbm-ce.pdf';
-                        const existingPdfBytes = await fetch(pdfPath).then(res => {
-                            if (!res.ok) throw new Error('Ficheiro PDF não encontrado.');
-                            return res.arrayBuffer();
-                        });
-                        const pdfDoc = await PDFDocument.load(existingPdfBytes);
-                        const pages = pdfDoc.getPages();
-                        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-                        // Escreve a marca d'água com a hash (ou nome, se desejado)
-                        pages.forEach(page => {
-                            const { height } = page.getSize();
-                            const text = `Material de uso exclusivo - Chave: ${hash.substring(0, 10)}...`;
-                            page.drawText(text, {
-                                x: 40,
-                                y: height - 40,
-                                font: helveticaFont,
-                                size: 9,
-                                color: rgb(0.4, 0.4, 0.4),
-                            });
-                        });
-                        const pdfBytes = await pdfDoc.save();
-                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                        const url = URL.createObjectURL(blob);
-                        window.open(url, '_blank');
-                    } catch (err) {
-                        console.error(err);
-                        this.error = 'Erro ao carregar o PDF. Verifique se o ficheiro \"cronograma-pc-pm-cbm-ce.pdf\" está na pasta correta.';
-                    } finally {
-                        this.isLoading = false;
-                        this.showModal = false;
-                        // Limpa os campos
-                        this.accessEmail = '';
-                        this.accessInscricao = '';
-                    }
+                    // Redireciona para o PDF previamente gerado
+                    const pdfPath = `pdf_com_chaves/${hash}.pdf`;
+                    // Abre em nova aba (ou aciona download, dependendo do navegador)
+                    window.open(pdfPath, '_blank');
+                    this.isLoading = false;
+                    this.showModal = false;
+                    this.accessEmail = '';
+                    this.accessInscricao = '';
                 }
             }));
         });
