@@ -53,28 +53,41 @@ def parse_planilha(path_excel: str) -> List[Dict[str, str]]:
     Returns:
         Lista de dicionários com chaves: email, nome, inscricao, telefone (opcional).
     """
-    # Lê a planilha como uma coluna única (sem cabeçalho confiável)
-    df = pd.read_excel(path_excel, header=None)
+    # Lê a planilha como texto. Detecta CSV vs Excel e normaliza cada linha
+    ext = os.path.splitext(path_excel)[1].lower()
     registros = []
-    for _, row in df.iterrows():
-        if not row.empty:
-            linha = str(row.iloc[0])
-            parts = [p.strip() for p in linha.split(',')]
-            if not parts:
-                continue
-            email = parts[0].strip()
-            nome = ''
-            inscricao = ''
-            telefone = ''
-            for part in parts[1:]:
-                if part.lower().startswith('nome:'):
-                    nome = part.split(':', 1)[1].strip()
-                elif part.lower().startswith('inscrição:') or part.lower().startswith('inscricao:'):
-                    inscricao = part.split(':', 1)[1].strip()
-                elif part.lower().startswith('telefone:'):
-                    telefone = part.split(':', 1)[1].strip()
-            if email and inscricao:
-                registros.append({'email': email, 'nome': nome, 'inscricao': inscricao, 'telefone': telefone})
+    if ext == '.csv':
+        df = pd.read_csv(path_excel, header=None, dtype=str, encoding='utf-8', keep_default_na=False)
+        linhas = df.apply(lambda r: ', '.join([str(x).strip() for x in r.dropna() if str(x).strip() != '']), axis=1)
+    else:
+        df = pd.read_excel(path_excel, header=None, dtype=str)
+        if df.shape[1] >= 1:
+            linhas = df.iloc[:, 0].astype(str)
+        else:
+            linhas = df.apply(lambda r: ', '.join([str(x).strip() for x in r.dropna() if str(x).strip() != '']), axis=1)
+
+    for linha in linhas:
+        if linha is None:
+            continue
+        linha = str(linha).strip()
+        if not linha:
+            continue
+        parts = [p.strip() for p in linha.split(',')]
+        if not parts:
+            continue
+        email = parts[0].strip()
+        nome = ''
+        inscricao = ''
+        telefone = ''
+        for part in parts[1:]:
+            if part.lower().startswith('nome:'):
+                nome = part.split(':', 1)[1].strip()
+            elif part.lower().startswith('inscrição:') or part.lower().startswith('inscricao:'):
+                inscricao = part.split(':', 1)[1].strip()
+            elif part.lower().startswith('telefone:'):
+                telefone = part.split(':', 1)[1].strip()
+        if email and inscricao:
+            registros.append({'email': email, 'nome': nome, 'inscricao': inscricao, 'telefone': telefone})
     return registros
 
 
