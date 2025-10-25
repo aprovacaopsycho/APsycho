@@ -255,7 +255,7 @@
             document.querySelectorAll('nav a[href]').forEach(a => {
                 try {
                     const href = (a.getAttribute('href') || '').split('/').pop();
-                    if (href === current) { a.classList.add('nav-active'); a.setAttribute('aria-current', 'page'); }
+                    if (href === current) { a.classList.add('nav-link-active'); a.setAttribute('aria-current', 'page'); }
                 } catch (e) { /* ignore */ }
             });
         });
