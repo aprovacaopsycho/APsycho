@@ -40,46 +40,28 @@ def parse_planilha(path_excel: str) -> List[Dict[str, str]]:
 
     Retorna lista de dicionários com campos email, nome, inscricao e telefone.
     """
-    # Detecta extensão e usa a função correta para ler
-    ext = os.path.splitext(path_excel)[1].lower()
+    df = pd.read_excel(path_excel, header=None)
     registros = []
-    if ext == '.csv':
-        # Lê CSV como texto, permitindo múltiplas colunas (cada célula pode corresponder a uma parte)
-        df = pd.read_csv(path_excel, header=None, dtype=str, encoding='utf-8', keep_default_na=False)
-        # Junta as colunas não vazias em uma única string por linha, separando por vírgula
-        linhas = df.apply(lambda r: ', '.join([str(x).strip() for x in r.dropna() if str(x).strip() != '']), axis=1)
-    else:
-        # Assume Excel (.xls/.xlsx) por padrão
-        df = pd.read_excel(path_excel, header=None, dtype=str)
-        # Se a planilha tiver a informação inteira na primeira coluna, use-a; caso contrário, junte as colunas
-        if df.shape[1] >= 1:
-            linhas = df.iloc[:, 0].astype(str)
-        else:
-            linhas = df.apply(lambda r: ', '.join([str(x).strip() for x in r.dropna() if str(x).strip() != '']), axis=1)
-
-    for linha in linhas:
-        if linha is None:
-            continue
-        linha = str(linha).strip()
-        if not linha:
-            continue
-        parts = [p.strip() for p in linha.split(',')]
-        if not parts:
-            continue
-        email = parts[0].strip()
-        nome = ''
-        inscricao = ''
-        telefone = ''
-        for part in parts[1:]:
-            lower = part.lower()
-            if lower.startswith('nome:'):
-                nome = part.split(':', 1)[1].strip()
-            elif lower.startswith('inscrição:') or lower.startswith('inscricao:'):
-                inscricao = part.split(':', 1)[1].strip()
-            elif lower.startswith('telefone:'):
-                telefone = part.split(':', 1)[1].strip()
-        if email and inscricao:
-            registros.append({'email': email, 'nome': nome, 'inscricao': inscricao, 'telefone': telefone})
+    for _, row in df.iterrows():
+        if not row.empty:
+            linha = str(row.iloc[0])
+            parts = [p.strip() for p in linha.split(',')]
+            if not parts:
+                continue
+            email = parts[0].strip()
+            nome = ''
+            inscricao = ''
+            telefone = ''
+            for part in parts[1:]:
+                lower = part.lower()
+                if lower.startswith('nome:'):
+                    nome = part.split(':', 1)[1].strip()
+                elif lower.startswith('inscrição:') or lower.startswith('inscricao:'):
+                    inscricao = part.split(':', 1)[1].strip()
+                elif lower.startswith('telefone:'):
+                    telefone = part.split(':', 1)[1].strip()
+            if email and inscricao:
+                registros.append({'email': email, 'nome': nome, 'inscricao': inscricao, 'telefone': telefone})
     return registros
 
 
@@ -207,7 +189,7 @@ class App(tk.Tk):
         tk.Button(self, text='Gerar PDFs', command=self.run_process, width=20, bg='#4CAF50', fg='white').grid(row=6, column=0, columnspan=2, pady=20)
 
     def browse_planilha(self):
-        file_path = filedialog.askopenfilename(title='Selecione a planilha Excel', filetypes=[('Planilhas Excel', '*.csv;*.xlsx;*.xls')])
+        file_path = filedialog.askopenfilename(title='Selecione a planilha Excel', filetypes=[('Planilhas Excel', '*.xlsx;*.xls')])
         if file_path:
             self.planilha_path.set(file_path)
 

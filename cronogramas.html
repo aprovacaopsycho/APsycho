@@ -15,6 +15,7 @@
     <!-- Substitua pelos nomes corretos de suas turmas -->
     <script src="hashes_ceara.js"></script>
     <script src="hashes_guarda_civil.js"></script>
+    <script src="hashes_tempo.js"></script>
     <style>
         :root {
             --bg-dark: #100f1c;
@@ -55,6 +56,15 @@
             color: var(--accent-pink);
             transform: scale(1.05);
         }
+        /* Nav active state: neon pink for selected header link */
+        .nav-link-active {
+            color: var(--accent-pink) !important;
+            text-shadow: 0 0 10px var(--accent-pink), 0 0 20px rgba(255,0,255,0.25);
+            font-weight: 800;
+        }
+        .nav-link-active:hover {
+            text-shadow: 0 0 12px var(--accent-pink), 0 0 28px rgba(255,0,255,0.35);
+        }
         [x-cloak] { display: none !important; }
     </style>
 </head>
@@ -73,7 +83,7 @@
                 <a href="index.html#sobre" class="hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
                 <a href="equipe.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
                 <a href="galeria.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
-                <a href="cronogramas.html" class="font-bold transition" style="color: var(--accent-pink);">Cronogramas</a>
+                <a href="cronogramas.html" class="transition">Cronogramas e Materiais</a>
                 <a href="dicas.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
                 <a href="simuladores.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
             </div>
@@ -89,14 +99,14 @@
             <a href="index.html#sobre" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
             <a href="equipe.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
             <a href="galeria.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
-            <a href="cronogramas.html" class="block py-2 font-bold transition" style="color: var(--accent-pink);">Cronogramas</a>
+            <a href="cronogramas.html" class="block py-2 transition">Cronogramas e Materiais</a>
             <a href="dicas.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
             <a href="simuladores.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
         </div>
     </header>
     <main class="py-20">
         <div class="container mx-auto px-6">
-            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Cronogramas de Estudo Focados na Sua Aprovação</h1>
+            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Cronogramas e Materiais de Estudo Focados na Sua Aprovação</h1>
             <p class="text-center section-subtitle mb-12">Planejamento e estratégia para otimizar seu tempo e garantir o melhor desempenho.</p>
             <div class="max-w-4xl mx-auto space-y-8">
                 <!-- Cartão para a turma Ceará -->
@@ -110,6 +120,19 @@
                         <h2 class="text-2xl font-bold mb-2" style="color: var(--text-light);">Cronograma - Carreiras Policiais Ceará</h2>
                         <p class="mb-4" style="color: var(--text-dark);">Plano de estudos completo para os concursos de <strong style="color: var(--text-light);">PMCE</strong>, <strong style="color: var(--text-light);">PCCE</strong> e <strong style="color: var(--text-light);">CBMCE</strong>.</p>
                         <button @click="currentGroup='ceara'; showModal = true" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Cronograma</button>
+                    </div>
+                </div>
+                <!-- Cartão para Tempos, Metas e Bizus -->
+                <div class="card p-8 flex flex-col md:flex-row items-center gap-8">
+                    <div class="flex-shrink-0">
+                        <svg class="w-24 h-24" style="color: var(--accent-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m-9 4h6a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-2xl font-bold mb-2" style="color: var(--text-light);">Tempos, Metas e Bizus</h2>
+                        <p class="mb-4" style="color: var(--text-dark);">Organize seu tempo, defina metas semanais e acesse bizus (dicas rápidas) para acelerar seu estudo.</p>
+                        <button @click="currentGroup='tempo'; showModal = true" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Material</button>
                     </div>
                 </div>
                 <!-- Cartão para a turma Guarda Civil -->
@@ -143,7 +166,7 @@
              x-transition:leave="ease-in duration-200"
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-95">
-            <h3 class="text-2xl font-bold mb-4" style="color: var(--text-light);">Acesso ao Cronograma</h3>
+            <h3 class="text-2xl font-bold mb-4" style="color: var(--text-light);">Acesso ao Material</h3>
             <p class="mb-6" style="color: var(--text-dark);">Digite seu e‑mail e número de inscrição para validar a sua chave de acesso.</p>
             <div class="space-y-4">
                 <input type="email" x-model="accessEmail" placeholder="Digite seu e‑mail"
@@ -183,6 +206,11 @@
                         validHashes: window.VALID_HASHES_CEARA || [],
                         pdfDir: 'pdf_com_chaves_ceara'
                     },
+                    tempo: {
+                        // Assumi que o arquivo de hashes será exposto como VALID_HASHES_TEMPO
+                        validHashes: window.VALID_HASHES_TEMPO || [],
+                        pdfDir: 'pdf_com_chaves_tempo'
+                    },
                     guarda_civil: {
                         validHashes: window.VALID_HASHES_GUARDA_CIVIL || [],
                         pdfDir: 'pdf_com_chaves_guarda_civil'
@@ -221,6 +249,17 @@
             document.getElementById('mobile-menu-button-cronogramas').addEventListener('click', function() {
                 const menu = document.getElementById('mobile-menu-cronogramas');
                 menu.classList.toggle('hidden');
+            });
+            // Marca automaticamente o link de navegação correspondente à página atual
+            const current = (location.pathname.split('/').pop() || 'index.html');
+            document.querySelectorAll('nav a[href]').forEach(a => {
+                try {
+                    const href = (a.getAttribute('href') || '').split('/').pop();
+                    if (href === current) {
+                        a.classList.add('nav-link-active');
+                        a.setAttribute('aria-current', 'page');
+                    }
+                } catch (e) { /* ignore */ }
             });
         });
     </script>

@@ -54,6 +54,15 @@
             color: var(--accent-pink);
             transform: scale(1.05);
         }
+        /* Nav active state: neon pink for selected header link */
+        .nav-link-active {
+            color: var(--accent-pink) !important;
+            text-shadow: 0 0 10px var(--accent-pink), 0 0 20px rgba(255,0,255,0.25);
+            font-weight: 800;
+        }
+        .nav-link-active:hover {
+            text-shadow: 0 0 12px var(--accent-pink), 0 0 28px rgba(255,0,255,0.35);
+        }
     </style>
 </head>
 <body>
@@ -62,34 +71,36 @@
     <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center">
-                 <a href="index.html" class="flex items-center">
+                <a href="index.html" class="flex items-center">
                     <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
-                    <span class="text-xl font-black text-text-light tracking-wider">
+                    <span class="text-xl font-black" style="color: var(--text-light);">
                         APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
                     </span>
                 </a>
             </div>
             <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html#sobre" class="text-text-dark hover:text-accent-pink transition">O Curso</a>
-                <a href="equipe.html" class="text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
-                <a href="galeria.html" class="text-text-dark hover:text-accent-pink transition">Galeria</a>
-                <a href="cronogramas.html" class="text-text-dark hover:text-accent-pink transition">Cronogramas</a>
-                <a href="dicas.html" class="text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
-                <a href="simuladores.html" class="text-accent-pink font-bold transition">Simuladores</a>
+                <a href="index.html#sobre" class="hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
+                <a href="equipe.html" class="hover:text-accent-pink transition" style="color: var(--text-pink);">Nossa Equipe</a>
+                <a href="galeria.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
+                <a href="cronogramas.html" class="transition">Cronogramas e Materiais</a>
+                <a href="dicas.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
+                <a href="simuladores.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
             </div>
             <div class="md:hidden">
-                <button id="mobile-menu-button-sim" class="text-text-dark hover:text-accent-pink focus:outline-none">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                <button id="mobile-menu-button-cronogramas" class="focus:outline-none" style="color: var(--text-dark);">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
                 </button>
             </div>
         </nav>
-        <div id="mobile-menu-sim" class="hidden md:hidden px-6 pb-4">
-             <a href="index.html#sobre" class="block py-2 text-text-dark hover:text-accent-pink transition">O Curso</a>
-            <a href="equipe.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Nossa Equipe</a>
-            <a href="galeria.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Galeria</a>
-            <a href="cronogramas.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Cronogramas</a>
-            <a href="dicas.html" class="block py-2 text-text-dark hover:text-accent-pink transition">Dicas de Testes</a>
-            <a href="simuladores.html" class="block py-2 text-accent-pink font-bold transition">Simuladores</a>
+        <div id="mobile-menu-cronogramas" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html#sobre" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
+            <a href="equipe.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-pink);">Nossa Equipe</a>
+            <a href="galeria.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
+            <a href="cronogramas.html" class="block py-2 transition">Cronogramas e Materiais</a>
+            <a href="dicas.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
+            <a href="simuladores.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
         </div>
     </header>
 
@@ -171,6 +182,21 @@
         document.getElementById('mobile-menu-button-equipe').addEventListener('click', function() {
             var menu = document.getElementById('mobile-menu-equipe');
             menu.classList.toggle('hidden');
+        });
+    </script>
+    <script>
+        // Marca automaticamente o link de navegação correspondente à página atual
+        document.addEventListener('DOMContentLoaded', function() {
+            const current = (location.pathname.split('/').pop() || 'index.html');
+            document.querySelectorAll('nav a[href]').forEach(a => {
+                try {
+                    const href = (a.getAttribute('href') || '').split('/').pop();
+                    if (href === current) {
+                        a.classList.add('nav-link-active');
+                        a.setAttribute('aria-current', 'page');
+                    }
+                } catch (e) { /* ignore */ }
+            });
         });
     </script>
 </body>
