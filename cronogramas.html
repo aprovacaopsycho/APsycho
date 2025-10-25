@@ -207,7 +207,6 @@
                         pdfDir: 'pdf_com_chaves_ceara'
                     },
                     tempo: {
-                        // Assumi que o arquivo de hashes será exposto como VALID_HASHES_TEMPO
                         validHashes: window.VALID_HASHES_TEMPO || [],
                         pdfDir: 'pdf_com_chaves_tempo'
                     },
@@ -245,20 +244,18 @@
                 }
             }));
         });
+
+        // Mobile menu toggle and nav-active highlight
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('mobile-menu-button-cronogramas').addEventListener('click', function() {
-                const menu = document.getElementById('mobile-menu-cronogramas');
-                menu.classList.toggle('hidden');
-            });
-            // Marca automaticamente o link de navegação correspondente à página atual
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
             const current = (location.pathname.split('/').pop() || 'index.html');
             document.querySelectorAll('nav a[href]').forEach(a => {
                 try {
                     const href = (a.getAttribute('href') || '').split('/').pop();
-                    if (href === current) {
-                        a.classList.add('nav-link-active');
-                        a.setAttribute('aria-current', 'page');
-                    }
+                    if (href === current) { a.classList.add('nav-active'); a.setAttribute('aria-current', 'page'); }
                 } catch (e) { /* ignore */ }
             });
         });

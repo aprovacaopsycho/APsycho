@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simuladores - Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ibgcpoTUMXu0M6fruMX-R_1cJwQisANfpLILcOb76L-f5LCmlMymzLgtGP1Vp7IeJgH0u6Vs8TcQqtl-CLQ-kNj78xC8IW18qlZW-tMVlZbeJkqG2qygNVk7SxVMzFPag5-OOGl5XHT9JThcKKIyYEVMXGb_AiUpXpK02bk27VrO3SLIzLNYzMPkW8hi6HxTDByrgvrEcdQeROyK02UWuQTolhxJP52fbuP4HOBE69uFgODT1dMbyWfEh-BvOKSg" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
@@ -24,94 +24,58 @@
             background-color: var(--bg-dark);
             color: var(--text-dark);
         }
-        .cta-button { 
-            transition: all 0.3s ease; 
-            background-color: var(--accent-pink);
-            color: var(--text-light);
-            border: 2px solid var(--accent-pink);
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
-        }
-        .cta-button:hover { 
-            background-color: transparent;
-            color: var(--accent-pink);
-        }
-        .section-title { 
-            font-weight: 900; 
-            color: var(--text-light);
-        }
-        .section-subtitle {
-             color: var(--primary-purple);
-        }
-        .card {
-             background-color: var(--bg-card);
-             border-radius: 0.75rem;
-             border: 1px solid #333;
-             transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(159, 84, 255, 0.3);
-            border-color: var(--primary-purple);
-        }
+        .section-title { font-weight: 900; color: var(--text-light); }
+        .section-subtitle { color: var(--primary-purple); }
+        .card { background-color: var(--bg-card); border-radius: 0.75rem; border: 1px solid #333; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(159, 84, 255, 0.3); border-color: var(--primary-purple); }
+        .cta-button { transition: all 0.3s ease; background-color: var(--accent-pink); color: var(--text-light); border: 2px solid var(--accent-pink); box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); }
+        .cta-button:hover { background-color: transparent; color: var(--accent-pink); }
         .bfp-scale-option { border: 2px solid #333; transition: all 0.2s ease-in-out; }
         .bfp-scale-option.selected { border-color: var(--accent-pink); background-color: #ff00ff20; transform: scale(1.05); }
-        
         .pattern-grid-item { transition: all 0.2s ease; border: 1px solid #333; background-color: var(--bg-dark); }
         .pattern-grid-item.selected-correct { background-color: #00ff0030; border-color: #00ff00; transform: scale(1.05); }
         .pattern-grid-item.selected-incorrect { background-color: #ff000030; border-color: #ff0000; transform: scale(1.05); }
-
         .mvr-grid-item { transition: all 0.2s ease; border: 2px solid #333; }
         .mvr-grid-item.selected { border-color: var(--accent-blue); background-color: #00c2ff20; transform: scale(1.05); }
-
-        /* Nav active state: neon pink for selected header link */
-        .nav-link-active {
-            color: var(--accent-pink) !important;
-            text-shadow: 0 0 10px var(--accent-pink), 0 0 20px rgba(255,0,255,0.25);
-            font-weight: 800;
-        }
-        .nav-link-active:hover {
-            text-shadow: 0 0 12px var(--accent-pink), 0 0 28px rgba(255,0,255,0.35);
-        }
-
+        /* Nav active state */
+        .nav-active { color: var(--accent-pink) !important; text-shadow: 0 0 10px var(--accent-pink), 0 0 24px rgba(255,0,255,.25); font-weight:800 }
         [x-cloak] { display: none !important; }
     </style>
 </head>
 <body x-data="{ currentSimulator: 'selection' }">
 
-    <!-- Header -->
-    <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="index.html" class="flex items-center">
-                    <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
-                    <span class="text-xl font-black" style="color: var(--text-light);">
-                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
-                    </span>
-                </a>
+    <!-- Header (unificado) -->
+    <header class="sticky top-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/10">
+        <nav class="mx-auto max-w-7xl px-5 xl:px-8 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3" aria-label="Página inicial">
+                <img src="logo-principal.png" alt="Logo Aprovação Psycho" class="h-10 w-auto" loading="eager" />
+                <span class="text-[1.1rem] sm:text-xl font-black" style="color: var(--text-light);">APROVAÇÃO <span style="color: var(--accent-pink); filter: drop-shadow(0 0 8px rgba(255,0,255,.7));">PSYCHO</span></span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-7 text-sm">
+                <a href="index.html#sobre" class="text-[var(--accent-pink)] font-semibold">O Curso</a>
+                <a href="equipe.html" class="text-[var(--text-dark)] hover:text-white">Nossa Equipe</a>
+                <a href="galeria.html" class="text-[var(--text-dark)] hover:text-white">Galeria</a>
+                <a href="cronogramas.html" class="text-[var(--text-dark)] hover:text-white">Cronogramas e Materiais</a>
+                <a href="dicas.html" class="text-[var(--text-dark)] hover:text-white">Dicas de Testes</a>
+                <a href="simuladores.html" class="text-[var(--text-dark)] hover:text-white">Simuladores</a>
             </div>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html#sobre" class="hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
-                <a href="equipe.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
-                <a href="galeria.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
-                <a href="cronogramas.html" class="transition">Cronogramas e Materiais</a>
-                <a href="dicas.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
-                <a href="simuladores.html" class="hover:text-accent-pink transition nav-link-active">Simuladores</a>
-            </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-button-cronogramas" class="focus:outline-none" style="color: var(--text-dark);">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
+
+            <button id="menu-btn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-white/90 hover:text-white border border-white/15">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </nav>
-        <div id="mobile-menu-cronogramas" class="hidden md:hidden px-6 pb-4">
-            <a href="index.html#sobre" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
-            <a href="equipe.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
-            <a href="galeria.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
-            <a href="cronogramas.html" class="block py-2 transition">Cronogramas e Materiais</a>
-            <a href="dicas.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
-            <a href="simuladores.html" class="block py-2 hover:text-accent-pink transition nav-link-active">Simuladores</a>
+
+        <div id="mobile-menu" class="md:hidden hidden border-t border-white/10 bg-black/60 backdrop-blur-lg">
+            <div class="mx-auto max-w-7xl px-5 xl:px-8 py-3 grid gap-1 text-sm">
+                <a class="py-2 text-[var(--accent-pink)] font-semibold" href="index.html#sobre">O Curso</a>
+                <a class="py-2 text-[var(--text-dark)] hover:text-white" href="equipe.html">Nossa Equipe</a>
+                <a class="py-2 text-[var(--text-dark)] hover:text-white" href="galeria.html">Galeria</a>
+                <a class="py-2 text-white" href="cronogramas.html">Cronogramas e Materiais</a>
+                <a class="py-2 text-[var(--text-dark)] hover:text-white" href="dicas.html">Dicas de Testes</a>
+                <a class="py-2 text-[var(--text-dark)] hover:text-white" href="simuladores.html">Simuladores</a>
+                <a class="py-2" href="https://wa.me/5585991982168?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20a%20Mentoria%20Aprova%C3%A7%C3%A3o%20Psycho." target="_blank" rel="noopener">WhatsApp</a>
+            </div>
         </div>
     </header>
 
@@ -895,24 +859,21 @@
                 }
             }));
 
-            document.getElementById('mobile-menu-button-sim').addEventListener('click', function() {
-                var menu = document.getElementById('mobile-menu-sim');
-                menu.classList.toggle('hidden');
-            });
         });
     </script>
 
     <script>
-        // Marca automaticamente o link de navegação correspondente à página atual
+        // Mobile menu toggle + mark nav active (uses .nav-active class defined in page styles)
         document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
             const current = (location.pathname.split('/').pop() || 'index.html');
             document.querySelectorAll('nav a[href]').forEach(a => {
                 try {
                     const href = (a.getAttribute('href') || '').split('/').pop();
-                    if (href === current) {
-                        a.classList.add('nav-link-active');
-                        a.setAttribute('aria-current', 'page');
-                    }
+                    if (href === current) { a.classList.add('nav-active'); a.setAttribute('aria-current', 'page'); }
                 } catch (e) { /* ignore */ }
             });
         });
