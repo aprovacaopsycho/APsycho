@@ -1,0 +1,20 @@
+[
+  {
+    "hash": "045907001628c43d27c177631f7b0b4a5d77704e1565d70c8411951fe0534364",
+    "nome": "Aluno Um",
+    "inscricao": "1001",
+    "telefone": ""
+  },
+  {
+    "hash": "bcaeec077ae51a190674b0945aa73b44e086b073d89b6894eb45aa204b7419d9",
+    "nome": "Aluno Dois",
+    "inscricao": "1002",
+    "telefone": ""
+  },
+  {
+    "hash": "d16b2b8f4b98752f1787905fd5e67e46a01a9f16f74b3b3e37899e9dd276da77",
+    "nome": "Aluno Tres",
+    "inscricao": "1003",
+    "telefone": ""
+  }
+]

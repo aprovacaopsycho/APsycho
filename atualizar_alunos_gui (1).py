@@ -40,9 +40,40 @@ def parse_planilha(path_excel: str) -> List[Dict[str, str]]:
 
     Retorna lista de dicionários com campos email, nome, inscricao e telefone.
     """
-    df = pd.read_excel(path_excel, header=None)
+    # Primeiro, tenta ler com cabeçalho e colunas separadas (formato comum)
+    try:
+        df = pd.read_excel(path_excel, header=0)
+    except Exception:
+        df = pd.read_excel(path_excel, header=None)
+
     registros = []
-    for _, row in df.iterrows():
+
+    # Se o DataFrame tiver colunas identificáveis (ex: 'email' e 'inscr'), usa-as
+    cols = [str(c).lower() for c in df.columns]
+    if any('email' in c for c in cols) and any('inscr' in c for c in cols):
+        def find_col(sub):
+            for c in df.columns:
+                if sub in str(c).lower():
+                    return c
+            return None
+
+        email_col = find_col('email')
+        inscr_col = find_col('inscr')
+        nome_col = find_col('nome') or find_col('name')
+        tel_col = find_col('telefone') or find_col('tel')
+
+        for _, row in df.iterrows():
+            email = str(row[email_col]).strip() if email_col is not None and pd.notna(row[email_col]) else ''
+            inscricao = str(row[inscr_col]).strip() if inscr_col is not None and pd.notna(row[inscr_col]) else ''
+            nome = str(row[nome_col]).strip() if nome_col is not None and pd.notna(row[nome_col]) else ''
+            telefone = str(row[tel_col]).strip() if tel_col is not None and pd.notna(row[tel_col]) else ''
+            if email and inscricao and email.lower() != 'nan':
+                registros.append({'email': email, 'nome': nome, 'inscricao': inscricao, 'telefone': telefone})
+        return registros
+
+    # Caso contrário, tenta o formato antigo (cada linha uma string com vírgulas)
+    df2 = pd.read_excel(path_excel, header=None)
+    for _, row in df2.iterrows():
         if not row.empty:
             linha = str(row.iloc[0])
             parts = [p.strip() for p in linha.split(',')]
@@ -60,7 +91,7 @@ def parse_planilha(path_excel: str) -> List[Dict[str, str]]:
                     inscricao = part.split(':', 1)[1].strip()
                 elif lower.startswith('telefone:'):
                     telefone = part.split(':', 1)[1].strip()
-            if email and inscricao:
+            if email and inscricao and email.lower() != 'nan':
                 registros.append({'email': email, 'nome': nome, 'inscricao': inscricao, 'telefone': telefone})
     return registros
 
@@ -71,20 +102,38 @@ def calcular_hash(email: str, inscricao: str) -> str:
 
 
 def gerar_chaves_json(registros: List[Dict[str, str]], out_json: str) -> List[str]:
-    """Gera chaves_completo.json e retorna lista de hashes geradas."""
-    out_data = []
-    hashes = []
+    """Gera/atualiza `chaves_completo.json` e retorna a lista de novos hashes adicionados.
+
+    Se o arquivo já existir, mescla os registros novos (identificados pelo hash)
+    sem remover os antigos. Retorna apenas os hashes que foram efetivamente
+    adicionados agora (úteis para gerar apenas os PDFs dos novos alunos).
+    """
+    # Carrega existente, se houver
+    existing = []
+    if os.path.exists(out_json):
+        try:
+            with open(out_json, 'r', encoding='utf-8') as f:
+                existing = json.load(f)
+        except Exception:
+            existing = []
+    existing_map = {item['hash']: item for item in existing if isinstance(item, dict) and 'hash' in item}
+
+    new_hashes = []
     for r in registros:
         h = calcular_hash(r['email'], r['inscricao'])
-        out_data.append({'hash': h, 'nome': r['nome'], 'inscricao': r['inscricao'], 'telefone': r.get('telefone', '')})
-        hashes.append(h)
+        if h not in existing_map:
+            entry = {'hash': h, 'nome': r.get('nome', ''), 'inscricao': r.get('inscricao', ''), 'telefone': r.get('telefone', '')}
+            existing_map[h] = entry
+            new_hashes.append(h)
+
+    merged = list(existing_map.values())
     with open(out_json, 'w', encoding='utf-8') as f:
-        json.dump(out_data, f, ensure_ascii=False, indent=2)
-    return hashes
+        json.dump(merged, f, ensure_ascii=False, indent=2)
+    return new_hashes
 
 
 def gerar_pdfs(base_pdf: str, chaves_json: str, output_dir: str = 'pdf_com_chaves',
-               hashes_basename: str = 'hashes', variable_name: str = 'VALID_HASHES'):
+               hashes_basename: str = 'hashes', variable_name: str = 'VALID_HASHES', hashes_to_generate: List[str] = None):
     """
     Gera PDFs personalizados com marca d’água e grava arquivos de hashes.
 
@@ -98,19 +147,33 @@ def gerar_pdfs(base_pdf: str, chaves_json: str, output_dir: str = 'pdf_com_chave
     os.makedirs(output_dir, exist_ok=True)
     with open(chaves_json, 'r', encoding='utf-8') as f:
         registros = json.load(f)
-    for reg in registros:
+
+    # Mapa de registros por hash para acesso rápido
+    reg_map = {reg['hash']: reg for reg in registros if reg.get('hash')}
+
+    # Decide quais hashes gerar: todos se não foi passado filtro
+    if hashes_to_generate is None:
+        hashes_to_generate = list(reg_map.keys())
+
+    gerados = []
+    for chave in hashes_to_generate:
+        reg = reg_map.get(chave)
+        if not reg:
+            continue
         nome = reg.get('nome', '')
         inscricao = reg.get('inscricao', '')
-        chave = reg.get('hash')
-        if not chave:
+        output_path = os.path.join(output_dir, f"{chave}.pdf")
+        # Se o PDF já existe, pulamos para evitar regravar (economiza tempo)
+        if os.path.exists(output_path):
             continue
         with fitz.open(base_pdf) as pdf:
             marca = f"Material de uso exclusivo de {nome} – Inscrição: {inscricao}"
             for pagina in pdf:
                 pagina.insert_text((30, 30), marca, fontsize=10, color=(0.3, 0.3, 0.3), overlay=True)
-            output_path = os.path.join(output_dir, f"{chave}.pdf")
             pdf.save(output_path)
-    # Lista de hashes
+        gerados.append(chave)
+
+    # Lista completa de hashes (atualizada)
     hashes = [reg['hash'] for reg in registros if reg.get('hash')]
     # Gera arquivo JSON de hashes
     hashes_json_path = os.path.join(os.path.dirname(chaves_json), f'{hashes_basename}.json')
@@ -150,16 +213,24 @@ def processar(planilha_path: str, pdf_base_path: str, turma_nome: str):
         raise RuntimeError('Nenhum registro encontrado na planilha')
     # Gera slug e nomes
     slug = slugify(turma_nome)
-    # Diretório de PDFs por turma
-    output_dir = os.path.join(os.path.dirname(planilha_path), f'pdf_com_chaves_{slug}')
-    # Caminho para chaves completo por turma
-    chaves_json = os.path.join(os.path.dirname(planilha_path), f'chaves_completo_{slug}.json')
+    # Diretório base: pasta onde este script está localizado (pasta do programa)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    # Diretório de PDFs por turma (agora na pasta do programa)
+    output_dir = os.path.join(base_dir, f'pdf_com_chaves_{slug}')
+    # Caminho para chaves completo por turma (na pasta do programa)
+    chaves_json = os.path.join(base_dir, f'chaves_completo_{slug}.json')
     # Arquivos de hashes
     hashes_basename = f'hashes_{slug}'
     # Nome da variável JS (ex: VALID_HASHES_TURMA)
     var_name = f'VALID_HASHES_{slug.upper()}'
-    gerar_chaves_json(registros, chaves_json)
-    gerar_pdfs(pdf_base_path, chaves_json, output_dir, hashes_basename, var_name)
+    # Gera ou mescla chaves; receberá apenas os hashes recém-adicionados
+    novos_hashes = gerar_chaves_json(registros, chaves_json)
+    # Se não houver novos registros, não geramos PDFs novamente
+    if not novos_hashes:
+        print(f"Nenhum aluno novo encontrado para a turma '{turma_nome}'. Arquivos existentes mantidos.")
+        return []
+    gerar_pdfs(pdf_base_path, chaves_json, output_dir, hashes_basename, var_name, hashes_to_generate=novos_hashes)
+    return novos_hashes
 
 
 class App(tk.Tk):
@@ -206,10 +277,14 @@ class App(tk.Tk):
             messagebox.showerror('Erro', 'Selecione a planilha, o PDF base e informe o nome da turma.')
             return
         try:
-            processar(planilha, pdf_base, turma)
+            novos = processar(planilha, pdf_base, turma)
             slug = slugify(turma)
             out_dir = os.path.join(os.path.dirname(planilha), f'pdf_com_chaves_{slug}')
-            messagebox.showinfo('Sucesso', f'PDFs gerados com sucesso! Verifique a pasta {out_dir}.')
+            if isinstance(novos, list) and len(novos) == 0:
+                messagebox.showinfo('Aviso', f'Nenhum aluno novo foi encontrado na planilha para a turma "{turma}". Nada foi alterado.')
+            else:
+                count = len(novos) if isinstance(novos, list) else 'desconhecido'
+                messagebox.showinfo('Sucesso', f'{count} novos PDFs gerados com sucesso! Verifique a pasta {out_dir}.')
         except Exception as e:
             messagebox.showerror('Erro', str(e))
 
