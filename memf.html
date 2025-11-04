@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Memória dos Rostos - Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-dark: #100f1c; --bg-card: #1c1b29; --primary-purple: #9f54ff; --accent-pink: #ff00ff; --accent-blue: #00c2ff; --text-light: #f0f0f0; --text-dark: #a0a0a0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: var(--text-dark); }
+        .card { background-color: var(--bg-card); border-radius: 0.75rem; border: 1px solid #333; }
+        .mvr-grid-item { transition: all 0.2s ease; border: 2px solid #333; }
+    </style>
+</head>
+<body>
+    <!-- Header copy -->
+    <header class="sticky top-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/10">
+        <nav class="mx-auto max-w-7xl px-5 xl:px-8 py-3 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3" aria-label="Página inicial">
+                <img src="logo-principal.png" alt="Logo Aprovação Psycho" class="h-10 w-auto" loading="lazy" />
+                <span class="text-[1.1rem] sm:text-xl font-black" style="color: var(--text-light);">APROVAÇÃO <span style="color: var(--accent-pink); filter: drop-shadow(0 0 8px rgba(255,0,255,.7));">PSYCHO</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-7 text-sm">
+                <a href="index.html#sobre" class="text-[var(--accent-pink)] font-semibold">O Curso</a>
+                <a href="equipe.html" class="text-[var(--text-dark)] hover:text-white">Nossa Equipe</a>
+                <a href="galeria.html" class="text-[var(--text-dark)] hover:text-white">Galeria</a>
+                <a href="cronogramas.html" class="text-[var(--text-dark)] hover:text-white">Cronogramas e Materiais</a>
+                <a href="dicas.html" class="text-[var(--text-dark)] hover:text-white">Dicas de Testes</a>
+                <a href="simuladores.html" class="text-[var(--text-dark)] hover:text-white">Simuladores</a>
+            </div>
+            <button id="menu-btn" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg text-white/90 hover:text-white border border-white/15">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="py-42 md:py-20">
+        <div class="container mx-auto px-6">
+            <a href="simuladores.html" class="mb-8 inline-flex items-center text-accent-pink hover:text-white font-semibold">← Voltar</a>
+            <div class="mb-10 text-center">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Memória dos Rostos</h1>
+                <p class="mt-4 text-lg text-text-dark max-w-3xl mx-auto">Memorize os rostos em pares e depois identifique-os no meio de outros. Sua capacidade de memorização será testada!</p>
+            </div>
+            <div x-data="memfSimulator()" class="max-w-4xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card text-text-light">
+                <!-- Instructions -->
+                <div x-show="state === 'instructions'">
+                    <h4 class="text-xl font-bold text-center mb-4">Instruções do Teste de Memória</h4>
+                    <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
+                        <li><strong>Fase 1 (Memorização):</strong> Você terá <strong>30 segundos</strong> para memorizar um conjunto de faces.</li>
+                        <li><strong>Fase 2 (Reconhecimento):</strong> As faces originais serão misturadas com novas. Você terá <strong>1 minuto</strong> para marcar apenas as que você memorizar.</li>
+                    </ul>
+                    <button @click="startMemorization()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">Começar</button>
+                </div>
+
+                <!-- Memorization Phase -->
+                <div x-show="state === 'memorizing'">
+                    <div class="flex justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg">
+                        <h4 class="text-lg font-bold text-text-light">Fase 1: Memorize estes rostos!</h4>
+                        <div class="text-center">
+                            <div class="text-sm font-bold text-red-400">TEMPO RESTANTE</div>
+                            <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-1">
+                        <template x-for="item in memorizationSet" :key="item.id">
+                            <div class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg overflow-hidden">
+                                <img :src="item.src" alt="" loading="lazy" class="w-full h-full object-contain" />
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Recognition Phase -->
+                <div x-show="state === 'recognizing'">
+                    <div class="flex justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg">
+                        <h4 class="text-lg font-bold text-text-light">Fase 2: Clique nas figuras que você memorizou</h4>
+                        <div class="text-center">
+                            <div class="text-sm font-bold text-red-400">TEMPO RESTANTE</div>
+                            <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-6 md:grid-cols-6 gap-2">
+                         <template x-for="(item, index) in recognitionSet" :key="item.id">
+                            <div @click="selectItem(item, index)"
+                                 :class="{ 'selected': item.selected }"
+                                 class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg overflow-hidden cursor-pointer">
+                                <img :src="item.src" alt="" loading="lazy" class="w-full h-full object-contain" />
+                            </div>
+                        </template>
+                    </div>
+                     <button @click="endTest()" class="mt-8 w-full cta-button font-bold py-3 px-6 rounded-md text-lg">Finalizar e Ver Resultado</button>
+                </div>
+                
+                <!-- Results Phase -->
+                 <div x-show="state === 'results'">
+                     <h4 class="text-2xl font-bold text-center mb-4 text-text-light">Resultado do Teste de Memória dos Rostos</h4>
+                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8 text-text-light">
+                         <div class="p-4 bg-green-500/10 rounded-lg">
+                             <p class="text-sm font-bold text-green-400">ACERTOS</p>
+                             <p class="text-3xl font-bold" x-text="hits"></p>
+                         </div>
+                         <div class="p-4 bg-red-500/10 rounded-lg">
+                             <p class="text-sm font-bold text-red-400">ERROS</p>
+                             <p class="text-3xl font-bold" x-text="errors"></p>
+                         </div>
+                         <div class="p-4 bg-yellow-500/10 rounded-lg">
+                             <p class="text-sm font-bold text-yellow-400">OMISSÕES</p>
+                             <p class="text-3xl font-bold" x-text="omissions"></p>
+                         </div>
+                     </div>
+                    <div class="bg-bg-dark border-l-4 border-accent-pink p-4 text-center my-6">
+                       <p class="font-bold text-accent-pink" x-text="resultMessage().title"></p>
+                       <p class="text-sm text-text-dark" x-text="resultMessage().message"></p>
+                    </div>
+                    <p class="text-center text-text-dark mb-8">Uma boa memória visual é um diferencial. Em nossa mentoria, ensinamos técnicas de mnemônica para otimizar sua capacidade de memorização.</p>
+                    <a href="https://wa.me/5585991982168?text=Olá!%20Fiz%20o%20simulado%20Memória%20F%20e%20quero%20melhorar%20minha%20memória%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">Quero Melhorar Minha Memória</a>
+                    <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Teste</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-gray-800">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="text-sm text-text-dark">© 2024 Aprovação Psycho. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('memfSimulator', () => ({
+            state: 'instructions', memorizationSet: [], recognitionSet: [], hits: 0, errors: 0, omissions: 0, points: 0,
+            memorizeDuration: 30, recognitionDuration: 60, timeLeft: 0, timer: '00:30', interval: null,
+            memImages: [
+                { id: 1, src: 'memf_images/memf_mem_1.png' },{ id: 2, src: 'memf_images/memf_mem_2.png' },{ id: 3, src: 'memf_images/memf_mem_3.png' },
+                { id: 4, src: 'memf_images/memf_mem_4.png' },{ id: 5, src: 'memf_images/memf_mem_5.png' },{ id: 6, src: 'memf_images/memf_mem_6.png' },
+                { id: 7, src: 'memf_images/memf_mem_7.png' },{ id: 8, src: 'memf_images/memf_mem_8.png' },{ id: 9, src: 'memf_images/memf_mem_9.png' },
+                { id: 10, src: 'memf_images/memf_mem_10.png' },{ id: 11, src: 'memf_images/memf_mem_11.png' },{ id: 12, src: 'memf_images/memf_mem_12.png' },
+                { id: 13, src: 'memf_images/memf_mem_13.png' },{ id: 14, src: 'memf_images/memf_mem_14.png' },{ id: 15, src: 'memf_images/memf_mem_15.png' }
+            ],
+            distImages: [
+                { id: 16, src: 'memf_images/memf_dist_1.png' },{ id: 17, src: 'memf_images/memf_dist_2.png' },{ id: 18, src: 'memf_images/memf_dist_3.png' },
+                { id: 19, src: 'memf_images/memf_dist_4.png' },{ id: 20, src: 'memf_images/memf_dist_5.png' },{ id: 21, src: 'memf_images/memf_dist_6.png' },
+                { id: 22, src: 'memf_images/memf_dist_7.png' },{ id: 23, src: 'memf_images/memf_dist_8.png' },{ id: 24, src: 'memf_images/memf_dist_9.png' },
+                { id: 25, src: 'memf_images/memf_dist_10.png' },{ id: 26, src: 'memf_images/memf_dist_11.png' },{ id: 27, src: 'memf_images/memf_dist_12.png' },
+                { id: 28, src: 'memf_images/memf_dist_13.png' },{ id: 29, src: 'memf_images/memf_dist_14.png' },{ id: 30, src: 'memf_images/memf_dist_15.png' }
+            ],
+            shuffle(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; },
+            startTimer(duration, onEnd) { this.timeLeft = duration; const update = () => { const minutes = Math.floor(this.timeLeft / 60); const seconds = this.timeLeft % 60; this.timer = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`; }; update(); this.interval = setInterval(() => { this.timeLeft--; update(); if (this.timeLeft <= 0) { clearInterval(this.interval); onEnd(); } }, 1000); },
+            startMemorization() { this.setupTest(); this.state = 'memorizing'; this.startTimer(this.memorizeDuration, () => { this.startRecognition(); }); },
+            setupTest() { this.memorizationSet = this.memImages.map(img => ({ ...img })); },
+            startRecognition() { this.recognitionSet = this.shuffle([ ...this.memImages.map(img => ({ ...img, isTarget: true, selected: false })), ...this.distImages.map(img => ({ ...img, isTarget: false, selected: false })) ]); this.state = 'recognizing'; this.startTimer(this.recognitionDuration, () => { this.endTest(); }); },
+            selectItem(item, index) { if (this.state !== 'recognizing') return; this.recognitionSet[index].selected = !this.recognitionSet[index].selected; },
+            endTest() { clearInterval(this.interval); this.hits = this.recognitionSet.filter(item => item.isTarget && item.selected).length; this.errors = this.recognitionSet.filter(item => !item.isTarget && item.selected).length; this.omissions = this.memorizationSet.length - this.hits; this.points = (this.hits * 2) - (this.errors + this.omissions); this.state = 'results'; },
+            resetTest() { clearInterval(this.interval); this.state = 'instructions'; this.hits = 0; this.errors = 0; this.omissions = 0; this.timer = '00:00'; },
+            resultMessage() { const score = this.hits - this.errors; if (score >= 13) return { title: 'Memória Excelente!', message: 'Seu desempenho foi ótimo, com alta taxa de acertos e poucos erros. Você demonstrou uma excelente memória visual.' }; if (score >= 12) return { title: 'Bom Desempenho!', message: 'Você teve um bom resultado, mas pode melhorar a precisão para evitar erros ou omissões.' }; return { title: 'Precisa Treinar!', message: 'Seu resultado indica que é preciso praticar. A memorização de detalhes é uma habilidade que pode ser aprimorada.' }; }
+        }));
+    });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        });
+    </script>
+</body>
+</html>

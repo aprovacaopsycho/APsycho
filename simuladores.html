@@ -57,7 +57,7 @@
     <header class="sticky top-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/10">
         <nav class="mx-auto max-w-7xl px-5 xl:px-8 py-3 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3" aria-label="Página inicial">
-                <img src="logo-principal.png" alt="Logo Aprovação Psycho" class="h-10 w-auto" loading="eager" />
+                <img src="logo-principal.png" alt="Logo Aprovação Psycho" class="h-10 w-auto" loading="lazy" />
                 <span class="text-[1.1rem] sm:text-xl font-black" style="color: var(--text-light);">APROVAÇÃO <span style="color: var(--accent-pink); filter: drop-shadow(0 0 8px rgba(255,0,255,.7));">PSYCHO</span></span>
             </a>
 
@@ -96,22 +96,7 @@
                 <p class="text-center section-subtitle mb-4">Tenha uma prévia do que você aprenderá na mentoria.</p>
                 <div class="hero-accent" aria-hidden="true"></div>
 
-                <!-- Featured card isolated at top -->
-                <div class="max-w-5xl mx-auto mb-10 px-4 lg:px-0">
-                    <div class="block p-10 card featured-card text-center hover:shadow-lg relative">
-                        <div class="pulse-ring" aria-hidden="true"></div>
-                        <span class="badge-external">Externo</span>
-                        <div class="flex items-center justify-center mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-accent-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 20l1.2-3.8A7.72 7.72 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                        </div>
-                        <h3 class="text-2xl md:text-3xl font-bold mb-2 text-text-light">Corretor de Palográficos</h3>
-                        <p class="text-text-dark mb-6">Abra o assistente que corrige palográficos. Escolha a versão que prefere: GPT ou Gemini.</p>
-                        <div class="flex items-center justify-center gap-4 mt-4">
-                            <a href="https://chatgpt.com/g/g-68fd18c2fd3481918ea01c8e28b6cec1-corretor-de-palografico-aprovacao-psycho-2-0" target="_blank" rel="noopener noreferrer" class="inline-block featured-cta font-semibold py-3 px-6 rounded-md">Abrir no GPT</a>
-                            <a href="https://gemini.google.com/gem/1cwzI-0H_VSOc_5TDDvtUsS9AiI39LOS7?usp=sharing" target="_blank" rel="noopener noreferrer" class="inline-block border-2 border-white/10 bg-gradient-to-r from-[#00C2FF] to-[#9F54FF] text-white font-semibold py-3 px-6 rounded-md">Abrir no Gemini</a>
-                        </div>
-                    </div>
-                </div>
+                <!-- Featured palográfico removed; replaced by simple card in the grid below -->
 
                 <!-- Outros simuladores abaixo -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
@@ -120,25 +105,33 @@
                         <p class="text-text-dark mb-6">Responda 10 questões e receba uma análise preliminar do seu perfil.</p>
                         <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
                     </div>
-                    <div @click="currentSimulator = 'teadi'" class="p-8 card text-center cursor-pointer">
+                    <a href="palografico.html" class="p-8 card text-center">
+                        <h3 class="text-2xl font-bold mb-3 text-text-light">Palográfico</h3>
+                        <p class="text-text-dark mb-6">Abra o corretor de palográfico e a calculadora de NOR na página dedicada.</p>
+                        <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar</span>
+                    </a>
+                    <a href="pattern.html" class="p-8 card text-center">
                         <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador de Atenção</h3>
                         <p class="text-text-dark mb-6">Encontre os padrões idênticos ao modelo e teste sua atenção seletiva.</p>
                         <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
-                    </div>
-                    <div @click="currentSimulator = 'memf'" class="p-8 card text-center cursor-pointer">
+                    </a>
+                    <a href="memf.html" class="p-8 card text-center">
                         <h3 class="text-2xl font-bold mb-3 text-text-light">Simulador Memória dos Rostos</h3>
                         <p class="text-text-dark mb-6">Memorize rostos em pares e identifique-os entre outros. Desafie sua memória visual.</p>
                         <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
-                    </div>
+                    </a>
                     <div @click="currentSimulator = 'interview'" class="p-8 card text-center cursor-pointer">
                         <h3 class="text-2xl font-bold mb-3 text-text-light">Entrevista com IA</h3>
                         <p class="text-text-dark mb-6">Receba um feedback instantâneo da nossa IA para a pergunta mais comum.</p>
                         <span class="inline-block bg-primary-purple text-text-light font-semibold py-2 px-6 rounded-md">Acessar Simulador</span>
                     </div>
+                    <!-- Cartão de NOR removido daqui; está disponível em palografico.html -->
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- A calculadora de NOR foi transferida para palografico.html para reduzir o peso inicial da página -->
 
     <!-- BFP Simulator View -->
     <div x-show="currentSimulator === 'bfp'" x-cloak x-transition.opacity>
@@ -215,205 +208,9 @@
         </main>
     </div>
 
-    <!-- Pattern Attention Simulator View (replaces TEADI) -->
-    <div x-show="currentSimulator === 'teadi'" x-cloak x-transition.opacity>
-        <main class="py-12 md:py-20">
-            <div class="container mx-auto px-6">
-                <button @click="currentSimulator = 'selection'" class="mb-8 inline-flex items-center text-accent-pink hover:text-white font-semibold">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Voltar para Seleção
-                </button>
-                <div class="mb-10 text-center">
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Atenção (Padrões)</h1>
-                    <p class="text-center text-lg text-text-dark max-w-3xl mx-auto mt-4">Encontre e clique nos padrões idênticos aos modelos abaixo. Cada acerto vale 2 pontos, cada erro ou omissão reduz 1 ponto. Para ser aprovado você precisa atingir pelo menos 126 pontos.</p>
-                </div>
-                <!-- Cross/Dot Pattern Simulator -->
-                <div x-data="patternAttentionSimulator()" x-init="init()" class="max-w-6xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card text-text-light">
-                    <!-- Instructions -->
-                    <div x-show="state === 'instructions'">
-                        <h4 class="text-xl font-bold text-center mb-4">Instruções</h4>
-                        <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
-                            <li>Clique nos símbolos-alvo que são exatamente iguais aos modelos abaixo.</li>
-                            <li>Há <strong>6 alvos por linha</strong>, distribuídos em 15 linhas.</li>
-                            <li>Você terá <strong>3 minutos</strong> para completar o teste.</li>
-                        </ul>
-                        <!-- Exibe os modelos dos símbolos alvo -->
-                        <div class="flex justify-center items-center gap-4 mb-8">
-                            <template x-for="sym in targetSymbols" :key="sym.id">
-                                <div class="bg-white p-4 border border-gray-300 rounded shadow">
-                                    <div class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center text-black" x-html="sym.svg"></div>
-                                </div>
-                            </template>
-                        </div>
-                        <button @click="state = 'testing'; startTimer();" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">Iniciar Teste</button>
-                    </div>
-                    <!-- Testing -->
-                    <div x-show="state === 'testing'">
-                        <div class="flex flex-wrap justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg gap-4 text-text-light">
-                            <div class="text-center">
-                                <div class="text-sm font-bold text-red-400">TEMPO</div>
-                                <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-sm font-bold text-green-400">ACERTOS</div>
-                                <div class="text-2xl font-bold" x-text="hits"></div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-sm font-bold text-red-400">ERROS</div>
-                                <div class="text-2xl font-bold" x-text="errors"></div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-sm font-bold text-accent-blue">ALVOS RESTANTES</div>
-                                <div class="text-2xl font-bold" x-text="totalTargets - hits"></div>
-                            </div>
-                        </div>
-                        <!-- Grade de símbolos -->
-                        <div class="grid gap-1 md:gap-2" style="grid-template-columns: repeat(14, minmax(0, 1fr));">
-                            <template x-for="(item, index) in grid" :key="index">
-                                <div @click="selectItem(item, index)"
-                                     :class="{
-                                        'pattern-grid-item': true,
-                                        'selected-correct': item.selected && item.isTarget,
-                                        'selected-incorrect': item.selected && !item.isTarget
-                                     }"
-                                     class="w-full aspect-square flex items-center justify-center cursor-pointer rounded-md">
-                                    <div x-html="item.svg" class="w-6 h-6 md:w-8 md:h-8"></div>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                    <!-- Results -->
-                    <div x-show="state === 'results'">
-                        <h4 class="text-2xl font-bold text-center mb-4">Resultado do Teste</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-center mb-8 text-text-light">
-                            <div class="p-4 bg-green-500/10 rounded-lg">
-                                <p class="text-sm font-bold text-green-400">ACERTOS</p>
-                                <p class="text-3xl font-bold" x-text="hits"></p>
-                            </div>
-                            <div class="p-4 bg-red-500/10 rounded-lg">
-                                <p class="text-sm font-bold text-red-400">ERROS</p>
-                                <p class="text-3xl font-bold" x-text="errors"></p>
-                            </div>
-                            <div class="p-4 bg-yellow-500/10 rounded-lg">
-                                <p class="text-sm font-bold text-yellow-400">OMISSÕES</p>
-                                <p class="text-3xl font-bold" x-text="omissions"></p>
-                            </div>
-                            <div class="p-4 bg-primary-purple/20 rounded-lg">
-                                <p class="text-sm font-bold text-primary-purple">PONTUAÇÃO FINAL</p>
-                                <p class="text-3xl font-bold" x-text="points"></p>
-                            </div>
-                        </div>
-                        <div class="bg-bg-dark border-l-4 border-accent-pink p-4 text-center my-6">
-                           <p class="font-bold text-accent-pink" x-html="resultMessage().message"></p>
-                        </div>
-                        <p class="text-center text-text-dark mb-8">A atenção seletiva é crucial para a atividade policial. Em nossa mentoria, aplicamos técnicas e treinos avançados para maximizar seu desempenho.</p>
-                        <a href="https://wa.me/5585991982168?text=Olá!%20Fiz%20o%20simulado%20de%20atenção%20e%20quero%20melhorar%20meu%20desempenho%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
-                            Quero Treinar de Verdade
-                        </a>
-                        <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Teste</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+    <!-- Pattern moved to pattern.html to reduce initial page weight -->
 
-    <!-- Memória F Simulator View -->
-    <div x-show="currentSimulator === 'memf'" x-cloak x-transition.opacity>
-        <main class="py-42 md:py-20">
-            <div class="container mx-auto px-20">
-                 <button @click="currentSimulator = 'selection'" class="mb-8 inline-flex items-center text-accent-pink hover:text-white font-semibold">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    Voltar para Seleção
-                </button>
-                <div class="mb-10 text-center">
-                    <h1 class="text-3xl md:text-4xl font-extrabold text-text-light">Simulador de Memória dos Rostos</h1>
-                    <p class="mt-4 text-lg text-text-dark max-w-3xl mx-auto">Memorize os rostos em pares e depois identifique-os no meio de outros. Sua capacidade de memorização será testada!</p>
-                </div>
-                <div x-data="memfSimulator()" class="max-w-4xl mx-auto p-6 md:p-8 rounded-lg shadow-lg bg-bg-card text-text-light">
-                    <!-- Instructions -->
-                    <div x-show="state === 'instructions'">
-                        <h4 class="text-xl font-bold text-center mb-4">Instruções do Teste de Memória</h4>
-                        <ul class="list-disc list-inside bg-bg-dark p-4 rounded-md text-text-dark space-y-2 mb-8">
-                            <li><strong>Fase 1 (Memorização):</strong> Você terá <strong>30 segundos</strong> para memorizar um conjunto de faces.</li>
-                            <li><strong>Fase 2 (Reconhecimento):</strong> As faces originais serão misturadas com novas. Você terá <strong>1 minuto</strong> para marcar apenas as que você memorizar.</li>
-                        </ul>
-                        <button @click="startMemorization()" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
-                            Começar
-                        </button>
-                    </div>
-
-                    <!-- Memorization Phase -->
-                    <div x-show="state === 'memorizing'">
-                        <div class="flex justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg">
-                            <h4 class="text-lg font-bold text-text-light">Fase 1: Memorize estes rostos!</h4>
-                            <div class="text-center">
-                                <div class="text-sm font-bold text-red-400">TEMPO RESTANTE</div>
-                                <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-5 gap-1">
-                            <template x-for="item in memorizationSet" :key="item.id">
-                                <div class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg overflow-hidden">
-                                    <img :src="item.src" alt="" class="w-full h-full object-contain" />
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-
-                    <!-- Recognition Phase -->
-                    <div x-show="state === 'recognizing'">
-                        <div class="flex justify-between items-center mb-4 p-3 bg-bg-dark rounded-lg">
-                            <h4 class="text-lg font-bold text-text-light">Fase 2: Clique nas figuras que você memorizou</h4>
-                            <div class="text-center">
-                                <div class="text-sm font-bold text-red-400">TEMPO RESTANTE</div>
-                                <div class="text-2xl font-bold tabular-nums" x-text="timer"></div>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-6 md:grid-cols-6 gap-2">
-                             <template x-for="(item, index) in recognitionSet" :key="item.id">
-                                <div @click="selectItem(item, index)"
-                                     :class="{ 'selected': item.selected }"
-                                     class="mvr-grid-item w-full aspect-square flex items-center justify-center bg-bg-dark rounded-lg overflow-hidden cursor-pointer">
-                                    <img :src="item.src" alt="" class="w-full h-full object-contain" />
-                                </div>
-                            </template>
-                        </div>
-                         <button @click="endTest()" class="mt-8 w-full cta-button font-bold py-3 px-6 rounded-md text-lg">
-                            Finalizar e Ver Resultado
-                        </button>
-                    </div>
-                    
-                    <!-- Results Phase -->
-                     <div x-show="state === 'results'">
-                         <h4 class="text-2xl font-bold text-center mb-4 text-text-light">Resultado do Teste de Memória dos Rostos</h4>
-                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-8 text-text-light">
-                             <div class="p-4 bg-green-500/10 rounded-lg">
-                                 <p class="text-sm font-bold text-green-400">ACERTOS</p>
-                                 <p class="text-3xl font-bold" x-text="hits"></p>
-                             </div>
-                             <div class="p-4 bg-red-500/10 rounded-lg">
-                                 <p class="text-sm font-bold text-red-400">ERROS</p>
-                                 <p class="text-3xl font-bold" x-text="errors"></p>
-                             </div>
-                             <div class="p-4 bg-yellow-500/10 rounded-lg">
-                                 <p class="text-sm font-bold text-yellow-400">OMISSÕES</p>
-                                 <p class="text-3xl font-bold" x-text="omissions"></p>
-                             </div>
-                         </div>
-                        <div class="bg-bg-dark border-l-4 border-accent-pink p-4 text-center my-6">
-                           <p class="font-bold text-accent-pink" x-text="resultMessage().title"></p>
-                           <p class="text-sm text-text-dark" x-text="resultMessage().message"></p>
-                        </div>
-                        <p class="text-center text-text-dark mb-8">Uma boa memória visual é um diferencial. Em nossa mentoria, ensinamos técnicas de mnemônica para otimizar sua capacidade de memorização.</p>
-                        <a href="https://wa.me/5585991982168?text=Olá!%20Fiz%20o%20simulado%20Memória%20F%20e%20quero%20melhorar%20minha%20memória%20com%20a%20mentoria." target="_blank" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center">
-                            Quero Melhorar Minha Memória
-                        </a>
-                        <button @click="resetTest()" class="w-full mt-4 text-sm text-text-dark hover:underline">Refazer Teste</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+    <!-- Memória F moved to memf.html to reduce initial page weight -->
 
     <!-- Interview Simulator View -->
     <div x-show="currentSimulator === 'interview'" x-cloak x-transition.opacity>
@@ -467,7 +264,7 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>
         document.addEventListener('alpine:init', () => {
@@ -522,157 +319,7 @@
                 showPreviewResults() { this.state = 'results'; clearInterval(this.interval); }
             }));
 
-            // Cross/Dot Pattern Attention Simulator (our custom)
-            Alpine.data('patternAttentionSimulator', () => ({
-                rows: 15,
-                cols: 14,
-                // TARGET_MAP: 6 alvos por linha (índices das colunas)
-                TARGET_MAP: [
-                    [1, 4, 7, 9, 10, 12],
-                    [0, 3, 5, 6, 9, 13],
-                    [2, 4, 6, 8, 10, 12],
-                    [1, 3, 5, 7, 9, 11],
-                    [0, 2, 6, 8, 10, 12],
-                    [1, 4, 5, 7, 9, 13],
-                    [0, 3, 6, 8, 11, 12],
-                    [2, 4, 5, 7, 9, 11],
-                    [1, 3, 5, 8, 10, 12],
-                    [0, 2, 6, 7, 9, 11],
-                    [1, 4, 6, 8, 10, 12],
-                    [2, 3, 5, 7, 9, 11],
-                    [0, 4, 6, 8, 10, 12],
-                    [1, 3, 5, 6, 9, 11],
-                    [2, 4, 6, 7, 10, 12]
-                ],
-                targetSymbols: [],
-                fillerSymbols: [],
-                grid: [],
-                hits: 0,
-                errors: 0,
-                omissions: 0,
-                points: 0,
-                totalTargets: 0,
-                timer: '03:00',
-                timeLeft: 180,
-                interval: null,
-                state: 'instructions',
-                init() {
-                    this.setupSymbols();
-                    this.totalTargets = this.rows * 6;
-                    this.generateGrid();
-                },
-                setupSymbols() {
-                    // Define target symbols: plus with dot bottom-right, cross gap with 4 dots, T with 4 dots
-                    const plusDotDR = {
-                        id: 'plus_dot_dr',
-                        isTarget: true,
-                        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20" /><line x1="4" y1="12" x2="20" y2="12" /><circle cx="17" cy="17" r="1.6" fill="currentColor" /></svg>`
-                    };
-                    const crossGap4Dots = {
-                        id: 'cross_gap_4dots',
-                        isTarget: true,
-                        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="9" /><line x1="12" y1="15" x2="12" y2="20" /><line x1="4" y1="12" x2="9" y2="12" /><line x1="15" y1="12" x2="20" y2="12" /><circle cx="8" cy="8" r="1.6" fill="currentColor" /><circle cx="16" cy="8" r="1.6" fill="currentColor" /><circle cx="8" cy="16" r="1.6" fill="currentColor" /><circle cx="16" cy="16" r="1.6" fill="currentColor" /></svg>`
-                    };
-                    const t4Dots = {
-                        id: 'T_4dots',
-                        isTarget: true,
-                        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="8" x2="20" y2="8" /><line x1="12" y1="8" x2="12" y2="20" /><circle cx="8" cy="4" r="1.6" fill="currentColor" /><circle cx="16" cy="4" r="1.6" fill="currentColor" /><circle cx="8" cy="16" r="1.6" fill="currentColor" /><circle cx="16" cy="16" r="1.6" fill="currentColor" /></svg>`
-                    };
-                    // Distractors: similar shapes but not exact targets
-                    const plus4DotsFull = {
-                        id: 'plus_4dots_full',
-                        isTarget: false,
-                        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20" /><line x1="4" y1="12" x2="20" y2="12" /><circle cx="8" cy="8" r="1.6" fill="currentColor" /><circle cx="16" cy="8" r="1.6" fill="currentColor" /><circle cx="8" cy="16" r="1.6" fill="currentColor" /><circle cx="16" cy="16" r="1.6" fill="currentColor" /></svg>`
-                    };
-                    const plus3Dots = {
-                        id: 'plus_3dots',
-                        isTarget: false,
-                        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="20" /><line x1="4" y1="12" x2="20" y2="12" /><circle cx="8" cy="8" r="1.6" fill="currentColor" /><circle cx="16" cy="8" r="1.6" fill="currentColor" /><circle cx="8" cy="16" r="1.6" fill="currentColor" /></svg>`
-                    };
-                    const crossGap3Dots = {
-                        id: 'cross_gap_3dots',
-                        isTarget: false,
-                        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="4" x2="12" y2="9" /><line x1="12" y1="15" x2="12" y2="20" /><line x1="4" y1="12" x2="9" y2="12" /><line x1="15" y1="12" x2="20" y2="12" /><circle cx="8" cy="8" r="1.6" fill="currentColor" /><circle cx="16" cy="8" r="1.6" fill="currentColor" /><circle cx="8" cy="16" r="1.6" fill="currentColor" /></svg>`
-                    };
-                    const t3Dots = {
-                        id: 'T_3dots',
-                        isTarget: false,
-                        svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="8" x2="20" y2="8" /><line x1="12" y1="8" x2="12" y2="20" /><circle cx="8" cy="4" r="1.6" fill="currentColor" /><circle cx="16" cy="4" r="1.6" fill="currentColor" /><circle cx="16" cy="16" r="1.6" fill="currentColor" /></svg>`
-                    };
-                    this.targetSymbols = [plusDotDR, crossGap4Dots, t4Dots];
-                    this.fillerSymbols = [plus4DotsFull, plus3Dots, crossGap3Dots, t3Dots];
-                },
-                generateGrid() {
-                    this.grid = [];
-                    for (let r = 0; r < this.rows; r++) {
-                        for (let c = 0; c < this.cols; c++) {
-                            const isTarget = this.TARGET_MAP[r].includes(c);
-                            let symbol;
-                            if (isTarget) {
-                                const idx = this.TARGET_MAP[r].indexOf(c) % this.targetSymbols.length;
-                                symbol = this.targetSymbols[idx];
-                            } else {
-                                symbol = this.fillerSymbols[Math.floor(Math.random() * this.fillerSymbols.length)];
-                            }
-                            this.grid.push({ ...symbol, selected: false });
-                        }
-                    }
-                },
-                startTimer() {
-                    this.timeLeft = 180;
-                    this.updateTimerDisplay();
-                    this.interval = setInterval(() => {
-                        this.timeLeft--;
-                        this.updateTimerDisplay();
-                        if (this.timeLeft <= 0) {
-                            clearInterval(this.interval);
-                            this.endTest();
-                        }
-                    }, 1000);
-                },
-                updateTimerDisplay() {
-                    const minutes = Math.floor(this.timeLeft / 60);
-                    const seconds = this.timeLeft % 60;
-                    this.timer = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                },
-                selectItem(item, index) {
-                    if (this.state !== 'testing') return;
-                    if (this.grid[index].selected) return;
-                    this.grid[index].selected = true;
-                    if (item.isTarget) {
-                        this.hits++;
-                        if (this.hits === this.totalTargets) {
-                            clearInterval(this.interval);
-                            this.endTest();
-                        }
-                    } else {
-                        this.errors++;
-                    }
-                },
-                endTest() {
-                    this.state = 'results';
-                    this.omissions = this.totalTargets - this.hits;
-                    this.points = (this.hits * 2) - (this.errors + this.omissions);
-                    clearInterval(this.interval);
-                },
-                resetTest() {
-                    clearInterval(this.interval);
-                    this.hits = 0;
-                    this.errors = 0;
-                    this.omissions = 0;
-                    this.points = 0;
-                    this.state = 'testing';
-                    this.generateGrid();
-                    this.startTimer();
-                },
-                resultMessage() {
-                    const pts = this.points;
-                    if (pts >= 126) return { message: `Parabéns! Você alcançou ${pts} pontos, superando a pontuação mínima (126). Desempenho excelente!` };
-                    if (pts >= 100) return { message: `Bom resultado: ${pts} pontos. Continue praticando para chegar a 126 pontos ou mais.` };
-                    if (pts >= 70) return { message: `Resultado mediano: ${pts} pontos. É recomendável treinar para melhorar atenção e precisão.` };
-                    return { message: `Sua pontuação foi ${pts} pontos, abaixo do mínimo necessário (126). É preciso trabalhar para reduzir erros e omissões.` };
-                }
-            }));
+            // Pattern simulator moved to pattern.html
 
             // MVR Simulator remains unchanged
             Alpine.data('mvrSimulator', () => ({
@@ -763,130 +410,9 @@
                     return { title: 'Precisa Treinar!', message: 'Seu resultado indica que é preciso praticar. A memorização de detalhes é uma habilidade que pode ser aprimorada.' };
                 }
             }));
-            // Memória F Simulator
-            Alpine.data('memfSimulator', () => ({
-                state: 'instructions',
-                memorizationSet: [],
-                recognitionSet: [],
-                hits: 0,
-                errors: 0,
-                omissions: 0,
-                points: 0,
-                memorizeDuration: 30,
-                recognitionDuration: 60,
-                timeLeft: 0,
-                timer: '00:30',
-                interval: null,
-                memImages: [
-                    { id: 1, src: 'memf_images/memf_mem_1.png' },
-                    { id: 2, src: 'memf_images/memf_mem_2.png' },
-                    { id: 3, src: 'memf_images/memf_mem_3.png' },
-                    { id: 4, src: 'memf_images/memf_mem_4.png' },
-                    { id: 5, src: 'memf_images/memf_mem_5.png' },
-                    { id: 6, src: 'memf_images/memf_mem_6.png' },
-                    { id: 7, src: 'memf_images/memf_mem_7.png' },
-                    { id: 8, src: 'memf_images/memf_mem_8.png' },
-                    { id: 9, src: 'memf_images/memf_mem_9.png' },
-                    { id: 10, src: 'memf_images/memf_mem_10.png' },
-                    { id: 11, src: 'memf_images/memf_mem_11.png' },
-                    { id: 12, src: 'memf_images/memf_mem_12.png' },
-                    { id: 13, src: 'memf_images/memf_mem_13.png' },
-                    { id: 14, src: 'memf_images/memf_mem_14.png' },
-                    { id: 15, src: 'memf_images/memf_mem_15.png' }
-                ],
-                distImages: [
-                    { id: 16, src: 'memf_images/memf_dist_1.png' },
-                    { id: 17, src: 'memf_images/memf_dist_2.png' },
-                    { id: 18, src: 'memf_images/memf_dist_3.png' },
-                    { id: 19, src: 'memf_images/memf_dist_4.png' },
-                    { id: 20, src: 'memf_images/memf_dist_5.png' },
-                    { id: 21, src: 'memf_images/memf_dist_6.png' },
-                    { id: 22, src: 'memf_images/memf_dist_7.png' },
-                    { id: 23, src: 'memf_images/memf_dist_8.png' },
-                    { id: 24, src: 'memf_images/memf_dist_9.png' },
-                    { id: 25, src: 'memf_images/memf_dist_10.png' },
-                    { id: 26, src: 'memf_images/memf_dist_11.png' },
-                    { id: 27, src: 'memf_images/memf_dist_12.png' },
-                    { id: 28, src: 'memf_images/memf_dist_13.png' },
-                    { id: 29, src: 'memf_images/memf_dist_14.png' },
-                    { id: 30, src: 'memf_images/memf_dist_15.png' }
-                ],
-                shuffle(array) {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]];
-                    }
-                    return array;
-                },
-                startTimer(duration, onEnd) {
-                    this.timeLeft = duration;
-                    const update = () => {
-                        const minutes = Math.floor(this.timeLeft / 60);
-                        const seconds = this.timeLeft % 60;
-                        this.timer = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-                    };
-                    update();
-                    this.interval = setInterval(() => {
-                        this.timeLeft--;
-                        update();
-                        if (this.timeLeft <= 0) {
-                            clearInterval(this.interval);
-                            onEnd();
-                        }
-                    }, 1000);
-                },
-                startMemorization() {
-                    this.setupTest();
-                    this.state = 'memorizing';
-                    this.startTimer(this.memorizeDuration, () => {
-                        this.startRecognition();
-                    });
-                },
-                setupTest() {
-                    this.memorizationSet = this.memImages.map(img => ({ ...img }));
-                },
-                startRecognition() {
-                    this.recognitionSet = this.shuffle([
-                        ...this.memImages.map(img => ({ ...img, isTarget: true, selected: false })),
-                        ...this.distImages.map(img => ({ ...img, isTarget: false, selected: false }))
-                    ]);
-                    this.state = 'recognizing';
-                    this.startTimer(this.recognitionDuration, () => {
-                        this.endTest();
-                    });
-                },
-                selectItem(item, index) {
-                    if (this.state !== 'recognizing') return;
-                    this.recognitionSet[index].selected = !this.recognitionSet[index].selected;
-                },
-                endTest() {
-                    clearInterval(this.interval);
-                    this.hits = this.recognitionSet.filter(item => item.isTarget && item.selected).length;
-                    this.errors = this.recognitionSet.filter(item => !item.isTarget && item.selected).length;
-                    this.omissions = this.memorizationSet.length - this.hits;
-                    this.points = (this.hits * 2) - (this.errors + this.omissions);
-                    this.state = 'results';
-                },
-                resetTest() {
-                    clearInterval(this.interval);
-                    this.state = 'instructions';
-                    this.hits = 0;
-                    this.errors = 0;
-                    this.omissions = 0;
-                    this.points = 0;
-                    this.timer = '03:00';
-                },
-                resultMessage() {
-                    const pts = this.points;
-                    if (pts >= 20) {
-                        return { title: 'Excelente Memória!', message: 'Parabéns! Você reconheceu a maioria dos rostos e sua pontuação foi alta.' };
-                    } else if (pts >= 10) {
-                        return { title: 'Bom Desempenho', message: 'Você teve um bom resultado, mas pode treinar para aumentar sua pontuação.' };
-                    } else {
-                        return { title: 'Precisa de Treino', message: 'Sua pontuação ficou baixa. É recomendável treinar sua memória visual.' };
-                    }
-                }
-            }));
+            // Memória F moved to memf.html
+
+            // NOR Calculator removed from this page; it now lives on palografico.html
 
         });
     </script>
