@@ -1,388 +1,285 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cronogramas de Estudo - Aprovação Psycho</title>
-    <!-- Ícone do site -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <!-- TailwindCSS para estilização -->
-    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Tpe_1wcli2BpRA54O8eRoaYfE-DOm7V2Smcn0e1Be93K3LWD2makOFQJvn2SJHrC4kmasi7j6Aer0whRNZqD1ESMLA3N52en2QuekXCkCfZFBjK-FF8zIeowtZDNJHH1XkUshZSM0IT9roMVu4YcZnrPTW71v-pmd8mzgGgIgBNx_yaMh46OPQKXN-cFqJ0HmfJ8HnZKxmtRwOVpOagGgxJEZaAvru8JQNSq5xTw5irqatwTFIOY0zpKecTs4-lx" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
-    <!-- AlpineJS para interatividade -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <!-- PDF-Lib para personalização do PDF -->
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js"></script>
-    <!-- CryptoJS para geração de hashes SHA-256 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <style>
-        /* Variáveis de cor para uma aparência consistente e configurável */
-        :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
-            --text-light: #f0f0f0;
-            --text-dark: #a0a0a0;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-        }
-        /* Estilização dos títulos e cartões */
-        .section-title { font-weight: 900; color: var(--text-light); }
-        .section-subtitle { color: var(--primary-purple); }
-        .card {
-            background-color: var(--bg-card);
-            border-radius: 0.75rem;
-            border: 1px solid #333;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(159, 84, 255, 0.3);
-            border-color: var(--primary-purple);
-        }
-        /* Botão principal de ação */
-        .cta-button {
-            transition: all 0.3s ease;
-            background-color: var(--accent-pink);
-            color: var(--text-light);
-            border: 2px solid var(--accent-pink);
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
-        }
-        .cta-button:hover {
-            background-color: transparent;
-            color: var(--accent-pink);
-            transform: scale(1.05);
-        }
-        [x-cloak] { display: none !important; }
-    </style>
-</head>
-<body x-data="cronogramaManager()">
-    <!-- Cabeçalho -->
-    <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <div class="flex items-center">
-                <a href="index.html" class="flex items-center">
-                    <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3">
-                    <span class="text-xl font-black" style="color: var(--text-light);">
-                        APROVAÇÃO <span style="color: var(--accent-pink); text-shadow: 0 0 8px var(--accent-pink);">PSYCHO</span>
-                    </span>
-                </a>
-            </div>
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="index.html#sobre" class="hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
-                <a href="equipe.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
-                <a href="galeria.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
-                <a href="cronogramas.html" class="font-bold transition" style="color: var(--accent-pink);">Cronogramas</a>
-                <a href="dicas.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
-                <a href="simuladores.html" class="hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
-            </div>
-            <div class="md:hidden">
-                <button id="mobile-menu-button-cronogramas" class="focus:outline-none" style="color: var(--text-dark);">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
-        </nav>
-        <div id="mobile-menu-cronogramas" class="hidden md:hidden px-6 pb-4">
-            <a href="index.html#sobre" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">O Curso</a>
-            <a href="equipe.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Nossa Equipe</a>
-            <a href="galeria.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Galeria</a>
-            <a href="cronogramas.html" class="block py-2 font-bold transition" style="color: var(--accent-pink);">Cronogramas</a>
-            <a href="dicas.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Dicas de Testes</a>
-            <a href="simuladores.html" class="block py-2 hover:text-accent-pink transition" style="color: var(--text-dark);">Simuladores</a>
-        </div>
-    </header>
-    <!-- Conteúdo principal -->
-    <main class="py-20">
-        <div class="container mx-auto px-6">
-            <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Cronogramas de Estudo Focados na Sua Aprovação</h1>
-            <p class="text-center section-subtitle mb-12">Planejamento e estratégia para otimizar seu tempo e garantir o melhor desempenho.</p>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrada - Cronogramas de Estudo</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-            <div class="max-w-4xl mx-auto space-y-8">
-                <!-- Cartão principal -->
-                <div class="card p-8 flex flex-col md:flex-row items-center gap-8">
-                    <div class="flex-shrink-0">
-                        <svg class="w-24 h-24" style="color: var(--accent-blue);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M12 6V3m0 18v-3M5.636 5.636L4.222 4.222m15.556 15.556l-1.414-1.414M4.222 19.778l1.414-1.414M19.778 4.222l-1.414 1.414"></path>
-                            <circle cx="12" cy="12" r="4"></circle>
-                        </svg>
-                    </div>
-                    <div class="flex-grow">
-                        <h2 class="text-2xl font-bold mb-2" style="color: var(--text-light);">Cronograma - Carreiras Policiais Ceará</h2>
-                        <p class="mb-4" style="color: var(--text-dark);">Um plano de estudos completo e detalhado, cobrindo todas as disciplinas essenciais para os concursos da <strong style="color: var(--text-light);">Polícia Militar (PMCE)</strong>, <strong style="color: var(--text-light);">Polícia Civil (PCCE)</strong> e <strong style="color: var(--text-light);">Corpo de Bombeiros (CBMCE)</strong>.</p>
-                        <button @click="showModal = true" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Cronograma</button>
-                    </div>
-                </div>
-                <!-- Placeholder para futuros cronogramas -->
-                <div class="card p-8 flex flex-col md:flex-row items-center gap-8 opacity-50">
-                    <div class="flex-shrink-0">
-                        <svg class="w-24 h-24" style="color: var(--text-dark);" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <div class="flex-grow">
-                        <h2 class="text-2xl font-bold mb-2" style="color: var(--text-light);">Novos Cronogramas em Breve</h2>
-                        <p class="mb-4" style="color: var(--text-dark);">Estamos a preparar mais materiais de alta qualidade para outros concursos. Fique atento às novidades!</p>
-                        <span class="bg-gray-700 text-gray-400 font-semibold py-2 px-6 rounded-md inline-block cursor-not-allowed">Em Breve</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <!-- Modal para solicitar chave de acesso -->
-    <div x-show="showModal" x-cloak class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
-         x-transition:enter="ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-        <div @click.away="showModal = false" class="rounded-lg shadow-xl p-8 w-full max-w-md" style="background-color: var(--bg-card);"
-             x-transition:enter="ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95">
-            <h3 class="text-2xl font-bold mb-4" style="color: var(--text-light);">Acesso ao Cronograma</h3>
-            <p class="mb-6" style="color: var(--text-dark);">Digite seu e‑mail e número de inscrição para validar a sua chave de acesso.</p>
-            <div class="space-y-4">
-                <input type="email" x-model="accessEmail" placeholder="Digite seu e‑mail"
-                       class="w-full p-3 border rounded-md focus:ring-2 focus:ring-accent-pink focus:border-accent-pink transition" style="background-color: var(--bg-dark); border-color: #333; color: var(--text-light);">
-                <input type="text" x-model="accessInscricao" placeholder="Digite seu número de inscrição"
-                       class="w-full p-3 border rounded-md focus:ring-2 focus:ring-accent-pink focus:border-accent-pink transition" style="background-color: var(--bg-dark); border-color: #333; color: var(--text-light);">
-                <button @click="validateAccess" :disabled="isLoading" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center disabled:opacity-50">
-                    <span x-show="!isLoading">Validar e Abrir PDF</span>
-                    <span x-show="isLoading" class="flex items-center">
-                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                        Validando...
-                    </span>
-                </button>
-                <p x-show="error" x-text="error" class="text-red-400 text-sm text-center" x-transition></p>
-            </div>
-        </div>
+  <!-- CARREGAMENTO DE ESTILOS/JS (corrigido) -->
+  <!-- Tailwind SEM defer: evita layout "cru" antes do CSS ser injetado pelo CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine SEM defer (ver Hint): garante inicialização antes de interagir com os elementos) -->
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+
+  <!-- Design tokens + fallbacks críticos se o Tailwind for bloqueado -->
+  <style>
+    :root{--bg-dark:#100f1c;--bg-card:#1c1b29;--primary-purple:#9f54ff;--accent-pink:#ff00ff;--accent-blue:#00c2ff;--text-light:#f0f0f0;--text-dark:#a0a0a0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:var(--bg-dark);color:var(--text-dark)}
+    .section-title{font-weight:900;color:var(--text-light)}
+    .section-subtitle{color:var(--primary-purple)}
+    .card{background:var(--bg-card);border-radius:.75rem;border:1px solid #333;transition:transform .3s,box-shadow .3s}
+    .card:hover{transform:translateY(-5px);box-shadow:0 0 20px rgba(159,84,255,.3);border-color:var(--primary-purple)}
+    .cta-button{transition:all .3s;background:var(--accent-pink);color:var(--text-light);border:2px solid var(--accent-pink);box-shadow:0 0 15px rgba(255,0,255,.4)}
+    .cta-button:hover{background:transparent;color:var(--accent-pink);transform:scale(1.05)}
+    .nav-link-active{color:var(--accent-pink)!important;text-shadow:0 0 10px var(--accent-pink);font-weight:800}
+    [x-cloak]{display:none !important}
+    /* Fallbacks mínimos caso Tailwind não carregue */
+    .hidden{display:none !important}.fixed{position:fixed}.inset-0{top:0;right:0;bottom:0;left:0}
+    .bg-black\/80{background:rgba(0,0,0,.8)}.flex{display:flex}.items-center{align-items:center}.justify-center{justify-content:center}
+  </style>
+
+  <!-- Google Fonts após CSS para reduzir FOUC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Ícones pré-carregados (melhora LCP) -->
+  <link rel="preload" as="image" href="https://cdn-icons-png.flaticon.com/512/12174/12174680.png" />
+  <link rel="preload" as="image" href="https://cdn-icons-png.flaticon.com/512/610/610064.png" />
+
+  <!--
+    REGISTRO DO COMPONENTE SEM DEPENDER DO EVENTO 'alpine:init'
+    - Evita condição de corrida quando Alpine inicializa antes deste script.
+    - x-data chama window.entryManager() diretamente.
+  -->
+  <script>
+    window.entryManager = function(){
+      return {
+        showModal: true,
+        granted: false,
+        accessEmail: '',
+        accessInscricao: '',
+        error: '',
+        isLoading: false,
+        mergedHashes: null,
+        hashFiles: ['hashes_ceara.json','hashes_tempo.json','hashes_guarda_civil.json'],
+        currentUserHash: null,
+        pendingGroup: null,
+        groupDirs: { ceara:'pdf_com_chaves_ceara', tempo:'pdf_com_chaves_tempo', guarda_civil:'pdf_com_chaves_guarda_civil' },
+
+        async loadAllHashes(){
+          if(Array.isArray(this.mergedHashes)) return;
+          this.mergedHashes = [];
+          for(const file of this.hashFiles){
+            try{
+              const resp = await fetch(file,{cache:'no-store'});
+              if(!resp.ok) continue;
+              const data = await resp.json();
+              const arr = Array.isArray(data) ? data : (Array.isArray(data.validHashes) ? data.validHashes : []);
+              this.mergedHashes.push(...arr);
+            }catch(e){ console.warn('Failed to load hash file:', file, e); }
+          }
+        },
+
+        async sha256Hex(message){
+          const enc = new TextEncoder();
+          const data = enc.encode(message);
+          const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+          const hashArray = Array.from(new Uint8Array(hashBuffer));
+          return hashArray.map(b=>b.toString(16).padStart(2,'0')).join('');
+        },
+
+        async validateEntry(){
+          this.error = '';
+          const email = this.accessEmail.trim().toLowerCase();
+          const inscricao = this.accessInscricao.trim();
+          if(!email || !inscricao){ this.error = 'Por favor, preencha ambos os campos.'; return; }
+          this.isLoading = true;
+          await this.loadAllHashes();
+          const hash = await this.sha256Hex(email + inscricao);
+          if(!Array.isArray(this.mergedHashes) || !this.mergedHashes.includes(hash)){
+            this.isLoading = false; this.error = 'E-mail ou número de inscrição inválido!'; return;
+          }
+          this.currentUserHash = hash; this.granted = true; this.showModal = false; this.isLoading = false;
+          if(this.pendingGroup){
+            const dir = this.groupDirs[this.pendingGroup] || this.groupDirs['ceara'];
+            const pdfPath = `${dir}/${this.currentUserHash}.pdf`;
+            window.open(pdfPath,'_blank');
+            this.pendingGroup = null;
+          }
+        },
+
+        openMaterial(group){
+          if(this.granted && this.currentUserHash){
+            const dir = this.groupDirs[group] || this.groupDirs['ceara'];
+            const pdfPath = `${dir}/${this.currentUserHash}.pdf`;
+            window.open(pdfPath,'_blank');
+            return;
+          }
+          this.pendingGroup = group; this.showModal = true;
+        }
+      };
+    };
+
+    // TESTES BÁSICOS (não alteram comportamento do app)
+    // Garantem que a página inicializou como esperado em cenários comuns.
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        console.assert(!!window.Alpine, 'Alpine não disponível');
+        console.assert(typeof window.entryManager === 'function', 'entryManager não registrado');
+        const modal = document.querySelector('[x-show="showModal"]');
+        console.assert(!!modal, 'Modal não encontrado');
+      } catch (e) {
+        console.warn('Auto-teste falhou:', e);
+      }
+    });
+  </script>
+</head>
+
+<body x-data="entryManager()">
+  <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50">
+    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <a href="index.html" class="flex items-center">
+          <img src="logo-principal.png" alt="Aprovação Psycho Logo" class="h-10 w-auto mr-3" loading="lazy" width="40" height="40" />
+          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+        </a>
+      </div>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html#sobre" class="hover:text-accent-pink transition" style="color:var(--text-dark)">O Curso</a>
+        <a href="equipe.html" class="hover:text-accent-pink transition" style="color:var(--text-dark)">Nossa Equipe</a>
+        <a href="galeria.html" class="hover:text-accent-pink transition" style="color:var(--text-dark)">Galeria</a>
+        <a href="cronogramas_validacao.html" class="transition">Cronogramas e Materiais</a>
+        <a href="dicas.html" class="hover:text-accent-pink transition" style="color:var(--text-dark)">Dicas de Testes</a>
+        <a href="simuladores.html" class="hover:text-accent-pink transition" style="color:var(--text-dark)">Simuladores</a>
+      </div>
+      <div class="md:hidden">
+        <button id="mobile-menu-button-entry" class="focus:outline-none" style="color:var(--text-dark)">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobile-menu-entry" class="hidden md:hidden px-6 pb-4">
+      <a href="index.html#sobre" class="block py-2 hover:text-accent-pink transition" style="color:var(--text-dark)">O Curso</a>
+      <a href="equipe.html" class="block py-2 hover:text-accent-pink transition" style="color:var(--text-dark)">Nossa Equipe</a>
+      <a href="galeria.html" class="block py-2 hover:text-accent-pink transition" style="color:var(--text-dark)">Galeria</a>
+      <a href="cronogramas_validacao.html" class="block py-2 transition">Cronogramas e Materiais</a>
+      <a href="dicas.html" class="block py-2 hover:text-accent-pink transition" style="color:var(--text-dark)">Dicas de Testes</a>
+      <a href="simuladores.html" class="block py-2 hover:text-accent-pink transition" style="color:var(--text-dark)">Simuladores</a>
     </div>
-    <footer class="border-t border-gray-800 mt-20">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <p class="text-sm" style="color: var(--text-dark);">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
-            <p class="text-sm mt-2"><a href="https://www.instagram.com/aprovacaopsycho/" target="_blank" rel="noopener noreferrer" style="color: var(--text-dark);">
-                <svg class="inline w-4 h-4 mr-2 align-text-bottom" aria-hidden="true"><use xlink:href="assets/icons.svg#icon-instagram"></use></svg>
-                Siga-nos no Instagram: @aprovacaopsycho
-            </a></p>
+  </header>
+
+  <!-- Fallback para navegadores sem JS -->
+  <noscript>
+    <div class="container mx-auto px-6 py-20 text-center" style="color:var(--text-light);background:var(--bg-card);margin:2rem;border-radius:.5rem;">
+      <h2 class="text-2xl font-bold">JavaScript é necessário</h2>
+      <p class="mt-2">Para acessar os cronogramas e materiais, ative o JavaScript no seu navegador ou entre em contato com a secretaria.</p>
+      <p class="mt-4"><a href="cronogramas_validacao.html" style="color:var(--accent-pink)">Ir para a versão simplificada</a></p>
+    </div>
+  </noscript>
+
+  <!-- Conteúdo principal -->
+  <main x-show="granted" x-cloak class="py-20">
+    <div class="container mx-auto px-6">
+      <h1 class="text-3xl md:text-4xl text-center mb-2 section-title">Cronogramas e Materiais de Estudo Focados na Sua Aprovação</h1>
+      <p class="text-center section-subtitle mb-12">Planejamento e estratégia para otimizar seu tempo e garantir o melhor desempenho.</p>
+
+      <div class="max-w-4xl mx-auto space-y-8">
+        <div class="card p-8 flex flex-col md:flex-row items-center gap-8">
+          <div class="flex-shrink-0">
+            <img class="w-24 h-24" style="color:var(--accent-blue)" src="https://cdn-icons-png.flaticon.com/512/12174/12174680.png" alt="Calendário" loading="eager"
+                 onerror="(function(el){el.style.display='none';var p=el.parentNode;p.insertAdjacentHTML('beforeend','<svg class=\'w-24 h-24\' aria-hidden=\'true\'><use href=\'assets/icons.svg#icon-calendar\'></use></svg>');})(this)">
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-2xl font-bold mb-2" style="color:var(--text-light)">Cronograma - Carreiras Policiais Ceará</h2>
+            <p class="mb-4" style="color:var(--text-dark)">Plano de estudos completo para os concursos de <strong style="color:var(--text-light)">PMCE</strong>, <strong style="color:var(--text-light)">PCCE</strong> e <strong style="color:var(--text-light)">CBMCE</strong>.</p>
+            <button @click="openMaterial('ceara')" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Cronograma</button>
+          </div>
         </div>
-    </footer>
-    <script>
-        /*
-         * Este componente AlpineJS valida a chave de acesso sem expor dados sensíveis.
-         * A lista de hashes válida é carregada de um arquivo externo (chaves.json),
-         * permitindo atualizar inscrições sem editar o HTML. As hashes são geradas
-         * aplicando SHA-256 ao e‑mail (em minúsculas) concatenado com o número de
-         * inscrição, tornando impossível recuperar as credenciais originais a partir
-         * do código da página.
-         */
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('cronogramaManager', () => ({
-                showModal: false,
-                accessEmail: '',
-                accessInscricao: '',
-                error: '',
-                isLoading: false,
-                // Lista de hashes de acesso, contendo também nome e inscrição.
-                // Estes dados foram gerados a partir da planilha fornecida, aplicando SHA‑256 sobre
-                // e‑mail + inscrição para cada aluno. Incluir o nome e a inscrição aqui permite
-                // personalizar a marca d'água sem expor e‑mails no código.
-                hashData: [
-                    {"hash": "e9e31d6ae75e4bcd91b66846fd3ceb6d72be5a228dfb54bdc2d1099568cba3d8", "nome": "MIRLA LORENA DA SILVA PEREIRA", "inscricao": "44981"},
-                    {"hash": "3a04fef9df4e3bfa2b06a820638fac6213a65938407de60e32be64de0dc58fd9", "nome": "Victor hugo Nogueira Feitosa", "inscricao": "1696"},
-                    {"hash": "b755551d2e1d12bacb615a07062853a27ca482e81e9243b3faa3819266359eb", "nome": "MARIA BEATRIZ BARROS LIMA PAIVA", "inscricao": "43486"},
-                    {"hash": "eaa7b4cb8a7ef19c76686215cbcbe0caf68f6d8a7e45b008edfe5d7c5dfc680", "nome": "MIKAELLY DA SILVA SANTOS", "inscricao": "5824"},
-                    {"hash": "20ecc0cd1ec3c9788bfd90d3f891781b309563d652a186d6d79ba4cad45cee2c", "nome": "RYAN ALVES DE SOUSA", "inscricao": "28644"},
-                    {"hash": "0f4b652a681dfe4fc66226b272c30963d9a94fae0db667062bc3b9b047824dbd3", "nome": "FLAVIO LUCAS SILVEIRA LUZ DE QUEIROZ", "inscricao": "6938"},
-                    {"hash": "93849d44e8f3a57c71516ff9d92138c3c59c7b9cb9adca3390998f3930e00194", "nome": "DAVI SILVA SOUZA", "inscricao": "21998"},
-                    {"hash": "ef12da12935ba6afb22bdcfb54b1aba457afada25d167255daa291cbd64509e", "nome": "JANNICE CRISTINA SOEIRO DOS SANTOS", "inscricao": "35064"},
-                    {"hash": "09dc798cb6faf0d49d0c9d2adc1f07590b327b43fb5d0853065a3a0614f1b59e", "nome": "KAYO SAMIR AMORIM COSTA", "inscricao": "65992"},
-                    {"hash": "6f1955dcf289a87d9bf737dc2726799a02c6b1cacda54e1436fbb0997721418e", "nome": "MARCELO HENRIQUE", "inscricao": "66205"},
-                    {"hash": "4a125da4a854dba1e407dc0a0f9745854996d5b682852b354b2d8ea09d1f3ccc", "nome": "JOSÉ WEVERTON AGUIAR NASCIMENTO", "inscricao": "8223"},
-                    {"hash": "d41e3699d3a0237a384aac35fa7112ea56e248f5a8a0ef9771fddcd2f581301b", "nome": "MARIA MACILAENE ALVES DE OLIVEIRA", "inscricao": "47839"},
-                    {"hash": "ff4f7fa4bf13f3ffb201db7aef117c5a3351ef6a6697715ec6be09e92d807af7", "nome": "RENAN DA SILVA DE MORAIS", "inscricao": "60367"},
-                    {"hash": "8f2c6f71b9273c292f6997f6a45dc822e30883dc0ca04d8e8718504eeffa8ded", "nome": "Danrlei Rodrigues Carvalho", "inscricao": "18348"},
-                    {"hash": "9e05c207b8c47b22db5640de1b8c81c12d4bca922d0fc5996ab416d1cdf0e60a", "nome": "LUAN VICTOR FERNANDES REIS SILVA", "inscricao": "23640"},
-                    {"hash": "b6b87f41e84cf2ed24e808f2e2640deac42da64a3c9ed9a19655cf8f2049605c", "nome": "Vitória Luana Barros Gonçalves", "inscricao": "12348"},
-                    {"hash": "1b8021c729b3e3e99be52a4aa9f4279523b2ba5f20892ca416e5847f4aa0bd4a", "nome": "Francisco Assis de Sá Junior", "inscricao": "33052"},
-                    {"hash": "996ba4661115923c9bf8a4d862a62e5e9ff70628f2d23a210c5290364a5a264f", "nome": "BARBARA SOUZA SILVA", "inscricao": "63393"},
-                    {"hash": "c1fc327d040ec3229433c6d3ddd8ff2408570f013b793a6b22149584b80b1132", "nome": "ANNA PAULA CARVALHO SILVA", "inscricao": "10965"},
-                    {"hash": "08b8b8bbf65611599de1ac349b52eb23d17f67d49f0f691f1ef842f293dfada4", "nome": "LUCAS MACENA MOURA", "inscricao": "48356"},
-                    {"hash": "d4f93d57949ea775e1e9c09af34bcb7d392acc7a43b358a5295170e13845f96f", "nome": "LARA SUELLY MIRANDA DE MOURA", "inscricao": "33793"},
-                    {"hash": "dff88f87ce050d8bb3265024f7dfa2274f7d687f014f30479c893fdf07d331ed", "nome": "CAMILA SABINO LIMA", "inscricao": "15799"},
-                    {"hash": "589eabdc37a90a6c5ac32637b1426f0bed3f047e80ee8b20fbfbe39deb972006", "nome": "DIEGO LUIZ VIEIRA DA COSTA", "inscricao": "43287"},
-                    {"hash": "d75f22ba1a2e92a13d54f708b9ffa555975ad05633cef573aec3436a11a4dfc7", "nome": "CARLOS HENRIQUE MAFRA BASTOS", "inscricao": "17931"},
-                    {"hash": "81d949865c2b659d658d38171b970b427c40df1cbd818377cfe523c67883e7a8", "nome": "VITOR EUGÊNIO VERAS DE SOUSA", "inscricao": "55668"},
-                    {"hash": "da1e5ce9acac22111439abaec493e6dc1d00d19368770b4adeaf5d7abae4eb30", "nome": "MAYRA NAYARA BEZERRA SALDANHA", "inscricao": "64277"},
-                    {"hash": "86399f16446f634c06a6ac5365e27caa4abd9e0a649a18115e8ceab4f61529ca", "nome": "MARIA ESMERALDA DE LUCENA COSTA", "inscricao": "51399"},
-                    {"hash": "95adfcbce20a66b6fa7a7bbd33f3d4257c62e17a01dc6477dcd825f40a110064", "nome": "GUSTAVO DE FRANÇA LIMA", "inscricao": "19362"},
-                    {"hash": "8f98188770b2567a423f39a68d17b5f75a55238845a6c90c9c800b0da7cd7e47", "nome": "LUCAS DAS NEVES ARAÚJO", "inscricao": "41066"},
-                    {"hash": "2e25105007d0bb3e3619843b75f6078e0dcf9685b335cd4fa2a355a6171988da", "nome": "MARCOS ANTONIO PEREIRA ANJOS", "inscricao": "65586"},
-                    {"hash": "d41b6d0e1b5f3ca61fb701948ef804bd51b463d00dc1896f546b5a9f853941f8", "nome": "MAYANE VIEIRA ALEXANDRINO DE SOUSA", "inscricao": "24677"},
-                    {"hash": "edaf336dd60c6f44e3885dcda43e33e3ca6a0e55df6c9c86aeb8ba1c340e6e7c", "nome": "DENISE DA SILVA MATOS", "inscricao": "59763"},
-                    {"hash": "a98a8fb6d095a29238070846a8488a6cda4c516b9d5c91eeebb13063c3651ccc", "nome": "MARIANA FREIRE DE MIRANDA", "inscricao": "50892"},
-                    {"hash": "c5a30381f58c5f8488bda265f180b690318140024784bdc6d4472f688707959e", "nome": "THARCIO EZEQUIEL DE SOUZA COSTA", "inscricao": "57831"},
-                    {"hash": "4b7b20c773c327f5c92f22d992f13cd0b61272acb81aeb9845cd09690a4a8abc", "nome": "SANDRA LUCIA FEITOSA RESENDE", "inscricao": "39514"},
-                    {"hash": "37fa82c5386371508f19ed75e655f048a15c0ac49e6397e6f94270b0f847e5b5", "nome": "LUIS MIGUEL MARTINS BARTOLOMEU", "inscricao": "15520"},
-                    {"hash": "8bd303d6efb7a5b06f37efc0d7b192c216f8bde34794c091991f807ae8407d4f", "nome": "JOANA DARCK SANTOS DE ASSIS", "inscricao": "10450"},
-                    {"hash": "3e11775aecf30d6881ed3c982d1c1bc6bb97c8efb239882d7c5a4b4e61383030", "nome": "GABRIEL DA SILVA BATISTA", "inscricao": "64700"},
-                    {"hash": "9d238b915c910354379f2943c8553b0f09f9244d86e427e313453fbf8306fe76", "nome": "MARCOS VINICIUS MENDES CAVALCANTE", "inscricao": "40726"},
-                    {"hash": "f2b3f6d746b775ec70364ba6063032061e376ae5983bd2f03179516351d0e759", "nome": "ANA LAURA FARIAS GAMA", "inscricao": "16551"},
-                    {"hash": "ef191192125dc566a5489a732a54fbdb43c6545e4a51a090c969073c27490d8d", "nome": "MAYARA CHRISTINA SANTOS DE SOUSA", "inscricao": "19222"},
-                    {"hash": "298c8c52177bd8eac62508273bdca08548d91b19638bdeef278367e14c83768b", "nome": "MARIA ALINE DOS SANTOS SILVA", "inscricao": "50326"},
-                    {"hash": "c241cbcf9659a2b73c5a7cca6af3c549457455d4fc154af961fe4a4c9c5517a1", "nome": "MAYLSON OLIVEIRA BARTOLOMEU", "inscricao": "32281"},
-                    {"hash": "8887528900d04667bb2bb6769c63808bb692b7ae3451df4481cb41b1c68752c5", "nome": "KELLY GABRIELLY LIMA DA SILVA", "inscricao": "18934"},
-                    {"hash": "b32d5ead83c9d38c75d0118630c90ad222b727d393786df7aea0a3182da1f8b3", "nome": "NICOLAS RAFAEL DE SOUZA NASCIMENTO", "inscricao": "18935"},
-                    {"hash": "8f45a4efd2bc5d351c358a5cc945bb3152dafce8dcf07fa1864ad3f2160ca999", "nome": "Natan Araujo de Sousa", "inscricao": "28579"},
-                    {"hash": "9545cc51d3a55a8efc58bd0123bc50f38fb7fecd12a306310006546e1a6ec3f2", "nome": "BRUNA INGRID ARAUJO FERREIRA", "inscricao": "23025"},
-                    {"hash": "18411fde3033dc46f9c1e678fc3d769b9cb3d4ded76c414e23a0fa599182a966", "nome": "MARIA SOUZA", "inscricao": "63718"},
-                    {"hash": "ff3058c8f39b33c60f25bfbc4ea2f76e733469a1ee67f5a553ba0328043c244a", "nome": "YARA CATARINA DANTAS FERREIRA", "inscricao": "18871"},
-                    {"hash": "a0083a53130d113c11de2b6e8ca218e7b18cc8d2e9e6bed306d05567a8da76c1", "nome": "NICOLAS WEILLER BARBOSA REIS", "inscricao": "44174"},
-                    {"hash": "1261c76392d590cb6249a6120a0422186c91e31fa9f5672a8ab45e378cffca17", "nome": "JOÃO PEREIRA DE SOUSA JUNIOR", "inscricao": "56411"},
-                    {"hash": "1aa8e8fd8579d1e887017db21a67efd5d7e5082bde758302c20f502f179a965c", "nome": "Juliana Cassimiro Bonfim", "inscricao": "23580"},
-                    {"hash": "719b7de282d49574346b0ff21caa49a0e72b7b266e6ff439a98468b834ba38aa", "nome": "PEDRO REINALDO DOS SANTOS SOUSA", "inscricao": "53971"},
-                    {"hash": "7d391953da5b8104299a88aba71d5f7489870fd42ca394af4385d9c46d246f06", "nome": "João Vitor Oiveira Silva", "inscricao": "40003"},
-                    {"hash": "6b0c24fd3a45f32a8d4a0018c337a107cfbb6a0b67d0bca37821bb9ec16a2ce9", "nome": "Francisco Izaias da Silva", "inscricao": "48041"},
-                    {"hash": "6f0c40831dc894db0397e598db1ae0e083c430c64f606eec5abc481652a1aafc", "nome": "Francisco Vanderleu Dantas Medeiros", "inscricao": "43941"},
-                    {"hash": "0bb8dba1712f50169bb7dc1f12c4753b6ef1c61b8010d0f120a12fd03c4418fb", "nome": "VALÉRIA MARIA DA SILVA COSTA", "inscricao": "51375"},
-                    {"hash": "99c82e5c35a5b8f259a69d7a93907560b0a7095fcd2fda30da7fa5ca8e22eb49", "nome": "FRANCISCO HENDRIU MONTE MARCELLINO", "inscricao": "32972"},
-                    {"hash": "6b1e73ef0fc1a7ba1bf3f0c72fb5757da2be6af0dfb29bfd845b9361d76564e8", "nome": "FRANCISCO GIOVANNI NASCIMENTO DE SOUSA", "inscricao": "33071"},
-                    {"hash": "04d0dd924bb75dc0030b391e63f720712e216472da0c781d61d7a57e9a875b30", "nome": "ALINE LAUREANO WANDERLEY PRATA", "inscricao": "22250"},
-                    {"hash": "fcf7d67fb438e0dbf75613f573412f9365fda379ae8d2254ac1c81c94a31a6ec", "nome": "JULLYANA MOREIRA MOTA", "inscricao": "42913"},
-                    {"hash": "a8f2e6cbfd5329b37b07d42c38af488a22ce5037b15b4c6e0da7297e6a9d7d3d", "nome": "FRANCISCO FELIPE QUEIROGA ALVES", "inscricao": "30825"},
-                    {"hash": "5bcc9e4eaf8a45782e8ef0897626413320af5032efc9765ecf44560ed9c89a68", "nome": "ALINE ARAUJO RODRIGUES", "inscricao": "21270"},
-                    {"hash": "c0a0ed966a3ce93df2c00249298f51c5e1084c153141a4f704e4613d95de85ec", "nome": "BRUNO RAFAEL DOS SANTOS ARAUJO", "inscricao": "21269"},
-                    {"hash": "44b8dadf72a04aebb67313ec1ae930c26e84dfdfbec2dce5c0518dc78a9c24ab", "nome": "LAYON JOSÉ LOPES ALVES", "inscricao": "33332"},
-                    {"hash": "45f84234e2a2ac64082c062c8ef315c1de447771ab761c2b4a6c278d3b61c070", "nome": "JOÃO DANIEL PEREIRA DOS SANTOS", "inscricao": "21890"},
-                    {"hash": "942b08555e97a33afd861c63ed9fce515a45d2f15d5b2911d7df64fe09b26bda", "nome": "RAIFIELLY MENDES DOS SANTOS", "inscricao": "51852"},
-                    {"hash": "f41a27e5cbf9ab525575455cd5eb2c16d1658a5b28c3ff861a181a2b0e61c394", "nome": "SAMUEL HENRIQUE DO NASCIMENTO ROCHA", "inscricao": "15869"},
-                    {"hash": "4b1a6d629f91225688778155e66fbe6b827cbdd00c5b57b90dcc007b65b9f836", "nome": "GEOVANY QUEIROZ DA ROCHA", "inscricao": "45771"},
-                    {"hash": "d416f7799665c909e306ed653c39c2c189ea5fa3da64142aa933dce80e19d207", "nome": "JOÃO VICTOR QUEIROZ NUNES", "inscricao": "50039"},
-                    {"hash": "df2d032cfa07cca69227c23af3596dccdcd7410355f00fde28b4c4343413808c", "nome": "ROSANA DE ASSIS GOMES", "inscricao": "21243"},
-                    {"hash": "d453e33972d3bc48bfcf8ad5a9ed1ee753134d8982ad5b402a6c8b4900d880b3", "nome": "KELLY VITORIA FERREIRA DA SILVA", "inscricao": "21254"},
-                    {"hash": "14ce5edfa5d5f76e2f1f4de4ae5fc6f3c7a6533634f780fb0a11285592233829", "nome": "ISABELLE RAVENA NORONHA DOS SANTOS", "inscricao": "21256"},
-                    {"hash": "6cdcb0bb732552a1c4dca833f3d7c8e3cffaf048fd3b5e7979c27bc8a77a999a", "nome": "JOÃO GUSTAVO RICARTE MOREIRA", "inscricao": "21242"},
-                    {"hash": "d44d315453c268d161e9337387587e56aad3d37c2f26e8922ec8d3b473571960", "nome": "THALES GONÇALVES DE SÁ", "inscricao": "21272"},
-                    {"hash": "ca941d0e11c680b712fdc298b1907c54b1bc543533f681477c8353868e12d14a", "nome": "NICOLAS GABRIEL QUEDIN", "inscricao": "21273"},
-                    {"hash": "1428846f7e4b2935901e035e2bbeec9a0b11784926a25a66598587acc7dff52e", "nome": "RUBENS VICTORINO GOMES FILHO", "inscricao": "21271"},
-                    {"hash": "a2f79b4b8c4a288049bf02fb20963200977c551768c8058f2504f3033f171ca8", "nome": "JOÃO VITORINA QUEIROZ DA ROCHA", "inscricao": "45770"},
-                    {"hash": "a8e1700fbeb3d23b3c5b98f6e9f4823b5ead1392cd092e1df90117e2b60bf497", "nome": "PAULO DORNELLES RODRIGUES FERREIRA", "inscricao": "21276"}
-                ],
-                // Defina aqui o nome do arquivo PDF base. Ajuste conforme necessário.
-                pdfFile: 'cronograma-pc-pm-cbm-ce_5.pdf',
-                // Não precisamos mais de init() para carregar hashes, já que as chaves estão embutidas no código.
-                init() {
-                    // Nenhuma ação específica na inicialização. As chaves já estão disponíveis em `hashData`.
-                },
-                async validateAccess() {
-                    this.error = '';
-                    const email = this.accessEmail.trim().toLowerCase();
-                    const inscricao = this.accessInscricao.trim();
-                    if (!email || !inscricao) {
-                        this.error = 'Por favor, preencha ambos os campos.';
-                        return;
-                    }
-                    this.isLoading = true;
-                    // Calcula o hash usando CryptoJS
-                    const concatenado = email + inscricao;
-                    const hash = CryptoJS.SHA256(concatenado).toString();
-                    // Procura a hash no array carregado
-                    const record = this.hashData.find(entry => entry.hash === hash);
-                    if (!record) {
-                        this.isLoading = false;
-                        this.error = 'Chave de acesso inválida.';
-                        return;
-                    }
-                    // Recupera o nome e o número de inscrição do aluno, se existirem, de forma robusta
-                    let nomeAluno = '';
-                    let inscricaoAluno = '';
-                    if (record) {
-                        // Alguns arquivos podem usar variações de chave; normalizamos aqui
-                        nomeAluno = record.nome || record.Nome || record.name || '';
-                        inscricaoAluno = record.inscricao || record.Inscricao || record.Inscrição || '';
-                    }
-                try {
-                        const { PDFDocument, rgb, StandardFonts } = PDFLib;
-                        // Usa o nome do arquivo definido no componente para carregar o PDF original
-                        // Adicione './' para forçar a busca relativa ao diretório atual.
-                        const pdfPath = `./${this.pdfFile}`;
-                        const existingPdfBytes = await fetch(pdfPath).then(res => {
-                            if (!res.ok) throw new Error('Ficheiro PDF não encontrado.');
-                            return res.arrayBuffer();
-                        });
-                        const pdfDoc = await PDFDocument.load(existingPdfBytes);
-                        const pages = pdfDoc.getPages();
-                        const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-                        // Monta a linha de marca d'água (nome + inscrição), se disponível
-                        let watermark;
-                        if (nomeAluno && nomeAluno.trim().length > 0 && inscricaoAluno && inscricaoAluno.trim().length > 0) {
-                            watermark = `Material de uso exclusivo de ${nomeAluno} - Inscrição: ${inscricaoAluno}`;
-                        } else if (nomeAluno && nomeAluno.trim().length > 0) {
-                            watermark = `Material de uso exclusivo de ${nomeAluno}`;
-                        } else {
-                            watermark = `Material de uso exclusivo`;
-                        }
-                        // Aplica a marca d'água em todas as páginas, posicionada no topo para garantir visibilidade.
-                        pages.forEach(page => {
-                            const { height } = page.getSize();
-                            page.drawText(watermark, {
-                                x: 30,
-                                y: height - 30, // 30 unidades abaixo do topo da página
-                                font: helveticaFont,
-                                size: 14,
-                                // Maior contraste para melhor legibilidade
-                                color: rgb(0.4, 0.4, 0.4),
-                            });
-                        });
-                        // Gera os bytes do PDF modificado
-                        const pdfBytes = await pdfDoc.save();
-                        // Cria um blob e um object URL para o arquivo
-                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-                        const url = URL.createObjectURL(blob);
-                        // Cria um link temporário para download para contornar bloqueios de pop‑up e gerenciadores de downloads.
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.download = `${nomeAluno || 'cronograma'}.pdf`;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    } catch (err) {
-                        console.error(err);
-                        // Mensagem de erro informando o nome do arquivo configurado
-                        this.error = `Erro ao carregar o PDF. Verifique se o ficheiro \"${this.pdfFile}\" está na pasta correta.`;
-                    } finally {
-                        this.isLoading = false;
-                        this.showModal = false;
-                        // Limpa os campos
-                        this.accessEmail = '';
-                        this.accessInscricao = '';
-                    }
-                }
-            }));
+
+        <div class="card p-8 flex flex-col md:flex-row items-center gap-8">
+          <div class="flex-shrink-0">
+            <img class="w-24 h-24" style="color:var(--accent-blue)" src="https://cdn-icons-png.flaticon.com/512/610/610064.png" alt="Alvo" loading="eager"
+                 onerror="(function(el){el.style.display='none';var p=el.parentNode;p.insertAdjacentHTML('beforeend','<svg class=\'w-24 h-24\' aria-hidden=\'true\'><use href=\'assets/icons.svg#icon-target\'></use></svg>');})(this)">
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-2xl font-bold mb-2" style="color:var(--text-light)">Tempos, Metas e Bizus</h2>
+            <p class="mb-4" style="color:var(--text-dark)">Organize seu tempo, defina metas semanais e acesse bizus (dicas rápidas) para acelerar seu estudo.</p>
+            <button @click="openMaterial('tempo')" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Material</button>
+          </div>
+        </div>
+
+        <div class="card p-8 flex flex-col md:flex-row items-center gap-8">
+          <div class="flex-shrink-0">
+            <img class="w-24 h-24" style="color:var(--accent-blue)" src="https://cdn-icons-png.flaticon.com/512/12174/12174680.png" alt="Calendário" loading="eager"
+                 onerror="(function(el){el.style.display='none';var p=el.parentNode;p.insertAdjacentHTML('beforeend','<svg class=\'w-24 h-24\' aria-hidden=\'true\'><use href=\'assets/icons.svg#icon-calendar\'></use></svg>');})(this)">
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-2xl font-bold mb-2" style="color:var(--text-light)">Cronograma - Guarda Civil</h2>
+            <p class="mb-4" style="color:var(--text-dark)">Plano de estudos completo e focado para o concurso da Guarda Civil Municipal.</p>
+            <button @click="openMaterial('guarda_civil')" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Cronograma</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal: começa realmente escondido mesmo sem Tailwind/Alpine -->
+  <div x-show="showModal" x-cloak class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" style="display:none" x-init="$el.style.display=null"
+       x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+       x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+    <div @click.away="/* não fecha clicando fora para forçar validação */" class="rounded-lg shadow-xl p-8 w-full max-w-md" style="background-color:var(--bg-card)">
+      <h3 class="text-2xl font-bold mb-4" style="color:var(--text-light)">Acesso aos Conteúdos</h3>
+      <p class="mb-6" style="color:var(--text-dark)">Para acessar todos os conteúdos, digite seu e‑mail e número de inscrição. A validação é feita na entrada da página.</p>
+      <div class="space-y-4">
+        <input type="email" x-model="accessEmail" placeholder="Digite seu e‑mail"
+               class="w-full p-3 border rounded-md focus:ring-2 focus:ring-accent-pink focus:border-accent-pink transition"
+               style="background-color:var(--bg-dark);border-color:#333;color:var(--text-light)" />
+        <input type="text" x-model="accessInscricao" placeholder="Digite seu número de inscrição"
+               class="w-full p-3 border rounded-md focus:ring-2 focus:ring-accent-pink focus:border-accent-pink transition"
+               style="background-color:var(--bg-dark);border-color:#333;color:var(--text-light)" />
+        <button @click="validateEntry" :disabled="isLoading" class="w-full cta-button font-bold py-3 px-6 rounded-md text-lg inline-flex items-center justify-center disabled:opacity-50">
+          <span x-show="!isLoading">Entrar</span>
+          <span x-show="isLoading" class="flex items-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Validando...
+          </span>
+        </button>
+        <p x-show="error" x-text="error" class="text-red-400 text-sm text-center" x-transition></p>
+        <p class="text-xs text-center" style="color:var(--text-dark)">Se você não possui credenciais, entre em contato com a secretaria.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="border-t border-gray-800 mt-20">
+    <div class="container mx-auto px-6 py-8 text-center">
+      <p class="text-sm" style="color:var(--text-dark)">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
+      <p class="text-sm mt-2">
+        <a href="https://www.instagram.com/aprovacaopsycho/" target="_blank" rel="noopener noreferrer" style="color:var(--text-dark)">
+          <svg class="inline w-4 h-4 mr-2 align-text-bottom" aria-hidden="true"><use xlink:href="assets/icons.svg#icon-instagram"></use></svg>
+          Siga-nos no Instagram: @aprovacaopsycho
+        </a>
+      </p>
+      <p class="text-xs mt-2" style="color:var(--text-dark)">Ícones por Iconic Panda e Vectors Market — <a href="https://www.flaticon.com" target="_blank" rel="noopener" style="color:var(--text-light)">Flaticon</a>. Veja <a href="ATTRIBUTION.md" target="_blank" rel="noopener" style="color:var(--text-light)">atribuição</a>.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu mobile
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuBtn = document.getElementById('mobile-menu-button-entry');
+      const mobileMenu = document.getElementById('mobile-menu-entry');
+      menuBtn && menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+    });
+
+    // TESTES (Smoke tests)
+    (function(){
+      try{
+        // 1) Alpine presente
+        console.assert(!!window.Alpine, 'Alpine não carregou');
+        // 2) x-data montado após load
+        window.addEventListener('load', () => {
+          const hasXData = document.querySelector('[x-data]') !== null;
+          console.assert(hasXData, 'Elemento com x-data não encontrado');
         });
-        // Toggle do menu móvel
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('mobile-menu-button-cronogramas').addEventListener('click', function() {
-                const menu = document.getElementById('mobile-menu-cronogramas');
-                menu.classList.toggle('hidden');
-            });
-        });
-    </script>
+      }catch(e){ console.warn('Smoke tests falharam:', e); }
+    })();
+  </script>
 </body>
 </html>

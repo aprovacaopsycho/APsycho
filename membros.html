@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acesso de Membros — Aprovação Psycho</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-0:#0f0e1a;
+      --bg-1:#151427;
+      --bg-2:#1b1a31;
+      --txt-0:#f7f7fb;
+      --txt-1:#b6b6d1;
+      --txt-2:#8a89a6;
+      --pri:#9f54ff;
+      --pink:#ff00ff;
+      --cyan:#00c2ff;
+    }
+    body{font-family:'Inter',sans-serif;background:var(--bg-0);color:var(--txt-1);margin:0}
+    .card{background:var(--bg-1);border:1px solid rgba(255,255,255,.08);border-radius:1rem;padding:2rem;text-align:center;transition:.25s}
+    .card:hover{transform:translateY(-3px);border-color:var(--pink);box-shadow:0 0 25px rgba(255,0,255,.15)}
+    .btn{display:inline-flex;align-items:center;justify-center;gap:.5rem;font-weight:700;border-radius:.6rem;padding:.7rem 1.4rem;color:white;background:linear-gradient(90deg,var(--pink),var(--cyan));transition:.25s}
+    .btn:hover{transform:scale(1.03)}
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- HEADER -->
+  <header class="sticky top-0 bg-black/40 backdrop-blur-md border-b border-white/10 py-4">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-6">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="logo-principal.png" alt="Logo Aprovação Psycho" class="h-10">
+        <span class="text-white font-black text-lg">APROVAÇÃO <span class="text-[var(--pink)]">PSYCHO</span></span>
+      </a>
+      <nav class="hidden md:flex gap-6 text-sm">
+        <a href="index.html" class="text-[var(--txt-1)] hover:text-white">Início</a>
+        <a href="testes.html" class="text-[var(--txt-1)] hover:text-white">Testes</a>
+        <a href="materiais.html" class="text-[var(--txt-1)] hover:text-white">Materiais</a>
+        <a href="membros.html" class="text-[var(--pink)] font-semibold">Membros</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="text-center py-16 bg-gradient-to-b from-[var(--bg-0)] to-[var(--bg-1)]">
+    <h1 class="text-4xl md:text-6xl font-black text-white">Área de Membros</h1>
+    <p class="mt-3 text-lg text-[var(--txt-1)] max-w-2xl mx-auto">Faça login para acessar o hub de cronogramas, simuladores e materiais exclusivos da mentoria.</p>
+  </section>
+
+  <!-- LOGIN CARD -->
+  <main class="flex-grow flex items-center justify-center px-6 py-16">
+    <div class="card w-full max-w-md">
+      <h2 class="text-2xl font-extrabold text-white mb-2">Login do Membro</h2>
+      <p class="text-[var(--txt-2)] mb-6">Digite seu e-mail e senha cadastrados para continuar.</p>
+      <form id="loginForm" class="space-y-4">
+        <input type="email" id="email" placeholder="E-mail" class="w-full p-3 rounded-md bg-[var(--bg-0)] border border-white/10 text-white placeholder-[var(--txt-2)] focus:outline-none">
+        <input type="password" id="senha" placeholder="Senha" class="w-full p-3 rounded-md bg-[var(--bg-0)] border border-white/10 text-white placeholder-[var(--txt-2)] focus:outline-none">
+        <button type="submit" class="btn w-full justify-center">Entrar</button>
+      </form>
+      <p id="errorMsg" class="text-red-400 text-sm mt-3 hidden">E-mail ou senha incorretos.</p>
+      <button id="openHub" class="mt-6 text-[var(--pink)] underline">Abrir Hub em nova aba</button>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-6 text-center text-[var(--txt-1)]">
+    <p>&copy; <span id="year"></span> Aprovação Psycho — Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    // Utilidades
+    const $ = (id)=>document.getElementById(id);
+    $('year').textContent = new Date().getFullYear();
+
+    // Estado
+    let VALID_HASHES = [];
+
+    // Carrega hashes do arquivo (mesma pasta do membros.html)
+    async function loadHashes(){
+      try{
+        const resp = await fetch('hashes_membros.json', { cache:'no-store' });
+        if(!resp.ok){
+          console.error('Falha ao buscar hashes_membros.json:', resp.status, resp.statusText);
+          throw new Error('Arquivo de hashes não encontrado');
+        }
+        const data = await resp.json();
+        // Aceita diferentes formatos: ["hash1","hash2",...] ou { validHashes:[...] } ou { hashes:[...] }
+        VALID_HASHES = Array.isArray(data) ? data
+          : Array.isArray(data.validHashes) ? data.validHashes
+          : Array.isArray(data.hashes) ? data.hashes
+          : [];
+        if(!VALID_HASHES.length){ throw new Error('Lista de hashes vazia'); }
+      }catch(err){
+        console.error(err);
+        const msg = 'Não foi possível carregar a base de acesso. Verifique se o arquivo "hashes_membros.json" está na mesma pasta e sendo servido por um servidor web (não abrir via file://).';
+        const p = document.createElement('p');
+        p.className = 'mt-3 text-amber-400 text-sm';
+        p.textContent = msg;
+        document.querySelector('.card').appendChild(p);
+      }
+    }
+
+    // SHA-256 (hex) usando Web Crypto API
+    async function sha256Hex(message){
+      const enc = new TextEncoder();
+      const data = enc.encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Validação do formulário
+    const form = $('loginForm');
+    const errorMsg = $('errorMsg');
+    const openHub = $('openHub');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+
+      const email = $('email').value.trim().toLowerCase();
+      const senha = $('senha').value.trim();
+      if(!email || !senha){
+        errorMsg.textContent = 'Preencha e-mail e senha.';
+        errorMsg.classList.remove('hidden');
+        return;
+      }
+
+      if(!VALID_HASHES.length){ await loadHashes(); }
+
+      // Estratégia: hash = SHA256(email + senha)
+      const candidate = await sha256Hex(email + senha);
+      const ok = VALID_HASHES.includes(candidate);
+
+      if(ok){
+        sessionStorage.setItem('memberAuth', 'true');
+        sessionStorage.setItem('memberHash', candidate);
+        window.location.href = 'test_hub.html';
+      }else{
+        errorMsg.textContent = 'E-mail ou senha inválidos.';
+        errorMsg.classList.remove('hidden');
+      }
+    });
+
+    openHub.addEventListener('click', async () => {
+      if(sessionStorage.getItem('memberAuth')){
+        window.open('test_hub.html', '_blank');
+      }else{
+        errorMsg.textContent = 'Faça login primeiro para abrir o hub.';
+        errorMsg.classList.remove('hidden');
+      }
+    });
+
+    // Pré-carrega hashes de forma preguiçosa
+    loadHashes();
+  </script>
+</body>
+</html>
