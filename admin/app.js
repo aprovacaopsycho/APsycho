@@ -1,14 +1,16 @@
-function show(id){ document.getElementById(id).classList.remove('hidden'); }
-function hide(id){ document.getElementById(id).classList.add('hidden'); }
+// ===== Utilidades =====
+const qs = (s)=>document.querySelector(s);
+const showEl = (el)=>el.classList.remove('hidden');
+const hideEl = (el)=>el.classList.add('hidden');
 
 async function sha256Hex(message){
-  const enc = new TextEncoder();
-  const data = enc.encode(message);
+  const data = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+  return Array.from(new Uint8Array(hashBuffer))
+    .map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
+// ===== Gate simples de autenticação =====
 const ADMIN_HASH_LIST_URL = '/admin/_private/hashes_administradores.json';
 
 async function fetchAdminHashes(){
@@ -17,7 +19,7 @@ async function fetchAdminHashes(){
     if(!res.ok) throw new Error('HTTP '+res.status);
     const data = await res.json();
     if(Array.isArray(data)) return data;
-    if(Array.isArray(data.validAdmins)) return data.validAdmins.map(v => v.hash);
+    if(Array.isArray(data.validAdmins)) return data.validAdmins.map(v=>v.hash);
     if(Array.isArray(data.validHashes)) return data.validHashes;
     return [];
   }catch(e){
@@ -27,18 +29,25 @@ async function fetchAdminHashes(){
 }
 
 async function doLogin(){
-  const email = document.getElementById('email').value.trim().toLowerCase();
-  const pass  = document.getElementById('password').value;
-  const msgEl = document.getElementById('gateMsg');
+  const email = qs('#email').value.trim().toLowerCase();
+  const pass  = qs('#password').value;
+  const msgEl = qs('#gateMsg');
   msgEl.textContent = '';
-  if(!email || !pass){ msgEl.textContent = 'Informe e-mail e senha.'; return; }
+  hideEl(msgEl);
+  if(!email || !pass){
+    msgEl.textContent = 'Informe e-mail e senha.';
+    showEl(msgEl);
+    return;
+  }
   const candidate = await sha256Hex(email + pass);
   const list = await fetchAdminHashes();
   if(list.includes(candidate)){
     sessionStorage.setItem('admin_auth_hash', candidate);
-    hide('gate'); show('app');
-  }else{
+    hideEl(qs('#gate'));
+    showEl(qs('#app'));
+  } else {
     msgEl.textContent = 'Credenciais inválidas.';
+    showEl(msgEl);
   }
 }
 
@@ -47,176 +56,176 @@ function doLogout(){
   location.reload();
 }
 
-document.getElementById('loginBtn').addEventListener('click', doLogin);
-document.getElementById('logoutBtn').addEventListener('click', doLogout);
-window.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && document.getElementById('gate') && !document.getElementById('app').classList.contains('hidden')) doLogin(); });
+qs('#loginBtn')?.addEventListener('click', doLogin);
+qs('#logoutBtn')?.addEventListener('click', doLogout);
+window.addEventListener('keydown', (e)=>{
+  if(e.key==='Enter' && qs('#app') && !qs('#app').classList.contains('hidden')) return;
+  if(e.key==='Enter') doLogin();
+});
 
-// ====== Gerador de hashes ======
+// ===== Gerador de hashes =====
 let sheetData = [];
-let detected = { email: null, inscricao: null, senha: null, combined: null };
+let detected = { email:null, inscricao:null, senha:null, combined:null };
 let mergedHashes = [];
 
-const fileSheet = document.getElementById('file-sheet');
-const fileJSON  = document.getElementById('file-json');
-const summary   = document.getElementById('summary');
-const columnsDiv= document.getElementById('columns');
-const preview   = document.getElementById('preview');
-const generateBtn = document.getElementById('generate');
-const downloadBtn = document.getElementById('download');
-const modeSelect  = document.getElementById('mode');
+const fileSheet = qs('#file-sheet');
+const fileJSON  = qs('#file-json');
+const summary   = qs('#summary');
+const columnsDiv= qs('#columns');
+const preview   = qs('#preview');
+const generateBtn = qs('#generate');
+const downloadBtn = qs('#download');
+const modeSelect  = qs('#mode');
 
-fileSheet?.addEventListener('change', async (ev) => {
+document.querySelector("label[for='file-sheet']")?.addEventListener('click',()=>fileSheet.click());
+document.querySelector("label[for='file-json']")?.addEventListener('click',()=>fileJSON.click());
+
+fileSheet?.addEventListener('change', async (ev)=>{
   const f = ev.target.files[0];
   if(!f) return;
   summary.textContent = 'Carregando...';
   sheetData = [];
   try{
-    const arrayBuffer = await f.arrayBuffer();
-    const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-    const firstSheetName = workbook.SheetNames[0];
-    const ws = workbook.Sheets[firstSheetName];
-    const json = XLSX.utils.sheet_to_json(ws, { defval: '' });
+    const buf = await f.arrayBuffer();
+    const wb = XLSX.read(buf, { type:'array' });
+    const ws = wb.Sheets[wb.SheetNames[0]];
+    const json = XLSX.utils.sheet_to_json(ws, { defval:'' });
     sheetData = json;
     summary.textContent = `Linhas lidas: ${json.length}`;
     detectColumns(json);
   }catch(e){
     console.error(e);
-    summary.textContent = 'Falha ao ler a planilha: ' + e.message;
+    summary.textContent = 'Falha ao ler a planilha: '+e.message;
   }
 });
 
-fileJSON?.addEventListener('change', async (ev) => {
+fileJSON?.addEventListener('change', async (ev)=>{
   const f = ev.target.files[0];
   if(!f) return;
   try{
     const text = await f.text();
     const data = JSON.parse(text);
     if(Array.isArray(data)) mergedHashes = data.slice();
-    else if (Array.isArray(data.validHashes)) mergedHashes = data.validHashes.slice();
+    else if(Array.isArray(data.validHashes)) mergedHashes = data.validHashes.slice();
     else mergedHashes = [];
     summary.textContent = `JSON carregado: ${mergedHashes.length} hashes`;
   }catch(e){
     console.error(e);
-    summary.textContent = 'Falha ao ler JSON: ' + e.message;
+    summary.textContent = 'Falha ao ler JSON: '+e.message;
   }
 });
 
 function detectColumns(json){
-  detected = { email: null, inscricao: null, senha: null, combined: null };
-  if(!json || json.length===0){ columnsDiv.innerHTML='—'; return; }
+  detected = { email:null, inscricao:null, senha:null, combined:null };
+  if(!json || !json.length){ columnsDiv.innerHTML = '—'; return; }
   const keys = Object.keys(json[0]);
   for(const k of keys){
-    const lower = k.toLowerCase();
-    if(!detected.email && lower.includes('email')) detected.email = k;
-    if(!detected.inscricao && (lower.includes('inscr') || lower.includes('inscrição') || lower.includes('inscricao'))) detected.inscricao = k;
-    if(!detected.senha && lower.includes('senha')) detected.senha = k;
-  }
-  for(const k of keys){
-    const lower = k.toLowerCase();
-    if(!detected.inscricao && (lower.includes('id') || lower.includes('matricula') || lower.includes('número') || lower.includes('numero'))) detected.inscricao = k;
+    const l = k.toLowerCase();
+    if(!detected.email && l.includes('email')) detected.email = k;
+    if(!detected.inscricao && (l.includes('inscr')||l.includes('inscrição')||l.includes('matricula')||l.includes('id'))) detected.inscricao = k;
+    if(!detected.senha && l.includes('senha')) detected.senha = k;
   }
   columnsDiv.innerHTML = '';
   for(const k of keys){
     const row = document.createElement('div');
-    row.className = 'flex gap-2 items-center mb-1.5';
-    const label = document.createElement('div'); label.textContent = k; label.className = 'flex-1';
+    row.className = 'row';
+    const label = document.createElement('div');
+    label.textContent = k;
+    label.style.flex='1';
     const select = document.createElement('select');
-    select.className = 'bg-transparent border border-[color:var(--stroke)] text-[color:#e6eef6] px-2 py-1 rounded-md';
-    select.innerHTML = `<option value="">-- ignorar --</option><option value="email">email</option><option value="inscricao">inscricao</option><option value="senha">senha</option><option value="combined">email + inscrição (coluna única)</option>`;
-    select.value = (detected.email===k? 'email' : (detected.inscricao===k? 'inscricao' : (detected.senha===k? 'senha' : '')));
-    select.addEventListener('change', ()=>{
-      const val = select.value;
+    select.innerHTML = `<option value=\"\">-- ignorar --</option><option value=\"email\">email</option><option value=\"inscricao\">inscricao</option><option value=\"senha\">senha</option>`;
+    select.value = (detected.email===k?'email':(detected.inscricao===k?'inscricao':(detected.senha===k?'senha':'')));
+    select.addEventListener('change',()=>{
       for(const key in detected) if(detected[key]===k) detected[key]=null;
-      if(val) detected[val]=k;
+      if(select.value) detected[select.value]=k;
     });
-    row.appendChild(label); row.appendChild(select); columnsDiv.appendChild(row);
+    row.appendChild(label);
+    row.appendChild(select);
+    columnsDiv.appendChild(row);
   }
 }
 
 generateBtn?.addEventListener('click', async ()=>{
-  if(!sheetData || sheetData.length===0){ alert('Carregue uma planilha primeiro.'); return; }
+  if(!sheetData.length){ alert('Carregue uma planilha primeiro.'); return; }
   const mode = modeSelect.value;
   const emailCol = detected.email;
   const inscrCol = detected.inscricao;
   const senhaCol = detected.senha;
-  const combinedCol = detected.combined || null;
-  if(!emailCol && !combinedCol){ alert('Não foi possível detectar a coluna de e-mail.'); return; }
-  if(mode==='inscricao' && !inscrCol && !combinedCol){ alert('Modo email+inscrição selecionado, mas falta a coluna.'); return; }
-  if(mode==='senha' && !senhaCol){ alert('Modo email+senha selecionado, mas falta a coluna.'); return; }
+  if(!emailCol){ alert('Não foi possível detectar a coluna de e-mail.'); return; }
+  if(mode==='inscricao' && !inscrCol){ alert('Selecione a coluna de inscrição.'); return; }
+  if(mode==='senha' && !senhaCol){ alert('Selecione a coluna de senha.'); return; }
 
   summary.textContent = 'Gerando hashes...';
   const hashes = [];
   for(let i=0;i<sheetData.length;i++){
     const row = sheetData[i];
-    let email = '';
-    let keyPart = '';
-    if(combinedCol){
-      const raw = String(row[combinedCol] || '').trim();
-      if(!raw) continue;
-      let parts = raw.split(/[,;|\t]+/).map(s=>s.trim()).filter(Boolean);
-      if(parts.length < 2){ parts = raw.split(/\s+/).map(s=>s.trim()).filter(Boolean); }
-      email = (parts[0] || '').toLowerCase();
-      keyPart = (parts[1] || '').toString();
-    } else {
-      email = String(row[emailCol] || '').trim().toLowerCase();
-      keyPart = mode==='inscricao' ? String(row[inscrCol] || '').trim() : String(row[senhaCol] || '').trim();
-    }
+    const email = String(row[emailCol]||'').trim().toLowerCase();
+    const keyPart = mode==='inscricao' ? String(row[inscrCol]||'').trim() : String(row[senhaCol]||'').trim();
     if(!email || !keyPart) continue;
     const h = await sha256Hex(email + keyPart);
     hashes.push(h);
-    if(i%200===0) await new Promise(r=>setTimeout(r,0));
+    if(i%250===0) await new Promise(r=>setTimeout(r,0));
   }
-
   const combined = Array.from(new Set([...(mergedHashes||[]), ...hashes]));
   mergedHashes = combined;
-
-  preview.textContent = combined.slice(0,20).map((h,i)=>`${i+1}. ${h}`).join('\n') || '—';
+  preview.textContent = combined.slice(0,20).map((h,i)=>`${i+1}. ${h}`).join('\\n') || '—';
   summary.textContent = `Hashes gerados: ${hashes.length} (total após mesclagem: ${combined.length})`;
-  downloadBtn.classList.remove('hidden');
+  showEl(downloadBtn);
 });
 
 downloadBtn?.addEventListener('click', ()=>{
-  const blob = new Blob([JSON.stringify(mergedHashes, null, 2)], {type:'application/json'});
+  const blob = new Blob([JSON.stringify(mergedHashes,null,2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = 'hashes_membros.json'; document.body.appendChild(a); a.click(); a.remove();
+  a.href = url;
+  a.download = 'hashes_membros.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
   URL.revokeObjectURL(url);
 });
-async function pushHashesToServer(merged) {
-  const apiUrl = document.getElementById('api-url').value.trim();
-  const apiKey = document.getElementById('api-key').value.trim();
-  if (!apiUrl || !apiKey) {
-    alert('Preencha o endpoint do Worker (API URL) e a Admin API Key.');
+
+// ===== Envio seguro ao GitHub (via Worker) =====
+async function pushHashesToServer(){
+  const apiUrl = qs('#api-url').value.trim();
+  const apiKey = qs('#api-key').value.trim();
+  const msgEl = qs('#remoteMsg');
+  msgEl.className='alert';
+  msgEl.textContent='';
+  hideEl(msgEl);
+
+  if(!apiUrl || !apiKey){
+    msgEl.textContent='Preencha API URL e Admin API Key.';
+    msgEl.classList.add('bad');
+    showEl(msgEl);
     return;
   }
-  if (!Array.isArray(merged) || merged.length === 0) {
-    alert('Gere os hashes primeiro.');
+  if(!Array.isArray(mergedHashes) || !mergedHashes.length){
+    msgEl.textContent='Gere hashes primeiro.';
+    msgEl.classList.add('bad');
+    showEl(msgEl);
     return;
   }
-  // apenas hashes válidos (64 hex)
-  const onlyHex = merged.filter(h => /^[a-f0-9]{64}$/.test(h));
-  if (onlyHex.length === 0) {
-    alert('Nenhum hash válido para enviar.');
-    return;
-  }
-  try {
+
+  const onlyHex = mergedHashes.filter(h=>/^[a-f0-9]{64}$/.test(h));
+  try{
     const res = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+apiKey
       },
       body: JSON.stringify({ hashes: onlyHex })
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const data = await res.json();
-    alert(`OK ✅ PR #${data.pr_number || '?'} criado: adicionados ${data.added} novos hashes (total servidor: ${data.total}).`);
-  } catch (e) {
-    console.error(e);
-    alert('Falha ao enviar hashes: ' + e.message);
+    const data = await res.json().catch(()=>({}));
+    if(!res.ok){ throw new Error((data && data.error) || ('HTTP '+res.status)); }
+    msgEl.textContent = `OK ✅ PR #${data.pr_number || '?'} criado. Novos: ${data.added}. Total: ${data.total}.`;
+    msgEl.classList.add('ok');
+    showEl(msgEl);
+  }catch(e){
+    msgEl.textContent = 'Falha ao enviar: '+e.message;
+    msgEl.classList.add('bad');
+    showEl(msgEl);
   }
 }
-
-document.getElementById('pushRemote')?.addEventListener('click', ()=>{
-  pushHashesToServer(mergedHashes);
-});
+qs('#pushRemote')?.addEventListener('click', pushHashesToServer);
