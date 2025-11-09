@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Gerar Hashes de Membros (Protegido)</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <!-- CSP básica; ideal aplicar por cabeçalho no Cloudflare -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 script-src 'self' https://cdn.tailwindcss.com;
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                 font-src 'self' https://fonts.gstatic.com;
+                 img-src 'self' data:;
+                 connect-src 'self';
+                 frame-ancestors 'none';
+                 base-uri 'none';
+                 form-action 'self'">
+  <link rel="icon" type="image/png" href="/admin/logo-principal.png">
+  <script src="https://cdn.tailwindcss.com" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script src="/assets/xlsx.full.min.js" defer></script>
+  <style>
+    :root{--bg1:#05060a;--bg2:#0b0f14;--muted:#9aa6b2;--card:rgba(255,255,255,0.03);--stroke:rgba(255,255,255,0.06);--brand:#1f6feb}
+    body{font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef6;margin:0}
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+    .card{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--stroke)}
+    .muted{color:var(--muted)} input[type=file]{color:transparent}
+    .btn{background:var(--brand);color:#fff;padding:10px 14px;border-radius:10px;border:0;font-weight:700}
+    .ghost{background:transparent;border:1px solid var(--stroke)}
+    pre{white-space:pre-wrap;color:#cfe8ff} .hidden{display:none}
+  </style>
+</head>
+<body>
+  <!-- Gate -->
+  <div id="gate" class="min-h-screen flex items-center justify-center">
+    <div class="card w-[min(92%,420px)]">
+      <div class="flex items-center gap-3 mb-4">
+        <img src="/admin/logo-principal.png" alt="logo" class="h-10 object-contain">
+        <div>
+          <h1 class="text-lg font-bold m-0">Área Restrita — Administração</h1>
+          <p class="muted m-0">Acesse com seu e-mail e senha de administrador.</p>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <label class="block">
+          <span class="muted text-sm">E-mail</span>
+          <input id="email" type="email" class="w-full mt-1 bg-transparent border border-[color:var(--stroke)] rounded-lg p-2" placeholder="admin@seudominio.com" autocomplete="username">
+        </label>
+        <label class="block">
+          <span class="muted text-sm">Senha</span>
+          <input id="password" type="password" class="w-full mt-1 bg-transparent border border-[color:var(--stroke)] rounded-lg p-2" placeholder="••••••••" autocomplete="current-password">
+        </label>
+        <button id="loginBtn" class="btn w-full">Entrar</button>
+        <p id="gateMsg" class="text-sm text-red-300"></p>
+        <p class="muted text-xs">
+          Dica: o hash é <code>SHA-256(email + senha)</code>.
+          O arquivo permitido deve estar em <code>/admin/_private/hashes_administradores.json</code>.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App -->
+  <div id="app" class="container hidden">
+    <header class="flex items-center gap-3 mb-3">
+      <img src="/admin/logo-principal.png" alt="logo" class="h-12 object-contain">
+      <div class="flex-1">
+        <h2 class="text-xl font-bold m-0">Admin — Gerar Hashes de Membros</h2>
+        <p class="muted m-0">Importe planilha (.xlsx/.xls/.csv), gere hashes e baixe/atualize o JSON.</p>
+      </div>
+      <button id="logoutBtn" class="ghost rounded-lg px-3 py-2">Sair</button>
+    </header>
+
+    <div class="card">
+      <div class="flex gap-3 flex-wrap">
+        <label class="ghost px-3 py-2 cursor-pointer">
+          Importar planilha
+          <input id="file-sheet" type="file" accept=".xlsx,.xls,.csv" class="hidden">
+        </label>
+        <label class="ghost px-3 py-2 cursor-pointer">
+          Importar JSON existente (opcional)
+          <input id="file-json" type="file" accept="application/json" class="hidden">
+        </label>
+        <div class="flex items-center gap-2">
+          <label class="muted" for="mode">Modo</label>
+          <select id="mode" class="bg-transparent border border-[color:var(--stroke)] text-[color:#e6eef6] px-2 py-1 rounded-md">
+            <option value="inscricao">email + inscrição (padrão)</option>
+            <option value="senha">email + senha</option>
+          </select>
+        </div>
+        <button id="generate" class="btn">Gerar hashes</button>
+        <button id="download" class="btn hidden">Baixar JSON</button>
+      </div>
+
+      <hr class="my-3 border-[color:rgba(255,255,255,0.04)]">
+
+      <div class="flex gap-3 flex-wrap">
+        <div class="flex-1 min-w-[280px]">
+          <h3 class="m-0 mb-2 font-semibold">Resumo</h3>
+          <p class="muted" id="summary">Nenhuma planilha carregada.</p>
+          <p class="muted">Mapeamento de colunas detectadas (ajuste se necessário):</p>
+          <div id="columns" class="mt-2"></div>
+        </div>
+        <div class="flex-1 min-w-[300px]">
+          <h3 class="m-0 mb-2 font-semibold">Preview (primeiros 20 hashes)</h3>
+          <pre id="preview">—</pre>
+        </div>
+      </div>
+      <p class="muted mt-3">Ao clicar em <strong>Baixar JSON</strong> você obterá um arquivo que pode substituir/mesclar com <code>hashes_membros.json</code> no repositório.</p>
+    </div>
+  </div>
+
+  <!-- JS externo (evita inline bloqueado pela CSP) -->
+  <script src="/admin/app.js" defer></script>
+</body>
+</html>

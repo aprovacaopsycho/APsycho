@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Admin — Gerar Hashes de Membros</title>
+  <title>Admin — Gerar Hashes de Membros (Protegido)</title>
+  <meta name="robots" content="noindex,nofollow" />
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="https://cdn.tailwindcss.com" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,94 +13,190 @@
   <!-- SheetJS para ler XLSX no navegador -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
   <style>
-    body{font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,#05060a,#0b0f14);color:#e6eef6;margin:0}
+    :root{--bg1:#05060a;--bg2:#0b0f14;--muted:#9aa6b2;--card:rgba(255,255,255,0.03);--stroke:rgba(255,255,255,0.06);--brand:#1f6feb}
+    body{font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef6;margin:0}
     .container{max-width:1100px;margin:28px auto;padding:20px}
-    .card{background:rgba(255,255,255,0.03);border-radius:10px;padding:18px;border:1px solid rgba(255,255,255,0.03)}
-    .muted{color:#9aa6b2}
+    .card{background:var(--card);border-radius:12px;padding:18px;border:1px solid var(--stroke)}
+    .muted{color:var(--muted)}
     input[type=file]{color:transparent}
-    .btn{background:#1f6feb;color:#fff;padding:8px 12px;border-radius:8px;border:0;font-weight:700}
-    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    .btn{background:var(--brand);color:#fff;padding:10px 14px;border-radius:10px;border:0;font-weight:700}
+    .ghost{background:transparent;border:1px solid var(--stroke)}
     pre{white-space:pre-wrap;color:#cfe8ff}
+    .hidden{display:none}
   </style>
 </head>
 <body>
-  <div class="container">
-    <header style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-      <img src="logo-principal.png" alt="logo" style="height:48px;object-fit:contain">
-      <div>
-        <h1 style="margin:0;font-size:20px">Admin — Gerar Hashes de Membros</h1>
-        <p class="muted" style="margin:4px 0 0">Importe uma planilha (.xlsx/.xls/.csv) contendo e‑mail e inscrição ou senha, gere SHA‑256(email+inscricao) e baixe o arquivo JSON.</p>
+  <!-- Gate de autenticação -->
+  <div id="gate" class="min-h-screen flex items-center justify-center">
+    <div class="card w-[min(92%,420px)]">
+      <div class="flex items-center gap-3 mb-4">
+        <img src="logo-principal.png" alt="logo" class="h-10 object-contain">
+        <div>
+          <h1 class="text-lg font-bold m-0">Área Restrita — Administração</h1>
+          <p class="muted m-0">Acesse com seu e‑mail e senha de administrador.</p>
+        </div>
       </div>
+
+      <div class="space-y-3">
+        <label class="block">
+          <span class="muted text-sm">E‑mail</span>
+          <input id="email" type="email" class="w-full mt-1 bg-transparent border border-[color:var(--stroke)] rounded-lg p-2" placeholder="admin@seudominio.com" autocomplete="username">
+        </label>
+        <label class="block">
+          <span class="muted text-sm">Senha</span>
+          <input id="password" type="password" class="w-full mt-1 bg-transparent border border-[color:var(--stroke)] rounded-lg p-2" placeholder="••••••••" autocomplete="current-password">
+        </label>
+        <button id="loginBtn" class="btn w-full">Entrar</button>
+        <p id="gateMsg" class="text-sm text-red-300"></p>
+        <p class="muted text-xs">Dica: o hash é calculado como <code>SHA‑256(email + senha)</code>. O arquivo permitido deve estar em <code>hashes_administradores.json</code>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- App protegido -->
+  <div id="app" class="container hidden">
+    <header class="flex items-center gap-3 mb-3">
+      <img src="logo-principal.png" alt="logo" class="h-12 object-contain">
+      <div class="flex-1">
+        <h2 class="text-xl font-bold m-0">Admin — Gerar Hashes de Membros</h2>
+        <p class="muted m-0">Importe planilha (.xlsx/.xls/.csv) com e‑mail e inscrição/senha, gere <span class="font-semibold">SHA‑256(email+inscrição)</span> ou <span class="font-semibold">SHA‑256(email+senha)</span> e baixe o JSON para os alunos.</p>
+      </div>
+      <button id="logoutBtn" class="ghost rounded-lg px-3 py-2">Sair</button>
     </header>
 
     <div class="card">
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <label class="ghost" style="padding:8px 12px;cursor:pointer">
+      <div class="flex gap-3 flex-wrap">
+        <label class="ghost px-3 py-2 cursor-pointer">
           Importar planilha
-          <input id="file-sheet" type="file" accept=".xlsx,.xls,.csv" style="display:none">
+          <input id="file-sheet" type="file" accept=".xlsx,.xls,.csv" class="hidden">
         </label>
 
-        <label class="ghost" style="padding:8px 12px;cursor:pointer">
+        <label class="ghost px-3 py-2 cursor-pointer">
           Importar JSON existente (opcional)
-          <input id="file-json" type="file" accept="application/json" style="display:none">
+          <input id="file-json" type="file" accept="application/json" class="hidden">
         </label>
 
-        <div style="display:flex;align-items:center;gap:8px">
+        <div class="flex items-center gap-2">
           <label class="muted" for="mode">Modo</label>
-          <select id="mode" style="background:transparent;border:1px solid #333;color:#e6eef6;padding:6px;border-radius:6px">
+          <select id="mode" class="bg-transparent border border-[color:var(--stroke)] text-[color:#e6eef6] px-2 py-1 rounded-md">
             <option value="inscricao">email + inscrição (padrão)</option>
             <option value="senha">email + senha</option>
           </select>
         </div>
 
         <button id="generate" class="btn">Gerar hashes</button>
-        <button id="download" class="btn" style="display:none">Baixar JSON</button>
+        <button id="download" class="btn hidden">Baixar JSON</button>
       </div>
 
-      <hr style="margin:14px 0;border-color:rgba(255,255,255,0.04)">
+      <hr class="my-3 border-[color:rgba(255,255,255,0.04)]">
 
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <div style="flex:1;min-width:280px">
-          <h3 style="margin:0 0 8px 0">Resumo</h3>
+      <div class="flex gap-3 flex-wrap">
+        <div class="flex-1 min-w-[280px]">
+          <h3 class="m-0 mb-2 font-semibold">Resumo</h3>
           <p class="muted" id="summary">Nenhuma planilha carregada.</p>
-          <p class="muted">Mapeamento de colunas detectadas (você pode ajustar depois):</p>
-          <div id="columns" style="margin-top:8px"></div>
+          <p class="muted">Mapeamento de colunas detectadas (ajuste se necessário):</p>
+          <div id="columns" class="mt-2"></div>
         </div>
 
-        <div style="flex:1;min-width:300px">
-          <h3 style="margin:0 0 8px 0">Preview (primeiros 20 hashes)</h3>
+        <div class="flex-1 min-w-[300px]">
+          <h3 class="m-0 mb-2 font-semibold">Preview (primeiros 20 hashes)</h3>
           <pre id="preview">—</pre>
         </div>
       </div>
-      <p class="muted" style="margin-top:12px">Ao clicar em <strong>Baixar JSON</strong> você obterá um arquivo que pode substituir ou mesclar com `hashes_membros.json` no repositório. Para uso em produção, prefira gerar esses arquivos no servidor.</p>
+      <p class="muted mt-3">Ao clicar em <strong>Baixar JSON</strong> você obterá um arquivo que pode substituir/mesclar com <code>hashes_membros.json</code> no repositório.</p>
     </div>
   </div>
 
   <script>
-    // Admin client-side: lê XLSX/CSV, gera SHA-256(email + inscricao|senha) e permite download de JSON
+    // ===== Utilidades =====
+    function show(id){ document.getElementById(id).classList.remove('hidden'); }
+    function hide(id){ document.getElementById(id).classList.add('hidden'); }
+
+    async function sha256Hex(message){
+      const enc = new TextEncoder();
+      const data = enc.encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+    }
+
+    // ===== Gate simples de autenticação no front =====
+    const ADMIN_HASH_LIST_URL = 'hashes_administradores.json'; // ajuste o caminho se necessário
+
+    async function fetchAdminHashes(){
+      try{
+        const res = await fetch(ADMIN_HASH_LIST_URL, { cache: 'no-store' });
+        if(!res.ok) throw new Error('HTTP '+res.status);
+        const data = await res.json();
+        if(Array.isArray(data)) return data; // formato simples ["hash1","hash2"]
+        if(Array.isArray(data.validAdmins)) return data.validAdmins.map(v => v.hash);
+        if(Array.isArray(data.validHashes)) return data.validHashes; // compat.
+        return [];
+      }catch(e){
+        console.error('Falha ao carregar lista de admins:', e);
+        return [];
+      }
+    }
+
+    async function tryAutoLogin(){
+      const saved = localStorage.getItem('admin_auth_hash');
+      if(!saved) return false;
+      const list = await fetchAdminHashes();
+      const ok = list.includes(saved);
+      if(ok){ hide('gate'); show('app'); }
+      return ok;
+    }
+
+    async function doLogin(){
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const pass  = document.getElementById('password').value;
+      const msgEl = document.getElementById('gateMsg');
+      msgEl.textContent = '';
+      if(!email || !pass){ msgEl.textContent = 'Informe e‑mail e senha.'; return; }
+      const candidate = await sha256Hex(email + pass);
+      const list = await fetchAdminHashes();
+      if(list.includes(candidate)){
+        localStorage.setItem('admin_auth_hash', candidate);
+        hide('gate'); show('app');
+      }else{
+        msgEl.textContent = 'Credenciais inválidas.';
+      }
+    }
+
+    function doLogout(){
+      localStorage.removeItem('admin_auth_hash');
+      location.reload();
+    }
+
+    document.getElementById('loginBtn').addEventListener('click', doLogin);
+    document.getElementById('logoutBtn').addEventListener('click', doLogout);
+    window.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && !document.getElementById('app').classList.contains('hidden')) return; if(e.key==='Enter') doLogin(); });
+
+    // Tenta SSO local por hash salvo
+    tryAutoLogin();
+
+    // ====== App original (gerador de hashes para alunos) ======
     let sheetData = [];
-    let detected = { email: null, inscricao: null, senha: null };
+    let detected = { email: null, inscricao: null, senha: null, combined: null };
     let mergedHashes = [];
 
     const fileSheet = document.getElementById('file-sheet');
-    const fileJSON = document.getElementById('file-json');
-    const summary = document.getElementById('summary');
-    const columnsDiv = document.getElementById('columns');
-    const preview = document.getElementById('preview');
+    const fileJSON  = document.getElementById('file-json');
+    const summary   = document.getElementById('summary');
+    const columnsDiv= document.getElementById('columns');
+    const preview   = document.getElementById('preview');
     const generateBtn = document.getElementById('generate');
     const downloadBtn = document.getElementById('download');
-    const modeSelect = document.getElementById('mode');
+    const modeSelect  = document.getElementById('mode');
 
-    fileSheet.addEventListener('change', async (ev) => {
+    fileSheet?.addEventListener('change', async (ev) => {
       const f = ev.target.files[0];
       if(!f) return;
       summary.textContent = 'Carregando...';
       sheetData = [];
       try{
         const arrayBuffer = await f.arrayBuffer();
-        let workbook;
-        // tenta ler como xlsx/xls; se CSV, SheetJS irá parsear também
-        workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
         const firstSheetName = workbook.SheetNames[0];
         const ws = workbook.Sheets[firstSheetName];
         const json = XLSX.utils.sheet_to_json(ws, { defval: '' });
@@ -112,7 +209,7 @@
       }
     });
 
-    fileJSON.addEventListener('change', async (ev) => {
+    fileJSON?.addEventListener('change', async (ev) => {
       const f = ev.target.files[0];
       if(!f) return;
       try{
@@ -129,33 +226,30 @@
     });
 
     function detectColumns(json){
-      detected = { email: null, inscricao: null, senha: null };
+      detected = { email: null, inscricao: null, senha: null, combined: null };
       if(!json || json.length===0){ columnsDiv.innerHTML='—'; return; }
       const keys = Object.keys(json[0]);
-      // tenta detectar por nomes de colunas
       for(const k of keys){
         const lower = k.toLowerCase();
         if(!detected.email && lower.includes('email')) detected.email = k;
         if(!detected.inscricao && (lower.includes('inscr') || lower.includes('inscrição') || lower.includes('inscricao'))) detected.inscricao = k;
         if(!detected.senha && lower.includes('senha')) detected.senha = k;
       }
-      // se não encontrar inscrição, tenta 'id' ou 'matricula'
       for(const k of keys){
         const lower = k.toLowerCase();
         if(!detected.inscricao && (lower.includes('id') || lower.includes('matricula') || lower.includes('número') || lower.includes('numero'))) detected.inscricao = k;
       }
-      // render mapping with ability to change
       columnsDiv.innerHTML = '';
       for(const k of keys){
         const row = document.createElement('div');
-        row.style.display='flex'; row.style.gap='8px'; row.style.alignItems='center'; row.style.marginBottom='6px';
-        const label = document.createElement('div'); label.textContent = k; label.style.flex='1';
+        row.className = 'flex gap-2 items-center mb-1.5';
+        const label = document.createElement('div'); label.textContent = k; label.className = 'flex-1';
         const select = document.createElement('select');
-  select.innerHTML = `<option value="">-- ignorar --</option><option value="email">email</option><option value="inscricao">inscricao</option><option value="senha">senha</option><option value="combined">email + inscrição (coluna única)</option>`;
+        select.className = 'bg-transparent border border-[color:var(--stroke)] text-[color:#e6eef6] px-2 py-1 rounded-md';
+        select.innerHTML = `<option value="">-- ignorar --</option><option value="email">email</option><option value="inscricao">inscricao</option><option value="senha">senha</option><option value="combined">email + inscrição (coluna única)</option>`;
         select.value = (detected.email===k? 'email' : (detected.inscricao===k? 'inscricao' : (detected.senha===k? 'senha' : '')));
         select.addEventListener('change', ()=>{
           const val = select.value;
-          // clear existing mapping for that val
           for(const key in detected) if(detected[key]===k) detected[key]=null;
           if(val) detected[val]=k;
         });
@@ -163,30 +257,19 @@
       }
     }
 
-    async function sha256Hex(message){
-      const enc = new TextEncoder();
-      const data = enc.encode(message);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
-    }
-
-    generateBtn.addEventListener('click', async ()=>{
+    generateBtn?.addEventListener('click', async ()=>{
       if(!sheetData || sheetData.length===0){ alert('Carregue uma planilha primeiro.'); return; }
-      const mode = modeSelect.value; // 'inscricao' or 'senha'
-      // determine which column to use
+      const mode = modeSelect.value;
       const emailCol = detected.email;
       const inscrCol = detected.inscricao;
       const senhaCol = detected.senha;
-  // suporta coluna combinada (email + inscricao) caso o usuário tenha tudo em uma célula
-  const combinedCol = detected.combined || null;
-  if(!emailCol && !combinedCol){ alert('Não foi possível detectar a coluna de e‑mail. Ajuste o mapeamento manualmente.'); return; }
-  if(mode==='inscricao' && !inscrCol && !combinedCol){ alert('Modo email+inscrição selecionado, mas não foi detectada coluna de inscrição. Ajuste o mapeamento (ou marque a coluna combinada).'); return; }
-  if(mode==='senha' && !senhaCol){ alert('Modo email+senha selecionado, mas não foi detectada coluna de senha. Ajuste o mapeamento.'); return; }
+      const combinedCol = detected.combined || null;
+      if(!emailCol && !combinedCol){ alert('Não foi possível detectar a coluna de e‑mail. Ajuste o mapeamento.'); return; }
+      if(mode==='inscricao' && !inscrCol && !combinedCol){ alert('Modo email+inscrição selecionado, mas não foi detectada coluna de inscrição.'); return; }
+      if(mode==='senha' && !senhaCol){ alert('Modo email+senha selecionado, mas não foi detectada coluna de senha.'); return; }
 
       summary.textContent = 'Gerando hashes...';
       const hashes = [];
-      // itera sobre linhas
       for(let i=0;i<sheetData.length;i++){
         const row = sheetData[i];
         let email = '';
@@ -194,12 +277,8 @@
         if(combinedCol){
           const raw = String(row[combinedCol] || '').trim();
           if(!raw) continue;
-          // tenta separar por vírgula, ponto-e-vírgula, pipe ou espaço sequencial
           let parts = raw.split(/[,;|\t]+/).map(s=>s.trim()).filter(Boolean);
-          if(parts.length < 2){
-            // fallback: split por espaço (último token é inscricao)
-            parts = raw.split(/\s+/).map(s=>s.trim()).filter(Boolean);
-          }
+          if(parts.length < 2){ parts = raw.split(/\s+/).map(s=>s.trim()).filter(Boolean); }
           email = (parts[0] || '').toLowerCase();
           keyPart = (parts[1] || '').toString();
         } else {
@@ -209,20 +288,18 @@
         if(!email || !keyPart) continue;
         const h = await sha256Hex(email + keyPart);
         hashes.push(h);
-        // pequena batch yield para não travar UI se muitas linhas
         if(i%200===0) await new Promise(r=>setTimeout(r,0));
       }
 
-      // merge with existing loaded JSON (if any)
       const combined = Array.from(new Set([...(mergedHashes||[]), ...hashes]));
       mergedHashes = combined;
 
       preview.textContent = combined.slice(0,20).map((h,i)=>`${i+1}. ${h}`).join('\n') || '—';
       summary.textContent = `Hashes gerados: ${hashes.length} (total após mesclagem: ${combined.length})`;
-      downloadBtn.style.display = 'inline-block';
+      downloadBtn.classList.remove('hidden');
     });
 
-    downloadBtn.addEventListener('click', ()=>{
+    downloadBtn?.addEventListener('click', ()=>{
       const blob = new Blob([JSON.stringify(mergedHashes, null, 2)], {type:'application/json'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
