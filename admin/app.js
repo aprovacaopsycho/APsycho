@@ -6,41 +6,71 @@ const hideEl = (el)=>el.classList.add('hidden');
 async function sha256Hex(message){
   const data = new TextEncoder().encode(message);
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map(b=>b.toString(16).padStart(2,'0')).join('');
+  return Array.from(new Uint8Array(hashBuffer)).map(b=>b.toString(16).padStart(2,'0')).join('');
 }
 
-// ===== Gate simples de autenticação =====
-const ADMIN_HASH_LIST_URL = '/admin/_private/hashes_administradores.json';
+// ===== Caminhos possíveis do JSON de administradores =====
+// Preferimos evitar "_" por causa do Jekyll no GitHub Pages.
+// Se usar "_" mesmo assim, crie um arquivo .nojekyll na raiz do repositório.
+const ADMIN_HASH_CANDIDATES = [
+  '/admin/private/hashes_administradores.json',   // recomendado (sem underscore)
+  '/admin/_private/hashes_administradores.json'   // fallback (requer .nojekyll)
+];
+
+async function fetchJsonOrThrow(url){
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error(`HTTP ${res.status} em ${url}`);
+  return res.json();
+}
 
 async function fetchAdminHashes(){
-  try{
-    const res = await fetch(ADMIN_HASH_LIST_URL, { cache: 'no-store' });
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const data = await res.json();
-    if(Array.isArray(data)) return data;
-    if(Array.isArray(data.validAdmins)) return data.validAdmins.map(v=>v.hash);
-    if(Array.isArray(data.validHashes)) return data.validHashes;
-    return [];
-  }catch(e){
-    console.error('Falha ao carregar lista de admins:', e);
-    return [];
+  let lastErr = null;
+  for (const url of ADMIN_HASH_CANDIDATES){
+    try{
+      const data = await fetchJsonOrThrow(url);
+      console.info('[admin] hashes carregados de', url);
+      if (Array.isArray(data)) return data;
+      if (Array.isArray(data.validAdmins)) return data.validAdmins.map(v => v.hash);
+      if (Array.isArray(data.validHashes)) return data.validHashes;
+      console.warn('[admin] formato inesperado em', url, data);
+      return [];
+    }catch(e){
+      lastErr = e;
+      console.warn('[admin] falha ao tentar', url, e.message);
+    }
   }
+  throw lastErr || new Error('Falha ao carregar lista de administradores');
 }
 
+// ===== Gate (login) =====
 async function doLogin(){
   const email = qs('#email').value.trim().toLowerCase();
   const pass  = qs('#password').value;
   const msgEl = qs('#gateMsg');
   msgEl.textContent = '';
   hideEl(msgEl);
+
   if(!email || !pass){
     msgEl.textContent = 'Informe e-mail e senha.';
     showEl(msgEl);
     return;
   }
+
+  let list = [];
+  try{
+    list = await fetchAdminHashes();
+  }catch(e){
+    console.error('Falha ao carregar lista de admins:', e);
+    msgEl.textContent = 'Não foi possível carregar a lista de administradores. Se você usa pasta com "_", crie um arquivo .nojekyll na raiz do repositório ou mova o JSON para /admin/private/.';
+    showEl(msgEl);
+    return;
+  }
+
   const candidate = await sha256Hex(email + pass);
-  const list = await fetchAdminHashes();
+
+  // Debug útil no console para checar divergências de senha:
+  console.debug('[admin] hash calculado para este login:', candidate);
+
   if(list.includes(candidate)){
     sessionStorage.setItem('admin_auth_hash', candidate);
     hideEl(qs('#gate'));
@@ -133,7 +163,7 @@ function detectColumns(json){
     label.textContent = k;
     label.style.flex='1';
     const select = document.createElement('select');
-    select.innerHTML = `<option value=\"\">-- ignorar --</option><option value=\"email\">email</option><option value=\"inscricao\">inscricao</option><option value=\"senha\">senha</option>`;
+    select.innerHTML = `<option value="">-- ignorar --</option><option value="email">email</option><option value="inscricao">inscricao</option><option value="senha">senha</option>`;
     select.value = (detected.email===k?'email':(detected.inscricao===k?'inscricao':(detected.senha===k?'senha':'')));
     select.addEventListener('change',()=>{
       for(const key in detected) if(detected[key]===k) detected[key]=null;
@@ -168,7 +198,7 @@ generateBtn?.addEventListener('click', async ()=>{
   }
   const combined = Array.from(new Set([...(mergedHashes||[]), ...hashes]));
   mergedHashes = combined;
-  preview.textContent = combined.slice(0,20).map((h,i)=>`${i+1}. ${h}`).join('\\n') || '—';
+  preview.textContent = combined.slice(0,20).map((h,i)=>`${i+1}. ${h}`).join('\n') || '—';
   summary.textContent = `Hashes gerados: ${hashes.length} (total após mesclagem: ${combined.length})`;
   showEl(downloadBtn);
 });

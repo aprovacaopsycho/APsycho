@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin — Gerar Hashes de Membros (Protegido)</title>
   <meta name="robots" content="noindex,nofollow" />
-  <!-- CSP básica (reforçar via headers no Cloudflare). Ajuste o domínio do Worker em connect-src se usar workers.dev. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://aprovacaopsycho.net; base-uri 'none'; form-action 'self'">
+  <!-- CSP via <meta> (nota: frame-ancestors é ignorado em meta; se quiser, aplique via header no Cloudflare) -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 img-src 'self' data:;
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                 font-src 'self' https://fonts.gstatic.com;
+                 script-src 'self';
+                 connect-src 'self' https://aprovacaopsycho.net;
+                 base-uri 'none';
+                 form-action 'self'">
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <!-- SheetJS local para leitura de planilhas -->
-  <script src="/assets/xlsx.full.min.js" defer></script>
   <style>
-    :root{--bg1:#07090d;--bg2:#0e141a;--card:#0f1822;--muted:#a5b4c3;--stroke:#1f2a36;--brand:#2563eb;--ok:#22c55e;--warn:#f59e0b;--bad:#ef4444}
+    :root{--bg1:#07090d;--bg2:#0e141a;--card:#0f1822;--muted:#a5b4c3;--stroke:#1f2a36;--brand:#2563eb;--ok:#22c55e;--bad:#ef4444}
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6eef6}
     .container{max-width:1080px;margin:32px auto;padding:0 16px}
@@ -30,14 +36,13 @@
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     pre{white-space:pre-wrap;background:#0b1117;border:1px solid var(--stroke);border-radius:10px;padding:10px;min-height:140px}
     .hidden{display:none}
-    .kbd{background:#0b1117;border:1px solid var(--stroke);padding:2px 6px;border-radius:6px;color:#9ec1ff}
     .alert{padding:10px;border-radius:10px}
     .ok{background:#0b1a12;border:1px solid #123c27}
     .bad{background:#1a0b0b;border:1px solid #3c1212}
   </style>
 </head>
 <body>
-  <!-- === Gate de autenticação (admin) === -->
+  <!-- Gate -->
   <div id="gate" class="container" style="min-height:100vh;display:flex;align-items:center;justify-content:center">
     <div class="card" style="width:min(480px,96vw)">
       <h1 style="font-size:20px">Área Restrita — Administração</h1>
@@ -52,18 +57,18 @@
           <input id="password" type="password" placeholder="••••••••" autocomplete="current-password" style="width:100%">
         </label>
         <button id="loginBtn" class="btn" style="width:100%">Entrar</button>
-        <p class="muted" style="font-size:12px">O validador confere <span class="kbd">SHA‑256(email+senha)</span> contra <code>/admin/_private/hashes_administradores.json</code>.</p>
+        <p class="muted" style="font-size:12px">Validação: <code>SHA-256(email+senha)</code> em <code>/admin/private/hashes_administradores.json</code> (fallback: <code>/admin/_private/...</code>).</p>
         <p id="gateMsg" class="alert bad hidden"></p>
       </div>
     </div>
   </div>
 
-  <!-- === Aplicação protegida === -->
+  <!-- App -->
   <div id="app" class="container hidden">
     <header class="row" style="justify-content:space-between">
       <div>
         <h2>Admin — Gerar Hashes de Membros</h2>
-        <p class="muted">Importe planilha (.xlsx/.xls/.csv) com e‑mail e senha/inscrição → gere hashes <strong>SHA‑256(email+chave)</strong> → baixe o JSON ou envie PR automático para o GitHub.</p>
+        <p class="muted">Importe planilha (.xlsx/.xls/.csv) com e-mail e senha/inscrição → gere hashes <strong>SHA-256(email+chave)</strong> → baixe o JSON ou envie PR automático.</p>
       </div>
       <button id="logoutBtn" class="ghost btn">Sair</button>
     </header>
@@ -72,10 +77,8 @@
       <div class="row" style="margin-bottom:12px">
         <label class="ghost btn" for="file-sheet">Importar planilha</label>
         <input id="file-sheet" type="file" accept=".xlsx,.xls,.csv" class="hidden" />
-
         <label class="ghost btn" for="file-json">Importar JSON (opcional)</label>
         <input id="file-json" type="file" accept="application/json" class="hidden" />
-
         <div class="row">
           <label class="muted" for="mode">Modo</label>
           <select id="mode">
@@ -83,7 +86,6 @@
             <option value="senha">email + senha</option>
           </select>
         </div>
-
         <button id="generate" class="btn">Gerar hashes</button>
         <button id="download" class="btn hidden">Baixar JSON</button>
       </div>
@@ -109,10 +111,13 @@
         <input id="api-key" type="password" placeholder="Admin API Key (ADMIN_BEARER)" style="min-width:240px">
         <button id="pushRemote" class="btn">Enviar ao GitHub (PR)</button>
       </div>
-      <p class="muted" style="margin-top:6px">Somente os <em>hashes</em> são enviados. O Worker valida o <span class="kbd">Bearer</span>, mescla/deduplica e cria um Pull Request com <code>hashes_membros.json</code>.</p>
+      <p class="muted" style="margin-top:6px">Somente os <em>hashes</em> são enviados. O Worker valida o Bearer, mescla/deduplica e cria o PR com <code>hashes_membros.json</code>.</p>
       <p id="remoteMsg" class="alert hidden" style="margin-top:8px"></p>
     </div>
-  </div>  <script src="/assets/xlsx.full.min.js" defer></script>
+  </div>
+
+  <!-- Scripts (ordem importa: SheetJS → app.js) -->
+  <script src="/assets/xlsx.full.min.js" defer></script>
   <script src="/admin/app.js" defer></script>
 </body>
 </html>
