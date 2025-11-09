@@ -182,3 +182,41 @@ downloadBtn?.addEventListener('click', ()=>{
   a.href = url; a.download = 'hashes_membros.json'; document.body.appendChild(a); a.click(); a.remove();
   URL.revokeObjectURL(url);
 });
+async function pushHashesToServer(merged) {
+  const apiUrl = document.getElementById('api-url').value.trim();
+  const apiKey = document.getElementById('api-key').value.trim();
+  if (!apiUrl || !apiKey) {
+    alert('Preencha o endpoint do Worker (API URL) e a Admin API Key.');
+    return;
+  }
+  if (!Array.isArray(merged) || merged.length === 0) {
+    alert('Gere os hashes primeiro.');
+    return;
+  }
+  // apenas hashes válidos (64 hex)
+  const onlyHex = merged.filter(h => /^[a-f0-9]{64}$/.test(h));
+  if (onlyHex.length === 0) {
+    alert('Nenhum hash válido para enviar.');
+    return;
+  }
+  try {
+    const res = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey
+      },
+      body: JSON.stringify({ hashes: onlyHex })
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    alert(`OK ✅ PR #${data.pr_number || '?'} criado: adicionados ${data.added} novos hashes (total servidor: ${data.total}).`);
+  } catch (e) {
+    console.error(e);
+    alert('Falha ao enviar hashes: ' + e.message);
+  }
+}
+
+document.getElementById('pushRemote')?.addEventListener('click', ()=>{
+  pushHashesToServer(mergedHashes);
+});
