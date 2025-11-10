@@ -53,10 +53,10 @@
         error: '',
         isLoading: false,
         mergedHashes: null,
-        hashFiles: ['hashes_ceara.json','hashes_tempo.json','hashes_guarda_civil.json'],
+        hashFiles: ['hashes_ceara.json','hashes_tempo.json','hashes_tedif.json','hashes_guarda_civil.json'],
         currentUserHash: null,
         pendingGroup: null,
-        groupDirs: { ceara:'pdf_com_chaves_ceara', tempo:'pdf_com_chaves_tempo', guarda_civil:'pdf_com_chaves_guarda_civil' },
+        groupDirs: { ceara:'pdf_com_chaves_ceara', tedif:'pdf_com_chaves_tedif',tempo:'pdf_com_chaves_tempo', guarda_civil:'pdf_com_chaves_guarda_civil' },
 
         async loadAllHashes(){
           if(Array.isArray(this.mergedHashes)) return;
@@ -199,6 +199,18 @@
             <h2 class="text-2xl font-bold mb-2" style="color:var(--text-light)">Tempos, Metas e Bizus</h2>
             <p class="mb-4" style="color:var(--text-dark)">Organize seu tempo, defina metas semanais e acesse bizus (dicas rápidas) para acelerar seu estudo.</p>
             <button @click="openMaterial('tempo')" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Material</button>
+          </div>
+        </div>
+
+                <div class="card p-8 flex flex-col md:flex-row items-center gap-8">
+          <div class="flex-shrink-0">
+            <img class="w-24 h-24" style="color:var(--accent-blue)" src="https://files.passeidireto.com/23cea81a-782e-41c3-a4dd-1d092da99758/bg2.png" alt="Alvo" loading="eager"
+                 onerror="(function(el){el.style.display='none';var p=el.parentNode;p.insertAdjacentHTML('beforeend','<svg class=\'w-24 h-24\' aria-hidden=\'true\'><use href=\'assets/icons.svg#icon-target\'></use></svg>');})(this)">
+          </div>
+          <div class="flex-grow">
+            <h2 class="text-2xl font-bold mb-2" style="color:var(--text-light)">TADIM e TEDIF</h2>
+            <p class="mb-4" style="color:var(--text-dark)">Testes de atenção difusa.</p>
+            <button @click="openMaterial('tedif')" class="cta-button font-semibold py-2 px-6 rounded-md inline-block">Acessar Material</button>
           </div>
         </div>
 
