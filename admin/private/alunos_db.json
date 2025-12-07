@@ -4,5 +4,11 @@
     "email": "123@gmail.com",
     "cpf": "123.123.13.1324",
     "inscricao": "123"
+  },
+  {
+    "nome": "titan2",
+    "email": "titan2@gmail.com",
+    "cpf": "0000000",
+    "inscricao": "123"
   }
 ]
