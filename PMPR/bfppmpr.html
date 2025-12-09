@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Avaliação BFP | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #333;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 10px 30px rgba(159, 84, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        [x-cloak] {
+            display: none !important
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            position: relative;
+            isolation: isolate;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            /* animated grid glow */
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background:
+                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none
+        }
+
+        .scale-option input:checked+div {
+            background: rgba(159, 84, 255, 0.2);
+            border-color: var(--primary-purple);
+            color: white;
+            box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão PMPR"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">BFP <span
+                            class="text-[var(--accent-pink)]">2025</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="testes_personalidade.html"
+                    class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div id="screen-dashboard" class="fade-in">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-white mb-2">Painel de Controle</h2>
+                <p class="text-gray-400">Visão geral do seu desempenho na Bateria Fatorial de Personalidade.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                            <i class="fas fa-clipboard-check text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total</span>
+                    </div>
+                    <div class="text-4xl font-bold text-white mb-1" id="dash-total">0</div>
+                    <p class="text-sm text-gray-500">Testes realizados</p>
+                </div>
+
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-cyan-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                            <i class="fas fa-stopwatch text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Último</span>
+                    </div>
+                    <div class="text-lg font-bold text-white mb-1 truncate" id="dash-last-date">-</div>
+                    <p class="text-sm text-gray-500" id="dash-last-status">Sem dados</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#151427] to-[#1a1a35] rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+                    onclick="novoTeste()">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 text-white">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3 class="text-white font-bold mb-1">Iniciar Novo Teste</h3>
+                    <p class="text-xs text-gray-400">BFP Completo</p>
+                </div>
+            </div>
+
+            <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        onclick="limparHistorico()">Limpar Histórico</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-[#0f0e1a]/50">
+                            <tr>
+                                <th class="px-6 py-4 font-medium">Teste</th>
+                                <th class="px-6 py-4 font-medium">Data</th>
+                                <th class="px-6 py-4 font-medium text-center">Status</th>
+                                <th class="px-6 py-4 font-medium text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5" id="history-container">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-quiz" class="hidden fade-in max-w-5xl mx-auto">
+            <div
+                class="bg-[#151427] rounded-2xl p-6 border border-white/5 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">BFP</h2>
+                        <p class="text-sm text-gray-400">Bateria Fatorial de Personalidade</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-cyan-400" id="progress-text">0%</span>
+                    </div>
+                </div>
+                <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ease-out"
+                        id="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="quiz-container" class="space-y-6">
+            </div>
+
+            <div class="mt-10 flex justify-center pb-20">
+                <button onclick="calcularResultado()"
+                    class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
+                    FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="screen-result" class="hidden fade-in">
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+                <div>
+                    <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÓRIO DE PERFIL</h2>
+                    <p class="text-gray-400 flex items-center gap-2">
+                        <i class="far fa-calendar-alt"></i> <span id="report-date">...</span>
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0 text-center">
+                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div id="final-status-badge"
+                        class="px-8 py-3 rounded-full text-xl font-bold bg-gray-800 text-gray-400 border border-gray-700">
+                        CALCULANDO...
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mb-8 no-print">
+                <button onclick="showScreen('dashboard')"
+                    class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition font-medium text-sm">
+                    <i class="fas fa-arrow-left mr-1"></i> Voltar
+                </button>
+                <button onclick="window.print()"
+                    class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/30 transition font-medium text-sm">
+                    <i class="fas fa-print mr-1"></i> Imprimir PDF
+                </button>
+            </div>
+
+            <div id="report-content" class="space-y-10">
+            </div>
+
+            <div class="mt-20 text-center border-t border-white/5 pt-10 pb-10">
+                <p class="text-gray-600 text-sm">Aprovação Psycho - Método Titan</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        /* ================= DADOS (PLACEHOLDERS) ================= */
+
+        // SERÁ PREENCHIDO PELO AGENTE NA PRÓXIMA ETAPA
+        const DATA_QUESTIONS = [
+            { "id": 1, "text": "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÁ-LAS", "facet": "A2", "inverted": true },
+            { "id": 2, "text": "TENTO FAZER COM QUE AS PESSOAS SE SINTAM BEM", "facet": "S1", "inverted": false },
+            { "id": 3, "text": "GOSTO DE FALAR SOBRE MIM", "facet": "E2", "inverted": false },
+            { "id": 4, "text": "TENHO UM CORAÇÃO MOLE", "facet": "S1", "inverted": false },
+            { "id": 5, "text": "FALO TUDO QUE PENSO", "facet": "E2", "inverted": false },
+            { "id": 6, "text": "GOSTO DE FAZER COISAS QUE NUNCA FIZ ANTES", "facet": "A3", "inverted": false },
+            { "id": 7, "text": "ACREDITO QUE AS PESSOAS TÊM BOAS INTENÇÕES", "facet": "S3", "inverted": false },
+            { "id": 8, "text": "SOU DIVERTIDO", "facet": "E4", "inverted": false },
+            { "id": 9, "text": "TOMO CUIDADO COM O QUE FALO", "facet": "R2", "inverted": false },
+            { "id": 10, "text": "DIFICILMENTE PERDOO", "facet": "S3", "inverted": true },
+            { "id": 11, "text": "DIVIRTO ME QUANDO ESTOU ENTRE VARIAS PESSOAS", "facet": "E4", "inverted": false },
+            { "id": 12, "text": "RESPEITO OS SENTIMENTOS ALHEIOS", "facet": "S1", "inverted": false },
+            { "id": 13, "text": "MESMO QUANDO PRECISO RESOLVER ALGUMA COISA PARA MIM, COSTUMO ADIAR ATÉ O ÚLTIMO MOMENTO", "facet": "N3", "inverted": false },
+            { "id": 14, "text": "TENTO INFLUENCIAR OS OUTROS", "facet": "E2", "inverted": false },
+            { "id": 15, "text": "SOU GENEROSO", "facet": "S1", "inverted": false },
+            { "id": 16, "text": "ESTOU SATISFEITO COMIGO MESMO", "facet": "N4", "inverted": true },
+            { "id": 17, "text": "NÃO FALO MUITO", "facet": "E1", "inverted": true },
+            { "id": 18, "text": "POSSO AGREDIR FISICAMENTE AS PESSOAS QUANDO FICO MUITO IRRITADO", "facet": "S2", "inverted": true },
+            { "id": 19, "text": "RESOLVO MEUS PROBLEMAS SEM PENSAR MUITO", "facet": "R2", "inverted": true },
+            { "id": 20, "text": "PREOCUPO-ME COM TODOS", "facet": "S1", "inverted": false },
+            { "id": 21, "text": "GERALMENTE ME SINTO FELIZ", "facet": "E3", "inverted": false },
+            { "id": 22, "text": "PRECISO DE ESTÍMULOS PARA COMEÇAR A FAZER AS COISAS", "facet": "N3", "inverted": false },
+            { "id": 23, "text": "TENHO POUCO INTERESSE POR EXPOSIÇÕES DE ARTE", "facet": "A1", "inverted": true },
+            { "id": 24, "text": "DIVIRTO-ME CONTRARIANDO AS PESSOAS", "facet": "S2", "inverted": true },
+            { "id": 25, "text": "COM FREQUÊNCIA TOMO DECISÕES PRECIPITADAS", "facet": "N2", "inverted": false },
+            { "id": 26, "text": "FACILMENTE COLOCO AS MINHAS IDEIAS EM PRÁTICA", "facet": "E3", "inverted": false },
+            { "id": 27, "text": "USO AS PESSOAS PARA CONSEGUIR O QUE DESEJO", "facet": "S2", "inverted": true },
+            { "id": 28, "text": "POSSO LIDAR COM MUITAS TAREFAS AO MESMO TEMPO", "facet": "R1", "inverted": false },
+            { "id": 29, "text": "QUASE SEMPRE ME SINTO DESANIMADO", "facet": "N4", "inverted": false },
+            { "id": 30, "text": "SUSPEITO DAS INTENÇÕES DAS PESSOAS", "facet": "S3", "inverted": true },
+            { "id": 31, "text": "ATUALMENTE, DEFENDO IDEIAS DIFERENTES DAQUELAS QUE DEFENDIA ANTIGAMENTE", "facet": "A2", "inverted": false },
+            { "id": 32, "text": "CONSIGO O QUE EU QUERO", "facet": "E3", "inverted": false },
+            { "id": 33, "text": "TENHO POUCA CURIOSIDADE PARA CONHECER NOVOS ESTILOS MUSICAIS", "facet": "A1", "inverted": true },
+            { "id": 34, "text": "DEDICO-ME MUITO PARA FAZER BEM AS COISAS", "facet": "R3", "inverted": false },
+            { "id": 35, "text": "ESPERO PELA DECISÃO DOS OUTROS", "facet": "N3", "inverted": false },
+            { "id": 36, "text": "INTERESSO-ME POR TEORIAS QUE TENTAM EXPLICAR O UNIVERSO", "facet": "A1", "inverted": false },
+            { "id": 37, "text": "TENHO POUCA PACIÊNCIA PARA TERMINAR TAREFAS MUITO LONGAS OU DIFÍCEIS", "facet": "N3", "inverted": false },
+            { "id": 38, "text": "SOU UMA PESSOA TÍMIDA", "facet": "E1", "inverted": true },
+            { "id": 39, "text": "TENHO ALGUNS INIMIGOS", "facet": "S3", "inverted": true },
+            { "id": 40, "text": "ACHO QUE A MINHA VIDA É VAZIA E SEM EMOÇÃO", "facet": "N4", "inverted": false },
+            { "id": 41, "text": "COMEÇO RAPIDAMENTE AS TAREFAS QUE TENHO PARA FAZER", "facet": "R1", "inverted": false },
+            { "id": 42, "text": "ACHO POUCO INTERESSANTES EXPOSIÇÕES FOTOGRÁFICAS", "facet": "A1", "inverted": true },
+            { "id": 43, "text": "RESPEITO O PONTO DE VISTA DOS OUTROS", "facet": "S1", "inverted": false },
+            { "id": 44, "text": "TENHO DIFICULDADE PARA ME ADAPTAR A TRABALHOS QUE ENVOLVAM UMA ROTINA FIXA", "facet": "A3", "inverted": true },
+            { "id": 45, "text": "ANTES DE AGIR, PENSO NO QUE PODE ME ACONTECER", "facet": "R2", "inverted": false },
+            { "id": 46, "text": "SINTO-ME MAL SE NÃO CUMPRO ALGO QUE PROMETI", "facet": "S1", "inverted": false },
+            { "id": 47, "text": "ADORO ATIVIDADES EM GRUPO", "facet": "E4", "inverted": false },
+            { "id": 48, "text": "TUDO O QUE POSSO VER A MINHA FRENTE É MAIS DESPRAZER DO QUE PRAZER", "facet": "N4", "inverted": false },
+            { "id": 49, "text": "GOSTO E IR A LUGARES QUE NÃO CONHEÇO", "facet": "A3", "inverted": false },
+            { "id": 50, "text": "CONVERSO COM MUITAS PESSOAS DIFERENTES QUANDO VOU A FESTAS", "facet": "E4", "inverted": false },
+            { "id": 51, "text": "AJO IMPULSIVAMENTE QUANDO ALGUMA COISA ESTÁ ME ABORRECENDO", "facet": "N2", "inverted": false },
+            { "id": 52, "text": "GOSTO DE TER UMA VIDA SOCIAL AGITADA", "facet": "E4", "inverted": false },
+            { "id": 53, "text": "PARTICIPAR DE ATIVIDADES QUE ENVOLVAM CRIATIVIDADE E/OU FANTASIA ME EMPOLGA", "facet": "A1", "inverted": false },
+            { "id": 54, "text": "ME ESFORÇO PARA TER DESTAQUE NA ESCOLA OU NO TRABALHO", "facet": "R3", "inverted": false },
+            { "id": 55, "text": "GERALMENTE FAÇO O QUE MEUS AMIGOS E PARENTES QUEREM,EMBORA NÃO CONCORDE COM ELES, COM MEDO DE QUE SE AFASTEM DE MIM", "facet": "N1", "inverted": false },
+            { "id": 56, "text": "TENHO POUCO INTERESSE POR IDEIAS ABSTRATAS", "facet": "A1", "inverted": true },
+            { "id": 57, "text": "ACHO QUE OS OUTROS ZOMBAM DE MIM", "facet": "S3", "inverted": true },
+            { "id": 58, "text": "COSTUMO FAZER SACRIFÍCIOS PARA CONSEGUIR O QUE QUERO", "facet": "R1", "inverted": false },
+            { "id": 59, "text": "ACHO NATURAL QUE OS VALORES MORAIS MUDEM AO LONGO DO TEMPO", "facet": "A2", "inverted": false },
+            { "id": 60, "text": "TENHO MUITO MEDO DE QUE MEUS AMIGOS DEIXEM DE GOSTAR DE MIM", "facet": "N1", "inverted": false },
+            { "id": 61, "text": "TENTO INCENTIVAR AS PESSOAS", "facet": "S1", "inverted": false },
+            { "id": 62, "text": "SOU UMA PESSOA COM POUCA IMAGINAÇÃO", "facet": "A1", "inverted": true },
+            { "id": 63, "text": "FAÇO COISAS CONSIDERADAS PERIGOSAS", "facet": "S2", "inverted": true },
+            { "id": 64, "text": "PENSO SOBRE O QUE PRECISO FAZER PARA ALCANÇAR MEUS OBJETIVOS", "facet": "R1", "inverted": false },
+            { "id": 65, "text": "SOU UMA PESSOA NERVOSA", "facet": "N2", "inverted": false },
+            { "id": 66, "text": "COSTUMO FICAR CALADO QUANDO ESTOU ENTRE ESTRANHOS", "facet": "E1", "inverted": true },
+            { "id": 67, "text": "RESOLVO MEUS PROBLEMAS COM RAPIDEZ", "facet": "R1", "inverted": false },
+            { "id": 68, "text": "CONFIO NO QUE AS PESSOAS DIZEM", "facet": "S3", "inverted": false },
+            { "id": 69, "text": "ACHO QUE NÃO EXISTE UMA VERDADE ABSOLUTA", "facet": "A2", "inverted": false },
+            { "id": 70, "text": "POR MAIS QUE ME ESFORCE, SEI QUE NÃO SOU CAPAZ DE SUPERAR OS OBSTÁCULOS QUE TENHO QUE ENFRENTAR NO DIA A DIA", "facet": "N4", "inverted": false },
+            { "id": 71, "text": "ENVOLVO-ME RAPIDAMENTE COM OS OUTROS", "facet": "E4", "inverted": false },
+            { "id": 72, "text": "GOSTO DE PENSAR SOBRE SOLUÇÕES DIFERENTES PARA PROBLEMAS COMPLEXOS", "facet": "R1", "inverted": false },
+            { "id": 73, "text": "DEIXO DE FAZER AS COISAS QUE DESEJO POR MEDO DE SER CRITICADO PELOS OUTROS", "facet": "N1", "inverted": false },
+            { "id": 74, "text": "ACREDITO QUE A MAIORIA DOS VALORES MORAIS SÃO DEPENDENTES DA ÉPOCA E DO LUGAR", "facet": "A2", "inverted": false },
+            { "id": 75, "text": "FICO MUITO TÍMIDO QUANDO ESTOU ENTRE DESCONHECIDOS", "facet": "N1", "inverted": false },
+            { "id": 76, "text": "PREOCUPO-ME EM AGIR SEGUNDO AS LEIS", "facet": "S2", "inverted": false },
+            { "id": 77, "text": "MEU HUMOR VARIA CONSTANTEMENTE", "facet": "N2", "inverted": false },
+            { "id": 78, "text": "NECESSITO ESTAR NO CENTRO DAS ATENÇÕES", "facet": "E2", "inverted": false },
+            { "id": 79, "text": "SINTO-ME MUITO INSEGURO QUANDO TENHO QUE FAZER COISAS QUE NUNCA FIZ ANTES", "facet": "N1", "inverted": false },
+            { "id": 80, "text": "AS PESSOAS DIZEM QUE SOU MUITO DETALHISTA", "facet": "R3", "inverted": false },
+            { "id": 81, "text": "EVITO DISCUSSÕES FILOSÓFICAS", "facet": "A1", "inverted": true },
+            { "id": 82, "text": "NÃO GOSTO DE EXPRESSAR MINHAS IDEIAS, POIS TENHO MEDO DE SER RIDICULARIZADO", "facet": "N1", "inverted": false },
+            { "id": 83, "text": "SOU  CAPAZ DE ASSUMIR TAREFAS IMPORTANTES", "facet": "R1", "inverted": false },
+            { "id": 84, "text": "GOSTO DE MANTER A ROTINA", "facet": "A3", "inverted": true },
+            { "id": 85, "text": "ACHO QUE FAÇO BEM AS COISAS", "facet": "R1", "inverted": false },
+            { "id": 86, "text": "SOU UMA PESSOA IRRITÁVEL", "facet": "N2", "inverted": false },
+            { "id": 87, "text": "COSTUMO ENGANAR AS PESSOAS", "facet": "S2", "inverted": true },
+            { "id": 88, "text": "GOSTO DE TRABALHOS ARTÍSTICOS QUE SÃO CONSIDERADOS ESTRANHOS", "facet": "A1", "inverted": false },
+            { "id": 89, "text": "TENHO MUITA DIFICULDADE DE TOMAR DECISÕES EM MINHA VIDA", "facet": "N1", "inverted": false },
+            { "id": 90, "text": "VIVO MINHAS EMOÇÕES INTENSAMENTE", "facet": "E4", "inverted": false },
+            { "id": 91, "text": "GOSTO DE FAZER COISAS QUE EXIGEM MUITO DE MIM", "facet": "R1", "inverted": false },
+            { "id": 92, "text": "SOFRO QUANDO ENCONTRO ALGUÉM QUE ESTÁ COM DIFICULDADE", "facet": "S1", "inverted": false },
+            { "id": 93, "text": "É COMUM TEREM INVEJA DE MIM", "facet": "E2", "inverted": false },
+            { "id": 94, "text": "SEMPRE QUE POSSO, MUDO OS TRAJETOS NOS MEUS PERCURSOS DIÁRIOS", "facet": "A3", "inverted": false },
+            { "id": 95, "text": "TENHO DIFICULDADE PARA TERMINAR AS TAREFAS, POIS DISTRAIO COM OUTRAS COISAS", "facet": "N3", "inverted": false },
+            { "id": 96, "text": "PREOCUPO-ME COM AQUELES QUE ESTÃO NUMA SITUAÇÃO PIOR QUE A MINHA", "facet": "S1", "inverted": false },
+            { "id": 97, "text": "SOU COMUNICATIVO", "facet": "E1", "inverted": false },
+            { "id": 98, "text": "ACHO QUE OS OUTROS PODEM TENTAR ME PREJUDICAR", "facet": "S3", "inverted": true },
+            { "id": 99, "text": "SINTO UMA INCONTROLÁVEL VONTADE DE FALAR, MESMO QUE SEJA COM QUEM NÃO CONHEÇO", "facet": "E2", "inverted": false },
+            { "id": 100, "text": "EU PARO DE FAZER AS COISAS QUANDO ELAS FICAM DIFÍCEIS", "facet": "N3", "inverted": false },
+            { "id": 101, "text": "ESCOLHO AS PALAVRAS COM CUIDADO", "facet": "R2", "inverted": false },
+            { "id": 102, "text": "COM FREQUÊNCIA, PASSO POR PERÍODOS EM QUE FICO EXTREMAMENTE IRRITÁVEL, INCOMODANDO-ME COM QUALQUER COISA", "facet": "N2", "inverted": false },
+            { "id": 103, "text": "RARAMENTE MOSTRO UM TRABALHO A OUTRAS PESSOAS ANTES DE REVISÁ-LO CUIDADOSAMENTE", "facet": "R3", "inverted": false },
+            { "id": 104, "text": "IMPORTO-ME COM OS SENTIMENTOS DOS OUTROS", "facet": "S1", "inverted": false },
+            { "id": 105, "text": "FAÇO MUITAS COISAS DURANTE MINHAS HORAS DE FOLGA", "facet": "E1", "inverted": false },
+            { "id": 106, "text": "ESTOU CANSADO DE VIVER", "facet": "N4", "inverted": false },
+            { "id": 107, "text": "GOSTO DE QUEBRAR REGRAS", "facet": "S2", "inverted": true },
+            { "id": 108, "text": "COSTUMO TOMAR A INICIATIVA E CONVERSAR COM OS OUTROS", "facet": "E3", "inverted": false },
+            { "id": 109, "text": "RESPEITO AUTORIDADES", "facet": "S2", "inverted": false },
+            { "id": 110, "text": "SOU UMA PESSOA INSEGURA", "facet": "N1", "inverted": false },
+            { "id": 111, "text": "QUANDO ESTOU ENTRE UM GRUPO, GOSTO QUE ME DEEM ATENÇÃO", "facet": "E2", "inverted": false },
+            { "id": 112, "text": "MEUS AMIGOS DIZEM QUE EU TRABALHO/ESTUDO DEMAIS", "facet": "R3", "inverted": false },
+            { "id": 113, "text": "SINTO-ME ENTENDIADO QUANDO TENHO QUE FAZER AS MESMAS COISAS", "facet": "A3", "inverted": false },
+            { "id": 114, "text": "EXIJO MUITO DE MIM MESMO", "facet": "R3", "inverted": false },
+            { "id": 115, "text": "TENHO DIFICULDADE DE PARTICIPAR DE ATIVIDADES QUE EXIJAM IMAGINAÇÃO OU FANTASIA", "facet": "A1", "inverted": true },
+            { "id": 116, "text": "GOSTO DE PROGRAMAR DETALHADAMENTE AS COISAS QUE TENHO PARA FAZER", "facet": "R3", "inverted": false },
+            { "id": 117, "text": "USUALMENTE, TOMO A INCIATIVA NAS SITUAÇÕES", "facet": "E3", "inverted": false },
+            { "id": 118, "text": "SINTO-ME MUITO MAL QUANDO RECEBO ALGUMA CRÍTICA", "facet": "N1", "inverted": false },
+            { "id": 119, "text": "ACREDITO QUE AS PESSOAS TÊM UMA NATUREZA RUIM", "facet": "S3", "inverted": true },
+            { "id": 120, "text": "DIFICILMENTE FICO SEM JEITO", "facet": "E1", "inverted": false },
+            { "id": 121, "text": "SÓ ME APROXIMO DE UMA PESSOA QUANDO ESTOU CERTO DE QUE ELA CONCORDA COM AS MINHAS OPINIÕES E ATITUDES, PARA EVITAR CRÍTICAS OU DESAPROVAÇÃO", "facet": "N3", "inverted": false },
+            { "id": 122, "text": "SEI O QUE QUERO PARA MINHA VIDA", "facet": "R1", "inverted": false },
+            { "id": 123, "text": "FREQUENTEMENTE QUESTIONO REGRAS E COSTUMES SOCIAIS", "facet": "A2", "inverted": false },
+            { "id": 124, "text": "TENHO UMA GRANDE DIFICULDADE EM DORMIR", "facet": "N4", "inverted": false },
+            { "id": 125, "text": "PREOCUPO-ME EM AGRADAR AS PESSOAS", "facet": "S1", "inverted": false },
+            { "id": 126, "text": "SOU DISPOSTO A REVER MEUS POSICIONAMENTOS SOBRE DIFERENTES ASSUNTOS", "facet": "A2", "inverted": false }
+        ];
+        const DATA_CRITERIA = {
+            "N1": { min: 0, max: 30 }, "N2": { min: 0, max: 30 }, "N3": { min: 0, max: 50 }, "N4": { min: 15, max: 70 },
+            "E1": { min: 30, max: 100 }, "E2": { min: 30, max: 100 }, "E3": { min: 30, max: 100 }, "E4": { min: 30, max: 100 },
+            "S1": { min: 30, max: 84 }, "S2": { min: 30, max: 84 }, "S3": { min: 30, max: 84 },
+            "R1": { min: 30, max: 100 }, "R2": { min: 30, max: 100 }, "R3": { min: 30, max: 100 },
+            "A1": { min: 15, max: 100 },
+            "A2": { min: 30, max: 85 },
+            "A3": { min: 15, max: 85 }
+        };
+
+        const DATA_PERCENTILES = {
+            "N1": [{ s: 1.0, p: 1 }, { s: 1.56, p: 1 }, { s: 1.57, p: 5 }, { s: 1.85, p: 5 }, { s: 1.86, p: 10 }, { s: 2.13, p: 10 }, { s: 2.14, p: 15 }, { s: 2.32, p: 15 }, { s: 2.33, p: 20 }, { s: 2.56, p: 20 }, { s: 2.57, p: 25 }, { s: 2.7, p: 25 }, { s: 2.71, p: 30 }, { s: 2.88, p: 30 }, { s: 2.89, p: 35 }, { s: 3.1, p: 35 }, { s: 3.11, p: 40 }, { s: 3.28, p: 40 }, { s: 3.29, p: 45 }, { s: 3.43, p: 45 }, { s: 3.44, p: 50 }, { s: 3.56, p: 50 }, { s: 3.57, p: 55 }, { s: 3.77, p: 55 }, { s: 3.78, p: 60 }, { s: 3.88, p: 60 }, { s: 3.89, p: 65 }, { s: 4.1, p: 65 }, { s: 4.11, p: 70 }, { s: 4.32, p: 70 }, { s: 4.33, p: 75 }, { s: 4.55, p: 75 }, { s: 4.56, p: 80 }, { s: 4.85, p: 80 }, { s: 4.86, p: 85 }, { s: 5.13, p: 85 }, { s: 5.14, p: 90 }, { s: 5.66, p: 90 }, { s: 5.67, p: 95 }],
+            "N2": [{ s: 1.0, p: 1 }, { s: 1.49, p: 1 }, { s: 1.5, p: 5 }, { s: 1.82, p: 5 }, { s: 1.83, p: 10 }, { s: 2.16, p: 10 }, { s: 2.17, p: 15 }, { s: 2.32, p: 15 }, { s: 2.33, p: 20 }, { s: 2.49, p: 20 }, { s: 2.5, p: 25 }, { s: 2.82, p: 25 }, { s: 2.83, p: 30 }, { s: 2.99, p: 30 }, { s: 3.0, p: 35 }, { s: 3.24, p: 35 }, { s: 3.25, p: 40 }, { s: 3.32, p: 40 }, { s: 3.33, p: 45 }, { s: 3.49, p: 45 }, { s: 3.5, p: 50 }, { s: 3.82, p: 50 }, { s: 3.83, p: 55 }, { s: 3.99, p: 55 }, { s: 4.0, p: 60 }, { s: 4.24, p: 60 }, { s: 4.25, p: 65 }, { s: 4.49, p: 65 }, { s: 4.5, p: 70 }, { s: 4.66, p: 70 }, { s: 4.67, p: 75 }, { s: 4.99, p: 75 }, { s: 5.0, p: 80 }, { s: 5.24, p: 80 }, { s: 5.25, p: 85 }, { s: 5.66, p: 85 }, { s: 5.67, p: 90 }, { s: 6.16, p: 90 }, { s: 6.17, p: 95 }],
+            "N3": [{ s: 1.0, p: 1 }, { s: 1.49, p: 1 }, { s: 1.5, p: 5 }, { s: 1.82, p: 5 }, { s: 1.83, p: 10 }, { s: 2.16, p: 10 }, { s: 2.17, p: 15 }, { s: 2.32, p: 15 }, { s: 2.33, p: 20 }, { s: 2.49, p: 20 }, { s: 2.5, p: 25 }, { s: 2.66, p: 25 }, { s: 2.67, p: 30 }, { s: 2.82, p: 30 }, { s: 2.83, p: 35 }, { s: 2.99, p: 35 }, { s: 3.0, p: 40 }, { s: 3.19, p: 40 }, { s: 3.2, p: 45 }, { s: 3.39, p: 45 }, { s: 3.4, p: 50 }, { s: 3.59, p: 50 }, { s: 3.6, p: 55 }, { s: 3.79, p: 55 }, { s: 3.8, p: 60 }, { s: 3.99, p: 60 }, { s: 4.0, p: 65 }, { s: 4.16, p: 65 }, { s: 4.17, p: 70 }, { s: 4.32, p: 70 }, { s: 4.33, p: 75 }, { s: 4.59, p: 75 }, { s: 4.6, p: 80 }, { s: 4.82, p: 80 }, { s: 4.83, p: 85 }, { s: 4.99, p: 85 }, { s: 5.0, p: 90 }, { s: 5.49, p: 90 }, { s: 5.5, p: 95 }],
+            "N4": [{ s: 1.0, p: 5 }, { s: 1.13, p: 5 }, { s: 1.14, p: 10 }, { s: 1.24, p: 10 }, { s: 1.25, p: 15 }, { s: 1.37, p: 15 }, { s: 1.38, p: 20 }, { s: 1.49, p: 20 }, { s: 1.5, p: 25 }, { s: 1.62, p: 25 }, { s: 1.63, p: 30 }, { s: 1.74, p: 30 }, { s: 1.75, p: 35 }, { s: 1.82, p: 35 }, { s: 1.83, p: 40 }, { s: 1.99, p: 40 }, { s: 2.01, p: 50 }, { s: 2.13, p: 50 }, { s: 2.14, p: 55 }, { s: 2.28, p: 55 }, { s: 2.29, p: 60 }, { s: 2.49, p: 60 }, { s: 2.5, p: 65 }, { s: 2.62, p: 65 }, { s: 2.63, p: 70 }, { s: 2.87, p: 70 }, { s: 2.88, p: 75 }, { s: 3.16, p: 75 }, { s: 3.17, p: 80 }, { s: 3.49, p: 80 }, { s: 3.5, p: 85 }, { s: 3.87, p: 85 }, { s: 3.88, p: 90 }, { s: 4.62, p: 90 }, { s: 4.63, p: 95 }],
+            "E1": [{ s: 1.0, p: 1 }, { s: 1.99, p: 1 }, { s: 2.0, p: 5 }, { s: 2.49, p: 5 }, { s: 2.5, p: 10 }, { s: 2.99, p: 10 }, { s: 3.0, p: 15 }, { s: 3.16, p: 15 }, { s: 3.17, p: 20 }, { s: 3.49, p: 20 }, { s: 3.5, p: 25 }, { s: 3.66, p: 25 }, { s: 3.67, p: 30 }, { s: 3.82, p: 30 }, { s: 3.83, p: 35 }, { s: 3.99, p: 35 }, { s: 4.0, p: 40 }, { s: 4.16, p: 40 }, { s: 4.17, p: 45 }, { s: 4.32, p: 45 }, { s: 4.33, p: 50 }, { s: 4.49, p: 50 }, { s: 4.5, p: 55 }, { s: 4.66, p: 55 }, { s: 4.67, p: 60 }, { s: 4.82, p: 60 }, { s: 4.83, p: 65 }, { s: 4.99, p: 65 }, { s: 5.0, p: 70 }, { s: 5.16, p: 70 }, { s: 5.17, p: 75 }, { s: 5.32, p: 75 }, { s: 5.33, p: 80 }, { s: 5.66, p: 80 }, { s: 5.67, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.32, p: 90 }, { s: 6.33, p: 95 }],
+            "E2": [{ s: 1.0, p: 1 }, { s: 1.99, p: 1 }, { s: 2.0, p: 5 }, { s: 2.28, p: 5 }, { s: 2.29, p: 10 }, { s: 2.56, p: 10 }, { s: 2.57, p: 15 }, { s: 2.7, p: 15 }, { s: 2.71, p: 20 }, { s: 2.85, p: 20 }, { s: 2.86, p: 25 }, { s: 3.08, p: 25 }, { s: 3.09, p: 30 }, { s: 3.16, p: 30 }, { s: 3.17, p: 35 }, { s: 3.32, p: 35 }, { s: 3.33, p: 40 }, { s: 3.42, p: 40 }, { s: 3.43, p: 45 }, { s: 3.56, p: 45 }, { s: 3.57, p: 50 }, { s: 3.7, p: 50 }, { s: 3.71, p: 55 }, { s: 3.85, p: 55 }, { s: 3.86, p: 60 }, { s: 3.99, p: 60 }, { s: 4.0, p: 65 }, { s: 4.13, p: 65 }, { s: 4.14, p: 70 }, { s: 4.42, p: 70 }, { s: 4.43, p: 75 }, { s: 4.56, p: 75 }, { s: 4.57, p: 80 }, { s: 4.82, p: 80 }, { s: 4.83, p: 85 }, { s: 5.13, p: 85 }, { s: 5.14, p: 90 }, { s: 5.56, p: 90 }, { s: 5.57, p: 95 }],
+            "E3": [{ s: 1.0, p: 1 }, { s: 2.99, p: 1 }, { s: 3.0, p: 5 }, { s: 3.39, p: 5 }, { s: 3.4, p: 10 }, { s: 3.79, p: 10 }, { s: 3.8, p: 15 }, { s: 3.99, p: 15 }, { s: 4.0, p: 20 }, { s: 4.19, p: 20 }, { s: 4.21, p: 30 }, { s: 4.39, p: 30 }, { s: 4.4, p: 35 }, { s: 4.59, p: 35 }, { s: 4.61, p: 45 }, { s: 4.79, p: 45 }, { s: 4.8, p: 50 }, { s: 4.99, p: 50 }, { s: 5.01, p: 60 }, { s: 5.19, p: 60 }, { s: 5.2, p: 65 }, { s: 5.39, p: 65 }, { s: 5.4, p: 70 }, { s: 5.59, p: 70 }, { s: 5.61, p: 80 }, { s: 5.8, p: 80 }, { s: 5.81, p: 85 }, { s: 6.19, p: 85 }, { s: 6.2, p: 90 }, { s: 6.39, p: 90 }, { s: 6.4, p: 95 }],
+            "E4": [{ s: 1.0, p: 1 }, { s: 2.82, p: 1 }, { s: 2.83, p: 5 }, { s: 3.32, p: 5 }, { s: 3.33, p: 10 }, { s: 3.66, p: 10 }, { s: 3.67, p: 15 }, { s: 3.85, p: 15 }, { s: 3.86, p: 20 }, { s: 4.13, p: 20 }, { s: 4.14, p: 25 }, { s: 4.28, p: 25 }, { s: 4.29, p: 30 }, { s: 4.42, p: 30 }, { s: 4.43, p: 35 }, { s: 4.56, p: 35 }, { s: 4.57, p: 40 }, { s: 4.7, p: 40 }, { s: 4.71, p: 45 }, { s: 4.85, p: 45 }, { s: 4.86, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.16, p: 55 }, { s: 5.17, p: 60 }, { s: 5.32, p: 60 }, { s: 5.33, p: 65 }, { s: 5.49, p: 65 }, { s: 5.5, p: 70 }, { s: 5.66, p: 70 }, { s: 5.67, p: 75 }, { s: 5.83, p: 80 }, { s: 5.99, p: 80 }, { s: 6.0, p: 85 }, { s: 6.28, p: 85 }, { s: 6.29, p: 90 }, { s: 6.56, p: 90 }, { s: 6.57, p: 95 }],
+            "S1": [{ s: 1.0, p: 1 }, { s: 3.91, p: 1 }, { s: 3.92, p: 5 }, { s: 4.41, p: 5 }, { s: 4.42, p: 10 }, { s: 4.72, p: 10 }, { s: 4.73, p: 15 }, { s: 4.91, p: 15 }, { s: 4.92, p: 20 }, { s: 5.08, p: 20 }, { s: 5.09, p: 25 }, { s: 5.24, p: 25 }, { s: 5.25, p: 30 }, { s: 5.41, p: 30 }, { s: 5.42, p: 35 }, { s: 5.49, p: 35 }, { s: 5.5, p: 40 }, { s: 5.57, p: 40 }, { s: 5.58, p: 45 }, { s: 5.72, p: 45 }, { s: 5.73, p: 50 }, { s: 5.82, p: 50 }, { s: 5.83, p: 55 }, { s: 5.91, p: 55 }, { s: 5.92, p: 60 }, { s: 6.07, p: 60 }, { s: 6.08, p: 65 }, { s: 6.16, p: 65 }, { s: 6.17, p: 70 }, { s: 6.25, p: 70 }, { s: 6.26, p: 75 }, { s: 6.35, p: 75 }, { s: 6.36, p: 80 }, { s: 6.49, p: 80 }, { s: 6.5, p: 85 }, { s: 6.63, p: 85 }, { s: 6.64, p: 90 }, { s: 6.81, p: 90 }, { s: 6.82, p: 95 }],
+            "S2": [{ s: 1.0, p: 1 }, { s: 3.7, p: 1 }, { s: 3.71, p: 5 }, { s: 4.24, p: 5 }, { s: 4.25, p: 10 }, { s: 4.56, p: 10 }, { s: 4.57, p: 15 }, { s: 4.85, p: 15 }, { s: 4.86, p: 20 }, { s: 4.99, p: 20 }, { s: 5.0, p: 25 }, { s: 5.18, p: 25 }, { s: 5.19, p: 30 }, { s: 5.37, p: 30 }, { s: 5.38, p: 35 }, { s: 5.49, p: 35 }, { s: 5.5, p: 40 }, { s: 5.62, p: 40 }, { s: 5.63, p: 45 }, { s: 5.74, p: 45 }, { s: 5.75, p: 50 }, { s: 5.87, p: 50 }, { s: 5.88, p: 55 }, { s: 5.99, p: 55 }, { s: 6.0, p: 60 }, { s: 6.12, p: 60 }, { s: 6.13, p: 65 }, { s: 6.24, p: 65 }, { s: 6.25, p: 70 }, { s: 6.28, p: 70 }, { s: 6.29, p: 75 }, { s: 6.49, p: 75 }, { s: 6.5, p: 80 }, { s: 6.56, p: 80 }, { s: 6.57, p: 85 }, { s: 6.74, p: 85 }, { s: 6.75, p: 90 }, { s: 6.99, p: 90 }, { s: 7.0, p: 95 }],
+            "S3": [{ s: 1.0, p: 1 }, { s: 2.99, p: 1 }, { s: 3.0, p: 5 }, { s: 3.37, p: 5 }, { s: 3.38, p: 10 }, { s: 3.62, p: 10 }, { s: 3.63, p: 15 }, { s: 3.87, p: 15 }, { s: 3.88, p: 20 }, { s: 4.12, p: 20 }, { s: 4.13, p: 25 }, { s: 4.24, p: 25 }, { s: 4.25, p: 30 }, { s: 4.37, p: 30 }, { s: 4.38, p: 35 }, { s: 4.49, p: 35 }, { s: 4.5, p: 40 }, { s: 4.62, p: 40 }, { s: 4.63, p: 45 }, { s: 4.74, p: 45 }, { s: 4.75, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.12, p: 55 }, { s: 5.14, p: 65 }, { s: 5.24, p: 65 }, { s: 5.25, p: 70 }, { s: 5.49, p: 70 }, { s: 5.5, p: 75 }, { s: 5.62, p: 75 }, { s: 5.63, p: 80 }, { s: 5.74, p: 80 }, { s: 5.75, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.24, p: 90 }, { s: 6.25, p: 95 }],
+            "R1": [{ s: 1.0, p: 1 }, { s: 3.49, p: 1 }, { s: 3.5, p: 5 }, { s: 3.89, p: 5 }, { s: 3.9, p: 10 }, { s: 4.19, p: 10 }, { s: 4.2, p: 15 }, { s: 4.42, p: 15 }, { s: 4.43, p: 20 }, { s: 4.59, p: 20 }, { s: 4.6, p: 25 }, { s: 4.79, p: 25 }, { s: 4.8, p: 30 }, { s: 4.89, p: 30 }, { s: 4.9, p: 35 }, { s: 4.99, p: 35 }, { s: 5.0, p: 40 }, { s: 5.13, p: 40 }, { s: 5.14, p: 45 }, { s: 5.28, p: 45 }, { s: 5.29, p: 50 }, { s: 5.39, p: 50 }, { s: 5.4, p: 55 }, { s: 5.49, p: 55 }, { s: 5.5, p: 60 }, { s: 5.59, p: 60 }, { s: 5.6, p: 65 }, { s: 5.69, p: 65 }, { s: 5.7, p: 70 }, { s: 5.85, p: 70 }, { s: 5.86, p: 75 }, { s: 5.99, p: 75 }, { s: 6.0, p: 80 }, { s: 6.09, p: 80 }, { s: 6.1, p: 85 }, { s: 6.28, p: 85 }, { s: 6.29, p: 90 }, { s: 6.49, p: 90 }, { s: 6.5, p: 95 }],
+            "R2": [{ s: 1.0, p: 1 }, { s: 2.74, p: 1 }, { s: 2.75, p: 5 }, { s: 3.24, p: 5 }, { s: 3.25, p: 10 }, { s: 3.74, p: 10 }, { s: 3.75, p: 15 }, { s: 3.99, p: 15 }, { s: 4.01, p: 25 }, { s: 4.24, p: 25 }, { s: 4.25, p: 30 }, { s: 4.49, p: 30 }, { s: 4.5, p: 35 }, { s: 4.74, p: 35 }, { s: 4.76, p: 45 }, { s: 4.99, p: 45 }, { s: 5.0, p: 50 }, { s: 5.24, p: 50 }, { s: 5.26, p: 60 }, { s: 5.49, p: 60 }, { s: 5.51, p: 70 }, { s: 5.74, p: 70 }, { s: 5.75, p: 75 }, { s: 5.99, p: 75 }, { s: 6.0, p: 80 }, { s: 6.24, p: 80 }, { s: 6.25, p: 85 }, { s: 6.49, p: 85 }, { s: 6.5, p: 90 }, { s: 6.74, p: 90 }, { s: 6.75, p: 95 }],
+            "R3": [{ s: 1.0, p: 1 }, { s: 2.99, p: 1 }, { s: 3.0, p: 5 }, { s: 3.28, p: 5 }, { s: 3.29, p: 10 }, { s: 3.56, p: 10 }, { s: 3.57, p: 15 }, { s: 3.85, p: 15 }, { s: 3.86, p: 20 }, { s: 3.99, p: 20 }, { s: 4.0, p: 25 }, { s: 4.16, p: 25 }, { s: 4.17, p: 30 }, { s: 4.42, p: 30 }, { s: 4.43, p: 35 }, { s: 4.56, p: 35 }, { s: 4.57, p: 40 }, { s: 4.7, p: 40 }, { s: 4.71, p: 45 }, { s: 4.85, p: 45 }, { s: 4.86, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.13, p: 55 }, { s: 5.14, p: 60 }, { s: 5.28, p: 60 }, { s: 5.29, p: 65 }, { s: 5.42, p: 65 }, { s: 5.43, p: 70 }, { s: 5.56, p: 70 }, { s: 5.57, p: 75 }, { s: 5.7, p: 75 }, { s: 5.71, p: 80 }, { s: 5.85, p: 80 }, { s: 5.86, p: 85 }, { s: 6.13, p: 85 }, { s: 6.14, p: 90 }, { s: 6.42, p: 90 }, { s: 6.43, p: 95 }],
+            "A1": [{ s: 1.0, p: 1 }, { s: 2.89, p: 1 }, { s: 2.9, p: 5 }, { s: 3.29, p: 5 }, { s: 3.3, p: 10 }, { s: 3.49, p: 10 }, { s: 3.5, p: 15 }, { s: 3.69, p: 15 }, { s: 3.7, p: 20 }, { s: 3.89, p: 20 }, { s: 3.9, p: 25 }, { s: 3.99, p: 25 }, { s: 4.0, p: 30 }, { s: 4.09, p: 30 }, { s: 4.1, p: 35 }, { s: 4.29, p: 35 }, { s: 4.3, p: 40 }, { s: 4.39, p: 40 }, { s: 4.4, p: 45 }, { s: 4.59, p: 45 }, { s: 4.6, p: 50 }, { s: 4.69, p: 50 }, { s: 4.7, p: 55 }, { s: 4.79, p: 55 }, { s: 4.8, p: 60 }, { s: 4.99, p: 60 }, { s: 5.0, p: 65 }, { s: 5.09, p: 65 }, { s: 5.1, p: 70 }, { s: 5.29, p: 70 }, { s: 5.3, p: 75 }, { s: 5.49, p: 75 }, { s: 5.5, p: 80 }, { s: 5.69, p: 80 }, { s: 5.7, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.29, p: 90 }, { s: 6.3, p: 95 }],
+            "A2": [{ s: 1.0, p: 1 }, { s: 3.13, p: 1 }, { s: 3.14, p: 5 }, { s: 3.56, p: 5 }, { s: 3.57, p: 10 }, { s: 3.7, p: 10 }, { s: 3.71, p: 15 }, { s: 3.99, p: 15 }, { s: 4.0, p: 20 }, { s: 4.13, p: 20 }, { s: 4.14, p: 25 }, { s: 4.28, p: 25 }, { s: 4.29, p: 30 }, { s: 4.42, p: 30 }, { s: 4.43, p: 35 }, { s: 4.56, p: 35 }, { s: 4.57, p: 40 }, { s: 4.7, p: 40 }, { s: 4.71, p: 45 }, { s: 4.85, p: 45 }, { s: 4.86, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.13, p: 55 }, { s: 5.14, p: 60 }, { s: 5.28, p: 60 }, { s: 5.29, p: 65 }, { s: 5.42, p: 65 }, { s: 5.43, p: 70 }, { s: 5.56, p: 70 }, { s: 5.57, p: 75 }, { s: 5.7, p: 75 }, { s: 5.71, p: 80 }, { s: 5.99, p: 80 }, { s: 6.0, p: 85 }, { s: 6.13, p: 85 }, { s: 6.14, p: 90 }, { s: 6.42, p: 90 }, { s: 6.43, p: 95 }],
+            "A3": [{ s: 1.0, p: 1 }, { s: 2.82, p: 1 }, { s: 2.83, p: 5 }, { s: 3.32, p: 5 }, { s: 3.33, p: 10 }, { s: 3.49, p: 10 }, { s: 3.5, p: 15 }, { s: 3.74, p: 15 }, { s: 3.75, p: 20 }, { s: 3.99, p: 20 }, { s: 4.01, p: 30 }, { s: 4.22, p: 30 }, { s: 4.23, p: 35 }, { s: 4.32, p: 35 }, { s: 4.33, p: 40 }, { s: 4.49, p: 40 }, { s: 4.5, p: 45 }, { s: 4.66, p: 45 }, { s: 4.67, p: 50 }, { s: 4.82, p: 50 }, { s: 4.83, p: 55 }, { s: 4.99, p: 55 }, { s: 5.01, p: 65 }, { s: 5.16, p: 65 }, { s: 5.17, p: 70 }, { s: 5.32, p: 70 }, { s: 5.33, p: 75 }, { s: 5.49, p: 75 }, { s: 5.5, p: 80 }, { s: 5.66, p: 80 }, { s: 5.67, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.16, p: 90 }, { s: 6.17, p: 95 }]
+        };
+
+        const NAMES = {
+            "N1": "Vulnerabilidade", "N2": "Instabilidade Emocional", "N3": "Passividade", "N4": "Depressão",
+            "E1": "Comunicação", "E2": "Altivez", "E3": "Dinamismo", "E4": "Interação Social",
+            "S1": "Amabilidade", "S2": "Pró-Sociabilidade", "S3": "Confiança",
+            "R1": "Competência", "R2": "Ponderação/Prudência", "R3": "Empenho",
+            "A1": "Abertura a Ideias", "A2": "Liberalismo", "A3": "Busca por Novidades"
+        };
+
+        const FACTOR_MAP = {
+            "NEUROTICISMO": ["N1", "N2", "N3", "N4"],
+            "EXTROVERSÃO": ["E1", "E2", "E3", "E4"],
+            "SOCIALIZAÇÃO": ["S1", "S2", "S3"],
+            "REALIZAÇÃO": ["R1", "R2", "R3"],
+            "ABERTURA": ["A1", "A2", "A3"]
+        };
+
+        /* ================= LÓGICA ================= */
+
+        function showScreen(id) {
+            document.getElementById('screen-dashboard').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
+
+            document.getElementById('screen-' + id).classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            if (id === 'dashboard') loadDashboard();
+        }
+
+        function novoTeste() {
+            if (confirm("Iniciar novo teste?")) {
+                document.querySelectorAll('input').forEach(i => i.checked = false);
+                updateProgress();
+                showScreen('quiz');
+            }
+        }
+
+        function updateProgress() {
+            const total = DATA_QUESTIONS.length;
+            const done = document.querySelectorAll('input:checked').length;
+            const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-text').innerText = pct + '%';
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (DATA_QUESTIONS.length === 0) {
+                container.innerHTML = '<div class="text-white">Carregando dados... por favor recarregue a página se não aparecer.</div>';
+                return;
+            }
+
+            let html = '';
+            DATA_QUESTIONS.forEach(q => {
+                html += `
+    <div class="bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all">
+        <div class="flex gap-3 mb-4 pl-2">
+            <span class="text-purple-400 font-bold font-mono">#${q.id}</span>
+            <p class="text-gray-200 font-medium">${q.text}</p>
+        </div>
+        <div class="grid grid-cols-9 gap-1 items-center">
+            <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Discordo</span>
+            ${[1, 2, 3, 4, 5, 6, 7].map(v => `
+                <label class="scale-option cursor-pointer relative group/opt">
+                    <input type="radio" name="q${q.id}" value="${v}" class="peer sr-only" onchange="updateProgress()">
+                    <div class="h-10 w-full bg-[#0f0e1a] border border-white/10 rounded-md flex items-center justify-center text-gray-400 font-bold transition-all peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 hover:bg-white/5 hover:border-white/20">
+                        ${v}
+                    </div>
+                </label>
+            `).join('')}
+            <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Concordo</span>
+        </div>
+    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function calculate() {
+            let scores = {};
+            let count = 0;
+
+            DATA_QUESTIONS.forEach(q => {
+                const el = document.querySelector(`input[name="q${q.id}"]:checked`);
+                if (el) {
+                    count++;
+                    let val = parseInt(el.value);
+                    if (q.inverted) val = 8 - val;
+
+                    if (!scores[q.facet]) scores[q.facet] = [];
+                    scores[q.facet].push(val);
+                }
+            });
+
+            if (count < DATA_QUESTIONS.length) {
+                if (!confirm("Teste incompleto. Continuar mesmo assim?")) return;
+            }
+
+            let results = {};
+            let isGlobalApto = true;
+
+            for (let f in scores) {
+                const sum = scores[f].reduce((a, b) => a + b, 0);
+                const avg = sum / scores[f].length;
+
+                let pct = 50; // Default
+                const table = DATA_PERCENTILES[f];
+
+                if (table) {
+                    let closest = table[0];
+                    let minDiff = Infinity;
+                    table.forEach(row => {
+                        const diff = Math.abs(row.s - avg);
+                        if (diff < minDiff) { minDiff = diff; closest = row; }
+                    });
+                    pct = closest.p;
+                }
+
+                // Ajuste especial para R2 Ponderação
+                if (f === 'R2') {
+                    const roundedAvg = Number(avg.toFixed(2));
+                    if ([5.5, 5.25, 4.75, 4].includes(roundedAvg)) {
+                        pct += 5;
+                    }
+                }
+
+                const crit = DATA_CRITERIA[f] || { min: 0, max: 100 };
+                const apto = pct >= crit.min && pct <= crit.max;
+                if (!apto) isGlobalApto = false;
+
+                results[f] = { raw: avg.toFixed(2), pct: pct, apto: apto, min: crit.min, max: crit.max };
+            }
+
+            renderReport(results, isGlobalApto);
+        }
+
+        function renderReport(res, globalStatus) {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            document.getElementById('report-date').innerText = new Date().toLocaleString();
+            const badge = document.getElementById('final-status-badge');
+            badge.innerText = globalStatus ? "APTO" : "INAPTO";
+            badge.className = `px-8 py-3 rounded-full text-xl font-bold border ${globalStatus ? 'bg-green-500/10 text-green-400 border-green-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'}`;
+
+            const container = document.getElementById('report-content');
+            let html = '';
+
+            for (let factor in FACTOR_MAP) {
+                html += `
+                <div class="mb-8 break-inside-avoid">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fas fa-layer-group text-purple-500" style="text-shadow: 0 0 10px var(--primary-purple);"></i> 
+                        <span class="neon-text">${factor}</span>
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+            `;
+
+                FACTOR_MAP[factor].forEach(code => {
+                    const r = res[code];
+                    if (!r) return;
+
+                    const name = NAMES[code] || code;
+                    const isApto = r.apto;
+                    const statusText = isApto ? "APTO" : "INAPTO";
+
+                    const statusColor = isApto
+                        ? "text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                        : "text-red-400 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
+
+                    const left = r.min + '%';
+                    const width = (r.max - r.min) + '%';
+                    const marker = Math.min(100, Math.max(0, r.pct)) + '%';
+                    const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
+
+                    html += `
+                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col md:flex-row items-center gap-4 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
+                        <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                            <div>
+                                <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-1 rounded mr-1">${code}</span>
+                                ${name}
+                            </div>
+                        </div>
+                        
+                        <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                            <!-- Faixa Ideal -->
+                            <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                                 style="left: ${left}; width: ${width};" 
+                                 title="Meta: ${r.min}-${r.max}%">
+                            </div>
+                            
+                            <!-- Marcador -->
+                            <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
+                                 style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+                            </div>
+                        </div>
+                        
+                        <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
+                            <div class="text-right">
+                                <div class="text-xs text-gray-500">Média: ${r.raw}</div>
+                                <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                            </div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
+                        </div>
+                    </div>`;
+                });
+                html += `</div></div>`;
+            }
+            container.innerHTML = html;
+
+            // Histórico
+            const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
+            h.unshift({ date: new Date().toLocaleString(), status: globalStatus ? 'APTO' : 'INAPTO' });
+            localStorage.setItem('bfp_history', JSON.stringify(h));
+        }
+
+        // Funções de Histórico
+        function loadDashboard() {
+            const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
+            document.getElementById('dash-total').innerText = h.length;
+            if (h.length) {
+                document.getElementById('dash-last-date').innerText = h[0].date;
+                document.getElementById('dash-last-status').innerText = h[0].status;
+                document.getElementById('dash-last-status').className = h[0].status == 'APTO' ? 'text-green-400 font-bold text-sm' : 'text-red-400 font-bold text-sm';
+            }
+
+            const dashboardContainer = document.getElementById('history-container');
+            if (h.length === 0) {
+                dashboardContainer.innerHTML = '<tr><td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum teste detectado.</td></tr>';
+                return;
+            }
+
+            dashboardContainer.innerHTML = h.map(i => `
+             <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
+                <td class="px-6 py-4 font-medium text-white">BFP Completo</td>
+                <td class="px-6 py-4 text-gray-400">${i.date}</td>
+                <td class="px-6 py-4 text-center font-bold ${i.status == 'APTO' ? 'text-green-400' : 'text-red-400'}">${i.status}</td>
+                <td class="px-6 py-4 text-right">
+                     <span class="text-xs text-gray-500">Salvo</span>
+                </td>
+            </tr>
+        `).join('');
+        }
+
+        function limparHistorico() {
+            if (confirm("Apagar todo o histórico?")) {
+                localStorage.removeItem('bfp_history');
+                location.reload();
+            }
+        }
+
+        // Inicialização
+        function calcularResultado() { return window.calculate(); }
+        window.calculate = calculate;
+        window.onload = function () {
+            renderQuiz();
+            loadDashboard();
+        };
+
+    </script>
+</body>
+
+</html>

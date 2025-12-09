@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Avaliação NEO PI-R | Aprovação Psycho</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
+
+  <!-- SEGURANÇA -->
+  <script src="../scripts/auth_guard.js"></script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-dark: #100f1c;
+      --bg-card: #1c1b29;
+      --primary-purple: #9f54ff;
+      --accent-pink: #ff00ff;
+      --accent-blue: #00c2ff
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-dark);
+      color: #a0a0a0
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid #333;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--primary-purple);
+      box-shadow: 0 10px 30px rgba(159, 84, 255, 0.15);
+      transform: translateY(-5px);
+    }
+
+    [x-cloak] {
+      display: none !important
+    }
+
+    /* ---- HERO (glass + grid) ---- */
+    .hero-bg {
+      position: relative;
+      isolation: isolate;
+      background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    .hero-bg::before {
+      /* animated grid glow */
+      content: "";
+      position: absolute;
+      inset: -10%;
+      z-index: -1;
+      opacity: .35;
+      background:
+        radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+        radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+        radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+      filter: blur(40px);
+      pointer-events: none
+    }
+
+    .scale-option input:checked+div {
+      background: rgba(159, 84, 255, 0.2);
+      border-color: var(--primary-purple);
+      color: white;
+      box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen hero-bg">
+
+  <!-- HEADER -->
+  <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="../logo-principal.png" alt="Logo" class="h-8">
+        <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+          alt="Brasão PMPR"
+          class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+        <div class="flex flex-col">
+          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+          <span class="text-white font-black text-lg leading-none">NEO PI-R <span
+              class="text-[var(--accent-pink)]">2025</span></span>
+          <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="testes_personalidade.html"
+          class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+          </svg>
+          Voltar
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <div id="screen-dashboard" class="fade-in">
+      <div class="mb-10">
+        <h2 class="text-3xl font-bold text-white mb-2">Painel de Controle</h2>
+        <p class="text-gray-400">Visão geral do seu desempenho no Inventário NEO PI-R.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+              <i class="fas fa-clipboard-check text-xl"></i>
+            </div>
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total</span>
+          </div>
+          <div class="text-4xl font-bold text-white mb-1" id="dash-total">0</div>
+          <p class="text-sm text-gray-500">Testes realizados</p>
+        </div>
+
+        <div class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-cyan-500/30 transition-all group">
+          <div class="flex justify-between items-start mb-4">
+            <div class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+              <i class="fas fa-stopwatch text-xl"></i>
+            </div>
+            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Último</span>
+          </div>
+          <div class="text-lg font-bold text-white mb-1 truncate" id="dash-last-date">-</div>
+          <p class="text-sm text-gray-500" id="dash-last-status">Sem dados</p>
+        </div>
+
+        <div
+          class="bg-gradient-to-br from-[#151427] to-[#1a1a35] rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+          onclick="novoTeste()">
+          <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 text-white">
+            <i class="fas fa-plus"></i>
+          </div>
+          <h3 class="text-white font-bold mb-1">Iniciar Novo Teste</h3>
+          <p class="text-xs text-gray-400">NEO PI-R Completo</p>
+        </div>
+      </div>
+
+      <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
+        <div class="p-6 border-b border-white/5 flex justify-between items-center">
+          <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
+          <button class="text-xs text-purple-400 hover:text-purple-300 font-medium" onclick="limparHistorico()">Limpar
+            Histórico</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="text-xs text-gray-500 uppercase bg-[#0f0e1a]/50">
+              <tr>
+                <th class="px-6 py-4 font-medium">Teste</th>
+                <th class="px-6 py-4 font-medium">Data</th>
+                <th class="px-6 py-4 font-medium text-center">Status</th>
+                <th class="px-6 py-4 font-medium text-right">Ação</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5" id="history-container">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="screen-quiz" class="hidden fade-in max-w-5xl mx-auto">
+      <div class="bg-[#151427] rounded-2xl p-6 border border-white/5 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
+        <div class="flex justify-between items-end mb-4">
+          <div>
+            <h2 class="text-xl font-bold text-white">NEO PI-R</h2>
+            <p class="text-sm text-gray-400">Inventário de Personalidade NEO Revisado</p>
+          </div>
+          <div class="text-right">
+            <span class="text-2xl font-bold text-cyan-400" id="progress-text">0%</span>
+          </div>
+        </div>
+        <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ease-out"
+            id="progress-bar" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div id="quiz-container" class="space-y-6">
+      </div>
+
+      <div class="mt-10 flex justify-center pb-20">
+        <button onclick="calcularResultado()"
+          class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
+          FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
+        </button>
+      </div>
+    </div>
+
+    <div id="screen-result" class="hidden fade-in">
+
+      <div
+        class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+        <div>
+          <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÓRIO DE PERFIL</h2>
+          <p class="text-gray-400 flex items-center gap-2">
+            <i class="far fa-calendar-alt"></i> <span id="report-date">...</span>
+          </p>
+        </div>
+        <div class="mt-6 md:mt-0 text-center">
+          <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+          <div id="final-status-badge"
+            class="px-8 py-3 rounded-full text-xl font-bold bg-gray-800 text-gray-400 border border-gray-700">
+            CALCULANDO...
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 mb-8 no-print">
+        <button onclick="showScreen('dashboard')"
+          class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition font-medium text-sm">
+          <i class="fas fa-arrow-left mr-1"></i> Voltar
+        </button>
+        <button onclick="window.print()"
+          class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/30 transition font-medium text-sm">
+          <i class="fas fa-print mr-1"></i> Imprimir PDF
+        </button>
+      </div>
+
+      <div id="report-content" class="space-y-10">
+      </div>
+
+      <div class="mt-20 text-center border-t border-white/5 pt-10 pb-10">
+        <p class="text-gray-600 text-sm">Aprovação Psycho - Método Titan</p>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // ==========================================================================
+    // DADOS OFICIAIS (PLACEHOLDER)
+    // ==========================================================================
+
+    const DATA_CRITERIA = {
+      "ansiedade": { min: 0, max: 51 }, "raiva": { min: 0, max: 51 }, "depressao": { min: 0, max: 51 },
+      "embaraco": { min: 0, max: 51 }, "impulsividade": { min: 0, max: 51 }, "vulnerabilidade": { min: 0, max: 51 },
+      "acolhimento caloroso": { min: 30, max: 85 }, "gregarismo": { min: 30, max: 85 }, "assertividade": { min: 30, max: 100 },
+      "atividade": { min: 30, max: 100 }, "busca de sensacoes": { min: 30, max: 80 }, "emocoes positivas": { min: 30, max: 80 },
+      "fantasia": { min: 20, max: 80 }, "estetica": { min: 30, max: 80 }, "sentimentos": { min: 20, max: 80 },
+      "acoes variadas": { min: 20, max: 80 }, "ideias": { min: 20, max: 80 }, "valores": { min: 20, max: 80 },
+      "confianca": { min: 20, max: 80 }, "franqueza": { min: 20, max: 80 }, "altruismo": { min: 30, max: 100 },
+      "complacencia": { min: 20, max: 80 }, "modestia": { min: 20, max: 100 }, "sensibilidade": { min: 20, max: 80 },
+      "competencia": { min: 40, max: 100 }, "ordem": { min: 30, max: 100 }, "senso de dever": { min: 30, max: 100 },
+      "esforco por realizacao": { min: 30, max: 100 }, "auto disciplina": { min: 30, max: 100 }, "ponderacao": { min: 30, max: 300 }
+    };
+    const DATA_QUESTIONS = [
+      { "id": 1, "text": "Sou uma pessoa despreocupada", "facet": "ansiedade", "inverted": true },
+      { "id": 2, "text": "Gosto realmente da maioria das pessoas que encontro", "facet": "acolhimento caloroso", "inverted": false },
+      { "id": 3, "text": "Tenho uma imaginação muito fértil", "facet": "fantasia", "inverted": false },
+      { "id": 4, "text": "Tendo a ser descrente frente às intenções dos outros", "facet": "confianca", "inverted": true },
+      { "id": 5, "text": "Sou conhecido (a) pela minha prudência e bom senso", "facet": "competencia", "inverted": false },
+      { "id": 6, "text": "Muitas vezes, fico irritado (a) com a maneira como as pessoas me tratam", "facet": "raiva", "inverted": false },
+      { "id": 7, "text": "Não gosto de multidões e por isso as evito", "facet": "gregarismo", "inverted": true },
+      { "id": 8, "text": "Assuntos de estética e arte não são muito importantes para mim", "facet": "estetica", "inverted": true },
+      { "id": 9, "text": "Não sou dissimulado (a) nem espertalhão (ona)", "facet": "franqueza", "inverted": false },
+      { "id": 10, "text": "Prefiro deixar as opções em aberto que planejar tudo com antecedência", "facet": "ordem", "inverted": true },
+      { "id": 11, "text": "Raramente me sinto só ou triste", "facet": "depressao", "inverted": true },
+      { "id": 12, "text": "Sou dominador (a), firme e assertivo (a)", "facet": "assertividade", "inverted": false },
+      { "id": 13, "text": "Sem emoções fortes a vida não teria muito graça para mim", "facet": "sentimentos", "inverted": false },
+      { "id": 14, "text": "Algumas pessoas pensam que sou invejoso (a) e egoísta", "facet": "altruismo", "inverted": true },
+      { "id": 15, "text": "Tento cumprir todas as minhas obrigações com responsabilidade", "facet": "senso de dever", "inverted": false },
+      { "id": 16, "text": "Ao lidar com outras pessoas, sempre tenho medo de fazer alguma coisa errada", "facet": "embaraco", "inverted": false },
+      { "id": 17, "text": "Gosto de realizar as coisas com calma", "facet": "atividade", "inverted": false },
+      { "id": 18, "text": "Sou bastante agarrado (a) às minhas próprias maneiras de agir", "facet": "acoes variadas", "inverted": false },
+      { "id": 19, "text": "Prefiro colaborar com as outras pessoas a competir com elas", "facet": "complacencia", "inverted": false },
+      { "id": 20, "text": "Sou despreocupado (a) e pouco determinado (a)", "facet": "esforco por realizacao", "inverted": true },
+      { "id": 21, "text": "Raramente me excedo em qualquer coisa", "facet": "impulsividade", "inverted": true },
+      { "id": 22, "text": "Sinto, muitas vezes, forte necessidade de me divertir", "facet": "busca de sensacoes", "inverted": false },
+      { "id": 23, "text": "Muitas vezes, sinto prazer em brincar com teorias e idéias abstratas", "facet": "ideias", "inverted": false },
+      { "id": 24, "text": "Não me incomodo de me vangloriar de meus talentos e sucessos", "facet": "modestia", "inverted": true },
+      { "id": 25, "text": "Eu sou bom (boa) em organizar meu tempo de maneira a fazer as coisas dentro do prazo", "facet": "auto disciplina", "inverted": false },
+      { "id": 26, "text": "Sinto-me, muitas vezes, desamparado (a) desejando que alguém resolva meus problemas", "facet": "vulnerabilidade", "inverted": false },
+      { "id": 27, "text": "Para dizer a verdade, nunca pulei de alegria", "facet": "emocoes positivas", "inverted": true },
+      { "id": 28, "text": "Acredito que deixar estudantes ouvirem pessoas com idéias controversas só vai confundi-los e desorientá-los", "facet": "valores", "inverted": false },
+      { "id": 29, "text": "Os governantes precisam estar muito mais atentos para o lado humano dos seus projetos politicos", "facet": "sensibilidade", "inverted": false },
+      { "id": 30, "text": "Ao longo dos anos cometi muitos erros", "facet": "ponderacao", "inverted": false },
+      { "id": 31, "text": "Assusto-me facilmente", "facet": "ansiedade", "inverted": false },
+      { "id": 32, "text": "Eu não gosto muito de ficar conversando com as pessoas", "facet": "acolhimento caloroso", "inverted": true },
+      { "id": 33, "text": "Tento sempre organizar os meus pensamentos de forma realista, não dando asas a imaginação", "facet": "fantasia", "inverted": true },
+      { "id": 34, "text": "Acredito que a maioria das pessoas é, no fundo, bem intencionada", "facet": "confianca", "inverted": false },
+      { "id": 35, "text": "Não levo muito a sério os deveres cívicos, como votar", "facet": "competencia", "inverted": true },
+      { "id": 36, "text": "Sou uma pessoa tranquila", "facet": "raiva", "inverted": true },
+      { "id": 37, "text": "Gosto de ter muita gente a minha volta", "facet": "gregarismo", "inverted": false },
+      { "id": 38, "text": "Em algumas ocasiões, quando ouço musica, não presto atenção em mais nada", "facet": "estetica", "inverted": false },
+      { "id": 39, "text": "Ser for necessário, estou disposto (a) a manipular as pessoas para conseguir aquilo que quero", "facet": "franqueza", "inverted": true },
+      { "id": 40, "text": "Mantenho as minhas coisas limpas e em ordem", "facet": "ordem", "inverted": false },
+      { "id": 41, "text": "Às vezes, sinto que eu não valho nada", "facet": "depressao", "inverted": false },
+      { "id": 42, "text": "As vezes, eu deveria mostrar maior firmeza em minhas ações", "facet": "assertividade", "inverted": true },
+      { "id": 43, "text": "Raramente experimento forte emoções", "facet": "sentimentos", "inverted": true },
+      { "id": 44, "text": "Tento ser educado (a) com todas as pessoas que encontro", "facet": "altruismo", "inverted": false },
+      { "id": 45, "text": "Às vezes, não sou tão confiável como deveria ser", "facet": "senso de dever", "inverted": true },
+      { "id": 46, "text": "Raramente me sinto constrangido (a) quando estou rodeado (a) de pessoas", "facet": "embaraco", "inverted": true },
+      { "id": 47, "text": "Quando faço alguma coisa, eu faço com todo entusiasmo", "facet": "atividade", "inverted": false },
+      { "id": 48, "text": "Acho interessante aprender e cultivar novos hobbies (passatempos)", "facet": "acoes variadas", "inverted": true },
+      { "id": 49, "text": "Sei ser sarcástico (a) e irônico (a) quando necessário", "facet": "complacencia", "inverted": true },
+      { "id": 50, "text": "Tenho objetivos claros e busco atingi-los de forma organizada", "facet": "esforco por realizacao", "inverted": false },
+      { "id": 51, "text": "Tenho dificuldades em resistir aos meus desejos", "facet": "impulsividade", "inverted": false },
+      { "id": 52, "text": "Não gostaria de passar as férias em um lugar muito freqüentado e agitado", "facet": "busca de sensacoes", "inverted": true },
+      { "id": 53, "text": "Acho as discussões filosóficas enfadonhas (chatas)", "facet": "ideias", "inverted": true },
+      { "id": 54, "text": "Quando eu estou conversando com as pessoas, prefiro não falar de mim mesmo (a) e das minhas realizações", "facet": "modestia", "inverted": false },
+      { "id": 55, "text": "Perco muito tempo antes de me concentrar no trabalho", "facet": "auto disciplina", "inverted": true },
+      { "id": 56, "text": "Sinto que sou capaz de resolver a maioria dos problemas", "facet": "vulnerabilidade", "inverted": true },
+      { "id": 57, "text": "Já experimentei, algumas vezes, sensações de grande alegria ou êxtase (arrebatamento)", "facet": "emocoes positivas", "inverted": false },
+      { "id": 58, "text": "Acredito que as leis e a políticas sociais deveriam mudar para que possam refletir as necessidades atuais", "facet": "valores", "inverted": true },
+      { "id": 59, "text": "Sou inflexível e teimoso (a) nas minhas atitudes", "facet": "sensibilidade", "inverted": true },
+      { "id": 60, "text": "Penso muito antes de tomar uma decisão", "facet": "ponderacao", "inverted": false },
+      { "id": 61, "text": "Raramente me sinto amedrontado (a) ou ansioso (a)", "facet": "ansiedade", "inverted": true },
+      { "id": 62, "text": "Sou uma pessoa amigável e simpática", "facet": "acolhimento caloroso", "inverted": false },
+      { "id": 63, "text": "Tenho uma grande capacidade de fantasiar", "facet": "fantasia", "inverted": false },
+      { "id": 64, "text": "Acredito que, se você deixar, as pessoas vão te passar para trás (enganar)", "facet": "confianca", "inverted": true },
+      { "id": 65, "text": "Mantenho-me informado (a) e, geralmente, tomo decisões inteligentes", "facet": "competencia", "inverted": false },
+      { "id": 66, "text": "Eu sou conhecido (a) como uma pessoa esquentada", "facet": "raiva", "inverted": false },
+      { "id": 67, "text": "Normalmente, prefiro fazer as coisas sozinho (a)", "facet": "gregarismo", "inverted": true },
+      { "id": 68, "text": "Assistir balé ou dança moderna me deixa entediado (a)", "facet": "estetica", "inverted": true },
+      { "id": 69, "text": "Mesmo que quisesse, não conseguiria enganar ninguém", "facet": "franqueza", "inverted": false },
+      { "id": 70, "text": "Sou uma pessoa muito metódica (ordeira)", "facet": "ordem", "inverted": false },
+      { "id": 71, "text": "Raramente estou triste ou deprimido (a)", "facet": "depressao", "inverted": true },
+      { "id": 72, "text": "Já fui muitas vezes líder de grupos a que pertenci", "facet": "assertividade", "inverted": false },
+      { "id": 73, "text": "É importante para mim como eu me sinto frente a pessoas ou situações", "facet": "sentimentos", "inverted": false },
+      { "id": 74, "text": "Algumas pessoas consideram-me frio (a) e calculista", "facet": "altruismo", "inverted": true },
+      { "id": 75, "text": "Pago as minhas dividas em dias", "facet": "senso de dever", "inverted": false },
+      { "id": 76, "text": "Algumas vezes senti tão envergonhado (a) que simplesmente queria sumir", "facet": "embaraco", "inverted": false },
+      { "id": 77, "text": "Trabalho devagar, mas persistentemente (de forma regular)", "facet": "atividade", "inverted": false },
+      { "id": 78, "text": "Quando encontro a maneira correta de fazer uma coisa me agarro a ela", "facet": "acoes variadas", "inverted": false },
+      { "id": 79, "text": "Apesar de ter direito, tenho receio de mostrar a minha indignação e raiva, pois posso magoar as pessoas", "facet": "complacencia", "inverted": false },
+      { "id": 80, "text": "Quando inicio um programa de modificação pessoal (regime, esporte), deixo de cumpri-lo após alguns dias", "facet": "esforco por realizacao", "inverted": true },
+      { "id": 81, "text": "Eu não tenho dificuldades de resistir às tentações.", "facet": "impulsividade", "inverted": true },
+      { "id": 82, "text": "Já fiz algumas coisas só por puro entusiasmo", "facet": "busca de sensacoes", "inverted": false },
+      { "id": 83, "text": "Gosto de resolver problemas e quebra-cabeças", "facet": "ideias", "inverted": false },
+      { "id": 84, "text": "Sou melhor que a maioria das pessoas e tenho consciência disso", "facet": "modestia", "inverted": true },
+      { "id": 85, "text": "Eu sou uma pessoa produtiva que sempre consegue fazer as coisas", "facet": "auto disciplina", "inverted": false },
+      { "id": 86, "text": "Quando estou sob uma grande tensão, algumas vezes sinto que não vou resistir", "facet": "vulnerabilidade", "inverted": false },
+      { "id": 87, "text": "Não sou um (a) grande otimista", "facet": "emocoes positivas", "inverted": true },
+      { "id": 88, "text": "Acredito que devemos confiar nas nossas autoridades religiosas para decisões sobre assuntos morais", "facet": "valores", "inverted": false },
+      { "id": 89, "text": "Nunca fazemos o suficiente pelos pobres e pelos velhos", "facet": "sensibilidade", "inverted": false },
+      { "id": 90, "text": "As vezes, ajo primeiro e penso depois", "facet": "ponderacao", "inverted": true },
+      { "id": 91, "text": "Freqüentemente, sinto-me tenso (a) e agitado (a)", "facet": "ansiedade", "inverted": false },
+      { "id": 92, "text": "Muitas pessoas de vêem como alguém um pouco frio e distante", "facet": "acolhimento caloroso", "inverted": true },
+      { "id": 93, "text": "Não gosto de perder tempo sonhando acordado (a)", "facet": "fantasia", "inverted": true },
+      { "id": 94, "text": "Penso que a maioria das pessoas com quem lido é honesta e digna de confiança", "facet": "confianca", "inverted": false },
+      { "id": 95, "text": "Freqüentemente entro em situações sem estar totalmente preparado (a) para elas", "facet": "competencia", "inverted": true },
+      { "id": 96, "text": "Não sou considerado (a) uma pessoa melindrosa e temperamental", "facet": "raiva", "inverted": true },
+      { "id": 97, "text": "Sinto muita necessidade de estar com outras pessoas quando fico sozinho (a) durante muito tempo", "facet": "gregarismo", "inverted": false },
+      { "id": 98, "text": "Fico admirado (a) com a variedade de padrões que encontro na arte e na natureza", "facet": "estetica", "inverted": false },
+      { "id": 99, "text": "Penso que ser totalmente honesto (a) não é uma boa maneira de fazer negócios", "facet": "franqueza", "inverted": true },
+      { "id": 100, "text": "Gosto de ter as coisas no seu lugar, pois assim sei onde posso encontrá-las", "facet": "ordem", "inverted": false },
+      { "id": 101, "text": "Já senti, algumas vezes, uma sensação profunda de culpa ou de ter pecado", "facet": "depressao", "inverted": false },
+      { "id": 102, "text": "Geralmente, nas reuniões, deixo os outros falarem", "facet": "assertividade", "inverted": false },
+      { "id": 103, "text": "Raramente presto muita atenção ao que estou sentindo no momento", "facet": "sentimentos", "inverted": true },
+      { "id": 104, "text": "Geralmente, procuro ser atencioso (a) e delicado (a)", "facet": "altruismo", "inverted": false },
+      { "id": 105, "text": "Em alguns jogos, acho divertido conseguir trapacear os outros sem ser percebido", "facet": "senso de dever", "inverted": true },
+      { "id": 106, "text": "Não fico desconcertado (a) se as pessoas me ridicularizam ou me provocam", "facet": "embaraco", "inverted": true },
+      { "id": 107, "text": "Frequentemente, sinto-me explodindo de energia", "facet": "atividade", "inverted": false },
+      { "id": 108, "text": "Frequentemente, experimento comidas novas e desconhecidas", "facet": "acoes variadas", "inverted": true },
+      { "id": 109, "text": "Quando não gosto de alguém, faço questão de demonstrar", "facet": "complacencia", "inverted": true },
+      { "id": 110, "text": "Trabalho muito para conseguir o que quero", "facet": "esforco por realizacao", "inverted": false },
+      { "id": 111, "text": "Tenho tendência a me esbaldar, a agir em excesso, quando estou diante de coisas ou situações que gosto muito", "facet": "impulsividade", "inverted": false },
+      { "id": 112, "text": "Procuro evitar filmes com cenas muito chocantes ou assustadoras", "facet": "busca de sensacoes", "inverted": true },
+      { "id": 113, "text": "As vezes, perco o interesse quando as pessoas começam a falar sobre os assuntos muito teóricos e abstratos", "facet": "ideias", "inverted": true },
+      { "id": 114, "text": "Tento ser humilde", "facet": "modestia", "inverted": false },
+      { "id": 115, "text": "Tenho dificuldade em começar a fazer o que eu devo fazer", "facet": "auto disciplina", "inverted": true },
+      { "id": 116, "text": "Em casos de emergência, mantenho a cabeça fria", "facet": "vulnerabilidade", "inverted": true },
+      { "id": 117, "text": "Às vezes, sinto que vou explodir de alegria", "facet": "emocoes positivas", "inverted": false },
+      { "id": 118, "text": "Considero que definir o que é certo e errado depende da cultura em que as pessoas vivem", "facet": "valores", "inverted": true },
+      { "id": 119, "text": "Não gosto de mendigos", "facet": "sensibilidade", "inverted": true },
+      { "id": 120, "text": "Sempre penso nas consequências antes de agir", "facet": "ponderacao", "inverted": false },
+      { "id": 121, "text": "Fico apreensivo (a) com o futuro", "facet": "ansiedade", "inverted": false },
+      { "id": 122, "text": "Gosto muito de falar com as outras pessoas", "facet": "acolhimento caloroso", "inverted": false },
+      { "id": 123, "text": "Gosto de me concentrar numa fantasia e explorar todas as suas possibilidades, deixando crescer e se desenvolver", "facet": "fantasia", "inverted": false },
+      { "id": 124, "text": "Fico desconfiado (a) quando alguém faz alguma coisa boa para mim", "facet": "confianca", "inverted": true },
+      { "id": 125, "text": "Tenho orgulho do meu bom senso", "facet": "competencia", "inverted": false },
+      { "id": 126, "text": "Freqüentemente, sinto simpatia pelas pessoas com as quais tenho que conviver", "facet": "raiva", "inverted": true },
+      { "id": 127, "text": "Prefiro trabalhos que possa fazer sozinho (a), sem ser incomodado (a) por outras pessoas", "facet": "gregarismo", "inverted": true },
+      { "id": 128, "text": "A poesia pouco ou nada me sensibiliza", "facet": "estetica", "inverted": true },
+      { "id": 129, "text": "Ficaria aborrecido (a) se alguém me considerasse uma pessoa hipócrita", "facet": "franqueza", "inverted": false },
+      { "id": 130, "text": "Parece que nunca consigo ser organizado (a)", "facet": "ordem", "inverted": true },
+      { "id": 131, "text": "Tenho tendência a me culpar se alguma coisa dá errado", "facet": "depressao", "inverted": false },
+      { "id": 132, "text": "Muitas vezes, outras pessoas pedem para eu ajudá-las a tomar decisões", "facet": "assertividade", "inverted": false },
+      { "id": 133, "text": "Experimento uma grande variedade de emoções e sentimentos", "facet": "sentimentos", "inverted": false },
+      { "id": 134, "text": "Não sou conhecido (a) como alguém generoso (a)", "facet": "altruismo", "inverted": true },
+      { "id": 135, "text": "Quando assumo um compromisso as pessoas confiam que vou cumprir", "facet": "senso de dever", "inverted": false },
+      { "id": 136, "text": "Sinto-me, muitas vezes inferior as outras pessoas", "facet": "embaraco", "inverted": false },
+      { "id": 137, "text": "Não sou tão ativo (a) e animado (a) como as outras pessoas", "facet": "atividade", "inverted": true },
+      { "id": 138, "text": "Prefiro ficar em ambientes conhecidos", "facet": "acoes variadas", "inverted": false },
+      { "id": 139, "text": "Quando sou insultado (a), tendo a perdoar e esquecer", "facet": "complacencia", "inverted": false },
+      { "id": 140, "text": "Não sou ambicioso (a)", "facet": "esforco por realizacao", "inverted": true },
+      { "id": 141, "text": "Tenho facilidade em resistir a meus impulsos", "facet": "impulsividade", "inverted": true },
+      { "id": 142, "text": "Gosto de estar em lugares animados", "facet": "busca de sensacoes", "inverted": false },
+      { "id": 143, "text": "Gosto de resolver problemas complicados do tipo quebra-cabeça", "facet": "ideias", "inverted": false },
+      { "id": 144, "text": "Eu tenho uma opinião boa sobre mim", "facet": "modestia", "inverted": false },
+      { "id": 145, "text": "Quando começo um projeto, quase sempre termino", "facet": "auto disciplina", "inverted": false },
+      { "id": 146, "text": "Frequentemente, tenho dificuldade em tomar decisões", "facet": "vulnerabilidade", "inverted": false },
+      { "id": 147, "text": "Não me considero uma pessoa alegre", "facet": "emocoes positivas", "inverted": true },
+      { "id": 148, "text": "Acredito que é mais importante ser fiel aos meus idéias e princípios do que ter uma mente aberta", "facet": "valores", "inverted": false },
+      { "id": 149, "text": "As necessidades humanas são mais importantes que os interesses econômicos", "facet": "sensibilidade", "inverted": false },
+      { "id": 150, "text": "Costumo agir sem pensar", "facet": "ponderacao", "inverted": true },
+      { "id": 151, "text": "Frequentemente me preocupo com as coisas que podem dar errado", "facet": "ansiedade", "inverted": false },
+      { "id": 152, "text": "É fácil para mim sorrir e ser simpático (a) com pessoas desconhecidas", "facet": "acolhimento caloroso", "inverted": false },
+      { "id": 153, "text": "Quando percebo que estou sendo levado (a) pela minha própria imaginação, procuro me concentrar ocupando-me com algum trabalho ou atividade", "facet": "fantasia", "inverted": false },
+      { "id": 154, "text": "Minha primeira reação é confiar nas pessoas", "facet": "confianca", "inverted": false },
+      { "id": 155, "text": "Eu acho que não tive sucesso completo em coisa nenhuma", "facet": "competencia", "inverted": true },
+      { "id": 156, "text": "É preciso muito para me irritar", "facet": "raiva", "inverted": true },
+      { "id": 157, "text": "Prefiro passar as férias numa praia cheia a um chalé isolado nas montanhas", "facet": "gregarismo", "inverted": false },
+      { "id": 158, "text": "Fico extasiado com certos tipos de musica", "facet": "estetica", "inverted": false },
+      { "id": 159, "text": "Por vezes, levo as pessoas a fazerem o que eu quero", "facet": "franqueza", "inverted": true },
+      { "id": 160, "text": "Sou uma pessoa exigente e meticulosa", "facet": "ordem", "inverted": false },
+      { "id": 161, "text": "Tenho uma opinião pouco favorável de mim de mesmo (a)", "facet": "depressao", "inverted": false },
+      { "id": 162, "text": "Prefiro tratar da minha vida a ser um (a) lider para outras pessoas", "facet": "assertividade", "inverted": true },
+      { "id": 163, "text": "Raramente me dou conta dos humores ou sentimentos que diferentes ambientes causam", "facet": "sentimentos", "inverted": true },
+      { "id": 164, "text": "A maioria das pessoas que me conhece gosta de mim", "facet": "altruismo", "inverted": false },
+      { "id": 165, "text": "Sigo, rigorosamente, meus princípios éticos", "facet": "senso de dever", "inverted": false },
+      { "id": 166, "text": "Sinto-me a vontade na presença do meu chefe ou de outras autoridades", "facet": "embaraco", "inverted": true },
+      { "id": 167, "text": "As pessoas acham que estou sempre com pressa", "facet": "atividade", "inverted": false },
+      { "id": 168, "text": "Por vezes, mudo coisas em minha casa só para experimentar a diferença", "facet": "acoes variadas", "inverted": true },
+      { "id": 169, "text": "Se alguém começa uma briga, estou sempre pronto (a) para revidar", "facet": "complacencia", "inverted": true },
+      { "id": 170, "text": "Esforço-me para conseguir tudo que puder", "facet": "esforco por realizacao", "inverted": false },
+      { "id": 171, "text": "Às vezes, como até me sentir mal", "facet": "impulsividade", "inverted": false },
+      { "id": 172, "text": "Adoraria sentir as emoções de pular de pára-quedas", "facet": "busca de sensacoes", "inverted": false },
+      { "id": 173, "text": "Tenho pouco interesse em especular sobre a natureza do universo ou da condição humana", "facet": "ideias", "inverted": true },
+      { "id": 174, "text": "Sinto que não sou melhor que os outros, seja qual for a condição deles", "facet": "modestia", "inverted": true },
+      { "id": 175, "text": "Quando um projeto se torna difícil, minha tendência é começar de novo", "facet": "auto disciplina", "inverted": true },
+      { "id": 176, "text": "Consigo me controlar muito bem diante numa situação de crise", "facet": "vulnerabilidade", "inverted": true },
+      { "id": 177, "text": "Sou uma pessoa alegre e bem disposta", "facet": "emocoes positivas", "inverted": false },
+      { "id": 178, "text": "Considero-me um individuo aberto e tolerante quanto ao estilo de vida das outras pessoas", "facet": "valores", "inverted": true },
+      { "id": 179, "text": "Penso que todos os seres humanos são dignos de respeito", "facet": "sensibilidade", "inverted": true },
+      { "id": 180, "text": "Raramente tomo decisões precipitadas", "facet": "ponderacao", "inverted": false },
+      { "id": 181, "text": "Tenho menos temores que a maioria das pessoas", "facet": "ansiedade", "inverted": true },
+      { "id": 182, "text": "Tenho fortes ligações afetivas com meus amigos", "facet": "acolhimento caloroso", "inverted": false },
+      { "id": 183, "text": "Quando criança, raramente me divertia com jogos de faz de conta", "facet": "fantasia", "inverted": true },
+      { "id": 184, "text": "Tendo a pensar o melhor acerca das pessoas", "facet": "confianca", "inverted": false },
+      { "id": 185, "text": "Sou uma pessoa muito competente", "facet": "competencia", "inverted": false },
+      { "id": 186, "text": "Algumas vezes senti ressentimento e amargura", "facet": "raiva", "inverted": false },
+      { "id": 187, "text": "Geralmente eu fico entediado (a) em encontro social", "facet": "gregarismo", "inverted": true },
+      { "id": 188, "text": "Às vezes, ao ler poesia ou ao olhar para uma obra de arte, sinto um arrepio, uma onda de emoção", "facet": "estetica", "inverted": false },
+      { "id": 189, "text": "Às vezes, intimido ou bajulo as pessoas para que elas façam o que eu quero", "facet": "franqueza", "inverted": true },
+      { "id": 190, "text": "Não tenho obsessão por limpeza", "facet": "ordem", "inverted": true },
+      { "id": 191, "text": "Às vezes, as coisas parecem-me bastante tristes e sem esperança", "facet": "depressao", "inverted": false },
+      { "id": 192, "text": "Nas conversas, tendo a falar mais do que os outros", "facet": "assertividade", "inverted": true },
+      { "id": 193, "text": "Acho difícil ser empático (a), ou seja, o que os outros sentem", "facet": "sentimentos", "inverted": false },
+      { "id": 194, "text": "Considero-me uma pessoa caridosa", "facet": "altruismo", "inverted": false },
+      { "id": 195, "text": "Tento fazer as tarefas com todo cuidado, para não ter necessidade fazê-las novamente", "facet": "senso de dever", "inverted": false },
+      { "id": 196, "text": "Caso eu tenha dito ou feito algo errado a alguém, custa-me muito encará-lo outra vez", "facet": "embaraco", "inverted": false },
+      { "id": 197, "text": "Minha vida é muito agitada", "facet": "atividade", "inverted": false },
+      { "id": 198, "text": "Quando estou em férias, prefiro voltar a um lugar já conhecido", "facet": "acoes variadas", "inverted": false },
+      { "id": 199, "text": "Sou cabeçudo (a) e teimoso (a)", "facet": "complacencia", "inverted": true },
+      { "id": 200, "text": "Esforço-me por ser excelente em tudo que faço", "facet": "esforco por realizacao", "inverted": false },
+      { "id": 201, "text": "Às vezes, faço coisas de modo tão impulsivo que, mais tarde, me arrependo", "facet": "impulsividade", "inverted": false },
+      { "id": 202, "text": "Sinto-me atraído (a) por cores alegres e os estilos exuberantes", "facet": "busca de sensacoes", "inverted": false },
+      { "id": 203, "text": "Tenho muita curiosidade intelectual", "facet": "ideias", "inverted": false },
+      { "id": 204, "text": "Prefiro muito mais elogiar os outros a ser elogiado (a)", "facet": "modestia", "inverted": false },
+      { "id": 205, "text": "Têm tantas pequenas coisas que precisam ser feitas que, as vezes, eu simplesmente ignoro todas elas", "facet": "auto disciplina", "inverted": true },
+      { "id": 206, "text": "Mesmo quando tudo parece estar dando errado, ainda consigo tomar boas decisões", "facet": "vulnerabilidade", "inverted": true },
+      { "id": 207, "text": "É raro eu utilizar palavras como 'fantástico' ou 'sensacional' para descrever minhas experiências", "facet": "emocoes positivas", "inverted": true },
+      { "id": 208, "text": "Acho que se as pessoas com 25 anos de idade não sabem no que acreditam, alguma coisa está errada com elas", "facet": "valores", "inverted": false },
+      { "id": 209, "text": "Tenho pena de pessoas com menos sorte do que eu", "facet": "sensibilidade", "inverted": true },
+      { "id": 210, "text": "Planejo as minhas viagens com antecedência e com cuidado", "facet": "ponderacao", "inverted": false },
+      { "id": 211, "text": "Às vezes, tenho pensamentos aterrorizantes", "facet": "ansiedade", "inverted": false },
+      { "id": 212, "text": "Crio facilmente vinculos sociais com as pessoas com quem trabalho", "facet": "acolhimento caloroso", "inverted": false },
+      { "id": 213, "text": "Tenho dificuldade em soltar a minha imaginação (devanear)", "facet": "fantasia", "inverted": true },
+      { "id": 214, "text": "Tenho bastante fé na natureza humana", "facet": "confianca", "inverted": false },
+      { "id": 215, "text": "Sou eficiente e eficaz no meu trabalho", "facet": "competencia", "inverted": false },
+      { "id": 216, "text": "Mesmo os pequenos contratempos podem ser frustrantes para mim", "facet": "raiva", "inverted": false },
+      { "id": 217, "text": "Gosto de festas com muita gente", "facet": "gregarismo", "inverted": false },
+      { "id": 218, "text": "Gosto mais de ler poesia do que histórias estruturadas (romance e contos)", "facet": "estetica", "inverted": false },
+      { "id": 219, "text": "Orgulho-me do meu jeito de lidar com as pessoas", "facet": "franqueza", "inverted": false },
+      { "id": 220, "text": "Gasto muito tempo à procura de coisas que coloquei fora do lugar", "facet": "ordem", "inverted": true },
+      { "id": 221, "text": "Muitas vezes, quando as coisas dão errado, fico desanimado (a) e tenho vontade de desistir", "facet": "depressao", "inverted": false },
+      { "id": 222, "text": "Não considero fácil dirigir (comandar) uma situação", "facet": "assertividade", "inverted": true },
+      { "id": 223, "text": "Coisas diferentes, como certos cheiros ou nomes de locais distantes, podem evocar em mim fortes emoções", "facet": "sentimentos", "inverted": false },
+      { "id": 224, "text": "Quando posso, deixo o que estou fazendo para ajudar os outros", "facet": "altruismo", "inverted": false },
+      { "id": 225, "text": "Só faltaria ao trabalho se estivesse realmente doente", "facet": "senso de dever", "inverted": false },
+      { "id": 226, "text": "Quando as pessoas que eu conheço fazem uma bobagem, fico constrangido (a) por elas", "facet": "embaraco", "inverted": false },
+      { "id": 227, "text": "Sou uma pessoa muito ativa", "facet": "atividade", "inverted": false },
+      { "id": 228, "text": "Sigo sempre o mesmo caminho quando vou a qualquer lugar", "facet": "acoes variadas", "inverted": false },
+      { "id": 229, "text": "Frequentemente me envolvo em discussões com a minha família e colegas de trabalho", "facet": "complacencia", "inverted": true },
+      { "id": 230, "text": "Sou um pouco viciado (a) em trabalho", "facet": "esforco por realizacao", "inverted": true },
+      { "id": 231, "text": "Consigo sempre manter os meus sentimentos sob controle", "facet": "impulsividade", "inverted": true },
+      { "id": 232, "text": "Gosto de fazer parte da multidão em acontecimentos esportivos", "facet": "busca de sensacoes", "inverted": false },
+      { "id": 233, "text": "Tenho uma grande variedade de interesses intelectuais", "facet": "ideias", "inverted": false },
+      { "id": 234, "text": "Considero que sou melhor que a maioria das pessoas", "facet": "modestia", "inverted": true },
+      { "id": 235, "text": "Tenho muita autodisciplina", "facet": "auto disciplina", "inverted": false },
+      { "id": 236, "text": "Sou bastante estável do ponto de vista emocional", "facet": "vulnerabilidade", "inverted": true },
+      { "id": 237, "text": "Sou propenso (a) a rir facilmente", "facet": "emocoes positivas", "inverted": false },
+      { "id": 238, "text": "Penso que a nova moralidade, que consiste em tudo permitir, não é moralidade nenhuma", "facet": "valores", "inverted": false },
+      { "id": 239, "text": "Prefiro ser conhecido (a) como uma pessoa 'compreensiva' (inclinada a perdoar) do que como uma pessoa 'justa' (inclinada ao rigor)", "facet": "sensibilidade", "inverted": false },
+      { "id": 240, "text": "Penso duas vezes antes de responder a uma pergunta.", "facet": "ponderacao", "inverted": false }
+    ];
+    const FACTOR_MAP = {
+      "NEUROTICISMO": ["ansiedade", "raiva", "depressao", "embaraco", "impulsividade", "vulnerabilidade"],
+      "EXTROVERSÃO": ["acolhimento caloroso", "gregarismo", "assertividade", "atividade", "busca de sensacoes", "emocoes positivas"],
+      "ABERTURA": ["fantasia", "estetica", "sentimentos", "acoes variadas", "ideias", "valores"],
+      "AMABILIDADE": ["confianca", "franqueza", "altruismo", "complacencia", "modestia", "sensibilidade"],
+      "CONSCIENCIOSIDADE": ["competencia", "ordem", "senso de dever", "esforco por realizacao", "auto disciplina", "ponderacao"]
+    };
+
+    // ================= LÓGICA DE PROCESSAMENTO (ATUALIZADA) =================
+
+    function showScreen(id) {
+      document.getElementById('screen-dashboard').classList.add('hidden');
+      document.getElementById('screen-quiz').classList.add('hidden');
+      document.getElementById('screen-result').classList.add('hidden');
+
+      document.getElementById('screen-' + id).classList.remove('hidden');
+      window.scrollTo(0, 0);
+
+      if (id === 'dashboard') loadDashboard();
+    }
+
+    function novoTeste() {
+      if (confirm("Iniciar novo teste?")) {
+        document.querySelectorAll('input').forEach(i => i.checked = false);
+        updateProgress();
+        showScreen('quiz');
+      }
+    }
+
+    function updateProgress() {
+      const total = DATA_QUESTIONS.length || 240;
+      const done = document.querySelectorAll('input:checked').length;
+      const pct = Math.round((done / total) * 100);
+      document.getElementById('progress-bar').style.width = pct + '%';
+      document.getElementById('progress-text').innerText = pct + '%';
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      if (DATA_QUESTIONS.length === 0) {
+        container.innerHTML = '<div class="text-white">Carregando dados...</div>';
+        return;
+      }
+
+      let html = '';
+      DATA_QUESTIONS.forEach(q => {
+        html += `
+                <div class="bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all">
+                    <div class="flex gap-3 mb-4 pl-2">
+                        <span class="text-purple-400 font-bold font-mono">#${q.id}</span>
+                        <p class="text-gray-200 font-medium">${q.text}</p>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 items-center">
+                        <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Discordo</span>
+                        
+                        ${[1, 2, 3, 4, 5].map(v => `
+                            <label class="scale-option cursor-pointer relative group/opt">
+                                <input type="radio" name="q${q.id}" value="${v}" class="peer sr-only" onchange="updateProgress()">
+                                <div class="h-10 w-full bg-[#0f0e1a] border border-white/10 rounded-md flex items-center justify-center text-gray-400 font-bold transition-all peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 hover:bg-white/5 hover:border-white/20">
+                                    ${v}
+                                </div>
+                            </label>
+                        `).join('')}
+
+                        <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Concordo</span>
+                    </div>
+                </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function calcularResultado() {
+      let scores = {};
+      let answered = 0;
+
+      // Inicializa scores
+      for (let f in DATA_CRITERIA) scores[f] = 0;
+
+      // Processa Respostas
+      for (let i = 1; i <= DATA_QUESTIONS.length; i++) {
+        const el = document.querySelector(`input[name="q${i}"]:checked`);
+        if (el) {
+          answered++;
+          let val = parseInt(el.value);
+          const q = DATA_QUESTIONS.find(x => x.id === i);
+          if (q && q.inverted) val = 6 - val;
+          if (q && scores[q.facet] !== undefined) scores[q.facet] += val;
+        }
+      }
+
+      if (answered < DATA_QUESTIONS.length) {
+        if (!confirm(`Respondeu apenas ${answered} de ${DATA_QUESTIONS.length}. Continuar?`)) return;
+      }
+
+      let results = {};
+      let isGlobalApto = true;
+
+      for (let f in scores) {
+        const raw = scores[f];
+        // FÓRMULA: (Raw / 40) * 100
+        const pct = (raw / 40) * 100;
+        const pctFixed = parseFloat(pct.toFixed(2));
+
+        const crit = DATA_CRITERIA[f];
+        const apto = pctFixed >= crit.min && pctFixed <= crit.max;
+        if (!apto) isGlobalApto = false;
+
+        results[f] = { raw: raw, pct: pctFixed, apto: apto, min: crit.min, max: crit.max };
+      }
+
+      renderReport(results, isGlobalApto);
+    }
+
+    function renderReport(res, globalStatus) {
+      document.getElementById('screen-quiz').classList.add('hidden');
+      document.getElementById('screen-result').classList.remove('hidden');
+      window.scrollTo(0, 0);
+
+      document.getElementById('report-date').innerText = new Date().toLocaleString();
+
+      const badge = document.getElementById('final-status-badge');
+      badge.innerText = globalStatus ? "APTO" : "INAPTO";
+      badge.className = `px-8 py-3 rounded-full text-xl font-bold border ${globalStatus ? 'bg-green-500/10 text-green-400 border-green-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'}`;
+
+      const container = document.getElementById('report-content');
+      let html = '';
+
+      for (let factor in FACTOR_MAP) {
+        html += `
+                <div class="mb-8 break-inside-avoid">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fas fa-layer-group text-purple-500" style="text-shadow: 0 0 10px var(--primary-purple);"></i> 
+                        <span class="neon-text">${factor}</span>
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+                `;
+
+        FACTOR_MAP[factor].forEach(fKey => {
+          const r = res[fKey];
+          if (!r) return;
+
+          const isApto = r.apto;
+          const statusText = isApto ? "APTO" : "INAPTO";
+          const statusColor = isApto
+            ? "text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+            : "text-red-400 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
+          const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
+
+          const left = r.min + '%';
+          const width = (r.max - r.min) + '%';
+          const marker = Math.min(r.pct, 100) + '%';
+
+          html += `
+                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col md:flex-row items-center gap-4 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
+                        <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                             <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                             <div class="capitalize text-white">${fKey}</div>
+                        </div>
+
+                        <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                            <!-- Faixa Ideal -->
+                            <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                                 style="left: ${left}; width: ${width};" 
+                                 title="Meta: ${r.min}-${r.max}%">
+                            </div>
+                            
+                            <!-- Marcador -->
+                            <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
+                                 style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
+                            <div class="text-right">
+                                <div class="text-xs text-gray-500">Raw: ${r.raw}</div>
+                                <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                            </div>
+                            <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
+                        </div>
+                    </div>`;
+        });
+        html += `</div></div>`;
+      }
+      container.innerHTML = html;
+
+      // Histórico
+      const h = JSON.parse(localStorage.getItem('neopi_v6_history') || '[]');
+      h.unshift({ date: new Date().toLocaleString(), status: globalStatus ? 'APTO' : 'INAPTO' });
+      localStorage.setItem('neopi_v6_history', JSON.stringify(h));
+    }
+
+    function loadDashboard() {
+      const h = JSON.parse(localStorage.getItem('neopi_v6_history') || '[]');
+      document.getElementById('dash-total').innerText = h.length;
+      if (h.length) {
+        document.getElementById('dash-last-date').innerText = h[0].date;
+        document.getElementById('dash-last-status').innerText = h[0].status;
+        document.getElementById('dash-last-status').className = h[0].status == 'APTO' ? 'text-green-400 font-bold text-sm' : 'text-red-400 font-bold text-sm';
+      }
+
+      const dashboardContainer = document.getElementById('history-container');
+      if (h.length === 0) {
+        dashboardContainer.innerHTML = '<tr><td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum teste detectado.</td></tr>';
+        return;
+      }
+
+      dashboardContainer.innerHTML = h.map(i => `
+             <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
+                <td class="px-6 py-4 font-medium text-white">NEO PI-R</td>
+                <td class="px-6 py-4 text-gray-400">${i.date}</td>
+                <td class="px-6 py-4 text-center font-bold ${i.status == 'APTO' ? 'text-green-400' : 'text-red-400'}">${i.status}</td>
+                <td class="px-6 py-4 text-right">
+                     <span class="text-xs text-gray-500">Salvo</span>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function limparHistorico() {
+      if (confirm("Apagar histórico?")) {
+        localStorage.removeItem('neopi_v6_history');
+        location.reload();
+      }
+    }
+
+    // Init
+    window.onload = function () {
+      renderQuiz();
+      showScreen('dashboard');
+    };
+
+  </script>
+</body>
+
+</html>

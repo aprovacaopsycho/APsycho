@@ -1,46 +1,126 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Área de Membros — Aprovação Psycho</title>
+  <title>Área do Aluno — Aprovação Psycho</title>
   <link rel="icon" type="image/png" href="favicon.png" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
 
   <style>
-    body { font-family: 'Inter', sans-serif; background: #0f0e1a; color: #f0f0f0; }
-    .card { background: #1c1b29; border: 1px solid #333; transition: 0.3s; }
-    .btn-glow { background: linear-gradient(90deg, #9f54ff, #ff00ff); color: white; font-weight: bold; }
-    .btn-glow:hover { box-shadow: 0 0 15px rgba(255, 0, 255, 0.5); }
-    [x-cloak] { display: none !important; }
+    :root {
+      --bg-dark: #100f1c;
+      --bg-card: #1c1b29;
+      --primary-purple: #9f54ff;
+      --accent-pink: #ff00ff;
+      --accent-blue: #00c2ff;
+      --text-light: #f0f0f0;
+      --text-dark: #a0a0a0
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-dark)
+    }
+
+    .section-title {
+      font-weight: 900;
+      color: var(--text-light)
+    }
+
+    .section-subtitle {
+      color: var(--primary-purple)
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: .75rem;
+      border: 1px solid #333;
+      transition: transform .3s, box-shadow .3s
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(159, 84, 255, .3);
+      border-color: var(--primary-purple)
+    }
+
+    .cta-button {
+      transition: all .3s;
+      background: var(--accent-pink);
+      color: var(--text-light);
+      border: 2px solid var(--accent-pink);
+      box-shadow: 0 0 15px rgba(255, 0, 255, .4);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cta-button:hover {
+      background: transparent;
+      color: var(--accent-pink);
+      transform: scale(1.05)
+    }
+
+    [x-cloak] {
+      display: none !important
+    }
+
+    .input-field {
+      width: 100%;
+      background-color: var(--bg-dark);
+      border: 1px solid #333;
+      color: var(--text-light);
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      transition: all 0.3s;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 0 2px rgba(255, 0, 255, 0.2);
+    }
   </style>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
 
   <script>
     document.addEventListener('alpine:init', () => {
       Alpine.data('memberAuth', () => ({
         isLoggedIn: false,
         email: '',
-        password: '', // Pode ser senha ou número de inscrição
-        userHash: '',
+        password: '',
         errorMsg: '',
         loading: false,
         validHashes: [],
 
         async init() {
-          // 1. Tenta recuperar login salvo
+          // 1. Verifica se existe sessão salva
           const savedHash = sessionStorage.getItem('memberHash');
-          if (savedHash) { this.userHash = savedHash; this.isLoggedIn = true; }
 
-          // 2. Baixa a lista de alunos permitidos (só hashes)
+          // Se tiver hash salvo, libera o acesso
+          if (savedHash) {
+            this.isLoggedIn = true;
+          }
+
+          // 2. Carrega a lista de hashes do servidor (sem cache)
           try {
-            const res = await fetch('hashes_membros.json');
-            if (res.ok) this.validHashes = await res.json();
-          } catch (e) { console.error("Erro ao carregar lista de membros."); }
+            const res = await fetch('hashes_membros.json', { cache: "no-store" });
+            if (res.ok) {
+              this.validHashes = await res.json();
+            } else {
+              console.error("Arquivo de hashes não encontrado (404).");
+            }
+          } catch (e) { console.error("Erro ao carregar lista."); }
         },
 
-        async sha256(str) {
+        async sha256Hex(str) {
           const buf = new TextEncoder().encode(str);
           const hash = await crypto.subtle.digest('SHA-256', buf);
           return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
@@ -48,95 +128,150 @@
 
         async login() {
           if (!this.email || !this.password) {
-            this.errorMsg = 'Preencha e-mail e senha.'; return;
+            this.errorMsg = 'Preencha todos os campos.'; return;
           }
-          this.loading = true; this.errorMsg = '';
+          this.loading = true;
+          this.errorMsg = '';
 
-          // 3. Normaliza e calcula o Hash
           const cleanEmail = this.email.trim().toLowerCase();
           const cleanPass = this.password.trim();
-          const hash = await this.sha256(cleanEmail + cleanPass);
 
-          // 4. Verifica se o hash está na lista de permitidos
+          const hash = await this.sha256Hex(cleanEmail + cleanPass);
+
           if (this.validHashes.includes(hash)) {
-            this.userHash = hash;
-            this.isLoggedIn = true;
+            // SUCESSO: Salva a sessão e muda o estado
             sessionStorage.setItem('memberHash', hash);
+            this.isLoggedIn = true;
           } else {
-            this.errorMsg = 'Acesso negado. Verifique seus dados.';
+            this.errorMsg = 'Dados incorretos ou acesso ainda não liberado.';
           }
           this.loading = false;
         },
 
-        downloadPDF(categoria) {
-          // O "Pulo do Gato": O nome do arquivo É o hash do aluno.
-          // Ninguém consegue baixar o arquivo de outro aluno sem saber o login dele.
-          const url = `materiais/${categoria}/${this.userHash}.pdf`;
-          
-          // Verifica se o arquivo existe antes de abrir
-          fetch(url, { method: 'HEAD' })
-            .then(res => {
-              if (res.ok) window.open(url, '_blank');
-              else alert('Seu material personalizado para esta categoria ainda não está pronto.');
-            });
+        logout() {
+          // LIMPEZA TOTAL DA SESSÃO
+          sessionStorage.removeItem('memberHash');
+          this.isLoggedIn = false;
+          this.email = '';
+          this.password = '';
+          // Força o recarregamento da página para garantir que nada ficou na memória
+          window.location.reload();
+        },
+
+        // Função para verificar se pode ir para a página PMPR
+        goToPmpr() {
+          if (!sessionStorage.getItem('memberHash')) {
+            alert("Sessão expirada. Faça login novamente.");
+            this.logout();
+          } else {
+            window.location.href = 'PMPR/pmpr.html';
+          }
         }
       }))
     });
   </script>
 </head>
 
-<body x-data="memberAuth" class="min-h-screen flex flex-col items-center justify-center p-6">
+<body x-data="memberAuth">
 
-  <div x-show="!isLoggedIn" class="card w-full max-w-md p-8 rounded-xl shadow-2xl text-center">
-    <img src="logo-principal.png" class="h-12 mx-auto mb-6">
-    <h2 class="text-2xl font-bold mb-2">Área do Aluno</h2>
-    <p class="text-gray-400 mb-6 text-sm">Digite seu e-mail e senha cadastrados.</p>
-
-    <form @submit.prevent="login" class="space-y-4 text-left">
-      <div>
-        <label class="text-xs font-bold text-gray-500 uppercase">E-mail</label>
-        <input x-model="email" type="email" class="w-full bg-[#0f0e1a] border border-gray-700 rounded p-3 text-white focus:border-purple-500 outline-none">
+  <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50 border-b border-white/5">
+    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <a href="index.html" class="flex items-center">
+          <img src="logo-principal.png" alt="Logo" class="h-10 w-auto mr-3">
+          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+        </a>
       </div>
-      <div>
-        <label class="text-xs font-bold text-gray-500 uppercase">Senha / Inscrição</label>
-        <input x-model="password" type="password" class="w-full bg-[#0f0e1a] border border-gray-700 rounded p-3 text-white focus:border-purple-500 outline-none">
+
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="hover:text-[var(--accent-pink)] transition">Início</a>
+        <button x-show="isLoggedIn" @click="logout"
+          class="text-red-400 hover:text-red-300 font-bold transition">SAIR</button>
       </div>
-      
-      <p x-show="errorMsg" x-text="errorMsg" class="text-red-500 text-sm text-center font-bold"></p>
+    </nav>
+  </header>
 
-      <button type="submit" :disabled="loading" class="w-full btn-glow py-3 rounded-lg mt-2 transition transform hover:scale-105">
-        <span x-show="!loading">ENTRAR</span>
-        <span x-show="loading">Validando...</span>
-      </button>
-    </form>
-  </div>
+  <main x-show="!isLoggedIn" class="min-h-[80vh] flex items-center justify-center px-4">
+    <div class="card p-8 w-full max-w-md shadow-2xl">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl section-title mb-2">Área do Aluno</h2>
+        <p class="text-sm" style="color:var(--text-dark)">Insira suas credenciais para acessar os materiais exclusivos.
+        </p>
+      </div>
 
-  <div x-show="isLoggedIn" x-cloak class="w-full max-w-5xl">
-    <header class="flex justify-between items-center mb-10 border-b border-gray-800 pb-4">
-      <h1 class="text-3xl font-bold text-white">Seus Materiais <span class="text-purple-500">.</span></h1>
-      <button @click="isLoggedIn = false; sessionStorage.removeItem('memberHash')" class="text-gray-400 hover:text-white text-sm">Sair</button>
-    </header>
+      <form @submit.prevent="login" class="space-y-6">
+        <div>
+          <label class="block text-xs font-bold uppercase mb-2" style="color:var(--text-dark)">E-mail</label>
+          <input x-model="email" type="email" placeholder="seu@email.com" class="input-field">
+        </div>
+        <div>
+          <label class="block text-xs font-bold uppercase mb-2" style="color:var(--text-dark)">Senha / Inscrição</label>
+          <input x-model="password" type="password" placeholder="Sua senha" class="input-field">
+        </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
-      
-      <div class="card p-6 rounded-xl">
-        <h3 class="text-xl font-bold mb-2 text-purple-400">Carreiras Policiais CE</h3>
-        <p class="text-gray-400 text-sm mb-6">Cronograma completo para PMCE, PCCE e CBMCE.</p>
-        <button @click="downloadPDF('ceara')" class="w-full border border-purple-500 text-purple-500 hover:bg-purple-600 hover:text-white font-bold py-3 rounded transition">
-          Baixar Meu PDF
+        <div x-show="errorMsg"
+          class="p-3 rounded bg-red-900/30 border border-red-800 text-red-300 text-sm text-center font-semibold">
+          <span x-text="errorMsg"></span>
+        </div>
+
+        <button type="submit" :disabled="loading"
+          class="cta-button w-full font-bold py-3 px-6 rounded-md text-lg flex items-center justify-center">
+          <span x-show="!loading">ACESSAR</span>
+          <span x-show="loading" class="animate-pulse">Verificando...</span>
         </button>
-      </div>
-
-      <div class="card p-6 rounded-xl">
-        <h3 class="text-xl font-bold mb-2 text-blue-400">Guarda Civil Municipal</h3>
-        <p class="text-gray-400 text-sm mb-6">Plano de estudos focado em GCM.</p>
-        <button @click="downloadPDF('gcm')" class="w-full border border-blue-500 text-blue-500 hover:bg-blue-600 hover:text-white font-bold py-3 rounded transition">
-          Baixar Meu PDF
-        </button>
-      </div>
-
+      </form>
     </div>
-  </div>
+  </main>
+
+  <main x-show="isLoggedIn" x-cloak class="py-20 min-h-screen">
+    <div class="container mx-auto px-6">
+
+      <div class="text-center mb-16">
+        <h1 class="text-3xl md:text-5xl mb-4 section-title">Seus Materiais Exclusivos</h1>
+        <p class="section-subtitle text-lg">Selecione seu curso abaixo.</p>
+      </div>
+
+      <div class="max-w-4xl mx-auto space-y-8">
+
+        <div
+          class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300">
+          <div class="flex-shrink-0">
+            <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+              alt="Brasão PMPR"
+              class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)]">
+          </div>
+
+          <div class="flex-grow text-center md:text-left">
+            <h2 class="text-2xl font-bold mb-3" style="color:var(--text-light)">Polícia Militar do Paraná</h2>
+            <p class="mb-6 leading-relaxed" style="color:var(--text-dark)">
+              Acesse aqui a Análise Estratégica, Simulador de Inaptidão e seus Downloads personalizados.
+            </p>
+
+            <button @click="goToPmpr"
+              class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 cursor-pointer">
+              ACESSAR MATERIAL
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-800 mt-auto py-8 bg-[#0f0e1a]">
+    <div class="container mx-auto px-6 text-center">
+      <p class="text-sm" style="color:var(--text-dark)">&copy; 2025 Aprovação Psycho. Todos os direitos reservados.</p>
+    </div>
+  </footer>
 
 </body>
+
 </html>

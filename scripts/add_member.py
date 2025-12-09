@@ -2,7 +2,7 @@
 """
 Utility to add test members to a JSON file used by the static validation flow.
 It computes SHA-256(email + senha) to match the client-side logic used in
-`cronogramas.html` / `membros.html`.
+`membros.html` / `membros.html`.
 
 Usage:
   python scripts/add_member.py --email user@example.com --senha secret

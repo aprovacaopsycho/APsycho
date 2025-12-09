@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Estratégica: Avaliação Psicológica PMPR 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Tactical Blue & Neutral Grey - Inspired by Military/Police professionalism. Clean, authoritative, and readable. -->
+    <!-- Application Structure Plan:
+         1. Dashboard Layout: Single page with a sidebar navigation (mobile responsive) to switch between 4 key views.
+         2. View 1: Visão Geral (Overview) - High-level cards and the "Rules of the Game".
+         3. View 2: Perfil Profissiográfico (The Profile) - Interactive "Radar" visualization of required traits and detailed list.
+         4. View 3: Raio-X da Banca (Board Analysis) - Bar chart showing test probability based on historical data.
+         5. View 4: Simulador de Resultado - An interactive logic gate where users toggle traits to see if they result in "APTO" or "INAPTO".
+         Why this structure? It moves from abstract rules -> specific requirements -> predictive intelligence -> practical application.
+    -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 400px;
+            max-height: 500px;
+        }
+        .nav-item.active {
+            background-color: #1e3a8a; /* blue-900 */
+            color: white;
+            border-left: 4px solid #3b82f6; /* blue-500 */
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        /* Custom scrollbar for sidebar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="flex flex-col md:flex-row h-screen overflow-hidden">
+
+    <!-- Sidebar Navigation -->
+    <nav class="bg-white w-full md:w-64 flex-shrink-0 border-r border-gray-200 flex flex-col justify-between z-20">
+        <div>
+            <div class="p-6 bg-blue-900 text-white">
+                <h1 class="text-xl font-bold tracking-tight">PMPR 2025</h1>
+                <p class="text-xs text-blue-200 mt-1 uppercase tracking-wider">Avaliação Psicológica</p>
+            </div>
+            <ul class="flex flex-col text-sm font-medium text-gray-600">
+                <li>
+                    <button onclick="switchTab('overview')" id="nav-overview" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors active">
+                        📊 Visão Geral
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('profile')" id="nav-profile" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors">
+                        🧠 Perfil Exigido
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('board')" id="nav-board" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors">
+                        🎯 Raio-X da Banca
+                    </button>
+                </li>
+                <li>
+                    <button onclick="switchTab('simulator')" id="nav-simulator" class="nav-item w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors">
+                        ⚙️ Simulador de Inaptidão
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="p-4 text-xs text-gray-400 text-center border-t">
+            Baseado no Edital Nº 01/2025
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+        
+        <!-- SECTION 1: VISÃO GERAL -->
+        <section id="view-overview" class="space-y-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Visão Geral da Etapa</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl">
+                    Entenda as regras fundamentais da 5ª Etapa do Concurso de Cadete PMPR. Esta fase é decisiva e possui critérios objetivos de eliminação baseados na compatibilidade com o perfil profissiográfico.
+                </p>
+            </div>
+
+            <!-- Key Metrics Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm card-hover">
+                    <div class="text-blue-600 text-3xl mb-2">⚖️</div>
+                    <h3 class="font-bold text-gray-800">Caráter Eliminatório</h3>
+                    <p class="text-sm text-gray-500 mt-2">O resultado é binário: <strong>APTO</strong> ou <strong>INAPTO</strong>. Não há nota classificatória, apenas a verificação de requisitos.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm card-hover">
+                    <div class="text-red-500 text-3xl mb-2">🚫</div>
+                    <h3 class="font-bold text-gray-800">Regra de Ouro</h3>
+                    <p class="text-sm text-gray-500 mt-2">A falha é <strong>cumulativa</strong>. Basta falhar em <strong>UM</strong> requisito (ex: um traço restritivo) para ser eliminado do concurso.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm card-hover">
+                    <div class="text-indigo-600 text-3xl mb-2">📋</div>
+                    <h3 class="font-bold text-gray-800">Banca AOCP</h3>
+                    <p class="text-sm text-gray-500 mt-2">Possui liberdade técnica para escolher os testes, mas é <strong>obrigada</strong> a avaliar itens específicos do edital (10.4.8).</p>
+                </div>
+            </div>
+
+            <!-- Process Logic Diagram (CSS) -->
+            <div class="bg-white p-8 rounded-xl border border-gray-100 shadow-sm mt-6">
+                <h3 class="font-bold text-gray-800 mb-6">Fluxo da Avaliação</h3>
+                <div class="flex flex-col md:flex-row items-center justify-between text-center gap-4">
+                    <div class="flex-1 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <span class="text-2xl block mb-2">📄</span>
+                        <span class="font-semibold text-sm">Edital (10.4.9)</span>
+                        <p class="text-xs text-gray-500 mt-1">Define o Perfil</p>
+                    </div>
+                    <div class="text-gray-400 text-2xl">➔</div>
+                    <div class="flex-1 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                        <span class="text-2xl block mb-2">🧠</span>
+                        <span class="font-semibold text-sm">Aplicação dos Testes</span>
+                        <p class="text-xs text-gray-500 mt-1">Aostragem dos Traços</p>
+                    </div>
+                    <div class="text-gray-400 text-2xl">➔</div>
+                    <div class="flex-1 p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+                        <span class="text-2xl block mb-2">📊</span>
+                        <span class="font-semibold text-sm">Análise Estatística</span>
+                        <p class="text-xs text-gray-500 mt-1">Comparação com Média</p>
+                    </div>
+                    <div class="text-gray-400 text-2xl">➔</div>
+                    <div class="flex-1 p-4 bg-green-50 rounded-lg border border-green-100">
+                        <span class="text-2xl block mb-2">✅</span>
+                        <span class="font-semibold text-sm">Parecer Final</span>
+                        <p class="text-xs text-gray-500 mt-1">Apto / Inapto</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: PERFIL PROFISSIOGRÁFICO -->
+        <section id="view-profile" class="hidden space-y-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Perfil Profissiográfico Exigido</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl">
+                    Este radar visualiza o "Candidato Ideal". As áreas preenchidas representam o nível exigido (Média ou Superior). Os traços restritivos devem permanecer zerados (centro do gráfico).
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Visualization -->
+                <!-- Visualization & Content Choices:
+                     Goal: Visualize the abstract requirements of "Profile".
+                     Method: Radar Chart (Spider Chart).
+                     Justification: Radar charts are excellent for showing multi-variate profiles. We map "Average/Required" as the outer boundary.
+                     Interaction: None specific on the chart, but hovering shows tooltips.
+                -->
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex flex-col items-center">
+                    <h3 class="font-bold text-gray-700 mb-4 w-full text-left">Radar de Competências</h3>
+                    <div class="chart-container">
+                        <canvas id="profileChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-xs text-gray-500 text-center">
+                        *A linha azul representa o nível mínimo exigido (Média Populacional).
+                    </div>
+                </div>
+
+                <!-- Detailed List -->
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm overflow-hidden flex flex-col h-full">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-gray-700">Detalhamento dos Requisitos</h3>
+                        <select id="profileFilter" class="text-sm border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-1 bg-gray-50" onchange="filterProfileList()">
+                            <option value="all">Todos</option>
+                            <option value="cognitive">Cognitivo & Atenção</option>
+                            <option value="personality">Personalidade</option>
+                            <option value="restrictive">Restritivos (Críticos)</option>
+                        </select>
+                    </div>
+                    <div class="overflow-y-auto flex-1 pr-2" id="profileListContainer">
+                        <!-- Content populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: RAIO-X DA BANCA -->
+        <section id="view-board" class="hidden space-y-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Raio-X da Banca AOCP</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl">
+                    Baseado no histórico recente (2023-2024), identificamos os testes com maior probabilidade de aplicação. Use isso para direcionar sua preparação mental.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Chart Col -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-gray-700 mb-4">Probabilidade de Incidência (Testes)</h3>
+                    <div class="chart-container">
+                        <canvas id="boardChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Info Col -->
+                <div class="bg-blue-900 text-white p-6 rounded-xl shadow-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-xl mb-4 text-yellow-400">🔥 Aposta Principal</h3>
+                        <div class="space-y-4">
+                            <div class="bg-blue-800 p-3 rounded-lg">
+                                <span class="text-xs text-blue-300 uppercase font-bold">Personalidade</span>
+                                <p class="font-bold text-lg">NEO PI-R</p>
+                                <p class="text-sm text-blue-200">Mede os "Big Five". Essencial para o perfil exigido.</p>
+                            </div>
+                            <div class="bg-blue-800 p-3 rounded-lg">
+                                <span class="text-xs text-blue-300 uppercase font-bold">Expressivo/Restritivo</span>
+                                <p class="font-bold text-lg">Palográfico</p>
+                                <p class="text-sm text-blue-200">Mede produtividade, mas principalmente agressividade e impulsividade.</p>
+                            </div>
+                            <div class="bg-blue-800 p-3 rounded-lg">
+                                <span class="text-xs text-blue-300 uppercase font-bold">Atenção</span>
+                                <p class="font-bold text-lg">TEACO-FF</p>
+                                <p class="text-sm text-blue-200">Teste clássico de atenção concentrada da AOCP.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-blue-700">
+                        <p class="text-xs opacity-75">Análise baseada na frequência de aplicação em concursos policiais de 2023/2024 (PM-PE, PM-DF, PP-DF).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Strategy Row -->
+            <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <h3 class="font-bold text-gray-800 mb-4">Estratégia de Preparação Sugerida</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-yellow-500">
+                        <h4 class="font-bold text-sm text-gray-800">1. NEO PI-R</h4>
+                        <p class="text-xs text-gray-600 mt-1">Estude os conceitos de Extroversão, Neuroticismo e Realização. Mantenha consistência.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-red-500">
+                        <h4 class="font-bold text-sm text-gray-800">2. Controle (Palo)</h4>
+                        <p class="text-xs text-gray-600 mt-1">Treine qualidade do traço, espaçamento e controle de pressão. Evite "ganchos".</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+                        <h4 class="font-bold text-sm text-gray-800">3. Atenção (TEACO)</h4>
+                        <p class="text-xs text-gray-600 mt-1">Foque em velocidade com precisão. Erros descontam pontos.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-green-500">
+                        <h4 class="font-bold text-sm text-gray-800">4. Raciocínio (R1)</h4>
+                        <p class="text-xs text-gray-600 mt-1">Treine lógica visual e sequências de matrizes não-verbais.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: SIMULADOR -->
+        <section id="view-simulator" class="hidden space-y-6">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Simulador de Inaptidão</h2>
+                <p class="text-gray-600 mt-2 max-w-3xl">
+                    Este simulador demonstra a <strong>Regra de Eliminação</strong> do Edital. Configure o perfil do candidato abaixo e veja o resultado final. Perceba como um único erro fatal compromete todo o conjunto.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Controls -->
+                <div class="flex-1 bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-gray-700 mb-4">Configuração do Candidato</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Group 1 -->
+                        <div>
+                            <h4 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-2 border-b pb-1">Aspectos Cognitivos</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-700">Atenção (Geral)</label>
+                                    <select id="sim_attention" class="text-sm border rounded p-1" onchange="updateSimulator()">
+                                        <option value="ok">Na Média / Superior</option>
+                                        <option value="fail">Abaixo da Média</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-700">Inteligência Não-Verbal</label>
+                                    <select id="sim_intelligence" class="text-sm border rounded p-1" onchange="updateSimulator()">
+                                        <option value="ok">Na Média / Superior</option>
+                                        <option value="fail">Abaixo da Média</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Group 2 -->
+                        <div>
+                            <h4 class="text-sm font-bold text-blue-900 uppercase tracking-wide mb-2 border-b pb-1">Personalidade</h4>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-700">Traços Gerais (Extroversão, etc)</label>
+                                    <select id="sim_personality" class="text-sm border rounded p-1" onchange="updateSimulator()">
+                                        <option value="ok">Na Média / Superior</option>
+                                        <option value="fail">Abaixo da Média</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-700">Sociabilidade</label>
+                                    <select id="sim_social" class="text-sm border rounded p-1" onchange="updateSimulator()">
+                                        <option value="ok">Equilibrada</option>
+                                        <option value="fail_low">Muito Baixa</option>
+                                        <option value="fail_high">Exacerbada</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Group 3 -->
+                        <div>
+                            <h4 class="text-sm font-bold text-red-900 uppercase tracking-wide mb-2 border-b pb-1 border-red-200">Fatores Restritivos (Críticos)</h4>
+                            <div class="space-y-3 bg-red-50 p-3 rounded-lg border border-red-100">
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-800 font-medium">Controle Emocional</label>
+                                    <select id="sim_emotional" class="text-sm border rounded p-1 border-red-200" onchange="updateSimulator()">
+                                        <option value="ok">Controlado</option>
+                                        <option value="fail">Descontrole/Exacerbado</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-800 font-medium">Agressividade</label>
+                                    <select id="sim_aggression" class="text-sm border rounded p-1 border-red-200" onchange="updateSimulator()">
+                                        <option value="ok">Controlada</option>
+                                        <option value="fail">Descontrole/Exacerbada</option>
+                                    </select>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <label class="text-sm text-gray-800 font-medium">Impulsividade</label>
+                                    <select id="sim_impulse" class="text-sm border rounded p-1 border-red-200" onchange="updateSimulator()">
+                                        <option value="ok">Controlada</option>
+                                        <option value="fail">Descontrole/Exacerbada</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Result Display -->
+                <div class="lg:w-1/3 flex flex-col gap-4">
+                    <div id="resultCard" class="bg-green-100 p-8 rounded-xl border-2 border-green-500 flex flex-col items-center justify-center text-center shadow-lg transition-colors duration-500 h-full">
+                        <div id="resultIcon" class="text-6xl mb-4">✅</div>
+                        <h2 id="resultTitle" class="text-3xl font-black text-green-800 uppercase tracking-widest">APTO</h2>
+                        <p id="resultText" class="text-sm text-green-700 mt-4 font-medium">O candidato atende a todos os requisitos do Perfil Profissiográfico.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // --- Data Definitions ---
+
+        const profileRequirements = [
+            { name: "Atenção Concentrada", category: "cognitive", required: "Média ou +", type: "min" },
+            { name: "Atenção Sustentada", category: "cognitive", required: "Média ou +", type: "min" },
+            { name: "Atenção Dividida", category: "cognitive", required: "Média ou +", type: "min" },
+            { name: "Atenção Alternada", category: "cognitive", required: "Média ou +", type: "min" },
+            { name: "Inteligência Não-Verbal", category: "cognitive", required: "Média ou +", type: "min" },
+            { name: "Raciocínios (Esp, Abs, Mec, Num, Mat)", category: "cognitive", required: "Média ou +", type: "min" },
+            { name: "Extroversão", category: "personality", required: "Média ou +", type: "min" },
+            { name: "Realização", category: "personality", required: "Média ou +", type: "min" },
+            { name: "Necessidade de Organização", category: "personality", required: "Média ou +", type: "min" },
+            { name: "Sociabilidade", category: "personality", required: "Equilíbrio", type: "balance" },
+            { name: "Agressividade (Descontrole)", category: "restrictive", required: "Ausente", type: "rest" },
+            { name: "Impulsividade (Descontrole)", category: "restrictive", required: "Ausente", type: "rest" },
+            { name: "Emocional (Descontrole)", category: "restrictive", required: "Ausente", type: "rest" }
+        ];
+
+        const boardProbabilities = {
+            labels: ['NEO PI-R (Personalidade)', 'TEACO-FF (Atenção)', 'Palográfico (Exp/Rest)', 'Teste R1 (Inteligência)', 'Bateria TSP (Habilidades)', 'Outros (AC Vetor/BFP)'],
+            data: [95, 90, 85, 80, 60, 40], // Estimated probabilities based on text analysis "Altíssima", "Alta"
+            details: [
+                "Altíssima incidência em 2024. Cobre os 'Big Five' exigidos.",
+                "Padrão ouro da AOCP para atenção concentrada.",
+                "Favorito para medir agressividade e produtividade.",
+                "Clássico para inteligência não-verbal (fator g).",
+                "Provável devido aos itens específicos 'Julgamento' e 'Fluência'.",
+                "Possíveis variações, mas menos frequentes recentemente."
+            ]
+        };
+
+        // --- Navigation Logic ---
+
+        function switchTab(tabId) {
+            // Hide all sections
+            document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
+            // Show selected section
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+            
+            // Update Nav State
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'bg-blue-900', 'text-white', 'border-l-4', 'border-blue-500'));
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            activeNav.classList.add('active');
+
+            // Trigger Chart renders if needed
+            if (tabId === 'profile' && !window.profileChartInstance) renderProfileChart();
+            if (tabId === 'board' && !window.boardChartInstance) renderBoardChart();
+        }
+
+        // --- Feature 1: Profile List & Filter ---
+
+        function renderProfileList(filter = 'all') {
+            const container = document.getElementById('profileListContainer');
+            container.innerHTML = '';
+
+            const filtered = profileRequirements.filter(item => filter === 'all' || item.category === filter);
+
+            filtered.forEach(item => {
+                let badgeClass = '';
+                let badgeText = '';
+
+                if (item.category === 'cognitive') { badgeClass = 'bg-blue-100 text-blue-800'; badgeText = 'Cognitivo'; }
+                else if (item.category === 'personality') { badgeClass = 'bg-purple-100 text-purple-800'; badgeText = 'Personalidade'; }
+                else { badgeClass = 'bg-red-100 text-red-800'; badgeText = 'Restritivo'; }
+
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-3 border-b border-gray-100 last:border-0 hover:bg-gray-50';
+                div.innerHTML = `
+                    <div>
+                        <span class="text-xs font-bold uppercase px-2 py-0.5 rounded ${badgeClass} mr-2">${badgeText}</span>
+                        <span class="text-gray-700 font-medium text-sm">${item.name}</span>
+                    </div>
+                    <span class="text-sm text-gray-500 font-semibold">${item.required}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function filterProfileList() {
+            const filter = document.getElementById('profileFilter').value;
+            renderProfileList(filter);
+        }
+
+        // --- Feature 2: Charts ---
+
+        function renderProfileChart() {
+            const ctx = document.getElementById('profileChart').getContext('2d');
+            window.profileChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Atenção', 'Inteligência', 'Extroversão', 'Realização', 'Organização', 'Controle Emocional', 'Agressividade (Controle)'],
+                    datasets: [{
+                        label: 'Perfil Exigido (Mínimo)',
+                        data: [50, 50, 50, 50, 50, 80, 80], // 50 is avg, 80 represents high control required
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: {
+                                font: { size: 11, family: 'Inter' },
+                                color: '#4b5563'
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false } // Hide numbers for abstract representation
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.label + ': Nível Adequado Exigido';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderBoardChart() {
+            const ctx = document.getElementById('boardChart').getContext('2d');
+            window.boardChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: boardProbabilities.labels,
+                    datasets: [{
+                        label: 'Probabilidade Estimada (%)',
+                        data: boardProbabilities.data,
+                        backgroundColor: [
+                            'rgba(30, 58, 138, 0.8)', // Dark Blue
+                            'rgba(30, 58, 138, 0.7)',
+                            'rgba(220, 38, 38, 0.7)', // Red for Palografico
+                            'rgba(59, 130, 246, 0.7)', // Blue
+                            'rgba(59, 130, 246, 0.6)',
+                            'rgba(156, 163, 175, 0.5)'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#f3f4f6' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                afterLabel: function(context) {
+                                    return boardProbabilities.details[context.dataIndex];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- Feature 3: Simulator Logic ---
+
+        function updateSimulator() {
+            // Get values
+            const attention = document.getElementById('sim_attention').value;
+            const intelligence = document.getElementById('sim_intelligence').value;
+            const personality = document.getElementById('sim_personality').value;
+            const social = document.getElementById('sim_social').value;
+            const emotional = document.getElementById('sim_emotional').value;
+            const aggression = document.getElementById('sim_aggression').value;
+            const impulse = document.getElementById('sim_impulse').value;
+
+            // Check failure conditions
+            const failures = [];
+            if (attention === 'fail') failures.push("Atenção Abaixo da Média");
+            if (intelligence === 'fail') failures.push("Inteligência Abaixo da Média");
+            if (personality === 'fail') failures.push("Traços de Personalidade Insuficientes");
+            if (social !== 'ok') failures.push("Sociabilidade Desequilibrada");
+            if (emotional === 'fail') failures.push("Descontrole Emocional Detectado");
+            if (aggression === 'fail') failures.push("Agressividade Exacerbada Detectada");
+            if (impulse === 'fail') failures.push("Impulsividade Exacerbada Detectada");
+
+            const resultCard = document.getElementById('resultCard');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultIcon = document.getElementById('resultIcon');
+            const resultText = document.getElementById('resultText');
+
+            if (failures.length > 0) {
+                // INAPTO
+                resultCard.className = "bg-red-50 p-8 rounded-xl border-2 border-red-500 flex flex-col items-center justify-center text-center shadow-lg transition-colors duration-500 h-full";
+                resultTitle.className = "text-3xl font-black text-red-800 uppercase tracking-widest";
+                resultTitle.innerText = "INAPTO";
+                resultIcon.innerText = "🚫";
+                resultText.className = "text-sm text-red-700 mt-4 font-medium";
+                resultText.innerHTML = `Motivo(s) da Eliminação:<br><ul class="mt-2 list-disc list-inside text-left mx-auto w-fit">${failures.map(f => `<li>${f}</li>`).join('')}</ul>`;
+            } else {
+                // APTO
+                resultCard.className = "bg-green-100 p-8 rounded-xl border-2 border-green-500 flex flex-col items-center justify-center text-center shadow-lg transition-colors duration-500 h-full";
+                resultTitle.className = "text-3xl font-black text-green-800 uppercase tracking-widest";
+                resultTitle.innerText = "APTO";
+                resultIcon.innerText = "✅";
+                resultText.className = "text-sm text-green-700 mt-4 font-medium";
+                resultText.innerText = "O candidato atende a todos os requisitos do Perfil Profissiográfico.";
+            }
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProfileList();
+            // Start on overview
+            switchTab('overview');
+        });
+
+    </script>
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. Charts via Chart.js Canvas. Icons via Unicode. -->
+</body>
+</html>
