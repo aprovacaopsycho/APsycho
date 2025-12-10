@@ -82,6 +82,11 @@
       box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
       transform: scale(1.05);
     }
+
+    .neon-text {
+      color: #fff;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--primary-purple);
+    }
   </style>
 </head>
 
@@ -582,6 +587,7 @@
     function calcularResultado() {
       let scores = {};
       let answered = 0;
+      let userAnswers = {};
 
       // Inicializa scores
       for (let f in DATA_CRITERIA) scores[f] = 0;
@@ -593,6 +599,9 @@
           answered++;
           let val = parseInt(el.value);
           const q = DATA_QUESTIONS.find(x => x.id === i);
+
+          userAnswers[i] = val; // Armazena a resposta original
+
           if (q && q.inverted) val = 6 - val;
           if (q && scores[q.facet] !== undefined) scores[q.facet] += val;
         }
@@ -607,7 +616,8 @@
 
       for (let f in scores) {
         const raw = scores[f];
-        // FÓRMULA: (Raw / 40) * 100
+        // FÓRMULA: (Raw / 40) * 100 
+        // OBS: NEO PI-R oficial usa tabelas normativas diferentes, aqui estamos usando uma escala percentílica aproximada para o simulado
         const pct = (raw / 40) * 100;
         const pctFixed = parseFloat(pct.toFixed(2));
 
@@ -618,10 +628,10 @@
         results[f] = { raw: raw, pct: pctFixed, apto: apto, min: crit.min, max: crit.max };
       }
 
-      renderReport(results, isGlobalApto);
+      renderReport(results, isGlobalApto, userAnswers);
     }
 
-    function renderReport(res, globalStatus) {
+    function renderReport(res, globalStatus, userAnswers) {
       document.getElementById('screen-quiz').classList.add('hidden');
       document.getElementById('screen-result').classList.remove('hidden');
       window.scrollTo(0, 0);
@@ -661,33 +671,62 @@
           const marker = Math.min(r.pct, 100) + '%';
 
           html += `
-                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col md:flex-row items-center gap-4 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
-                        <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
-                             <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
-                             <div class="capitalize text-white">${fKey}</div>
-                        </div>
+                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
+                        <div class="flex flex-col md:flex-row items-center gap-4">
+                            <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                                 <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                                 <div class="capitalize text-white">${fKey}</div>
+                            </div>
 
-                        <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
-                            <!-- Faixa Ideal -->
-                            <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
-                                 style="left: ${left}; width: ${width};" 
-                                 title="Meta: ${r.min}-${r.max}%">
+                            <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                                <!-- Faixa Ideal -->
+                                <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                                     style="left: ${left}; width: ${width};" 
+                                     title="Meta: ${r.min}-${r.max}%">
+                                </div>
+                                
+                                <!-- Marcador -->
+                                <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
+                                     style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+                                </div>
                             </div>
-                            
-                            <!-- Marcador -->
-                            <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
-                                 style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
-                            </div>
-                        </div>
 
-                        <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
-                            <div class="text-right">
-                                <div class="text-xs text-gray-500">Raw: ${r.raw}</div>
-                                <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                            <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
+                                <div class="text-right">
+                                    <div class="text-xs text-gray-500">Raw: ${r.raw}</div>
+                                    <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                                </div>
+                                <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
                             </div>
-                            <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
-                        </div>
-                    </div>`;
+                        </div>`;
+
+          // DETALHAMENTO DE ITENS REPROVADOS
+          if (!isApto) {
+            const facetQuestions = DATA_QUESTIONS.filter(q => q.facet === fKey);
+            html += `
+                <div class="mt-2 pt-3 border-t border-white/5 animate-fade-in">
+                    <p class="text-xs font-bold text-red-400 mb-2 uppercase flex items-center gap-2">
+                        <i class="fas fa-exclamation-triangle"></i> Detalhamento dos Itens (Critério Reprovado)
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+             `;
+
+            facetQuestions.forEach(q => {
+              const val = userAnswers[q.id] || 0;
+              html += `
+                    <div class="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5">
+                        <span class="text-[10px] text-gray-400 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
+                        <span class="text-xs font-mono font-bold ${val >= 4 ? 'text-yellow-400' : 'text-gray-500'}">Resp: ${val}</span>
+                    </div>
+                 `;
+            });
+
+            html += `   </div>
+                </div>
+             `;
+          }
+
+          html += `</div>`;
         });
         html += `</div></div>`;
       }

@@ -84,6 +84,11 @@
             transform: scale(1.05);
         }
 
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--primary-purple);
+        }
+
         @media print {
             .no-print {
                 display: none !important;
@@ -874,6 +879,7 @@
         function calculate() {
             let scores = {};
             let answered = 0;
+            let userAnswers = {};
 
             // Inicializa scores
             for (let f in DATA_PERCENTILES) scores[f] = 0;
@@ -883,7 +889,8 @@
                 if (el) {
                     answered++;
                     let val = parseInt(el.value);
-                    // IFP-II: Soma simples, sem inversão
+                    userAnswers[q.id] = val;
+
                     if (!scores[q.facet]) scores[q.facet] = 0;
                     scores[q.facet] += val;
                 }
@@ -898,16 +905,10 @@
 
             for (let f in scores) {
                 const raw = scores[f];
-
-                // Busca na Tabela (Exata ou Piso)
-                // IFP-II usa tabela de correspondência PONTOS -> PERCENTIL
                 let pct = 0;
                 const table = DATA_PERCENTILES[f];
 
                 if (table) {
-                    // Acha o valor onde score >= s
-                    // Como a tabela tem limites inferiores, percorremos de trás pra frente ou usamos findLast
-                    // Ex: Score 48. Tabela tem 46->70, 48->75. Resultado 75.
                     for (let i = 0; i < table.length; i++) {
                         if (raw >= table[i].s) {
                             pct = table[i].p;
@@ -924,10 +925,10 @@
                 results[f] = { raw, pct, apto, min: crit.min, max: crit.max };
             }
 
-            renderReport(results, isGlobalApto);
+            renderReport(results, isGlobalApto, userAnswers);
         }
 
-        function renderReport(res, globalStatus) {
+        function renderReport(res, globalStatus, userAnswers) {
             document.getElementById('screen-quiz').classList.add('hidden');
             document.getElementById('screen-result').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -938,56 +939,91 @@
             badge.className = `px-8 py-3 rounded-full text-xl font-bold border ${globalStatus ? 'bg-green-500/10 text-green-400 border-green-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'}`;
 
             const container = document.getElementById('report-content');
-            let html = '<div class="grid grid-cols-1 md:grid-cols-2 gap-4">';
+            let html = '';
 
-            for (let facet in res) {
+            html += `
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fas fa-layer-group text-purple-500" style="text-shadow: 0 0 10px var(--primary-purple);"></i> 
+                        <span class="neon-text">NECESSIDADES PSICOLÓGICAS</span>
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+            `;
+
+            for (let facet in DATA_CRITERIA) {
                 const r = res[facet];
-                const isApto = r.apto;
+                if (!r) continue;
 
+                const isApto = r.apto;
+                const statusText = isApto ? "APTO" : "INAPTO";
                 const statusColor = isApto
                     ? "text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
                     : "text-red-400 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
 
-                // Visual
+                const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
+
                 const left = r.min + '%';
                 const width = (r.max - r.min) + '%';
                 const marker = Math.min(100, Math.max(0, r.pct)) + '%';
-                const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
 
                 html += `
                     <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
-                        <div class="flex justify-between items-center">
-                            <div class="font-medium text-gray-300 text-sm flex items-center gap-2">
-                                <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-1 rounded mr-1">${facet}</span>
+                        <div class="flex flex-col md:flex-row items-center gap-4">
+                            <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                                 <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                                 <div class="font-bold text-white uppercase tracking-wider">${facet}</div>
                             </div>
-                            <span class="text-[10px] text-gray-500 font-mono">PTS: ${r.raw}</span>
-                        </div>
-                        
-                        <div class="flex-1 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
-                            <!-- Faixa Ideal -->
-                            <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
-                                 style="left: ${left}; width: ${width};" 
-                                 title="Meta: ${r.min}-${r.max}%">
+    
+                            <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                                <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                                     style="left: ${left}; width: ${width};" 
+                                     title="Meta: ${r.min}-${r.max}%">
+                                </div>
+                                <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
+                                     style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+                                </div>
                             </div>
-                            
-                            <!-- Marcador -->
-                            <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
-                                 style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+    
+                            <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
+                                <div class="text-right">
+                                    <div class="text-xs text-gray-500">Raw: ${r.raw}</div>
+                                    <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                                </div>
+                                <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
                             </div>
-                        </div>
+                        </div>`;
 
-                        <div class="flex justify-between items-center text-xs mt-1">
-                             <div class="text-right">
-                                <span class="text-sm font-mono text-white font-bold">${r.pct}%</span>
+                if (!isApto) {
+                    const facetQuestions = DATA_QUESTIONS.filter(q => q.facet === facet);
+                    html += `
+                        <div class="mt-2 pt-3 border-t border-white/5 animate-fade-in">
+                            <p class="text-xs font-bold text-red-400 mb-2 uppercase flex items-center gap-2">
+                                <i class="fas fa-exclamation-triangle"></i> Detalhamento dos Itens (Critério Reprovado)
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    `;
+
+                    facetQuestions.forEach(q => {
+                        const val = userAnswers[q.id] || 0;
+                        html += `
+                            <div class="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5">
+                                <span class="text-[10px] text-gray-400 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
+                                <span class="text-xs font-mono font-bold ${val >= 4 ? 'text-yellow-400' : 'text-gray-500'}">Resp: ${val}</span>
                             </div>
-                            <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${isApto ? 'APTO' : 'INAPTO'}</span>
+                        `;
+                    });
+
+                    html += `   </div>
                         </div>
-                    </div>`;
+                    `;
+                }
+
+                html += `</div>`;
             }
-            html += '</div>';
+            html += `</div></div>`;
+
             container.innerHTML = html;
 
-            // Histórico
             const h = JSON.parse(localStorage.getItem('ifpii_history') || '[]');
             h.unshift({ date: new Date().toLocaleString(), status: globalStatus ? 'APTO' : 'INAPTO' });
             localStorage.setItem('ifpii_history', JSON.stringify(h));

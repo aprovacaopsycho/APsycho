@@ -83,6 +83,11 @@
             box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
             transform: scale(1.05);
         }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--primary-purple);
+        }
     </style>
 </head>
 
@@ -497,12 +502,22 @@
         function calculate() {
             let scores = {};
             let count = 0;
+            let userAnswers = {};
+
+            // Inicializa scores
+            for (let f in FACTOR_MAP) scores[f] = [];
+            // Também garante inicialização para facetas diretas se necessário
+            DATA_QUESTIONS.forEach(q => {
+                if (!scores[q.facet]) scores[q.facet] = [];
+            });
 
             DATA_QUESTIONS.forEach(q => {
                 const el = document.querySelector(`input[name="q${q.id}"]:checked`);
                 if (el) {
                     count++;
                     let val = parseInt(el.value);
+                    userAnswers[q.id] = val; // Guarda resposta original
+
                     if (q.inverted) val = 8 - val;
 
                     if (!scores[q.facet]) scores[q.facet] = [];
@@ -519,7 +534,7 @@
 
             for (let f in scores) {
                 const sum = scores[f].reduce((a, b) => a + b, 0);
-                const avg = sum / scores[f].length;
+                const avg = scores[f].length > 0 ? sum / scores[f].length : 0;
 
                 let pct = 50; // Default
                 const table = DATA_PERCENTILES[f];
@@ -549,10 +564,10 @@
                 results[f] = { raw: avg.toFixed(2), pct: pct, apto: apto, min: crit.min, max: crit.max };
             }
 
-            renderReport(results, isGlobalApto);
+            renderReport(results, isGlobalApto, userAnswers);
         }
 
-        function renderReport(res, globalStatus) {
+        function renderReport(res, globalStatus, userAnswers) {
             document.getElementById('screen-quiz').classList.add('hidden');
             document.getElementById('screen-result').classList.remove('hidden');
             window.scrollTo(0, 0);
@@ -593,36 +608,65 @@
                     const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
 
                     html += `
-                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col md:flex-row items-center gap-4 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
-                        <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
-                            <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
-                            <div>
-                                <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-1 rounded mr-1">${code}</span>
-                                ${name}
-                            </div>
-                        </div>
-                        
-                        <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
-                            <!-- Faixa Ideal -->
-                            <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
-                                 style="left: ${left}; width: ${width};" 
-                                 title="Meta: ${r.min}-${r.max}%">
+                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
+                        <div class="flex flex-col md:flex-row items-center gap-4">
+                            <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                                <div>
+                                    <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-1 rounded mr-1">${code}</span>
+                                    ${name}
+                                </div>
                             </div>
                             
-                            <!-- Marcador -->
-                            <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
-                                 style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+                            <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                                <!-- Faixa Ideal -->
+                                <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                                     style="left: ${left}; width: ${width};" 
+                                     title="Meta: ${r.min}-${r.max}%">
+                                </div>
+                                
+                                <!-- Marcador -->
+                                <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
+                                     style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
-                            <div class="text-right">
-                                <div class="text-xs text-gray-500">Média: ${r.raw}</div>
-                                <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                            
+                            <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
+                                <div class="text-right">
+                                    <div class="text-xs text-gray-500">Média: ${r.raw}</div>
+                                    <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                                </div>
+                                <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
                             </div>
-                            <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
-                        </div>
-                    </div>`;
+                        </div>`;
+
+                    // DETALHAMENTO DE ITENS REPROVADOS
+                    if (!isApto) {
+                        const facetQuestions = DATA_QUESTIONS.filter(q => q.facet === code);
+                        html += `
+                            <div class="mt-2 pt-3 border-t border-white/5 animate-fade-in">
+                                <p class="text-xs font-bold text-red-400 mb-2 uppercase flex items-center gap-2">
+                                    <i class="fas fa-exclamation-triangle"></i> Detalhamento dos Itens (Critério Reprovado)
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            `;
+
+                        facetQuestions.forEach(q => {
+                            const val = userAnswers[q.id] || 0;
+                            html += `
+                                    <div class="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5">
+                                        <span class="text-[10px] text-gray-400 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
+                                        <span class="text-xs font-mono font-bold ${val >= 5 ? 'text-yellow-400' : 'text-gray-500'}">Resp: ${val}</span>
+                                    </div>
+                                `;
+                        });
+
+                        html += `   </div>
+                                </div>
+                            `;
+                    }
+
+                    html += `</div>`;
                 });
                 html += `</div></div>`;
             }
