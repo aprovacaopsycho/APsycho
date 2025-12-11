@@ -69,6 +69,9 @@
         .test-paper-container {
             position: relative;
             margin: 0 auto;
+            width: 100%;
+            max-width: 636px;
+            aspect-ratio: 636 / 781;
             /* IMAGEM DO FUNDO CTA-AD */
             background-image: url('fundo_ctaad.png');
             background-size: 100% 100%;
@@ -82,6 +85,9 @@
         .interactive-grid {
             display: grid;
             position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
         }
 
         /* Célula de Clique */
@@ -233,14 +239,9 @@
             </div>
 
             <div class="flex justify-center overflow-auto pb-32 px-4">
-                <div class="test-paper-container"
-                    :style="`width: ${config.styles.width}; height: ${config.styles.height};`">
+                <div class="test-paper-container">
 
                     <div class="interactive-grid" :style="`
-                        top: ${config.styles.marginTop}; 
-                        left: ${config.styles.marginLeft}; 
-                        width: ${config.styles.width}; 
-                        height: ${config.styles.height};
                         grid-template-columns: repeat(${config.cols}, 1fr);
                         grid-template-rows: repeat(${config.rows}, 1fr);
                         gap: ${config.styles.gap};
@@ -300,14 +301,9 @@
 
                 <div x-show="reviewMode"
                     class="flex justify-center overflow-auto border-t border-white/10 pt-8 animate-fade-in-up">
-                    <div class="test-paper-container relative"
-                        :style="`width: ${config.styles.width}; height: ${config.styles.height}; zoom: 0.85;`">
+                    <div class="test-paper-container relative">
                         <div class="absolute inset-0 bg-black/20"></div>
                         <div class="interactive-grid" :style="`
-                            top: ${config.styles.marginTop}; 
-                            left: ${config.styles.marginLeft}; 
-                            width: ${config.styles.width}; 
-                            height: ${config.styles.height};
                             grid-template-columns: repeat(${config.cols}, 1fr);
                             grid-template-rows: repeat(${config.rows}, 1fr);
                             gap: ${config.styles.gap};

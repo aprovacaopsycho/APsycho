@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>CTA-AC (Simulador Final) | Aprovação Psycho</title>
+    <title>CTA-AD (Simulador Real) | Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="favicon.png">
 
     <!-- SEGURANÇA -->
@@ -69,11 +69,8 @@
         .test-paper-container {
             position: relative;
             margin: 0 auto;
-            width: 100%;
-            max-width: 636px;
-            aspect-ratio: 636 / 796;
-            /* ATENÇÃO: FORMATO PNG AGORA */
-            background-image: url('fundo_cta.png');
+            /* IMAGEM DO FUNDO CTA-AD */
+            background-image: url('fundo_ctaad.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
@@ -85,16 +82,13 @@
         .interactive-grid {
             display: grid;
             position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
         }
 
         /* Célula de Clique */
         .hit-zone {
             cursor: pointer;
             position: relative;
-            /* border: 1px solid rgba(255,0,0,0.1); Descomente para ver a grade */
+            /* border: 1px solid rgba(255,0,0,0.1); // Debug */
         }
 
         .hit-zone:hover {
@@ -133,7 +127,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen hero-bg" x-data="ctaFinal()">
+<body class="flex flex-col min-h-screen hero-bg" x-data="ctaAdSimulator()">
 
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -145,7 +139,7 @@
                 <div class="flex flex-col">
                     <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
                             style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">CTA-AC <span
+                    <span class="text-white font-black text-lg leading-none">CTA-AD <span
                             class="text-[var(--accent-pink)]">SIMULADOR</span></span>
                     <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
@@ -162,16 +156,17 @@
 
         <div x-show="state === 'instructions'" class="max-w-4xl mx-auto fade-in mt-10">
             <div class="bg-[#151427] rounded-2xl p-8 border border-white/5 text-center shadow-2xl backdrop-blur-sm">
-                <h1 class="text-3xl font-black text-white mb-4">Atenção Concentrada (CTA)</h1>
-                <p class="text-gray-400 mb-8 text-lg">Faça um traço (clique) em todas as figuras iguais ao modelo.</p>
+                <h1 class="text-3xl font-black text-white mb-4">CTA - Atenção Dividida</h1>
+                <p class="text-gray-400 mb-8 text-lg">Faça um traço em qualquer figura igual a <strong>UM DOS 3
+                        MODELOS</strong>.</p>
 
                 <div class="flex justify-center mb-8">
                     <div class="flex flex-col items-center gap-3">
                         <div
                             class="p-4 bg-white/5 rounded-lg flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.05)] border border-white/10">
-                            <img src="modelo_cta.png" alt="Modelo Alvo" class="h-24 w-auto object-contain">
+                            <img src="modelo_ctaad.png" alt="Modelos Alvo" class="h-24 w-auto object-contain">
                         </div>
-                        <span class="text-xs text-[var(--accent-pink)] uppercase font-bold tracking-widest">FIGURA
+                        <span class="text-xs text-[var(--accent-pink)] uppercase font-bold tracking-widest">FIGURAS
                             ALVO</span>
                     </div>
                 </div>
@@ -179,7 +174,7 @@
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left bg-black/20 p-6 rounded-xl max-w-xl mx-auto mb-8 border border-white/5">
                     <p class="text-gray-300 flex items-center"><i class="fas fa-clock text-cyan-400 w-6"></i> Tempo:
-                        <strong>1 Minuto</strong>.
+                        <strong>1 Min 45 Seg</strong>.
                     </p>
                     <p class="text-gray-300 flex items-center"><i class="fas fa-trophy text-yellow-400 w-6"></i> Meta:
                         <strong>32 Pontos</strong>.
@@ -210,10 +205,10 @@
                 <div class="max-w-5xl mx-auto flex justify-between items-center">
 
                     <div class="flex items-center gap-4 bg-black/40 px-4 py-2 rounded-lg border border-white/10">
-                        <span class="text-xs font-bold text-gray-400 uppercase hidden sm:inline">ALVO:</span>
+                        <span class="text-xs font-bold text-gray-400 uppercase hidden sm:inline">ALVOS:</span>
                         <div
-                            class="h-14 w-14 bg-white/10 rounded flex items-center justify-center overflow-hidden border border-white/20">
-                            <img src="modelo_cta.png" class="h-full w-full object-contain p-1">
+                            class="h-14 bg-white/10 rounded flex items-center justify-center overflow-hidden border border-white/20 px-2">
+                            <img src="modelo_ctaad.png" class="h-full w-auto object-contain">
                         </div>
                     </div>
 
@@ -221,11 +216,11 @@
                         <div class="text-center">
                             <div class="text-[10px] text-gray-400 font-bold uppercase">Tempo</div>
                             <div class="text-3xl font-mono font-bold text-white leading-none"
-                                :class="{'text-red-500 animate-pulse': time < 10}" x-text="formatTime(time)"></div>
+                                :class="{'text-red-500 animate-pulse': time < 15}" x-text="formatTime(time)"></div>
                             <!-- Progress Bar -->
                             <div class="w-full bg-gray-700 h-1 mt-1 rounded-full overflow-hidden">
                                 <div class="bg-gradient-to-r from-green-400 to-blue-500 h-full transition-all duration-1000 ease-linear"
-                                    :style="`width: ${(time / 60) * 100}%`"></div>
+                                    :style="`width: ${(time / 105) * 100}%`"></div>
                             </div>
                         </div>
 
@@ -238,9 +233,14 @@
             </div>
 
             <div class="flex justify-center overflow-auto pb-32 px-4">
-                <div class="test-paper-container">
+                <div class="test-paper-container"
+                    :style="`width: ${config.styles.width}; height: ${config.styles.height};`">
 
                     <div class="interactive-grid" :style="`
+                        top: ${config.styles.marginTop}; 
+                        left: ${config.styles.marginLeft}; 
+                        width: ${config.styles.width}; 
+                        height: ${config.styles.height};
                         grid-template-columns: repeat(${config.cols}, 1fr);
                         grid-template-rows: repeat(${config.rows}, 1fr);
                         gap: ${config.styles.gap};
@@ -300,9 +300,14 @@
 
                 <div x-show="reviewMode"
                     class="flex justify-center overflow-auto border-t border-white/10 pt-8 animate-fade-in-up">
-                    <div class="test-paper-container relative">
+                    <div class="test-paper-container relative"
+                        :style="`width: ${config.styles.width}; height: ${config.styles.height}; zoom: 0.85;`">
                         <div class="absolute inset-0 bg-black/20"></div>
                         <div class="interactive-grid" :style="`
+                            top: ${config.styles.marginTop}; 
+                            left: ${config.styles.marginLeft}; 
+                            width: ${config.styles.width}; 
+                            height: ${config.styles.height};
                             grid-template-columns: repeat(${config.cols}, 1fr);
                             grid-template-rows: repeat(${config.rows}, 1fr);
                             gap: ${config.styles.gap};
@@ -333,30 +338,30 @@
 
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('ctaFinal', () => ({
+            Alpine.data('ctaAdSimulator', () => ({
                 // =================================================================
-                // CONFIGURAÇÃO (COLE AQUI SE MUDAR NO MAPEADOR)
+                // CONFIGURAÇÃO FORNECIDA PELO USUÁRIO
                 // =================================================================
                 config: {
                     "rows": 13,
                     "cols": 10,
                     "styles": {
                         "width": "636px",
-                        "height": "796px",
+                        "height": "781px",
                         "marginTop": "0px",
                         "marginLeft": "0px",
                         "gap": "5px"
                     },
                     "correctIndices": [
-                        0, 3, 9, 12, 15, 16, 20, 23, 25, 31, 32, 36, 38, 39, 44, 48, 50, 52, 55, 56,
-                        58, 60, 63, 64, 67, 69, 70, 72, 73, 74, 75, 78, 82, 89, 90, 92, 99, 100,
-                        105, 109, 110, 112, 114, 117, 120, 122, 123, 126, 128, 129
+                        0, 1, 3, 5, 8, 10, 16, 17, 22, 24, 27, 29, 30, 32, 33, 35, 39, 41, 45,
+                        49, 50, 51, 54, 55, 57, 64, 68, 72, 75, 81, 84, 87, 90, 92, 97, 99,
+                        100, 103, 105, 107, 109, 112, 115, 116, 120, 121, 124, 125, 127, 129
                     ]
                 },
                 // =================================================================
 
                 state: 'instructions',
-                time: 60,
+                time: 105, // 1 min 45 seg
                 timer: null,
                 grid: [],
                 lastSelectedIndex: -1,
@@ -392,7 +397,7 @@
 
                 startTest() {
                     this.state = 'testing';
-                    window.scrollTo(0, 0); // Rola para o topo para ver o modelo
+                    window.scrollTo(0, 0);
                     this.timer = setInterval(() => {
                         this.time--;
                         if (this.time <= 0) this.finishTest();
@@ -461,7 +466,6 @@
                     } else {
                         document.getElementById('time-up-audio').play().catch(e => console.log("Audio play err", e));
                     }
-
                 },
 
                 showVisualReview() {
