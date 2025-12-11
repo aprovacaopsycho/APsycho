@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste R1 | Aprovação Psycho</title>
+    <title>Teste BPR-5 RV | Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -25,8 +25,8 @@
                     colors: {
                         dark: '#0a0a0f',
                         card: 'rgba(28, 27, 41, 0.95)',
-                        primary: '#9f54ff', // Roxo Principal PMPR
-                        secondary: '#c084fc', // Roxo Claro R1
+                        primary: '#9f54ff',
+                        secondary: '#c084fc',
                         accent: '#ff00ff',
                     },
                     fontFamily: {
@@ -91,14 +91,6 @@
             opacity: 0.7;
         }
 
-        /* Rank Badges */
-        .rank-badge {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
         /* Scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -123,14 +115,12 @@
     </style>
 </head>
 
-<body x-data="r1App()" x-init="startTimer(); preloadNextImages()"
-    class="min-h-screen flex flex-col font-sans overflow-x-hidden">
+<body x-data="bpr5rvApp()" x-init="startTimer()" class="min-h-screen flex flex-col font-sans overflow-x-hidden">
 
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
 
-            <!-- Logo area matching pmpr.html -->
             <div class="flex items-center gap-3">
                 <img src="../logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
@@ -140,8 +130,8 @@
                     <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-accent"
                             style="text-shadow:0 0 8px var(--accent)">PSYCHO</span></span>
                     <span class="text-white font-black text-lg leading-none">TESTE <span
-                            class="text-[var(--primary)]">R1</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                            class="text-[var(--primary)]">BPR-5 RV</span></span>
+                    <span class="text-sm font-bold text-gray-400 font-medium tracking-wider">RACIOCÍNIO VERBAL</span>
                 </div>
             </div>
 
@@ -156,7 +146,7 @@
                 </div>
 
                 <div x-show="!finished" class="flex items-center gap-2 text-xl font-mono font-bold"
-                    :class="timeRemaining < 300 ? 'text-red-500 animate-pulse' : 'text-[var(--primary)]'">
+                    :class="timeRemaining < 60 ? 'text-red-500 animate-pulse' : 'text-[var(--primary)]'">
                     <i class="fas fa-stopwatch"></i>
                     <span x-text="formatTime(timeRemaining)"></span>
                 </div>
@@ -181,21 +171,38 @@
             </template>
         </div>
 
-
-        <!-- INTRO / INSTRUÇÕES (Só aparece se currentQuestion === 0) -->
+        <!-- INTRO -->
         <div x-show="currentQuestion === 0 && !finished"
             class="glass-panel p-8 rounded-2xl text-center max-w-2xl mx-auto my-auto">
-            <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste R1</h1>
+            <h1 class="text-3xl font-bold text-white mb-4">Instruções do BPR-5 RV</h1>
             <p class="text-gray-300 mb-6 text-lg leading-relaxed">
-                Este teste avalia sua capacidade de raciocínio lógico abstrato.
+                Este teste avalia sua capacidade de analogia verbal. Encontre a palavra que completa a relação lógica.
             </p>
+            <div class="bg-black/30 p-4 rounded-lg mb-6 text-left border border-white/5">
+                <p class="text-gray-400 text-sm mb-2 font-bold">EXEMPLO:</p>
+                <div class="text-lg text-white font-medium mb-3">
+                    <span class="text-[var(--accent)] font-bold">Dia</span> está para <span
+                        class="text-[var(--accent)] font-bold">Noite</span> assim como <span
+                        class="text-[var(--primary)] font-bold">Claro</span> está para...
+                </div>
+                <div class="grid grid-cols-5 gap-2 text-xs text-gray-400">
+                    <div class="p-2 border border-white/10 rounded">A. Luz</div>
+                    <div class="p-2 border border-white/10 rounded">B. Energia</div>
+                    <div class="p-2 bg-green-500/20 border border-green-500/50 text-green-400 font-bold rounded">C.
+                        Escuro</div>
+                    <div class="p-2 border border-white/10 rounded">D. Claridade</div>
+                    <div class="p-2 border border-white/10 rounded">E. Eletricidade</div>
+                </div>
+            </div>
+
             <ul class="text-left text-gray-400 text-sm space-y-3 mb-8 bg-black/20 p-6 rounded-xl border border-white/5">
                 <li><i class="fas fa-bolt text-yellow-400 mr-2"></i> Ganhe <strong>XP</strong> acertando questões!</li>
                 <li><i class="fas fa-fire text-orange-500 mr-2"></i> Mantenha o <strong>Combo (Streak)</strong> para
                     pontuar mais alto.</li>
-                <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>30 minutos</strong> para 40
+                <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>10 minutos</strong> para 25
                     questões.</li>
-                <li><i class="fas fa-trophy text-purple-400 mr-2"></i> Alcance o rank <strong>DIAMANTE</strong>!</li>
+                <li><i class="fas fa-trophy text-purple-400 mr-2"></i> Alcance o rank <strong>DIAMANTE</strong> (24+
+                    acertos)!</li>
             </ul>
             <button @click="startTest()"
                 class="bg-primary hover:bg-purple-500 text-white font-bold py-3 px-8 rounded-xl transition shadow-[0_0_20px_rgba(192,132,252,0.3)] hover:shadow-[0_0_30px_rgba(192,132,252,0.5)] transform hover:-translate-y-1">
@@ -206,18 +213,16 @@
         <!-- AREA DO TESTE -->
         <div x-show="currentQuestion > 0 && !finished" class="flex flex-col gap-6" x-transition>
 
-            <!-- Barra de Progresso -->
             <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
                 <div class="bg-primary h-full transition-all duration-500 relative"
-                    :style="`width: ${(currentQuestion / 40) * 100}%`">
+                    :style="`width: ${(currentQuestion / 25) * 100}%`">
                     <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
                 </div>
             </div>
 
-            <!-- Cabeçalho da Questão -->
             <div class="flex justify-between items-end px-2">
                 <h2 class="text-2xl font-bold text-white">Questão <span x-text="currentQuestion"></span><span
-                        class="text-gray-500 text-lg">/40</span></h2>
+                        class="text-gray-500 text-lg">/25</span></h2>
 
                 <!-- Streak Badge -->
                 <div x-show="streak > 1"
@@ -227,60 +232,51 @@
                 </div>
             </div>
 
-            <!-- Card da Questão -->
-            <div class="glass-panel p-4 rounded-2xl flex flex-col items-center" :class="{'animate-shake': shake}">
+            <div class="glass-panel p-6 rounded-2xl flex flex-col items-center" :class="{'animate-shake': shake}">
 
-                <!-- Imagem da Questão -->
-                <div
-                    class="relative w-full bg-white rounded-xl overflow-hidden mb-8 shadow-lg border-4 border-white min-h-[300px] flex items-center justify-center">
-
-                    <!-- Loading Spinner -->
-                    <div x-show="imageLoading"
-                        class="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
-                        <div class="flex flex-col items-center gap-3">
-                            <i class="fas fa-circle-notch fa-spin text-4xl text-primary"></i>
-                            <span class="text-gray-400 text-sm font-medium animate-pulse">Carregando imagem...</span>
-                        </div>
-                    </div>
-
-                    <!-- Mapeamento: Q1 = CADERNO (2).jpg, Q2 = CADERNO (3).jpg ... Q40 = CADERNO (41).jpg -->
-                    <img :src="`r1/CADERNO (${currentQuestion + 1}).jpg`" @load="imageLoading = false" alt="Questão R1"
-                        class="w-full h-auto object-contain max-h-[500px] transition-opacity duration-300"
-                        :class="imageLoading ? 'opacity-0' : 'opacity-100'">
+                <!-- PERGUNTA DE TEXTO -->
+                <div class="bg-[#12111d] w-full p-8 rounded-xl border border-white/5 mb-8 text-center shadow-inner">
+                    <p class="text-xl md:text-2xl text-white font-medium leading-relaxed"
+                        x-html="formatQuestionText(questions[currentQuestion-1].text)"></p>
                 </div>
 
-                <!-- Opções de Resposta -->
-                <div class="grid grid-cols-4 sm:grid-cols-8 gap-3 w-full max-w-3xl">
-                    <template x-for="opt in options" :key="opt">
-                        <button @click="selectAnswer(opt, $event)" :disabled="userAnswers[currentQuestion]"
-                            class="option-btn h-14 rounded-lg font-bold text-xl border border-white/20 flex items-center justify-center relative overflow-hidden group"
+                <!-- OPÇÕES (TEXTO/BOTÃO) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full max-w-4xl">
+                    <template x-for="opt in questions[currentQuestion-1].options" :key="opt.key">
+                        <button @click="selectAnswer(opt.key, $event)" :disabled="userAnswers[currentQuestion]"
+                            class="option-btn text-left px-6 py-4 rounded-lg font-bold text-lg border border-white/20 relative overflow-hidden group flex items-center justify-between"
                             :class="{
                                 'bg-white/5 text-gray-300': !userAnswers[currentQuestion],
-                                'bg-gradient-to-br from-green-500 to-green-600 text-white border-green-400 shadow-[0_0_20px_rgba(34,197,94,0.6)] scale-105': userAnswers[currentQuestion] && opt === correctAnswers[currentQuestion] && opt === userAnswers[currentQuestion],
-                                'bg-gradient-to-br from-red-500 to-red-600 text-white border-red-400': userAnswers[currentQuestion] && opt === userAnswers[currentQuestion] && opt !== correctAnswers[currentQuestion],
-                                'opacity-30': userAnswers[currentQuestion] && opt !== userAnswers[currentQuestion]
+                                'bg-gradient-to-r from-green-500 to-green-600 text-white border-green-400 shadow-[0_0_20px_rgba(34,197,94,0.6)]': userAnswers[currentQuestion] && opt.key === correctAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion],
+                                'bg-gradient-to-r from-red-500 to-red-600 text-white border-red-400': userAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion] && opt.key !== correctAnswers[currentQuestion],
+                                'opacity-40': userAnswers[currentQuestion] && opt.key !== userAnswers[currentQuestion]
                             }">
-                            <span x-text="opt"></span>
+
+                            <div class="flex items-center gap-3">
+                                <span
+                                    class="bg-white/10 w-8 h-8 flex items-center justify-center rounded text-sm font-black"
+                                    x-text="opt.key"></span>
+                                <span x-text="opt.value"></span>
+                            </div>
 
                             <!-- Hover Effect -->
                             <div
-                                class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                                class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
 
-                            <!-- Ícone de feedback -->
-                            <i x-show="userAnswers[currentQuestion] && opt === correctAnswers[currentQuestion] && opt === userAnswers[currentQuestion]"
-                                class="fas fa-check absolute top-1 right-1 text-[10px]"></i>
-                            <i x-show="userAnswers[currentQuestion] && opt === userAnswers[currentQuestion] && opt !== correctAnswers[currentQuestion]"
-                                class="fas fa-times absolute top-1 right-1 text-[10px]"></i>
+                            <!-- Feedback Icon -->
+                            <i x-show="userAnswers[currentQuestion] && opt.key === correctAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion]"
+                                class="fas fa-check text-white"></i>
+                            <i x-show="userAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion] && opt.key !== correctAnswers[currentQuestion]"
+                                class="fas fa-times text-white"></i>
                         </button>
                     </template>
                 </div>
 
-                <!-- Botão Próximo (só aparece se respondeu) -->
                 <div class="mt-8 h-12">
                     <button x-show="userAnswers[currentQuestion]" @click="nextQuestion()"
                         class="fade-enter flex items-center gap-2 text-primary hover:text-white font-bold tracking-wide transition transform hover:scale-105">
-                        <span x-text="currentQuestion === 40 ? 'VER RESULTADO FINAL' : 'PRÓXIMA QUESTÃO'"></span>
+                        <span x-text="currentQuestion === 25 ? 'VER RESULTADO FINAL' : 'PRÓXIMA QUESTÃO'"></span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -298,7 +294,6 @@
                 </div>
                 <h2 class="text-4xl font-black text-white mb-2">RESULTADO DO DESAFIO</h2>
 
-                <!-- Rank Display -->
                 <div class="mt-6">
                     <span class="text-sm text-gray-400 uppercase tracking-widest font-bold">Patente Conquistada</span>
                     <div class="text-5xl md:text-6xl font-black mt-2 bg-clip-text text-transparent bg-gradient-to-r"
@@ -317,12 +312,12 @@
                     </div>
 
                     <div class="text-6xl font-black mb-2 relative z-10"
-                        :class="score >= 31 ? 'text-green-400' : 'text-red-500'">
-                        <span x-text="score"></span><span class="text-2xl text-gray-500">/40</span>
+                        :class="score >= 19 ? 'text-green-400' : 'text-red-500'">
+                        <span x-text="score"></span><span class="text-2xl text-gray-500">/25</span>
                     </div>
                     <div class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border relative z-10"
-                        :class="score >= 31 ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'">
-                        <span x-text="score >= 31 ? 'APROVADO' : 'REPROVADO'"></span>
+                        :class="score >= 19 ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'">
+                        <span x-text="score >= 19 ? 'APROVADO' : 'REPROVADO'"></span>
                     </div>
                 </div>
 
@@ -332,7 +327,7 @@
                         class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition">
                         <i class="fas fa-bullseye text-green-400 text-2xl mb-2"></i>
                         <span class="text-gray-400 text-sm">Precisão</span>
-                        <span class="text-2xl font-bold text-white" x-text="Math.round((score/40)*100) + '%'"></span>
+                        <span class="text-2xl font-bold text-white" x-text="Math.round((score/25)*100) + '%'"></span>
                     </div>
 
                     <div
@@ -350,28 +345,27 @@
                 </div>
             </div>
 
-            <!-- GABARITO DETALHADO -->
+            <!-- GABARITO VISUAL -->
             <div>
                 <h3 class="text-white font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
                     <i class="fas fa-list-ul text-primary"></i> Análise de Performance
                 </h3>
-                <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+                <div class="grid grid-cols-5 gap-2">
                     <template x-for="(ans, index) in correctAnswers" :key="index">
                         <div x-show="index > 0"
                             class="p-2 rounded-lg text-center border text-xs flex flex-col gap-1 relative overflow-hidden group transition-all hover:scale-105"
                             :class="userAnswers[index] === ans ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
 
                             <span class="font-bold text-gray-500 absolute top-0.5 left-1 text-[8px]"
-                                x-text="index"></span>
+                                x-text="'Q'+index"></span>
 
-                            <div class="mt-2 text-sm font-black"
+                            <div class="mt-3 text-lg font-black"
                                 :class="userAnswers[index] === ans ? 'text-green-400' : 'text-red-400'">
                                 <span x-text="userAnswers[index] || '-'"></span>
                             </div>
 
-                            <!-- Mostra a correta se errou -->
                             <div x-show="userAnswers[index] !== ans"
-                                class="text-[10px] text-gray-400 border-t border-white/5 pt-0.5 mt-1">
+                                class="text-[10px] text-gray-400 border-t border-white/5 pt-1 mt-1">
                                 Era: <span x-text="ans" class="text-white font-bold"></span>
                             </div>
                         </div>
@@ -394,27 +388,52 @@
     </main>
 
     <script>
-        function r1App() {
+        function bpr5rvApp() {
             return {
-                currentQuestion: 0, // 0 = Intro
-                timeRemaining: 30 * 60, // 30 min em segundos
+                currentQuestion: 0,
+                timeRemaining: 10 * 60, // 10 min
                 timerInterval: null,
                 finished: false,
-                imageLoading: false,
                 score: 0,
                 streak: 0,
                 maxStreak: 0,
                 shake: false,
                 xpFloats: [],
-                options: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
 
-                // GABARITO (Index 1-40, index 0 vazio para facilitar)
+                // DATA
                 correctAnswers: [
                     null,
-                    'C', 'F', 'E', 'D', 'F', 'B', 'A', 'D', 'E', 'E', // 1-10
-                    'C', 'F', 'D', 'B', 'E', 'F', 'A', 'C', 'D', 'B', // 11-20
-                    'D', 'F', 'G', 'B', 'H', 'D', 'A', 'H', 'G', 'C', // 21-30
-                    'B', 'G', 'H', 'A', 'C', 'G', 'A', 'C', 'H', 'G'  // 31-40
+                    'C', 'E', 'D', 'A', 'B', 'D', 'C', 'B', 'A', 'B', // 1-10
+                    'E', 'C', 'A', 'D', 'A', 'E', 'C', 'E', 'B', 'E', // 11-20
+                    'A', 'C', 'D', 'B', 'D'                             // 21-25
+                ],
+
+                questions: [
+                    { id: 1, text: "**Tapete** está para **Chão** como **Quadro** está para...", options: [{ key: 'A', value: 'Muro' }, { key: 'B', value: 'Museu' }, { key: 'C', value: 'Parede' }, { key: 'D', value: 'Sala' }, { key: 'E', value: 'Frente' }] },
+                    { id: 2, text: "**Quartel** está para **Soldado** como **Fábrica** está para...", options: [{ key: 'A', value: 'Trabalho' }, { key: 'B', value: 'Indústria' }, { key: 'C', value: 'Esforço' }, { key: 'D', value: 'Material' }, { key: 'E', value: 'Operário' }] },
+                    { id: 3, text: "**Hora** está para **Dia** como **Mês** está para...", options: [{ key: 'A', value: 'Semana' }, { key: 'B', value: 'Tempo' }, { key: 'C', value: 'Calendário' }, { key: 'D', value: 'Ano' }, { key: 'E', value: 'Século' }] },
+                    { id: 4, text: "**Anel** está para **Dedo** como **Gravata** está para...", options: [{ key: 'A', value: 'Pescoço' }, { key: 'B', value: 'Festa' }, { key: 'C', value: 'Camisa' }, { key: 'D', value: 'Cerimônia' }, { key: 'E', value: 'Paletó' }] },
+                    { id: 5, text: "**Passado** está para **Presente** como **Ontem** está para...", options: [{ key: 'A', value: 'Futuro' }, { key: 'B', value: 'Hoje' }, { key: 'C', value: 'Após' }, { key: 'D', value: 'Amanhã' }, { key: 'E', value: 'Dia' }] },
+                    { id: 6, text: "**Médico** está para **Doente** como **Vendedor** está para...", options: [{ key: 'A', value: 'Feirante' }, { key: 'B', value: 'Cobrador' }, { key: 'C', value: 'Imposto' }, { key: 'D', value: 'Cliente' }, { key: 'E', value: 'Comerciante' }] },
+                    { id: 7, text: "**Nunca** está para **Jamais** como **Sempre** está para...", options: [{ key: 'A', value: 'Futuro' }, { key: 'B', value: 'Hoje' }, { key: 'C', value: 'Eterno' }, { key: 'D', value: 'Logo' }, { key: 'E', value: 'Prazo' }] },
+                    { id: 8, text: "**Piano** está para **Música** como **Voz** está para...", options: [{ key: 'A', value: 'Cantor' }, { key: 'B', value: 'Canto' }, { key: 'C', value: 'Disco' }, { key: 'D', value: 'Melodia' }, { key: 'E', value: 'Rádio' }] },
+                    { id: 9, text: "**Bússola** está para **Navegador** como **Semáforo** está para...", options: [{ key: 'A', value: 'Motorista' }, { key: 'B', value: 'Polícia' }, { key: 'C', value: 'Carro' }, { key: 'D', value: 'Sinaleiro' }, { key: 'E', value: 'Código' }] },
+                    { id: 10, text: "**Porta** está para **Casa** como **Título** está para...", options: [{ key: 'A', value: 'Entrada' }, { key: 'B', value: 'Livro' }, { key: 'C', value: 'Capítulo' }, { key: 'D', value: 'Prefácio' }, { key: 'E', value: 'Sumário' }] },
+                    { id: 11, text: "**Exceder** está para **Ultrapassar** como **Medir** está para...", options: [{ key: 'A', value: 'Distinguir' }, { key: 'B', value: 'Observar' }, { key: 'C', value: 'Analisar' }, { key: 'D', value: 'Ordenar' }, { key: 'E', value: 'Avaliar' }] },
+                    { id: 12, text: "**Praia** está para **Mar** como **Margem** está para...", options: [{ key: 'A', value: 'Baía' }, { key: 'B', value: 'Terra' }, { key: 'C', value: 'Rio' }, { key: 'D', value: 'Porto' }, { key: 'E', value: 'Leito' }] },
+                    { id: 13, text: "**Experimentar** está para **Ensaiar** como **Persistir** está para...", options: [{ key: 'A', value: 'Permanecer' }, { key: 'B', value: 'Aguentar' }, { key: 'C', value: 'Incentivar' }, { key: 'D', value: 'Progredir' }, { key: 'E', value: 'Analisar' }] },
+                    { id: 14, text: "**Moldura** está para **Quadro** como **Fronteira** está para...", options: [{ key: 'A', value: 'Arredores' }, { key: 'B', value: 'Contorno' }, { key: 'C', value: 'Terra' }, { key: 'D', value: 'País' }, { key: 'E', value: 'Alfândega' }] },
+                    { id: 15, text: "**Sinônimo** está para **Antônimo** como **Igual** está para...", options: [{ key: 'A', value: 'Diferente' }, { key: 'B', value: 'Parecido' }, { key: 'C', value: 'Contrário' }, { key: 'D', value: 'Inverso' }, { key: 'E', value: 'Idêntico' }] },
+                    { id: 16, text: "**Muito** está para **Nada** como **Sempre** está para...", options: [{ key: 'A', value: 'Agora' }, { key: 'B', value: 'Todos' }, { key: 'C', value: 'Frequente' }, { key: 'D', value: 'Às vezes' }, { key: 'E', value: 'Nunca' }] },
+                    { id: 17, text: "**Esperança** está para **Futuro** como **Arrependimento** está para...", options: [{ key: 'A', value: 'Posterior' }, { key: 'B', value: 'Hoje' }, { key: 'C', value: 'Passado' }, { key: 'D', value: 'Correção' }, { key: 'E', value: 'Culpa' }] },
+                    { id: 18, text: "**Revista** está para **Leitura** como **Bola** está para...", options: [{ key: 'A', value: 'Atleta' }, { key: 'B', value: 'Descanso' }, { key: 'C', value: 'Futebol' }, { key: 'D', value: 'Ginástica' }, { key: 'E', value: 'Desporto' }] },
+                    { id: 19, text: "**Escultura** está para **Arte** como **Poesia** está para...", options: [{ key: 'A', value: 'Poema' }, { key: 'B', value: 'Literatura' }, { key: 'C', value: 'Livro' }, { key: 'D', value: 'Canção' }, { key: 'E', value: 'Escritor' }] },
+                    { id: 20, text: "**Aprovar** está para **Contradizer** como **Avançar** está para...", options: [{ key: 'A', value: 'Correr' }, { key: 'B', value: 'Parar' }, { key: 'C', value: 'Impedir' }, { key: 'D', value: 'Mudar' }, { key: 'E', value: 'Retroceder' }] },
+                    { id: 21, text: "**Antecedente** está para **Consequente** como **Presente** está para...", options: [{ key: 'A', value: 'Futuro' }, { key: 'B', value: 'Agora' }, { key: 'C', value: 'Hoje' }, { key: 'D', value: 'Desenvolvimento' }, { key: 'E', value: 'Atualidade' }] },
+                    { id: 22, text: "**Permanente** está para **Constante** como **Habitual** está para...", options: [{ key: 'A', value: 'Sempre' }, { key: 'B', value: 'Inconstante' }, { key: 'C', value: 'Frequente' }, { key: 'D', value: 'Repetitivo' }, { key: 'E', value: 'Raro' }] },
+                    { id: 23, text: "**Tarde** está para **Cedo** como **Tardio** está para...", options: [{ key: 'A', value: 'Passado' }, { key: 'B', value: 'Nunca' }, { key: 'C', value: 'Pontual' }, { key: 'D', value: 'Precoce' }, { key: 'E', value: 'Rápido' }] },
+                    { id: 24, text: "**Ouvido** está para **Música** como **Olfato** está para...", options: [{ key: 'A', value: 'Gosto' }, { key: 'B', value: 'Perfume' }, { key: 'C', value: 'Ar' }, { key: 'D', value: 'Cheiro' }, { key: 'E', value: 'Ritmo' }] },
+                    { id: 25, text: "**Meditar** está para **Concentração** como **Julgar** está para...", options: [{ key: 'A', value: 'Afirmação' }, { key: 'B', value: 'Justiça' }, { key: 'C', value: 'Atenção' }, { key: 'D', value: 'Ponderação' }, { key: 'E', value: 'Julgamento' }] },
                 ],
 
                 userAnswers: {},
@@ -429,14 +448,16 @@
                     }, 1000);
                 },
 
-                // Gamification Logic
-                selectAnswer(option, event) {
-                    // Impede mudança se já respondeu
+                formatQuestionText(text) {
+                    // Style bold parts
+                    return text.replace(/\*\*(.*?)\*\*/g, '<span class="text-[var(--accent)] font-bold">$1</span>');
+                },
+
+                selectAnswer(optionKey, event) {
                     if (this.userAnswers[this.currentQuestion]) return;
 
-                    this.userAnswers[this.currentQuestion] = option;
-
-                    const isCorrect = option === this.correctAnswers[this.currentQuestion];
+                    this.userAnswers[this.currentQuestion] = optionKey;
+                    const isCorrect = optionKey === this.correctAnswers[this.currentQuestion];
 
                     if (isCorrect) {
                         this.score++;
@@ -445,12 +466,11 @@
 
                         // XP Float Animation
                         if (event) {
-                            const rect = event.target.getBoundingClientRect();
+                            const rect = event.currentTarget.getBoundingClientRect();
                             this.spawnXP(rect.left + rect.width / 2, rect.top);
                         }
                     } else {
                         this.streak = 0;
-                        // Shake Screen
                         this.shake = true;
                         setTimeout(() => this.shake = false, 500);
                     }
@@ -465,10 +485,8 @@
                 },
 
                 nextQuestion() {
-                    if (this.currentQuestion < 40) {
+                    if (this.currentQuestion < 25) {
                         this.currentQuestion++;
-                        this.imageLoading = true;
-                        this.preloadNextImages();
                     } else {
                         this.finishTest();
                     }
@@ -476,19 +494,6 @@
 
                 startTest() {
                     this.currentQuestion = 1;
-                    this.imageLoading = true;
-                    this.preloadNextImages();
-                },
-
-                preloadNextImages() {
-                    // Preload das próximas 5 imagens para evitar delay no mobile
-                    for (let i = 1; i <= 5; i++) {
-                        const targetQ = this.currentQuestion + i;
-                        if (targetQ <= 40) {
-                            const img = new Image();
-                            img.src = `r1/CADERNO (${targetQ + 1}).jpg`;
-                        }
-                    }
                 },
 
                 finishTest() {
@@ -496,7 +501,7 @@
                     clearInterval(this.timerInterval);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                    if (this.score >= 38) {
+                    if (this.score >= 19) {
                         this.launchConfetti();
                     }
                 },
@@ -533,28 +538,28 @@
                     return `${m}:${s < 10 ? '0' : ''}${s}`;
                 },
 
-                // Rank Getters for 40 Questions
+                // Rank based on 19 PASSING
                 get rankName() {
-                    if (this.score <= 12) return "FERRO";
-                    if (this.score <= 24) return "BRONZE";
-                    if (this.score <= 32) return "PRATA";
-                    if (this.score <= 37) return "OURO";
+                    if (this.score <= 11) return "FERRO";
+                    if (this.score <= 18) return "BRONZE";
+                    if (this.score <= 21) return "PRATA";
+                    if (this.score <= 23) return "OURO";
                     return "DIAMANTE";
                 },
 
                 get rankColor() {
-                    if (this.score <= 12) return "from-gray-500 to-gray-700";
-                    if (this.score <= 24) return "from-orange-700 to-yellow-800";
-                    if (this.score <= 32) return "from-gray-300 to-gray-500";
-                    if (this.score <= 37) return "from-yellow-300 to-yellow-600";
+                    if (this.score <= 11) return "from-gray-500 to-gray-700";
+                    if (this.score <= 18) return "from-orange-700 to-yellow-800";
+                    if (this.score <= 21) return "from-gray-300 to-gray-500";
+                    if (this.score <= 23) return "from-yellow-300 to-yellow-600";
                     return "from-cyan-300 to-blue-500 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]";
                 },
 
                 get rankMsg() {
-                    if (this.score <= 24) return "Continue treinando para subir de patente!";
-                    if (this.score <= 32) return "Muito bom! Você está acima da média.";
-                    if (this.score <= 37) return "Excelente! Performance de elite.";
-                    return "LENDÁRIO! Raciocínio impecável.";
+                    if (this.score <= 18) return "Continue treinando. Tente atingir 19 acertos.";
+                    if (this.score <= 21) return "Muito bom! Você foi aprovado.";
+                    if (this.score <= 23) return "Excelente! Quase perfeito.";
+                    return "LENDÁRIO! Raciocínio verbal impecável.";
                 }
             }
         }

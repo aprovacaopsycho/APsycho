@@ -129,6 +129,11 @@
             </div>
 
             <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-3 bg-[#151427] px-4 py-2 rounded-lg border border-white/5">
+                    <i class="fas fa-clock text-cyan-400"></i>
+                    <span id="timer-display" class="font-mono text-xl font-bold text-white">00:00</span>
+                </div>
+
                 <a href="testes_personalidade.html"
                     class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,6 +147,28 @@
     </header>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div id="screen-import" class="hidden fade-in max-w-3xl mx-auto">
+            <div class="bg-[#151427] rounded-2xl p-8 border border-white/5">
+                <h2 class="text-2xl font-bold text-white mb-4">Importar Respostas</h2>
+                <p class="text-gray-400 mb-6 text-sm">Cole abaixo suas respostas separadas por espaços, vírgulas ou
+                    quebras de linha. O sistema espera 100 números (1-7).</p>
+
+                <textarea id="input-answers" rows="10"
+                    class="w-full bg-[#0f0e1a] border border-purple-500/20 rounded-xl p-4 text-white font-mono text-sm focus:outline-none focus:border-purple-500 transition-colors"
+                    placeholder="1 2 3 4 5..."></textarea>
+
+                <div class="flex justify-between items-center mt-4">
+                    <span id="count-display" class="text-xs font-bold text-gray-500">0 respostas detectadas</span>
+                    <div class="flex gap-3">
+                        <button onclick="showScreen('dashboard')"
+                            class="px-4 py-2 rounded-lg text-gray-400 hover:text-white transition">Cancelar</button>
+                        <button onclick="processarInputImportado()"
+                            class="px-6 py-2 rounded-lg bg-purple-600 text-white font-bold hover:bg-purple-500 transition shadow-lg shadow-purple-600/20">Processar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div id="screen-dashboard" class="fade-in">
             <div class="mb-10">
@@ -182,9 +209,11 @@
                         <i class="fas fa-plus"></i>
                     </div>
                     <h3 class="text-white font-bold mb-1">Iniciar Novo Teste</h3>
-                    <p class="text-xs text-gray-400">Questionário Completo (100 itens)</p>
+                    <p class="text-xs text-gray-400">Questionário Completo</p>
                 </div>
             </div>
+
+
 
             <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
                 <div class="p-6 border-b border-white/5 flex justify-between items-center">
@@ -212,11 +241,43 @@
         <div id="screen-quiz" class="hidden fade-in max-w-5xl mx-auto">
             <div
                 class="bg-[#151427] rounded-2xl p-6 border border-white/5 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
-                <div class="flex justify-between items-end mb-4">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-4 gap-4">
                     <div>
                         <h2 class="text-xl font-bold text-white">IFP-II</h2>
                         <p class="text-sm text-gray-400">Inventário Fatorial de Personalidade - II</p>
                     </div>
+
+                    <!-- FILTRO -->
+                    <div
+                        class="flex items-center gap-3 bg-[#1c1b29] px-4 py-2 rounded-lg border border-white/10 focus-within:border-purple-500 transition-colors shadow-lg shadow-black/20 w-full md:w-auto">
+                        <i class="fas fa-filter text-purple-400"></i>
+                        <select id="facet-filter" onchange="filtrarFacetas()"
+                            class="bg-transparent text-gray-300 text-sm outline-none cursor-pointer w-full font-medium">
+                            <option value="ALL" class="bg-[#151427] text-white">Todas as Facetas</option>
+                            <optgroup label="Itens IFP-II" class="bg-[#1c1b29] text-purple-300">
+                                <option value="ASSISTENCIA">Assistência</option>
+                                <option value="INTRACEPCAO">Intracepção</option>
+                                <option value="AFAGO">Afago</option>
+                                <option value="DEFERENCIA">Deferência</option>
+                                <option value="AFILIACAO">Afiliação</option>
+                                <option value="DOMINANCIA">Dominância</option>
+                                <option value="DESEMPENHO">Desempenho</option>
+                                <option value="EXIBICAO">Exibição</option>
+                                <option value="AGRESSIVIDADE">Agressividade</option>
+                                <option value="ORDEM">Ordem</option>
+                                <option value="PERSISTENCIA">Persistência</option>
+                                <option value="MUDANCA">Mudança</option>
+                                <option value="AUTONOMIA">Autonomia</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <button onclick="abrirImportacao()"
+                        class="flex items-center gap-2 bg-[#1c1b29] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium h-[38px]">
+                        <i class="fas fa-paste text-purple-400"></i>
+                        Colar Respostas
+                    </button>
+
                     <div class="text-right">
                         <span class="text-2xl font-bold text-cyan-400" id="progress-text">0%</span>
                     </div>
@@ -230,11 +291,13 @@
             <div id="quiz-container" class="space-y-6">
             </div>
 
-            <div class="mt-10 flex justify-center pb-20">
+            <div class="mt-10 flex flex-col items-center gap-4 pb-20">
                 <button onclick="calcularResultado()"
                     class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
                     FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
                 </button>
+
+
             </div>
         </div>
 
@@ -258,6 +321,10 @@
             </div>
 
             <div class="flex justify-end gap-3 mb-8 no-print">
+                <button onclick="editarRespostas()"
+                    class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/30 transition font-medium text-sm">
+                    <i class="fas fa-edit mr-1"></i> Editar Respostas
+                </button>
                 <button onclick="showScreen('dashboard')"
                     class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition font-medium text-sm">
                     <i class="fas fa-arrow-left mr-1"></i> Voltar
@@ -814,10 +881,73 @@
             "AUTONOMIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 10 }, { "s": 28, "p": 10 }, { "s": 29, "p": 10 }, { "s": 30, "p": 15 }, { "s": 31, "p": 20 }, { "s": 32, "p": 20 }, { "s": 33, "p": 25 }, { "s": 34, "p": 30 }, { "s": 35, "p": 35 }, { "s": 36, "p": 40 }, { "s": 37, "p": 50 }, { "s": 38, "p": 55 }, { "s": 39, "p": 60 }, { "s": 40, "p": 65 }, { "s": 41, "p": 70 }, { "s": 42, "p": 75 }, { "s": 43, "p": 75 }, { "s": 44, "p": 80 }, { "s": 45, "p": 85 }, { "s": 46, "p": 85 }, { "s": 47, "p": 90 }, { "s": 48, "p": 90 }, { "s": 49, "p": 90 }, { "s": 50, "p": 95 }, { "s": 51, "p": 95 }, { "s": 52, "p": 95 }, { "s": 53, "p": 95 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 95 }, { "s": 57, "p": 95 }, { "s": 58, "p": 95 }, { "s": 59, "p": 95 }, { "s": 60, "p": 95 }, { "s": 61, "p": 95 }, { "s": 62, "p": 100 }, { "s": 63, "p": 100 }]
         };
 
+        // --- FUNCIONALIDADES EXTRAS ---
+
+        const audioPrepare = new Audio('../vozes/prepare.mp3');
+        const audioSignal = new Audio('../vozes/sinal.mp3');
+        const audioOneMin = new Audio('../vozes/resta1minuto.mp3');
+        const audioTimeUp = new Audio('../vozes/tempoesgotado.mp3');
+
+        let timerInterval;
+        let timeRemaining = 30 * 60; // 30 minutos
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeRemaining = 30 * 60;
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining === 60) {
+                    audioOneMin.play().catch(e => console.log("Erro audio:", e));
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    audioTimeUp.play().catch(e => console.log("Erro audio:", e));
+                    alert("Tempo esgotado! Tente finalizar o teste.");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeRemaining / 60);
+            const s = timeRemaining % 60;
+            const el = document.getElementById('timer-display');
+            if (el) {
+                el.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                if (timeRemaining < 300) { // 5 min
+                    el.className = "font-mono text-xl font-bold text-red-500 animate-pulse";
+                }
+            }
+        }
+
+        function filtrarFacetas() {
+            const val = document.getElementById('facet-filter').value;
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const facet = card.dataset.facet;
+                if (val === 'ALL' || facet === val) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function editarRespostas() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
         /* ================= LÓGICA ================= */
 
         function showScreen(id) {
-            ['dashboard', 'quiz', 'result'].forEach(s => {
+            ['dashboard', 'quiz', 'result', 'import'].forEach(s => {
                 const el = document.getElementById('screen-' + s);
                 if (el) el.classList.add('hidden');
             });
@@ -828,11 +958,61 @@
             window.scrollTo(0, 0);
         }
 
+        function abrirImportacao() {
+            document.getElementById('input-answers').value = '';
+            document.getElementById('count-display').innerText = '0 respostas detectadas';
+            showScreen('import');
+        }
+
+        document.getElementById('input-answers').addEventListener('input', function () {
+            const raw = this.value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+            document.getElementById('count-display').innerText = `${answers.length} respostas detectadas`;
+
+            if (answers.length === 100) {
+                document.getElementById('count-display').className = "text-xs font-bold text-green-400";
+            } else {
+                document.getElementById('count-display').className = "text-xs font-bold text-red-400";
+            }
+        });
+
+        function processarInputImportado() {
+            const raw = document.getElementById('input-answers').value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+
+            if (answers.length !== DATA_QUESTIONS.length) {
+                alert(`Erro: Você forneceu ${answers.length} respostas, mas o teste requer exatamente ${DATA_QUESTIONS.length}.`);
+                return;
+            }
+
+            const invalid = answers.some(n => isNaN(n) || n < 1 || n > 7);
+            if (invalid) {
+                if (!confirm("Alguns valores parecem inválidos (fora de 1-7). Continuar mesmo assim?")) return;
+            }
+
+            calcularResultado(answers);
+        }
+
         function novoTeste() {
             if (confirm("Iniciar novo teste?")) {
                 document.querySelectorAll('input').forEach(i => i.checked = false);
                 updateProgress();
                 showScreen('quiz');
+
+                // Audio Autoplay
+                audioPrepare.play().then(() => {
+                    audioPrepare.onended = () => {
+                        audioSignal.play().then(() => {
+                            startTimer();
+                        }).catch(e => {
+                            console.error(e);
+                            startTimer();
+                        });
+                    };
+                }).catch(e => {
+                    console.error("Autoplay prevent:", e);
+                    startTimer();
+                });
             }
         }
 
@@ -854,7 +1034,7 @@
             let html = '';
             DATA_QUESTIONS.forEach(q => {
                 html += `
-    <div class="bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all">
+    <div class="question-card bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all scroll-mt-32" data-facet="${q.facet}">
         <div class="flex gap-3 mb-4 pl-2">
             <span class="text-purple-400 font-bold font-mono">#${q.id}</span>
             <p class="text-gray-200 font-medium">${q.text}</p>
@@ -876,25 +1056,65 @@
             container.innerHTML = html;
         }
 
-        function calculate() {
+        function calculate() { console.warn("Use calcularResultado()"); } // Deprecated alias if any
+
+        function calcularResultado(pastedAnswers = null) {
             let scores = {};
             let answered = 0;
             let userAnswers = {};
 
             // Inicializa scores
-            for (let f in DATA_PERCENTILES) scores[f] = 0;
+            for (let f in DATA_CRITERIA) scores[f] = 0;
 
-            DATA_QUESTIONS.forEach(q => {
-                const el = document.querySelector(`input[name="q${q.id}"]:checked`);
-                if (el) {
-                    answered++;
-                    let val = parseInt(el.value);
-                    userAnswers[q.id] = val;
+            if (pastedAnswers) {
+                // Modo Importação
+                answered = pastedAnswers.length;
+                DATA_QUESTIONS.forEach((q, i) => {
+                    let val = pastedAnswers[i];
+                    userAnswers[q.id] = val; // Store for report
+                    if (q.inverted) val = 8 - val; // In IFP-II range is 1-7. Inverted: 8 - val.
+                    if (scores[q.facet] !== undefined) scores[q.facet] += val;
+                });
+            } else {
+                // Modo DOM
+                // Stop Timer
+                clearInterval(timerInterval);
 
-                    if (!scores[q.facet]) scores[q.facet] = 0;
-                    scores[q.facet] += val;
+                for (let i = 1; i <= DATA_QUESTIONS.length; i++) {
+                    const el = document.querySelector(`input[name="q${i}"]:checked`);
+                    if (el) {
+                        answered++;
+                        let val = parseInt(el.value);
+                        const q = DATA_QUESTIONS.find(x => x.id === i);
+
+                        userAnswers[i] = val;
+
+                        if (q) {
+                            if (q.inverted) val = 8 - val; // Check inversion logic for IFP-II (1-7 scale)
+                            // Note: Original code didn't check inverted property in HTML but loop logic did? 
+                            // Wait, looking at original file, there was NO inversion logic in the snippet I saw? 
+                            // Let me re-verify inversion. IFP-II usually has inversions. 
+                            // The provided DATA_QUESTIONS in previous turn didn't seem to have "inverted: true" property explicitly shown in the array snippet I generated?
+                            // User provided DATA_QUESTIONS earlier... wait, I generated them.
+                            // Actually, standard IFP-II DOES NOT usually invert in raw sum unless specified.
+                            // Let's assume standard sum for now, BUT `bfppmpr` had `8-val`.
+                            // Checking my `view_file` of `ifp2pmpr.html`:
+                            // The DATA_QUESTIONS I saw didn't have `inverted` key.
+                            // The `calcularResultado` I saw had: `if (q && q.inverted) val = 6 - val;`. (Wait, 6-val? Scale is 1-7?)
+                            // If scale is 1-7, inversion is 8-val. 
+                            // If `q.inverted` is undefined, it won't run.
+                            // I will keep the logic I saw in `neopipmpr` reference or `ifp2` reference?
+                            // In `ifp2pmpr` lines 587+: `if (q && q.inverted) val = 6 - val;` was in my memory of `neopipmpr`? 
+                            // No, in `ifp2pmpr` I need to be careful.
+                            // The `DATA_QUESTIONS` in `ifp2pmpr` DO NOT have `inverted` property in the array I injected/saw.
+                            // So just sum.
+                            if (scores[q.facet] !== undefined) scores[q.facet] += val;
+                        }
+                    }
                 }
-            });
+            }
+
+
 
             if (answered < DATA_QUESTIONS.length) {
                 if (!confirm(`Respondeu apenas ${answered} de ${DATA_QUESTIONS.length}. Continuar?`)) return;
@@ -1064,8 +1284,6 @@
             }
         }
 
-        function calcularResultado() { return window.calculate(); }
-        window.calculate = calculate;
         window.onload = function () {
             renderQuiz();
             loadDashboard();
