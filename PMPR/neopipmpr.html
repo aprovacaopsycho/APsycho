@@ -810,57 +810,87 @@
     }
 
     function calcularResultado(pastedAnswers = null) {
+      clearInterval(timerInterval); // Stop timer
+
+      // 1. Inicializar Scores Zerados
       let scores = {};
-      let answered = 0;
+      // Pegamos as chaves do Map de Fatores e expandimos, ou usamos DATA_CRITERIA
+      // NEO PI-R tem muitas facetas, vamos varrer DATA_CRITERIA para garantir
+      for (let f in DATA_CRITERIA) {
+        scores[f] = 0; // NEO usa Soma ou Média? O código anterior usava Soma (scores[f] += val)
+      }
+
       let userAnswers = {};
+      let answeredCount = 0;
+      let answersMap = new Map();
 
-      // Inicializa scores
-      for (let f in DATA_CRITERIA) scores[f] = 0;
-
+      // 2. Coletar Respostas
       if (pastedAnswers) {
         // Import Mode
-        answered = pastedAnswers.length;
+        if (pastedAnswers.length !== DATA_QUESTIONS.length) {
+          // Warning opcional
+        }
         DATA_QUESTIONS.forEach((q, i) => {
           let val = pastedAnswers[i];
-          userAnswers[q.id] = val;
-          if (q.inverted) val = 6 - val; // Scale 1-5 inverse
-          if (scores[q.facet] !== undefined) scores[q.facet] += val;
+          if (val && !isNaN(val)) answersMap.set(q.id, val);
         });
       } else {
         // DOM Mode
-        clearInterval(timerInterval); // Stop timer
-
-        // Processa Respostas
-        for (let i = 1; i <= DATA_QUESTIONS.length; i++) {
-          const el = document.querySelector(`input[name="q${i}"]:checked`);
+        DATA_QUESTIONS.forEach(q => {
+          const el = document.querySelector(`input[name="q${q.id}"]:checked`);
           if (el) {
-            answered++;
-            let val = parseInt(el.value);
-            const q = DATA_QUESTIONS.find(x => x.id === i);
+            answersMap.set(q.id, parseInt(el.value));
+          }
+        });
+      }
 
-            userAnswers[i] = val; // Armazena a resposta original
+      // 3. Processar
+      DATA_QUESTIONS.forEach(q => {
+        const val = answersMap.get(q.id);
 
-            if (q && q.inverted) val = 6 - val;
-            if (q && scores[q.facet] !== undefined) scores[q.facet] += val;
+        if (val !== undefined && val !== null && val >= 1) {
+          answeredCount++;
+          userAnswers[q.id] = val; // Store original for report
+
+          let finalVal = val;
+          if (q.inverted) {
+            finalVal = 6 - val; // Scale 1-5 Inverted -> 6 - val
+          }
+
+          if (scores[q.facet] !== undefined) {
+            scores[q.facet] += finalVal;
+          } else {
+            // Se a faceta não estiver em DATA_CRITERIA, pode ser um errinho nos dados, mas adicionamos
+            scores[q.facet] = finalVal;
           }
         }
+      });
+
+      // Validação
+      if (answeredCount < DATA_QUESTIONS.length) {
+        if (!confirm(`Respondeu apenas ${answeredCount} de ${DATA_QUESTIONS.length}. Continuar?`)) return;
       }
 
-      if (answered < DATA_QUESTIONS.length) {
-        if (!confirm(`Respondeu apenas ${answered} de ${DATA_QUESTIONS.length}. Continuar?`)) return;
-      }
-
+      // 4. Resultados Finais
       let results = {};
       let isGlobalApto = true;
 
       for (let f in scores) {
         const raw = scores[f];
-        // FÓRMULA: (Raw / 40) * 100 
-        // OBS: NEO PI-R oficial usa tabelas normativas diferentes, aqui estamos usando uma escala percentílica aproximada para o simulado
-        const pct = (raw / 40) * 100;
+        // FÓRMULA ANTIGA: (Raw / 40) * 100 
+        // 40 é o max items per facet? Não. 
+        // NEO PI-R facets usually have 8 items. 8 * 5 = 40 max points.
+        // Sim, parece ser isso.
+
+        let pct = (raw / 40) * 100;
+
+        // Clamp 0-100 just in case
+        if (pct > 100) pct = 100;
+        if (pct < 0) pct = 0;
+
         const pctFixed = parseFloat(pct.toFixed(2));
 
-        const crit = DATA_CRITERIA[f];
+        const crit = DATA_CRITERIA[f] || { min: 0, max: 100 };
         const apto = pctFixed >= crit.min && pctFixed <= crit.max;
         if (!apto) isGlobalApto = false;
 

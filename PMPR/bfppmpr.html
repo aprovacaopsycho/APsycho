@@ -723,95 +723,111 @@
 
         function calculate(pastedAnswers = null) {
             clearInterval(timerInterval); // Parar timer ao finalizar
-            let answersArray = [];
-            let userAnswers = {};
+
+            // 1. Inicializar estrutura de scores vazia para todas as facetas conhecidas
+            let scores = {};
+            // Garantir que todas as facetas do CRITERIA existam como array vazio
+            for (let f in DATA_CRITERIA) {
+                scores[f] = [];
+            }
+
+            let userAnswers = {}; // Para o relatório visual
+            let answeredCount = 0;
+
+            // 2. Coletar respostas (Map ID -> Valor)
+            // Independente se veio de colar ou do DOM, vamos normalizar para um mapa por ID
+            let answersMap = new Map();
 
             if (pastedAnswers) {
                 // Modo Importação
-                answersArray = pastedAnswers;
-                // Mapear para userAnswers para o relatório
-                DATA_QUESTIONS.forEach((q, i) => {
-                    userAnswers[q.id] = answersArray[i];
+                // Assumimos que pastedAnswers[i] corresponde a DATA_QUESTIONS[i]
+                // Validar tamanho
+                if (pastedAnswers.length !== DATA_QUESTIONS.length) {
+                    // Se tamanho for incorreto, tentamos mapear até onde der, mas o ideal é o user garantir
+                }
+
+                DATA_QUESTIONS.forEach((q, index) => {
+                    let val = pastedAnswers[index];
+                    if (val !== undefined && val !== null) {
+                        answersMap.set(q.id, val);
+                    }
                 });
             } else {
-                // Modo Quiz (Coletar do DOM)
-                let count = 0;
-                // Importante: Iterar na ORDEM de DATA_QUESTIONS para criar o array indexado corretamente
-                for (let i = 0; i < DATA_QUESTIONS.length; i++) {
-                    const q = DATA_QUESTIONS[i];
-                    const el = document.querySelector(`input[name="q${q.id}"]:checked`);
-
-                    if (el) {
-                        count++;
-                        let val = parseInt(el.value);
-                        userAnswers[q.id] = val;
-                        answersArray.push(val);
-                    } else {
-                        // Se faltar resposta, empurra null ou trata depois. 
-                        // O código original pulava no scores loop. 
-                        // Para manter compatibilidade com a lógica debug (array index), vamos empurrar 0 e filtrar depois?
-                        // Melhor: avisar usuário.
-                    }
-                }
-
-                if (count < DATA_QUESTIONS.length) {
-                    if (!confirm("Teste incompleto. Continuar mesmo assim? Resultados podem estar incorretos.")) return;
-                    // Preencher buracos se necessário, mas a lógica abaixo lida com arrays menores?
-                    // Debug logic assumes answersArray maps 1:1 to DATA_QUESTIONS.
-                    // Se o usuário pular a q10, answersArray[10] seria q11? Isso quebra tudo.
-                    // PRECISAMOS garantir que answersArray tenha size 126 com buracos onde faltar.
-                }
-
-                // Recriar answersArray garantindo posições
-                answersArray = []; // Reset
+                // Modo DOM
                 DATA_QUESTIONS.forEach(q => {
                     const el = document.querySelector(`input[name="q${q.id}"]:checked`);
-                    if (el) answersArray.push(parseInt(el.value));
-                    else answersArray.push(0); // 0 indica sem resposta, vai ser ignorado matematicamente se a gente cuidar
+                    if (el) {
+                        answersMap.set(q.id, parseInt(el.value));
+                    }
                 });
             }
 
-            // --- LÓGICA CENTRAL UNIFICADA (Idêntica ao bfp_debug.html) ---
-            let scores = {};
+            // 3. Processar Cálculos (Iterando DATA_QUESTIONS -> Faceta Específica)
+            // Isso garante que a Questão X só pontue na Faceta Y definida nela.
+            DATA_QUESTIONS.forEach(q => {
+                const val = answersMap.get(q.id);
 
-            DATA_QUESTIONS.forEach((q, index) => {
-                let val = answersArray[index];
+                // Se não respondeu, ignoramos neste cálculo de média (ou tratamos como 0 se a regra for essa)
+                // Geralmente em testes de média, ignora-se ou avisa. Vamos ignorar nulls no array de scores.
+                if (val !== undefined && val !== null && !isNaN(val) && val > 0) {
 
-                // Se for 0 ou null (não respondido), ignoramos?
-                // A lógica original não ignorava explicitamente, apenas o 'if (el)' impedia.
-                // Se val for 0, 8-0=8. Vai distorcer.
-                // Precisamos pular se não tiver resposta válida
-                if (!val || val < 1) return;
+                    userAnswers[q.id] = val; // Store for report
+                    answeredCount++;
 
-                if (q.inverted) val = 8 - val; // Inversão de score
+                    let finalVal = val;
+                    if (q.inverted) {
+                        finalVal = 8 - val; // Inversão BFP (Escala 1-7) -> 8 - val
+                    }
 
-                if (!scores[q.facet]) scores[q.facet] = [];
-                scores[q.facet].push(val);
+                    // BLINDAGEM: Só adiciona se a faceta existir no mapa de scores
+                    if (scores[q.facet]) {
+                        scores[q.facet].push(finalVal);
+                    } else {
+                        console.warn(`Faceta desconhecida na questão ${q.id}: ${q.facet}`);
+                    }
+                }
             });
 
+            // Validação de preenchimento
+            if (answeredCount < DATA_QUESTIONS.length) {
+                if (!confirm(`Respondeu apenas ${answeredCount} de ${DATA_QUESTIONS.length}. Continuar mesmo assim? Resultados podem estar incorretos.`)) return;
+            }
+
+            // 4. Calcular Médias e Percentis
             let results = {};
             let isGlobalApto = true;
 
             for (let f in scores) {
-                const sum = scores[f].reduce((a, b) => a + b, 0);
-                const avg = scores[f].length > 0 ? sum / scores[f].length : 0;
+                const values = scores[f];
+                let raw = 0;
 
-                let pct = 50;
+                if (values.length > 0) {
+                    const sum = values.reduce((a, b) => a + b, 0);
+                    raw = sum / values.length; // BFP usa Média
+                }
+
+                // Busca Percentil (Tabela)
+                let pct = 50; // default
                 const table = DATA_PERCENTILES[f];
 
                 if (table) {
                     let closest = table[0];
                     let minDiff = Infinity;
+                    // Encontrar o valor de correlação mais próximo na tabela normativa
                     table.forEach(row => {
-                        const diff = Math.abs(row.s - avg);
-                        if (diff < minDiff) { minDiff = diff; closest = row; }
+                        const diff = Math.abs(row.s - raw);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closest = row;
+                        }
                     });
                     pct = closest.p;
                 }
 
-                // Ajuste solicitado: R2 Ponderação +5 pontos no percentil para scores específicos
+                // Ajuste solicitado: R2 Ponderação +5 pontos no percentil para scores específicos (Mantido da lógica anterior)
                 if (f === 'R2') {
-                    const roundedAvg = Number(avg.toFixed(2));
+                    const roundedAvg = Number(raw.toFixed(2));
+                    // Nota: Comparar float exato é perigoso, mas mantendo lógica original do user
                     if ([5.5, 5.25, 4.75, 4].includes(roundedAvg)) {
                         pct += 5;
                     }
@@ -821,7 +837,13 @@
                 const apto = pct >= crit.min && pct <= crit.max;
                 if (!apto) isGlobalApto = false;
 
-                results[f] = { raw: avg.toFixed(2), pct: pct, apto: apto, min: crit.min, max: crit.max };
+                results[f] = {
+                    raw: raw.toFixed(2),
+                    pct: pct,
+                    apto: apto,
+                    min: crit.min,
+                    max: crit.max
+                };
             }
 
             renderReport(results, isGlobalApto, userAnswers);
