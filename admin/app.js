@@ -257,6 +257,22 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
   }
 });
 
+// ===== 2.2 DOWNLOAD HASHES (FOR LOCAL TESTING) =====
+qs('#btn-download-hashes').addEventListener('click', async () => {
+  const publicHashes = {};
+  for (const s of studentsDB) {
+    const hash = await sha256Hex(s.email + s.inscricao);
+    publicHashes[hash] = s.validade || null;
+  }
+  const blob = new Blob([JSON.stringify(publicHashes, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'hashes_membros.json';
+  a.click();
+  notify("Hashes baixados! Substitua o arquivo na raiz.", "ok");
+});
+
 // ===== 2.1 BACKUP LOCAL (JSON UNIFICADO) =====
 qs('#btn-backup-local').onclick = () => {
   const backup = {
