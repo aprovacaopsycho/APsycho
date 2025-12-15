@@ -316,13 +316,13 @@
         document.addEventListener('alpine:init', () => {
             Alpine.data('rotasMapperV6', () => ({
                 imgSrc: '',
-                imgWidth: 1000,
-                imgHeight: 1200,
+                imgWidth: 791,
+                imgHeight: 851,
                 zoom: 80,
 
                 // Estrutura
-                rows: 30, cols: 24,
-                boxW: 26, boxH: 26,
+                rows: 30, cols: 15,
+                boxW: 36, boxH: 36,
 
                 items: [],
 
@@ -371,8 +371,8 @@
                         if (config && Array.isArray(config.items)) {
                             this.imgWidth = config.imgWidth || this.imgWidth;
                             this.imgHeight = config.imgHeight || this.imgHeight;
-                            this.boxW = config.boxW || 26;
-                            this.boxH = config.boxH || 26;
+                            this.boxW = config.boxW || 56;
+                            this.boxH = config.boxH || 56;
 
                             this.items = config.items.map(i => ({
                                 id: i.id,

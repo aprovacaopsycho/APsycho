@@ -205,6 +205,19 @@
 
     <main class="flex-grow w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-[1600px]">
 
+
+
+        <!-- Unified Fixed Timer -->
+        <div id="unified-timer-container"
+            class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4 hidden">
+            <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                id="timer-pill">
+                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                <div id="unified-timer-display"
+                    class="font-mono text-3xl font-black text-white tabular-nums leading-none">00:00</div>
+            </div>
+        </div>
+
         <!-- INTRODUÇÃO -->
         <div id="screen-instructions" class="max-w-4xl mx-auto fade-in">
             <div class="mb-10 text-center">
@@ -227,7 +240,8 @@
                                     class="fas fa-eye text-xl"></i></div>
                             <div>
                                 <strong class="text-white block mb-1">Fase 1: Memorização</strong>
-                                <span class="text-sm text-gray-400 leading-relaxed">Você terá <strong>2 minutos</strong>
+                                <span class="text-sm text-gray-400 leading-relaxed">Você terá <strong>2
+                                        minutos</strong>
                                     para memorizar os rostos e nomes apresentados. Concentre-se nos detalhes.</span>
                             </div>
                         </div>
@@ -238,7 +252,8 @@
                             </div>
                             <div>
                                 <strong class="text-white block mb-1">Fase 2: Execução</strong>
-                                <span class="text-sm text-gray-400 leading-relaxed">Você terá <strong>3 minutos</strong>
+                                <span class="text-sm text-gray-400 leading-relaxed">Você terá <strong>3
+                                        minutos</strong>
                                     para responder às perguntas. Use o <strong>Zoom</strong> para ler melhor.</span>
                             </div>
                         </div>
@@ -251,7 +266,8 @@
                     class="px-10 py-5 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl font-bold text-white text-xl shadow-lg hover:shadow-purple-500/30 hover:scale-105 transition-all flex items-center gap-3 mx-auto">
                     <span>INICIAR TESTE</span> <i class="fas fa-play"></i>
                 </button>
-                <p class="text-gray-500 text-xs mt-4"><i class="fas fa-volume-up"></i> O teste iniciará após o comando
+                <p class="text-gray-500 text-xs mt-4"><i class="fas fa-volume-up"></i> O teste iniciará após o
+                    comando
                     de voz.</p>
             </div>
         </div>
@@ -264,142 +280,141 @@
                         <h2 class="text-2xl font-bold text-white">Memorize os Rostos</h2>
                         <p class="text-gray-400 text-sm">Fase 1 de 2</p>
                     </div>
-                    <div class="text-4xl font-black text-[var(--accent-blue)] font-mono bg-[#151427] px-6 py-3 rounded-xl border border-white/10 shadow-lg"
-                        id="timer-memo">02:00</div>
+                    <!-- Barra de Progresso -->
+                    <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
+                        <div id="memo-progress-bar"
+                            class="h-full bg-[var(--accent-blue)] transition-all duration-1000 ease-linear"
+                            style="width: 100%"></div>
+                    </div>
                 </div>
-                <!-- Barra de Progresso -->
-                <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-                    <div id="memo-progress-bar"
-                        class="h-full bg-[var(--accent-blue)] transition-all duration-1000 ease-linear"
-                        style="width: 100%"></div>
+
+                <!-- Botão Pular -->
+                <div class="mb-4 flex justify-end">
+                    <button onclick="skipMemorization()"
+                        class="text-xs font-bold text-gray-500 hover:text-white border border-gray-700 hover:border-white/50 px-3 py-1 rounded transition uppercase tracking-wider">
+                        Pular Tempo <i class="fas fa-forward ml-1"></i>
+                    </button>
+                </div>
+
+                <div class="glass-card p-2 overflow-hidden border border-white/10">
+                    <img src="memorizacao.jpg" alt="Memorização"
+                        class="w-full h-auto rounded-lg object-contain max-h-[75vh] mx-auto">
                 </div>
             </div>
 
-            <!-- Botão Pular -->
-            <div class="mb-4 flex justify-end">
-                <button onclick="skipMemorization()"
-                    class="text-xs font-bold text-gray-500 hover:text-white border border-gray-700 hover:border-white/50 px-3 py-1 rounded transition uppercase tracking-wider">
-                    Pular Tempo <i class="fas fa-forward ml-1"></i>
-                </button>
-            </div>
+            <!-- TESTE -->
+            <div id="screen-test" class="hidden h-full fade-in">
+                <div
+                    class="sticky top-20 z-40 bg-[#100f1c]/90 backdrop-blur border-b border-white/10 py-3 mb-4 -mx-4 px-4 flex flex-col shadow-lg gap-2">
 
-            <div class="glass-card p-2 overflow-hidden border border-white/10">
-                <img src="memorizacao.jpg" alt="Memorização"
-                    class="w-full h-auto rounded-lg object-contain max-h-[75vh] mx-auto">
-            </div>
-        </div>
-
-        <!-- TESTE -->
-        <div id="screen-test" class="hidden h-full fade-in">
-            <div
-                class="sticky top-20 z-40 bg-[#100f1c]/90 backdrop-blur border-b border-white/10 py-3 mb-4 -mx-4 px-4 flex flex-col shadow-lg gap-2">
-
-                <div class="flex justify-between items-center w-full">
-                    <div class="flex items-center gap-4">
-                        <span class="text-gray-400 font-medium hidden md:inline"><i
-                                class="fas fa-book-open mr-2 text-purple-400"></i>Caderno de Questões</span>
-                        <div class="flex bg-gray-800 rounded-lg p-1 border border-white/10">
-                            <button onclick="zoomAction(-0.2)"
-                                class="px-3 py-1 text-gray-300 hover:text-white hover:bg-white/10 rounded transition"
-                                title="Diminuir Zoom"><i class="fas fa-search-minus"></i></button>
-                            <button onclick="resetZoom()"
-                                class="px-3 py-1 text-gray-300 hover:text-white hover:bg-white/10 rounded text-xs font-bold transition"
-                                title="Resetar">100%</button>
-                            <button onclick="zoomAction(0.2)"
-                                class="px-3 py-1 text-gray-300 hover:text-white hover:bg-white/10 rounded transition"
-                                title="Aumentar Zoom"><i class="fas fa-search-plus"></i></button>
+                    <div class="flex justify-between items-center w-full">
+                        <div class="flex items-center gap-4">
+                            <span class="text-gray-400 font-medium hidden md:inline"><i
+                                    class="fas fa-book-open mr-2 text-purple-400"></i>Caderno de Questões</span>
+                            <div class="flex bg-gray-800 rounded-lg p-1 border border-white/10">
+                                <button onclick="zoomAction(-0.2)"
+                                    class="px-3 py-1 text-gray-300 hover:text-white hover:bg-white/10 rounded transition"
+                                    title="Diminuir Zoom"><i class="fas fa-search-minus"></i></button>
+                                <button onclick="resetZoom()"
+                                    class="px-3 py-1 text-gray-300 hover:text-white hover:bg-white/10 rounded text-xs font-bold transition"
+                                    title="Resetar">100%</button>
+                                <button onclick="zoomAction(0.2)"
+                                    class="px-3 py-1 text-gray-300 hover:text-white hover:bg-white/10 rounded transition"
+                                    title="Aumentar Zoom"><i class="fas fa-search-plus"></i></button>
+                            </div>
+                            <span class="text-xs text-gray-500 hidden md:inline bg-white/5 px-2 py-1 rounded">Arrastar
+                                com o
+                                mouse habilitado</span>
                         </div>
-                        <span class="text-xs text-gray-500 hidden md:inline bg-white/5 px-2 py-1 rounded">Arrastar com o
-                            mouse habilitado</span>
-                    </div>
 
-                    <div class="flex items-center gap-4">
-                        <div class="text-3xl font-black text-[var(--accent-pink)] font-mono drop-shadow-[0_0_5px_rgba(255,0,255,0.5)]"
-                            id="time-left">03:00</div>
-                        <button onclick="finishTest()"
-                            class="text-sm bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition transform hover:scale-105">Entregar</button>
+                        <div class="flex items-center gap-4">
+                            <button onclick="finishTest()"
+                                class="text-sm bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition transform hover:scale-105">Entregar</button>
+                        </div>
                     </div>
-                </div>
-                <!-- Barra de Progresso -->
-                <div class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden mt-1">
-                    <div id="test-progress-bar"
-                        class="h-full bg-[var(--accent-pink)] transition-all duration-1000 ease-linear"
-                        style="width: 100%"></div>
-                </div>
-            </div>
-
-            <div class="notebook-container">
-                <div class="pages-wrapper">
-                    <div class="page-frame shadow-2xl shadow-black/50 zoom-wrapper border-4 border-white/5"
-                        id="p1-container">
-                        <img src="teste_pag1.jpg" alt="Página 1" class="zoom-image" id="p1-img">
-                    </div>
-                    <div class="page-frame shadow-2xl shadow-black/50 zoom-wrapper border-4 border-white/5"
-                        id="p2-container">
-                        <img src="teste_pag2.jpg" alt="Página 2" class="zoom-image" id="p2-img">
+                    <!-- Barra de Progresso -->
+                    <div class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden mt-1">
+                        <div id="test-progress-bar"
+                            class="h-full bg-[var(--accent-pink)] transition-all duration-1000 ease-linear"
+                            style="width: 100%"></div>
                     </div>
                 </div>
 
-                <div class="answer-sheet-wrapper glass-card w-full lg:w-96 p-5 border border-white/10 flex flex-col">
-                    <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3 flex-shrink-0">
-                        <h3 class="font-bold text-white text-lg">Respostas</h3>
-                        <span class="text-xs text-gray-400 bg-white/5 px-2 py-1 rounded">5 = Não mostrado</span>
+                <div class="notebook-container">
+                    <div class="pages-wrapper">
+                        <div class="page-frame shadow-2xl shadow-black/50 zoom-wrapper border-4 border-white/5"
+                            id="p1-container">
+                            <img src="teste_pag1.jpg" alt="Página 1" class="zoom-image" id="p1-img">
+                        </div>
+                        <div class="page-frame shadow-2xl shadow-black/50 zoom-wrapper border-4 border-white/5"
+                            id="p2-container">
+                            <img src="teste_pag2.jpg" alt="Página 2" class="zoom-image" id="p2-img">
+                        </div>
                     </div>
-                    <div class="flex-grow pr-2">
-                        <form id="answer-form" class="space-y-2 pb-4">
-                            <!-- Gerado via JS -->
-                        </form>
+
+                    <div
+                        class="answer-sheet-wrapper glass-card w-full lg:w-96 p-5 border border-white/10 flex flex-col">
+                        <div class="flex justify-between items-center mb-4 border-b border-white/10 pb-3 flex-shrink-0">
+                            <h3 class="font-bold text-white text-lg">Respostas</h3>
+                            <span class="text-xs text-gray-400 bg-white/5 px-2 py-1 rounded">5 = Não mostrado</span>
+                        </div>
+                        <div class="flex-grow pr-2">
+                            <form id="answer-form" class="space-y-2 pb-4">
+                                <!-- Gerado via JS -->
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- RESULTADO -->
-        <div id="screen-result" class="hidden max-w-3xl mx-auto mt-10 fade-in">
-            <div id="result-card"
-                class="glass-card p-10 text-center border-2 border-transparent transition-all duration-500 relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
-
-                <div class="mb-8 relative z-10">
-                    <div id="result-icon" class="text-7xl mb-6 animate-bounce filter drop-shadow-lg"></div>
-                    <h2 class="text-5xl font-black text-white mb-2 tracking-tight" id="result-title">RESULTADO</h2>
-                    <p class="text-gray-400 text-lg" id="result-msg">Análise completa do desempenho</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-6 mb-10 max-w-lg mx-auto relative z-10">
-                    <div class="bg-[#100f1c] rounded-xl p-6 border border-white/10 shadow-inner">
-                        <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Sua Nota</span>
-                        <div class="text-5xl font-black text-white mt-2" id="score-val">0</div>
+            <!-- RESULTADO -->
+            <div id="screen-result" class="hidden max-w-3xl mx-auto mt-10 fade-in">
+                <div id="result-card"
+                    class="glass-card p-10 text-center border-2 border-transparent transition-all duration-500 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none">
                     </div>
-                    <div class="bg-[#100f1c] rounded-xl p-6 border border-white/10 shadow-inner">
-                        <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Meta</span>
-                        <div class="text-5xl font-black text-gray-600 mt-2">46</div>
+
+                    <div class="mb-8 relative z-10">
+                        <div id="result-icon" class="text-7xl mb-6 animate-bounce filter drop-shadow-lg"></div>
+                        <h2 class="text-5xl font-black text-white mb-2 tracking-tight" id="result-title">RESULTADO
+                        </h2>
+                        <p class="text-gray-400 text-lg" id="result-msg">Análise completa do desempenho</p>
                     </div>
-                </div>
 
-                <div class="flex justify-center gap-4 relative z-10">
-                    <button onclick="location.reload()"
-                        class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition flex items-center gap-3 border border-white/10 hover:border-white/20">
-                        <i class="fas fa-redo"></i> Refazer Teste
-                    </button>
-                    <a href="../testes_memoria.html"
-                        class="px-8 py-4 bg-[var(--primary-purple)] hover:bg-purple-600 text-white rounded-xl font-bold transition flex items-center gap-3 shadow-lg shadow-purple-500/20">
-                        <i class="fas fa-list"></i> Outros Testes
-                    </a>
-                </div>
+                    <div class="grid grid-cols-2 gap-6 mb-10 max-w-lg mx-auto relative z-10">
+                        <div class="bg-[#100f1c] rounded-xl p-6 border border-white/10 shadow-inner">
+                            <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Sua Nota</span>
+                            <div class="text-5xl font-black text-white mt-2" id="score-val">0</div>
+                        </div>
+                        <div class="bg-[#100f1c] rounded-xl p-6 border border-white/10 shadow-inner">
+                            <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Meta</span>
+                            <div class="text-5xl font-black text-gray-600 mt-2">46</div>
+                        </div>
+                    </div>
 
-                <div class="mt-8">
-                    <button onclick="toggleGabarito()"
-                        class="text-gray-400 hover:text-white text-sm underline transition">
-                        Ver Gabarito Detalhado
-                    </button>
-                    <div id="gabarito-container"
-                        class="hidden mt-6 text-left max-h-96 overflow-y-auto bg-[#151427] p-4 rounded-xl border border-white/10 scrollbar-thin scrollbar-thumb-purple-600">
-                        <!-- Inserido via JS -->
+                    <div class="flex justify-center gap-4 relative z-10">
+                        <button onclick="location.reload()"
+                            class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition flex items-center gap-3 border border-white/10 hover:border-white/20">
+                            <i class="fas fa-redo"></i> Refazer Teste
+                        </button>
+                        <a href="../testes_memoria.html"
+                            class="px-8 py-4 bg-[var(--primary-purple)] hover:bg-purple-600 text-white rounded-xl font-bold transition flex items-center gap-3 shadow-lg shadow-purple-500/20">
+                            <i class="fas fa-list"></i> Outros Testes
+                        </a>
+                    </div>
+
+                    <div class="mt-8">
+                        <button onclick="toggleGabarito()"
+                            class="text-gray-400 hover:text-white text-sm underline transition">
+                            Ver Gabarito Detalhado
+                        </button>
+                        <div id="gabarito-container"
+                            class="hidden mt-6 text-left max-h-96 overflow-y-auto bg-[#151427] p-4 rounded-xl border border-white/10 scrollbar-thin scrollbar-thumb-purple-600">
+                            <!-- Inserido via JS -->
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
     </main>
 
@@ -497,12 +512,21 @@
 
         function startMemorization() {
             showScreen('screen-memorization');
+            // Show Unified Timer
+            const timerContainer = document.getElementById('unified-timer-container');
+            const display = document.getElementById('unified-timer-display');
+            const pill = document.getElementById('timer-pill');
+            timerContainer.classList.remove('hidden');
+
             let timeLeft = TIME_MEMO;
-            const display = document.getElementById('timer-memo');
             const progress = document.getElementById('memo-progress-bar');
 
             display.textContent = formatTime(timeLeft);
             progress.style.width = '100%';
+
+            // Reset red state
+            display.classList.remove('text-red-400', 'animate-pulse');
+            pill.classList.remove('border-red-500', 'bg-red-900/40');
 
             intervalId = setInterval(() => {
                 timeLeft--;
@@ -510,7 +534,10 @@
                 const pct = (timeLeft / TIME_MEMO) * 100;
                 progress.style.width = pct + '%';
 
-                if (timeLeft <= 10) display.classList.add('text-red-500', 'animate-pulse');
+                if (timeLeft <= 10) {
+                    display.classList.add('text-red-400', 'animate-pulse');
+                    pill.classList.add('border-red-500', 'bg-red-900/40');
+                }
 
                 if (timeLeft <= 0) {
                     clearInterval(intervalId);
@@ -523,9 +550,19 @@
             clearInterval(intervalId);
             generateAnswerSheet();
             showScreen('screen-test');
+
+            // Re-ensure timer is visible (transitions sometimes hide it if we hid it)
+            const timerContainer = document.getElementById('unified-timer-container');
+            const display = document.getElementById('unified-timer-display');
+            const pill = document.getElementById('timer-pill');
+            timerContainer.classList.remove('hidden');
+
             let timeLeft = TIME_TEST;
-            const display = document.getElementById('time-left');
             const progress = document.getElementById('test-progress-bar');
+
+            // Reset red state
+            display.classList.remove('text-red-400', 'animate-pulse');
+            pill.classList.remove('border-red-500', 'bg-red-900/40');
 
             display.textContent = formatTime(timeLeft);
             progress.style.width = '100%';
@@ -536,7 +573,11 @@
                 const pct = (timeLeft / TIME_TEST) * 100;
                 progress.style.width = pct + '%';
 
-                if (timeLeft <= 30) display.classList.add('text-red-500', 'animate-pulse');
+                if (timeLeft <= 30) {
+                    display.classList.add('text-red-400', 'animate-pulse');
+                    pill.classList.add('border-red-500', 'bg-red-900/40');
+                }
+
                 if (timeLeft <= 0) {
                     clearInterval(intervalId);
                     document.getElementById('timeout-audio').play().catch(e => console.error(e));
@@ -553,6 +594,7 @@
         // --- LÓGICA DE CORREÇÃO REVISADA ---
         function finishTest() {
             clearInterval(intervalId);
+            document.getElementById('unified-timer-container').classList.add('hidden');
 
             let totalScore = 0;
             let hitsFace = 0;   // Acertos de Rostos (1 ponto)

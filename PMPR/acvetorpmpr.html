@@ -144,6 +144,50 @@
                 transform: translateY(0);
             }
         }
+
+        /* Efeito Reprovado/Inapto */
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
     </style>
 </head>
 
@@ -183,6 +227,18 @@
     </header>
 
     <main class="flex-grow w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 max-w-[1600px]">
+
+        <!-- Unified Timer Overlay -->
+        <div x-show="state === 'testing'"
+            class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+            <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                :class="{'border-red-500 bg-red-900/40': time < 30}">
+                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                    :class="{'text-red-400 animate-pulse': time < 30}" x-text="formatTime(time)">
+                </div>
+            </div>
+        </div>
 
         <!-- INTRODUÇÃO -->
         <div x-show="state === 'instructions'" class="max-w-4xl mx-auto fade-in">
@@ -252,6 +308,45 @@
                         comando de voz.</p>
                 </div>
             </div>
+
+            <!-- HISTÓRICO -->
+            <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden fade-in mb-10">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        @click="clearHistory()">Limpar Histórico</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-[#0f0e1a]/50">
+                            <tr>
+                                <th class="px-6 py-4 font-medium">Teste</th>
+                                <th class="px-6 py-4 font-medium">Data</th>
+                                <th class="px-6 py-4 font-medium text-center">Nota</th>
+                                <th class="px-6 py-4 font-medium text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <template x-if="history.length === 0">
+                                <tr>
+                                    <td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum teste
+                                        registrado.</td>
+                                </tr>
+                            </template>
+                            <template x-for="(item, index) in history" :key="index">
+                                <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
+                                    <td class="px-6 py-4 font-medium text-white">AC Vetor</td>
+                                    <td class="px-6 py-4 text-gray-400" x-text="item.date"></td>
+                                    <td class="px-6 py-4 text-center font-bold text-white" x-text="item.score"></td>
+                                    <td class="px-6 py-4 text-center font-bold"
+                                        :class="item.passed ? 'text-green-400' : 'text-red-400'"
+                                        x-text="item.passed ? 'APTO' : 'INAPTO'"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <!-- TESTE -->
@@ -272,11 +367,7 @@
                     </div>
 
                     <div class="flex items-center gap-6">
-                        <div class="text-center bg-black/50 px-4 py-1 rounded-lg border border-white/10">
-                            <div class="text-[10px] text-gray-500 uppercase font-bold">Tempo</div>
-                            <div class="text-2xl font-mono font-bold text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]"
-                                :class="{'text-red-500 animate-pulse': time < 30}" x-text="formatTime(time)"></div>
-                        </div>
+                        <!-- Timer moved to fixed overlay -->
                         <button @click="finishTest()"
                             class="px-6 py-2 rounded-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold transition shadow-lg hover:scale-105">
                             ENTREGAR
@@ -322,13 +413,24 @@
                 <div class="mb-8 relative z-10">
                     <div class="text-7xl mb-6 animate-bounce filter drop-shadow-lg"
                         x-text="results.isPassed ? '🏆' : '⚠️'"></div>
-                    <h2 class="text-5xl font-black mb-2 tracking-tight"
-                        :class="results.isPassed ? 'text-green-400' : 'text-red-500'"
-                        x-text="results.isPassed ? 'APROVADO' : 'INAPTO'">
-                    </h2>
-                    <p class="text-gray-400 text-lg"
-                        x-text="results.isPassed ? 'Parabéns! Desempenho excelente dentro da meta.' : 'Pontuação abaixo do necessário.'">
-                    </p>
+
+                    <!-- APROVADO -->
+                    <template x-if="results.isPassed">
+                        <div>
+                            <h2 class="text-5xl font-black mb-2 tracking-tight text-green-400">APROVADO</h2>
+                            <p class="text-gray-400 text-lg">Parabéns! Desempenho excelente dentro da meta.</p>
+                        </div>
+                    </template>
+
+                    <!-- INAPTO (Novo Estilo) -->
+                    <template x-if="!results.isPassed">
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="loser-text">
+                                VOCÊ FICOU<br>INAPTO!
+                            </div>
+                            <p class="text-gray-400 text-lg">Pontuação abaixo do necessário.</p>
+                        </div>
+                    </template>
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 relative z-10">
@@ -431,6 +533,7 @@
                 results: { hits: 0, errors: 0, omissions: 0, score: 0, isPassed: false },
                 isPreparing: false,
                 animatedScore: 0,
+                history: [],
 
                 // ALVOS
                 targetDisplay: [
@@ -441,6 +544,18 @@
 
                 init() {
                     this.parseGrid();
+                    this.loadHistory();
+                },
+
+                loadHistory() {
+                    this.history = JSON.parse(localStorage.getItem('acvetor_history') || '[]');
+                },
+
+                clearHistory() {
+                    if (confirm('Apagar histórico?')) {
+                        localStorage.removeItem('acvetor_history');
+                        this.history = [];
+                    }
                 },
 
                 parseGrid() {
@@ -569,6 +684,14 @@
                     const score = hits - (errors + omissions);
                     const isPassed = score >= this.minScore;
                     this.results = { hits, errors, omissions, score, isPassed };
+
+                    // Save History
+                    this.history.unshift({
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: score,
+                        passed: isPassed
+                    });
+                    localStorage.setItem('acvetor_history', JSON.stringify(this.history));
                 },
 
                 formatTime(s) {

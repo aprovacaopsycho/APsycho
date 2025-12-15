@@ -296,6 +296,40 @@
                 <div class="absolute inset-0 rounded-xl bg-white/20 blur opacity-0 group-hover:opacity-100 transition">
                 </div>
             </button>
+            <div class="mt-8 border-t border-white/10 pt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        @click="clearHistory()">Limpar</button>
+                </div>
+                <div class="overflow-x-auto max-h-40">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                            <tr>
+                                <th class="px-4 py-2">Data</th>
+                                <th class="px-4 py-2 text-center">Score</th>
+                                <th class="px-4 py-2 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <template x-if="history.length === 0">
+                                <tr>
+                                    <td colspan="3" class="px-4 py-4 text-center text-gray-500">Nenhum registro.</td>
+                                </tr>
+                            </template>
+                            <template x-for="(item, index) in history" :key="index">
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="item.score"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-xs"
+                                        :class="item.score >= 168 ? 'text-green-400' : 'text-red-400'"
+                                        x-text="item.score >= 168 ? 'APTO' : 'INAPTO'"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <div x-show="state === 'testing'" class="w-full fade-in relative" x-cloak>
@@ -433,6 +467,9 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('rotaSim', () => ({
+                init() {
+                    this.loadHistory();
+                },
                 config: {
                     "imgWidth": 1000, "imgHeight": 1250, "boxW": 24, "boxH": 26,
                     // MANTENHA A LISTA DE ITEMS EXATAMENTE COMO ESTAVA NO SEU ARQUIVO ORIGINAL
@@ -445,7 +482,9 @@
                 marks: [],
                 lastSelectedIndex: -1,
                 results: { hits: 0, errors: 0, omissions: 0, score: 0 },
+                results: { hits: 0, errors: 0, omissions: 0, score: 0 },
                 reviewMode: false,
+                history: [],
                 audio: {
                     // Local audio files
                     prepare: new Audio('../../vozes/prepare.mp3'),
@@ -523,6 +562,29 @@
                         // Efeito de INAPTO
                         document.body.classList.add('shake-screen');
                         setTimeout(() => document.body.classList.remove('shake-screen'), 500);
+                    }
+                    this.saveHistory();
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('rotac_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const newItem = {
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.results.score,
+                        passed: this.results.score >= 168
+                    };
+                    this.history.unshift(newItem);
+                    localStorage.setItem('rotac_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm('Limpar histórico?')) {
+                        localStorage.removeItem('rotac_history');
+                        this.history = [];
                     }
                 },
 

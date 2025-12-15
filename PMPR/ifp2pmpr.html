@@ -129,10 +129,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <div class="hidden md:flex items-center gap-3 bg-[#151427] px-4 py-2 rounded-lg border border-white/5">
-                    <i class="fas fa-clock text-cyan-400"></i>
-                    <span id="timer-display" class="font-mono text-xl font-bold text-white">00:00</span>
-                </div>
+                <!-- Timer Removed from Header -->
 
                 <a href="testes_personalidade.html"
                     class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
@@ -147,6 +144,17 @@
     </header>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Unified Timer Overlay -->
+        <div id="unified-timer-container"
+            class="hidden fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+            <div id="timer-glass-panel"
+                class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md">
+                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                <div id="timer-display" class="font-mono text-3xl font-black text-white tabular-nums leading-none">00:00
+                </div>
+            </div>
+        </div>
 
         <div id="screen-import" class="hidden fade-in max-w-3xl mx-auto">
             <div class="bg-[#151427] rounded-2xl p-8 border border-white/5">
@@ -896,6 +904,10 @@
             timeRemaining = 30 * 60;
             updateTimerDisplay();
 
+            // Show Unified Timer
+            const timerContainer = document.getElementById('unified-timer-container');
+            if (timerContainer) timerContainer.classList.remove('hidden');
+
             timerInterval = setInterval(() => {
                 timeRemaining--;
                 updateTimerDisplay();
@@ -916,10 +928,23 @@
             const m = Math.floor(timeRemaining / 60);
             const s = timeRemaining % 60;
             const el = document.getElementById('timer-display');
+            const panel = document.getElementById('timer-glass-panel');
+
             if (el) {
                 el.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-                if (timeRemaining < 300) { // 5 min
-                    el.className = "font-mono text-xl font-bold text-red-500 animate-pulse";
+
+                if (timeRemaining < 300) { // 5 min warning
+                    el.classList.remove('text-white');
+                    el.classList.add('text-red-400', 'animate-pulse');
+                    if (panel) {
+                        panel.classList.add('border-red-500', 'bg-red-900/40');
+                    }
+                } else {
+                    el.classList.add('text-white');
+                    el.classList.remove('text-red-400', 'animate-pulse');
+                    if (panel) {
+                        panel.classList.remove('border-red-500', 'bg-red-900/40');
+                    }
                 }
             }
         }
@@ -1154,9 +1179,31 @@
             window.scrollTo(0, 0);
 
             document.getElementById('report-date').innerText = new Date().toLocaleString();
+            document.getElementById('report-date').innerText = new Date().toLocaleString();
+
             const badge = document.getElementById('final-status-badge');
-            badge.innerText = globalStatus ? "APTO" : "INAPTO";
-            badge.className = `px-8 py-3 rounded-full text-xl font-bold border ${globalStatus ? 'bg-green-500/10 text-green-400 border-green-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'}`;
+            // CHANGE: Update parent container content for Inapto message
+            const statusContainer = badge.parentElement;
+
+            if (globalStatus) {
+                statusContainer.innerHTML = `
+                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div id="final-status-badge" class="px-8 py-3 rounded-full text-xl font-bold bg-green-500/10 text-green-400 border border-green-500/30">
+                        APTO
+                    </div>
+                `;
+            } else {
+                statusContainer.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <div class="loser-text">
+                            VOCÊ FICOU<br>INAPTO!
+                        </div>
+                        <span class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-400 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                            <i class="fas fa-times-circle mr-2"></i> REPROVADO
+                        </span>
+                    </div>
+                `;
+            }
 
             const container = document.getElementById('report-content');
             let html = '';

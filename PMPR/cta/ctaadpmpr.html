@@ -130,6 +130,50 @@
             background-color: rgba(234, 179, 8, 0.3);
             border: 1px dashed #eab308;
         }
+
+        /* Efeito Reprovado/Inapto */
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
     </style>
 </head>
 
@@ -201,10 +245,57 @@
                     <p class="text-xl text-purple-400 font-bold mb-2">Ouvindo comando de voz...</p>
                     <p class="text-gray-400 text-sm">"Preparar... Começar!"</p>
                 </div>
+
+                <!-- HISTÓRICO -->
+                <div class="mt-8 border-t border-white/5 pt-6 text-left">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                        <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                            @click="clearHistory()">Limpar</button>
+                    </div>
+                    <div class="overflow-x-auto max-h-40">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                                <tr>
+                                    <th class="px-4 py-2 text-gray-400">Data</th>
+                                    <th class="px-4 py-2 text-center text-gray-400">Score</th>
+                                    <th class="px-4 py-2 text-center text-gray-400">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/5">
+                                <template x-if="history.length === 0">
+                                    <tr>
+                                        <td colspan="3" class="px-4 py-4 text-center text-gray-500">Nenhum registro.
+                                        </td>
+                                    </tr>
+                                </template>
+                                <template x-for="(item, index) in history" :key="index">
+                                    <tr class="hover:bg-white/5 transition">
+                                        <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
+                                        <td class="px-4 py-2 text-center font-bold text-white" x-text="item.score"></td>
+                                        <td class="px-4 py-2 text-center font-bold text-xs"
+                                            :class="item.passed ? 'text-green-400' : 'text-red-400'"
+                                            x-text="item.passed ? 'APTO' : 'INAPTO'"></td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div x-show="state === 'testing'" x-cloak>
+
+            <!-- Unified Fixed Timer -->
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                    :class="{'border-red-500 bg-red-900/40': time <= 15}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                        :class="{'text-red-400 animate-pulse': time <= 15}" x-text="formatTime(time)"></div>
+                </div>
+            </div>
 
             <div
                 class="sticky top-0 z-[100] bg-[#100f1c]/90 backdrop-blur-md border-b border-white/10 shadow-2xl p-3 mb-6">
@@ -219,16 +310,7 @@
                     </div>
 
                     <div class="flex items-center gap-6">
-                        <div class="text-center">
-                            <div class="text-[10px] text-gray-400 font-bold uppercase">Tempo</div>
-                            <div class="text-3xl font-mono font-bold text-white leading-none"
-                                :class="{'text-red-500 animate-pulse': time < 15}" x-text="formatTime(time)"></div>
-                            <!-- Progress Bar -->
-                            <div class="w-full bg-gray-700 h-1 mt-1 rounded-full overflow-hidden">
-                                <div class="bg-gradient-to-r from-green-400 to-blue-500 h-full transition-all duration-1000 ease-linear"
-                                    :style="`width: ${(time / 105) * 100}%`"></div>
-                            </div>
-                        </div>
+                        <!-- Timer Removed from here -->
 
                         <button @click="finishTest()"
                             class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/50 px-6 py-3 rounded-lg font-bold text-sm transition hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]">
@@ -260,13 +342,28 @@
             <div class="bg-[#1a1a2e]/90 backdrop-blur-md rounded-2xl p-8 border border-white/5 text-center shadow-2xl">
                 <h2 class="text-3xl font-black text-white mb-6">SEU DESEMPENHO</h2>
 
-                <div class="flex justify-center mb-8">
-                    <span
-                        class="px-8 py-3 rounded-full text-2xl font-bold border flex items-center gap-3 transition-all"
-                        :class="results.score >= 32 ? 'bg-green-500/10 text-green-400 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.3)]' : 'bg-red-500/10 text-red-400 border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)]'">
-                        <i :class="results.score >= 32 ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
-                        <span x-text="results.score >= 32 ? 'APTO' : 'INAPTO'"></span>
-                    </span>
+                <div class="flex flex-col items-center justify-center mb-8">
+                    <!-- APROVADO -->
+                    <template x-if="results.score >= 32">
+                        <span
+                            class="px-8 py-3 rounded-full text-2xl font-bold border flex items-center gap-3 transition-all bg-green-500/10 text-green-400 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+                            <i class="fas fa-check-circle"></i>
+                            <span>APTO</span>
+                        </span>
+                    </template>
+
+                    <!-- INAPTO (Novo Estilo) -->
+                    <template x-if="results.score < 32">
+                        <div class="flex flex-col items-center">
+                            <div class="loser-text">
+                                VOCÊ FICOU<br>INAPTO!
+                            </div>
+                            <span
+                                class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/10 text-red-400 border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                                <i class="fas fa-times-circle mr-2"></i> REPROVADO
+                            </span>
+                        </div>
+                    </template>
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -366,6 +463,7 @@
                 preparing: false,
 
                 init() {
+                    this.loadHistory();
                     const totalCells = this.config.rows * this.config.cols;
                     for (let i = 0; i < totalCells; i++) {
                         this.grid.push({
@@ -375,6 +473,7 @@
                         });
                     }
                 },
+                history: [],
 
                 startVoiceCommand() {
                     this.preparing = true;
@@ -462,6 +561,7 @@
                     } else {
                         document.getElementById('time-up-audio').play().catch(e => console.log("Audio play err", e));
                     }
+                    this.saveHistory();
                 },
 
                 showVisualReview() {
@@ -475,6 +575,28 @@
                     const min = Math.floor(s / 60).toString().padStart(2, '0');
                     const sec = (s % 60).toString().padStart(2, '0');
                     return `${min}:${sec}`;
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('ctaad_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const passed = this.results.score >= 32;
+                    this.history.unshift({
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.results.score,
+                        passed: passed
+                    });
+                    localStorage.setItem('ctaad_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm('Limpar histórico?')) {
+                        localStorage.removeItem('ctaad_history');
+                        this.history = [];
+                    }
                 }
             }));
         });

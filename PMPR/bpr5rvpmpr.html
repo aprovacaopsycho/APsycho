@@ -112,10 +112,27 @@
         [x-cloak] {
             display: none !important;
         }
+
+        /* Efeito Reprovado/Inapto */
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 
-<body x-data="bpr5rvApp()" x-init="startTimer()" class="min-h-screen flex flex-col font-sans overflow-x-hidden">
+<body x-data="bpr5rvApp()" x-init="startTimer(); loadHistory()"
+    class="min-h-screen flex flex-col font-sans overflow-x-hidden">
 
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -145,11 +162,7 @@
                     <span x-text="streak + 'x'"></span>
                 </div>
 
-                <div x-show="!finished" class="flex items-center gap-2 text-xl font-mono font-bold"
-                    :class="timeRemaining < 60 ? 'text-red-500 animate-pulse' : 'text-[var(--primary)]'">
-                    <i class="fas fa-stopwatch"></i>
-                    <span x-text="formatTime(timeRemaining)"></span>
-                </div>
+                <!-- Timer Removed -->
 
                 <a href="testes_inteligencia.html" @click="return confirm('Sair do teste? O progresso será perdido.')"
                     class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
@@ -160,6 +173,18 @@
     </header>
 
     <main class="container mx-auto px-4 py-8 max-w-4xl flex-grow flex flex-col relative">
+
+        <!-- Unified Timer -->
+        <div x-show="!finished && currentQuestion > 0"
+            class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4">
+            <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                :class="{'border-red-500 bg-red-900/40': timeRemaining <= 60}">
+                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                    :class="{'text-red-400 animate-pulse': timeRemaining <= 60}" x-text="formatTime(timeRemaining)">
+                </div>
+            </div>
+        </div>
 
         <!-- XP Floating Text Container -->
         <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden">
@@ -208,6 +233,47 @@
                 class="bg-primary hover:bg-purple-500 text-white font-bold py-3 px-8 rounded-xl transition shadow-[0_0_20px_rgba(192,132,252,0.3)] hover:shadow-[0_0_30px_rgba(192,132,252,0.5)] transform hover:-translate-y-1">
                 COMEÇAR O TESTE
             </button>
+        </div>
+
+        <!-- HISTÓRICO (Somente na Intro) -->
+        <div x-show="currentQuestion === 0 && !finished"
+            class="glass-panel rounded-2xl border border-white/5 overflow-hidden fade-in mt-8 max-w-2xl mx-auto w-full">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center bg-black/20">
+                <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                    @click="clearHistory()">Limpar</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-gray-500 uppercase bg-black/40">
+                        <tr>
+                            <th class="px-6 py-4 font-medium">Data</th>
+                            <th class="px-6 py-4 font-medium text-center">Score</th>
+                            <th class="px-6 py-4 font-medium text-center">Rank</th>
+                            <th class="px-6 py-4 font-medium text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        <template x-if="history.length === 0">
+                            <tr>
+                                <td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum registro encontrado.
+                                </td>
+                            </tr>
+                        </template>
+                        <template x-for="(item, index) in history" :key="index">
+                            <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
+                                <td class="px-6 py-4 text-gray-300" x-text="item.date"></td>
+                                <td class="px-6 py-4 text-center font-bold text-white" x-text="item.score + '/25'"></td>
+                                <td class="px-6 py-4 text-center font-bold text-[10px] uppercase tracking-wider"
+                                    :class="item.rankColor" x-text="item.rank"></td>
+                                <td class="px-6 py-4 text-center font-bold"
+                                    :class="item.score >= 19 ? 'text-green-400' : 'text-red-400'"
+                                    x-text="item.score >= 19 ? 'APTO' : 'INAPTO'"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- AREA DO TESTE -->
@@ -315,9 +381,26 @@
                         :class="score >= 19 ? 'text-green-400' : 'text-red-500'">
                         <span x-text="score"></span><span class="text-2xl text-gray-500">/25</span>
                     </div>
-                    <div class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border relative z-10"
-                        :class="score >= 19 ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-red-500/10 text-red-500 border-red-500/20'">
-                        <span x-text="score >= 19 ? 'APROVADO' : 'REPROVADO'"></span>
+
+                    <!-- CONDITIONAL STATUS -->
+                    <div class="relative z-10 w-full text-center">
+                        <template x-if="score >= 19">
+                            <div
+                                class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border bg-green-500/10 text-green-400 border-green-500/20 inline-block">
+                                APROVADO
+                            </div>
+                        </template>
+                        <template x-if="score < 19">
+                            <div>
+                                <div class="loser-text text-2xl md:text-3xl lg:text-4xl mt-2">
+                                    VOCÊ FICOU<br>INAPTO!
+                                </div>
+                                <div
+                                    class="text-xs text-red-400 font-bold uppercase tracking-widest border border-red-500/20 bg-red-500/10 rounded-full px-3 py-1 inline-block">
+                                    REPROVADO
+                                </div>
+                            </div>
+                        </template>
                     </div>
                 </div>
 
@@ -399,6 +482,7 @@
                 maxStreak: 0,
                 shake: false,
                 xpFloats: [],
+                history: [],
 
                 // DATA
                 correctAnswers: [
@@ -504,6 +588,33 @@
                     if (this.score >= 19) {
                         this.launchConfetti();
                     }
+                    this.saveHistory();
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('bpr5rv_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const newItem = {
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.score,
+                        rank: this.rankName,
+                        rankColor: this.score <= 11 ? 'text-gray-500' :
+                            this.score <= 18 ? 'text-orange-500' :
+                                this.score <= 21 ? 'text-gray-300' :
+                                    this.score <= 23 ? 'text-yellow-400' : 'text-cyan-400'
+                    };
+                    this.history.unshift(newItem);
+                    localStorage.setItem('bpr5rv_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm("Limpar histórico?")) {
+                        localStorage.removeItem('bpr5rv_history');
+                        this.history = [];
+                    }
                 },
 
                 launchConfetti() {
@@ -533,9 +644,9 @@
                 },
 
                 formatTime(seconds) {
-                    const m = Math.floor(seconds / 60);
-                    const s = seconds % 60;
-                    return `${m}:${s < 10 ? '0' : ''}${s}`;
+                    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+                    const s = (seconds % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
                 },
 
                 // Rank based on 19 PASSING

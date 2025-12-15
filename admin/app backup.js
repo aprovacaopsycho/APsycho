@@ -163,34 +163,11 @@ qs('#btn-load-cloud').addEventListener('click', async () => {
       renderStudentTable();
     }
 
-    // 2. PsicoData (Load from Server)
-    try {
-      const resPsico = await fetch('private/psicodata_db.json', { cache: 'no-store' });
-      if (resPsico.ok) {
-        appData = await resPsico.json();
-        notify(`PsicoData baixado!`, "ok");
-      } else {
-        console.log("PsicoData DB não encontrado no servidor ou erro (404). Mantendo local.");
-      }
-
-      const resConfig = await fetch('private/psicodata_config.json', { cache: 'no-store' });
-      if (resConfig.ok) {
-        const config = await resConfig.json();
-        if (config.types) currentTestTypes = config.types;
-        if (config.aliases) currentAliases = config.aliases;
-        console.log("Configs PsicoData carregadas.");
-      }
-
-      // Refresh UI
-      if (Object.keys(appData).length > 0) {
-        if (!currentBanca) currentBanca = Object.keys(appData).sort()[0];
-        selectBanca(currentBanca);
-      }
-
-    } catch (e) {
-      console.warn("Erro ao tentar carregar PsicoData da nuvem:", e);
-    }
-
+    // 2. PsicoData (Se existir end-point, por enquanto é local storage, mas vamos tentar carregar se tivermos URL)
+    // Para simplificar, assumimos que PsicoData é principalmente local ou gerido separadamente, mas o usuario pediu merge.
+    // Vamos usar localStorage para PsicoData por enquanto, pois não temos URL definida no servidor.
+    // MAS o deploy vai enviar como 'PMPR/private/testes_db.json'. Vamos tentar ler de lá se criarmos.
+    // Por hora, apenas lógica local para PsicoData e Load Cloud para Alunos.
 
   } catch (e) {
     console.error(e);
@@ -254,65 +231,8 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
   }
 });
 
-// ===== 2.1 BACKUP LOCAL (JSON UNIFICADO) =====
-qs('#btn-backup-local').onclick = () => {
-  const backup = {
-    timestamp: new Date().toISOString(),
-    studentsDB,
-    appData,
-    currentTestTypes,
-    currentAliases
-  };
-  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `backup_completo_${new Date().toISOString().slice(0, 10)}.json`;
-  a.click();
-  notify("Backup completo salvo!", "ok");
-};
-
-qs('#btn-restore-local').onclick = () => qs('#file-backup-local').click();
-
-qs('#file-backup-local').onchange = async (e) => {
-  const f = e.target.files[0];
-  if (!f) return;
-  try {
-    const text = await f.text();
-    const json = JSON.parse(text);
-
-    // Verifica formato novo (unificado) ou antigo (só lista)
-    if (Array.isArray(json)) {
-      // Formato Antigo (Só alunos)
-      studentsDB = json;
-      notify(`Backup legado: ${json.length} alunos restaurados.`, "ok");
-    } else if (json.studentsDB || json.appData) {
-      // Formato Novo
-      if (json.studentsDB) studentsDB = json.studentsDB;
-      if (json.appData) appData = json.appData;
-      if (json.currentTestTypes) currentTestTypes = json.currentTestTypes;
-      if (json.currentAliases) currentAliases = json.currentAliases;
-
-      notify("Backup Completo restaurado com sucesso!", "ok");
-    } else {
-      throw new Error("Formato desconhecido.");
-    }
-
-    renderStudentTable();
-    // Refresh Psico View if active
-    if (currentBanca && appData[currentBanca]) selectBanca(currentBanca);
-    else if (Object.keys(appData).length) selectBanca(Object.keys(appData)[0]);
-
-  } catch (err) {
-    alert("Erro ao ler backup: " + err.message);
-  }
-  e.target.value = '';
-};
-
 
 // ===== 3. GESTÃO DE ALUNOS =====
-
-let selectedStudents = new Set();
 
 function renderStudentTable() {
   const tbody = qs('#studentTable tbody');
@@ -323,76 +243,20 @@ function renderStudentTable() {
 
   sorted.forEach((s) => {
     const originalIndex = studentsDB.indexOf(s);
-    const isSelected = selectedStudents.has(originalIndex);
-
     const tr = document.createElement('tr');
-    tr.className = `border-b border-slate-700/50 transition-colors ${isSelected ? 'bg-brand-blue/10' : 'hover:bg-slate-800/50'}`;
+    tr.className = "hover:bg-slate-800/50 transition-colors border-b border-slate-700/50";
     tr.innerHTML = `
-            <td class="px-6 py-4">
-                <input type="checkbox" onchange="toggleSelect(${originalIndex})" ${isSelected ? 'checked' : ''} class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue">
-            </td>
-            <td class="px-6 py-4 font-medium">${s.nome || '-'}</td>
-            <td class="px-6 py-4 text-slate-400">${s.email}</td>
-            <td class="px-6 py-4">${s.cpf || '-'}</td>
-            <td class="px-6 py-4 font-mono text-xs text-brand-blue">${s.inscricao}</td>
-            <td class="px-6 py-4 text-right whitespace-nowrap">
-                <button onclick="editStudent(${originalIndex})" class="text-xs bg-brand-accent/10 hover:bg-brand-accent text-brand-accent hover:text-white px-3 py-1.5 rounded transition-all mr-2" title="Editar">
-                    <i class="fas fa-pen mr-1"></i> Editar
-                </button>
-                <button onclick="deleteStudent(${originalIndex})" class="text-xs bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-3 py-1.5 rounded transition-all" title="Excluir">
-                    <i class="fas fa-trash mr-1"></i> Excluir
-                </button>
-            </td>
-        `;
+      <td class="px-6 py-4 font-medium">${s.nome || '-'}</td>
+      <td class="px-6 py-4 text-slate-400">${s.email}</td>
+      <td class="px-6 py-4">${s.cpf || '-'}</td>
+      <td class="px-6 py-4 font-mono text-xs text-brand-blue">${s.inscricao}</td>
+      <td class="px-6 py-4 text-right">
+        <button onclick="editStudent(${originalIndex})" class="text-brand-accent hover:text-white mr-3"><i class="fas fa-pen"></i></button>
+        <button onclick="deleteStudent(${originalIndex})" class="text-brand-danger hover:text-white"><i class="fas fa-trash"></i></button>
+      </td>
+    `;
     tbody.appendChild(tr);
   });
-
-  // Update Bulk Action UI
-  updateBulkUI();
-}
-
-function updateBulkUI() {
-  const count = selectedStudents.size;
-  const btn = qs('#btn-delete-bulk');
-
-  if (count > 0) {
-    btn.classList.remove('hidden');
-    btn.innerHTML = `<i class="fas fa-trash mr-2"></i> Excluir (${count})`;
-  } else {
-    btn.classList.add('hidden');
-  }
-
-  // Update Header Checkbox
-  const allSelected = studentsDB.length > 0 && selectedStudents.size === studentsDB.length;
-  qs('#check-all-students').checked = allSelected;
-}
-
-// Make functions global
-window.toggleSelect = function (index) {
-  if (selectedStudents.has(index)) selectedStudents.delete(index);
-  else selectedStudents.add(index);
-  renderStudentTable();
-}
-
-window.toggleSelectAll = function () {
-  if (selectedStudents.size === studentsDB.length) {
-    selectedStudents.clear();
-  } else {
-    studentsDB.forEach((_, i) => selectedStudents.add(i));
-  }
-  renderStudentTable();
-}
-
-window.deleteBulk = function () {
-  if (!confirm(`Excluir ${selectedStudents.size} alunos selecionados?`)) return;
-
-  // Sort descending to remove correctly
-  const indices = Array.from(selectedStudents).sort((a, b) => b - a);
-  indices.forEach(i => studentsDB.splice(i, 1));
-
-  selectedStudents.clear();
-  renderStudentTable();
-  notify("Alunos removidos.", "ok");
 }
 
 window.editStudent = function (index) {
@@ -409,93 +273,14 @@ window.editStudent = function (index) {
   btn.innerHTML = '<i class="fas fa-save mr-1"></i> Salvar Edição';
   btn.classList.add('bg-brand-accent', 'hover:bg-yellow-600');
   btn.classList.remove('bg-brand-blue', 'hover:bg-blue-600');
-
-  qs('#new-name').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 window.deleteStudent = function (index) {
   if (confirm("Remover este aluno?")) {
     studentsDB.splice(index, 1);
     renderStudentTable();
-    notify("Aluno removido.", "bad");
   }
 }
-
-
-// Fix CPF Formatting (Respect Selection)
-window.fixCPFs = function () {
-  let count = 0;
-  const targetIndices = selectedStudents.size > 0 ? Array.from(selectedStudents) : studentsDB.map((_, i) => i);
-
-  targetIndices.forEach(index => {
-    const s = studentsDB[index];
-    if (!s) return;
-
-    let clean = String(s.cpf).replace(/\D/g, '');
-
-    // Handle Excel leading zero drop (10 digits -> 0 + digits)
-    if (clean.length === 10) clean = '0' + clean;
-
-    if (clean.length === 11) {
-      const formatted = clean.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-      if (s.cpf !== formatted) {
-        s.cpf = formatted;
-        count++;
-      }
-    }
-  });
-
-  if (count > 0) {
-    renderStudentTable();
-    const scope = selectedStudents.size > 0 ? "selecionados" : "da lista";
-    notify(`Sucesso: ${count} CPFs ${scope} formatados!`, "ok");
-  } else {
-    notify("Nenhum CPF precisou de correção.", "brand-blue");
-  }
-}
-
-
-// Auto-Generate Password
-function generatePassword() {
-  const nome = qs('#new-name').value.trim();
-  const cpfRaw = qs('#new-cpf').value.replace(/\D/g, '');
-
-  if (!nome || cpfRaw.length < 4) return;
-
-  // Initials: First letter of each word
-  const initials = nome.split(/\s+/).map(w => w[0].toUpperCase()).join('');
-  // CPF: First 4 digits
-  const cpf4 = cpfRaw.substring(0, 4);
-
-  // Set Password
-  qs('#new-key').value = `${initials}${cpf4}`;
-}
-
-// Validation Helpers
-function showInputError(id, msg) {
-  const el = qs(id);
-  const parent = el.parentElement;
-
-  // Remove old error
-  const old = parent.querySelector('.text-red-500');
-  if (old) old.remove();
-
-  el.classList.add('border-red-500');
-  const err = document.createElement('span');
-  err.className = "text-red-500 text-[10px] absolute right-0 top-0 font-bold";
-  err.textContent = msg;
-  parent.appendChild(err);
-
-  setTimeout(() => {
-    el.classList.remove('border-red-500');
-    err.remove();
-  }, 3000);
-}
-
-// Input Listeners for Auto-Gen
-qs('#new-name').addEventListener('input', generatePassword);
-qs('#new-cpf').addEventListener('input', generatePassword);
-
 
 // Add/Save Student Logic
 qs('#btn-add').addEventListener('click', () => {
@@ -504,33 +289,31 @@ qs('#btn-add').addEventListener('click', () => {
   const cpf = qs('#new-cpf').value.trim();
   const inscricao = qs('#new-key').value.trim();
 
-  let hasError = false;
-  if (!nome) { showInputError('#new-name', 'Obrigatório'); hasError = true; }
-  if (!isValidEmail(email)) { showInputError('#new-email', 'Inválido'); hasError = true; }
-  if (!cpf || !isValidCPF(cpf)) { showInputError('#new-cpf', 'CPF Inválido'); hasError = true; }
-  if (!inscricao) { showInputError('#new-key', 'Obrigatório'); hasError = true; }
-
-  if (hasError) return notify("Corrija os erros.", "bad");
+  // Validation
+  if (!isValidEmail(email)) return alert("Email inválido");
+  if (cpf && !isValidCPF(cpf)) return alert("CPF inválido");
+  if (!inscricao) return alert("Senha obrigatória");
 
   if (editingStudentIndex !== null) {
     studentsDB[editingStudentIndex] = { nome, email, cpf, inscricao };
     editingStudentIndex = null;
     qs('#btn-add').innerHTML = '<i class="fas fa-plus mr-1"></i> Salvar';
-    qs('#btn-add').classList.remove('bg-brand-accent');
-    qs('#btn-add').classList.add('bg-brand-blue');
-    notify("Editado!", "ok");
+    qs('#btn-add').classList.remove('bg-brand-accent', 'hover:bg-yellow-600');
+    qs('#btn-add').classList.add('bg-brand-blue', 'hover:bg-blue-600');
+    notify("Aluno editado!", "ok");
   } else {
-    const dup = studentsDB.find(s => s.email === email || s.cpf === cpf);
-    if (dup) {
-      if (!confirm(`Dados duplicados (${dup.nome}). Substituir?`)) return;
-      const idx = studentsDB.indexOf(dup);
+    // Check Duplicate
+    if (studentsDB.find(s => s.email === email)) {
+      if (!confirm("Email já existe. Substituir?")) return;
+      const idx = studentsDB.findIndex(s => s.email === email);
       studentsDB[idx] = { nome, email, cpf, inscricao };
     } else {
       studentsDB.push({ nome, email, cpf, inscricao });
     }
-    notify("Adicionado!", "ok");
+    notify("Aluno adicionado!", "ok");
   }
 
+  // Clear
   qs('#new-name').value = ''; qs('#new-email').value = ''; qs('#new-cpf').value = ''; qs('#new-key').value = '';
   renderStudentTable();
 });
@@ -606,9 +389,7 @@ function selectBanca(banca) {
   // Update Dropdown UI
   const select = qs('#banca-select');
   select.innerHTML = '';
-  const bancas = Object.keys(appData).sort();
-
-  bancas.forEach(b => {
+  Object.keys(appData).sort().forEach(b => {
     const option = document.createElement('option');
     option.value = b;
     option.textContent = `${b} (${appData[b].length})`;
@@ -616,65 +397,26 @@ function selectBanca(banca) {
     select.appendChild(option);
   });
 
-  // Populate Filters
-  updatePsicoFilters();
   renderPsicoContent();
 }
-
-function updatePsicoFilters() {
-  const data = appData[currentBanca] || [];
-
-  // Years
-  const years = [...new Set(data.map(i => i.ano))].sort((a, b) => b - a);
-  const yrSelect = qs('#filter-year');
-  yrSelect.innerHTML = '<option value="all">Todos os Anos</option>';
-  years.forEach(y => {
-    const opt = document.createElement('option');
-    opt.value = y; opt.textContent = y;
-    yrSelect.appendChild(opt);
-  });
-
-  // Concursos (Names)
-  const names = [...new Set(data.map(i => i.concurso))].sort();
-  const concSelect = qs('#filter-concurso');
-  concSelect.innerHTML = '<option value="all">Todos os Concursos</option>';
-  names.forEach(n => {
-    const opt = document.createElement('option');
-    opt.value = n; opt.textContent = n;
-    concSelect.appendChild(opt);
-  });
-}
-window.applyFilters = function () { renderPsicoContent(); }
-window.applyStatsFilter = function () { renderPsicoContent(); } // Re-render triggers stats update too
 
 function renderPsicoContent() {
   const container = qs('#cards-container');
   const subtitle = qs('#current-page-subtitle');
 
-  let data = appData[currentBanca] || [];
-
-  // Apply Filters
-  const fYear = qs('#filter-year').value;
-  const fConc = qs('#filter-concurso').value;
-
-  if (fYear !== 'all') data = data.filter(i => i.ano == fYear);
-  if (fConc !== 'all') data = data.filter(i => i.concurso === fConc);
-
-  // Sort
+  // Filtros TODO: Implementar filtros reais se necessário. Por simplicidade, exibimos tudo.
+  const data = appData[currentBanca] || [];
   data.sort((a, b) => b.ano - a.ano);
 
-  subtitle.textContent = `${data.length} concursos exibidos.`;
+  subtitle.textContent = `${data.length} concursos registrados nesta banca.`;
   container.innerHTML = '';
 
   if (data.length === 0) {
-    container.innerHTML = `<div class="p-8 text-center text-slate-500 border border-dashed border-slate-700 rounded-lg">Nenhum concurso correspondente.</div>`;
-    renderStats([]); // Clear stats
+    container.innerHTML = `<div class="p-8 text-center text-slate-500 border border-dashed border-slate-700 rounded-lg">Nenhum concurso nesta banca. Adicione um novo.</div>`;
     return;
   }
 
-  // Render Cards
   data.forEach(item => {
-    // Find original index for editing
     const realIndex = appData[currentBanca].indexOf(item);
 
     const badges = item.testes.map(t => {
@@ -690,11 +432,11 @@ function renderPsicoContent() {
             <div class="flex justify-between items-start mb-2">
                 <div>
                     <span class="text-brand-accent text-xs font-bold border border-brand-accent/30 px-1 rounded">${item.ano}</span>
-                    <h3 class="font-bold text-white leading-tight mt-1 text-sm md:text-base">${item.concurso}</h3>
+                    <h3 class="font-bold text-white leading-tight mt-1">${item.concurso}</h3>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="openModal('edit', ${realIndex})" class="text-slate-500 hover:text-brand-blue p-1"><i class="fas fa-pen"></i></button>
-                    <button onclick="deleteContest(${realIndex})" class="text-slate-500 hover:text-brand-danger p-1"><i class="fas fa-trash"></i></button>
+                    <button onclick="openModal('edit', ${realIndex})" class="text-slate-500 hover:text-brand-blue"><i class="fas fa-pen"></i></button>
+                    <button onclick="deleteContest(${realIndex})" class="text-slate-500 hover:text-brand-danger"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
             <div class="flex flex-wrap mt-2">${badges}</div>
@@ -877,59 +619,20 @@ function savePsicoLocal() {
   notify("PsicoData salvo localmente!", "brand-blue");
 }
 
-// ===== CPF LOGIC FROM USER =====
-
-// 1. Máscara (Formatação Visual)
-function applyCPFMask(input) {
-  let cpf = input.value;
-  cpf = cpf.replace(/\D/g, "");
-  cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
-  cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
-  cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-  input.value = cpf;
-}
-
-// Listener para Máscara
-qs('#new-cpf').addEventListener('input', (e) => applyCPFMask(e.target));
-
-
-// ===== VALIDATORS REWRITE =====
+// ===== VALIDATORS COPY =====
 function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
-
-// 2. Validação (Algoritmo Oficial)
-function isValidCPF(strCPF) {
-  let cpf = strCPF.replace(/[^\d]+/g, ''); // Limpa formatação
-
-  if (cpf === '') return false;
-
-  // Elimina CPFs invalidos conhecidos (todos dígitos iguais)
-  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
-
-  // Validação Matemática
-  return validarDigitos(cpf);
-}
-
-// Lógica do Módulo 11 (Cálculo dos dígitos verificadores)
-function validarDigitos(cpf) {
-  let soma = 0;
-  let resto;
-
-  // Valida 1º Dígito
-  for (let i = 1; i <= 9; i++)
-    soma = soma + parseInt(cpf.substring(i - 1, i)) * (11 - i);
-
-  resto = (soma * 10) % 11;
-  if ((resto === 10) || (resto === 11)) resto = 0;
-  if (resto !== parseInt(cpf.substring(9, 10))) return false;
-
-  // Valida 2º Dígito
-  soma = 0;
-  for (let i = 1; i <= 10; i++)
-    soma = soma + parseInt(cpf.substring(i - 1, i)) * (12 - i);
-
-  resto = (soma * 10) % 11;
-  if ((resto === 10) || (resto === 11)) resto = 0;
-  if (resto !== parseInt(cpf.substring(10, 11))) return false;
-
+function isValidCPF(cpf) {
+  cpf = cpf.replace(/[^\d]+/g, '');
+  if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+  let sum = 0, remainder;
+  for (let i = 1; i <= 9; i++) sum += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+  remainder = (sum * 10) % 11;
+  if ((remainder === 10) || (remainder === 11)) remainder = 0;
+  if (remainder !== parseInt(cpf.substring(9, 10))) return false;
+  sum = 0;
+  for (let i = 1; i <= 10; i++) sum += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+  remainder = (sum * 10) % 11;
+  if ((remainder === 10) || (remainder === 11)) remainder = 0;
+  if (remainder !== parseInt(cpf.substring(10, 11))) return false;
   return true;
 }

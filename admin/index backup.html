@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestão Completa (Dual)</title>
+  <meta name="robots" content="noindex,nofollow" />
+  
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://aprovacaopsycho.net https://raw.githubusercontent.com; base-uri 'none'; form-action 'self'">
+  
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root{--bg1:#07090d;--bg2:#0e141a;--card:#0f1822;--stroke:#1f2a36;--brand:#2563eb;--ok:#22c55e;--bad:#ef4444;--text:#e6eef6;--warn:#f59e0b}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:'Inter',sans-serif;background:var(--bg1);color:var(--text)}
+    .container{max-width:1200px;margin:30px auto;padding:0 20px}
+    .card{background:var(--card);border:1px solid var(--stroke);border-radius:12px;padding:20px;margin-bottom:20px}
+    .btn{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer;display:inline-flex;gap:8px;align-items:center;font-size:13px;transition:0.2s}
+    .btn:hover{filter:brightness(1.1)} .btn.ghost{background:transparent;border:1px solid var(--stroke)}
+    .btn.bad{background:var(--bad)} .btn.ok{background:var(--ok);color:#000}
+    .btn.warn{background:var(--warn);color:#000}
+    input{background:var(--bg2);border:1px solid var(--stroke);color:#fff;padding:8px 12px;border-radius:8px;width:100%}
+    .hidden{display:none !important}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th{text-align:left;padding:10px;border-bottom:1px solid var(--stroke);color:#888}
+    td{padding:10px;border-bottom:1px solid var(--stroke)}
+    tr:hover{background:rgba(255,255,255,0.02)}
+    .alert{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--stroke);margin-top:10px}
+    .alert.bad{border-color:var(--bad);color:#fca5a5} .alert.ok{border-color:var(--ok);color:#86efac}
+    label{font-size:11px;color:#888;display:block;margin-bottom:4px}
+    .control-group { border:1px solid var(--stroke); padding:10px; border-radius:8px; margin-bottom:10px; }
+    .control-group h4 { margin:0 0 10px 0; font-size:12px; text-transform:uppercase; color:#666; }
+    .actions-row { display:flex; gap:10px; flex-wrap:wrap; }
+  </style>
+</head>
+<body>
+
+  <div id="gate" class="container" style="height:100vh;display:flex;align-items:center;justify-content:center">
+    <div class="card" style="width:400px">
+      <h2 style="margin-top:0">Login Admin</h2>
+      <input id="email" type="email" placeholder="E-mail" style="margin-bottom:10px">
+      <input id="password" type="password" placeholder="Senha" style="margin-bottom:15px">
+      <button id="loginBtn" class="btn" style="width:100%">Entrar</button>
+      <p id="gateMsg" class="alert hidden"></p>
+    </div>
+  </div>
+
+  <div id="app" class="container hidden">
+    <header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+      <h1>Gestão Híbrida de Alunos</h1>
+      <button id="logoutBtn" class="btn ghost">Sair</button>
+    </header>
+
+    <div class="card">
+      
+      <div class="control-group" style="border-color:var(--brand)">
+        <h4 style="color:var(--brand)">☁️ Modo Nuvem (Site Online)</h4>
+        <div class="actions-row">
+          <button id="btn-load-db" class="btn ok">🔄 Baixar do Site (Load)</button>
+          <button id="btn-save-cloud" class="btn">🚀 Enviar para o Site (Deploy)</button>
+        </div>
+      </div>
+
+      <div class="control-group" style="border-color:var(--warn)">
+        <h4 style="color:var(--warn)">💾 Modo Manual (Seu PC)</h4>
+        <div class="actions-row">
+          <input type="file" id="file-db-local" accept=".json" class="hidden">
+          <button id="trigger-db-local" class="btn ghost text-warn" style="color:var(--warn);border-color:var(--warn)">
+            📂 Abrir Backup Local
+          </button>
+          
+          <button id="btn-save-local" class="btn ghost">💾 Salvar Backup Local</button>
+
+          <input type="file" id="file-sheet" accept=".xlsx,.xls,.csv" class="hidden">
+          <button id="trigger-sheet" class="btn ghost">
+            📊 Importar Planilha (Excel)
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; border-top:1px solid var(--stroke); padding-top:15px;">
+        <p style="font-size:12px;color:#666;margin-bottom:10px">Adicionar aluno manualmente:</p>
+        <div style="display:grid;grid-template-columns:2fr 2fr 1fr 1fr auto;gap:10px;align-items:end;background:rgba(255,255,255,0.03);padding:15px;border-radius:8px">
+          <div><label>Nome Completo</label><input id="new-name" placeholder="Ex: João Silva"></div>
+          <div><label>E-mail</label><input id="new-email" placeholder="joao@email.com"></div>
+          <div><label>CPF</label><input id="new-cpf" placeholder="000.000.000-00"></div>
+          <div><label>Inscrição/Senha</label><input id="new-key" placeholder="123456"></div>
+          <button id="btn-add" class="btn ok" style="height:38px">+ Add</button>
+        </div>
+      </div>
+      
+      <p id="statusMsg" class="alert hidden"></p>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3>Lista de Alunos (<span id="count">0</span>)</h3>
+        <button id="btn-clear-all" class="btn ghost" style="font-size:11px;padding:5px 10px">Limpar Tudo</button>
+      </div>
+      
+      <div style="max-height:500px;overflow-y:auto">
+        <table id="studentTable">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>CPF</th>
+              <th>Inscrição/Senha</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" style="text-align:center;padding:20px;color:#666">Nenhum dado carregado.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="font-size:12px;opacity:0.7">
+      <details>
+        <summary style="cursor:pointer">Configurações da API (Worker)</summary>
+        <div style="margin-top:10px;display:flex;gap:10px">
+          <input id="api-url" placeholder="https://aprovacaopsycho.net/admin/api/put-hashes">
+          <input id="api-key" type="password" placeholder="Admin API Key">
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <script src="../assets/xlsx.full.min.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
