@@ -214,10 +214,13 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
   btn.textContent = "🚀 Enviando...";
 
   try {
-    const publicHashes = [];
+    const publicHashes = {}; // Changed from Array to Object
+    // const now = new Date(); // Client-side check now
+
     for (const s of studentsDB) {
       const hash = await sha256Hex(s.email + s.inscricao);
-      publicHashes.push(hash);
+      // Store validity date or null if unlimited
+      publicHashes[hash] = s.validade || null;
     }
 
     // Payload Unificado
@@ -325,6 +328,20 @@ function renderStudentTable() {
     const originalIndex = studentsDB.indexOf(s);
     const isSelected = selectedStudents.has(originalIndex);
 
+    // Validity Logic
+    let validityHtml = '<span class="text-slate-500 text-xs">∞ Ilimitado</span>';
+    if (s.validade) {
+      const vDate = new Date(s.validade);
+      const isExpired = vDate < new Date();
+      const fmt = vDate.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' });
+
+      if (isExpired) {
+        validityHtml = `<span class="text-red-400 font-bold text-xs"><i class="fas fa-clock mr-1"></i> Exp: ${fmt}</span>`;
+      } else {
+        validityHtml = `<span class="text-green-400 font-bold text-xs"><i class="fas fa-check-circle mr-1"></i> Até: ${fmt}</span>`;
+      }
+    }
+
     const tr = document.createElement('tr');
     tr.className = `border-b border-slate-700/50 transition-colors ${isSelected ? 'bg-brand-blue/10' : 'hover:bg-slate-800/50'}`;
     tr.innerHTML = `
@@ -335,6 +352,7 @@ function renderStudentTable() {
             <td class="px-6 py-4 text-slate-400">${s.email}</td>
             <td class="px-6 py-4">${s.cpf || '-'}</td>
             <td class="px-6 py-4 font-mono text-xs text-brand-blue">${s.inscricao}</td>
+            <td class="px-6 py-4">${validityHtml}</td>
             <td class="px-6 py-4 text-right whitespace-nowrap">
                 <button onclick="editStudent(${originalIndex})" class="text-xs bg-brand-accent/10 hover:bg-brand-accent text-brand-accent hover:text-white px-3 py-1.5 rounded transition-all mr-2" title="Editar">
                     <i class="fas fa-pen mr-1"></i> Editar
@@ -403,7 +421,9 @@ window.editStudent = function (index) {
   qs('#new-name').value = s.nome;
   qs('#new-email').value = s.email;
   qs('#new-cpf').value = s.cpf;
+  qs('#new-cpf').value = s.cpf;
   qs('#new-key').value = s.inscricao;
+  qs('#new-validity').value = s.validade || '';
 
   const btn = qs('#btn-add');
   btn.innerHTML = '<i class="fas fa-save mr-1"></i> Salvar Edição';
@@ -503,6 +523,7 @@ qs('#btn-add').addEventListener('click', () => {
   const email = qs('#new-email').value.trim().toLowerCase();
   const cpf = qs('#new-cpf').value.trim();
   const inscricao = qs('#new-key').value.trim();
+  const validade = qs('#new-validity').value;
 
   let hasError = false;
   if (!nome) { showInputError('#new-name', 'Obrigatório'); hasError = true; }
@@ -513,7 +534,7 @@ qs('#btn-add').addEventListener('click', () => {
   if (hasError) return notify("Corrija os erros.", "bad");
 
   if (editingStudentIndex !== null) {
-    studentsDB[editingStudentIndex] = { nome, email, cpf, inscricao };
+    studentsDB[editingStudentIndex] = { nome, email, cpf, inscricao, validade };
     editingStudentIndex = null;
     qs('#btn-add').innerHTML = '<i class="fas fa-plus mr-1"></i> Salvar';
     qs('#btn-add').classList.remove('bg-brand-accent');
@@ -524,14 +545,14 @@ qs('#btn-add').addEventListener('click', () => {
     if (dup) {
       if (!confirm(`Dados duplicados (${dup.nome}). Substituir?`)) return;
       const idx = studentsDB.indexOf(dup);
-      studentsDB[idx] = { nome, email, cpf, inscricao };
+      studentsDB[idx] = { nome, email, cpf, inscricao, validade };
     } else {
-      studentsDB.push({ nome, email, cpf, inscricao });
+      studentsDB.push({ nome, email, cpf, inscricao, validade });
     }
     notify("Adicionado!", "ok");
   }
 
-  qs('#new-name').value = ''; qs('#new-email').value = ''; qs('#new-cpf').value = ''; qs('#new-key').value = '';
+  qs('#new-name').value = ''; qs('#new-email').value = ''; qs('#new-cpf').value = ''; qs('#new-key').value = ''; qs('#new-validity').value = '';
   renderStudentTable();
 });
 
@@ -656,9 +677,19 @@ function renderPsicoContent() {
   // Apply Filters
   const fYear = qs('#filter-year').value;
   const fConc = qs('#filter-concurso').value;
+  const fType = qs('#filter-type').value;
 
   if (fYear !== 'all') data = data.filter(i => i.ano == fYear);
   if (fConc !== 'all') data = data.filter(i => i.concurso === fConc);
+  if (fType !== 'all') {
+    data = data.filter(i => {
+      // Check if ANY test in the contest matches the selected type
+      return i.testes.some(t => {
+        const type = getTestType(resolveTestName(t));
+        return type === fType;
+      });
+    });
+  }
 
   // Sort
   data.sort((a, b) => b.ano - a.ano);
@@ -693,8 +724,12 @@ function renderPsicoContent() {
                     <h3 class="font-bold text-white leading-tight mt-1 text-sm md:text-base">${item.concurso}</h3>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="openModal('edit', ${realIndex})" class="text-slate-500 hover:text-brand-blue p-1"><i class="fas fa-pen"></i></button>
-                    <button onclick="deleteContest(${realIndex})" class="text-slate-500 hover:text-brand-danger p-1"><i class="fas fa-trash"></i></button>
+                    <button onclick="openModal('edit', ${realIndex})" class="bg-slate-700 hover:bg-brand-blue text-white px-2 py-1 rounded text-xs transition-colors flex items-center gap-1" title="Editar">
+                        <i class="fas fa-pen"></i> <span class="hidden md:inline">Editar</span>
+                    </button>
+                    <button onclick="deleteContest(${realIndex})" class="bg-slate-700 hover:bg-red-500 text-white px-2 py-1 rounded text-xs transition-colors" title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             </div>
             <div class="flex flex-wrap mt-2">${badges}</div>
@@ -707,16 +742,43 @@ function renderPsicoContent() {
 
 function renderStats(data) {
   const container = qs('#stats-container');
+  const summaryContainer = qs('#stats-summary');
   const filter = qs('#filter-stats-type').value;
-  container.innerHTML = '';
 
-  const counts = {};
+  container.innerHTML = '';
+  summaryContainer.innerHTML = '';
+
+  // 1. Calculate General Stats (Type Counts)
+  const typeCounts = { "Personalidade": 0, "Atenção": 0, "Memória": 0, "Raciocínio": 0, "Outros": 0 };
+
+  // 2. Calculate Specific Test Counts
+  const testCounts = {};
+
   data.forEach(item => item.testes.forEach(t => {
     const r = resolveTestName(t);
-    counts[r] = (counts[r] || 0) + 1;
+    const type = getTestType(r);
+
+    // Increment Type Count
+    if (typeCounts[type] !== undefined) typeCounts[type]++;
+    else typeCounts["Outros"] = (typeCounts["Outros"] || 0) + 1;
+
+    // Increment Test Count
+    testCounts[r] = (testCounts[r] || 0) + 1;
   }));
 
-  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  // Render Summary
+  Object.entries(typeCounts).forEach(([type, count]) => {
+    if (count === 0) return;
+    const color = typeColors[type] || "bg-gray-500";
+    const div = document.createElement('div');
+    div.className = "flex items-center gap-2 text-[10px] text-slate-300 bg-slate-800/50 rounded px-2 py-1";
+    div.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${color}"></span> ${type}: <b>${count}</b>`;
+    summaryContainer.appendChild(div);
+  });
+
+
+  // Render Detailed Stats
+  const sorted = Object.entries(testCounts).sort((a, b) => b[1] - a[1]);
 
   sorted.forEach(([name, count]) => {
     const type = getTestType(name);
@@ -796,6 +858,8 @@ window.updateType = function (name, type) {
 
 // ===== MODAL (CONCURSO) =====
 let modalIndex = -1;
+let modalTests = [];
+
 window.openModal = function (mode, index = -1) {
   modalIndex = index;
   const modal = qs('#modal');
@@ -806,13 +870,61 @@ window.openModal = function (mode, index = -1) {
     qs('#modal-title').textContent = "Editar Concurso";
     qs('#modal-ano').value = item.ano;
     qs('#modal-concurso').value = item.concurso;
-    qs('#modal-testes').value = item.testes.join('\n');
+    modalTests = [...item.testes]; // Copy
   } else {
     qs('#modal-title').textContent = "Novo Concurso";
     qs('#modal-ano').value = new Date().getFullYear();
     qs('#modal-concurso').value = "";
-    qs('#modal-testes').value = "";
+    modalTests = [];
   }
+  renderModalTests();
+}
+
+window.renderModalTests = function () {
+  const container = qs('#modal-tests-list');
+  container.innerHTML = '';
+
+  if (modalTests.length === 0) {
+    container.innerHTML = '<span class="text-xs text-slate-500 italic">Nenhum teste adicionado.</span>';
+    return;
+  }
+
+  modalTests.forEach((t, i) => {
+    const div = document.createElement('div');
+    div.className = "flex justify-between items-center bg-slate-700/50 rounded px-3 py-2 group hover:bg-slate-700 transition-colors border border-transparent hover:border-slate-600";
+    div.innerHTML = `
+      <div class="flex-1">
+        <input value="${t}" 
+          class="bg-transparent text-sm text-slate-200 outline-none w-full cursor-pointer hover:text-white"
+          onchange="updateModalTest(${i}, this.value)"
+          title="Clique para editar nome">
+      </div>
+      <button onclick="removeTestFromModal(${i})" class="text-slate-500 hover:text-red-400 px-2">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+    container.appendChild(div);
+  });
+}
+
+window.addTestToModal = function () {
+  const input = qs('#modal-new-test-input');
+  const val = input.value.trim();
+  if (!val) return;
+  modalTests.push(val);
+  renderModalTests();
+  input.value = '';
+  input.focus();
+}
+
+window.removeTestFromModal = function (i) {
+  modalTests.splice(i, 1);
+  renderModalTests();
+}
+
+window.updateModalTest = function (i, val) {
+  if (!val.trim()) return removeTestFromModal(i);
+  modalTests[i] = val.trim();
 }
 window.closeModal = function () {
   qs('#modal').classList.add('hidden'); qs('#modal').classList.remove('flex');
@@ -820,7 +932,8 @@ window.closeModal = function () {
 window.saveTest = function () {
   const ano = parseInt(qs('#modal-ano').value);
   const conc = qs('#modal-concurso').value.trim();
-  const testes = qs('#modal-testes').value.split(/[\n,]/).map(t => t.trim()).filter(t => t.length);
+  const testes = modalTests.filter(t => t.length > 0);
+  // No longer parsing textarea
 
   if (!ano || !conc || !testes.length) return alert("Preencha tudo");
 

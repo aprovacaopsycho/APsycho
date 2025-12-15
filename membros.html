@@ -98,7 +98,7 @@
         password: '',
         errorMsg: '',
         loading: false,
-        validHashes: [],
+        validHashes: {}, // Changed from [] to {}
 
         async init() {
           // 1. Verifica se existe sessão salva
@@ -114,10 +114,15 @@
             const res = await fetch('hashes_membros.json', { cache: "no-store" });
             if (res.ok) {
               this.validHashes = await res.json();
+              console.log("Hashes loaded:", Object.keys(this.validHashes).length);
             } else {
               console.error("Arquivo de hashes não encontrado (404).");
+              this.errorMsg = "Erro [404]: Banco de dados não encontrado.";
             }
-          } catch (e) { console.error("Erro ao carregar lista."); }
+          } catch (e) {
+            console.error("Erro ao carregar lista:", e);
+            this.errorMsg = "Erro de Conexão (CORS/Network): Não foi possível carregar os dados.";
+          }
         },
 
         async sha256Hex(str) {
@@ -138,7 +143,21 @@
 
           const hash = await this.sha256Hex(cleanEmail + cleanPass);
 
-          if (this.validHashes.includes(hash)) {
+          // Check if hash exists in the object keys
+          if (this.validHashes.hasOwnProperty(hash)) {
+            const expiry = this.validHashes[hash];
+
+            // Date Validation
+            if (expiry) {
+              const expDate = new Date(expiry);
+              const now = new Date();
+              if (expDate < now) {
+                this.errorMsg = 'Seu acesso expirou em ' + expDate.toLocaleDateString();
+                this.loading = false;
+                return;
+              }
+            }
+
             // SUCESSO: Salva a sessão e muda o estado
             sessionStorage.setItem('memberHash', hash);
             this.isLoggedIn = true;

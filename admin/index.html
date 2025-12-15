@@ -249,6 +249,11 @@
                 class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
             </div>
             <div class="md:col-span-2">
+              <label class="block text-[10px] text-slate-500 mb-1">Validade (Opcional)</label>
+              <input id="new-validity" type="datetime-local"
+                class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
+            </div>
+            <div class="md:col-span-2">
               <button id="btn-add"
                 class="w-full bg-brand-blue hover:bg-blue-600 text-white font-bold py-2 rounded text-sm h-[38px] ok">
                 <i class="fas fa-plus mr-1"></i> Salvar
@@ -272,6 +277,7 @@
                   <th class="px-6 py-3">E-mail</th>
                   <th class="px-6 py-3">CPF</th>
                   <th class="px-6 py-3">Senha</th>
+                  <th class="px-6 py-3">Validade</th>
                   <th class="px-6 py-3 text-right">Ações</th>
                 </tr>
               </thead>
@@ -338,7 +344,7 @@
               <!-- Filtros -->
               <div
                 class="bg-brand-panel border border-slate-700 p-3 rounded-xl flex flex-col sm:flex-row gap-4 items-center shadow-md flex-shrink-0">
-                <div class="flex-1 grid grid-cols-2 gap-4 w-full">
+                <div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                   <select id="filter-year" onchange="applyFilters()"
                     class="bg-slate-800 border border-slate-600 text-white text-xs rounded-lg block w-full p-2 outline-none">
                     <option value="all">Todos os Anos</option>
@@ -346,6 +352,15 @@
                   <select id="filter-concurso" onchange="applyFilters()"
                     class="bg-slate-800 border border-slate-600 text-white text-xs rounded-lg block w-full p-2 outline-none">
                     <option value="all">Todos os Concursos</option>
+                  </select>
+                  <select id="filter-type" onchange="applyFilters()"
+                    class="bg-slate-800 border border-slate-600 text-white text-xs rounded-lg block w-full p-2 outline-none">
+                    <option value="all">Todos os Tipos</option>
+                    <option value="Personalidade">🧠 Personalidade</option>
+                    <option value="Atenção">🎯 Atenção</option>
+                    <option value="Raciocínio">💡 Raciocínio</option>
+                    <option value="Memória">💾 Memória</option>
+                    <option value="Outros">❓ Outros</option>
                   </select>
                 </div>
               </div>
@@ -361,6 +376,10 @@
                 <h3 class="text-sm font-bold text-white mb-3 flex items-center gap-2">
                   <i class="fas fa-chart-pie text-brand-accent"></i> Estatísticas
                 </h3>
+
+                <div id="stats-summary" class="grid grid-cols-2 gap-2 mb-3 pb-3 border-b border-slate-700">
+                  <!-- JS Populated -->
+                </div>
 
                 <select id="filter-stats-type" onchange="applyStatsFilter()"
                   class="bg-slate-800 border border-slate-600 text-white text-xs rounded-lg block w-full p-2 mb-3">
@@ -436,9 +455,22 @@
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Testes (um por linha ou vírgula)</label>
-          <textarea id="modal-testes" rows="6"
-            class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-white outline-none focus:ring-2 focus:ring-brand-blue font-mono text-sm"></textarea>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Testes do Concurso</label>
+          <div class="bg-black/20 border border-slate-600 rounded-lg p-3 min-h-[150px] flex flex-col">
+            <div id="modal-tests-list" class="flex-1 space-y-2 mb-3 max-h-[200px] overflow-y-auto pr-2">
+              <!-- Tests will be rendered here -->
+            </div>
+
+            <div class="flex gap-2 pt-3 border-t border-slate-700/50">
+              <input id="modal-new-test-input" placeholder="Novo teste..."
+                class="flex-1 bg-slate-800 border border-slate-600 rounded px-3 py-1.5 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue"
+                onkeypress="if(event.key === 'Enter') addTestToModal()">
+              <button onclick="addTestToModal()"
+                class="bg-brand-blue hover:bg-blue-600 text-white px-3 py-1.5 rounded transition-colors">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end gap-3 rounded-b-xl">
