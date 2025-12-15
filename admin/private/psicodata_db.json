@@ -1,0 +1,414 @@
+{
+  "AOCP": [
+    {
+      "ano": 2025,
+      "concurso": "PMPR - CFO",
+      "testes": [
+        "NEO PI",
+        "IFP II",
+        "TRI",
+        "R1",
+        "TSP Dimensões",
+        "TEADI",
+        "AC Vetor",
+        "TEPIC"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PM-PE (Soldado)",
+      "testes": [
+        "TEPIC",
+        "NEO PI",
+        "TEACO",
+        "TRI",
+        "PALOGRÁFICO"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PM-PE (Oficial)",
+      "testes": [
+        "AC VETOR",
+        "NEO PI",
+        "R1",
+        "PALOGRÁFICO",
+        "TEPIC"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PM-DF (Reteste)",
+      "testes": [
+        "TEACO",
+        "NEO PI",
+        "R1",
+        "TEPIC"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PM-DF",
+      "testes": [
+        "NEO-PI",
+        "TEACO",
+        "TSP",
+        "BFP",
+        "WMT-2"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PM-ES",
+      "testes": [
+        "V-47",
+        "BPR-5 RV",
+        "AC VETOR",
+        "BPF",
+        "TEPIC"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "MP-RR",
+      "testes": [
+        "BPA",
+        "NEO PI",
+        "IFP 2",
+        "R1",
+        "V-47"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PC-GO",
+      "testes": [
+        "BPA",
+        "CTA",
+        "BFP",
+        "IFP 2"
+      ]
+    }
+  ],
+  "IBFC": [
+    {
+      "ano": 2025,
+      "concurso": "PP-GO",
+      "testes": [
+        "Palográfico",
+        "CTA completo",
+        "MVR faces duplas",
+        "BETA 3 MATRICIAL",
+        "BFP"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PP-AC",
+      "testes": [
+        "BFP",
+        "MVR",
+        "BPA AC/AD/AA",
+        "BETA III MATRICIAL"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "GCM MANAUS",
+      "testes": [
+        "NEO PI",
+        "MVR",
+        "BPA AC/AD/AA",
+        "BETA III MATRICIAL",
+        "PALOGRÁFICO"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PM-PB",
+      "testes": [
+        "BFP",
+        "EATA",
+        "NEO PI",
+        "BETA III MATRICIAL",
+        "PALOGRÁFICO",
+        "MVR",
+        "TEACO"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PM-RN",
+      "testes": [
+        "BFP",
+        "MVR",
+        "TEACO",
+        "PALOGRÁFICO",
+        "BETA III MATRICIAL"
+      ]
+    },
+    {
+      "ano": 2022,
+      "concurso": "PM-RN (Oficial)",
+      "testes": [
+        "NEO PI R",
+        "EATA",
+        "BETA III MATRICIAL",
+        "BFP"
+      ]
+    },
+    {
+      "ano": 2022,
+      "concurso": "CBM-AC",
+      "testes": [
+        "BFP",
+        "TMR",
+        "TEACO",
+        "PALOGRÁFICO"
+      ]
+    }
+  ],
+  "CEBRASPE": [
+    {
+      "ano": 2025,
+      "concurso": "PCCE (Delegado)",
+      "testes": [
+        "BRD RV",
+        "BFP",
+        "IFP 2",
+        "FACES",
+        "TEADI"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PC-PE",
+      "testes": [
+        "TEACO",
+        "TEADI",
+        "WMT-2",
+        "IFP2",
+        "BFP",
+        "MEMÓRIA F",
+        "ESAVI B"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "BM-AL (Oficial)",
+      "testes": [
+        "TEACO",
+        "CTA-AD",
+        "CTA-AC",
+        "TIG NV",
+        "IFP-II",
+        "ESAVI-B",
+        "TARDE"
+      ]
+    },
+    {
+      "ano": 2021,
+      "concurso": "CBM-TO",
+      "testes": [
+        "Palografico",
+        "TEACO",
+        "TEADI",
+        "WMT 2",
+        "BFP"
+      ]
+    },
+    {
+      "ano": 2021,
+      "concurso": "PM-TO",
+      "testes": [
+        "TEACO-FF",
+        "WMT-2",
+        "TSP(MEMO)",
+        "BFP",
+        "CUBOS",
+        "BRD-RV",
+        "IFP-II"
+      ]
+    }
+  ],
+  "IDECAN": [
+    {
+      "ano": 2024,
+      "concurso": "GCM MARACANAÚ",
+      "testes": [
+        "BFP",
+        "Esavi",
+        "Teaco",
+        "Tealt"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "GCM SERRA",
+      "testes": [
+        "BFP",
+        "ESAVI",
+        "TEACO",
+        "BETA 3 MATRICIAL"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PM-MS",
+      "testes": [
+        "Beta III códigos",
+        "Tedif 2",
+        "Memória de faces"
+      ]
+    }
+  ],
+  "FGV": [
+    {
+      "ano": 2024,
+      "concurso": "PM-ERJ",
+      "testes": [
+        "CTA CONCENTRADO",
+        "CTA DIVIDIDO",
+        "CTA ALTERNADO",
+        "PALOGRÁFICO",
+        "MEMÓRIA DE FACES",
+        "ESAVI A",
+        "TIV",
+        "NEO FII R"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PM-ESP",
+      "testes": [
+        "BFP",
+        "AC VETOR",
+        "G38",
+        "PALOGRÁFICO",
+        "PMK",
+        "TECON",
+        "ENTREVISTA"
+      ]
+    },
+    {
+      "ano": 2022,
+      "concurso": "PC-RN",
+      "testes": [
+        "AC VETOR",
+        "TEADI",
+        "BETA III",
+        "BFP"
+      ]
+    },
+    {
+      "ano": 2022,
+      "concurso": "PM-PB",
+      "testes": [
+        "AC VETOR",
+        "BETA III",
+        "BFP"
+      ]
+    }
+  ],
+  "NUCEPE": [
+    {
+      "ano": 2024,
+      "concurso": "PM-PI",
+      "testes": [
+        "CTA",
+        "MVR",
+        "IPHEXA"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PCCE (Escrivão)",
+      "testes": [
+        "BETA III",
+        "BFP"
+      ]
+    }
+  ],
+  "UECE": [
+    {
+      "ano": 2025,
+      "concurso": "GCM SOBRAL",
+      "testes": [
+        "PALOGRÁFICO",
+        "ROTA C",
+        "MIG"
+      ]
+    },
+    {
+      "ano": 2025,
+      "concurso": "SEAS",
+      "testes": [
+        "PALOGRÁFICO",
+        "G 36",
+        "ROTA C",
+        "MIG",
+        "BFP",
+        "AC VETOR"
+      ]
+    },
+    {
+      "ano": 2025,
+      "concurso": "PM-CE",
+      "testes": [
+        "PALO",
+        "G36",
+        "ROTA C",
+        "BFP",
+        "Memória F Faces"
+      ]
+    },
+    {
+      "ano": 2025,
+      "concurso": "PC-CE",
+      "testes": [
+        "MIG",
+        "ROTA D",
+        "Palográfico",
+        "Memória Faces",
+        "BFP"
+      ]
+    },
+    {
+      "ano": 2025,
+      "concurso": "CBM-CE",
+      "testes": [
+        "Mig",
+        "Palo",
+        "Rota A",
+        "BDA",
+        "Memoria TSP"
+      ]
+    }
+  ],
+  "IGEDUC": [
+    {
+      "ano": 2024,
+      "concurso": "GCM MORENO",
+      "testes": [
+        "BFP",
+        "MEMÓRIA F",
+        "EFN-R",
+        "TRL"
+      ]
+    }
+  ],
+  "CRS (PMMG)": [
+    {
+      "ano": 2025,
+      "concurso": "PM-MG",
+      "testes": [
+        "IFP II",
+        "TEM R",
+        "BETA III MATRICIAL",
+        "ROTA C",
+        "ROTA D",
+        "PMK"
+      ]
+    }
+  ]
+}
