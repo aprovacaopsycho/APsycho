@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Módulo teste — Aprovação Psycho</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+
+  <!-- SEGURANÇA COM PROTEÇÃO DE ERRO -->
+  <!-- SEGURANÇA COM PROTEÇÃO DE ERRO -->
+  <script src="../scripts/auth_guard.js"></script>
+
+  <!-- LIBS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+  <!-- CONFIGURAÇÃO TAILWIND & ESTILOS CUSTOMIZADOS -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#0a0a0f',
+            card: 'rgba(23, 22, 35, 0.7)',
+            primary: '#9f54ff',
+            accent: '#ff00ff',
+            cyan: '#00c2ff',
+            success: '#10b981', // Emerald para Tempo e Metas
+            warning: '#f59e0b'  // Amber para Aulas
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Fundo e Estrutura */
+    body {
+      background-color: #050508;
+      background-image:
+        radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
+      color: #e2e8f0;
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0f0e1a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #9f54ff;
+    }
+
+    /* Efeito Glassmorphism (Vidro) */
+    .glass-panel {
+      background: rgba(20, 20, 30, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Cards Interativos */
+    .hover-card {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .hover-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(159, 84, 255, 0.5);
+      box-shadow: 0 10px 40px -10px rgba(159, 84, 255, 0.3);
+    }
+
+    .hover-card:hover .icon-glow {
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+      transform: scale(1.1);
+    }
+
+    /* Inputs e Selects */
+    .custom-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+    }
+
+    /* Animações */
+    [x-cloak] {
+      display: none !important;
+    }
+
+    .fade-enter {
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Tabs */
+    .nav-pill {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .nav-pill.active {
+      background: linear-gradient(90deg, rgba(159, 84, 255, 0.2) 0%, rgba(159, 84, 255, 0.05) 100%);
+      border-left: 3px solid #9f54ff;
+      color: white;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+</head>
+
+<body x-data="pmprApp()" x-init="initCharts()"
+  class="min-h-screen flex flex-col font-sans antialiased selection:bg-purple-500 selection:text-white">
+
+  <!-- HEADER -->
+  <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="../logo-principal.png" alt="Logo" class="h-8">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT07OTzRSvb2qN51n_gHTF6SqCKur3N5mvkZQ&s"
+          alt="Brasão PMPR"
+          class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+        <div class="flex flex-col">
+          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+          <span class="text-white font-black text-lg leading-none">teste <span
+              class="text-[var(--accent-pink)]">2025</span></span>
+          <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+        </div>
+      </div>
+
+      <!-- Navegação do Topo -->
+      <div class="flex items-center gap-4">
+        <!-- Botão Voltar ao Menu do Módulo (só aparece se estiver na análise) -->
+        <button x-show="view === 'analysis'" @click="view = 'menu'"
+          class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+          </svg>
+          Menu PMPR
+        </button>
+
+        <!-- Botão Voltar aos Cursos (só aparece se estiver no menu) -->
+        <a x-show="view === 'menu'" href="../membros.html"
+          class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Sair do Módulo
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 max-w-7xl flex-grow relative z-10">
+
+    <!-- ========================================== -->
+    <!-- VIEW 1: MENU PRINCIPAL (HUB)               -->
+    <!-- ========================================== -->
+    <section x-show="view === 'menu'" class="fade-enter">
+
+      <!-- Hero Text -->
+      <div class="text-center mb-16 relative">
+        <div
+          class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-purple-600/20 blur-[100px] -z-10 rounded-full pointer-events-none">
+        </div>
+        <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">
+          Central de Inteligência
+        </h1>
+        <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">
+          Ferramentas avançadas para garantir sua aptidão no concurso da <span
+            class="text-blue-400 font-semibold">Polícia Militar do Paraná</span>.
+        </p>
+      </div>
+
+      <!-- Grid Principal -->
+      <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+
+        <!-- CARD 1: ANÁLISE ESTRATÉGICA (Destaque) -->
+        <div @click="view = 'analysis'"
+          class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[280px] flex flex-col">
+          <!-- Background Glow -->
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-cyan/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-cyan/20 transition-all duration-700">
+          </div>
+
+          <div class="p-8 flex flex-col h-full relative z-10">
+            <div class="flex justify-between items-start mb-6">
+              <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan/20 to-blue-600/10 flex items-center justify-center border border-cyan/20 group-hover:border-cyan/50 transition-colors">
+                <!-- ÍCONE ATUALIZADO: LUPA + CHART PARA ANÁLISE -->
+                <i
+                  class="fas fa-magnifying-glass-chart text-3xl text-cyan icon-glow transition-transform duration-500"></i>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full bg-cyan/10 text-cyan text-xs font-bold border border-cyan/20">ESSENCIAL</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-cyan transition-colors">Análise
+              do Edital</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+              Acesse o radar de competências, simulador de inaptidão exclusivo e o raio-x completo da
+              banca examinadora.
+            </p>
+
+            <div class="flex items-center text-cyan text-sm font-bold tracking-wide mt-auto">
+              ACESSAR DASHBOARD
+              <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: TESTES DE PERSONALIDADE -->
+        <a href="testes_pmpr.html"
+          class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[280px] flex flex-col">
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-accent/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/20 transition-all duration-700">
+          </div>
+
+          <div class="p-8 flex flex-col h-full relative z-10">
+            <div class="flex justify-between items-start mb-6">
+              <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent/20 to-pink-600/10 flex items-center justify-center border border-accent/20 group-hover:border-accent/50 transition-colors">
+                <i class="fas fa-fingerprint text-3xl text-accent icon-glow transition-transform duration-500"></i>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold border border-accent/20">PRÁTICA</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-accent transition-colors">Bateria
+              de Testes</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+              Treine os testes psicológicos reais (NEO PI-R, Palográfico) e descubra seu perfil
+              comportamental antes da prova.
+            </p>
+
+            <div class="flex items-center text-accent text-sm font-bold tracking-wide mt-auto">
+              INICIAR SIMULAÇÃO
+              <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- CARD 3: TEMPO E METAS (ATUALIZADO) -->
+        <a href="tempo_metas_bizus.html"
+          class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[280px] flex flex-col">
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-success/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-success/20 transition-all duration-700">
+          </div>
+
+          <div class="p-8 flex flex-col h-full relative z-10">
+            <div class="flex justify-between items-start mb-6">
+              <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-success/20 to-green-600/10 flex items-center justify-center border border-success/20 group-hover:border-success/50 transition-colors">
+                <i class="fas fa-bullseye text-3xl text-success icon-glow transition-transform duration-500"></i>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full bg-success/10 text-success text-xs font-bold border border-success/20">GESTÃO</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-success transition-colors">Tempo
+              e Metas</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+              Gerencie seu cronograma, use cronômetros de estudo e acesse bizus estratégicos de
+              produtividade.
+            </p>
+
+            <div class="flex items-center text-success text-sm font-bold tracking-wide mt-auto">
+              ABRIR FERRAMENTAS
+              <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+        <!-- CARD 4: AULAS MENTORIA (ATUALIZADO) -->
+        <a href="aulaspmpr.html"
+          class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[280px] flex flex-col">
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-warning/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-warning/20 transition-all duration-700">
+          </div>
+
+          <div class="p-8 flex flex-col h-full relative z-10">
+            <div class="flex justify-between items-start mb-6">
+              <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-warning/20 to-orange-600/10 flex items-center justify-center border border-warning/20 group-hover:border-warning/50 transition-colors">
+                <i class="fas fa-graduation-cap text-3xl text-warning icon-glow transition-transform duration-500"></i>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full bg-warning/10 text-warning text-xs font-bold border border-warning/20">AULAS</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-warning transition-colors">Aulas
+              Mentoria</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+              Conteúdo exclusivo em vídeo, gravações de mentorias passadas e orientações diretas dos
+              especialistas.
+            </p>
+
+            <div class="flex items-center text-warning text-sm font-bold tracking-wide mt-auto">
+              ASSISTIR AGORA
+              <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: ANÁLISE (Dashboard Completo)       -->
+    <!-- ========================================== -->
+    <section x-show="view === 'analysis'" x-cloak class="fade-enter">
+
+      <div class="grid lg:grid-cols-12 gap-8 mt-4">
+
+        <!-- SIDEBAR DE NAVEGAÇÃO (Mobile: Top Scroll, Desktop: Vertical) -->
+        <div class="lg:col-span-3">
+          <div class="glass-panel rounded-2xl p-4 sticky top-24">
+            <div class="mb-6 px-2 hidden lg:block">
+              <h2 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-1">Painel</h2>
+              <div class="h-0.5 w-10 bg-primary/50"></div>
+            </div>
+
+            <nav class="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
+              <button @click="tab = 'overview'" :class="{'active': tab === 'overview'}"
+                class="nav-pill text-left w-full px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 flex items-center gap-3 whitespace-nowrap">
+                <i class="fas fa-th-large w-5 text-center"></i> Visão Geral
+              </button>
+
+              <button @click="tab = 'profile'" :class="{'active': tab === 'profile'}"
+                class="nav-pill text-left w-full px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 flex items-center gap-3 whitespace-nowrap">
+                <i class="fas fa-user-astronaut w-5 text-center"></i> Perfil Exigido
+              </button>
+
+              <button @click="tab = 'board'" :class="{'active': tab === 'board'}"
+                class="nav-pill text-left w-full px-4 py-3 rounded-xl text-gray-400 hover:bg-white/5 flex items-center gap-3 whitespace-nowrap">
+                <i class="fas fa-crosshairs w-5 text-center"></i> Raio-X Banca
+              </button>
+
+              <div class="my-2 border-t border-white/10 hidden lg:block"></div>
+
+              <button @click="tab = 'simulator'"
+                :class="{'bg-gradient-to-r from-pink-600/20 to-pink-600/10 border border-pink-500/30 text-pink-400': tab === 'simulator', 'text-gray-400 hover:bg-white/5': tab !== 'simulator'}"
+                class="text-left w-full px-4 py-3 rounded-xl flex items-center gap-3 whitespace-nowrap transition-all hover:text-white">
+                <i class="fas fa-cogs w-5 text-center" :class="{'text-pink-400': tab === 'simulator'}"></i> Simulador
+              </button>
+            </nav>
+          </div>
+        </div>
+
+        <!-- ÁREA DE CONTEÚDO -->
+        <div class="lg:col-span-9 space-y-6">
+
+          <!-- 1. OVERVIEW -->
+          <div x-show="tab === 'overview'" class="fade-enter space-y-6">
+            <div class="flex flex-col md:flex-row gap-6 items-center justify-between mb-2">
+              <div>
+                <h2 class="text-3xl font-bold text-white">Dashboard do Edital</h2>
+                <p class="text-gray-400 text-sm">Atualizado para Soldado PMPR 2025</p>
+              </div>
+              <span
+                class="px-4 py-1.5 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 text-xs font-bold flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> EDITAL PUBLICADO
+              </span>
+            </div>
+
+            <!-- Cards Informativos -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="glass-panel p-5 rounded-xl border-l-4 border-l-blue-500 flex items-start gap-4">
+                <div class="bg-blue-500/20 p-3 rounded-lg text-blue-400"><i class="fas fa-balance-scale text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-white">Caráter Eliminatório</h3>
+                  <p class="text-xs text-gray-400 mt-1">Apto ou Inapto. Não soma pontos na nota final.
+                  </p>
+                </div>
+              </div>
+
+              <div class="glass-panel p-5 rounded-xl border-l-4 border-l-red-500 flex items-start gap-4">
+                <div class="bg-red-500/20 p-3 rounded-lg text-red-400"><i
+                    class="fas fa-exclamation-triangle text-xl"></i></div>
+                <div>
+                  <h3 class="font-bold text-white">Erro Fatal</h3>
+                  <p class="text-xs text-gray-400 mt-1">1 traço restritivo = Eliminação sumária.</p>
+                </div>
+              </div>
+
+              <div class="glass-panel p-5 rounded-xl border-l-4 border-l-primary flex items-start gap-4">
+                <div class="bg-primary/20 p-3 rounded-lg text-primary"><i class="fas fa-clipboard-list text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-white">Banca AOCP</h3>
+                  <p class="text-xs text-gray-400 mt-1">Referência: Item 10.4.8 do edital.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vídeo -->
+            <div class="glass-panel p-2 rounded-2xl shadow-2xl shadow-black/50">
+              <div class="relative w-full rounded-xl overflow-hidden bg-black" style="padding-top: 56.25%;">
+                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/S_wLklkQGvM"
+                  title="Análise PMPR" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. PERFIL -->
+          <div x-show="tab === 'profile'" x-cloak class="fade-enter">
+            <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+              <i class="fas fa-dna text-primary"></i> Perfil Profissiográfico
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+              <!-- Gráfico Radar -->
+              <div
+                class="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none">
+                </div>
+                <h3 class="text-sm font-bold text-gray-300 uppercase tracking-widest mb-4 z-10">Radar de
+                  Competências</h3>
+                <div class="w-full aspect-square max-w-sm relative z-10">
+                  <canvas id="profileChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Lista de Requisitos -->
+              <div class="glass-panel p-6 rounded-2xl h-fit">
+                <h3 class="text-white font-bold mb-6 border-b border-white/10 pb-2">Requisitos
+                  Detalhados</h3>
+                <div class="space-y-4">
+
+                  <!-- Grupo Cognitivo -->
+                  <div class="space-y-2">
+                    <div class="flex items-center gap-2 text-xs font-bold text-cyan uppercase tracking-wider">
+                      <i class="fas fa-brain"></i> Cognitivo
+                    </div>
+                    <div class="bg-white/5 rounded-lg p-3 border border-white/5 hover:border-cyan/30 transition-colors">
+                      <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-300">Atenção (Conc, Sust, Div)</span>
+                        <span class="text-green-400 font-bold">Média (+)</span>
+                      </div>
+                      <div class="w-full bg-gray-700 h-1 rounded-full overflow-hidden">
+                        <div class="bg-cyan h-full" style="width: 60%"></div>
+                      </div>
+                    </div>
+                    <div class="bg-white/5 rounded-lg p-3 border border-white/5 hover:border-cyan/30 transition-colors">
+                      <div class="flex justify-between text-sm mb-1">
+                        <span class="text-gray-300">Inteligência Não-Verbal</span>
+                        <span class="text-green-400 font-bold">Média (+)</span>
+                      </div>
+                      <div class="w-full bg-gray-700 h-1 rounded-full overflow-hidden">
+                        <div class="bg-cyan h-full" style="width: 65%"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Grupo Restritivos -->
+                  <div class="space-y-2 pt-2">
+                    <div class="flex items-center gap-2 text-xs font-bold text-red-400 uppercase tracking-wider">
+                      <i class="fas fa-ban"></i> Restritivos (Eliminatórios)
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                      <div class="bg-red-500/10 border border-red-500/20 p-2 rounded text-center">
+                        <span class="block text-xs text-gray-400">Agressividade</span>
+                        <span class="block text-sm font-bold text-white">Ausente</span>
+                      </div>
+                      <div class="bg-red-500/10 border border-red-500/20 p-2 rounded text-center">
+                        <span class="block text-xs text-gray-400">Impulsividade</span>
+                        <span class="block text-sm font-bold text-white">Ausente</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. BOARD (RAIO-X) -->
+          <div x-show="tab === 'board'" x-cloak class="fade-enter">
+            <div class="grid lg:grid-cols-3 gap-6">
+              <!-- Gráfico Principal -->
+              <div class="lg:col-span-2 glass-panel p-6 rounded-2xl">
+                <div class="flex justify-between items-center mb-6">
+                  <h3 class="text-white font-bold text-lg">Probabilidade de Testes</h3>
+                  <i class="fas fa-chart-bar text-gray-500"></i>
+                </div>
+                <div class="h-[350px] w-full">
+                  <canvas id="boardChart"></canvas>
+                </div>
+              </div>
+
+              <!-- Lista de Apostas -->
+              <div class="glass-panel p-0 rounded-2xl overflow-hidden flex flex-col">
+                <div class="bg-gradient-to-r from-yellow-600/20 to-orange-600/20 p-4 border-b border-yellow-500/20">
+                  <h3 class="text-lg font-black text-yellow-500 flex items-center gap-2">
+                    <i class="fas fa-fire"></i> Apostas Quentes
+                  </h3>
+                </div>
+                <div class="p-4 space-y-2 flex-grow overflow-y-auto">
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">NEO PI-R</span>
+                    <span class="text-xs bg-primary/20 text-primary px-2 py-1 rounded">Personalidade</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">Palo</span>
+                    <span class="text-xs bg-primary/20 text-primary px-2 py-1 rounded">Personalidade</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">Entrevista</span>
+                    <span class="text-xs bg-primary/20 text-primary px-2 py-1 rounded">Personalidade</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">CTA</span>
+                    <span class="text-xs bg-cyan/20 text-cyan px-2 py-1 rounded">Atenção</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">AC VETOR</span>
+                    <span class="text-xs bg-cyan/20 text-cyan px-2 py-1 rounded">Atenção</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">TEPIC</span>
+                    <span class="text-xs bg-green-500/20 text-green-500 px-2 py-1 rounded">Memória</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">TSP MEMO</span>
+                    <span class="text-xs bg-green-500/20 text-green-500 px-2 py-1 rounded">Memória</span>
+                  </div>
+                  <div
+                    class="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5 hover:bg-white/10 transition">
+                    <span class="font-bold text-gray-200">R1</span>
+                    <span class="text-xs bg-yellow-500/20 text-yellow-500 px-2 py-1 rounded">Inteligência</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. SIMULADOR -->
+          <div x-show="tab === 'simulator'" x-cloak class="fade-enter">
+            <div
+              class="glass-panel p-1 rounded-2xl bg-gradient-to-br from-gray-800/50 to-black/80 border border-gray-700/50">
+              <div class="flex flex-col lg:flex-row h-full">
+
+                <!-- Controles -->
+                <div class="p-6 lg:w-2/3 border-b lg:border-b-0 lg:border-r border-white/10">
+                  <h3 class="text-white font-bold mb-6 flex items-center gap-2">
+                    <i class="fas fa-sliders-h text-pink-500"></i> Configuração do Candidato
+                  </h3>
+
+                  <div class="space-y-6">
+                    <!-- Grid 1 -->
+                    <div class="grid sm:grid-cols-2 gap-4">
+                      <div class="space-y-1">
+                        <label class="text-xs text-gray-400 font-bold uppercase ml-1">Atenção</label>
+                        <select x-model="sim.attention"
+                          class="w-full bg-black/40 border border-white/10 rounded-lg p-2.5 text-sm text-gray-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none custom-select transition-all">
+                          <option value="ok">✅ Na Média (+)</option>
+                          <option value="fail">❌ Abaixo (-)</option>
+                        </select>
+                      </div>
+                      <div class="space-y-1">
+                        <label class="text-xs text-gray-400 font-bold uppercase ml-1">Inteligência</label>
+                        <select x-model="sim.intelligence"
+                          class="w-full bg-black/40 border border-white/10 rounded-lg p-2.5 text-sm text-gray-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none custom-select transition-all">
+                          <option value="ok">✅ Na Média (+)</option>
+                          <option value="fail">❌ Abaixo (-)</option>
+                        </select>
+                      </div>
+                      <div class="space-y-1">
+                        <label class="text-xs text-gray-400 font-bold uppercase ml-1">Personalidade</label>
+                        <select x-model="sim.personality"
+                          class="w-full bg-black/40 border border-white/10 rounded-lg p-2.5 text-sm text-gray-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none custom-select transition-all">
+                          <option value="ok">✅ Adequada</option>
+                          <option value="fail">❌ Inadequada</option>
+                        </select>
+                      </div>
+                      <div class="space-y-1">
+                        <label class="text-xs text-gray-400 font-bold uppercase ml-1">Sociabilidade</label>
+                        <select x-model="sim.social"
+                          class="w-full bg-black/40 border border-white/10 rounded-lg p-2.5 text-sm text-gray-200 focus:border-pink-500 focus:ring-1 focus:ring-pink-500 outline-none custom-select transition-all">
+                          <option value="ok">✅ Equilibrada</option>
+                          <option value="fail">❌ Desequilibrada</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- Fatores Críticos -->
+                    <div class="bg-red-500/5 rounded-xl p-4 border border-red-500/10">
+                      <h4 class="text-xs font-bold text-red-400 uppercase mb-4 flex items-center gap-2">
+                        <i class="fas fa-skull"></i> Fatores Críticos (Eliminatórios)
+                      </h4>
+                      <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                          <label class="text-sm text-gray-300">Controle Emocional</label>
+                          <div class="flex items-center bg-black/40 rounded-lg p-1 border border-white/10">
+                            <button @click="sim.emotional = 'ok'"
+                              :class="{'bg-green-600/20 text-green-400 shadow-inner': sim.emotional === 'ok', 'text-gray-500 hover:text-gray-300': sim.emotional !== 'ok'}"
+                              class="px-3 py-1 rounded text-xs font-bold transition">Bom</button>
+                            <button @click="sim.emotional = 'fail'"
+                              :class="{'bg-red-600/20 text-red-400 shadow-inner': sim.emotional === 'fail', 'text-gray-500 hover:text-gray-300': sim.emotional !== 'fail'}"
+                              class="px-3 py-1 rounded text-xs font-bold transition">Ruim</button>
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                          <label class="text-sm text-gray-300">Agressividade</label>
+                          <div class="flex items-center bg-black/40 rounded-lg p-1 border border-white/10">
+                            <button @click="sim.aggression = 'ok'"
+                              :class="{'bg-green-600/20 text-green-400 shadow-inner': sim.aggression === 'ok', 'text-gray-500 hover:text-gray-300': sim.aggression !== 'ok'}"
+                              class="px-3 py-1 rounded text-xs font-bold transition">Baixa</button>
+                            <button @click="sim.aggression = 'fail'"
+                              :class="{'bg-red-600/20 text-red-400 shadow-inner': sim.aggression === 'fail', 'text-gray-500 hover:text-gray-300': sim.aggression !== 'fail'}"
+                              class="px-3 py-1 rounded text-xs font-bold transition">Alta</button>
+                          </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                          <label class="text-sm text-gray-300">Impulsividade</label>
+                          <div class="flex items-center bg-black/40 rounded-lg p-1 border border-white/10">
+                            <button @click="sim.impulse = 'ok'"
+                              :class="{'bg-green-600/20 text-green-400 shadow-inner': sim.impulse === 'ok', 'text-gray-500 hover:text-gray-300': sim.impulse !== 'ok'}"
+                              class="px-3 py-1 rounded text-xs font-bold transition">Baixa</button>
+                            <button @click="sim.impulse = 'fail'"
+                              :class="{'bg-red-600/20 text-red-400 shadow-inner': sim.impulse === 'fail', 'text-gray-500 hover:text-gray-300': sim.impulse !== 'fail'}"
+                              class="px-3 py-1 rounded text-xs font-bold transition">Alta</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Resultado -->
+                <div
+                  class="lg:w-1/3 flex items-center justify-center p-6 relative overflow-hidden transition-colors duration-500"
+                  :class="isApto ? 'bg-green-500/5' : 'bg-red-500/5'">
+
+                  <div class="absolute inset-0 opacity-20"
+                    :class="isApto ? 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-green-500 via-transparent to-transparent' : 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-500 via-transparent to-transparent'">
+                  </div>
+
+                  <div class="text-center relative z-10 w-full">
+                    <div class="text-6xl mb-4 transform transition-transform duration-500"
+                      :class="isApto ? 'scale-100' : 'scale-110'">
+                      <span x-text="isApto ? '🛡️' : '🚨'"></span>
+                    </div>
+
+                    <h2 class="text-4xl font-black uppercase tracking-widest mb-2"
+                      :class="isApto ? 'text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]' : 'text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]'"
+                      x-text="isApto ? 'APTO' : 'INAPTO'">
+                    </h2>
+
+                    <p class="text-xs uppercase tracking-wider font-bold mb-6 text-gray-500">
+                      Resultado Preliminar</p>
+
+                    <div x-show="!isApto" x-transition
+                      class="bg-red-900/40 border border-red-500/30 rounded-lg p-4 text-left backdrop-blur-sm">
+                      <p class="text-red-300 font-bold text-xs mb-2 uppercase border-b border-red-500/30 pb-1">
+                        Motivos da Inaptidão:</p>
+                      <ul class="space-y-1">
+                        <template x-for="fail in failures">
+                          <li class="text-xs text-red-200 flex items-center gap-2">
+                            <i class="fas fa-times-circle text-[10px]"></i>
+                            <span x-text="fail"></span>
+                          </li>
+                        </template>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="mt-auto py-8 text-center text-xs text-gray-600 border-t border-white/5 bg-black/20 backdrop-blur-sm">
+    <div class="container mx-auto">
+      <p>&copy; 2025 Aprovação Psycho. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- LÓGICA DO APP (Mantida idêntica para garantir funcionamento) -->
+  <script>
+    function pmprApp() {
+      return {
+        view: 'menu',
+        tab: 'overview',
+        userHash: sessionStorage.getItem('memberHash'),
+
+        sim: { attention: 'ok', intelligence: 'ok', personality: 'ok', social: 'ok', emotional: 'ok', aggression: 'ok', impulse: 'ok' },
+
+        get failures() {
+          const f = [];
+          if (this.sim.attention === 'fail') f.push("Atenção Insuficiente");
+          if (this.sim.intelligence === 'fail') f.push("Inteligência Insuficiente");
+          if (this.sim.personality === 'fail') f.push("Perfil Inadequado");
+          if (this.sim.social === 'fail') f.push("Sociabilidade Baixa");
+          if (this.sim.emotional === 'fail') f.push("Descontrole Emocional");
+          if (this.sim.aggression === 'fail') f.push("Agressividade Exacerbada");
+          if (this.sim.impulse === 'fail') f.push("Impulsividade Exacerbada");
+          return f;
+        },
+        get isApto() { return this.failures.length === 0; },
+
+        downloadMaterial(folder) {
+          if (!this.userHash) return alert("Erro de sessão.");
+          window.open(`${folder}/${this.userHash}.pdf`, '_blank');
+        }
+      }
+    }
+
+    function initCharts() {
+      // Cores atualizadas para combinar com o novo tema
+      const purple = '#9f54ff', cyan = '#00c2ff', white = '#e2e8f0', grid = '#334155';
+
+      const ctxProfile = document.getElementById('profileChart');
+      if (ctxProfile) {
+        new Chart(ctxProfile, {
+          type: 'radar',
+          data: {
+            labels: ['Atenção', 'Inteligência', 'Extroversão', 'Realização', 'Organização', 'Emocional', 'Agressividade'],
+            datasets: [{
+              label: 'Nível Exigido',
+              data: [50, 50, 50, 50, 50, 80, 80],
+              backgroundColor: 'rgba(159, 84, 255, 0.25)',
+              borderColor: purple,
+              pointBackgroundColor: cyan,
+              pointBorderColor: '#fff',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            scales: {
+              r: {
+                angleLines: { color: 'rgba(255,255,255,0.1)' },
+                grid: { color: 'rgba(255,255,255,0.1)' },
+                pointLabels: { color: '#cbd5e1', font: { size: 11, family: 'Inter' } },
+                suggestedMin: 0, suggestedMax: 100,
+                ticks: { display: false, backdropColor: 'transparent' }
+              }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+      const ctxBoard = document.getElementById('boardChart');
+      if (ctxBoard) {
+        new Chart(ctxBoard, {
+          type: 'bar',
+          data: {
+            labels: ['NEO PI', 'TEACO', 'Palo', 'R1', 'TSP', 'Outros'],
+            datasets: [{
+              label: 'Probabilidade (%)',
+              data: [95, 90, 85, 80, 60, 40],
+              backgroundColor: [purple, cyan, '#ef4444', '#3b82f6', '#64748b', '#334155'],
+              borderRadius: 6,
+              borderSkipped: false
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#94a3b8' }
+              },
+              x: {
+                grid: { display: false },
+                ticks: { color: '#e2e8f0' }
+              }
+            },
+            plugins: { legend: { display: false } }
+          }
+        });
+      }
+    }
+  </script>
+</body>
+
+</html>

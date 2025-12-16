@@ -117,7 +117,7 @@ function switchSection(section) {
     qs('#nav-psicodata').classList.remove('bg-brand-blue', 'text-white', 'shadow-lg');
     qs('#nav-psicodata').classList.add('text-slate-400', 'hover:bg-slate-800');
 
-    renderTurmas();
+    renderTurmasMgmt();
 
   } else {
     hide(qs('#section-students'));
@@ -1145,7 +1145,11 @@ async function loadTurmasData() {
   }
 }
 
-function renderTurmas() {
+// Global state for editing
+let editingTurmaIndex = null;
+
+// RENAMED TO AVOID CONFLICTS
+window.renderTurmasMgmt = function () {
   const container = qs('#turmas-list');
   if (!container) return;
   qs('#label-count-turmas').textContent = `${turmasDB.length} turmas cadastradas`;
@@ -1165,7 +1169,12 @@ function renderTurmas() {
           <i class="fas fa-layer-group text-2xl"></i>
         </div>
         <div class="flex gap-2">
-            <button onclick="deleteTurma(${index})" class="text-slate-400 hover:text-red-500 transition-colors" title="Excluir"><i class="fas fa-trash"></i></button>
+            <button onclick="editTurma(${index})" class="bg-gray-700 hover:bg-brand-accent text-white px-3 py-1 rounded text-xs transition-colors flex items-center gap-1" title="Editar">
+                <i class="fas fa-pen"></i> <span>EDITAR</span>
+            </button>
+            <button onclick="deleteTurma(${index})" class="bg-gray-700 hover:bg-red-500 text-white px-3 py-1 rounded text-xs transition-colors flex items-center gap-1" title="Excluir">
+                <i class="fas fa-trash"></i> <span>EXCLUIR</span>
+            </button>
         </div>
       </div>
       <h3 class="text-lg font-bold text-white mb-1">${t.nome}</h3>
@@ -1194,13 +1203,39 @@ window.addTurma = async function () {
   if (!nome || !pasta) return alert("Preencha Nome e Pasta Corretamente.");
   if (pasta.includes(' ')) return alert("O nome da pasta não pode conter espaços.");
 
+  // Check UI mode
+  if (editingTurmaIndex !== null) {
+    // EDIT MODE
+    turmasDB[editingTurmaIndex] = {
+      ...turmasDB[editingTurmaIndex], // keep created_at
+      nome, pasta, base, imagem
+    };
+
+    // Reset UI
+    editingTurmaIndex = null;
+    const btn = qs('#btn-add-turma');
+    btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Criar Cards';
+    btn.classList.remove('bg-brand-accent', 'hover:bg-yellow-600');
+    btn.classList.add('bg-brand-blue', 'hover:bg-blue-600');
+    hide(qs('#btn-delete-turma-form')); // Hide Delete Button
+
+    notify("Turma editada! Lembre-se de Rodar Script ou Salvar.", "ok");
+    renderTurmasMgmt();
+
+    qs('#turma-nome').value = '';
+    qs('#turma-pasta').value = '';
+    qs('#turma-imagem').value = '';
+    return;
+  }
+
+  // ADD MODE
   // Verifica Duplicidade
   if (turmasDB.find(t => t.pasta === pasta)) return alert("Já existe uma turma com essa pasta.");
 
   // 1. Atualiza Memória Local (UI Otimista)
   const novaTurma = { nome, pasta, base, imagem, created_at: new Date().toISOString() };
   turmasDB.push(novaTurma);
-  renderTurmas(); // Mostra na tela imediatamente
+  renderTurmasMgmt(); // Mostra na tela imediatamente
 
   // 2. Tenta Automação com Python Local
   const btn = qs('#btn-add-turma');
@@ -1234,22 +1269,101 @@ window.addTurma = async function () {
     }
 
   } catch (err) {
-    console.warn("Automação Falhou:", err);
-    alert(`AVISO: O Servidor de Automação não respondeu.\n\nErro: ${err.message}\n\nA turma foi salva APENAS no navegador. Para criar as pastas, garanta que o script 'admin/sync_turmas.py' esteja rodando no terminal.`);
+    console.warn("Automação Falhou (Silencioso):", err);
+    // Silent fail - user can run script manually later
+    // alert(`AVISO: O Servidor de Automação não respondeu.\n\nErro: ${err.message}\n\nA turma foi salva APENAS no navegador. Para criar as pastas, garanta que o script 'admin/sync_turmas.py' esteja rodando no terminal.`);
   } finally {
     btn.innerHTML = originalText;
     btn.disabled = false;
     qs('#turma-nome').value = '';
     qs('#turma-pasta').value = '';
+    qs('#turma-imagem').value = '';
   }
 }
 
+window.editTurma = function (index) {
+  const t = turmasDB[index];
+  if (!t) return;
+
+  editingTurmaIndex = index;
+  qs('#turma-nome').value = t.nome;
+  qs('#turma-pasta').value = t.pasta;
+  qs('#turma-base').value = t.base || 'PMPR';
+  qs('#turma-imagem').value = t.imagem || '';
+
+  // Change Button State
+  const btn = qs('#btn-add-turma');
+  btn.innerHTML = '<i class="fas fa-save mr-1"></i> Salvar Edição';
+  btn.classList.add('bg-brand-accent', 'hover:bg-yellow-600');
+  btn.classList.remove('bg-brand-blue', 'hover:bg-blue-600');
+
+  show(qs('#btn-delete-turma-form')); // Show Delete Button
+
+  qs('#turma-nome').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  notify(`Editando "${t.nome}"...`, "brand-blue");
+}
+
 window.deleteTurma = function (index) {
-  if (confirm("Remover esta turma do painel?\\n(A pasta NÃO será apagada automaticamente do servidor)")) {
+  const turma = turmasDB[index];
+  if (confirm(`Remover a turma "${turma.nome}" da LISTA?\n\nIsso NÃO apaga a pasta física do servidor, apenas remove do painel de controle.\n\nPara apagar a pasta física, salve o DB e rode o script Python.`)) {
     turmasDB.splice(index, 1);
-    renderTurmas();
-    notify("Turma removida.");
+
+    // If we were editing this exact item, reset the form
+    if (editingTurmaIndex === index) {
+      editingTurmaIndex = null;
+      const btn = qs('#btn-add-turma');
+      btn.innerHTML = '<i class="fas fa-plus mr-1"></i> Criar Cards';
+      btn.classList.remove('bg-brand-accent', 'hover:bg-yellow-600');
+      btn.classList.add('bg-brand-blue', 'hover:bg-blue-600');
+      hide(qs('#btn-delete-turma-form'));
+      qs('#turma-nome').value = '';
+      qs('#turma-pasta').value = '';
+      qs('#turma-imagem').value = '';
+    }
+
+    renderTurmasMgmt();
+    notify("Turma removida da lista.");
   }
+}
+
+window.deleteTurmaForm = function () {
+  if (editingTurmaIndex !== null) {
+    deleteTurma(editingTurmaIndex);
+  }
+}
+
+// 1. Salvar DB Local (Inteligente)
+window.saveTurmasLocal = async function () {
+  const dataStr = JSON.stringify(turmasDB, null, 2);
+
+  // Feature Detection: File System Access API
+  if ('showSaveFilePicker' in window) {
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'turmas_db.json',
+        types: [{
+          description: 'JSON Database',
+          accept: { 'application/json': ['.json'] },
+        }],
+      });
+
+      const writable = await handle.createWritable();
+      await writable.write(dataStr);
+      await writable.close();
+      notify("Arquivo salvo com sucesso!", "ok");
+      return;
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        console.error(err);
+        alert("Erro ao salvar arquivo: " + err.message);
+      }
+      // If aborted or error, do nothing (or fallback?)
+      return;
+    }
+  }
+
+  // Fallback: Legacy Download
+  exportTurmas();
 }
 
 window.exportTurmas = function () {
@@ -1260,7 +1374,7 @@ window.exportTurmas = function () {
   a.href = url;
   a.download = "turmas_db.json";
   a.click();
-  notify("Banco de Turmas exportado!", "ok");
+  notify("Banco de Turmas baixado (Legacy)!", "ok");
 }
 
 window.importTurmas = function () {
@@ -1273,7 +1387,7 @@ qs('#file-turmas').onchange = async (e) => {
   try {
     const text = await f.text();
     turmasDB = JSON.parse(text);
-    renderTurmas();
+    renderTurmasMgmt();
     notify("Turmas importadas!", "ok");
   } catch (err) {
     alert("Erro JSON: " + err.message);

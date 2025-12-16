@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapeador Rotas V6 (Premium)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(13, 148, 136, 0.15) 0%, transparent 40%);
+        }
+
+        .workspace {
+            width: calc(100% - 400px);
+            height: 100vh;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Glass Panel for Sidebar */
+        .glass-sidebar {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .control-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .control-input:focus {
+            border-color: #a855f7;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+        }
+
+        .premium-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* Canvas & Markers */
+        .canvas-container {
+            position: relative;
+            background: #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transform-origin: top center;
+        }
+
+        .marker-box {
+            position: absolute;
+            background-color: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.4);
+            user-select: none;
+            z-index: 10;
+            border-radius: 4px;
+            transition: background 0.1s, border 0.1s;
+        }
+
+        .marker-box:hover {
+            background-color: rgba(6, 182, 212, 0.4);
+            border-color: #22d3ee;
+            z-index: 50;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+
+        .marker-box.is-target {
+            background-color: rgba(34, 197, 94, 0.4) !important;
+            border: 2px solid #22c55e !important;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+
+        .marker-box.is-highlighted {
+            border-color: #fbbf24 !important;
+            background-color: rgba(251, 191, 36, 0.3) !important;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+            z-index: 40;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body x-data="rotasMapperV6()" class="flex" @mousemove="onDrag" @mouseup="stopDrag">
+
+    <aside class="w-[400px] h-screen glass-sidebar flex flex-col z-50 fixed right-0 top-0 overflow-y-auto text-xs">
+        <div class="p-6 space-y-6">
+            <h2
+                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-white/10 pb-4 flex items-center gap-2">
+                <i class="fas fa-map-marked-alt text-purple-400"></i> CONFIGURADOR V6
+            </h2>
+
+            <div class="control-group">
+                <label
+                    class="block uppercase text-xs font-bold text-gray-400 mb-3 tracking-wider flex items-center gap-2">
+                    <i class="fas fa-image text-blue-400"></i> 1. Imagem Base
+                </label>
+                <div class="space-y-3">
+                    <input type="file" @change="loadImage" accept="image/*"
+                        class="control-input file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-violet-500/20 file:text-violet-400 hover:file:bg-violet-500/30">
+
+                    <div class="flex justify-between items-center text-gray-400 font-medium">
+                        <span>Zoom: <span x-text="zoom + '%'" class="text-white"></span></span>
+                        <input type="range" x-model="zoom" min="20" max="200"
+                            class="w-32 accent-purple-500 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group border-l-2 border-l-blue-500">
+                <h3 class="font-bold text-blue-400 uppercase mb-3 text-[10px] tracking-widest">2. Importar</h3>
+                <textarea x-model="inputCode" class="control-input h-20 font-mono text-[10px] mb-3"
+                    placeholder="Cole const ROTAS_CONFIG = ..."></textarea>
+                <button @click="importCode()"
+                    class="w-full py-2 bg-blue-600/80 hover:bg-blue-600 text-white font-bold rounded-lg transition border border-white/10 uppercase text-[10px] tracking-wider">
+                    Carregar Pontos
+                </button>
+            </div>
+
+            <div class="control-group border-l-2 border-l-yellow-500">
+                <h3 class="font-bold text-yellow-400 uppercase mb-3 text-[10px] tracking-widest">3. Ferramentas de Grupo
+                </h3>
+
+                <div class="flex bg-black/40 p-1 rounded-lg mb-4">
+                    <button @click="mode = 'global'"
+                        :class="mode === 'global' ? 'bg-purple-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">TUDO</button>
+                    <button @click="mode = 'row'"
+                        :class="mode === 'row' ? 'bg-yellow-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">LINHA</button>
+                    <button @click="mode = 'col'"
+                        :class="mode === 'col' ? 'bg-green-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">COLUNA</button>
+                </div>
+
+                <div x-show="mode === 'row'"
+                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-white/5">
+                    <button @click="selectedRow = Math.max(0, selectedRow - 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">-</button>
+                    <span class="font-bold text-yellow-400 text-xs">LINHA <span x-text="selectedRow"
+                            class="text-white ml-1"></span></span>
+                    <button @click="selectedRow = Math.min(rows-1, selectedRow + 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">+</button>
+                </div>
+
+                <div x-show="mode === 'col'"
+                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-white/5">
+                    <button @click="selectedCol = Math.max(0, selectedCol - 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">-</button>
+                    <span class="font-bold text-green-400 text-xs">COLUNA <span x-text="selectedCol"
+                            class="text-white ml-1"></span></span>
+                    <button @click="selectedCol = Math.min(cols-1, selectedCol + 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">+</button>
+                </div>
+
+                <div class="border-t border-white/10 pt-3 mt-3">
+                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Deslocar (Mover)</p>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button @click="nudge(0, -1)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-up"></i></button>
+                        <button @click="nudge(0, 1)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-down"></i></button>
+                        <button @click="nudge(-1, 0)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-left"></i></button>
+                        <button @click="nudge(1, 0)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/10 pt-3 mt-3">
+                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Espaçamento</p>
+                    <div class="flex gap-2 mb-2">
+                        <button @click="stretch('x', -0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-compress-arrows-alt mr-1"></i> X-</button>
+                        <button @click="stretch('x', 0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-expand-arrows-alt mr-1"></i> X+</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <button @click="stretch('y', -0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-compress-arrows-alt mr-1"></i> Y-</button>
+                        <button @click="stretch('y', 0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-expand-arrows-alt mr-1"></i> Y+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="flex gap-4">
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Largura</label>
+                        <input type="range" x-model="boxW" min="10" max="50"
+                            class="w-full accent-blue-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Altura</label>
+                        <input type="range" x-model="boxH" min="10" max="50"
+                            class="w-full accent-blue-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-2 pb-10">
+                <button @click="generateCode()"
+                    class="premium-btn w-full py-3 rounded-xl mb-4 flex items-center justify-center gap-2 group">
+                    <i class="fas fa-code text-white group-hover:scale-110 transition"></i>
+                    <span>GERAR CÓDIGO FINAL</span>
+                </button>
+                <textarea x-model="output" readonly
+                    class="control-input h-32 font-mono text-green-400 border-green-500/30"
+                    placeholder="// O código será gerado aqui..."></textarea>
+            </div>
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <div class="canvas-container"
+            :style="`width: ${imgWidth}px; height: ${imgHeight}px; transform: scale(${zoom/100});`">
+
+            <img :src="imgSrc" x-show="imgSrc" class="bg-image" :style="`width: 100%; height: 100%;`">
+
+            <div x-show="!imgSrc"
+                class="absolute inset-0 flex items-center justify-center text-gray-500 pointer-events-none">
+                <p class="text-xl font-bold border-2 border-dashed border-gray-700 p-10 rounded-xl">Carregue a imagem
+                    (rotac.png)</p>
+            </div>
+
+            <template x-for="item in items" :key="item.id">
+                <div class="marker-box" :class="{
+                        'is-dragging': draggingId === item.id,
+                        'is-target': item.isTarget,
+                        'is-highlighted': isHighlighted(item)
+                     }" @mousedown.prevent="startDrag($event, item.id)" :style="`
+                        left: ${item.x}px; 
+                        top: ${item.y}px; 
+                        width: ${boxW}px; 
+                        height: ${boxH}px;
+                        transform: translate(-50%, -50%);
+                     `">
+                </div>
+            </template>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('rotasMapperV6', () => ({
+                imgSrc: '',
+                imgWidth: 791,
+                imgHeight: 851,
+                zoom: 80,
+
+                // Estrutura
+                rows: 30, cols: 15,
+                boxW: 36, boxH: 36,
+
+                items: [],
+
+                // Modos
+                mode: 'global',
+                selectedRow: 0,
+                selectedCol: 0,
+
+                // Inputs
+                inputCode: '',
+                output: '',
+
+                // Dragging
+                draggingId: null,
+                startX: 0, startY: 0,
+                initialItemX: 0, initialItemY: 0,
+                isClick: false,
+
+                loadImage(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        this.imgSrc = evt.target.result;
+                        const img = new Image();
+                        img.onload = () => {
+                            if (this.items.length === 0) {
+                                this.imgWidth = img.width;
+                                this.imgHeight = img.height;
+                                this.generateBaseGrid();
+                            }
+                        }
+                        img.src = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+
+                importCode() {
+                    try {
+                        let code = this.inputCode;
+                        if (code.includes('=')) code = code.substring(code.indexOf('=') + 1).trim();
+                        if (code.endsWith(';')) code = code.slice(0, -1);
+
+                        const config = new Function("return " + code)();
+
+                        if (config && Array.isArray(config.items)) {
+                            this.imgWidth = config.imgWidth || this.imgWidth;
+                            this.imgHeight = config.imgHeight || this.imgHeight;
+                            this.boxW = config.boxW || 56;
+                            this.boxH = config.boxH || 56;
+
+                            this.items = config.items.map(i => ({
+                                id: i.id,
+                                x: i.x,
+                                y: i.y,
+                                isTarget: i.t === 1,
+                                // Recalcula R/C para permitir edição em grupo
+                                r: Math.floor(i.id / this.cols),
+                                c: i.id % this.cols
+                            }));
+
+                            alert(`Carregados ${this.items.length} itens.`);
+                        }
+                    } catch (e) {
+                        alert("Erro ao importar: " + e.message);
+                    }
+                },
+
+                generateBaseGrid() {
+                    this.items = [];
+                    let id = 0;
+                    const startX = this.imgWidth * 0.05;
+                    const startY = this.imgHeight * 0.08;
+                    const stepX = this.imgWidth * 0.038;
+                    const stepY = this.imgHeight * 0.029;
+
+                    for (let r = 0; r < this.rows; r++) {
+                        for (let c = 0; c < this.cols; c++) {
+                            this.items.push({
+                                id: id++,
+                                x: Math.round(startX + (c * stepX)),
+                                y: Math.round(startY + (r * stepY)),
+                                isTarget: false,
+                                r: r, c: c
+                            });
+                        }
+                    }
+                },
+
+                // Lógica de Seleção
+                isHighlighted(item) {
+                    if (this.mode === 'row' && item.r === this.selectedRow) return true;
+                    if (this.mode === 'col' && item.c === this.selectedCol) return true;
+                    return false;
+                },
+
+                // FERRAMENTA DE DESLOCAMENTO (MOVER)
+                nudge(dx, dy) {
+                    const multiplier = 2; // Pixel step
+                    this.items.forEach(item => {
+                        let active = false;
+                        if (this.mode === 'global') active = true;
+                        else if (this.mode === 'row' && item.r === this.selectedRow) active = true;
+                        else if (this.mode === 'col' && item.c === this.selectedCol) active = true;
+
+                        if (active) {
+                            item.x += (dx * multiplier);
+                            item.y += (dy * multiplier);
+                        }
+                    });
+                },
+
+                // FERRAMENTA DE ESPAÇAMENTO (STRETCH)
+                stretch(axis, amount) {
+                    // Para esticar, precisamos de um ponto de ancoragem (o primeiro item do grupo)
+                    // Filtra itens ativos
+                    let activeItems = this.items.filter(item => {
+                        if (this.mode === 'global') return true;
+                        if (this.mode === 'row' && item.r === this.selectedRow) return true;
+                        if (this.mode === 'col' && item.c === this.selectedCol) return true;
+                        return false;
+                    });
+
+                    if (activeItems.length === 0) return;
+
+                    // Ordena para garantir sequência (id já deve servir, mas r/c é melhor)
+                    if (axis === 'x') activeItems.sort((a, b) => a.c - b.c); // Ordena por coluna
+                    if (axis === 'y') activeItems.sort((a, b) => a.r - b.r); // Ordena por linha
+
+                    // Ponto fixo é o primeiro item (ou média, mas primeiro é mais intuitivo)
+                    const anchorItem = activeItems[0];
+                    const anchorVal = axis === 'x' ? anchorItem.x : anchorItem.y;
+
+                    // Aplica estiramento cumulativo
+                    // Lógica: item N se move N * amount
+                    // Isso preserva a posição do primeiro e expande o resto
+
+                    // Problema: Global mistura tudo.
+                    // Para Global X: agrupa por colunas.
+                    // Para Global Y: agrupa por linhas.
+
+                    if (this.mode === 'global') {
+                        // Global X: afeta todas as colunas
+                        if (axis === 'x') {
+                            for (let c = 0; c < this.cols; c++) {
+                                const offset = c * amount;
+                                this.items.filter(i => i.c === c).forEach(i => i.x += offset);
+                            }
+                        }
+                        // Global Y: afeta todas as linhas
+                        if (axis === 'y') {
+                            for (let r = 0; r < this.rows; r++) {
+                                const offset = r * amount;
+                                this.items.filter(i => i.r === r).forEach(i => i.y += offset);
+                            }
+                        }
+                    }
+                    else {
+                        // Modo Linha/Coluna Específica
+                        // Se estou na Linha 5 e dou Stretch X: espaça as colunas DENTRO dessa linha
+                        activeItems.forEach((item, idx) => {
+                            // idx é a posição relativa no grupo (0, 1, 2...)
+                            // offset = idx * amount
+                            if (axis === 'x') item.x += (idx * amount);
+                            if (axis === 'y') item.y += (idx * amount);
+                        });
+                    }
+                },
+
+                // Drag Individual
+                startDrag(e, id) {
+                    this.draggingId = id;
+                    this.isClick = true;
+                    this.startX = e.clientX;
+                    this.startY = e.clientY;
+                    const item = this.items.find(i => i.id === id);
+                    this.initialItemX = item.x;
+                    this.initialItemY = item.y;
+                },
+
+                onDrag(e) {
+                    if (this.draggingId === null) return;
+                    e.preventDefault();
+                    const dx = e.clientX - this.startX;
+                    const dy = e.clientY - this.startY;
+                    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) this.isClick = false;
+                    const scale = this.zoom / 100;
+                    const item = this.items.find(i => i.id === this.draggingId);
+                    item.x = Math.round(this.initialItemX + (dx / scale));
+                    item.y = Math.round(this.initialItemY + (dy / scale));
+                },
+
+                stopDrag() {
+                    if (this.draggingId !== null) {
+                        if (this.isClick) {
+                            const item = this.items.find(i => i.id === this.draggingId);
+                            item.isTarget = !item.isTarget;
+                        }
+                        this.draggingId = null;
+                    }
+                },
+
+                generateCode() {
+                    const exportItems = this.items.map(i => ({
+                        id: i.id,
+                        x: Math.round(i.x),
+                        y: Math.round(i.y),
+                        t: i.isTarget ? 1 : 0
+                    }));
+                    const config = {
+                        imgWidth: this.imgWidth,
+                        imgHeight: this.imgHeight,
+                        boxW: parseInt(this.boxW),
+                        boxH: parseInt(this.boxH),
+                        items: exportItems
+                    };
+                    this.output = `/* CONFIG ROTAS */\nconst ROTAS_CONFIG = ` + JSON.stringify(config, null, 0) + `;`;
+                    navigator.clipboard.writeText(this.output);
+                    alert("Copiado!");
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

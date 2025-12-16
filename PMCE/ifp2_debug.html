@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DEBUG IFP-II | Aprovação Psycho</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-page: #0f0e1a;
+            --bg-card: #151427;
+            --primary: #9f54ff;
+            --secondary: #00c2ff;
+            --accent: #ff00ff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: #b6b6d1;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-page);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        .glass-panel {
+            background: rgba(21, 20, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-neon {
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(159, 84, 255, 0.3);
+        }
+
+        .btn-neon:hover {
+            box-shadow: 0 0 25px rgba(159, 84, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .bg-card {
+                border: 1px solid #ccc;
+                background: none;
+            }
+
+            .glass-panel {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <nav class="glass-panel sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
+                <div
+                    class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center shadow-lg shadow-red-500/20">
+                    <i class="fas fa-bug text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-xl text-white tracking-wide">APROVAÇÃO <span
+                            class="text-red-500">DEBUG</span></h1>
+                    <p class="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Testador de Lógica IFP-II
+                    </p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-10">
+
+        <div id="screen-input" class="fade-in">
+            <div class="bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8 w-full max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-white mb-4">Entrada de Dados (Respostas)</h2>
+                <p class="text-gray-400 mb-4 text-sm">Cole abaixo a lista de números (um por linha ou separados por
+                    espaço/vírgula). A lógica espera exatamente 100 respostas (Escala 1 a 7).</p>
+
+                <textarea id="input-answers"
+                    class="w-full h-64 bg-[#0f0e1a] border border-white/10 rounded-xl p-4 text-white font-mono text-xs focus:ring-2 focus:ring-purple-500 outline-none"
+                    placeholder="Ex: 
+4
+6
+2
+..."></textarea>
+
+                <div class="flex justify-between items-center mt-4">
+                    <span id="count-display" class="text-xs font-bold text-gray-500">0 respostas detectadas</span>
+                    <button onclick="processarInput()" class="btn-neon px-8 py-3 rounded-lg flex items-center gap-2">
+                        <i class="fas fa-calculator"></i> CALCULAR RESULTADO
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-result" class="hidden">
+            <div
+                class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-cyan-500"></div>
+                <div class="z-10">
+                    <h2 class="text-3xl font-black text-white mb-1">RELATÓRIO DE DEBUG (IFP-II)</h2>
+                    <p class="text-gray-400 text-sm flex items-center gap-2"><i class="far fa-calendar-alt"></i> <span
+                            id="report-date">...</span></p>
+                </div>
+                <div class="mt-4 md:mt-0 flex gap-3 no-print z-10">
+                    <button onclick="location.reload()"
+                        class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-white text-sm font-medium transition">Novo
+                        Teste</button>
+                </div>
+            </div>
+
+            <div id="result-content" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+    </main>
+
+    <script>
+        // ==========================================================================
+        // DADOS IFP-II
+        // ==========================================================================
+
+        const DATA_QUESTIONS = [
+            {
+                "id": 1,
+                "text": "Gosto de fazer coisas que outras pessoas consideram fora do comum",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 2,
+                "text": "Gostaria de realizar um grande feito ou grande obra na minha vida",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 3,
+                "text": "Gostaria de experimentar novidades e mudanças em meu dia a dia",
+                "facet": "MUDANCA"
+            },
+            {
+                "id": 4,
+                "text": "Não gosto de situações em que se exige que eu me comporte de determinada maneira",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 5,
+                "text": "Gosto de dizer o que eu penso a respeito das coisas",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 6,
+                "text": "Gosto de saber o que grandes personalidades disseram sobre os problemas pelos quais eu me interesso",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 7,
+                "text": "Gosto de ser capaz de fazer as coisas melhor do que as outras pessoas",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 8,
+                "text": "Gosto de concluir qualquer trabalho ou tarefa que tenha começado",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 9,
+                "text": "Gosto de ajudar meus amigos quando eles estão com problemas",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 10,
+                "text": "Não costumo abandonar um quebra-cabeça ou problema antes que consiga resolvê-lo",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 11,
+                "text": "Gosto de dizer aos outros como fazer seus trabalhos",
+                "facet": "DOMINANCIA"
+            },
+            {
+                "id": 12,
+                "text": "Gostaria de ser considerado uma autoridade em algum trabalho, profissão ou campo de especialização",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 13,
+                "text": "Gostaria de experimentar e provar coisas novas",
+                "facet": "MUDANCA"
+            },
+            {
+                "id": 14,
+                "text": "Quando tenho alguma tarefa para fazer, gosto de começar logo e permanecer trabalhando até completá-la",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 15,
+                "text": "Aceito com prazer a liderança das pessoas que admiro",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 16,
+                "text": "Gosto de trabalhar horas a fio sem ser interrompido",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 17,
+                "text": "Gosto que meus amigos me dêem muita atenção quando estou sofrendo ou doente",
+                "facet": "AFAGO"
+            },
+            {
+                "id": 18,
+                "text": "Costumo analisar minhas intenções e sentimentos",
+                "facet": "INTRACEPCAO"
+            },
+            {
+                "id": 19,
+                "text": "Gosto de fazer com carinho pequenos favores a meus amigos",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 20,
+                "text": "Gosto de ficar acordado até tarde para terminar um trabalho",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 21,
+                "text": "Gosto de andar pelo pais  e viver em lugares diferentes",
+                "facet": "MUDANCA"
+            },
+            {
+                "id": 22,
+                "text": "Gosto de analisar os sentimentos e intenções dos outros",
+                "facet": "INTRACEPCAO"
+            },
+            {
+                "id": 23,
+                "text": "Gosto de fazer gozação com pessoas que fazem coisas que eu considero estúpidas",
+                "facet": "AGRESSIVIDADE"
+            },
+            {
+                "id": 24,
+                "text": "Tenho vontade de me vingar quando alguém me insulta",
+                "facet": "AGRESSIVIDADE"
+            },
+            {
+                "id": 25,
+                "text": "Gosto de pensar sobre o caráter dos meus amigos e tentar descobrir o que os faz serem como são",
+                "facet": "INTRACEPCAO"
+            },
+            {
+                "id": 26,
+                "text": "Sou leal aos meus amigos",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 27,
+                "text": "Gosto de levar trabalho ou tarefa até o fim antes de começar outro",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 28,
+                "text": "Gosto de dizer aos meus superiores que eles fizeram um bom trabalho, quando acredito nisso",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 29,
+                "text": "Gosto que meus amigos sejam solidários comigo e me animem quando estou deprimido",
+                "facet": "AFAGO"
+            },
+            {
+                "id": 30,
+                "text": "Antes de começar um trabalho, gosto de organizá-lo e planejá-lo",
+                "facet": "ORDEM"
+            },
+            {
+                "id": 31,
+                "text": "Gosto que meus amigos demonstrem muito afeto por mim",
+                "facet": "AFAGO"
+            },
+            {
+                "id": 32,
+                "text": "Gosto de realizar tarefas que, na opinião dos outros, exigem habilidade e esforço",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 33,
+                "text": "Gosto de ser bem sucedido nas coisas que faço",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 34,
+                "text": "Gosto de fazer amizades",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 35,
+                "text": "Gosto de ser considerado um líder pelos outros",
+                "facet": "DOMINANCIA"
+            },
+            {
+                "id": 36,
+                "text": "Gosto de realizar com afinco (sem descanso) qualquer trabalho que faço",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 37,
+                "text": "Gosto de participar de grupos cujos membros se tratem com afeto e amizade",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 38,
+                "text": "Sinto-me satisfeito quando realizo bem um trabalho difícil",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 39,
+                "text": "Tenho vontade de mandar os outros calarem a boca quando discordo deles",
+                "facet": "AGRESSIVIDADE"
+            },
+            {
+                "id": 40,
+                "text": "Gosto de fazer coisas do meu jeito sem me importar com o que os outros possam pensar",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 41,
+                "text": "Gosto de viajar e conhecer o país",
+                "facet": "MUDANCA"
+            },
+            {
+                "id": 42,
+                "text": "Gosto de me fixar em um trabalho ou problema mesmo quando a solução pareça extremamente difícil",
+                "facet": "PERSISTENCIA"
+            },
+            {
+                "id": 43,
+                "text": "Gosto de conhecer pessoas novas",
+                "facet": "MUDANCA"
+            },
+            {
+                "id": 44,
+                "text": "Gosto de dividir coisas com os outros",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 45,
+                "text": "Sinto-me satisfeito quando consigo convencer e influenciar os outros",
+                "facet": "DOMINANCIA"
+            },
+            {
+                "id": 46,
+                "text": "Gosto de demonstrar muita afeição por meus amigos",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 47,
+                "text": "Gosto de prestar favores aos outros",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 48,
+                "text": "Gosto de seguir instruções e fazer o que é esperado de mim",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 49,
+                "text": "Gosto de elogiar alguém que admiro",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 50,
+                "text": "Quando planejo alguma coisa, procuro sugestões de pessoas que respeito",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 51,
+                "text": "Gosto de manter minhas coisas limpas e ordenadas em minha escrivaninha ou em meu local de trabalho",
+                "facet": "ORDEM"
+            },
+            {
+                "id": 52,
+                "text": "Gosto de manter fortes laços de amizade",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 53,
+                "text": "Gosto que meus amigos me ajudem quando estou com problema",
+                "facet": "AFAGO"
+            },
+            {
+                "id": 54,
+                "text": "Gosto que meus amigos mostrem boa vontade em me prestar pequenos favores",
+                "facet": "AFAGO"
+            },
+            {
+                "id": 55,
+                "text": "Gosto de manter minhas cartas, contas e outros papéis bem arrumados e arquivados de acordo com algum sistema",
+                "facet": "ORDEM"
+            },
+            {
+                "id": 56,
+                "text": "Gosto que meus amigos sejam solidários e compreensivos quando tenho problemas",
+                "facet": "AFAGO"
+            },
+            {
+                "id": 57,
+                "text": "Prefiro fazer coisas com meus amigos a fazer sozinho",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 58,
+                "text": "Gosto de tratar outras pessoas com bondade e compaixão",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 59,
+                "text": "Gosto de comer em restaurantes novo e exóticos (diferentes)",
+                "facet": "MUDANCA"
+            },
+            {
+                "id": 60,
+                "text": "Procuro entender como meus amigos se sentem a respeito de problemas que eles enfrentam",
+                "facet": "INTRACEPCAO"
+            },
+            {
+                "id": 61,
+                "text": "Gosto de ser o centro das atenções em um grupo",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 62,
+                "text": "Gosto de ser um dos líderes nas organizações e grupos aos quais pertenço",
+                "facet": "DOMINANCIA"
+            },
+            {
+                "id": 63,
+                "text": "Gosto de ser independente dos outros para decidir o que quero fazer",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 64,
+                "text": "Gosto de me manter em contato com meus amigos",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 65,
+                "text": "Quando participo de uma comissão (reunião), gosto de ser indicado ou eleito presidente",
+                "facet": "DOMINANCIA"
+            },
+            {
+                "id": 66,
+                "text": "Gosto de fazer tantos amigos quanto possível",
+                "facet": "AFILIACAO"
+            },
+            {
+                "id": 67,
+                "text": "Gosto de observar como uma pessoa se sente numa determinada situação",
+                "facet": "INTRACEPCAO"
+            },
+            {
+                "id": 68,
+                "text": "Quando estou em um grupo, aceito com prazer a liderança de outra pessoa para decidir o que o grupo fará",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 69,
+                "text": "Não gosto de me sentir pressionado por responsabilidades e deveres",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 70,
+                "text": "Às vezes, fico tão irritado que sinto vontade de jogar e quebrar coisas",
+                "facet": "AGRESSIVIDADE"
+            },
+            {
+                "id": 71,
+                "text": "Gosto de fazer perguntas que ninguém será capaz de responder",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 72,
+                "text": "Às vezes, gosto de fazer coisas simplesmente para ver o efeito que terão sobre os outros",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 73,
+                "text": "Sou solidário com meus amigos quando machucados ou doentes",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 74,
+                "text": "Não tenho medo de criticar pessoas que ocupam posições de autoridade",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 75,
+                "text": "Gosto de fiscalizar e dirigir os atos dos outros sempre que posso",
+                "facet": "DOMINANCIA"
+            },
+            {
+                "id": 76,
+                "text": "Culpo os outros quando as coisas dão errado comigo",
+                "facet": "AGRESSIVIDADE"
+            },
+            {
+                "id": 77,
+                "text": "Gosto de ajudar pessoas que têm menos sorte do que eu",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 78,
+                "text": "Gosto de planejar e organizar, em todos os detalhes, qualquer trabalho que eu faço",
+                "facet": "ORDEM"
+            },
+            {
+                "id": 79,
+                "text": "Gosto de fazer coisas novas e diferentes",
+                "facet": "MUDANCA"
+            },
+            {
+                "id": 80,
+                "text": "Gostaria de realizar com sucesso alguma coisa de grande importância",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 81,
+                "text": "Quando estou com um grupo de pessoas, gosto de decidir sobre o que vamos fazer",
+                "facet": "DOMINANCIA"
+            },
+            {
+                "id": 82,
+                "text": "Interesso-me em conhecer a vida de grandes personalidades",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 83,
+                "text": "Procuro me adaptar ao modo de ser das pessoas que admiro",
+                "facet": "DEFERENCIA"
+            },
+            {
+                "id": 84,
+                "text": "Gosto de resolver quebra-cabeças e problemas com os quais outras pessoas têm dificuldades",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 85,
+                "text": "Gosto de falar sobre os meus sucessos",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 86,
+                "text": "Gosto de dar o melhor de mim em tudo que faço",
+                "facet": "DESEMPENHO"
+            },
+            {
+                "id": 87,
+                "text": "Gosto de estudar e analisar o comportamento dos outros",
+                "facet": "INTRACEPCAO"
+            },
+            {
+                "id": 88,
+                "text": "Gosto de contar aos outros aventuras e coisas estranhas que acontecem comigo",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 89,
+                "text": "Perdôo as pessoas que às vezes possam me magoar",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 90,
+                "text": "Gosto de prever (entender) como meus amigos irão agir em diferentes situações",
+                "facet": "INTRACEPCAO"
+            },
+            {
+                "id": 91,
+                "text": "Gosto de me sentir livre para fazer o que quero",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 92,
+                "text": "Gosto de me sentir livre para ir e vir quando quiser",
+                "facet": "AUTONOMIA"
+            },
+            {
+                "id": 93,
+                "text": "Gosto de usar palavras cujo significado as outras pessoas desconhecem",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 94,
+                "text": "Gosto de planejar antes de iniciar algo difícil",
+                "facet": "ORDEM"
+            },
+            {
+                "id": 95,
+                "text": "Qualquer trabalho escrito que faço, gosto que seja preciso, limpo e bem organizado",
+                "facet": "ORDEM"
+            },
+            {
+                "id": 96,
+                "text": "Gosto que as pessoas notem e comentem a minha aparência quando estou em público",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 97,
+                "text": "Gosto que meus amigos me tratem com delicadeza",
+                "facet": "AFAGO"
+            },
+            {
+                "id": 98,
+                "text": "Gosto de ser generoso com os outros",
+                "facet": "ASSISTENCIA"
+            },
+            {
+                "id": 99,
+                "text": "Gosto de contar estórias e piadas engraçadas em festas",
+                "facet": "EXIBICAO"
+            },
+            {
+                "id": 100,
+                "text": "Gosto de dizer coisas que os outros consideram engraçadas e inteligentes",
+                "facet": "EXIBICAO"
+            }
+        ];
+
+        const DATA_CRITERIA = {
+            "ASSISTENCIA": { "min": 50, "max": 100 },
+            "INTRACEPCAO": { "min": 0, "max": 70 },
+            "AFAGO": { "min": 50, "max": 100 },
+            "DEFERENCIA": { "min": 30, "max": 100 },
+            "AFILIACAO": { "min": 30, "max": 70 },
+            "DOMINANCIA": { "min": 50, "max": 100 },
+            "DESEMPENHO": { "min": 50, "max": 100 },
+            "EXIBICAO": { "min": 0, "max": 50 },
+            "AGRESSIVIDADE": { "min": 20, "max": 70 },
+            "ORDEM": { "min": 50, "max": 100 },
+            "PERSISTENCIA": { "min": 50, "max": 100 },
+            "MUDANCA": { "min": 0, "max": 60 },
+            "AUTONOMIA": { "min": 40, "max": 100 }
+        };
+
+        const DATA_PERCENTILES = {
+            "ASSISTENCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 10 }, { "s": 37, "p": 10 }, { "s": 38, "p": 15 }, { "s": 39, "p": 20 }, { "s": 40, "p": 25 }, { "s": 41, "p": 30 }, { "s": 42, "p": 35 }, { "s": 43, "p": 45 }, { "s": 44, "p": 50 }, { "s": 45, "p": 55 }, { "s": 46, "p": 60 }, { "s": 47, "p": 70 }, { "s": 48, "p": 75 }, { "s": 49, "p": 75 }, { "s": 50, "p": 80 }, { "s": 51, "p": 85 }, { "s": 52, "p": 90 }, { "s": 53, "p": 90 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 100 }],
+            "INTRACEPCAO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 10 }, { "s": 26, "p": 10 }, { "s": 27, "p": 15 }, { "s": 28, "p": 20 }, { "s": 29, "p": 25 }, { "s": 30, "p": 25 }, { "s": 31, "p": 30 }, { "s": 32, "p": 40 }, { "s": 33, "p": 45 }, { "s": 34, "p": 50 }, { "s": 35, "p": 55 }, { "s": 36, "p": 65 }, { "s": 37, "p": 70 }, { "s": 38, "p": 75 }, { "s": 39, "p": 80 }, { "s": 40, "p": 80 }, { "s": 41, "p": 85 }, { "s": 42, "p": 90 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 95 }, { "s": 46, "p": 95 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 100 }],
+            "AFAGO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 10 }, { "s": 22, "p": 10 }, { "s": 23, "p": 15 }, { "s": 24, "p": 15 }, { "s": 25, "p": 20 }, { "s": 26, "p": 25 }, { "s": 27, "p": 30 }, { "s": 28, "p": 30 }, { "s": 29, "p": 35 }, { "s": 30, "p": 45 }, { "s": 31, "p": 50 }, { "s": 32, "p": 55 }, { "s": 33, "p": 60 }, { "s": 34, "p": 65 }, { "s": 35, "p": 70 }, { "s": 36, "p": 75 }, { "s": 37, "p": 80 }, { "s": 38, "p": 80 }, { "s": 39, "p": 85 }, { "s": 40, "p": 85 }, { "s": 41, "p": 85 }, { "s": 42, "p": 85 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 90 }, { "s": 46, "p": 90 }, { "s": 47, "p": 90 }, { "s": 48, "p": 90 }, { "s": 49, "p": 100 }],
+            "DEFERENCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 5 }, { "s": 37, "p": 5 }, { "s": 38, "p": 5 }, { "s": 39, "p": 10 }, { "s": 40, "p": 10 }, { "s": 41, "p": 15 }, { "s": 42, "p": 15 }, { "s": 43, "p": 20 }, { "s": 44, "p": 25 }, { "s": 45, "p": 30 }, { "s": 46, "p": 35 }, { "s": 47, "p": 40 }, { "s": 48, "p": 45 }, { "s": 49, "p": 50 }, { "s": 50, "p": 60 }, { "s": 51, "p": 65 }, { "s": 52, "p": 70 }, { "s": 53, "p": 75 }, { "s": 54, "p": 80 }, { "s": 55, "p": 85 }, { "s": 56, "p": 85 }, { "s": 57, "p": 90 }, { "s": 58, "p": 90 }, { "s": 59, "p": 95 }, { "s": 60, "p": 95 }, { "s": 61, "p": 95 }, { "s": 62, "p": 95 }, { "s": 63, "p": 100 }],
+            "AFILIACAO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 5 }, { "s": 37, "p": 5 }, { "s": 38, "p": 5 }, { "s": 39, "p": 5 }, { "s": 40, "p": 5 }, { "s": 41, "p": 5 }, { "s": 42, "p": 10 }, { "s": 43, "p": 10 }, { "s": 44, "p": 15 }, { "s": 45, "p": 15 }, { "s": 46, "p": 20 }, { "s": 47, "p": 25 }, { "s": 48, "p": 30 }, { "s": 49, "p": 35 }, { "s": 50, "p": 40 }, { "s": 51, "p": 45 }, { "s": 52, "p": 50 }, { "s": 53, "p": 55 }, { "s": 54, "p": 60 }, { "s": 55, "p": 65 }, { "s": 56, "p": 75 }, { "s": 57, "p": 80 }, { "s": 58, "p": 80 }, { "s": 59, "p": 85 }, { "s": 60, "p": 90 }, { "s": 61, "p": 90 }, { "s": 62, "p": 95 }, { "s": 63, "p": 100 }],
+            "DOMINANCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 10 }, { "s": 20, "p": 10 }, { "s": 21, "p": 15 }, { "s": 22, "p": 15 }, { "s": 23, "p": 20 }, { "s": 24, "p": 25 }, { "s": 25, "p": 30 }, { "s": 26, "p": 35 }, { "s": 27, "p": 40 }, { "s": 28, "p": 45 }, { "s": 29, "p": 50 }, { "s": 30, "p": 55 }, { "s": 31, "p": 60 }, { "s": 32, "p": 65 }, { "s": 33, "p": 70 }, { "s": 34, "p": 75 }, { "s": 35, "p": 80 }, { "s": 36, "p": 80 }, { "s": 37, "p": 85 }, { "s": 38, "p": 85 }, { "s": 39, "p": 90 }, { "s": 40, "p": 90 }, { "s": 41, "p": 95 }, { "s": 42, "p": 95 }, { "s": 43, "p": 95 }, { "s": 44, "p": 95 }, { "s": 45, "p": 95 }, { "s": 46, "p": 95 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 100 }],
+            "DESEMPENHO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 5 }, { "s": 37, "p": 5 }, { "s": 38, "p": 5 }, { "s": 39, "p": 5 }, { "s": 40, "p": 5 }, { "s": 41, "p": 5 }, { "s": 42, "p": 10 }, { "s": 43, "p": 10 }, { "s": 44, "p": 15 }, { "s": 45, "p": 15 }, { "s": 46, "p": 20 }, { "s": 47, "p": 25 }, { "s": 48, "p": 30 }, { "s": 49, "p": 35 }, { "s": 50, "p": 40 }, { "s": 51, "p": 45 }, { "s": 52, "p": 50 }, { "s": 53, "p": 55 }, { "s": 54, "p": 65 }, { "s": 55, "p": 70 }, { "s": 56, "p": 75 }, { "s": 57, "p": 80 }, { "s": 58, "p": 85 }, { "s": 59, "p": 90 }, { "s": 60, "p": 90 }, { "s": 61, "p": 95 }, { "s": 62, "p": 95 }, { "s": 63, "p": 100 }],
+            "EXIBICAO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 10 }, { "s": 21, "p": 10 }, { "s": 22, "p": 10 }, { "s": 23, "p": 15 }, { "s": 24, "p": 15 }, { "s": 25, "p": 20 }, { "s": 26, "p": 25 }, { "s": 27, "p": 30 }, { "s": 28, "p": 30 }, { "s": 29, "p": 35 }, { "s": 30, "p": 40 }, { "s": 31, "p": 45 }, { "s": 32, "p": 50 }, { "s": 33, "p": 55 }, { "s": 34, "p": 60 }, { "s": 35, "p": 65 }, { "s": 36, "p": 70 }, { "s": 37, "p": 70 }, { "s": 38, "p": 75 }, { "s": 39, "p": 80 }, { "s": 40, "p": 80 }, { "s": 41, "p": 85 }, { "s": 42, "p": 85 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 90 }, { "s": 46, "p": 90 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 95 }, { "s": 50, "p": 95 }, { "s": 51, "p": 95 }, { "s": 52, "p": 95 }, { "s": 53, "p": 95 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 95 }, { "s": 57, "p": 95 }, { "s": 58, "p": 95 }, { "s": 59, "p": 95 }, { "s": 60, "p": 95 }, { "s": 61, "p": 100 }, { "s": 62, "p": 100 }, { "s": 63, "p": 100 }],
+            "AGRESSIVIDADE": [{ "s": 1, "p": 15 }, { "s": 2, "p": 15 }, { "s": 3, "p": 15 }, { "s": 4, "p": 15 }, { "s": 5, "p": 15 }, { "s": 6, "p": 25 }, { "s": 7, "p": 35 }, { "s": 8, "p": 40 }, { "s": 9, "p": 50 }, { "s": 10, "p": 55 }, { "s": 11, "p": 65 }, { "s": 12, "p": 70 }, { "s": 13, "p": 75 }, { "s": 14, "p": 80 }, { "s": 15, "p": 80 }, { "s": 16, "p": 85 }, { "s": 17, "p": 90 }, { "s": 18, "p": 90 }, { "s": 19, "p": 90 }, { "s": 20, "p": 95 }, { "s": 21, "p": 95 }, { "s": 22, "p": 95 }, { "s": 23, "p": 95 }, { "s": 24, "p": 95 }, { "s": 25, "p": 95 }, { "s": 26, "p": 95 }, { "s": 27, "p": 95 }, { "s": 28, "p": 95 }, { "s": 29, "p": 95 }, { "s": 30, "p": 95 }, { "s": 31, "p": 95 }, { "s": 32, "p": 95 }, { "s": 33, "p": 95 }, { "s": 34, "p": 95 }],
+            "ORDEM": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 10 }, { "s": 30, "p": 15 }, { "s": 31, "p": 20 }, { "s": 32, "p": 25 }, { "s": 33, "p": 30 }, { "s": 34, "p": 35 }, { "s": 35, "p": 45 }, { "s": 36, "p": 50 }, { "s": 37, "p": 60 }, { "s": 38, "p": 65 }, { "s": 39, "p": 70 }, { "s": 40, "p": 80 }, { "s": 41, "p": 85 }, { "s": 42, "p": 100 }],
+            "PERSISTENCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 10 }, { "s": 36, "p": 15 }, { "s": 37, "p": 15 }, { "s": 38, "p": 20 }, { "s": 39, "p": 25 }, { "s": 40, "p": 30 }, { "s": 41, "p": 35 }, { "s": 42, "p": 45 }, { "s": 43, "p": 50 }, { "s": 44, "p": 55 }, { "s": 45, "p": 60 }, { "s": 46, "p": 65 }, { "s": 47, "p": 70 }, { "s": 48, "p": 80 }, { "s": 49, "p": 80 }, { "s": 50, "p": 85 }, { "s": 51, "p": 90 }, { "s": 52, "p": 90 }, { "s": 53, "p": 95 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 100 }],
+            "MUDANCA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 10 }, { "s": 27, "p": 10 }, { "s": 28, "p": 15 }, { "s": 29, "p": 20 }, { "s": 30, "p": 20 }, { "s": 31, "p": 25 }, { "s": 32, "p": 30 }, { "s": 33, "p": 35 }, { "s": 34, "p": 45 }, { "s": 35, "p": 50 }, { "s": 36, "p": 55 }, { "s": 37, "p": 60 }, { "s": 38, "p": 65 }, { "s": 39, "p": 70 }, { "s": 40, "p": 75 }, { "s": 41, "p": 80 }, { "s": 42, "p": 85 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 90 }, { "s": 46, "p": 95 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 100 }],
+            "AUTONOMIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 10 }, { "s": 28, "p": 10 }, { "s": 29, "p": 10 }, { "s": 30, "p": 15 }, { "s": 31, "p": 20 }, { "s": 32, "p": 20 }, { "s": 33, "p": 25 }, { "s": 34, "p": 30 }, { "s": 35, "p": 35 }, { "s": 36, "p": 40 }, { "s": 37, "p": 50 }, { "s": 38, "p": 55 }, { "s": 39, "p": 60 }, { "s": 40, "p": 65 }, { "s": 41, "p": 70 }, { "s": 42, "p": 75 }, { "s": 43, "p": 75 }, { "s": 44, "p": 80 }, { "s": 45, "p": 85 }, { "s": 46, "p": 85 }, { "s": 47, "p": 90 }, { "s": 48, "p": 90 }, { "s": 49, "p": 90 }, { "s": 50, "p": 95 }, { "s": 51, "p": 95 }, { "s": 52, "p": 95 }, { "s": 53, "p": 95 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 95 }, { "s": 57, "p": 95 }, { "s": 58, "p": 95 }, { "s": 59, "p": 95 }, { "s": 60, "p": 95 }, { "s": 61, "p": 95 }, { "s": 62, "p": 100 }, { "s": 63, "p": 100 }]
+        };
+
+        // ==========================================================================
+        // LÓGICA DE DEBUG
+        // ==========================================================================
+
+        document.getElementById('input-answers').addEventListener('input', function () {
+            const raw = this.value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+            document.getElementById('count-display').innerText = `${answers.length} respostas detectadas`;
+
+            if (answers.length === DATA_QUESTIONS.length) {
+                document.getElementById('count-display').className = "text-xs font-bold text-green-400";
+            } else {
+                document.getElementById('count-display').className = "text-xs font-bold text-red-400";
+            }
+        });
+
+        function processarInput() {
+            const raw = document.getElementById('input-answers').value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+
+            if (answers.length !== DATA_QUESTIONS.length) {
+                alert(`Erro: Você forneceu ${answers.length} respostas, mas o teste requer exatamente ${DATA_QUESTIONS.length}.`);
+                return;
+            }
+
+            const invalid = answers.some(n => isNaN(n) || n < 1 || n > 7);
+            if (invalid) {
+                if (!confirm("Alguns valores parecem inválidos (fora de 1-7). Continuar mesmo assim?")) return;
+            }
+
+            calculate(answers);
+        }
+
+        function calculate(answersArray) {
+            let scores = {};
+            for (let f in DATA_PERCENTILES) scores[f] = 0;
+
+            answersArray.forEach((val, index) => {
+                const q = DATA_QUESTIONS[index];
+                if (!scores[q.facet]) scores[q.facet] = 0;
+                scores[q.facet] += val;
+            });
+
+            let results = {};
+            let isGlobalApto = true;
+
+            for (let f in scores) {
+                const raw = scores[f];
+
+                let pct = 0;
+                const table = DATA_PERCENTILES[f];
+
+                if (table) {
+                    for (let i = 0; i < table.length; i++) {
+                        if (raw >= table[i].s) {
+                            pct = table[i].p;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                const crit = DATA_CRITERIA[f] || { min: 0, max: 100 };
+                const apto = pct >= crit.min && pct <= crit.max;
+                if (!apto) isGlobalApto = false;
+
+                results[f] = { raw, pct, apto, min: crit.min, max: crit.max };
+            }
+
+            renderReport(results, isGlobalApto);
+        }
+
+        function renderReport(res, globalStatus) {
+            document.getElementById('screen-input').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            document.getElementById('report-date').innerText = new Date().toLocaleString();
+
+            const container = document.getElementById('result-content');
+            let html = '';
+
+            for (let facet in res) {
+                const r = res[facet];
+                const statusColor = r.apto ? "text-green-400 bg-green-500/10 border-green-500/20" : "text-red-400 bg-red-500/10 border-red-500/20";
+
+                const left = r.min + '%';
+                const width = (r.max - r.min) + '%';
+                const marker = r.pct + '%';
+                const markerColor = r.apto ? 'bg-cyan-400' : 'bg-red-500';
+
+                html += `
+        <div class="glass p-4 rounded-xl flex flex-col gap-3 shadow-sm bg-[#1c1b29] border border-white/5">
+            <div class="flex justify-between items-center">
+                <span class="font-bold text-gray-200">${facet}</span>
+                <span class="text-[10px] text-gray-500 font-mono">PTS: ${r.raw}</span>
+            </div>
+            
+            <div class="flex-1 h-6 bg-black/40 rounded-lg relative overflow-hidden border border-white/10">
+                <div class="absolute top-0 bottom-0 bg-white/5 border-x border-white/10" style="left:${left}; width:${width}" title="Meta"></div>
+                <div class="absolute top-0 bottom-0 w-1 ${markerColor} shadow-[0_0_8px_currentColor] transition-all duration-1000" style="left:${marker}"></div>
+            </div>
+
+            <div class="flex justify-between items-center text-xs">
+                <span class="text-white font-bold text-lg">${r.pct}%</span>
+                <span class="px-2 py-1 rounded font-bold border ${statusColor}">${r.apto ? 'APTO' : 'INAPTO'}</span>
+            </div>
+        </div>`;
+            }
+
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+
+</html>

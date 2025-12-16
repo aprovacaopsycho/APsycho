@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste R1 | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <!-- Confetti Lib -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CONFIGURAÇÃO TAILWIND -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0f',
+                        card: 'rgba(28, 27, 41, 0.95)',
+                        primary: '#9f54ff', // Roxo Principal PMPR
+                        secondary: '#c084fc', // Roxo Claro R1
+                        accent: '#ff00ff',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float-up': 'floatUp 1s ease-out forwards',
+                        'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+                        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        floatUp: {
+                            '0%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+                            '100%': { transform: 'translateY(-50px) scale(1.5)', opacity: '0' },
+                        },
+                        shake: {
+                            '10%, 90%': { transform: 'translate3d(-1px, 0, 0)' },
+                            '20%, 80%': { transform: 'translate3d(2px, 0, 0)' },
+                            '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)' },
+                            '40%, 60%': { transform: 'translate3d(4px, 0, 0)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --primary: #9f54ff;
+            --accent: #ff00ff;
+        }
+
+        body {
+            background-color: #050508;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
+            color: #e2e8f0;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(28, 27, 41, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .option-btn {
+            transition: all 0.2s;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background-color: rgba(192, 132, 252, 0.2);
+            border-color: rgba(192, 132, 252, 0.5);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* Rank Badges */
+        .rank-badge {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f0e1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c084fc;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Efeito Reprovado/Inapto */
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body x-data="r1App()" x-init="startTimer(); preloadNextImages(); loadHistory()"
+    class="min-h-screen flex flex-col font-sans overflow-x-hidden">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+
+            <!-- Logo area matching pmpr.html -->
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT07OTzRSvb2qN51n_gHTF6SqCKur3N5mvkZQ&s"
+                    alt="Brasão PMPR"
+                    class="h-10 w-10 rounded-full border border-[var(--primary)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-accent"
+                            style="text-shadow:0 0 8px var(--accent)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">TESTE <span
+                            class="text-[var(--primary)]">R1</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <!-- Stats Bar (Header) -->
+            <div class="flex items-center gap-6">
+
+                <!-- Streak Counter (Mini) -->
+                <div x-show="streak > 1"
+                    class="hidden md:flex items-center gap-2 text-orange-400 font-bold animate-pulse-fast">
+                    <i class="fas fa-fire"></i>
+                    <span x-text="streak + 'x'"></span>
+                </div>
+
+                <!-- Timer Removed -->
+
+                <a href="testes_inteligencia.html" @click="return confirm('Sair do teste? O progresso será perdido.')"
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-4xl flex-grow flex flex-col relative">
+
+        <!-- Unified Timer -->
+        <div x-show="!finished && currentQuestion > 0"
+            class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4">
+            <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                :class="{'border-red-500 bg-red-900/40': timeRemaining <= 300}">
+                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                    :class="{'text-red-400 animate-pulse': timeRemaining <= 300}" x-text="formatTime(timeRemaining)">
+                </div>
+            </div>
+        </div>
+
+        <!-- XP Floating Text Container -->
+        <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden">
+            <template x-for="xp in xpFloats" :key="xp.id">
+                <div class="absolute text-yellow-400 font-black text-2xl animate-float-up"
+                    :style="`left: ${xp.x}px; top: ${xp.y}px; text-shadow: 0 0 10px gold;`">
+                    +XP
+                </div>
+            </template>
+        </div>
+
+
+        <!-- INTRO / INSTRUÇÕES (Só aparece se currentQuestion === 0) -->
+        <div x-show="currentQuestion === 0 && !finished"
+            class="glass-panel p-8 rounded-2xl text-center max-w-2xl mx-auto my-auto">
+            <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste R1</h1>
+            <p class="text-gray-300 mb-6 text-lg leading-relaxed">
+                Este teste avalia sua capacidade de raciocínio lógico abstrato.
+            </p>
+            <ul class="text-left text-gray-400 text-sm space-y-3 mb-8 bg-black/20 p-6 rounded-xl border border-white/5">
+                <li><i class="fas fa-bolt text-yellow-400 mr-2"></i> Ganhe <strong>XP</strong> acertando questões!</li>
+                <li><i class="fas fa-fire text-orange-500 mr-2"></i> Mantenha o <strong>Combo (Streak)</strong> para
+                    pontuar mais alto.</li>
+                <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>30 minutos</strong> para 40
+                    questões.</li>
+                <li><i class="fas fa-trophy text-purple-400 mr-2"></i> Alcance o rank <strong>DIAMANTE</strong>!</li>
+            </ul>
+            COMEÇAR O TESTE
+            </button>
+        </div>
+
+        <!-- HISTÓRICO (Somente na Intro) -->
+        <div x-show="currentQuestion === 0 && !finished"
+            class="glass-panel rounded-2xl border border-white/5 overflow-hidden fade-in mt-8 max-w-2xl mx-auto w-full">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center bg-black/20">
+                <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                    @click="clearHistory()">Limpar</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                    <thead class="text-xs text-gray-500 uppercase bg-black/40">
+                        <tr>
+                            <th class="px-6 py-4 font-medium">Data</th>
+                            <th class="px-6 py-4 font-medium text-center">Score</th>
+                            <th class="px-6 py-4 font-medium text-center">Rank</th>
+                            <th class="px-6 py-4 font-medium text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        <template x-if="history.length === 0">
+                            <tr>
+                                <td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum registro encontrado.
+                                </td>
+                            </tr>
+                        </template>
+                        <template x-for="(item, index) in history" :key="index">
+                            <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
+                                <td class="px-6 py-4 text-gray-300" x-text="item.date"></td>
+                                <td class="px-6 py-4 text-center font-bold text-white" x-text="item.score + '/40'"></td>
+                                <td class="px-6 py-4 text-center font-bold text-[10px] uppercase tracking-wider"
+                                    :class="item.rankColor" x-text="item.rank"></td>
+                                <td class="px-6 py-4 text-center font-bold"
+                                    :class="item.score >= 31 ? 'text-green-400' : 'text-red-400'"
+                                    x-text="item.score >= 31 ? 'APTO' : 'INAPTO'"></td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- AREA DO TESTE -->
+        <div x-show="currentQuestion > 0 && !finished" class="flex flex-col gap-6" x-transition>
+
+            <!-- Barra de Progresso -->
+            <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-primary h-full transition-all duration-500 relative"
+                    :style="`width: ${(currentQuestion / 40) * 100}%`">
+                    <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+                </div>
+            </div>
+
+            <!-- Cabeçalho da Questão -->
+            <div class="flex justify-between items-end px-2">
+                <h2 class="text-2xl font-bold text-white">Questão <span x-text="currentQuestion"></span><span
+                        class="text-gray-500 text-lg">/40</span></h2>
+
+                <!-- Streak Badge -->
+                <div x-show="streak > 1"
+                    class="flex items-center gap-2 bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full border border-orange-500/30 animate-bounce">
+                    <i class="fas fa-fire"></i>
+                    <span class="font-bold" x-text="`COMBO ${streak}x`"></span>
+                </div>
+            </div>
+
+            <!-- Card da Questão -->
+            <div class="glass-panel p-4 rounded-2xl flex flex-col items-center" :class="{'animate-shake': shake}">
+
+                <!-- Imagem da Questão -->
+                <div
+                    class="relative w-full bg-white rounded-xl overflow-hidden mb-8 shadow-lg border-4 border-white min-h-[300px] flex items-center justify-center">
+
+                    <!-- Loading Spinner -->
+                    <div x-show="imageLoading"
+                        class="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
+                        <div class="flex flex-col items-center gap-3">
+                            <i class="fas fa-circle-notch fa-spin text-4xl text-primary"></i>
+                            <span class="text-gray-400 text-sm font-medium animate-pulse">Carregando imagem...</span>
+                        </div>
+                    </div>
+
+                    <!-- Mapeamento: Q1 = CADERNO (2).jpg, Q2 = CADERNO (3).jpg ... Q40 = CADERNO (41).jpg -->
+                    <img :src="`r1/CADERNO (${currentQuestion + 1}).jpg`" @load="imageLoading = false" alt="Questão R1"
+                        class="w-full h-auto object-contain max-h-[500px] transition-opacity duration-300"
+                        :class="imageLoading ? 'opacity-0' : 'opacity-100'">
+                </div>
+
+                <!-- Opções de Resposta -->
+                <div class="grid grid-cols-4 sm:grid-cols-8 gap-3 w-full max-w-3xl">
+                    <template x-for="opt in options" :key="opt">
+                        <button @click="selectAnswer(opt, $event)" :disabled="userAnswers[currentQuestion]"
+                            class="option-btn h-14 rounded-lg font-bold text-xl border border-white/20 flex items-center justify-center relative overflow-hidden group"
+                            :class="{
+                                'bg-white/5 text-gray-300': !userAnswers[currentQuestion],
+                                'bg-gradient-to-br from-green-500 to-green-600 text-white border-green-400 shadow-[0_0_20px_rgba(34,197,94,0.6)] scale-105': userAnswers[currentQuestion] && opt === correctAnswers[currentQuestion] && opt === userAnswers[currentQuestion],
+                                'bg-gradient-to-br from-red-500 to-red-600 text-white border-red-400': userAnswers[currentQuestion] && opt === userAnswers[currentQuestion] && opt !== correctAnswers[currentQuestion],
+                                'opacity-30': userAnswers[currentQuestion] && opt !== userAnswers[currentQuestion]
+                            }">
+                            <span x-text="opt"></span>
+
+                            <!-- Hover Effect -->
+                            <div
+                                class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
+                            </div>
+
+                            <!-- Ícone de feedback -->
+                            <i x-show="userAnswers[currentQuestion] && opt === correctAnswers[currentQuestion] && opt === userAnswers[currentQuestion]"
+                                class="fas fa-check absolute top-1 right-1 text-[10px]"></i>
+                            <i x-show="userAnswers[currentQuestion] && opt === userAnswers[currentQuestion] && opt !== correctAnswers[currentQuestion]"
+                                class="fas fa-times absolute top-1 right-1 text-[10px]"></i>
+                        </button>
+                    </template>
+                </div>
+
+                <!-- Botão Próximo (só aparece se respondeu) -->
+                <div class="mt-8 h-12">
+                    <button x-show="userAnswers[currentQuestion]" @click="nextQuestion()"
+                        class="fade-enter flex items-center gap-2 text-primary hover:text-white font-bold tracking-wide transition transform hover:scale-105">
+                        <span x-text="currentQuestion === 40 ? 'VER RESULTADO FINAL' : 'PRÓXIMA QUESTÃO'"></span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TELA DE RESULTADOS -->
+        <div x-show="finished" class="glass-panel p-8 rounded-2xl max-w-4xl mx-auto w-full fade-enter" x-cloak>
+
+            <div class="text-center mb-10">
+                <div
+                    class="inline-block p-4 mb-4 rounded-full bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(159,84,255,0.2)]">
+                    <i class="fas fa-trophy text-4xl text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]"></i>
+                </div>
+                <h2 class="text-4xl font-black text-white mb-2">RESULTADO DO DESAFIO</h2>
+
+                <!-- Rank Display -->
+                <div class="mt-6">
+                    <span class="text-sm text-gray-400 uppercase tracking-widest font-bold">Patente Conquistada</span>
+                    <div class="text-5xl md:text-6xl font-black mt-2 bg-clip-text text-transparent bg-gradient-to-r"
+                        :class="rankColor">
+                        <span x-text="rankName"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-10">
+                <!-- Score Card -->
+                <div
+                    class="md:col-span-1 flex flex-col items-center justify-center p-6 bg-black/20 rounded-xl border border-white/5 relative overflow-hidden group hover:border-white/20 transition">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition">
+                    </div>
+
+                    <div class="text-6xl font-black mb-2 relative z-10"
+                        :class="score >= 31 ? 'text-green-400' : 'text-red-500'">
+                        <span x-text="score"></span><span class="text-2xl text-gray-500">/40</span>
+                    </div>
+
+                    <!-- CONDITIONAL STATUS -->
+                    <div class="relative z-10 w-full text-center">
+                        <template x-if="score >= 31">
+                            <div
+                                class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border bg-green-500/10 text-green-400 border-green-500/20 inline-block">
+                                APROVADO
+                            </div>
+                        </template>
+                        <template x-if="score < 31">
+                            <div>
+                                <div class="loser-text text-2xl md:text-3xl lg:text-4xl mt-2">
+                                    VOCÊ FICOU<br>INAPTO!
+                                </div>
+                                <div
+                                    class="text-xs text-red-400 font-bold uppercase tracking-widest border border-red-500/20 bg-red-500/10 rounded-full px-3 py-1 inline-block">
+                                    REPROVADO
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="md:col-span-2 grid grid-cols-2 gap-4">
+                    <div
+                        class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition">
+                        <i class="fas fa-bullseye text-green-400 text-2xl mb-2"></i>
+                        <span class="text-gray-400 text-sm">Precisão</span>
+                        <span class="text-2xl font-bold text-white" x-text="Math.round((score/40)*100) + '%'"></span>
+                    </div>
+
+                    <div
+                        class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition">
+                        <i class="fas fa-fire text-orange-400 text-2xl mb-2"></i>
+                        <span class="text-gray-400 text-sm">Maior Combo</span>
+                        <span class="text-2xl font-bold text-white" x-text="maxStreak + 'x'"></span>
+                    </div>
+
+                    <div
+                        class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition col-span-2">
+                        <div class="text-sm text-gray-400 mb-1">Status Final</div>
+                        <div class="text-white font-bold" x-text="rankMsg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GABARITO DETALHADO -->
+            <div>
+                <h3 class="text-white font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                    <i class="fas fa-list-ul text-primary"></i> Análise de Performance
+                </h3>
+                <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+                    <template x-for="(ans, index) in correctAnswers" :key="index">
+                        <div x-show="index > 0"
+                            class="p-2 rounded-lg text-center border text-xs flex flex-col gap-1 relative overflow-hidden group transition-all hover:scale-105"
+                            :class="userAnswers[index] === ans ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+
+                            <span class="font-bold text-gray-500 absolute top-0.5 left-1 text-[8px]"
+                                x-text="index"></span>
+
+                            <div class="mt-2 text-sm font-black"
+                                :class="userAnswers[index] === ans ? 'text-green-400' : 'text-red-400'">
+                                <span x-text="userAnswers[index] || '-'"></span>
+                            </div>
+
+                            <!-- Mostra a correta se errou -->
+                            <div x-show="userAnswers[index] !== ans"
+                                class="text-[10px] text-gray-400 border-t border-white/5 pt-0.5 mt-1">
+                                Era: <span x-text="ans" class="text-white font-bold"></span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="testes_inteligencia.html"
+                    class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition group">
+                    <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i> Voltar
+                </a>
+                <button @click="location.reload()"
+                    class="px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-[0_0_20px_rgba(159,84,255,0.4)] transition transform hover:scale-105">
+                    <i class="fas fa-redo-alt mr-2"></i> Tentar Novamente
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function r1App() {
+            return {
+                currentQuestion: 0, // 0 = Intro
+                timeRemaining: 30 * 60, // 30 min em segundos
+                timerInterval: null,
+                finished: false,
+                imageLoading: false,
+                score: 0,
+                streak: 0,
+                maxStreak: 0,
+                shake: false,
+                xpFloats: [],
+                shake: false,
+                xpFloats: [],
+                history: [],
+                options: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+
+                // GABARITO (Index 1-40, index 0 vazio para facilitar)
+                correctAnswers: [
+                    null,
+                    'C', 'F', 'E', 'D', 'F', 'B', 'A', 'D', 'E', 'E', // 1-10
+                    'C', 'F', 'D', 'B', 'E', 'F', 'A', 'C', 'D', 'B', // 11-20
+                    'D', 'F', 'G', 'B', 'H', 'D', 'A', 'H', 'G', 'C', // 21-30
+                    'B', 'G', 'H', 'A', 'C', 'G', 'A', 'C', 'H', 'G'  // 31-40
+                ],
+
+                userAnswers: {},
+
+                startTimer() {
+                    this.timerInterval = setInterval(() => {
+                        if (this.timeRemaining > 0 && !this.finished && this.currentQuestion > 0) {
+                            this.timeRemaining--;
+                        } else if (this.timeRemaining <= 0 && !this.finished && this.currentQuestion > 0) {
+                            this.finishTest();
+                        }
+                    }, 1000);
+                },
+
+                // Gamification Logic
+                selectAnswer(option, event) {
+                    // Impede mudança se já respondeu
+                    if (this.userAnswers[this.currentQuestion]) return;
+
+                    this.userAnswers[this.currentQuestion] = option;
+
+                    const isCorrect = option === this.correctAnswers[this.currentQuestion];
+
+                    if (isCorrect) {
+                        this.score++;
+                        this.streak++;
+                        if (this.streak > this.maxStreak) this.maxStreak = this.streak;
+
+                        // XP Float Animation
+                        if (event) {
+                            const rect = event.target.getBoundingClientRect();
+                            this.spawnXP(rect.left + rect.width / 2, rect.top);
+                        }
+                    } else {
+                        this.streak = 0;
+                        // Shake Screen
+                        this.shake = true;
+                        setTimeout(() => this.shake = false, 500);
+                    }
+                },
+
+                spawnXP(x, y) {
+                    const id = Date.now();
+                    this.xpFloats.push({ id, x, y });
+                    setTimeout(() => {
+                        this.xpFloats = this.xpFloats.filter(f => f.id !== id);
+                    }, 1000);
+                },
+
+                nextQuestion() {
+                    if (this.currentQuestion < 40) {
+                        this.currentQuestion++;
+                        this.imageLoading = true;
+                        this.preloadNextImages();
+                    } else {
+                        this.finishTest();
+                    }
+                },
+
+                startTest() {
+                    this.currentQuestion = 1;
+                    this.imageLoading = true;
+                    this.preloadNextImages();
+                },
+
+                preloadNextImages() {
+                    // Preload das próximas 5 imagens para evitar delay no mobile
+                    for (let i = 1; i <= 5; i++) {
+                        const targetQ = this.currentQuestion + i;
+                        if (targetQ <= 40) {
+                            const img = new Image();
+                            img.src = `r1/CADERNO (${targetQ + 1}).jpg`;
+                        }
+                    }
+                },
+
+                finishTest() {
+                    this.finished = true;
+                    clearInterval(this.timerInterval);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                    if (this.score >= 38) {
+                        this.launchConfetti();
+                    }
+                    this.saveHistory();
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('r1_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const newItem = {
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.score,
+                        rank: this.rankName,
+                        // Simplificação da cor para o histórico (texto simples ou uma classe base)
+                        rankColor: this.score <= 12 ? 'text-gray-500' :
+                            this.score <= 24 ? 'text-orange-500' :
+                                this.score <= 32 ? 'text-gray-300' :
+                                    this.score <= 37 ? 'text-yellow-400' : 'text-cyan-400'
+                    };
+                    this.history.unshift(newItem);
+                    localStorage.setItem('r1_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm("Limpar histórico?")) {
+                        localStorage.removeItem('r1_history');
+                        this.history = [];
+                    }
+                },
+
+                launchConfetti() {
+                    const duration = 3000;
+                    const end = Date.now() + duration;
+
+                    (function frame() {
+                        confetti({
+                            particleCount: 3,
+                            angle: 60,
+                            spread: 55,
+                            origin: { x: 0 },
+                            colors: ['#9f54ff', '#ff00ff', '#ffffff']
+                        });
+                        confetti({
+                            particleCount: 3,
+                            angle: 120,
+                            spread: 55,
+                            origin: { x: 1 },
+                            colors: ['#9f54ff', '#ff00ff', '#ffffff']
+                        });
+
+                        if (Date.now() < end) {
+                            requestAnimationFrame(frame);
+                        }
+                    }());
+                },
+
+                formatTime(seconds) {
+                    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+                    const s = (seconds % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
+                },
+
+                // Rank Getters for 40 Questions
+                get rankName() {
+                    if (this.score <= 12) return "FERRO";
+                    if (this.score <= 24) return "BRONZE";
+                    if (this.score <= 32) return "PRATA";
+                    if (this.score <= 37) return "OURO";
+                    return "DIAMANTE";
+                },
+
+                get rankColor() {
+                    if (this.score <= 12) return "from-gray-500 to-gray-700";
+                    if (this.score <= 24) return "from-orange-700 to-yellow-800";
+                    if (this.score <= 32) return "from-gray-300 to-gray-500";
+                    if (this.score <= 37) return "from-yellow-300 to-yellow-600";
+                    return "from-cyan-300 to-blue-500 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]";
+                },
+
+                get rankMsg() {
+                    if (this.score <= 24) return "Continue treinando para subir de patente!";
+                    if (this.score <= 32) return "Muito bom! Você está acima da média.";
+                    if (this.score <= 37) return "Excelente! Performance de elite.";
+                    return "LENDÁRIO! Raciocínio impecável.";
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

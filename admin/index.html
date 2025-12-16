@@ -480,9 +480,13 @@
           </div>
 
           <div class="flex gap-3 items-center">
+            <button onclick="saveTurmasLocal()"
+              class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all">
+              <i class="fas fa-save"></i> 1. Salvar DB Local
+            </button>
             <button onclick="downloadSyncScript()"
-              class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all">
-              <i class="fab fa-python"></i> Script Sync
+              class="bg-slate-800 hover:bg-slate-700 text-slate-400 px-3 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all text-xs border border-slate-700">
+              <i class="fas fa-terminal"></i> 2. Rodar Script
             </button>
 
             <div class="h-8 w-px bg-slate-700 mx-2 hidden md:block"></div>
@@ -528,10 +532,17 @@
               </select>
             </div>
             <div>
-              <button id="btn-add-turma" onclick="addTurma()"
-                class="w-full bg-brand-blue hover:bg-blue-600 text-white font-bold py-2 rounded text-sm h-[38px]">
-                <i class="fas fa-plus mr-1"></i> Criar Cards
-              </button>
+              <div class="flex gap-2">
+                <button id="btn-add-turma" onclick="addTurma()"
+                  class="flex-1 bg-brand-blue hover:bg-blue-600 text-white font-bold py-2 rounded text-sm h-[38px]">
+                  <i class="fas fa-plus mr-1"></i> Criar Cards
+                </button>
+                <button id="btn-delete-turma-form" onclick="deleteTurmaForm()"
+                  class="hidden bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-3 rounded text-sm h-[38px]"
+                  title="Excluir Turma">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </div>
           </div>
           <p class="text-[10px] text-slate-500 mt-2">
@@ -602,7 +613,7 @@
   </div>
 
   <script src="../assets/xlsx.full.min.js" defer></script>
-  <script src="app.js" defer></script>
+  <script src="app.js?v=3" defer></script>
 </body>
 
 </html>

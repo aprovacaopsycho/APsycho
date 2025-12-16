@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Tempo, Metas e Bizus | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .9) 0%, rgba(15, 14, 26, .95) 100%), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+        }
+
+        /* NEW STYLES FROM USER */
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: rgba(159, 84, 255, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(159, 84, 255, 0.2);
+            transform: translateY(-4px);
+        }
+
+        /* Bizu Section */
+        .bizu-box {
+            background: rgba(255, 193, 7, 0.05);
+            border-left: 3px solid #fbbf24;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .bizu-box.active {
+            display: block;
+        }
+
+        /* Filters */
+        .filter-btn {
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+            color: #ccc;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-purple);
+            color: white;
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(90deg, var(--primary-purple), var(--accent-pink));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 0 15px rgba(159, 84, 255, 0.4);
+        }
+
+        /* Timer */
+        .timer-display {
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -1px;
+        }
+
+        /* Inputs */
+        .glass-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .glass-input:focus {
+            border-color: var(--accent-blue);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 194, 255, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f0e1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Toggle Switch Styles */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: var(--primary-purple);
+        }
+
+        .toggle-checkbox:checked+.toggle-label {
+            background-color: var(--primary-purple);
+        }
+
+        .toggle-checkbox:checked+.toggle-label:before {
+            transform: translateX(100%);
+        }
+
+        .toggle-label {
+            width: 44px;
+            height: 24px;
+            position: relative;
+            display: inline-block;
+            border-radius: 20px;
+            background-color: #374151;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .toggle-label:before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            transition: transform 0.2s;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão PMPR"
+                    class="h-10 w-10 rounded-full border border-[#9f54ff] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:#a0a0a0">APROVAÇÃO <span
+                            style="color:#ff00ff;text-shadow:0 0 8px #ff00ff">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">PM-CE <span
+                            class="text-[#ff00ff]">2025</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+            <a href="pmpr.html"
+                class="text-sm font-bold text-cyan-400 hover:text-white transition flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Voltar ao PMPR
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8">
+
+        <!-- DASHBOARD INTRO -->
+        <div class="mb-10 text-center sm:text-left flex flex-col md:flex-row justify-between items-end">
+            <div>
+                <h1 class="text-3xl sm:text-4xl font-black text-white mb-2">Tempo, Metas e <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">Bizus</span>
+                </h1>
+                <p class="text-gray-400 max-w-2xl mb-8">Gerencie seu tempo, domine as metas e consulte as estratégias de
+                    cada
+                    teste. Marque seus treinos para acompanhar sua evolução.</p>
+            </div>
+
+            <!-- COMANDO DE VOZ TOGGLE -->
+            <div
+                class="mt-4 md:mt-0 flex items-center gap-3 bg-white/5 px-4 py-2 rounded-lg border border-white/10 mb-8 md:mb-0">
+                <div class="text-right">
+                    <div class="text-xs font-bold text-white uppercase tracking-wider">Simulador de Voz</div>
+                    <div class="text-[10px] text-gray-400">Instruções de prova</div>
+                </div>
+                <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in">
+                    <input type="checkbox" name="voice-mode" id="voice-mode-toggle" checked
+                        class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer hidden" />
+                    <label for="voice-mode-toggle"
+                        class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEARCH & FILTERS -->
+        <div class="max-w-xl mx-auto mb-6">
+            <div class="relative">
+                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                <input type="text" id="search-input" oninput="setSearch(this.value)"
+                    placeholder="Pesquisar teste ou bizu..."
+                    class="glass-input w-full pl-12 pr-4 py-3 rounded-xl text-white placeholder-gray-500 bg-white/5 focus:bg-white/10 transition border border-white/10 focus:border-purple-500">
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3 mb-10" id="filters-container">
+            <button onclick="setFilter('all')" class="filter-btn active px-4 py-2 rounded-full text-sm font-bold"
+                id="btn-all">Todos</button>
+            <button onclick="setFilter('Personalidade')" class="filter-btn px-4 py-2 rounded-full text-sm font-bold"
+                id="btn-Personalidade">Personalidade</button>
+            <button onclick="setFilter('Atenção')" class="filter-btn px-4 py-2 rounded-full text-sm font-bold"
+                id="btn-Atenção">Atenção</button>
+            <button onclick="setFilter('Memória')" class="filter-btn px-4 py-2 rounded-full text-sm font-bold"
+                id="btn-Memória">Memória</button>
+            <button onclick="setFilter('Raciocínio')" class="filter-btn px-4 py-2 rounded-full text-sm font-bold"
+                id="btn-Raciocínio">Raciocínio</button>
+        </div>
+
+        <div id="content-area" class="space-y-12">
+            <!-- Content will be injected here via JS -->
+        </div>
+
+    </main>
+
+    <script>
+        // --- DATA ---
+        const TESTS = [
+            {
+                category: "Personalidade",
+                items: [
+                    { name: "BFP", time: "30-40 min", total: "126 Itens", meta: null, bizu: "2 Não; 6 sim; 4 equilibrio", timeSec: 2400 },
+                    { name: "NEO-PI", time: "1h30 - 2h", total: "240 Itens", meta: null, bizu: "D = Discordo N= Neutro; C= Concordo", timeSec: 5400 },
+                    { name: "IFP-2", time: "30-40 min", total: "100 Itens", meta: null, bizu: "2 Não; 6 sim; 4 equilibrio", timeSec: 2400 },
+                    { name: "EATA", time: "30-40 min", total: "40 Itens", meta: 11, metaDescription: "11 pontos", bizu: null, timeSec: 2400 },
+                    { name: "Teste Palográfico", time: "5 min (5x 1 min)", total: "N/A", meta: 600, metaDescription: "600 Palos", bizu: "NOR: 2-4 | Dist: 120-125-120-125-120", timeSec: 300 }
+                ]
+            },
+            {
+                category: "Atenção (TEDIF)",
+                filterGroup: "Atenção",
+                items: [
+                    { name: "TEDIF 1", time: "4 min", total: "50 números", meta: 36, metaDescription: "36 números", bizu: "não tem", timeSec: 240 },
+                    { name: "TEDIF 2", time: "4 min", total: "50 números", meta: 36, metaDescription: "36 números", bizu: "Ceará vs Bahia (verde amarelo, vermelho e azul)", timeSec: 240 },
+                    { name: "TEDIF 3", time: "4 min", total: "50 números", meta: 36, metaDescription: "36 números", bizu: "Israel e semáforo (branco e azul, vermelho, amarelo e verde) BAVAV", timeSec: 240 }
+                ]
+            },
+            {
+                category: "Atenção (ROTA)",
+                filterGroup: "Atenção",
+                items: [
+                    { name: "ROTA A", time: "2 min", total: "30 linhas", meta: 176, metaDescription: "22 linhas (8 fig/linha) = 176 pts", bizu: "8 por linha ou de 12 em 12", timeSec: 120 },
+                    { name: "ROTA C", time: "2 min", total: "30 linhas", meta: 168, metaDescription: "21 linhas (8 fig/linha) = 168 pts", bizu: "8 por linha", timeSec: 120 },
+                    { name: "ROTA D", time: "2 min", total: "31 linhas", meta: 126, metaDescription: "14 linhas (9 fig/linha) = 126 pts", bizu: "9 por linha", timeSec: 120 }
+                ]
+            },
+            {
+                category: "Atenção Concentrada/Dividida/Alternada",
+                filterGroup: "Atenção",
+                items: [
+                    { name: "CTA AA", time: "1 min 15s", total: "N/A", meta: 32, metaDescription: "32 figuras", bizu: null, timeSec: 75 },
+                    { name: "CTA AD", time: "1 min 45s", total: "N/A", meta: 32, metaDescription: "32 figuras", bizu: null, timeSec: 105 },
+                    { name: "TEADI", time: "5 min", total: "30 linhas", meta: 126, metaDescription: "21 linhas (6 fig/linha) = 126 pts", bizu: "6 figuras por linha", timeSec: 300 },
+                    { name: "AC VETOR", time: "5 min", total: "21 linhas", meta: 119, metaDescription: "17 linhas (7 fig/linha) = 119 pts", bizu: "7 figuras por linha", timeSec: 300 },
+                    { name: "CTA AC", time: "1 min", total: "N/A", meta: 32, metaDescription: "32 figuras", bizu: null, timeSec: 60 },
+                    { name: "TEACO", time: "4 min", total: "20 colunas", meta: 144, metaDescription: "16 colunas (9 fig/col) = 144 pts", bizu: "9 figuras por coluna", timeSec: 240 },
+                    { name: "TEALT", time: "2min 30s", total: "16 linhas", meta: 96, metaDescription: "12 linhas (8 fig/linha) = 96 pts", bizu: "8 figuras por linha", timeSec: 150 },
+                    { name: "TECON", time: "3min 30s", total: "22 linhas", meta: 96, metaDescription: "16 linhas (6 fig/linha) = 96 pts", bizu: "6 por linha", timeSec: 210 }
+                ]
+            },
+            {
+                category: "Atenção (BPA)",
+                filterGroup: "Atenção",
+                items: [
+                    { name: "BPA-AC", time: "2 min", total: "20 linhas", meta: 84, metaDescription: "14 linhas (7 e 5 fig alternadas) = 84 pts", bizu: "7 na primeira linha 5 na segunda", timeSec: 120 },
+                    { name: "BPA-AD", time: "4 min", total: "20 linhas", meta: 84, metaDescription: "14 linhas (6 fig/linha) = 84 pts", bizu: "6 por linha", timeSec: 240 },
+                    { name: "BPA-AA", time: "2 min 30s", total: "20 linhas", meta: 84, metaDescription: "14 linhas (5 e 7 fig alternadas) = 84 pts", bizu: "5 na primeira linha 7 na segunda", timeSec: 150 }
+                ]
+            },
+            {
+                category: "Memória",
+                items: [
+                    { name: "TMR", time: "1 min", total: "20 figuras", meta: 10, metaDescription: "10 figuras", bizu: "Números: 35, 235, 14, 245 | Fig: Garfo-Seta-Traço", timeSec: 60 },
+                    { name: "TEPIC", time: "2 min", total: "N/A", meta: 16, metaDescription: "16 figuras", bizu: "Céu: Balão, Avião... Terra: Casa, Porta... Água: Poço, Onda...", timeSec: 120 },
+                    { name: "TEM-R", time: "1 min", total: "34 figuras", meta: 23, metaDescription: "23 figuras", bizu: "7↓ 5↑ 3↓ 4↓ 1↓ 3↓", timeSec: 60 },
+                    { name: "MVR", time: "4 min (mem) / 6 min (resp)", total: "20 itens", meta: 16, metaDescription: "16 itens", bizu: "História da Rosa Buena...", timeSec: 240 },
+                    { name: "Faces Duplas", time: "3 min (mem) / 2 min (resp)", total: "N/A", meta: 22, metaDescription: "22 figuras", bizu: "3 5 6 / 2 5 7 / 2 8...", timeSec: 180 }
+                ]
+            },
+            {
+                category: "Raciocínio",
+                items: [
+                    { name: "Cubos", time: "30 min", total: "N/A", meta: null, bizu: "CADA BB CACA BB ABC (INVERSO)", timeSec: 1800 },
+                    { name: "WMT-2", time: "30 min", total: "18 Itens", meta: 14.4, metaDescription: "14,4 Pontos (aprox 15 acertos)", bizu: "Fui Dar Curso Hoje...", timeSec: 1800 },
+                    { name: "Beta 3 Códigos", time: "2 min", total: "7 linhas", meta: 3.5, metaDescription: "3,5 linhas", bizu: "1=, U2, 3x, 4 baú...", timeSec: 120 },
+                    { name: "V-47", time: "10-15 min", total: "47 itens", meta: 33, metaDescription: "33 acertos", bizu: null, timeSec: 900 },
+                    { name: "Beta 3 Matricial", time: "5 min", total: "25 figuras", meta: 16, metaDescription: "16 figuras", bizu: null, timeSec: 300 },
+                    { name: "G36", time: "30 min", total: "36 Itens", meta: 28, metaDescription: "28 itens", bizu: "Q29-36: Carlos Bebeu Agora...", timeSec: 1800 },
+                    { name: "Relógios", time: "2 min 30s", total: "40 Itens", meta: 24, metaDescription: "24 itens", bizu: "Danilo Bateu o Carro...", timeSec: 150 },
+                    { name: "MIG", time: "6 min", total: "28 Itens", meta: 20, metaDescription: "20 itens", bizu: "Q20-28: Delegado Busca Drogas...", timeSec: 360 },
+                    { name: "R1", time: "30 min", total: "40 itens", meta: 28, metaDescription: "28 itens", bizu: "-", timeSec: 1800 },
+                    { name: "BPR 5 RV", time: "10 min", total: "25 itens", meta: 18, metaDescription: "18 itens", bizu: "7-Eterno, 11-Avaliar...", timeSec: 600 },
+                    { name: "TSP Dimensões", time: "5 min", total: "48 Questões", meta: 33, metaDescription: "33 acertos", bizu: null, timeSec: 300 },
+                    { name: "TRI", time: "4 min", total: "Vários itens", meta: 9, metaDescription: "9 acertos", bizu: "ACB DDC 3A CABACA", timeSec: 240 }
+                ]
+            }
+        ];
+
+        // --- FILTER LOGIC ---
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function setSearch(val) {
+            currentSearch = val;
+            render();
+        }
+
+        function setFilter(category) {
+            currentFilter = category;
+
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${category}`).classList.add('active');
+
+            render();
+        }
+
+        // --- PERSISTENCE LOGIC ---
+        const STORE_KEY = 'pmpr_metas_progress';
+        let userProgress = {};
+
+        function loadProgress() {
+            const saved = localStorage.getItem(STORE_KEY);
+            if (saved) {
+                userProgress = JSON.parse(saved);
+            }
+        }
+
+        function saveProgress() {
+            localStorage.setItem(STORE_KEY, JSON.stringify(userProgress));
+        }
+
+        // --- TIMER & VOICE LOGIC ---
+        const timers = {};
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const s = (seconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+
+        // --- AUDIO LOGIC ---
+        const AUDIO_PATH = '../vozes/';
+        const AUDIO_FILES = {
+            'prepare': 'prepare.mp3',
+            'signal': 'sinal.mp3',
+            '1min': 'resta1minuto.mp3',
+            'end': 'tempoesgotado.mp3'
+        };
+
+        let currentAudio = null;
+
+        function playAudio(key, callback) {
+            const isVoiceEnabled = document.getElementById('voice-mode-toggle').checked;
+            if (!isVoiceEnabled) {
+                if (callback) callback();
+                return;
+            }
+
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
+
+            if (key === 'start_sequence') {
+                // Special case for sequence: Prepare -> Signal
+                playSingleFile('prepare', () => {
+                    playSingleFile('signal', callback);
+                });
+            } else {
+                playSingleFile(key, callback);
+            }
+        }
+
+        function playSingleFile(key, callback) {
+            const filename = AUDIO_FILES[key];
+            if (!filename) {
+                console.warn(`Audio file not found for key: ${key}`);
+                if (callback) callback();
+                return;
+            }
+
+            const audio = new Audio(AUDIO_PATH + filename);
+            currentAudio = audio;
+
+            audio.onended = () => {
+                currentAudio = null;
+                if (callback) callback();
+            };
+
+            audio.onerror = (e) => {
+                console.error("Error playing audio:", e);
+                currentAudio = null;
+                if (callback) callback();
+            };
+
+            audio.play().catch(e => {
+                console.warn("Audio play blocked or failed:", e);
+                if (callback) callback();
+            });
+        }
+
+        function toggleTimer(id, duration) {
+            const display = document.getElementById(`timer-display-${id}`);
+            const btn = document.getElementById(`timer-btn-${id}`);
+            const config = TEST_CONFIGS[id] || { intervalAudio: false };
+
+            if (!timers[id]) {
+                // START REQUEST
+                const startCounting = () => {
+                    timers[id] = {
+                        remaining: duration,
+                        interval: null,
+                        active: true
+                    };
+
+                    btn.innerHTML = '<i class="fas fa-pause"></i>';
+                    btn.classList.remove('text-green-400', 'text-yellow-400');
+                    btn.classList.add('text-yellow-400');
+
+                    timers[id].interval = setInterval(() => {
+                        timers[id].remaining--;
+                        display.innerText = formatTime(timers[id].remaining);
+
+                        // --- AUDIO ALERTS ---
+                        if (config.intervalAudio) {
+                            // Palográfico & TEDIF: Play "Sinal" every 60s
+                            if (timers[id].remaining > 0 && timers[id].remaining % 60 === 0 && timers[id].remaining !== duration) {
+                                playAudio('signal');
+                            }
+                        } else {
+                            // Standard Alert: 1 min remaining
+                            if (timers[id].remaining === 60 && duration > 120) {
+                                playAudio('1min');
+                            }
+                        }
+
+                        // FINISH
+                        if (timers[id].remaining <= 0) {
+                            clearInterval(timers[id].interval);
+                            timers[id].active = false;
+                            btn.innerHTML = '<i class="fas fa-undo"></i>';
+                            btn.classList.remove('text-yellow-400', 'text-green-400');
+                            btn.classList.add('text-red-500');
+                            display.classList.add('text-red-500');
+
+                            playAudio('end');
+                        }
+                    }, 1000);
+                };
+
+                if (document.getElementById('voice-mode-toggle').checked) {
+                    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>';
+                    btn.classList.remove('text-green-400');
+                    btn.classList.add('text-yellow-400');
+
+                    if (config.intervalAudio) {
+                        // Palográfico/TEDIF: Just "Prepare/Comecem" (prepare.mp3), NO signal immediately
+                        playSingleFile('prepare', startCounting);
+                    } else {
+                        // Standard: Prepare -> Signal -> Start
+                        playAudio('start_sequence', startCounting);
+                    }
+                } else {
+                    startCounting();
+                }
+
+            } else if (timers[id].active) {
+                // PAUSE
+                clearInterval(timers[id].interval);
+                timers[id].active = false;
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+                btn.classList.remove('text-yellow-400');
+                btn.classList.add('text-green-400');
+
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+
+            } else {
+                // RESUME or RESET
+                if (timers[id].remaining <= 0) {
+                    // RESET
+                    timers[id].remaining = duration;
+                    display.innerText = formatTime(duration);
+                    display.classList.remove('text-red-500');
+                    btn.classList.remove('text-red-500');
+                    btn.classList.add('text-green-400');
+                    delete timers[id];
+                    btn.innerHTML = '<i class="fas fa-play"></i>';
+
+                    if (currentAudio) {
+                        currentAudio.pause();
+                        currentAudio.currentTime = 0;
+                    }
+                } else {
+                    // RESUME
+                    timers[id].active = true;
+                    btn.innerHTML = '<i class="fas fa-pause"></i>';
+                    btn.classList.remove('text-green-400');
+                    btn.classList.add('text-yellow-400');
+                    timers[id].interval = setInterval(() => {
+                        timers[id].remaining--;
+                        display.innerText = formatTime(timers[id].remaining);
+
+                        // Copy Alert Logic
+                        if (config.intervalAudio) {
+                            if (timers[id].remaining > 0 && timers[id].remaining % 60 === 0 && timers[id].remaining !== duration) {
+                                playAudio('signal');
+                            }
+                        } else {
+                            if (timers[id].remaining === 60 && duration > 120) {
+                                playAudio('1min');
+                            }
+                        }
+
+                        if (timers[id].remaining <= 0) {
+                            clearInterval(timers[id].interval);
+                            timers[id].active = false;
+                            btn.innerHTML = '<i class="fas fa-undo"></i>';
+                            btn.classList.remove('text-yellow-400');
+                            btn.classList.add('text-red-500');
+                            display.classList.add('text-red-500');
+                            playAudio('end');
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        // --- SCORE & BIZU ---
+        function checkScore(id, meta, isRange, metaMax) {
+            const input = document.getElementById(`score-input-${id}`);
+            const resultBadge = document.getElementById(`score-result-${id}`);
+            const val = parseFloat(input.value);
+
+            if (isNaN(val)) return;
+
+            // Logic
+            let passed = false;
+            if (isRange && metaMax) {
+                if (val >= meta && val <= metaMax) passed = true;
+            } else {
+                if (val >= meta) passed = true;
+            }
+
+            // Save Persistence
+            userProgress[id] = { score: val, passed: passed };
+            saveProgress();
+
+            renderBadge(resultBadge, passed);
+        }
+
+        function renderBadge(el, passed) {
+            if (passed) {
+                el.innerText = "APTO";
+                el.className = "px-3 py-1 rounded bg-green-500 text-white text-xs font-bold";
+            } else {
+                el.innerText = "INAPTO";
+                el.className = "px-3 py-1 rounded bg-red-500 text-white text-xs font-bold";
+            }
+        }
+
+        function toggleBizu(id) {
+            const el = document.getElementById(`bizu-${id}`);
+            if (el) el.classList.toggle('active');
+        }
+
+        // --- RENDER ---
+        const TEST_CONFIGS = {};
+
+        function render() {
+            loadProgress(); // ensured loaded
+            const area = document.getElementById('content-area');
+            let html = '';
+            let globalIdx = 0;
+
+            TESTS.forEach(cat => {
+                // FILTER CHECK
+                let showCategory = false;
+                if (currentFilter === 'all') {
+                    showCategory = true;
+                } else {
+                    if (cat.category.includes(currentFilter) || (cat.filterGroup && cat.filterGroup === currentFilter)) {
+                        showCategory = true;
+                    }
+                }
+
+                if (!showCategory) {
+                    globalIdx += cat.items.length;
+                    return;
+                }
+
+                // VISIBILITY CHECKS
+                let activeItemsHtml = '';
+                let hasVisibleItems = false;
+
+                cat.items.forEach(item => {
+                    const id = globalIdx++; // Stable ID
+
+                    // 1. Search Filter
+                    let matchesSearch = true;
+                    if (currentSearch) {
+                        const s = currentSearch.toLowerCase();
+                        const text = (item.name + ' ' + (item.bizu || '')).toLowerCase();
+                        if (!text.includes(s)) matchesSearch = false;
+                    }
+
+                    if (matchesSearch) {
+                        hasVisibleItems = true;
+
+                        const hasMeta = item.meta !== null;
+                        const hasBizu = item.bizu !== null;
+
+                        // Detect Audio Type
+                        const isPaloOrTedif = item.name.includes("Palográfico") || item.name.includes("TEDIF");
+                        TEST_CONFIGS[id] = {
+                            name: item.name,
+                            intervalAudio: isPaloOrTedif
+                        };
+
+                        // Retrieve saved state
+                        const saved = userProgress[id];
+
+                        activeItemsHtml += `
+                        <div class="card p-6 flex flex-col justify-between" id="card-${id}">
+                            <div>
+                                <div class="flex justify-between items-start mb-4">
+                                    <h3 class="text-xl font-bold text-white">${item.name}</h3>
+                                    ${hasMeta ? `<span class="bg-purple-900/50 text-purple-300 text-[10px] px-2 py-1 rounded border border-purple-500/20">Meta: ${item.metaDescription || item.meta}</span>` : ''}
+                                </div>
+                                
+                                <div class="flex flex-wrap gap-2 text-xs text-gray-400 mb-6 font-mono">
+                                    <span class="flex items-center gap-1 bg-black/20 px-2 py-1 rounded"><i class="far fa-clock"></i> ${item.time}</span>
+                                    <span class="flex items-center gap-1 bg-black/20 px-2 py-1 rounded"><i class="fas fa-list-ol"></i> ${item.total}</span>
+                                </div>
+
+                                <!-- TIMER -->
+                                <div class="bg-[#111] rounded-xl p-4 mb-4 border border-white/5 flex justify-between items-center">
+                                    <div>
+                                        <div class="text-[10px] text-gray-500 uppercase tracking-wider font-bold mb-1">Cronômetro</div>
+                                        <div id="timer-display-${id}" class="timer-display text-2xl font-mono text-white font-bold">${formatTime(item.timeSec)}</div>
+                                    </div>
+                                    <button id="timer-btn-${id}" onclick="toggleTimer(${id}, ${item.timeSec})" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-green-400 transition text-lg">
+                                        <i class="fas fa-play ml-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <!-- SCORE CHECKER -->
+                                ${hasMeta ? `
+                                <div class="bg-[#111] rounded-xl p-3 border border-white/5">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <span class="text-[10px] text-gray-500 uppercase font-bold">Verificar Resultado</span>
+                                        <span id="score-result-${id}">
+                                            ${saved ? (saved.passed ? '<span class="px-3 py-1 rounded bg-green-500 text-white text-xs font-bold">APTO</span>' : '<span class="px-3 py-1 rounded bg-red-500 text-white text-xs font-bold">INAPTO</span>') : ''}
+                                        </span>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <input type="number" id="score-input-${id}" 
+                                            class="glass-input w-full rounded px-2 py-1 text-sm" 
+                                            placeholder="Sua pontuação"
+                                            value="${saved ? saved.score : ''}">
+                                        <button onclick="checkScore(${id}, ${item.meta}, ${item.isRange || false}, ${item.metaMax || 0})" class="bg-gray-700 hover:bg-gray-600 text-white rounded px-3 text-xs font-bold transition">OK</button>
+                                    </div>
+                                </div>
+                                ` : ''}
+
+                                <!-- BIZU -->
+                                ${hasBizu ? `
+                                <button onclick="toggleBizu(${id})" class="w-full py-2 rounded border border-dashed border-gray-600 text-gray-400 text-xs hover:text-white hover:border-gray-400 transition">
+                                    <i class="far fa-lightbulb mr-1"></i> Ver Bizu
+                                </button>
+                                <div id="bizu-${id}" class="bizu-box text-yellow-200 text-xs">
+                                    ${item.bizu}
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                    }
+                });
+
+                if (showCategory && hasVisibleItems) {
+                    html += `
+                        <div>
+                        <h2 class="text-2xl font-bold text-white mb-6 border-l-4 border-purple-500 pl-4">${cat.category}</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${activeItemsHtml}
+                        </div></div>
+                    `;
+                }
+
+
+            });
+
+            area.innerHTML = html;
+        }
+
+        render();
+
+    </script>
+</body>
+
+</html>

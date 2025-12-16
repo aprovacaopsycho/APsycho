@@ -88,74 +88,91 @@ def process_sync_logic(turmas):
     print(f"--- Fim (Novas pastas criadas: {changes_count}) ---")
     return changes_count
 
-# ================= SERVIDOR LOCAL (A Ponte) =================
 
-class RequestHandler(BaseHTTPRequestHandler):
-    protocol_version = 'HTTP/1.1'
+# ... (No changes to logic functions)
 
-    def log_message(self, format, *args):
-        # Override para forçar flush no stdout
-        print(f"[{self.log_date_time_string()}] {format%args}")
 
-    def _set_headers(self, code=200):
-        self.send_response(code)
-        self.send_header('Content-type', 'application/json')
+# ================= SERVER LOGIC (AUTO-SYNC) =================
+class SimpleHandler(BaseHTTPRequestHandler):
+    def do_OPTIONS(self):
+        self.send_response(200)
         self.send_header('Access-Control-Allow-Origin', '*')
-        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header("Access-Control-Allow-Headers", "*") # Allow ALL
-        self.send_header("Access-Control-Allow-Private-Network", "true")
+        self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         self.end_headers()
 
-    def do_GET(self):
-        self._set_headers(200)
-        self.wfile.write(b"OK - Server Online")
-
-    def do_OPTIONS(self):
-        print(f"[REQUISIÇÃO] OPTIONS recebido em {self.path}")
-        self._set_headers(200)
-
     def do_POST(self):
-        print(f"[REQUISIÇÃO] POST recebido em {self.path}")
         if self.path == '/sync-turmas':
-            content_length = int(self.headers.get('Content-Length', 0))
+            content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             
             try:
-                # 1. Recebe a lista atualizada do Front-end
-                turmas_data = json.loads(post_data)
+                turmas = json.loads(post_data.decode('utf-8'))
                 
-                # 2. Salva no disco (Persistence)
-                save_db(turmas_data)
+                # 1. Salva DB
+                save_db(turmas)
                 
-                # 3. Executa a criação de pastas
-                created = process_sync_logic(turmas_data)
+                # 2. Processa (Criação)
+                created = process_sync_logic(turmas)
                 
-                # Resposta
-                self._set_headers(200)
-                response = {"status": "success", "created": created}
-                self.wfile.write(json.dumps(response).encode('utf-8'))
+                # 3. Processa (Limpeza/Rename - Opcional no AutoSync, mas seguro listar)
+                # No modo server, não perguntamos interativamente para não travar,
+                # Mas poderiamos implementar um flag force. Por segurança, apenas criamos no auto-sync.
+                
+                self.send_response(200)
+                self.send_header('Access-Control-Allow-Origin', '*')
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                response = json.dumps({"status": "ok", "created": created})
+                self.wfile.write(response.encode('utf-8'))
+                
+                # Log no terminal do servidor
+                print(f"[AUTO-SYNC] Recebido update via Browser. Pastas criadas: {created}")
                 
             except Exception as e:
-                self._set_headers(500)
-                print(f"Erro no servidor: {e}")
-                self.wfile.write(json.dumps({"error": str(e)}).encode('utf-8'))
-
-    def do_POST(self):
-        print(f"[REQUISIÇÃO] POST recebido em {self.path}")
-        if self.path == '/sync-turmas':
-            # ... existing logic
-            pass 
-
-# ... inside do_POST implementation ...
+                self.send_response(500)
+                self.end_headers()
+                print(f"[ERRO SERVER] {e}")
 
 def run_server():
-    print(f"🚀 Servidor de Automação rodando em http://127.0.0.1:{SERVER_PORT}")
-    print("Mantenha esta janela aberta enquanto usa o Dashboard.")
-    # Bind to 0.0.0.0 to accept all local connections (IPv4 safe)
-    server = HTTPServer(('0.0.0.0', SERVER_PORT), RequestHandler)
-    server.serve_forever()
+    print(f"--- SERVIDOR DE AUTOMAÇÃO ATIVO (Porta {SERVER_PORT}) ---")
+    print("Mantenha esta janela aberta para sincronização automática.")
+    print("Para sincronizar/limpar manualmente, pare o servidor (Ctrl+C) e rode o script novamente.")
+    
+    server = HTTPServer(('127.0.0.1', SERVER_PORT), SimpleHandler)
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        print("\nServidor parado.")
+
+def main():
+    print("========================================")
+    print("    GERENCIADOR DE TURMAS (SYNC)        ")
+    print("========================================")
+    print("1. Sincronizar Agora (Apenas Criação/Update)")
+    print("2. Iniciar Servidor (Ouvir Navegador)")
+    choice = input("\nEscolha [1/2]: ")
+    
+    if choice == '2':
+        run_server()
+    else:
+        # Modo Manual (Padrão)
+        print(f"\n--- SINCRONIZAÇÃO MANUAL ---")
+        turmas = load_db()
+        if not turmas:
+            print("[AVISO] Nenhuma turma encontrada ou erro ao ler JSON.")
+            return
+
+        # 1. Criação
+        process_sync_logic(turmas)
+        
+        # 2. Limpeza (Removido por segurança)
+        # prune_orphans(turmas)
+        
+        print("\n" + "="*40)
+        print(f"CONCLUÍDO!")
+        print("="*40)
+        input("Pressione ENTER para sair...")
 
 if __name__ == "__main__":
-    # Se rodar direto, inicia o servidor. 
-    # Para rodar apenas o sync manual antigo, você pode comentar run_server() e chamar process_sync_logic(load_db())
-    run_server()
+    main()
