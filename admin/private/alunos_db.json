@@ -6,7 +6,7 @@
     "inscricao": "DKJ583",
     "validade": "2025-12-21T12:00",
     "permissions": [
-      "teste"
+      "PMPR"
     ]
   },
   {
@@ -17,6 +17,16 @@
     "validade": "",
     "permissions": [
       "PMPR",
+      "teste"
+    ]
+  },
+  {
+    "nome": "APROVACAO PSYCHO",
+    "email": "aprovacaopsycho@gmail.com",
+    "cpf": "07677591418",
+    "inscricao": "Apr0v@c@0_174",
+    "validade": "",
+    "permissions": [
       "teste"
     ]
   }
