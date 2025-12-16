@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apostila de Psicotécnico - Parte 1</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid #6200ea;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #6200ea;
+            margin: 0;
+        }
+
+        h2 {
+            color: #3700b3;
+            border-left: 5px solid #03dac6;
+            padding-left: 10px;
+            margin-top: 30px;
+        }
+
+        h3 {
+            color: #555;
+        }
+
+        .note {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .warning {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #6200ea;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .scale-box {
+            display: flex;
+            justify-content: space-between;
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .scale-item {
+            text-align: center;
+        }
+
+        ul.traits li {
+            margin-bottom: 10px;
+        }
+
+        .question-list li {
+            background: #fafafa;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            border-left: 3px solid #ccc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Apostila de Preparação Psicotécnica</h1>
+            <p>Baseado no material "Aprovação Psycho" - Parte 1</p>
+        </header>
+
+        <div class="note">
+            <strong>Nota de Conversão:</strong> Este conteúdo foi extraído e organizado a partir do arquivo PDF
+            original. As repetições e marcas d'água foram removidas para facilitar a leitura.
+        </div>
+
+        <section id="sumario">
+            <h2>Sumário Geral</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Conteúdo</th>
+                        <th>Página Original</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Aula 1: Testes de Personalidade</strong></td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Características & IFPII</td>
+                        <td>8 - 18</td>
+                    </tr>
+                    <tr>
+                        <td>BFP</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aula 2: Testes de Personalidade</strong></td>
+                        <td>37</td>
+                    </tr>
+                    <tr>
+                        <td>NEO-FFI-R, EATA, ESAVI</td>
+                        <td>39 - 43</td>
+                    </tr>
+                    <tr>
+                        <td>Testes de Atenção (TEDIF, CTA)</td>
+                        <td>55 - 64</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aula 3: Atenção e Memória</strong></td>
+                        <td>68</td>
+                    </tr>
+                    <tr>
+                        <td>TEACO, TEADI, TEALT, AC Vetor</td>
+                        <td>70 - 76</td>
+                    </tr>
+                    <tr>
+                        <td>Testes de Memória (TMR, TEPIC, TEM-R, MVR)</td>
+                        <td>78 - 88</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Aula 4: Raciocínio</strong></td>
+                        <td>101</td>
+                    </tr>
+                    <tr>
+                        <td>Cubos, Matrizes de Viena, Beta 3, TIG-NV</td>
+                        <td>102 - 126</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="aula1">
+            <h2>Aula 1: Conceitos Básicos de Personalidade</h2>
+
+            <p>Nos testes de personalidade, existem limites máximos e mínimos (percentis). Para ser considerado apto
+                ("Aprovação"), o candidato geralmente deve pontuar dentro de uma faixa específica, evitando os extremos
+                exagerados.</p>
+
+            <div class="warning">
+                <strong>Critérios de Aptidão (Regra Geral):</strong><br>
+                <ul>
+                    <li><strong>Inapto:</strong> Abaixo de 40% ou acima de 85% (Extremos).</li>
+                    <li><strong>Apto:</strong> De 40% a 85% (Faixa média/saudável).</li>
+                </ul>
+            </div>
+
+            <h3>A Escala de Comrey (CPS) e a Ponderação</h3>
+            <p>Embora o teste CPS antigo não seja mais usado em alguns concursos, ele serve de base para entender a
+                lógica das escalas (Likert). A escala geralmente vai de 1 a 7:</p>
+
+            <div class="scale-box">
+                <div class="scale-item">1<br><small>Nunca</small></div>
+                <div class="scale-item">2<br><small>Raramente</small></div>
+                <div class="scale-item">3<br><small>Pouco</small></div>
+                <div class="scale-item">4<br><small>Neutro/Ocasional</small></div>
+                <div class="scale-item">5<br><small>Frequentemente</small></div>
+                <div class="scale-item">6<br><small>Muito Freq.</small></div>
+                <div class="scale-item">7<br><small>Sempre</small></div>
+            </div>
+            <p><em>Dica: Evite marcar sistematicamente os extremos (1 e 7) para não parecer rígido demais, a menos que a
+                    pergunta seja sobre ética inegociável.</em></p>
+        </section>
+
+        <section id="caracteristicas">
+            <h2>Traços de Personalidade Avaliados</h2>
+            <p>Abaixo estão os principais traços analisados e o que se espera de um perfil equilibrado:</p>
+
+            <h3>1. Confiança nas Pessoas</h3>
+            <p>Avalia se o candidato acredita na honestidade alheia ou se é paranoico.</p>
+            <ul class="traits">
+                <li><strong>Perfil Esperado:</strong> Acreditar que as pessoas são boas, honestas e querem ajudar. Não
+                    ver competição em tudo.</li>
+                <li><strong>Exemplo:</strong> "A maioria das pessoas é honesta."</li>
+            </ul>
+
+            <h3>2. Ordem e Organização</h3>
+            <p>Avalia o apreço por limpeza, rotina e organização.</p>
+            <ul class="traits">
+                <li><strong>Perfil Esperado:</strong> Ser organizado e gostar de limpeza, mas sem ser obsessivo.</li>
+                <li><strong>Exemplo:</strong> "Procuro manter limpos os locais que utilizo."</li>
+            </ul>
+
+            <h3>3. Conformidade Legal (Obediência)</h3>
+            <p>Fundamental para carreiras policiais e públicas.</p>
+            <ul class="traits">
+                <li><strong>Perfil Esperado:</strong> Respeito estrito a leis, normas e regulamentos. Entender que nem
+                    sempre o que é legal é "justo" na opinião pessoal, mas deve ser seguido.</li>
+                <li><strong>Atenção:</strong> Perguntas sobre "desobedecer leis injustas" são "pegadinhas". O agente da
+                    lei deve cumprir a lei.</li>
+            </ul>
+
+            <h3>4. Atividade e Energia</h3>
+            <ul class="traits">
+                <li><strong>Perfil Esperado:</strong> Pessoas ativas, dispostas, com energia para o trabalho (disposição
+                    física e mental).</li>
+                <li><strong>Exemplo:</strong> "Posso trabalhar muito tempo sem me sentir cansado."</li>
+            </ul>
+
+            <h3>5. Extroversão e Expansão</h3>
+            <ul class="traits">
+                <li><strong>Perfil Esperado:</strong> Facilidade de comunicação, gostar de conversar (sem exagero), não
+                    ter medo de público.</li>
+                <li><strong>Exemplo:</strong> "Tenho facilidade em conversar com as pessoas."</li>
+            </ul>
+
+            <h3>6. Enfrentamento e Coragem</h3>
+            <ul class="traits">
+                <li><strong>Perfil Esperado:</strong> Não se intimidar, não ter "nojinho", suportar ver sangue
+                    (essencial para policiais), coragem diante do perigo.</li>
+                <li><strong>Exemplo (Negativo):</strong> "Tenho a impressão de que vou desmaiar quando vejo muito
+                    sangue." (Ideal responder NÃO).</li>
+            </ul>
+
+            <h3>7. Altruísmo</h3>
+            <ul class="traits">
+                <li><strong>Perfil Esperado:</strong> Pensar no próximo, querer ajudar a sociedade.</li>
+                <li><strong>Exemplo:</strong> "Gostaria de dedicar minha vida a serviço do próximo."</li>
+            </ul>
+        </section>
+
+        <section id="exemplos">
+            <h2>Banco de Perguntas (Exemplos Extraídos)</h2>
+            <p>Abaixo, exemplos de frases encontradas na apostila para treino de interpretação:</p>
+            <ul class="question-list">
+                <li>1 - A maioria das pessoas é honesta.</li>
+                <li>2 - Viveria em locais de pouca higiene.</li>
+                <li>3 - A sociedade fornece proteção demasiada aos criminosos.</li>
+                <li>4 - Ser um grande sucesso na vida requer um esforço maior do que estou disposto a fazer.</li>
+                <li>5 - Neste momento estou vivo. (Teste de atenção/validade)</li>
+                <li>6 - Sinto-me inferior às pessoas que conheço.</li>
+                <li>7 - Tenho facilidade em conversar com as pessoas.</li>
+                <li>8 - Tenho a impressão de que vou desmaiar quando vejo muito sangue.</li>
+                <li>9 - Gostaria de dedicar minha vida a serviço do próximo.</li>
+                <li>10 - Já me apoderei de algo que pertencia à outra pessoa.</li>
+                <li>11 - As pessoas querem mais do que estão dispostas a oferecer.</li>
+                <li>12 - Procuro manter limpos os locais que utilizo.</li>
+                <li>13 - Se as leis da sociedade são injustas, elas devem ser desobedecidas. (Cuidado!)</li>
+                <li>14 - Posso trabalhar muito tempo sem me sentir cansado.</li>
+                <li>15 - Levantaria, com as mãos, um peso de 100 toneladas. (Teste de mentira/realidade - Resposta: Não)
+                </li>
+                <li>16 - Meu humor é estável, sem altos e baixos.</li>
+                <li>23 - Obedeço às leis, mesmo achando necessário mudá-las.</li>
+                <li>30 - Já menti ao menos uma vez. (Desejabilidade social - Quem diz "nunca" pode estar mentindo).</li>
+                <li>37 - Tenho pavor de falar diante de um grande público.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Este documento é uma versão web gerada automaticamente para fins de estudo.</p>
+        </footer>
+    </div>
+
+</body>
+
+</html>

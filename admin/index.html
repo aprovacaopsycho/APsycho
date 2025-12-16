@@ -144,6 +144,16 @@
           <i class="fas fa-brain"></i>
           <span class="font-medium">PsicoData (Testes)</span>
         </button>
+        <button onclick="switchSection('turmas')" id="nav-turmas"
+          class="w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-white">
+          <i class="fas fa-layer-group"></i>
+          <span class="font-medium">Gestão de Turmas</span>
+        </button>
+        <a href="aulas_admin.html" target="_blank"
+          class="w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 text-slate-400 hover:bg-slate-800 hover:text-white">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <span class="font-medium">Gestão de Aulas</span>
+        </a>
       </nav>
 
       <div class="p-4 border-t border-slate-700 bg-slate-800/50">
@@ -257,10 +267,22 @@
               <input id="new-validity" type="datetime-local"
                 class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
             </div>
-            <div class="md:col-span-2">
+            <div class="md:col-span-12">
+              <label class="block text-[10px] text-slate-500 mb-1">Permissões de Acesso</label>
+              <div id="permissions-container"
+                class="flex flex-wrap gap-3 p-3 bg-slate-800 rounded border border-slate-700">
+                <!-- Checkboxes populated by JS -->
+                <label class="flex items-center gap-2 text-xs text-slate-300">
+                  <input type="checkbox" value="PMPR"
+                    class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue">
+                  PMPR (Padrão)
+                </label>
+              </div>
+            </div>
+            <div class="md:col-span-12 mt-2">
               <button id="btn-add"
                 class="w-full bg-brand-blue hover:bg-blue-600 text-white font-bold py-2 rounded text-sm h-[38px] ok">
-                <i class="fas fa-plus mr-1"></i> Salvar
+                <i class="fas fa-plus mr-1"></i> Salvar Aluno
               </button>
             </div>
           </div>
@@ -326,6 +348,18 @@
           </div>
 
           <div class="flex gap-3">
+            <!-- NAV TABS -->
+            <nav class="flex gap-2">
+              <button id="nav-students" class="px-4 py-2 rounded-lg bg-brand-blue text-white font-medium transition-all"
+                onclick="selectView('students')">
+                <i class="fas fa-users-cog mr-2"></i> Alunos
+              </button>
+              <button id="nav-psicodata"
+                class="px-4 py-2 rounded-lg hover:bg-brand-panel text-slate-400 hover:text-white font-medium transition-all"
+                onclick="selectView('psicodata')">
+                <i class="fas fa-brain mr-2"></i> PsicoData
+              </button>
+            </nav>
             <button onclick="selectManagerView()" id="btn-manager-view"
               class="text-slate-400 hover:text-white px-3 py-2 rounded hover:bg-slate-700 transition-colors text-sm font-medium">
               <i class="fas fa-table-list mr-1"></i> Catálogo
@@ -429,6 +463,87 @@
             </div>
           </div>
 
+        </div>
+      </section>
+
+      <!-- SECTION: TURMAS -->
+      <section id="section-turmas" class="hidden flex flex-col h-full p-6 space-y-6 overflow-y-auto">
+        <!-- HEADER TURMAS -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center bg-brand-panel border border-brand-border p-5 rounded-xl shadow-lg flex-shrink-0 gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+              <i class="fas fa-layer-group text-brand-blue"></i>
+              Turmas & Mentoria
+            </h2>
+            <p class="text-xs text-slate-400 mt-1" id="label-count-turmas">0 turmas cadastradas</p>
+          </div>
+
+          <div class="flex gap-3 items-center">
+            <button onclick="downloadSyncScript()"
+              class="bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all">
+              <i class="fab fa-python"></i> Script Sync
+            </button>
+
+            <div class="h-8 w-px bg-slate-700 mx-2 hidden md:block"></div>
+
+            <button id="btn-import-turmas" onclick="importTurmas()"
+              class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all">
+              <i class="fas fa-file-import"></i> Importar JSON
+            </button>
+            <button id="btn-export-turmas" onclick="exportTurmas()"
+              class="bg-brand-panel border border-brand-border hover:bg-slate-700 text-slate-300 hover:text-white px-4 py-2 rounded-lg font-medium shadow-lg flex items-center gap-2 transition-all">
+              <i class="fas fa-download"></i> Exportar
+            </button>
+            <input type="file" id="file-turmas" accept=".json" class="hidden">
+          </div>
+        </div>
+
+        <!-- ADD FORM TURMAS -->
+        <div class="bg-brand-panel border border-brand-border rounded-xl p-6 shadow-lg">
+          <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-3">Nova Turma</p>
+          <div
+            class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end bg-black/20 p-4 rounded-lg border border-slate-700/50">
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">Nome da Turma (Exibição)</label>
+              <input id="turma-nome" placeholder="Ex: Turma Bravo 2025"
+                class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">Nome da Pasta (Sem espaços)</label>
+              <input id="turma-pasta" placeholder="Ex: PMPR_2025"
+                class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">Imagem de Fundo (URL)</label>
+              <input id="turma-imagem" placeholder="https://..."
+                class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-500 mb-1">Pasta Base (Clonagem)</label>
+              <select id="turma-base"
+                class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
+                <option value="PMPR">PMPR (Padrão)</option>
+                <!-- Can be populated later -->
+              </select>
+            </div>
+            <div>
+              <button id="btn-add-turma" onclick="addTurma()"
+                class="w-full bg-brand-blue hover:bg-blue-600 text-white font-bold py-2 rounded text-sm h-[38px]">
+                <i class="fas fa-plus mr-1"></i> Criar Cards
+              </button>
+            </div>
+          </div>
+          <p class="text-[10px] text-slate-500 mt-2">
+            <i class="fas fa-server text-brand-accent"></i>
+            O <b class="text-white">Servidor de Automação</b> criará as pastas automaticamente se estiver rodando.
+            Caso contrário, execute o script manualmente.
+          </p>
+        </div>
+
+        <!-- LISTA TURMAS -->
+        <div id="turmas-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Cards populated by JS -->
         </div>
       </section>
 

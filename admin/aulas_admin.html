@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Aulas - Aprovação Psycho</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <script>
+        function adminApp() {
+            return {
+                // --- STATE ---
+                classesData: {}, // { "PMPR": [...lessons], "OUTRA": [...] }
+                currentClass: 'PMPR',
+                lessons: [], // Current view
+
+                statusMessage: '',
+                statusType: 'info',
+
+                // Cloud Settings
+                apiKey: localStorage.getItem('psycho_api_key') || '',
+                apiUrl: localStorage.getItem('psycho_api_url') || 'https://aprovacaopsycho.net/admin/api/put-hashes',
+                showSettings: false,
+                uploading: false,
+
+                init() {
+                    this.statusMessage = 'Importe o arquivo "aulas_db.json" para começar ou crie do zero.';
+                },
+
+                // --- CLASS MANAGEMENT ---
+                selectClass(className) {
+                    this.currentClass = className;
+                    this.lessons = this.classesData[className] || [];
+                },
+
+                addClass() {
+                    const name = prompt("Nome da Nova Turma (ex: PMPR_2026):");
+                    if (name && !this.classesData[name]) {
+                        this.classesData[name] = [];
+                        this.selectClass(name);
+                    } else if (this.classesData[name]) {
+                        alert("Turma já existe!");
+                    }
+                },
+
+                deleteClass() {
+                    if (confirm(`Tem certeza que deseja apagar a turma ${this.currentClass} e todas as suas aulas?`)) {
+                        delete this.classesData[this.currentClass];
+                        const keys = Object.keys(this.classesData);
+                        if (keys.length > 0) {
+                            this.selectClass(keys[0]);
+                        } else {
+                            this.currentClass = '';
+                            this.lessons = [];
+                        }
+                    }
+                },
+
+                // --- FILE OPERATIONS ---
+
+                triggerUpload() {
+                    document.getElementById('file-upload').click();
+                },
+
+                handleFileUpload(event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            const json = JSON.parse(e.target.result);
+
+                            // MIGRATION: If array, wrap in PMPR
+                            if (Array.isArray(json)) {
+                                this.classesData = { "PMPR": json };
+                            } else {
+                                this.classesData = json;
+                            }
+
+                            // Select first class
+                            const keys = Object.keys(this.classesData);
+                            if (keys.length > 0) this.selectClass(keys[0]);
+
+                            this.statusMessage = 'Arquivo carregado com sucesso!';
+                            this.statusType = 'success';
+                        } catch (err) {
+                            alert("Erro ao ler JSON: " + err.message);
+                        }
+                    };
+                    reader.readAsText(file);
+                },
+
+                downloadJson() {
+                    // Sync current lessons back to master object
+                    if (this.currentClass) {
+                        this.classesData[this.currentClass] = this.lessons;
+                    }
+
+                    const dataStr = JSON.stringify(this.classesData, null, 2);
+                    const blob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'aulas_db.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+                    this.statusMessage = 'Arquivo baixado! Substitua o "aulas_db.json" na pasta admin/private.';
+                    this.statusType = 'success';
+                },
+
+                // --- CLOUD OPERATIONS ---
+
+                saveSettings() {
+                    localStorage.setItem('psycho_api_key', this.apiKey);
+                    localStorage.setItem('psycho_api_url', this.apiUrl);
+                    this.showSettings = false;
+                    this.statusMessage = 'Configurações salvas!';
+                    this.statusType = 'success';
+                },
+
+                async fetchFromCloud() {
+                    this.loading = true;
+                    this.statusMessage = 'Baixando da nuvem...';
+                    this.statusType = 'info';
+                    try {
+                        const res = await fetch('private/aulas_db.json?v=' + new Date().getTime());
+                        if (!res.ok) throw new Error("Arquivo não encontrado na nuvem.");
+
+                        const json = await res.json();
+
+                        // MIGRATION CHECK
+                        if (Array.isArray(json)) {
+                            this.classesData = { "PMPR": json };
+                        } else {
+                            this.classesData = json;
+                        }
+
+                        // Select first class or keep current if valid
+                        if (!this.currentClass || !this.classesData[this.currentClass]) {
+                            const keys = Object.keys(this.classesData);
+                            if (keys.length > 0) this.selectClass(keys[0]);
+                        } else {
+                            // Update current view
+                            this.lessons = this.classesData[this.currentClass];
+                        }
+
+                        this.statusMessage = '✅ Aulas carregadas da nuvem!';
+                        this.statusType = 'success';
+                    } catch (e) {
+                        console.error(e);
+                        this.statusMessage = 'Erro ao carregar: ' + e.message;
+                        this.statusType = 'error';
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
+                async publishToCloud() {
+                    if (!this.apiKey || !this.apiUrl) {
+                        this.showSettings = true;
+                        return alert("Por favor, configure a API Key antes de publicar.");
+                    }
+
+                    if (!confirm("Tem certeza que deseja publicar as aulas na NUVEM? Isso atualizará o site imediatamente.")) return;
+
+                    this.uploading = true;
+                    this.statusMessage = 'Enviando para o servidor...';
+                    this.statusType = 'info';
+
+                    try {
+                        this.ensureIds();
+                        // Update master object
+                        if (this.currentClass) {
+                            this.classesData[this.currentClass] = this.lessons;
+                        }
+
+                        const content = JSON.stringify(this.classesData, null, 2);
+
+                        const payload = {
+                            files: [
+                                { path: 'admin/private/aulas_db.json', content: content }
+                            ]
+                        };
+
+                        const res = await fetch(this.apiUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + this.apiKey
+                            },
+                            body: JSON.stringify(payload)
+                        });
+
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.error || "Erro no envio");
+
+                        this.statusMessage = '✅ Aulas publicadas com sucesso na nuvem!';
+                        this.statusType = 'success';
+
+                    } catch (error) {
+                        console.error(error);
+                        this.statusMessage = 'Erro ao publicar: ' + error.message;
+                        this.statusType = 'error';
+                    } finally {
+                        this.uploading = false;
+                    }
+                },
+
+                // --- LESSON OPERATIONS ---
+
+                ensureIds() {
+                    this.lessons.forEach(l => {
+                        if (!l.id) l.id = 'aula-' + Math.random().toString(36).substr(2, 9);
+                    });
+                },
+
+                addLesson() {
+                    this.lessons.push({
+                        id: 'aula-' + Math.random().toString(36).substr(2, 9),
+                        title: 'Nova Aula',
+                        subtitle: 'Descrição da aula',
+                        isOpen: true,
+                        topics: [],
+                        videos: []
+                    });
+                },
+
+                removeLesson(index) {
+                    if (confirm('Tem certeza que deseja excluir esta aula?')) {
+                        this.lessons.splice(index, 1);
+                    }
+                },
+
+                moveLesson(index, direction) {
+                    if (direction === -1 && index > 0) {
+                        [this.lessons[index], this.lessons[index - 1]] = [this.lessons[index - 1], this.lessons[index]];
+                    } else if (direction === 1 && index < this.lessons.length - 1) {
+                        [this.lessons[index], this.lessons[index + 1]] = [this.lessons[index + 1], this.lessons[index]];
+                    }
+                },
+
+                addTopic(lessonIndex) {
+                    this.lessons[lessonIndex].topics.push({ text: 'Novo Tópico', type: 'item' });
+                },
+
+                removeTopic(lessonIndex, topicIndex) {
+                    this.lessons[lessonIndex].topics.splice(topicIndex, 1);
+                },
+
+                addVideo(lessonIndex) {
+                    this.lessons[lessonIndex].videos.push({ embed: '' });
+                },
+
+                removeVideo(lessonIndex, videoIndex) {
+                    this.lessons[lessonIndex].videos.splice(videoIndex, 1);
+                }
+            };
+        }
+    </script>
+</head>
+
+<body class="bg-gray-900 text-gray-200 font-sans min-h-screen" x-data="adminApp()">
+
+    <!-- SETTINGS MODAL -->
+    <div x-show="showSettings" style="display: none;"
+        class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+        <div class="bg-gray-800 rounded-lg p-6 w-full max-w-md border border-gray-700 shadow-2xl">
+            <h2 class="text-xl font-bold text-white mb-4"><i class="fas fa-cog"></i> Configurações da API</h2>
+
+            <div class="mb-4">
+                <label class="block text-xs uppercase font-bold text-gray-500 mb-1">API URL</label>
+                <input type="text" x-model="apiUrl"
+                    class="w-full bg-gray-900 border border-gray-600 rounded px-3 py-2 text-white focus:border-purple-500 outline-none">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-xs uppercase font-bold text-gray-500 mb-1">API Key</label>
+                <input type="password" x-model="apiKey"
+                    class="w-full bg-gray-900 border border-gray-600 rounded px-3 py-2 text-white focus:border-purple-500 outline-none">
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <button @click="showSettings = false"
+                    class="px-4 py-2 rounded text-gray-400 hover:text-white">Cancelar</button>
+                <button @click="saveSettings()"
+                    class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded font-bold">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-gray-700 pb-6">
+            <div>
+                <h1 class="text-3xl font-bold text-white">Gerenciador de Aulas</h1>
+                <p class="text-gray-400 text-sm">Edite e baixe o arquivo <code>aulas_db.json</code></p>
+
+                <!-- Class Selector UI -->
+                <div class="mt-4 flex gap-2 items-center" x-show="Object.keys(classesData).length > 0">
+                    <template x-for="cls in Object.keys(classesData)" :key="cls">
+                        <button @click="selectClass(cls)"
+                            class="px-3 py-1 rounded text-xs font-bold transition uppercase"
+                            :class="currentClass === cls ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'">
+                            <span x-text="cls"></span>
+                        </button>
+                    </template>
+                    <div class="h-4 w-px bg-gray-700 mx-2"></div>
+                    <button @click="addClass()"
+                        class="text-xs text-green-400 hover:text-green-300 font-bold uppercase flex items-center gap-1">
+                        <i class="fas fa-plus"></i> Nova Turma
+                    </button>
+                    <button @click="deleteClass()" x-show="currentClass"
+                        class="ml-2 text-xs text-red-500 hover:text-red-400 font-bold uppercase"
+                        title="Apagar Turma Atual">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2 bg-gray-800 p-3 rounded-lg border border-gray-700">
+
+                <!-- Import -->
+                <input type="file" id="file-upload" class="hidden" accept=".json" @change="handleFileUpload">
+                <button @click="triggerUpload()"
+                    class="bg-blue-600/20 hover:bg-blue-600 border border-blue-600/50 text-blue-100 hover:text-white px-3 py-2 rounded font-bold transition flex items-center gap-2 text-sm">
+                    <i class="fas fa-upload"></i> Importar
+                </button>
+
+                <!-- Cloud Fetch -->
+                <button @click="fetchFromCloud()"
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded font-bold transition flex items-center gap-2 text-sm"
+                    title="Carregar da Nuvem">
+                    <i class="fas fa-cloud-download-alt"></i> Carregar da Nuvem
+                </button>
+
+                <div class="h-6 w-px bg-gray-600 mx-1"></div>
+
+                <!-- Settings -->
+                <button @click="showSettings = true" class="text-gray-400 hover:text-white px-2" title="Configurações">
+                    <i class="fas fa-cog"></i>
+                </button>
+
+                <!-- Cloud Publish -->
+                <button @click="publishToCloud()"
+                    class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-md font-bold transition shadow-lg flex items-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                    :disabled="uploading">
+                    <span x-show="uploading"><i class="fas fa-spinner fa-spin"></i></span>
+                    <span x-show="!uploading"><i class="fas fa-cloud-upload-alt"></i> Publicar na Nuvem</span>
+                </button>
+
+                <!-- Local Download -->
+                <button @click="downloadJson()"
+                    class="bg-gray-700 hover:bg-gray-600 text-white px-3 py-2 rounded font-bold transition flex items-center gap-2 text-sm"
+                    title="Baixar Backup">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Status Messages -->
+        <div x-show="statusMessage" class="mb-6 px-4 py-3 rounded shadow font-bold border-l-4 transition-all" :class="{
+                'bg-green-900 text-green-100 border-green-500': statusType === 'success',
+                'bg-red-900 text-red-100 border-red-500': statusType === 'error',
+                'bg-blue-900 text-blue-100 border-blue-500': statusType === 'info'
+            }">
+            <span x-text="statusMessage"></span>
+        </div>
+
+        <!-- Content Area -->
+        <div class="space-y-6">
+
+            <template x-for="(lesson, lIndex) in lessons" :key="lesson.id || lIndex">
+                <div
+                    class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden shadow-lg transition hover:border-gray-600">
+
+                    <!-- Lesson Header (Edit Mode) -->
+                    <div
+                        class="bg-gray-850 p-4 border-b border-gray-700 flex flex-col md:flex-row gap-4 items-start md:items-center">
+                        <div class="flex items-center gap-2 text-gray-500">
+                            <div class="flex flex-col gap-1">
+                                <button @click="moveLesson(lIndex, -1)" class="hover:text-white p-1"
+                                    title="Mover para cima"><i class="fas fa-chevron-up"></i></button>
+                                <button @click="moveLesson(lIndex, 1)" class="hover:text-white p-1"
+                                    title="Mover para baixo"><i class="fas fa-chevron-down"></i></button>
+                            </div>
+                            <span class="font-mono text-xs opacity-50" x-text="lIndex + 1"></span>
+                        </div>
+
+                        <div class="flex-grow grid md:grid-cols-2 gap-4 w-full">
+                            <div>
+                                <label class="text-xs text-gray-500 uppercase font-bold block mb-1">Título da
+                                    Aula</label>
+                                <input type="text" x-model="lesson.title"
+                                    class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 text-white focus:border-purple-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-500 uppercase font-bold block mb-1">Subtítulo</label>
+                                <input type="text" x-model="lesson.subtitle"
+                                    class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 text-gray-300 focus:border-purple-500 outline-none">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 ml-auto">
+                            <label
+                                class="flex items-center gap-2 cursor-pointer bg-gray-900 px-3 py-2 rounded border border-gray-700 select-none">
+                                <input type="checkbox" x-model="lesson.isOpen" class="accent-purple-500">
+                                <span class="text-xs font-bold text-gray-400">Aberto?</span>
+                            </label>
+                            <button @click="removeLesson(lIndex)" class="text-red-500 hover:text-red-400 p-2 transition"
+                                title="Excluir Aula">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 grid md:grid-cols-2 gap-6">
+
+                        <!-- Topics Column -->
+                        <div class="bg-gray-900/50 rounded p-3 border border-gray-700/50">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-sm font-bold text-purple-400 uppercase"><i
+                                        class="fas fa-list-ul mr-2"></i>Tópicos</h3>
+                                <button @click="addTopic(lIndex)"
+                                    class="text-xs bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white px-2 py-1 rounded transition">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+
+                            <div class="space-y-2">
+                                <template x-for="(topic, tIndex) in lesson.topics" :key="tIndex">
+                                    <div class="flex gap-2 items-center group">
+                                        <select x-model="topic.type"
+                                            class="bg-gray-800 text-xs border border-gray-700 rounded px-1 py-2 outline-none focus:border-purple-500">
+                                            <option value="item">Item</option>
+                                            <option value="break">Intervalo</option>
+                                        </select>
+                                        <input type="text" x-model="topic.text"
+                                            :placeholder="topic.type === 'break' ? 'Texto (Opcional)' : 'Texto do tópico...'"
+                                            class="flex-grow bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm text-gray-300 focus:border-purple-500 outline-none"
+                                            :class="{'italic opacity-50': topic.type === 'break'}">
+                                        <button @click="removeTopic(lIndex, tIndex)"
+                                            class="text-gray-600 hover:text-red-400 opacity-0 group-hover:opacity-100 transition">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Videos Column -->
+                        <div class="bg-gray-900/50 rounded p-3 border border-gray-700/50">
+                            <div class="flex justify-between items-center mb-3">
+                                <h3 class="text-sm font-bold text-pink-400 uppercase"><i
+                                        class="fas fa-video mr-2"></i>Vídeos</h3>
+                                <button @click="addVideo(lIndex)"
+                                    class="text-xs bg-pink-600/20 hover:bg-pink-600 text-pink-300 hover:text-white px-2 py-1 rounded transition">
+                                    <i class="fas fa-plus"></i> Add
+                                </button>
+                            </div>
+
+                            <div class="space-y-4">
+                                <template x-for="(video, vIndex) in lesson.videos" :key="vIndex">
+                                    <div class="bg-gray-800 p-2 rounded border border-gray-700 relative group">
+                                        <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                            <span>Parte <span x-text="vIndex + 1"></span></span>
+                                            <button @click="removeVideo(lIndex, vIndex)"
+                                                class="text-red-400 hover:text-red-300">Excluir</button>
+                                        </div>
+                                        <textarea x-model="video.embed" rows="3" placeholder="HTML do Embed..."
+                                            class="w-full bg-gray-900 border border-gray-700 rounded px-2 py-1 text-xs font-mono text-gray-400 focus:border-pink-500 outline-none resize-y"></textarea>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </template>
+
+            <!-- Add Lesson Button -->
+            <button @click="addLesson()"
+                class="w-full py-4 border-2 border-dashed border-gray-700 text-gray-500 hover:border-purple-500 hover:text-purple-400 rounded-lg transition font-bold uppercase tracking-wide">
+                <i class="fas fa-plus-circle mr-2"></i> Adicionar Nova Aula
+            </button>
+
+        </div>
+    </div>
+</body>
+
+</html>

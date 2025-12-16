@@ -98,7 +98,8 @@
         password: '',
         errorMsg: '',
         loading: false,
-        validHashes: {}, // Changed from [] to {}
+        validHashes: {},
+        otherTurmas: [],
 
         async init() {
           // 1. Verifica se existe sessão salva
@@ -114,11 +115,16 @@
             const res = await fetch('hashes_membros.json', { cache: "no-store" });
             if (res.ok) {
               this.validHashes = await res.json();
-              console.log("Hashes loaded:", Object.keys(this.validHashes).length);
             } else {
-              console.error("Arquivo de hashes não encontrado (404).");
               this.errorMsg = "Erro [404]: Banco de dados não encontrado.";
             }
+
+            // 3. Carrega Turmas Adicionais
+            const resTurmas = await fetch('admin/private/turmas_db.json', { cache: "no-store" });
+            if (resTurmas.ok) {
+              this.otherTurmas = await resTurmas.json();
+            }
+
           } catch (e) {
             console.error("Erro ao carregar lista:", e);
             this.errorMsg = "Erro de Conexão (CORS/Network): Não foi possível carregar os dados.";
@@ -143,9 +149,23 @@
 
           const hash = await this.sha256Hex(cleanEmail + cleanPass);
 
-          // Check if hash exists in the object keys
+          // Check if hash exists
           if (this.validHashes.hasOwnProperty(hash)) {
-            const expiry = this.validHashes[hash];
+            const userData = this.validHashes[hash];
+
+            // Tratamento de Legado (se o JSON antigo ainda existir por cache)
+            // Antes era: hash: "DATA" ou null
+            // Agora é: hash: { validity: "DATA", permissions: [] }
+
+            let expiry = null;
+            let permissions = ['PMPR']; // Default fallback
+
+            if (typeof userData === 'object' && userData !== null && userData.permissions) {
+              expiry = userData.validity;
+              permissions = userData.permissions;
+            } else if (typeof userData === 'string') {
+              expiry = userData;
+            }
 
             // Date Validation
             if (expiry) {
@@ -158,13 +178,24 @@
               }
             }
 
-            // SUCESSO: Salva a sessão e muda o estado
+            // SUCESSO
             sessionStorage.setItem('memberHash', hash);
+            sessionStorage.setItem('memberPermissions', JSON.stringify(permissions));
+
             this.isLoggedIn = true;
           } else {
             this.errorMsg = 'Dados incorretos ou acesso ainda não liberado.';
           }
           this.loading = false;
+        },
+
+        hasPermission(pasta) {
+          const stored = sessionStorage.getItem('memberPermissions');
+          if (!stored) return false;
+          try {
+            const perms = JSON.parse(stored);
+            return perms.includes(pasta);
+          } catch (e) { return false; }
         },
 
         logout() {
@@ -253,7 +284,7 @@
 
       <div class="max-w-4xl mx-auto space-y-8">
 
-        <div
+        <div x-show="hasPermission('PMPR')"
           class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300">
           <div class="flex-shrink-0">
             <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
@@ -277,6 +308,36 @@
             </button>
           </div>
         </div>
+
+        <!-- Dynamic Classes Loop -->
+        <template x-for="turma in otherTurmas" :key="turma.pasta">
+          <div x-show="hasPermission(turma.pasta)"
+            class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300">
+
+            <!-- Image (Default or Custom) -->
+            <div class="flex-shrink-0">
+              <img
+                :src="turma.imagem || 'https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg'"
+                class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)]">
+            </div>
+
+            <div class="flex-grow text-center md:text-left">
+              <h2 class="text-2xl font-bold mb-3" style="color:var(--text-light)" x-text="turma.nome"></h2>
+              <p class="mb-6 leading-relaxed" style="color:var(--text-dark)">
+                Acesso exclusivo aos materiais de <span x-text="turma.nome"></span>. Clique para entrar no painel.
+              </p>
+
+              <a :href="turma.pasta + '/pmpr.html'"
+                class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 cursor-pointer">
+                ACESSAR MATERIAL
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </template>
 
 
 

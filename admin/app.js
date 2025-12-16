@@ -31,6 +31,7 @@ const CONFIG = {
 
 // ===== ESTADO: ALUNOS =====
 let studentsDB = [];
+let turmasDB = [];
 let editingStudentIndex = null;
 
 // ===== ESTADO: PSICODATA (TESTES) =====
@@ -90,6 +91,7 @@ function switchSection(section) {
   // UI Updates
   if (section === 'students') {
     hide(qs('#section-psicodata'));
+    hide(qs('#section-turmas'));
     show(qs('#section-students'));
 
     qs('#nav-students').classList.add('bg-brand-blue', 'text-white', 'shadow-lg');
@@ -97,8 +99,29 @@ function switchSection(section) {
 
     qs('#nav-psicodata').classList.remove('bg-brand-blue', 'text-white', 'shadow-lg');
     qs('#nav-psicodata').classList.add('text-slate-400', 'hover:bg-slate-800');
+
+    qs('#nav-turmas').classList.remove('bg-brand-blue', 'text-white', 'shadow-lg');
+    qs('#nav-turmas').classList.add('text-slate-400', 'hover:bg-slate-800');
+
+  } else if (section === 'turmas') {
+    hide(qs('#section-students'));
+    hide(qs('#section-psicodata'));
+    show(qs('#section-turmas'));
+
+    qs('#nav-turmas').classList.add('bg-brand-blue', 'text-white', 'shadow-lg');
+    qs('#nav-turmas').classList.remove('text-slate-400', 'hover:bg-slate-800');
+
+    qs('#nav-students').classList.remove('bg-brand-blue', 'text-white', 'shadow-lg');
+    qs('#nav-students').classList.add('text-slate-400', 'hover:bg-slate-800');
+
+    qs('#nav-psicodata').classList.remove('bg-brand-blue', 'text-white', 'shadow-lg');
+    qs('#nav-psicodata').classList.add('text-slate-400', 'hover:bg-slate-800');
+
+    renderTurmas();
+
   } else {
     hide(qs('#section-students'));
+    hide(qs('#section-turmas'));
     show(qs('#section-psicodata'));
 
     qs('#nav-psicodata').classList.add('bg-brand-blue', 'text-white', 'shadow-lg');
@@ -107,7 +130,9 @@ function switchSection(section) {
     qs('#nav-students').classList.remove('bg-brand-blue', 'text-white', 'shadow-lg');
     qs('#nav-students').classList.add('text-slate-400', 'hover:bg-slate-800');
 
-    // Inicializa view psicodata se necessário
+    qs('#nav-turmas').classList.remove('bg-brand-blue', 'text-white', 'shadow-lg');
+    qs('#nav-turmas').classList.add('text-slate-400', 'hover:bg-slate-800');
+
     if (!currentBanca) {
       const keys = Object.keys(appData).sort();
       if (keys.length > 0) selectBanca(keys[0]);
@@ -117,6 +142,40 @@ function switchSection(section) {
 window.switchSection = switchSection; // Expor globalmente
 
 // ===== 1. LOGIN =====
+
+async function loadData() {
+  try {
+    // 1. Alunos
+    const resStudents = await fetch(CONFIG.PRIVATE_DB_URL, { cache: 'no-store' });
+    if (resStudents.ok) {
+      studentsDB = await resStudents.json();
+      renderStudentTable();
+    }
+
+    // 2. PsicoData
+    const resPsico = await fetch('private/psicodata_db.json', { cache: 'no-store' });
+    if (resPsico.ok) {
+      appData = await resPsico.json();
+    }
+
+    // 3. Configs
+    const resConfig = await fetch('private/psicodata_config.json', { cache: 'no-store' });
+    if (resConfig.ok) {
+      const config = await resConfig.json();
+      if (config.types) currentTestTypes = config.types;
+      if (config.aliases) currentAliases = config.aliases;
+    }
+
+    // Init UI Psico
+    if (Object.keys(appData).length > 0) {
+      if (!currentBanca) selectBanca(Object.keys(appData).sort()[0]);
+    }
+
+  } catch (e) {
+    console.warn("LoadData: Algum arquivo não encontrado (novo deploy?)", e);
+  }
+}
+
 async function doLogin() {
   const email = qs('#email').value.trim().toLowerCase();
   const pass = qs('#password').value;
@@ -136,6 +195,7 @@ async function doLogin() {
       hide(qs('#gate'));
       show(qs('#app'));
       loadData(); // Carregar dados iniciais dos DAIS bancos
+      loadTurmasData(); // Load Turmas
     } else {
       msg.textContent = "Senha incorreta.";
     }
@@ -219,8 +279,11 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
 
     for (const s of studentsDB) {
       const hash = await sha256Hex(s.email + s.inscricao);
-      // Store validity date or null if unlimited
-      publicHashes[hash] = s.validade || null;
+      // Store object with validity & permissions
+      publicHashes[hash] = {
+        validity: s.validade || null,
+        permissions: s.permissions || ['PMPR']
+      };
     }
 
     // Payload Unificado
@@ -233,7 +296,9 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
         // 3. Banco de Dados de Testes (PsicoData)
         { path: 'admin/private/psicodata_db.json', content: JSON.stringify(appData, null, 2) },
         // 4. Configurações de Tipos/Aliases
-        { path: 'admin/private/psicodata_config.json', content: JSON.stringify({ types: currentTestTypes, aliases: currentAliases }, null, 2) }
+        { path: 'admin/private/psicodata_config.json', content: JSON.stringify({ types: currentTestTypes, aliases: currentAliases }, null, 2) },
+        // 5. Banco de Turmas
+        { path: 'admin/private/turmas_db.json', content: JSON.stringify(turmasDB, null, 2) }
       ]
     };
 
@@ -332,11 +397,45 @@ qs('#file-backup-local').onchange = async (e) => {
 // ===== 3. GESTÃO DE ALUNOS =====
 
 let selectedStudents = new Set();
+// New Helper: Render Permissions Checkboxes
+function renderPermissionOptions() {
+  const container = qs('#permissions-container');
+  container.innerHTML = '';
+
+  // 1. Padrão PMPR
+  const lblPMPR = document.createElement('label');
+  lblPMPR.className = "flex items-center gap-2 text-xs text-slate-300 select-none cursor-pointer";
+  lblPMPR.innerHTML = `<input type="checkbox" value="PMPR" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> PMPR (Padrão)`;
+  container.appendChild(lblPMPR);
+
+  // 2. Turmas Dinâmicas
+  turmasDB.forEach(t => {
+    const lbl = document.createElement('label');
+    lbl.className = "flex items-center gap-2 text-xs text-slate-300 select-none cursor-pointer";
+    lbl.innerHTML = `<input type="checkbox" value="${t.pasta}" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> ${t.nome}`;
+    container.appendChild(lbl);
+  });
+}
+
+function getSelectedPermissions() {
+  const checks = document.querySelectorAll('.perm-check:checked');
+  return Array.from(checks).map(c => c.value);
+}
+
+function setPermissionsUI(perms) {
+  const checks = document.querySelectorAll('.perm-check');
+  checks.forEach(c => {
+    c.checked = perms.includes(c.value);
+  });
+}
 
 function renderStudentTable() {
   const tbody = qs('#studentTable tbody');
   qs('#label-count-students').textContent = `${studentsDB.length} alunos`;
   tbody.innerHTML = '';
+
+  // Ensure options are up to date with turmas
+  renderPermissionOptions();
 
   const sorted = [...studentsDB].sort((a, b) => (a.nome || '').localeCompare(b.nome || ''));
 
@@ -358,13 +457,17 @@ function renderStudentTable() {
       }
     }
 
+    // Permission Bagde (Count)
+    const accessCount = Array.isArray(s.permissions) ? s.permissions.length : (s.permissions ? 1 : 'All');
+    const permBadge = `<span class="text-[10px] bg-slate-700 px-1.5 py-0.5 rounded text-slate-300 ml-2" title="${s.permissions}">📶 ${accessCount}</span>`;
+
     const tr = document.createElement('tr');
     tr.className = `border-b border-slate-700/50 transition-colors ${isSelected ? 'bg-brand-blue/10' : 'hover:bg-slate-800/50'}`;
     tr.innerHTML = `
             <td class="px-6 py-4">
                 <input type="checkbox" onchange="toggleSelect(${originalIndex})" ${isSelected ? 'checked' : ''} class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue">
             </td>
-            <td class="px-6 py-4 font-medium">${s.nome || '-'}</td>
+            <td class="px-6 py-4 font-medium">${s.nome || '-'} ${permBadge}</td>
             <td class="px-6 py-4 text-slate-400">${s.email}</td>
             <td class="px-6 py-4">${s.cpf || '-'}</td>
             <td class="px-6 py-4 font-mono text-xs text-brand-blue">${s.inscricao}</td>
@@ -437,9 +540,12 @@ window.editStudent = function (index) {
   qs('#new-name').value = s.nome;
   qs('#new-email').value = s.email;
   qs('#new-cpf').value = s.cpf;
-  qs('#new-cpf').value = s.cpf;
   qs('#new-key').value = s.inscricao;
   qs('#new-validity').value = s.validade || '';
+
+  // Set Permissions
+  const perms = s.permissions || ['PMPR']; // Default legacy
+  setPermissionsUI(perms);
 
   const btn = qs('#btn-add');
   btn.innerHTML = '<i class="fas fa-save mr-1"></i> Salvar Edição';
@@ -770,6 +876,7 @@ function renderStats(data) {
   // 2. Calculate Specific Test Counts
   const testCounts = {};
 
+
   data.forEach(item => item.testes.forEach(t => {
     const r = resolveTestName(t);
     const type = getTestType(r);
@@ -970,65 +1077,26 @@ window.saveTest = function () {
   selectBanca(currentBanca);
 }
 window.deleteContest = function (i) {
-  if (confirm("Excluir?")) {
+  if (confirm("Deletar concurso?")) {
     appData[currentBanca].splice(i, 1);
     savePsicoLocal();
     selectBanca(currentBanca);
   }
 }
 
-
-// ===== DATA PERSISTENCE =====
-function loadData() {
-  // 1. Load PsicoData (Local Storage for now)
-  const storedDB = localStorage.getItem('psicoDataDB');
-  const storedTypes = localStorage.getItem('psicoDataTestTypes');
-  const storedAliases = localStorage.getItem('psicoDataAliases');
-
-  if (storedDB) appData = JSON.parse(storedDB);
-  else appData = { "AOCP": [], "CEBRASPE": [], "FGV": [], "IBFC": [], "VUNESP": [] }; // Default se vazio
-
-  if (storedTypes) currentTestTypes = JSON.parse(storedTypes);
-  else currentTestTypes = { ...defaultTestTypes }; // Merged defaults
-
-  if (storedAliases) currentAliases = JSON.parse(storedAliases);
-  else currentAliases = { ...defaultAliases };
-
-  // 2. Load Students (Already handled locally or cloud)
-  // Se tivermos studentsDB vazio, tentamos carregar do storage só pra não ficar zero?
-  // Não, studentsDB deve vir do CLOUD LOAD button principalmente.
-}
-
 function savePsicoLocal() {
-  localStorage.setItem('psicoDataDB', JSON.stringify(appData));
-  localStorage.setItem('psicoDataTestTypes', JSON.stringify(currentTestTypes));
-  localStorage.setItem('psicoDataAliases', JSON.stringify(currentAliases));
-  notify("PsicoData salvo localmente!", "brand-blue");
+  // Just UI Refresh or Notify?
+  // We rely on "Publicar na Nuvem" for persistence, or "Backup Local".
+  // But we should probably implement a 'dirty' state or auto-save to browser storage (later).
+  notify("Alterações locais salvas (Memória). Lembre-se de publicar!", "brand-blue");
 }
 
-// ===== CPF LOGIC FROM USER =====
-
-// 1. Máscara (Formatação Visual)
-function applyCPFMask(input) {
-  let cpf = input.value;
-  cpf = cpf.replace(/\D/g, "");
-  cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
-  cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
-  cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-  input.value = cpf;
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// Listener para Máscara
-qs('#new-cpf').addEventListener('input', (e) => applyCPFMask(e.target));
-
-
-// ===== VALIDATORS REWRITE =====
-function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
-
-// 2. Validação (Algoritmo Oficial)
-function isValidCPF(strCPF) {
-  let cpf = strCPF.replace(/[^\d]+/g, ''); // Limpa formatação
-
+function isValidCPF(cpf) {
+  cpf = cpf.replace(/[^\d]+/g, '');
   if (cpf === '') return false;
 
   // Elimina CPFs invalidos conhecidos (todos dígitos iguais)
@@ -1061,4 +1129,157 @@ function validarDigitos(cpf) {
   if (resto !== parseInt(cpf.substring(10, 11))) return false;
 
   return true;
+}
+
+// ===== 5. GESTÃO DE TURMAS =====
+
+async function loadTurmasData() {
+  try {
+    const res = await fetch('private/turmas_db.json', { cache: 'no-store' });
+    if (res.ok) {
+      turmasDB = await res.json();
+      console.log("Turmas carregadas:", turmasDB.length);
+    }
+  } catch (e) {
+    console.warn("Sem turmas ou erro:", e);
+  }
+}
+
+function renderTurmas() {
+  const container = qs('#turmas-list');
+  if (!container) return;
+  qs('#label-count-turmas').textContent = `${turmasDB.length} turmas cadastradas`;
+  container.innerHTML = '';
+
+  if (turmasDB.length === 0) {
+    container.innerHTML = `<div class="col-span-3 text-center text-slate-500 py-10 border border-dashed border-slate-700 rounded-lg">Nenhuma turma cadastrada.</div>`;
+    return;
+  }
+
+  turmasDB.forEach((t, index) => {
+    const div = document.createElement('div');
+    div.className = "bg-brand-panel border border-slate-700 rounded-xl p-5 shadow-lg hover:border-brand-blue transition-all group relative animate-fade-in";
+    div.innerHTML = `
+      <div class="flex justify-between items-start mb-4">
+        <div class="bg-brand-blue/20 p-3 rounded-lg text-brand-blue">
+          <i class="fas fa-layer-group text-2xl"></i>
+        </div>
+        <div class="flex gap-2">
+            <button onclick="deleteTurma(${index})" class="text-slate-400 hover:text-red-500 transition-colors" title="Excluir"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <h3 class="text-lg font-bold text-white mb-1">${t.nome}</h3>
+      <p class="text-xs text-slate-400 font-mono mb-4 bg-black/20 px-2 py-1 rounded inline-block">${t.pasta || 'Sem pasta'}</p>
+      
+      <div class="bg-slate-800/50 rounded p-2 text-[10px] text-slate-400">
+        <div class="flex justify-between mb-1"><span>Base:</span> <span class="text-white">${t.base || 'PMPR'}</span></div>
+        <div class="flex justify-between"><span>Criado:</span> <span class="text-slate-500">${t.created_at ? new Date(t.created_at).toLocaleDateString() : 'Hoje'}</span></div>
+      </div>
+      
+      <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between items-center">
+         <span class="text-[10px] text-slate-500">Ações Locais</span>
+         <a href="../${t.pasta}/pmpr.html" target="_blank" class="text-xs text-brand-blue hover:underline font-bold">Acessar Painel <i class="fas fa-external-link-alt ml-1"></i></a>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+window.addTurma = async function () {
+  const nome = qs('#turma-nome').value.trim();
+  const pasta = qs('#turma-pasta').value.trim();
+  const base = qs('#turma-base').value;
+  const imagem = qs('#turma-imagem').value.trim();
+
+  if (!nome || !pasta) return alert("Preencha Nome e Pasta Corretamente.");
+  if (pasta.includes(' ')) return alert("O nome da pasta não pode conter espaços.");
+
+  // Verifica Duplicidade
+  if (turmasDB.find(t => t.pasta === pasta)) return alert("Já existe uma turma com essa pasta.");
+
+  // 1. Atualiza Memória Local (UI Otimista)
+  const novaTurma = { nome, pasta, base, imagem, created_at: new Date().toISOString() };
+  turmasDB.push(novaTurma);
+  renderTurmas(); // Mostra na tela imediatamente
+
+  // 2. Tenta Automação com Python Local
+  const btn = qs('#btn-add-turma');
+  const originalText = btn.innerHTML;
+  btn.textContent = "Sincronizando...";
+  btn.disabled = true;
+
+  try {
+    // Tenta enviar para o script Python rodando localmente
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s Timeout
+
+    // USO 127.0.0.1 para evitar problemas de resolução de IPv6 do 'localhost'
+    const res = await fetch('http://127.0.0.1:8080/sync-turmas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(turmasDB),
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.created > 0) {
+        notify(`Sucesso! Pasta "${pasta}" criada fisicamente.`, "ok");
+      } else {
+        notify("Turma salva, mas o sync não criou novas pastas (já existem?).", "brand-blue");
+      }
+    } else {
+      throw new Error(`Erro HTTP: ${res.status}`);
+    }
+
+  } catch (err) {
+    console.warn("Automação Falhou:", err);
+    alert(`AVISO: O Servidor de Automação não respondeu.\n\nErro: ${err.message}\n\nA turma foi salva APENAS no navegador. Para criar as pastas, garanta que o script 'admin/sync_turmas.py' esteja rodando no terminal.`);
+  } finally {
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+    qs('#turma-nome').value = '';
+    qs('#turma-pasta').value = '';
+  }
+}
+
+window.deleteTurma = function (index) {
+  if (confirm("Remover esta turma do painel?\\n(A pasta NÃO será apagada automaticamente do servidor)")) {
+    turmasDB.splice(index, 1);
+    renderTurmas();
+    notify("Turma removida.");
+  }
+}
+
+window.exportTurmas = function () {
+  const dataStr = JSON.stringify(turmasDB, null, 2);
+  const blob = new Blob([dataStr], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = "turmas_db.json";
+  a.click();
+  notify("Banco de Turmas exportado!", "ok");
+}
+
+window.importTurmas = function () {
+  qs('#file-turmas').click();
+}
+
+qs('#file-turmas').onchange = async (e) => {
+  const f = e.target.files[0];
+  if (!f) return;
+  try {
+    const text = await f.text();
+    turmasDB = JSON.parse(text);
+    renderTurmas();
+    notify("Turmas importadas!", "ok");
+  } catch (err) {
+    alert("Erro JSON: " + err.message);
+  }
+}
+
+window.downloadSyncScript = function () {
+  alert("Para ativar a automação:\n\n1. Abra o terminal na pasta do projeto.\n2. Execute: python admin/sync_turmas.py\n\nIsso iniciará o SEVIDOR LOCAL (Porta 5000).\nMantenha o terminal aberto enquanto adiciona turmas.");
 }
