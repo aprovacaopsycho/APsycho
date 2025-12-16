@@ -59,6 +59,7 @@ def process_sync_logic(turmas):
         source_path = os.path.join(BASE_DIR, base_folder)
 
         # Se a pasta não existe, cria
+        # Se a pasta não existe, cria
         if not os.path.exists(target_path):
             if not os.path.exists(source_path):
                 print(f"[ERRO] Pasta base {base_folder} não encontrada.")
@@ -67,23 +68,31 @@ def process_sync_logic(turmas):
             print(f"[CRIANDO] {folder_slug} (Base: {base_folder})...")
             try:
                 shutil.copytree(source_path, target_path)
-                
-                # Atualiza Headers e Imagens
-                for root, _, files in os.walk(target_path):
-                    for file in files:
-                        if file.endswith('.html'):
-                            file_path = os.path.join(root, file)
-                            with open(file_path, 'r', encoding='utf-8') as f:
-                                content = f.read()
-                            
-                            new_content = safe_replace(content, name, imagem)
-                            
-                            if content != new_content:
-                                with open(file_path, 'w', encoding='utf-8') as f:
-                                    f.write(new_content)
                 changes_count += 1
             except Exception as e:
                 print(f"[ERRO] Falha ao criar {folder_slug}: {e}")
+                continue
+        else:
+             print(f"[ATUALIZANDO] {folder_slug}...")
+
+        # Atualiza Headers e Imagens (Para pastas novas e existentes)
+        try:
+            for root, _, files in os.walk(target_path):
+                for file in files:
+                    if file.endswith('.html'):
+                        file_path = os.path.join(root, file)
+                        with open(file_path, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                        
+                        new_content = safe_replace(content, name, imagem)
+                        
+                        if content != new_content:
+                            with open(file_path, 'w', encoding='utf-8') as f:
+                                f.write(new_content)
+                            # print(f"  -> Atualizado: {file}") 
+                            changes_count += 1
+        except Exception as e:
+             print(f"[ERRO] Falha ao atualizar arquivos de {folder_slug}: {e}")
     
     print(f"--- Fim (Novas pastas criadas: {changes_count}) ---")
     return changes_count

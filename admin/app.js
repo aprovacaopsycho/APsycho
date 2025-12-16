@@ -467,8 +467,14 @@ function renderStudentTable() {
             <td class="px-6 py-4">
                 <input type="checkbox" onchange="toggleSelect(${originalIndex})" ${isSelected ? 'checked' : ''} class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue">
             </td>
-            <td class="px-6 py-4 font-medium">${s.nome || '-'} ${permBadge}</td>
-            <td class="px-6 py-4 text-slate-400">${s.email}</td>
+            <td class="px-6 py-4 font-medium">${s.nome || '-'}</td>
+            <td class="px-6 py-4">${s.email}</td>
+            <td class="px-6 py-4 font-mono text-xs text-slate-400">
+                ${(s.permissions || []).map(p =>
+      p === 'PMPR' ? '<span class="bg-blue-900 text-blue-300 px-1 rounded">PMPR</span>' :
+        `<span class="bg-slate-700 px-1 rounded">${p}</span>`
+    ).join(' ')}
+            </td>
             <td class="px-6 py-4">${s.cpf || '-'}</td>
             <td class="px-6 py-4 font-mono text-xs text-brand-blue">${s.inscricao}</td>
             <td class="px-6 py-4">${validityHtml}</td>
@@ -646,6 +652,7 @@ qs('#btn-add').addEventListener('click', () => {
   const cpf = qs('#new-cpf').value.trim();
   const inscricao = qs('#new-key').value.trim();
   const validade = qs('#new-validity').value;
+  const permissions = getSelectedPermissions(); // CAPTURE PERMISSIONS
 
   let hasError = false;
   if (!nome) { showInputError('#new-name', 'Obrigatório'); hasError = true; }
@@ -656,7 +663,7 @@ qs('#btn-add').addEventListener('click', () => {
   if (hasError) return notify("Corrija os erros.", "bad");
 
   if (editingStudentIndex !== null) {
-    studentsDB[editingStudentIndex] = { nome, email, cpf, inscricao, validade };
+    studentsDB[editingStudentIndex] = { nome, email, cpf, inscricao, validade, permissions }; // SAVE PERMISSIONS
     editingStudentIndex = null;
     qs('#btn-add').innerHTML = '<i class="fas fa-plus mr-1"></i> Salvar';
     qs('#btn-add').classList.remove('bg-brand-accent');
@@ -667,9 +674,9 @@ qs('#btn-add').addEventListener('click', () => {
     if (dup) {
       if (!confirm(`Dados duplicados (${dup.nome}). Substituir?`)) return;
       const idx = studentsDB.indexOf(dup);
-      studentsDB[idx] = { nome, email, cpf, inscricao, validade };
+      studentsDB[idx] = { nome, email, cpf, inscricao, validade, permissions }; // SAVE PERMISSIONS
     } else {
-      studentsDB.push({ nome, email, cpf, inscricao, validade });
+      studentsDB.push({ nome, email, cpf, inscricao, validade, permissions }); // SAVE PERMISSIONS
     }
     notify("Adicionado!", "ok");
   }
@@ -1139,6 +1146,7 @@ async function loadTurmasData() {
     if (res.ok) {
       turmasDB = await res.json();
       console.log("Turmas carregadas:", turmasDB.length);
+      renderStudentTable(); // Re-render to show options/columns
     }
   } catch (e) {
     console.warn("Sem turmas ou erro:", e);
