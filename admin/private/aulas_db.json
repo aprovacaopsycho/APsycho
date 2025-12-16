@@ -1,120 +1,120 @@
 {
-    "PMPR": [
+  "PMPR": [
+    {
+      "id": "aula-01",
+      "title": "Aula 01",
+      "subtitle": "Introdução e Teste BFP",
+      "isOpen": true,
+      "studied": false,
+      "topics": [
         {
-            "id": "aula-01",
-            "title": "Aula 01",
-            "subtitle": "Introdução e Teste BFP",
-            "isOpen": true,
-            "studied": false,
-            "topics": [
-                {
-                    "text": "Introdução aos testes de personalidade",
-                    "type": "item"
-                },
-                {
-                    "text": null,
-                    "type": "break"
-                },
-                {
-                    "text": "Explicação do Teste BFP",
-                    "type": "item"
-                }
-            ],
-            "videos": [
-                {
-                    "embed": "<iframe id=\"panda-aula1-p1\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=c6f353bf-f46b-4cb3-add8-66979fa4a6f7\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"100%\" height=\"100%\" fetchpriority=\"high\"></iframe>"
-                },
-                {
-                    "embed": "<iframe id=\"panda-2b0b789e-2dd0-4fd5-ace7-5ff8e185c5b7\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=2b0b789e-2dd0-4fd5-ace7-5ff8e185c5b7\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
-                }
-            ]
+          "text": "Introdução aos testes de personalidade",
+          "type": "item"
         },
         {
-            "id": "aula-02",
-            "title": "Aula 02",
-            "subtitle": "NEO-PI, Palográfico e Entrevista",
-            "isOpen": false,
-            "studied": false,
-            "topics": [
-                {
-                    "text": "Teste NEO",
-                    "type": "item"
-                },
-                {
-                    "text": "PALOGRÁFICO",
-                    "type": "item"
-                },
-                {
-                    "text": null,
-                    "type": "break"
-                },
-                {
-                    "text": "Entrevista",
-                    "type": "item"
-                }
-            ],
-            "videos": [
-                {
-                    "embed": "<iframe id=\"panda-9d9071f4-fa06-4539-940e-a9824bd6682a\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=9d9071f4-fa06-4539-940e-a9824bd6682a\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
-                },
-                {
-                    "embed": "<iframe id=\"panda-45cfba9e-c66b-4d46-a832-cfb24319bae6\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=45cfba9e-c66b-4d46-a832-cfb24319bae6\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
-                }
-            ]
+          "text": null,
+          "type": "break"
         },
         {
-            "id": "aula-03",
-            "title": "Aula 03",
-            "subtitle": "Atenção e Memória",
-            "isOpen": false,
-            "studied": false,
-            "topics": [
-                {
-                    "text": "Teste CTA, AC VETOR, Rotas",
-                    "type": "item"
-                },
-                {
-                    "text": null,
-                    "type": "break"
-                },
-                {
-                    "text": "TEPIC, Memória F, TSP MEMO",
-                    "type": "item"
-                }
-            ],
-            "videos": [
-                {
-                    "embed": "<iframe id=\"panda-f9fa6cb7-1c21-45ad-af59-72e977552e6c\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=f9fa6cb7-1c21-45ad-af59-72e977552e6c\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
-                },
-                {
-                    "embed": "<iframe id=\"panda-dda7a097-f1db-4f73-9b82-aad9ac7c9147\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=dda7a097-f1db-4f73-9b82-aad9ac7c9147\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
-                }
-            ]
-        },
-        {
-            "id": "aula-04",
-            "title": "Aula 04",
-            "subtitle": "Raciocínio",
-            "isOpen": false,
-            "studied": false,
-            "topics": [
-                {
-                    "text": "Beta 3 códigos e matricial",
-                    "type": "item"
-                },
-                {
-                    "text": "R1 e BPR 5 RV",
-                    "type": "item"
-                }
-            ],
-            "videos": [
-                {
-                    "embed": "<iframe id=\"panda-328c65f9-3b3e-4b05-a9bd-a814c62d3c94\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=328c65f9-3b3e-4b05-a9bd-a814c62d3c94\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
-                },
-                {
-                    "embed": "<iframe id=\"panda-80ad52fe-d8a2-4485-8431-71629ac532b5\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=80ad52fe-d8a2-4485-8431-71629ac532b5\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
-                }
-            ]
+          "text": "Explicação do Teste BFP",
+          "type": "item"
         }
-    ]
+      ],
+      "videos": [
+        {
+          "embed": "<iframe id=\"panda-aula1-p1\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=c6f353bf-f46b-4cb3-add8-66979fa4a6f7\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"100%\" height=\"100%\" fetchpriority=\"high\"></iframe>"
+        },
+        {
+          "embed": "<iframe id=\"panda-2b0b789e-2dd0-4fd5-ace7-5ff8e185c5b7\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=2b0b789e-2dd0-4fd5-ace7-5ff8e185c5b7\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "aula-02",
+      "title": "Aula 02",
+      "subtitle": "NEO-PI, Palográfico e Entrevista",
+      "isOpen": false,
+      "studied": false,
+      "topics": [
+        {
+          "text": "Teste NEO",
+          "type": "item"
+        },
+        {
+          "text": "PALOGRÁFICO",
+          "type": "item"
+        },
+        {
+          "text": null,
+          "type": "break"
+        },
+        {
+          "text": "Entrevista",
+          "type": "item"
+        }
+      ],
+      "videos": [
+        {
+          "embed": "<iframe id=\"panda-9d9071f4-fa06-4539-940e-a9824bd6682a\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=9d9071f4-fa06-4539-940e-a9824bd6682a\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
+        },
+        {
+          "embed": "<iframe id=\"panda-45cfba9e-c66b-4d46-a832-cfb24319bae6\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=45cfba9e-c66b-4d46-a832-cfb24319bae6\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "aula-03",
+      "title": "Aula 03",
+      "subtitle": "Atenção e Memória",
+      "isOpen": false,
+      "studied": false,
+      "topics": [
+        {
+          "text": "Teste CTA, AC VETOR, Rotas",
+          "type": "item"
+        },
+        {
+          "text": null,
+          "type": "break"
+        },
+        {
+          "text": "TEPIC, Memória F, TSP MEMO",
+          "type": "item"
+        }
+      ],
+      "videos": [
+        {
+          "embed": "<iframe id=\"panda-f9fa6cb7-1c21-45ad-af59-72e977552e6c\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=f9fa6cb7-1c21-45ad-af59-72e977552e6c\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
+        },
+        {
+          "embed": "<iframe id=\"panda-dda7a097-f1db-4f73-9b82-aad9ac7c9147\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=dda7a097-f1db-4f73-9b82-aad9ac7c9147\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
+        }
+      ]
+    },
+    {
+      "id": "aula-04",
+      "title": "Aula 04",
+      "subtitle": "Raciocínio",
+      "isOpen": false,
+      "studied": false,
+      "topics": [
+        {
+          "text": "Beta 3 códigos e matricial",
+          "type": "item"
+        },
+        {
+          "text": "R1 e BPR 5 RV",
+          "type": "item"
+        }
+      ],
+      "videos": [
+        {
+          "embed": "<iframe id=\"panda-328c65f9-3b3e-4b05-a9bd-a814c62d3c94\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=328c65f9-3b3e-4b05-a9bd-a814c62d3c94\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
+        },
+        {
+          "embed": "<iframe id=\"panda-80ad52fe-d8a2-4485-8431-71629ac532b5\" src=\"https://player-vz-39115b3e-10b.tv.pandavideo.com.br/embed/?v=80ad52fe-d8a2-4485-8431-71629ac532b5\" style=\"border:none;\" allow=\"accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture\" allowfullscreen=true width=\"720\" height=\"360\" fetchpriority=\"high\"></iframe>"
+        }
+      ]
+    }
+  ]
 }
