@@ -1152,7 +1152,7 @@ function validarDigitos(cpf) {
 
 async function loadTurmasData() {
   try {
-    const res = await fetch('private/turmas_db.json', { cache: 'no-store' });
+    const res = await fetch('../assets/data/turmas_db.json', { cache: 'no-store' });
     if (res.ok) {
       turmasDB = await res.json();
       console.log("Turmas carregadas:", turmasDB.length);

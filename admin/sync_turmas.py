@@ -6,7 +6,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 
 # Configuration
-DB_PATH = os.path.join('admin', 'private', 'turmas_db.json')
+DB_PATH = os.path.join('assets', 'data', 'turmas_db.json')
 BASE_DIR = os.getcwd()
 SERVER_PORT = 8080
 

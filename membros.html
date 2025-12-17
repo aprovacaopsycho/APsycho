@@ -269,7 +269,7 @@
             if (res.ok) this.validHashes = await res.json();
 
             // 2. Turmas
-            const resTurmas = await fetch('admin/private/turmas_db.json', { cache: "no-store" });
+            const resTurmas = await fetch('assets/data/turmas_db.json', { cache: "no-store" });
             if (resTurmas.ok) this.otherTurmas = await resTurmas.json();
 
           } catch (e) {
