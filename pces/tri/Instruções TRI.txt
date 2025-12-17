@@ -1,0 +1,11 @@
+Este é um teste de inteligência. Repare que, no exemplo abaixo, existe uma sequência de imagens e um ponto de interrogação.
+A sua tarefa é identificar qual das quatro opções abaixo (a, b, c ou d) completa o raciocínio.
+
+tri_exemplo.png
+
+Total de questões: 15
+Tempo: 4 minutos
+Meta: 9 acertos
+
+Gabarito
+ACBDDCAAACABACA

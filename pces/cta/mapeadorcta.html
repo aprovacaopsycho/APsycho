@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapeador CTA - V2 (Corrigido)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        /* Área Principal de Trabalho */
+        .workspace {
+            width: calc(100% - 350px);
+            height: 100vh;
+            overflow: auto;
+            /* Permite scroll se a imagem for grande */
+            background-image: radial-gradient(#333 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+        }
+
+        /* Onde a mágica acontece */
+        .canvas-area {
+            position: relative;
+            background: #222;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            /* Transição suave para movimentos */
+            transition: width 0.1s, height 0.1s;
+        }
+
+        /* A Grade (Overlay) */
+        .grid-layer {
+            position: absolute;
+            display: grid;
+            z-index: 20;
+            pointer-events: auto;
+            /* Permite clicar */
+        }
+
+        /* Célula individual */
+        .cell {
+            border: 1px solid rgba(255, 0, 0, 0.4);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cell:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Alvo Marcado */
+        .cell.is-target {
+            background: rgba(0, 255, 0, 0.3);
+            border-color: #00ff00;
+            box-shadow: inset 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .cell.is-target::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Imagem de Fundo */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            opacity: 0.8;
+            transform-origin: top left;
+        }
+    </style>
+</head>
+
+<body x-data="mapperV2()" class="flex">
+
+    <aside
+        class="w-[350px] h-screen bg-gray-900 border-l border-gray-700 flex flex-col shadow-2xl z-50 fixed right-0 top-0 overflow-y-auto">
+        <div class="p-5 space-y-6">
+            <h2 class="text-xl font-bold text-green-400 border-b border-gray-700 pb-2">Configuração V2</h2>
+
+            <div class="bg-gray-800 p-3 rounded">
+                <label class="block text-xs uppercase text-gray-400 mb-2 font-bold">1. Imagem do Teste</label>
+                <input type="file" @change="loadImage" accept="image/*" class="w-full text-xs text-gray-300">
+
+                <div class="mt-4">
+                    <div class="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Zoom da Imagem</span>
+                        <span x-text="imgScale + '%'"></span>
+                    </div>
+                    <input type="range" x-model="imgScale" min="10" max="200" step="1" class="w-full accent-blue-500">
+                </div>
+            </div>
+
+            <div class="bg-gray-800 p-3 rounded space-y-4">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs uppercase font-bold text-yellow-400">Linhas (Rows)</label>
+                    <input type="number" x-model="rows"
+                        class="w-16 bg-black text-white text-xs p-1 rounded border border-gray-600">
+                </div>
+                <div class="flex justify-between items-center">
+                    <label class="text-xs uppercase font-bold text-yellow-400">Colunas (Cols)</label>
+                    <input type="number" x-model="cols"
+                        class="w-16 bg-black text-white text-xs p-1 rounded border border-gray-600">
+                </div>
+
+                <hr class="border-gray-700">
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Largura Grade (Width)</span>
+                        <span x-text="gridWidth + 'px'" class="text-cyan-400 font-mono"></span>
+                    </div>
+                    <input type="range" x-model="gridWidth" min="100" max="4000" class="w-full accent-green-500">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Altura Grade (Height)</span>
+                        <span x-text="gridHeight + 'px'" class="text-cyan-400 font-mono"></span>
+                    </div>
+                    <input type="range" x-model="gridHeight" min="100" max="4000" class="w-full accent-green-500">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Posição X (Left)</span>
+                        <span x-text="offsetX + 'px'"></span>
+                    </div>
+                    <input type="range" x-model="offsetX" min="0" max="2000" class="w-full accent-purple-500">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Posição Y (Top)</span>
+                        <span x-text="offsetY + 'px'"></span>
+                    </div>
+                    <input type="range" x-model="offsetY" min="0" max="2000" class="w-full accent-purple-500">
+                </div>
+
+                <div>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span>Espaçamento (Gap)</span>
+                        <span x-text="gap + 'px'"></span>
+                    </div>
+                    <input type="range" x-model="gap" min="0" max="50" class="w-full accent-gray-500">
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <button @click="generateCode()"
+                    class="w-full py-3 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-bold rounded shadow-lg transform transition active:scale-95">
+                    GERAR CÓDIGO
+                </button>
+                <div class="text-[10px] text-gray-500 text-center">
+                    Clique nas células para marcar as corretas (Verde).
+                </div>
+            </div>
+
+            <textarea x-model="output" readonly
+                class="w-full h-32 bg-black text-green-500 text-[10px] p-2 rounded border border-gray-700 font-mono focus:outline-none"></textarea>
+        </div>
+    </aside>
+
+    <main class="workspace">
+
+        <div class="canvas-area" :style="`
+                width: ${Math.max(imgNaturalWidth * (imgScale/100), gridWidth + offsetX + 100)}px; 
+                height: ${Math.max(imgNaturalHeight * (imgScale/100), gridHeight + offsetY + 100)}px;
+             `">
+
+            <img :src="imgSrc" x-show="imgSrc" class="bg-image" :style="`transform: scale(${imgScale/100});`">
+
+            <div x-show="!imgSrc"
+                class="absolute inset-0 flex items-center justify-center text-gray-600 pointer-events-none">
+                <div class="text-center border-2 border-dashed border-gray-700 p-10 rounded-xl">
+                    <p class="text-xl font-bold">Arraste a imagem aqui</p>
+                    <p class="text-sm">ou use o menu lateral</p>
+                </div>
+            </div>
+
+            <div class="grid-layer" :style="`
+                    width: ${gridWidth}px;
+                    height: ${gridHeight}px;
+                    top: ${offsetY}px;
+                    left: ${offsetX}px;
+                    grid-template-columns: repeat(${cols}, 1fr);
+                    grid-template-rows: repeat(${rows}, 1fr);
+                    gap: ${gap}px;
+                 `">
+
+                <template x-for="i in (parseInt(rows) * parseInt(cols))">
+                    <div class="cell" :class="{'is-target': correctIndices.includes(i-1)}" @click="toggleCell(i-1)">
+                    </div>
+                </template>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('mapperV2', () => ({
+                imgSrc: '',
+                imgNaturalWidth: 1000,
+                imgNaturalHeight: 1000,
+
+                // Controles
+                imgScale: 100, // Porcentagem
+                rows: 15,
+                cols: 20,
+                gridWidth: 800,
+                gridHeight: 1000,
+                offsetX: 50,
+                offsetY: 50,
+                gap: 5,
+
+                correctIndices: [],
+                output: '',
+
+                loadImage(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        this.imgSrc = evt.target.result;
+
+                        // Detectar tamanho original para ajustar o canvas
+                        const img = new Image();
+                        img.onload = () => {
+                            this.imgNaturalWidth = img.width;
+                            this.imgNaturalHeight = img.height;
+                            // Ajuste automático inicial sugerido
+                            this.gridWidth = img.width * 0.8;
+                            this.gridHeight = img.height * 0.8;
+                        }
+                        img.src = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+
+                toggleCell(index) {
+                    if (this.correctIndices.includes(index)) {
+                        this.correctIndices = this.correctIndices.filter(i => i !== index);
+                    } else {
+                        this.correctIndices.push(index);
+                    }
+                },
+
+                generateCode() {
+                    // Ordena para ficar bonito
+                    this.correctIndices.sort((a, b) => a - b);
+
+                    const configObject = {
+                        rows: parseInt(this.rows),
+                        cols: parseInt(this.cols),
+                        styles: {
+                            // Importante: Note que agora usamos valores absolutos px
+                            // O scale da imagem é visual, no teste real a imagem deve ser salva
+                            // já no tamanho ideal OU o CSS deve bater com o que configuramos aqui.
+                            width: this.gridWidth + 'px',
+                            height: this.gridHeight + 'px',
+                            marginTop: this.offsetY + 'px',
+                            marginLeft: this.offsetX + 'px',
+                            gap: this.gap + 'px'
+                        },
+                        correctIndices: this.correctIndices
+                    };
+
+                    this.output = `config: ` + JSON.stringify(configObject, null, 4) + `,`;
+
+                    // Copiar para clipboard
+                    navigator.clipboard.writeText(this.output);
+                    alert("Configuração copiada! Substitua a variável 'config' no arquivo 'cta_real.html'.");
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

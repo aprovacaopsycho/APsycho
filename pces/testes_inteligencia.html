@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testes de Inteligência — Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ESTILOS -->
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-purple: #c084fc;
+            --text-light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0;
+            background-color: #050508;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(192, 132, 252, 0.08), transparent 25%);
+        }
+
+        .card {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 10px 30px rgba(192, 132, 252, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .btn-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            height: 100%;
+            justify-content: center;
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+</head>
+
+<body class="hero-bg">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://blog.alfaconcursos.com.br/wp-content/uploads/2021/05/concurso-pc-es.jpeg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">Base <span
+                            class="text-[var(--accent-pink)]">2025</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <!-- Navegação -->
+            <div class="flex items-center gap-4">
+                <a href="testes_.html"
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-6xl flex-grow">
+
+        <section>
+            <div class="text-center mb-12 mt-8">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4">Inteligência e Raciocínio</h1>
+                <p class="text-xl text-gray-400">Avalie sua capacidade de lógica e resolução de problemas.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto justify-center">
+
+                <!-- CARD: R1 -->
+                <a href="r1.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <svg class="w-32 h-32 text-[var(--accent-purple)]" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" />
+                        </svg>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-purple)]/10 flex items-center justify-center mb-6 text-[var(--accent-purple)] group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">R1</h2>
+                        <p class="text-gray-400 text-sm mb-6">Teste Não-Verbal de Inteligência. Raciocínio lógico e
+                            abstrato.</p>
+                        <span
+                            class="text-[var(--accent-purple)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD: Beta III - Matricial -->
+                <a href="beta3m.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <svg class="w-32 h-32 text-[var(--accent-purple)]" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M3 3v18h18V3H3zm16 16H5V5h14v14zM7 7h2v2H7V7zm4 0h2v2h-2V7zm4 0h2v2h-2V7zM7 11h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zM7 15h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2z" />
+                        </svg>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-purple)]/10 flex items-center justify-center mb-6 text-[var(--accent-purple)] group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Beta III - Matricial</h2>
+                        <p class="text-gray-400 text-sm mb-6">Teste de Raciocínio Matricial.<br>Lógica e padrões
+                            visuais.</p>
+                        <span
+                            class="text-[var(--accent-purple)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD: BPR-5 RV -->
+                <a href="bpr5rv.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <i class="fas fa-brain text-5xl text-[var(--accent-purple)]"></i>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-purple)]/10 flex items-center justify-center mb-6 text-[var(--accent-purple)] group-hover:scale-110 transition">
+                            <i class="fas fa-comments text-4xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">BPR-5 RV</h2>
+                        <p class="text-gray-400 text-sm mb-6">Raciocínio Verbal.<br>Analogias e Vocabulário.</p>
+                        <span
+                            class="text-[var(--accent-purple)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD: Beta III - Códigos -->
+                <a href="beta3codigo/beta3codigo.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <i class="fas fa-code text-5xl text-[var(--accent-purple)]"></i>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-purple)]/10 flex items-center justify-center mb-6 text-[var(--accent-purple)] group-hover:scale-110 transition">
+                            <i class="fas fa-keyboard text-4xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Beta III - Códigos</h2>
+                        <p class="text-gray-400 text-sm mb-6">Velocidade de Processamento.<br>Atenção e
+                            transcodificação.</p>
+                        <span
+                            class="text-[var(--accent-purple)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD: TSP Dimensões -->
+                <a href="tspdimensoes/tspdimensoes.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <i class="fas fa-cubes text-5xl text-[var(--accent-purple)]"></i>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-purple)]/10 flex items-center justify-center mb-6 text-[var(--accent-purple)] group-hover:scale-110 transition">
+                            <i class="fas fa-shapes text-4xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">TSP Dimensões</h2>
+                        <p class="text-gray-400 text-sm mb-6">Teste de Percepção Espacial.<br>Visualização e rotação
+                            mental.</p>
+                        <span
+                            class="text-[var(--accent-purple)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD: TRI -->
+                <a href="tri/tri.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <i class="fas fa-puzzle-piece text-5xl text-[var(--accent-purple)]"></i>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-purple)]/10 flex items-center justify-center mb-6 text-[var(--accent-purple)] group-hover:scale-110 transition">
+                            <i class="fas fa-lightbulb text-4xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">TRI</h2>
+                        <p class="text-gray-400 text-sm mb-6">Teste Rápido de Inteligência.<br>Raciocínio lógico e
+                            sequências.</p>
+                        <span
+                            class="text-[var(--accent-purple)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a]/50 text-center text-sm text-gray-600">
+        &copy; 2025 Aprovação Psycho.
+    </footer>
+
+</body>
+
+</html>

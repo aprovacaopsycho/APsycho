@@ -50,7 +50,8 @@ def process_sync_logic(turmas):
     for turma in turmas:
         name = turma.get('nome')
         folder_slug = turma.get('pasta')
-        base_folder = turma.get('base', 'Base')
+        base_folder = 'Base'
+
         imagem = turma.get('imagem')
 
         if not folder_slug: continue
@@ -73,7 +74,19 @@ def process_sync_logic(turmas):
                 print(f"[ERRO] Falha ao criar {folder_slug}: {e}")
                 continue
         else:
-             print(f"[ATUALIZANDO] {folder_slug}...")
+             # Check if target is empty or missing key files (fix for broken clones)
+             items = os.listdir(target_path)
+             if not items or not any(f.endswith('.html') for f in items):
+                 print(f"[CORRIGINDO] {folder_slug} estava vazio ou incompleto. Re-clonando de {base_folder}...")
+                 try:
+                    # Remove dir if exists to safely copytree
+                    shutil.rmtree(target_path)
+                    shutil.copytree(source_path, target_path)
+                    changes_count += 1
+                 except Exception as e:
+                    print(f"[ERRO] Falha ao corrigir {folder_slug}: {e}")
+             else:
+                print(f"[ATUALIZANDO] {folder_slug}...")
 
         # Atualiza Headers e Imagens (Para pastas novas e existentes)
         try:

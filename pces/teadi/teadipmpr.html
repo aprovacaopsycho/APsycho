@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>TEADI (Simulador) | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Black+Ops+One&display=swap"
+        rel="stylesheet" />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0;
+            user-select: none;
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            position: relative;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://blog.alfaconcursos.com.br/wp-content/uploads/2021/05/concurso-pc-es.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background: radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        /* Container da Imagem com Aspect Ratio Fixo */
+        .test-paper-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            /* Proporção 791/851 ~ 0.929 */
+            aspect-ratio: 791 / 851;
+            margin: 0 auto;
+            background-image: url('TEADI_Page2.png');
+            background-size: 100% 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Zonas de Clique */
+        .hit-zone {
+            position: absolute;
+            cursor: crosshair;
+            transform: translate(-50%, -50%);
+            transition: background-color 0.1s;
+        }
+
+        .hit-zone:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Marcação (Traço Azul) */
+        .hit-zone.marked::after {
+            content: '';
+            position: absolute;
+            width: 140%;
+            height: 3px;
+            background-color: #2563eb;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: 0 0 4px rgba(37, 99, 235, 0.5);
+            border-radius: 2px;
+        }
+
+        /* Revisão Visual */
+        .hit-zone.res-correct {
+            background-color: rgba(34, 197, 94, 0.3);
+            border: 1px solid #22c55e;
+        }
+
+        .hit-zone.res-error {
+            background-color: rgba(239, 68, 68, 0.3);
+            border: 1px solid #ef4444;
+        }
+
+        .hit-zone.res-omission {
+            border: 2px dashed #eab308;
+            background-color: rgba(234, 179, 8, 0.15);
+        }
+
+        /* UI Elements */
+        .glass-panel {
+            background: rgba(28, 27, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animações e Efeitos */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
+
+        .stamp-inapto {
+            font-family: 'Black Ops One', cursive;
+            color: #ef4444;
+            text-transform: uppercase;
+            border: 5px solid #ef4444;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transform: rotate(-15deg) scale(0);
+            animation: stampBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes stampBounce {
+            0% {
+                transform: rotate(-15deg) scale(3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(-15deg) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col hero-bg" x-data="teadiSim()">
+
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://blog.alfaconcursos.com.br/wp-content/uploads/2021/05/concurso-pc-es.jpeg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:white">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">TESTE <span
+                            class="text-[var(--accent-blue)]">TEADI</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="../testes_atencao.html"
+                    class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-24 pb-12 px-4 flex flex-col items-center justify-center relative w-full">
+
+        <div x-show="state === 'instructions'"
+            class="glass-panel max-w-3xl w-full rounded-2xl p-8 text-center fade-in relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500">
+            </div>
+
+            <h2 class="text-3xl font-black text-white mb-2">Instruções do Teste TEADI</h2>
+            <p class="text-gray-400 mb-8">Identifique e marque todas as figuras idênticas ao modelo abaixo.</p>
+
+            <div class="flex flex-col items-center mb-8 gap-4">
+                <div
+                    class="bg-white p-6 rounded-xl shadow-lg border-2 border-purple-500/50 transform hover:scale-105 transition duration-300">
+                    <img src="TEADI_exemplo.png" class="h-48 object-contain" alt="Modelo TEADI"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <div style="display:none" class="text-slate-800 font-bold text-sm">Imagem do modelo não carregada
+                    </div>
+                </div>
+                <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Figura Alvo</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-stopwatch"></i></div>
+                        <span class="font-bold text-white">Tempo Limite</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11">Você terá exatamente <strong>5 minutos</strong>.</p>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-bullseye"></i></div>
+                        <span class="font-bold text-white">Meta de Aprovação</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11">Mínimo de <strong>126 Pontos</strong> Líquidos.</p>
+                </div>
+            </div>
+
+            <button @click="startTest()"
+                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-white text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    INICIAR AGORA <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </span>
+                <div class="absolute inset-0 rounded-xl bg-white/20 blur opacity-0 group-hover:opacity-100 transition">
+                </div>
+            </button>
+            <div class="mt-8 border-t border-white/10 pt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        @click="clearHistory()">Limpar</button>
+                </div>
+                <div class="overflow-x-auto max-h-40">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                            <tr>
+                                <th class="px-4 py-2">Data</th>
+                                <th class="px-4 py-2 text-center">Score</th>
+                                <th class="px-4 py-2 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <template x-if="history.length === 0">
+                                <tr>
+                                    <td colspan="3" class="px-4 py-4 text-center text-gray-500">Nenhum registro.</td>
+                                </tr>
+                            </template>
+                            <template x-for="(item, index) in history" :key="index">
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="item.score"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-xs"
+                                        :class="item.score >= 126 ? 'text-green-400' : 'text-red-400'"
+                                        x-text="item.score >= 126 ? 'APTO' : 'INAPTO'"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="state === 'testing'" class="w-full fade-in relative" x-cloak>
+
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                    :class="{'border-red-500 bg-red-900/40': time <= 10}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                        :class="{'text-red-400 animate-pulse': time <= 10}" x-text="formatTime(time)">
+                    </div>
+                </div>
+
+                <button @click="finishTest()"
+                    class="px-6 py-3 rounded-full bg-red-500 hover:bg-red-600 text-white font-black uppercase tracking-wider shadow-lg transition hover:scale-105 flex items-center gap-2"
+                    title="Finalizar Teste">
+                    <i class="fas fa-flag-checkered"></i> ENTREGAR
+                </button>
+            </div>
+
+            <div class="fixed inset-0 bg-red-600/10 pointer-events-none z-30 animate-pulse" x-show="time <= 10"></div>
+
+            <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                class="fixed bottom-6 right-6 z-40 bg-white text-slate-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center hover:bg-gray-200 transition">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+            <div class="w-full flex justify-center pb-20 pt-16">
+                <!-- IMPORTANT: Using test-paper-container class with TEADI dimensions -->
+                <div class="test-paper-container">
+                    <div class="absolute inset-0 z-10">
+                        <template x-for="item in config.items" :key="item.id">
+                            <div @click="toggleMark(item.id)" class="hit-zone"
+                                :class="{'marked': marks.includes(item.id)}" :style="`
+                                    left: ${getPos(item.x, config.imgWidth)}%; 
+                                    top: ${getPos(item.y, config.imgHeight)}%; 
+                                    width: ${getPos(config.boxW, config.imgWidth)}%; 
+                                    height: ${getPos(config.boxH, config.imgHeight)}%;
+                                 `">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="state === 'results'" class="max-w-4xl w-full text-center fade-in z-50" x-cloak>
+
+            <div class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 border-t border-white/20">
+
+                <div class="absolute inset-0 opacity-20 pointer-events-none"
+                    :class="results.score >= 126 ? 'bg-green-600' : 'bg-red-900'"></div>
+
+                <h2 class="text-4xl font-black text-white mb-8 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
+
+                <div class="flex justify-center mb-10 relative">
+                    <div x-show="results.score >= 126" class="flex flex-col items-center animate-bounce-in">
+                        <div
+                            class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(34,197,94,0.6)] mb-4">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-green-400 tracking-tighter">APTO</h3>
+                        <p class="text-green-200/60 text-sm mt-1">Parabéns! Excelente atenção.</p>
+                    </div>
+
+                    <div x-show="results.score < 126" class="relative flex flex-col items-center justify-center">
+                        <div class="loser-text">
+                            VOCÊ FICOU<br>INAPTO!
+                        </div>
+                        <div class="stamp-inapto text-3xl opacity-80 mt-2"
+                            style="position:static; transform:none; border:none; background:none; animation:none; filter:none">
+                            Tente Novamente
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Acertos</div>
+                        <div class="text-3xl font-black text-green-400" x-text="results.hits"></div>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Erros</div>
+                        <div class="text-3xl font-black text-red-400" x-text="results.errors"></div>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Omissões</div>
+                        <div class="text-3xl font-black text-yellow-400" x-text="results.omissions"></div>
+                    </div>
+                    <div
+                        class="bg-gradient-to-b from-slate-700 to-slate-900 p-4 rounded-xl border border-white/20 shadow-inner">
+                        <div class="text-xs font-bold text-white/70 uppercase mb-1">Pontuação Final</div>
+                        <div class="text-4xl font-black text-white" x-text="results.score"></div>
+                        <div class="text-[10px] text-cyan-300 mt-1">Meta: 126</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button @click="showVisualReview()"
+                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-eye"></i> Ver Onde Errei
+                    </button>
+                    <button onclick="location.reload()"
+                        class="px-8 py-3 rounded-lg bg-white text-slate-900 font-bold hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-redo"></i> Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="reviewMode" class="w-full flex justify-center pb-20 pt-8 animate-fade-in" x-cloak>
+            <div class="test-paper-container">
+                <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+
+                <div class="absolute inset-0">
+                    <template x-for="(item, index) in config.items" :key="item.id">
+                        <div class="hit-zone" :class="{
+                                  'res-correct': item.marked && item.t === 1,
+                                  'res-error': item.marked && item.t === 0,
+                                  'res-omission': !item.marked && item.t === 1 && index <= lastSelectedIndex,
+                                  'marked': item.marked
+                               }" :style="`
+                                  left: ${getPos(item.x, config.imgWidth)}%; 
+                                  top: ${getPos(item.y, config.imgHeight)}%; 
+                                  width: ${getPos(config.boxW, config.imgWidth)}%; 
+                                  height: ${getPos(config.boxH, config.imgHeight)}%;
+                               `">
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('teadiSim', () => ({
+                init() {
+                    this.loadHistory();
+                },
+                config: {
+                    "imgWidth": 791, "imgHeight": 851, "boxW": 26, "boxH": 24,
+                    "items": [{ "id": 0, "x": 78, "y": 62, "t": 1 }, { "id": 1, "x": 122, "y": 62, "t": 0 }, { "id": 2, "x": 166, "y": 62, "t": 1 }, { "id": 3, "x": 210, "y": 62, "t": 0 }, { "id": 4, "x": 254, "y": 62, "t": 1 }, { "id": 5, "x": 298, "y": 62, "t": 0 }, { "id": 6, "x": 342, "y": 62, "t": 0 }, { "id": 7, "x": 386, "y": 62, "t": 1 }, { "id": 8, "x": 430, "y": 62, "t": 0 }, { "id": 9, "x": 474, "y": 62, "t": 0 }, { "id": 10, "x": 518, "y": 62, "t": 1 }, { "id": 11, "x": 562, "y": 62, "t": 0 }, { "id": 12, "x": 606, "y": 62, "t": 0 }, { "id": 13, "x": 650, "y": 62, "t": 1 }, { "id": 14, "x": 694, "y": 62, "t": 0 }, { "id": 15, "x": 78, "y": 89, "t": 0 }, { "id": 16, "x": 122, "y": 89, "t": 0 }, { "id": 17, "x": 166, "y": 89, "t": 1 }, { "id": 18, "x": 210, "y": 89, "t": 0 }, { "id": 19, "x": 254, "y": 89, "t": 1 }, { "id": 20, "x": 298, "y": 89, "t": 1 }, { "id": 21, "x": 342, "y": 89, "t": 0 }, { "id": 22, "x": 386, "y": 89, "t": 0 }, { "id": 23, "x": 429, "y": 89, "t": 1 }, { "id": 24, "x": 474, "y": 89, "t": 0 }, { "id": 25, "x": 518, "y": 89, "t": 0 }, { "id": 26, "x": 562, "y": 89, "t": 1 }, { "id": 27, "x": 606, "y": 89, "t": 0 }, { "id": 28, "x": 650, "y": 89, "t": 0 }, { "id": 29, "x": 694, "y": 89, "t": 1 }, { "id": 30, "x": 78, "y": 115, "t": 0 }, { "id": 31, "x": 122, "y": 115, "t": 1 }, { "id": 32, "x": 167, "y": 115, "t": 1 }, { "id": 33, "x": 210, "y": 115, "t": 0 }, { "id": 34, "x": 254, "y": 115, "t": 0 }, { "id": 35, "x": 298, "y": 115, "t": 0 }, { "id": 36, "x": 342, "y": 115, "t": 1 }, { "id": 37, "x": 386, "y": 115, "t": 0 }, { "id": 38, "x": 430, "y": 115, "t": 0 }, { "id": 39, "x": 474, "y": 115, "t": 1 }, { "id": 40, "x": 518, "y": 115, "t": 1 }, { "id": 41, "x": 562, "y": 115, "t": 0 }, { "id": 42, "x": 606, "y": 115, "t": 0 }, { "id": 43, "x": 650, "y": 115, "t": 1 }, { "id": 44, "x": 694, "y": 115, "t": 0 }, { "id": 45, "x": 78, "y": 142, "t": 0 }, { "id": 46, "x": 122, "y": 142, "t": 1 }, { "id": 47, "x": 166, "y": 142, "t": 0 }, { "id": 48, "x": 210, "y": 142, "t": 0 }, { "id": 49, "x": 254, "y": 142, "t": 1 }, { "id": 50, "x": 298, "y": 142, "t": 0 }, { "id": 51, "x": 342, "y": 142, "t": 0 }, { "id": 52, "x": 386, "y": 142, "t": 1 }, { "id": 53, "x": 430, "y": 142, "t": 1 }, { "id": 54, "x": 474, "y": 142, "t": 0 }, { "id": 55, "x": 518, "y": 142, "t": 0 }, { "id": 56, "x": 562, "y": 142, "t": 1 }, { "id": 57, "x": 606, "y": 142, "t": 0 }, { "id": 58, "x": 650, "y": 142, "t": 0 }, { "id": 59, "x": 694, "y": 142, "t": 1 }, { "id": 60, "x": 78, "y": 169, "t": 1 }, { "id": 61, "x": 122, "y": 169, "t": 0 }, { "id": 62, "x": 166, "y": 169, "t": 1 }, { "id": 63, "x": 210, "y": 169, "t": 0 }, { "id": 64, "x": 254, "y": 169, "t": 0 }, { "id": 65, "x": 298, "y": 169, "t": 1 }, { "id": 66, "x": 342, "y": 169, "t": 1 }, { "id": 67, "x": 386, "y": 169, "t": 0 }, { "id": 68, "x": 430, "y": 169, "t": 0 }, { "id": 69, "x": 474, "y": 169, "t": 0 }, { "id": 70, "x": 518, "y": 169, "t": 1 }, { "id": 71, "x": 562, "y": 169, "t": 0 }, { "id": 72, "x": 606, "y": 169, "t": 0 }, { "id": 73, "x": 650, "y": 169, "t": 1 }, { "id": 74, "x": 694, "y": 169, "t": 0 }, { "id": 75, "x": 78, "y": 195, "t": 1 }, { "id": 76, "x": 122, "y": 195, "t": 0 }, { "id": 77, "x": 166, "y": 195, "t": 0 }, { "id": 78, "x": 210, "y": 195, "t": 0 }, { "id": 79, "x": 254, "y": 195, "t": 0 }, { "id": 80, "x": 298, "y": 195, "t": 1 }, { "id": 81, "x": 342, "y": 195, "t": 0 }, { "id": 82, "x": 386, "y": 195, "t": 0 }, { "id": 83, "x": 430, "y": 195, "t": 1 }, { "id": 84, "x": 474, "y": 195, "t": 0 }, { "id": 85, "x": 518, "y": 195, "t": 0 }, { "id": 86, "x": 562, "y": 195, "t": 1 }, { "id": 87, "x": 606, "y": 195, "t": 1 }, { "id": 88, "x": 650, "y": 195, "t": 0 }, { "id": 89, "x": 694, "y": 195, "t": 1 }, { "id": 90, "x": 78, "y": 222, "t": 1 }, { "id": 91, "x": 122, "y": 222, "t": 0 }, { "id": 92, "x": 166, "y": 222, "t": 1 }, { "id": 93, "x": 210, "y": 222, "t": 0 }, { "id": 94, "x": 254, "y": 222, "t": 1 }, { "id": 95, "x": 298, "y": 222, "t": 1 }, { "id": 96, "x": 342, "y": 222, "t": 0 }, { "id": 97, "x": 386, "y": 222, "t": 0 }, { "id": 98, "x": 430, "y": 222, "t": 0 }, { "id": 99, "x": 474, "y": 222, "t": 1 }, { "id": 100, "x": 518, "y": 222, "t": 1 }, { "id": 101, "x": 562, "y": 222, "t": 0 }, { "id": 102, "x": 606, "y": 222, "t": 0 }, { "id": 103, "x": 650, "y": 222, "t": 0 }, { "id": 104, "x": 694, "y": 222, "t": 0 }, { "id": 105, "x": 78, "y": 249, "t": 0 }, { "id": 106, "x": 122, "y": 249, "t": 1 }, { "id": 107, "x": 166, "y": 249, "t": 0 }, { "id": 108, "x": 207, "y": 249, "t": 1 }, { "id": 109, "x": 254, "y": 249, "t": 0 }, { "id": 110, "x": 298, "y": 249, "t": 1 }, { "id": 111, "x": 342, "y": 249, "t": 0 }, { "id": 112, "x": 386, "y": 249, "t": 0 }, { "id": 113, "x": 430, "y": 249, "t": 0 }, { "id": 114, "x": 474, "y": 249, "t": 1 }, { "id": 115, "x": 518, "y": 249, "t": 1 }, { "id": 116, "x": 562, "y": 249, "t": 0 }, { "id": 117, "x": 606, "y": 249, "t": 0 }, { "id": 118, "x": 650, "y": 249, "t": 1 }, { "id": 119, "x": 694, "y": 249, "t": 0 }, { "id": 120, "x": 78, "y": 276, "t": 0 }, { "id": 121, "x": 122, "y": 276, "t": 1 }, { "id": 122, "x": 166, "y": 276, "t": 0 }, { "id": 123, "x": 210, "y": 276, "t": 0 }, { "id": 124, "x": 254, "y": 276, "t": 1 }, { "id": 125, "x": 298, "y": 276, "t": 0 }, { "id": 126, "x": 342, "y": 276, "t": 0 }, { "id": 127, "x": 386, "y": 276, "t": 1 }, { "id": 128, "x": 430, "y": 276, "t": 0 }, { "id": 129, "x": 474, "y": 276, "t": 0 }, { "id": 130, "x": 518, "y": 276, "t": 0 }, { "id": 131, "x": 562, "y": 276, "t": 1 }, { "id": 132, "x": 606, "y": 276, "t": 1 }, { "id": 133, "x": 650, "y": 276, "t": 1 }, { "id": 134, "x": 694, "y": 276, "t": 0 }, { "id": 135, "x": 78, "y": 302, "t": 1 }, { "id": 136, "x": 122, "y": 302, "t": 0 }, { "id": 137, "x": 165, "y": 302, "t": 1 }, { "id": 138, "x": 210, "y": 302, "t": 0 }, { "id": 139, "x": 254, "y": 302, "t": 0 }, { "id": 140, "x": 298, "y": 302, "t": 0 }, { "id": 141, "x": 342, "y": 302, "t": 1 }, { "id": 142, "x": 386, "y": 302, "t": 1 }, { "id": 143, "x": 430, "y": 302, "t": 0 }, { "id": 144, "x": 474, "y": 302, "t": 1 }, { "id": 145, "x": 518, "y": 302, "t": 0 }, { "id": 146, "x": 562, "y": 302, "t": 0 }, { "id": 147, "x": 606, "y": 302, "t": 0 }, { "id": 148, "x": 650, "y": 302, "t": 0 }, { "id": 149, "x": 694, "y": 302, "t": 1 }, { "id": 150, "x": 78, "y": 329, "t": 0 }, { "id": 151, "x": 122, "y": 329, "t": 0 }, { "id": 152, "x": 167, "y": 329, "t": 1 }, { "id": 153, "x": 210, "y": 329, "t": 1 }, { "id": 154, "x": 254, "y": 329, "t": 0 }, { "id": 155, "x": 298, "y": 329, "t": 1 }, { "id": 156, "x": 342, "y": 329, "t": 0 }, { "id": 157, "x": 386, "y": 329, "t": 0 }, { "id": 158, "x": 430, "y": 329, "t": 0 }, { "id": 159, "x": 474, "y": 329, "t": 0 }, { "id": 160, "x": 518, "y": 329, "t": 1 }, { "id": 161, "x": 562, "y": 329, "t": 0 }, { "id": 162, "x": 606, "y": 329, "t": 1 }, { "id": 163, "x": 650, "y": 329, "t": 0 }, { "id": 164, "x": 694, "y": 329, "t": 1 }, { "id": 165, "x": 78, "y": 356, "t": 0 }, { "id": 166, "x": 122, "y": 356, "t": 1 }, { "id": 167, "x": 166, "y": 356, "t": 1 }, { "id": 168, "x": 210, "y": 356, "t": 1 }, { "id": 169, "x": 254, "y": 356, "t": 0 }, { "id": 170, "x": 298, "y": 356, "t": 0 }, { "id": 171, "x": 342, "y": 356, "t": 0 }, { "id": 172, "x": 386, "y": 356, "t": 1 }, { "id": 173, "x": 430, "y": 356, "t": 0 }, { "id": 174, "x": 474, "y": 356, "t": 1 }, { "id": 175, "x": 517, "y": 356, "t": 1 }, { "id": 176, "x": 562, "y": 356, "t": 0 }, { "id": 177, "x": 606, "y": 356, "t": 0 }, { "id": 178, "x": 650, "y": 356, "t": 0 }, { "id": 179, "x": 694, "y": 356, "t": 0 }, { "id": 180, "x": 78, "y": 382, "t": 0 }, { "id": 181, "x": 122, "y": 382, "t": 0 }, { "id": 182, "x": 166, "y": 382, "t": 0 }, { "id": 183, "x": 210, "y": 382, "t": 0 }, { "id": 184, "x": 254, "y": 382, "t": 1 }, { "id": 185, "x": 298, "y": 382, "t": 1 }, { "id": 186, "x": 342, "y": 382, "t": 0 }, { "id": 187, "x": 386, "y": 382, "t": 1 }, { "id": 188, "x": 430, "y": 382, "t": 1 }, { "id": 189, "x": 474, "y": 382, "t": 0 }, { "id": 190, "x": 518, "y": 382, "t": 0 }, { "id": 191, "x": 562, "y": 382, "t": 0 }, { "id": 192, "x": 606, "y": 382, "t": 1 }, { "id": 193, "x": 650, "y": 382, "t": 0 }, { "id": 194, "x": 694, "y": 382, "t": 1 }, { "id": 195, "x": 78, "y": 409, "t": 1 }, { "id": 196, "x": 122, "y": 409, "t": 0 }, { "id": 197, "x": 166, "y": 409, "t": 1 }, { "id": 198, "x": 210, "y": 409, "t": 0 }, { "id": 199, "x": 254, "y": 409, "t": 0 }, { "id": 200, "x": 298, "y": 409, "t": 1 }, { "id": 201, "x": 342, "y": 409, "t": 0 }, { "id": 202, "x": 386, "y": 409, "t": 1 }, { "id": 203, "x": 430, "y": 409, "t": 0 }, { "id": 204, "x": 474, "y": 409, "t": 0 }, { "id": 205, "x": 518, "y": 409, "t": 1 }, { "id": 206, "x": 562, "y": 409, "t": 0 }, { "id": 207, "x": 606, "y": 409, "t": 0 }, { "id": 208, "x": 650, "y": 409, "t": 1 }, { "id": 209, "x": 694, "y": 409, "t": 0 }, { "id": 210, "x": 78, "y": 436, "t": 0 }, { "id": 211, "x": 122, "y": 436, "t": 0 }, { "id": 212, "x": 166, "y": 436, "t": 0 }, { "id": 213, "x": 210, "y": 436, "t": 1 }, { "id": 214, "x": 254, "y": 436, "t": 0 }, { "id": 215, "x": 298, "y": 436, "t": 0 }, { "id": 216, "x": 342, "y": 436, "t": 0 }, { "id": 217, "x": 386, "y": 436, "t": 1 }, { "id": 218, "x": 430, "y": 436, "t": 1 }, { "id": 219, "x": 474, "y": 436, "t": 1 }, { "id": 220, "x": 518, "y": 436, "t": 0 }, { "id": 221, "x": 562, "y": 436, "t": 1 }, { "id": 222, "x": 606, "y": 436, "t": 0 }, { "id": 223, "x": 650, "y": 436, "t": 0 }, { "id": 224, "x": 694, "y": 436, "t": 1 }, { "id": 225, "x": 78, "y": 462, "t": 0 }, { "id": 226, "x": 122, "y": 462, "t": 1 }, { "id": 227, "x": 166, "y": 462, "t": 0 }, { "id": 228, "x": 210, "y": 462, "t": 1 }, { "id": 229, "x": 254, "y": 462, "t": 0 }, { "id": 230, "x": 298, "y": 462, "t": 1 }, { "id": 231, "x": 342, "y": 462, "t": 1 }, { "id": 232, "x": 386, "y": 462, "t": 0 }, { "id": 233, "x": 430, "y": 462, "t": 0 }, { "id": 234, "x": 474, "y": 462, "t": 1 }, { "id": 235, "x": 518, "y": 462, "t": 0 }, { "id": 236, "x": 562, "y": 462, "t": 0 }, { "id": 237, "x": 606, "y": 462, "t": 0 }, { "id": 238, "x": 650, "y": 462, "t": 1 }, { "id": 239, "x": 694, "y": 462, "t": 0 }, { "id": 240, "x": 78, "y": 489, "t": 1 }, { "id": 241, "x": 122, "y": 489, "t": 0 }, { "id": 242, "x": 166, "y": 489, "t": 1 }, { "id": 243, "x": 210, "y": 489, "t": 0 }, { "id": 244, "x": 254, "y": 489, "t": 0 }, { "id": 245, "x": 298, "y": 489, "t": 0 }, { "id": 246, "x": 342, "y": 489, "t": 0 }, { "id": 247, "x": 386, "y": 489, "t": 1 }, { "id": 248, "x": 430, "y": 489, "t": 1 }, { "id": 249, "x": 474, "y": 489, "t": 0 }, { "id": 250, "x": 518, "y": 489, "t": 0 }, { "id": 251, "x": 562, "y": 489, "t": 0 }, { "id": 252, "x": 606, "y": 489, "t": 1 }, { "id": 253, "x": 650, "y": 489, "t": 0 }, { "id": 254, "x": 694, "y": 489, "t": 1 }, { "id": 255, "x": 78, "y": 516, "t": 0 }, { "id": 256, "x": 122, "y": 516, "t": 0 }, { "id": 257, "x": 166, "y": 516, "t": 1 }, { "id": 258, "x": 210, "y": 516, "t": 1 }, { "id": 259, "x": 254, "y": 516, "t": 0 }, { "id": 260, "x": 298, "y": 516, "t": 1 }, { "id": 261, "x": 342, "y": 516, "t": 0 }, { "id": 262, "x": 386, "y": 516, "t": 0 }, { "id": 263, "x": 430, "y": 516, "t": 0 }, { "id": 264, "x": 474, "y": 516, "t": 1 }, { "id": 265, "x": 518, "y": 516, "t": 1 }, { "id": 266, "x": 562, "y": 516, "t": 1 }, { "id": 267, "x": 606, "y": 516, "t": 0 }, { "id": 268, "x": 650, "y": 516, "t": 0 }, { "id": 269, "x": 694, "y": 516, "t": 0 }, { "id": 270, "x": 78, "y": 542, "t": 1 }, { "id": 271, "x": 122, "y": 542, "t": 0 }, { "id": 272, "x": 166, "y": 542, "t": 0 }, { "id": 273, "x": 210, "y": 542, "t": 0 }, { "id": 274, "x": 254, "y": 542, "t": 1 }, { "id": 275, "x": 298, "y": 542, "t": 0 }, { "id": 276, "x": 342, "y": 542, "t": 1 }, { "id": 277, "x": 386, "y": 542, "t": 1 }, { "id": 278, "x": 430, "y": 542, "t": 0 }, { "id": 279, "x": 474, "y": 542, "t": 1 }, { "id": 280, "x": 518, "y": 542, "t": 0 }, { "id": 281, "x": 562, "y": 542, "t": 0 }, { "id": 282, "x": 606, "y": 542, "t": 0 }, { "id": 283, "x": 650, "y": 542, "t": 1 }, { "id": 284, "x": 694, "y": 542, "t": 0 }, { "id": 285, "x": 78, "y": 568, "t": 1 }, { "id": 286, "x": 122, "y": 569, "t": 0 }, { "id": 287, "x": 166, "y": 569, "t": 0 }, { "id": 288, "x": 210, "y": 569, "t": 1 }, { "id": 289, "x": 254, "y": 569, "t": 0 }, { "id": 290, "x": 298, "y": 569, "t": 0 }, { "id": 291, "x": 342, "y": 569, "t": 1 }, { "id": 292, "x": 386, "y": 569, "t": 0 }, { "id": 293, "x": 430, "y": 569, "t": 0 }, { "id": 294, "x": 474, "y": 569, "t": 1 }, { "id": 295, "x": 518, "y": 569, "t": 0 }, { "id": 296, "x": 562, "y": 569, "t": 0 }, { "id": 297, "x": 606, "y": 569, "t": 1 }, { "id": 298, "x": 650, "y": 569, "t": 0 }, { "id": 299, "x": 694, "y": 569, "t": 1 }, { "id": 300, "x": 78, "y": 596, "t": 0 }, { "id": 301, "x": 122, "y": 596, "t": 1 }, { "id": 302, "x": 166, "y": 596, "t": 1 }, { "id": 303, "x": 210, "y": 596, "t": 0 }, { "id": 304, "x": 254, "y": 596, "t": 1 }, { "id": 305, "x": 298, "y": 596, "t": 0 }, { "id": 306, "x": 342, "y": 596, "t": 0 }, { "id": 307, "x": 386, "y": 596, "t": 0 }, { "id": 308, "x": 430, "y": 596, "t": 1 }, { "id": 309, "x": 474, "y": 596, "t": 0 }, { "id": 310, "x": 518, "y": 596, "t": 1 }, { "id": 311, "x": 562, "y": 596, "t": 0 }, { "id": 312, "x": 606, "y": 596, "t": 1 }, { "id": 313, "x": 650, "y": 596, "t": 0 }, { "id": 314, "x": 694, "y": 596, "t": 0 }, { "id": 315, "x": 78, "y": 622, "t": 1 }, { "id": 316, "x": 122, "y": 622, "t": 0 }, { "id": 317, "x": 165, "y": 621, "t": 1 }, { "id": 318, "x": 210, "y": 622, "t": 0 }, { "id": 319, "x": 254, "y": 622, "t": 0 }, { "id": 320, "x": 298, "y": 622, "t": 1 }, { "id": 321, "x": 342, "y": 622, "t": 0 }, { "id": 322, "x": 386, "y": 622, "t": 0 }, { "id": 323, "x": 430, "y": 622, "t": 0 }, { "id": 324, "x": 474, "y": 622, "t": 1 }, { "id": 325, "x": 518, "y": 622, "t": 0 }, { "id": 326, "x": 562, "y": 622, "t": 1 }, { "id": 327, "x": 606, "y": 622, "t": 0 }, { "id": 328, "x": 650, "y": 622, "t": 0 }, { "id": 329, "x": 694, "y": 622, "t": 1 }, { "id": 330, "x": 79, "y": 650, "t": 1 }, { "id": 331, "x": 122, "y": 649, "t": 0 }, { "id": 332, "x": 166, "y": 649, "t": 0 }, { "id": 333, "x": 210, "y": 649, "t": 1 }, { "id": 334, "x": 254, "y": 649, "t": 0 }, { "id": 335, "x": 298, "y": 649, "t": 0 }, { "id": 336, "x": 342, "y": 649, "t": 1 }, { "id": 337, "x": 386, "y": 649, "t": 1 }, { "id": 338, "x": 430, "y": 649, "t": 0 }, { "id": 339, "x": 474, "y": 649, "t": 1 }, { "id": 340, "x": 518, "y": 649, "t": 0 }, { "id": 341, "x": 562, "y": 649, "t": 0 }, { "id": 342, "x": 606, "y": 649, "t": 0 }, { "id": 343, "x": 650, "y": 649, "t": 1 }, { "id": 344, "x": 694, "y": 649, "t": 0 }, { "id": 345, "x": 78, "y": 676, "t": 0 }, { "id": 346, "x": 122, "y": 676, "t": 1 }, { "id": 347, "x": 166, "y": 676, "t": 0 }, { "id": 348, "x": 210, "y": 676, "t": 0 }, { "id": 349, "x": 254, "y": 676, "t": 1 }, { "id": 350, "x": 298, "y": 676, "t": 1 }, { "id": 351, "x": 342, "y": 676, "t": 0 }, { "id": 352, "x": 386, "y": 676, "t": 1 }, { "id": 353, "x": 430, "y": 676, "t": 0 }, { "id": 354, "x": 474, "y": 676, "t": 0 }, { "id": 355, "x": 518, "y": 676, "t": 1 }, { "id": 356, "x": 562, "y": 676, "t": 0 }, { "id": 357, "x": 606, "y": 676, "t": 1 }, { "id": 358, "x": 650, "y": 676, "t": 0 }, { "id": 359, "x": 694, "y": 676, "t": 0 }, { "id": 360, "x": 78, "y": 702, "t": 0 }, { "id": 361, "x": 122, "y": 702, "t": 1 }, { "id": 362, "x": 166, "y": 702, "t": 0 }, { "id": 363, "x": 210, "y": 702, "t": 0 }, { "id": 364, "x": 254, "y": 702, "t": 1 }, { "id": 365, "x": 298, "y": 702, "t": 0 }, { "id": 366, "x": 342, "y": 702, "t": 1 }, { "id": 367, "x": 386, "y": 702, "t": 0 }, { "id": 368, "x": 430, "y": 702, "t": 1 }, { "id": 369, "x": 474, "y": 702, "t": 0 }, { "id": 370, "x": 518, "y": 702, "t": 0 }, { "id": 371, "x": 562, "y": 702, "t": 1 }, { "id": 372, "x": 606, "y": 702, "t": 0 }, { "id": 373, "x": 650, "y": 702, "t": 0 }, { "id": 374, "x": 694, "y": 702, "t": 1 }, { "id": 375, "x": 78, "y": 729, "t": 1 }, { "id": 376, "x": 122, "y": 729, "t": 0 }, { "id": 377, "x": 166, "y": 729, "t": 0 }, { "id": 378, "x": 210, "y": 729, "t": 1 }, { "id": 379, "x": 254, "y": 729, "t": 0 }, { "id": 380, "x": 298, "y": 729, "t": 0 }, { "id": 381, "x": 342, "y": 729, "t": 1 }, { "id": 382, "x": 386, "y": 729, "t": 0 }, { "id": 383, "x": 430, "y": 729, "t": 0 }, { "id": 384, "x": 473, "y": 729, "t": 1 }, { "id": 385, "x": 518, "y": 729, "t": 0 }, { "id": 386, "x": 562, "y": 729, "t": 0 }, { "id": 387, "x": 606, "y": 729, "t": 0 }, { "id": 388, "x": 650, "y": 729, "t": 1 }, { "id": 389, "x": 694, "y": 729, "t": 1 }, { "id": 390, "x": 78, "y": 756, "t": 0 }, { "id": 391, "x": 122, "y": 756, "t": 1 }, { "id": 392, "x": 166, "y": 756, "t": 1 }, { "id": 393, "x": 210, "y": 756, "t": 0 }, { "id": 394, "x": 254, "y": 756, "t": 0 }, { "id": 395, "x": 298, "y": 756, "t": 1 }, { "id": 396, "x": 342, "y": 756, "t": 0 }, { "id": 397, "x": 386, "y": 756, "t": 1 }, { "id": 398, "x": 430, "y": 756, "t": 0 }, { "id": 399, "x": 474, "y": 756, "t": 1 }, { "id": 400, "x": 518, "y": 756, "t": 1 }, { "id": 401, "x": 562, "y": 756, "t": 0 }, { "id": 402, "x": 606, "y": 756, "t": 0 }, { "id": 403, "x": 650, "y": 756, "t": 0 }, { "id": 404, "x": 694, "y": 756, "t": 0 }, { "id": 405, "x": 78, "y": 782, "t": 1 }, { "id": 406, "x": 122, "y": 782, "t": 0 }, { "id": 407, "x": 166, "y": 782, "t": 1 }, { "id": 408, "x": 210, "y": 782, "t": 0 }, { "id": 409, "x": 254, "y": 782, "t": 0 }, { "id": 410, "x": 298, "y": 782, "t": 1 }, { "id": 411, "x": 342, "y": 782, "t": 0 }, { "id": 412, "x": 386, "y": 782, "t": 0 }, { "id": 413, "x": 430, "y": 782, "t": 0 }, { "id": 414, "x": 474, "y": 782, "t": 1 }, { "id": 415, "x": 518, "y": 782, "t": 0 }, { "id": 416, "x": 562, "y": 782, "t": 1 }, { "id": 417, "x": 606, "y": 782, "t": 0 }, { "id": 418, "x": 650, "y": 782, "t": 1 }, { "id": 419, "x": 694, "y": 782, "t": 0 }, { "id": 420, "x": 78, "y": 809, "t": 0 }, { "id": 421, "x": 122, "y": 809, "t": 1 }, { "id": 422, "x": 166, "y": 809, "t": 0 }, { "id": 423, "x": 210, "y": 809, "t": 0 }, { "id": 424, "x": 254, "y": 809, "t": 0 }, { "id": 425, "x": 298, "y": 809, "t": 1 }, { "id": 426, "x": 342, "y": 809, "t": 0 }, { "id": 427, "x": 386, "y": 809, "t": 1 }, { "id": 428, "x": 430, "y": 809, "t": 1 }, { "id": 429, "x": 474, "y": 809, "t": 0 }, { "id": 430, "x": 518, "y": 809, "t": 0 }, { "id": 431, "x": 562, "y": 809, "t": 0 }, { "id": 432, "x": 606, "y": 809, "t": 1 }, { "id": 433, "x": 650, "y": 809, "t": 0 }, { "id": 434, "x": 694, "y": 809, "t": 1 }, { "id": 435, "x": 78, "y": 836, "t": 1 }, { "id": 436, "x": 122, "y": 836, "t": 1 }, { "id": 437, "x": 166, "y": 836, "t": 0 }, { "id": 438, "x": 210, "y": 836, "t": 0 }, { "id": 439, "x": 254, "y": 836, "t": 1 }, { "id": 440, "x": 298, "y": 836, "t": 0 }, { "id": 441, "x": 342, "y": 836, "t": 0 }, { "id": 442, "x": 386, "y": 836, "t": 1 }, { "id": 443, "x": 430, "y": 836, "t": 0 }, { "id": 444, "x": 474, "y": 836, "t": 0 }, { "id": 445, "x": 518, "y": 836, "t": 1 }, { "id": 446, "x": 562, "y": 836, "t": 0 }, { "id": 447, "x": 606, "y": 836, "t": 0 }, { "id": 448, "x": 650, "y": 836, "t": 0 }, { "id": 449, "x": 694, "y": 836, "t": 1 }],
+                },
+                state: 'instructions',
+                time: 300,
+                timer: null,
+                marks: [],
+                lastSelectedIndex: -1,
+                results: { hits: 0, errors: 0, omissions: 0, score: 0 },
+                reviewMode: false,
+                history: [],
+                audio: {
+                    prepare: new Audio('../vozes/prepare.mp3'),
+                    finish: new Audio('../vozes/tempoesgotado.mp3')
+                },
+
+                async startTest() {
+                    try {
+                        await this.audio.prepare.play();
+                        setTimeout(() => this.startTimerLogica(), 4000);
+                    } catch (e) {
+                        console.log("Áudio bloqueado ou falhou, iniciando direto.");
+                        this.startTimerLogica();
+                    }
+                },
+
+                startTimerLogica() {
+                    this.state = 'testing';
+                    window.scrollTo(0, 0);
+
+                    this.timer = setInterval(() => {
+                        this.time--;
+                        if (this.time <= 0) this.finishTest();
+                    }, 1000);
+                },
+
+                toggleMark(index) {
+                    if (this.marks.includes(index)) return;
+
+                    const item = this.config.items.find(i => i.id === index);
+
+                    this.marks.push(index);
+
+                    // Atualiza o índice do último clicado para cálculo de omissões
+                    // Assume que items estão ordenados por ID? Sim, 0..449
+                    if (index > this.lastSelectedIndex) {
+                        this.lastSelectedIndex = index;
+                    }
+                },
+
+                finishTest() {
+                    clearInterval(this.timer);
+                    this.audio.finish.play().catch(e => console.log('Áudio final erro'));
+
+                    let hits = 0, errors = 0, omissions = 0;
+
+                    this.config.items.forEach((item, idx) => {
+                        const isMarked = this.marks.includes(item.id);
+                        item.marked = isMarked;
+
+                        if (isMarked) {
+                            if (item.t === 1) hits++;
+                            else errors++;
+                        } else {
+                            if (item.t === 1 && idx <= this.lastSelectedIndex) {
+                                omissions++;
+                            }
+                        }
+                    });
+
+                    // Cálculo Pontuação TEADI: Acertos - (Erros + Omissões)
+                    const score = hits - (errors + omissions);
+                    this.results = { hits, errors, omissions, score };
+
+                    this.state = 'results';
+                    window.scrollTo(0, 0);
+
+                    if (this.results.score >= 126) {
+                        this.triggerConfetti();
+                    } else {
+                        document.body.classList.add('shake-screen');
+                        setTimeout(() => document.body.classList.remove('shake-screen'), 500);
+                    }
+                    this.saveHistory();
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('teadi_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const newItem = {
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.results.score,
+                        passed: this.results.score >= 126
+                    };
+                    this.history.unshift(newItem);
+                    localStorage.setItem('teadi_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm('Limpar histórico?')) {
+                        localStorage.removeItem('teadi_history');
+                        this.history = [];
+                    }
+                },
+
+                triggerConfetti() {
+                    const duration = 3000;
+                    const end = Date.now() + duration;
+
+                    (function frame() {
+                        confetti({
+                            particleCount: 5,
+                            angle: 60,
+                            spread: 55,
+                            origin: { x: 0 },
+                            colors: ['#22c55e', '#a855f7']
+                        });
+                        confetti({
+                            particleCount: 5,
+                            angle: 120,
+                            spread: 55,
+                            origin: { x: 1 },
+                            colors: ['#22c55e', '#06b6d4']
+                        });
+                        if (Date.now() < end) {
+                            requestAnimationFrame(frame);
+                        }
+                    }());
+                },
+
+                showVisualReview() {
+                    this.reviewMode = true;
+                    setTimeout(() => {
+                        const container = document.querySelector('.test-paper-container');
+                        if (container) container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                },
+
+                getPos(val, total) {
+                    if (!total || total === 0) return 0;
+                    return (val / total) * 100;
+                },
+
+                formatTime(s) {
+                    const m = Math.floor(s / 60).toString().padStart(2, '0');
+                    const sec = (s % 60).toString().padStart(2, '0');
+                    return `${m}:${sec}`;
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>
