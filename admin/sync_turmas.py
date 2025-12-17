@@ -50,7 +50,7 @@ def process_sync_logic(turmas):
     for turma in turmas:
         name = turma.get('nome')
         folder_slug = turma.get('pasta')
-        base_folder = turma.get('base', 'PMPR')
+        base_folder = turma.get('base', 'Base')
         imagem = turma.get('imagem')
 
         if not folder_slug: continue

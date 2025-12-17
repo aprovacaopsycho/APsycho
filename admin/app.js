@@ -282,7 +282,8 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
       // Store object with validity & permissions
       publicHashes[hash] = {
         validity: s.validade || null,
-        permissions: s.permissions || ['PMPR']
+        permissions: s.permissions || [],
+        name: s.nome || 'Aluno'
       };
     }
 
@@ -470,10 +471,12 @@ function renderStudentTable() {
             <td class="px-6 py-4 font-medium">${s.nome || '-'}</td>
             <td class="px-6 py-4">${s.email}</td>
             <td class="px-6 py-4 font-mono text-xs text-slate-400">
-                ${(s.permissions || []).map(p =>
-      p === 'PMPR' ? '<span class="bg-blue-900 text-blue-300 px-1 rounded">PMPR</span>' :
-        `<span class="bg-slate-700 px-1 rounded">${p}</span>`
-    ).join(' ')}
+                ${(s.permissions || []).map(p => {
+      if (p === 'PMPR') return '<span class="bg-blue-900 text-blue-300 px-1 rounded">PMPR</span>';
+      const turma = turmasDB.find(t => t.pasta === p);
+      const label = turma ? turma.nome : p;
+      return `<span class="bg-slate-700 px-1 rounded" title="${p}">${label}</span>`;
+    }).join(' ')}
             </td>
             <td class="px-6 py-4">${s.cpf || '-'}</td>
             <td class="px-6 py-4 font-mono text-xs text-brand-blue">${s.inscricao}</td>
@@ -1189,7 +1192,7 @@ window.renderTurmasMgmt = function () {
       <p class="text-xs text-slate-400 font-mono mb-4 bg-black/20 px-2 py-1 rounded inline-block">${t.pasta || 'Sem pasta'}</p>
       
       <div class="bg-slate-800/50 rounded p-2 text-[10px] text-slate-400">
-        <div class="flex justify-between mb-1"><span>Base:</span> <span class="text-white">${t.base || 'PMPR'}</span></div>
+        <div class="flex justify-between mb-1"><span>Base:</span> <span class="text-white">${t.base || 'Base'}</span></div>
         <div class="flex justify-between"><span>Criado:</span> <span class="text-slate-500">${t.created_at ? new Date(t.created_at).toLocaleDateString() : 'Hoje'}</span></div>
       </div>
       
@@ -1296,7 +1299,7 @@ window.editTurma = function (index) {
   editingTurmaIndex = index;
   qs('#turma-nome').value = t.nome;
   qs('#turma-pasta').value = t.pasta;
-  qs('#turma-base').value = t.base || 'PMPR';
+  qs('#turma-base').value = t.base || 'Base';
   qs('#turma-imagem').value = t.imagem || '';
 
   // Change Button State
