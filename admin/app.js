@@ -406,8 +406,14 @@ function renderPermissionOptions() {
   // 1. Padrão PMPR
   const lblPMPR = document.createElement('label');
   lblPMPR.className = "flex items-center gap-2 text-xs text-slate-300 select-none cursor-pointer";
-  lblPMPR.innerHTML = `<input type="checkbox" value="PMPR" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> PMPR (Padrão)`;
+  lblPMPR.innerHTML = `<input type="checkbox" value="PMPR" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> PMPR (Antigo)`;
   container.appendChild(lblPMPR);
+
+  // 1.b Base (Modelo Admin)
+  const lblBase = document.createElement('label');
+  lblBase.className = "flex items-center gap-2 text-xs text-yellow-500 font-bold select-none cursor-pointer";
+  lblBase.innerHTML = `<input type="checkbox" value="Base" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> Base (Modelo)`;
+  container.appendChild(lblBase);
 
   // 2. Turmas Dinâmicas
   turmasDB.forEach(t => {
@@ -473,6 +479,7 @@ function renderStudentTable() {
             <td class="px-6 py-4 font-mono text-xs text-slate-400">
                 ${(s.permissions || []).map(p => {
       if (p === 'PMPR') return '<span class="bg-blue-900 text-blue-300 px-1 rounded">PMPR</span>';
+      if (p === 'Base') return '<span class="bg-yellow-900 text-yellow-300 px-1 rounded">Base</span>';
       const turma = turmasDB.find(t => t.pasta === p);
       const label = turma ? turma.nome : p;
       return `<span class="bg-slate-700 px-1 rounded" title="${p}">${label}</span>`;
