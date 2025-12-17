@@ -1,15 +1,5 @@
 [
   {
-    "nome": "DOUGLAS KAUFFMANN JAVORSKI",
-    "email": "douglaskjavorski@gmail.com",
-    "cpf": "058.345.989-78",
-    "inscricao": "DKJ583",
-    "validade": "2025-12-21T12:00",
-    "permissions": [
-      "PMPR"
-    ]
-  },
-  {
     "nome": "Titan da Silva Pinto",
     "email": "titan@gmail.com",
     "cpf": "076.775.914-18",
@@ -17,7 +7,8 @@
     "validade": "",
     "permissions": [
       "PMPR",
-      "teste"
+      "teste",
+      "pces"
     ]
   },
   {
@@ -27,7 +18,7 @@
     "inscricao": "Apr0v@c@0_174",
     "validade": "",
     "permissions": [
-      "teste"
+      "pces"
     ]
   }
 ]
