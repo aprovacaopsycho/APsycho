@@ -6,7 +6,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 
 # Configuration
-DB_PATH = os.path.join('admin', 'private', 'turmas_db.json')
+DB_PATH = os.path.join('assets', 'data', 'turmas_db.json')
 BASE_DIR = os.getcwd()
 SERVER_PORT = 8080
 
@@ -50,7 +50,8 @@ def process_sync_logic(turmas):
     for turma in turmas:
         name = turma.get('nome')
         folder_slug = turma.get('pasta')
-        base_folder = turma.get('base', 'PMPR')
+        base_folder = 'Base'
+
         imagem = turma.get('imagem')
 
         if not folder_slug: continue
@@ -58,6 +59,7 @@ def process_sync_logic(turmas):
         target_path = os.path.join(BASE_DIR, folder_slug)
         source_path = os.path.join(BASE_DIR, base_folder)
 
+        # Se a pasta não existe, cria
         # Se a pasta não existe, cria
         if not os.path.exists(target_path):
             if not os.path.exists(source_path):
@@ -67,23 +69,43 @@ def process_sync_logic(turmas):
             print(f"[CRIANDO] {folder_slug} (Base: {base_folder})...")
             try:
                 shutil.copytree(source_path, target_path)
-                
-                # Atualiza Headers e Imagens
-                for root, _, files in os.walk(target_path):
-                    for file in files:
-                        if file.endswith('.html'):
-                            file_path = os.path.join(root, file)
-                            with open(file_path, 'r', encoding='utf-8') as f:
-                                content = f.read()
-                            
-                            new_content = safe_replace(content, name, imagem)
-                            
-                            if content != new_content:
-                                with open(file_path, 'w', encoding='utf-8') as f:
-                                    f.write(new_content)
                 changes_count += 1
             except Exception as e:
                 print(f"[ERRO] Falha ao criar {folder_slug}: {e}")
+                continue
+        else:
+             # Check if target is empty or missing key files (fix for broken clones)
+             items = os.listdir(target_path)
+             if not items or not any(f.endswith('.html') for f in items):
+                 print(f"[CORRIGINDO] {folder_slug} estava vazio ou incompleto. Re-clonando de {base_folder}...")
+                 try:
+                    # Remove dir if exists to safely copytree
+                    shutil.rmtree(target_path)
+                    shutil.copytree(source_path, target_path)
+                    changes_count += 1
+                 except Exception as e:
+                    print(f"[ERRO] Falha ao corrigir {folder_slug}: {e}")
+             else:
+                print(f"[ATUALIZANDO] {folder_slug}...")
+
+        # Atualiza Headers e Imagens (Para pastas novas e existentes)
+        try:
+            for root, _, files in os.walk(target_path):
+                for file in files:
+                    if file.endswith('.html'):
+                        file_path = os.path.join(root, file)
+                        with open(file_path, 'r', encoding='utf-8') as f:
+                            content = f.read()
+                        
+                        new_content = safe_replace(content, name, imagem)
+                        
+                        if content != new_content:
+                            with open(file_path, 'w', encoding='utf-8') as f:
+                                f.write(new_content)
+                            # print(f"  -> Atualizado: {file}") 
+                            changes_count += 1
+        except Exception as e:
+             print(f"[ERRO] Falha ao atualizar arquivos de {folder_slug}: {e}")
     
     print(f"--- Fim (Novas pastas criadas: {changes_count}) ---")
     return changes_count

@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Teste Memória F | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-blue: #00c2ff;
+            --accent-green: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0;
+            user-select: none;
+        }
+
+        /* Hero Background */
+        .hero-bg {
+            position: relative;
+            isolation: isolate;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background:
+                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(16, 185, 129, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: rgba(28, 27, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Container da Página */
+        .page-ratio-box {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 773 / 1077;
+            background: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* BOLINHAS DE RESPOSTA */
+        .hit-circle {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .hit-circle:hover {
+            background-color: rgba(0, 194, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 194, 255, 0.4);
+        }
+
+        /* ESTADO 1: MARCADO (AZUL) */
+        .hit-circle.marked {
+            background-color: #0044ff;
+            box-shadow: 0 0 8px rgba(0, 68, 255, 0.6);
+            opacity: 0.8;
+        }
+
+        /* ESTADO 2: ANULADO (VERMELHO) */
+        .hit-circle.annulled {
+            background-color: transparent;
+            border: 2px solid #ef4444;
+            box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+        }
+
+        .hit-circle.annulled::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: #ef4444;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        /* FEEDBACK NO RESULTADO */
+        .hit-circle.res-correct {
+            background-color: rgba(34, 197, 94, 0.5) !important;
+            border: 2px solid #22c55e;
+        }
+
+        .hit-circle.res-error {
+            background-color: rgba(239, 68, 68, 0.5) !important;
+            border: 2px solid #ef4444;
+        }
+
+        .hit-circle.res-missed {
+            border: 2px dashed #eab308;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Efeito Reprovado/Inapto */
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen hero-bg" x-data="memoSim()">
+
+    <audio id="cmd-audio" src="../../vozes/prepare.mp3" preload="auto"></audio>
+    <audio id="time-up-audio" src="../../vozes/tempoesgotado.mp3" preload="auto"></audio>
+
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-green);text-shadow:0 0 8px var(--accent-green)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">MEMÓRIA <span
+                            class="text-[var(--accent-blue)]">F</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+            <a href="../testes_memoria.html"
+                class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                </svg>
+                Voltar
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full px-4 py-8 flex flex-col items-center">
+
+        <!-- Unified Fixed Timer -->
+        <div x-show="state !== 'instructions' && state !== 'results'"
+            class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+            <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                :class="{'border-red-500 bg-red-900/40': timeLeft <= 30}">
+                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                    :class="{'text-red-400 animate-pulse': timeLeft <= 30}" x-text="formatTime(timeLeft)"></div>
+            </div>
+        </div>
+
+        <div x-show="state !== 'instructions' && state !== 'results'"
+            class="fixed bottom-6 z-[100] bg-[#1c1b29]/95 backdrop-blur border border-white/20 rounded-full px-8 py-3 flex items-center gap-8 shadow-2xl animate-fade-in-up">
+            <button @click="nextPhase()"
+                class="bg-gradient-to-r from-blue-600 to-green-600 hover:opacity-90 text-white px-6 py-2 rounded-full font-bold text-sm transition shadow-lg">
+                <span x-text="state === 'memorization' ? 'IR PARA TESTE' : 'FINALIZAR'"></span> <i
+                    class="fas fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+
+        <div x-show="state === 'instructions'" class="max-w-4xl w-full fade-in">
+            <div class="glass-card p-8 text-center shadow-2xl mt-10 relative overflow-hidden group">
+                <div
+                    class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+
+                <h1 class="text-4xl font-black text-white mb-4 relative z-10">Teste de Memória F</h1>
+                <p class="text-gray-400 mb-8 text-lg relative z-10">Memorize os rostos e encontre-os nas páginas de
+                    resposta.</p>
+
+                <div class="grid md:grid-cols-3 gap-6 text-left mb-10 relative z-10">
+                    <div class="bg-white/5 p-5 rounded-xl border border-white/10">
+                        <i class="fas fa-eye text-3xl text-blue-400 mb-3"></i>
+                        <h3 class="text-white font-bold">1. Memorização</h3>
+                        <p class="text-sm text-gray-400 mt-1"><strong>3 minutos</strong> para memorizar os rostos
+                            apresentados.</p>
+                    </div>
+                    <div class="bg-white/5 p-5 rounded-xl border border-white/10">
+                        <i class="fas fa-pen-alt text-3xl text-purple-400 mb-3"></i>
+                        <h3 class="text-white font-bold">2. Execução</h3>
+                        <p class="text-sm text-gray-400 mt-1"><strong>2 minutos</strong> para marcar. <span
+                                class="text-red-400">Clique 2x para anular erro.</span></p>
+                    </div>
+                    <div class="bg-white/5 p-5 rounded-xl border border-white/10">
+                        <i class="fas fa-calculator text-3xl text-green-400 mb-3"></i>
+                        <h3 class="text-white font-bold">3. Pontuação</h3>
+                        <p class="text-sm text-gray-400 mt-1">Acerto: +1 | A cada <strong>2 erros</strong>: -2 pontos.
+                            <strong>Meta: 22</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative z-10">
+                    <button @click="startVoiceCommand()" class="group relative inline-flex items-center justify-center"
+                        :disabled="isPreparing">
+                        <div
+                            class="absolute transition-all duration-200 rounded-full -inset-px bg-gradient-to-r from-cyan-500 to-purple-500 group-hover:shadow-lg group-hover:shadow-cyan-500/50">
+                        </div>
+                        <div
+                            class="relative inline-flex items-center justify-center px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                            <span x-text="isPreparing ? 'Ouvindo...' : 'INICIAR TESTE'"></span>
+                            <i class="fas ml-2" :class="isPreparing ? 'fa-spinner fa-spin' : 'fa-microphone'"></i>
+                        </div>
+                    </button>
+                    <p class="text-gray-500 text-xs mt-4"><i class="fas fa-volume-up"></i> Aguarde o comando de voz.</p>
+                </div>
+            </div>
+
+            <!-- HISTÓRICO -->
+            <div class="glass-card mt-8 p-6 overflow-hidden fade-in relative">
+                <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
+                    <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        @click="clearHistory()">Limpar</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                            <tr>
+                                <th class="px-4 py-3 font-medium text-gray-400">Data</th>
+                                <th class="px-4 py-3 font-medium text-center text-gray-400">Pontos</th>
+                                <th class="px-4 py-3 font-medium text-center text-gray-400">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <template x-if="history.length === 0">
+                                <tr>
+                                    <td colspan="3" class="px-4 py-4 text-center text-gray-500">Nenhum registro.</td>
+                                </tr>
+                            </template>
+                            <template x-for="(item, index) in history" :key="index">
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="item.score"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-xs"
+                                        :class="item.passed ? 'text-green-400' : 'text-red-400'"
+                                        x-text="item.passed ? 'APTO' : 'INAPTO'"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="state === 'memorization'" class="w-full max-w-2xl fade-in" x-cloak>
+            <div class="bg-white rounded-lg shadow-2xl overflow-hidden p-2">
+                <img src="memof_estudo.png" class="w-full h-auto object-contain">
+            </div>
+            <p class="text-center text-gray-500 mt-4 text-sm animate-pulse">Memorize os rostos acima...</p>
+        </div>
+
+        <div x-show="state === 'testing'" class="w-full max-w-[1200px] fade-in pb-24" x-cloak>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div class="page-ratio-box">
+                    <img src="memofA.png" class="absolute inset-0 w-full h-full object-fill">
+                    <div class="absolute inset-0">
+                        <template x-for="item in configA.items" :key="'a-'+item.id">
+                            <div @click="toggleMark('A', item.id)" class="hit-circle" :class="{
+                                    'marked': marksA[item.id] === 'marked',
+                                    'annulled': marksA[item.id] === 'annulled',
+                                    'res-correct': showResults && marksA[item.id] === 'marked' && item.isTarget,
+                                    'res-error': showResults && marksA[item.id] === 'marked' && !item.isTarget,
+                                    'res-missed': showResults && !marksA[item.id] && item.isTarget
+                                 }" :style="`
+                                    left: ${getPos(item.x, configA.width)}%; 
+                                    top: ${getPos(item.y, configA.height)}%; 
+                                    width: ${getPos(configA.circleSize, configA.width)}%; 
+                                    aspect-ratio: 1/1;
+                                 `">
+                            </div>
+                        </template>
+                    </div>
+                    <div
+                        class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none">
+                        PÁGINA A</div>
+                </div>
+
+                <div class="page-ratio-box">
+                    <img src="memofB.png" class="absolute inset-0 w-full h-full object-fill">
+                    <div class="absolute inset-0">
+                        <template x-for="item in configB.items" :key="'b-'+item.id">
+                            <div @click="toggleMark('B', item.id)" class="hit-circle" :class="{
+                                    'marked': marksB[item.id] === 'marked',
+                                    'annulled': marksB[item.id] === 'annulled',
+                                    'res-correct': showResults && marksB[item.id] === 'marked' && item.isTarget,
+                                    'res-error': showResults && marksB[item.id] === 'marked' && !item.isTarget,
+                                    'res-missed': showResults && !marksB[item.id] && item.isTarget
+                                 }" :style="`
+                                    left: ${getPos(item.x, configB.width)}%; 
+                                    top: ${getPos(item.y, configB.height)}%; 
+                                    width: ${getPos(configB.circleSize, configB.width)}%; 
+                                    aspect-ratio: 1/1;
+                                 `">
+                            </div>
+                        </template>
+                    </div>
+                    <div
+                        class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none">
+                        PÁGINA B</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div x-show="state === 'results'"
+            class="max-w-5xl w-full bg-[#1c1b29] rounded-2xl p-8 border border-white/5 shadow-2xl mt-10 text-center fade-in"
+            x-cloak>
+            <h2 class="text-3xl font-black text-white mb-6">RESULTADO FINAL</h2>
+
+            <div class="flex flex-col items-center justify-center mb-8">
+                <!-- APROVADO -->
+                <template x-if="results.totalScore >= 22">
+                    <span
+                        class="px-10 py-4 rounded-full text-2xl font-bold border flex items-center gap-3 transition-transform hover:scale-105 bg-green-500/20 text-green-400 border-green-500 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+                        <i class="fas fa-check-circle"></i>
+                        <span>APTO</span>
+                    </span>
+                </template>
+
+                <!-- INAPTO (Novo Estilo) -->
+                <template x-if="results.totalScore < 22">
+                    <div class="flex flex-col items-center">
+                        <div class="loser-text">
+                            VOCÊ FICOU<br>INAPTO!
+                        </div>
+                        <span
+                            class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-400 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                            <i class="fas fa-times-circle mr-2"></i> REPROVADO
+                        </span>
+                    </div>
+                </template>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <div class="bg-black/30 p-6 rounded-xl border border-white/10">
+                    <div class="text-sm text-gray-500 font-bold uppercase mb-2">Acertos</div>
+                    <div class="text-4xl font-bold text-green-400" x-text="results.hits"></div>
+                </div>
+                <div class="bg-black/30 p-6 rounded-xl border border-white/10">
+                    <div class="text-sm text-gray-500 font-bold uppercase mb-2">Erros</div>
+                    <div class="text-4xl font-bold text-red-400" x-text="results.errors"></div>
+                    <div class="text-[10px] text-gray-500 mt-1">(-2 pts a cada 2 erros)</div>
+                </div>
+                <div
+                    class="bg-gradient-to-br from-purple-900 to-blue-900 p-6 rounded-xl border border-purple-500/50 relative overflow-hidden">
+                    <div class="text-sm text-white font-bold uppercase mb-2 relative z-10">Pontuação Líquida</div>
+                    <div class="text-5xl font-black text-white relative z-10" x-text="results.totalScore"></div>
+                    <div class="text-xs text-cyan-300 mt-2 relative z-10">Meta Mínima: 22</div>
+                </div>
+            </div>
+
+            <div class="flex gap-4 justify-center">
+                <button @click="reviewAnswers()"
+                    class="px-8 py-3 border border-white/20 text-white rounded-lg hover:bg-white/5 transition">
+                    <i class="fas fa-search mr-2"></i> Ver Gabarito
+                </button>
+                <button onclick="location.reload()"
+                    class="px-8 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition">
+                    Tentar Novamente
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('memoSim', () => ({
+                init() {
+                    this.loadHistory();
+                },
+                history: [],
+
+                // CONFIGURAÇÃO PÁGINA A
+                configA: {
+                    "width": 773, "height": 1077, "circleSize": 35,
+                    "items": [
+                        { "id": 0, "x": 73, "y": 162, "isTarget": false }, { "id": 1, "x": 150, "y": 163, "isTarget": false }, { "id": 2, "x": 254, "y": 163, "isTarget": true }, { "id": 3, "x": 336, "y": 163, "isTarget": false }, { "id": 4, "x": 439, "y": 163, "isTarget": true }, { "id": 5, "x": 520, "y": 162, "isTarget": true }, { "id": 6, "x": 627, "y": 162, "isTarget": false }, { "id": 7, "x": 709, "y": 163, "isTarget": false }, { "id": 8, "x": 72, "y": 338, "isTarget": false }, { "id": 9, "x": 152, "y": 341, "isTarget": true }, { "id": 10, "x": 256, "y": 341, "isTarget": true }, { "id": 11, "x": 336, "y": 339, "isTarget": false }, { "id": 12, "x": 440, "y": 339, "isTarget": true }, { "id": 13, "x": 519, "y": 342, "isTarget": false }, { "id": 14, "x": 629, "y": 339, "isTarget": true }, { "id": 15, "x": 706, "y": 339, "isTarget": false }, { "id": 16, "x": 73, "y": 515, "isTarget": false }, { "id": 17, "x": 151, "y": 517, "isTarget": true }, { "id": 18, "x": 257, "y": 515, "isTarget": false }, { "id": 19, "x": 334, "y": 516, "isTarget": false }, { "id": 20, "x": 442, "y": 515, "isTarget": false }, { "id": 21, "x": 519, "y": 516, "isTarget": false }, { "id": 22, "x": 629, "y": 516, "isTarget": false }, { "id": 23, "x": 708, "y": 517, "isTarget": true }, { "id": 24, "x": 75, "y": 693, "isTarget": false }, { "id": 25, "x": 155, "y": 691, "isTarget": false }, { "id": 26, "x": 258, "y": 690, "isTarget": true }, { "id": 27, "x": 337, "y": 692, "isTarget": false }, { "id": 28, "x": 442, "y": 691, "isTarget": false }, { "id": 29, "x": 520, "y": 691, "isTarget": false }, { "id": 30, "x": 630, "y": 691, "isTarget": false }, { "id": 31, "x": 709, "y": 692, "isTarget": true }, { "id": 32, "x": 77, "y": 869, "isTarget": false }, { "id": 33, "x": 151, "y": 868, "isTarget": true }, { "id": 34, "x": 256, "y": 869, "isTarget": false }, { "id": 35, "x": 338, "y": 870, "isTarget": false }, { "id": 36, "x": 443, "y": 868, "isTarget": false }, { "id": 37, "x": 522, "y": 867, "isTarget": true }, { "id": 38, "x": 628, "y": 869, "isTarget": false }, { "id": 39, "x": 709, "y": 866, "isTarget": false }, { "id": 40, "x": 77, "y": 1044, "isTarget": false }, { "id": 41, "x": 156, "y": 1042, "isTarget": true }, { "id": 42, "x": 257, "y": 1042, "isTarget": false }, { "id": 43, "x": 337, "y": 1045, "isTarget": false }, { "id": 44, "x": 440, "y": 1046, "isTarget": false }, { "id": 45, "x": 522, "y": 1045, "isTarget": true }, { "id": 46, "x": 631, "y": 1042, "isTarget": false }, { "id": 47, "x": 711, "y": 1043, "isTarget": false }
+                    ]
+                },
+
+                // CONFIGURAÇÃO PÁGINA B
+                configB: {
+                    "width": 773, "height": 1077, "circleSize": 35,
+                    "items": [
+                        { "id": 0, "x": 73, "y": 162, "isTarget": false }, { "id": 1, "x": 150, "y": 163, "isTarget": false }, { "id": 2, "x": 255, "y": 165, "isTarget": true }, { "id": 3, "x": 332, "y": 164, "isTarget": true }, { "id": 4, "x": 436, "y": 165, "isTarget": false }, { "id": 5, "x": 512, "y": 165, "isTarget": true }, { "id": 6, "x": 621, "y": 164, "isTarget": false }, { "id": 7, "x": 698, "y": 165, "isTarget": false }, { "id": 8, "x": 72, "y": 338, "isTarget": false }, { "id": 9, "x": 152, "y": 341, "isTarget": true }, { "id": 10, "x": 254, "y": 342, "isTarget": false }, { "id": 11, "x": 333, "y": 343, "isTarget": true }, { "id": 12, "x": 435, "y": 341, "isTarget": false }, { "id": 13, "x": 513, "y": 343, "isTarget": false }, { "id": 14, "x": 621, "y": 338, "isTarget": true }, { "id": 15, "x": 700, "y": 343, "isTarget": false }, { "id": 16, "x": 73, "y": 515, "isTarget": true }, { "id": 17, "x": 151, "y": 518, "isTarget": false }, { "id": 18, "x": 253, "y": 517, "isTarget": false }, { "id": 19, "x": 331, "y": 518, "isTarget": false }, { "id": 20, "x": 435, "y": 519, "isTarget": false }, { "id": 21, "x": 513, "y": 518, "isTarget": false }, { "id": 22, "x": 620, "y": 518, "isTarget": true }, { "id": 23, "x": 696, "y": 518, "isTarget": false }, { "id": 24, "x": 70, "y": 694, "isTarget": true }, { "id": 25, "x": 148, "y": 696, "isTarget": false }, { "id": 26, "x": 253, "y": 697, "isTarget": false }, { "id": 27, "x": 329, "y": 695, "isTarget": false }, { "id": 28, "x": 431, "y": 694, "isTarget": false }, { "id": 29, "x": 513, "y": 697, "isTarget": true }, { "id": 30, "x": 616, "y": 698, "isTarget": false }, { "id": 31, "x": 699, "y": 696, "isTarget": false }, { "id": 32, "x": 70, "y": 875, "isTarget": false }, { "id": 33, "x": 148, "y": 872, "isTarget": false }, { "id": 34, "x": 252, "y": 876, "isTarget": true }, { "id": 35, "x": 330, "y": 876, "isTarget": false }, { "id": 36, "x": 437, "y": 873, "isTarget": false }, { "id": 37, "x": 511, "y": 875, "isTarget": false }, { "id": 38, "x": 621, "y": 869, "isTarget": true }, { "id": 39, "x": 696, "y": 874, "isTarget": false }, { "id": 40, "x": 71, "y": 1054, "isTarget": false }, { "id": 41, "x": 152, "y": 1047, "isTarget": false }, { "id": 42, "x": 250, "y": 1052, "isTarget": true }, { "id": 43, "x": 332, "y": 1050, "isTarget": false }, { "id": 44, "x": 433, "y": 1047, "isTarget": false }, { "id": 45, "x": 508, "y": 1049, "isTarget": false }, { "id": 46, "x": 620, "y": 1049, "isTarget": true }, { "id": 47, "x": 697, "y": 1052, "isTarget": false }
+                    ]
+                },
+
+                state: 'instructions',
+                timeLeft: 0,
+                timer: null,
+                isPreparing: false,
+
+                // Mudei para Objeto para suportar estados {id: 'marked' | 'annulled'}
+                marksA: {},
+                marksB: {},
+
+                showResults: false,
+                results: { hits: 0, errors: 0, totalScore: 0 },
+
+                startVoiceCommand() {
+                    this.isPreparing = true;
+                    // Play prepare.mp3 - assuming it exists in ../../vozes based on other files
+                    const audio = document.getElementById('cmd-audio');
+                    audio.play().then(() => {
+                        audio.onended = () => {
+                            this.isPreparing = false;
+                            this.startTest();
+                        };
+                    }).catch(e => {
+                        console.error("Audio error or blocked:", e);
+                        this.isPreparing = false;
+                        this.startTest();
+                    });
+                },
+
+                startTest() {
+                    this.state = 'memorization';
+                    this.timeLeft = 180; // 3 min
+                    this.startTimer();
+                },
+
+                nextPhase() {
+                    clearInterval(this.timer);
+                    if (this.state === 'memorization') {
+                        this.state = 'testing';
+                        this.timeLeft = 120; // 2 min
+                        window.scrollTo(0, 0);
+                        this.startTimer();
+                    } else if (this.state === 'testing') {
+                        this.finishTest();
+                    }
+                },
+
+                startTimer() {
+                    this.timer = setInterval(() => {
+                        this.timeLeft--;
+                        if (this.timeLeft <= 0) {
+                            if (this.state === 'testing') {
+                                document.getElementById('time-up-audio').play().catch(e => console.error(e));
+                                this.finishTest();
+                            } else {
+                                this.nextPhase();
+                            }
+                        }
+                    }, 1000);
+                },
+
+                toggleMark(page, id) {
+                    if (this.state !== 'testing') return;
+
+                    const marks = page === 'A' ? this.marksA : this.marksB;
+
+                    if (!marks[id]) {
+                        marks[id] = 'marked';
+                    } else if (marks[id] === 'marked') {
+                        marks[id] = 'annulled';
+                    }
+                },
+
+                finishTest() {
+                    clearInterval(this.timer);
+                    let hits = 0;
+                    let errors = 0;
+
+                    // Calcula Página A
+                    this.configA.items.forEach(item => {
+                        const status = this.marksA[item.id];
+                        if (status === 'marked') {
+                            if (item.isTarget) hits++;
+                            else errors++;
+                        }
+                    });
+
+                    // Calcula Página B
+                    this.configB.items.forEach(item => {
+                        const status = this.marksB[item.id];
+                        if (status === 'marked') {
+                            if (item.isTarget) hits++;
+                            else errors++;
+                        }
+                    });
+
+                    // Penalty logic: -2 points for every 2 errors (matches prompt logic)
+                    const penalty = Math.floor(errors / 2) * 2;
+                    const finalScore = hits - penalty;
+
+                    this.results = { hits, errors, totalScore: finalScore };
+                    this.state = 'results';
+                    window.scrollTo(0, 0);
+
+                    // Confetti if passing
+                    if (finalScore >= 22) {
+                        const duration = 3000;
+                        const end = Date.now() + duration;
+                        (function frame() {
+                            confetti({
+                                particleCount: 5,
+                                angle: 60,
+                                spread: 55,
+                                origin: { x: 0 },
+                                colors: ['#9f54ff', '#ff00ff', '#10b981']
+                            });
+                            confetti({
+                                particleCount: 5,
+                                angle: 120,
+                                spread: 55,
+                                origin: { x: 1 },
+                                colors: ['#9f54ff', '#ff00ff', '#10b981']
+                            });
+                            if (Date.now() < end) {
+                                requestAnimationFrame(frame);
+                            }
+                        }());
+                    }
+                    this.saveHistory();
+                },
+
+                reviewAnswers() {
+                    this.showResults = true;
+                    this.state = 'testing';
+                },
+
+                getPos(val, total) {
+                    return (val / total) * 100;
+                },
+
+                formatTime(s) {
+                    const m = Math.floor(s / 60).toString().padStart(2, '0');
+                    const sec = (s % 60).toString().padStart(2, '0');
+                    return `${m}:${sec}`;
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('memof_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const passed = this.results.totalScore >= 22;
+                    this.history.unshift({
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.results.totalScore,
+                        passed: passed
+                    });
+                    localStorage.setItem('memof_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm('Limpar histórico?')) {
+                        localStorage.removeItem('memof_history');
+                        this.history = [];
+                    }
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

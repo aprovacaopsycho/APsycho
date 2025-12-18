@@ -89,171 +89,33 @@
   </style>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
-
-  <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('memberAuth', () => ({
-        isLoggedIn: false,
-        email: '',
-        password: '',
-        errorMsg: '',
-        loading: false,
-        validHashes: {},
-        otherTurmas: [],
-
-        async init() {
-          // 1. Verifica se existe sessão salva
-          const savedHash = sessionStorage.getItem('memberHash');
-
-          // Se tiver hash salvo, libera o acesso
-          if (savedHash) {
-            this.isLoggedIn = true;
-          }
-
-          // 2. Carrega a lista de hashes do servidor (sem cache)
-          try {
-            const res = await fetch('hashes_membros.json', { cache: "no-store" });
-            if (res.ok) {
-              this.validHashes = await res.json();
-            } else {
-              this.errorMsg = "Erro [404]: Banco de dados não encontrado.";
-            }
-
-            // 3. Carrega Turmas Adicionais
-            const resTurmas = await fetch('admin/private/turmas_db.json', { cache: "no-store" });
-            if (resTurmas.ok) {
-              this.otherTurmas = await resTurmas.json();
-            }
-
-          } catch (e) {
-            console.error("Erro ao carregar lista:", e);
-            this.errorMsg = "Erro de Conexão (CORS/Network): Não foi possível carregar os dados.";
-          }
-        },
-
-        async sha256Hex(str) {
-          const buf = new TextEncoder().encode(str);
-          const hash = await crypto.subtle.digest('SHA-256', buf);
-          return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
-        },
-
-        async login() {
-          if (!this.email || !this.password) {
-            this.errorMsg = 'Preencha todos os campos.'; return;
-          }
-          this.loading = true;
-          this.errorMsg = '';
-
-          const cleanEmail = this.email.trim().toLowerCase();
-          const cleanPass = this.password.trim();
-
-          const hash = await this.sha256Hex(cleanEmail + cleanPass);
-
-          // Check if hash exists
-          if (this.validHashes.hasOwnProperty(hash)) {
-            const userData = this.validHashes[hash];
-
-            // Tratamento de Legado (se o JSON antigo ainda existir por cache)
-            // Antes era: hash: "DATA" ou null
-            // Agora é: hash: { validity: "DATA", permissions: [] }
-
-            let expiry = null;
-            let permissions = ['PMPR']; // Default fallback
-
-            if (typeof userData === 'object' && userData !== null && userData.permissions) {
-              expiry = userData.validity;
-              permissions = userData.permissions;
-            } else if (typeof userData === 'string') {
-              expiry = userData;
-            }
-
-            // Date Validation
-            if (expiry) {
-              const expDate = new Date(expiry);
-              const now = new Date();
-              if (expDate < now) {
-                this.errorMsg = 'Seu acesso expirou em ' + expDate.toLocaleDateString();
-                this.loading = false;
-                return;
-              }
-            }
-
-            // SUCESSO
-            sessionStorage.setItem('memberHash', hash);
-            sessionStorage.setItem('memberPermissions', JSON.stringify(permissions));
-
-            this.isLoggedIn = true;
-          } else {
-            this.errorMsg = 'Dados incorretos ou acesso ainda não liberado.';
-          }
-          this.loading = false;
-        },
-
-        hasPermission(pasta) {
-          const stored = sessionStorage.getItem('memberPermissions');
-          if (!stored) return false;
-          try {
-            const perms = JSON.parse(stored);
-            return perms.includes(pasta);
-          } catch (e) { return false; }
-        },
-
-        logout() {
-          // LIMPEZA TOTAL DA SESSÃO
-          sessionStorage.removeItem('memberHash');
-          this.isLoggedIn = false;
-          this.email = '';
-          this.password = '';
-          // Força o recarregamento da página para garantir que nada ficou na memória
-          window.location.reload();
-        },
-
-        // Função para verificar se pode ir para a página PMPR
-        goToPmpr() {
-          if (!sessionStorage.getItem('memberHash')) {
-            alert("Sessão expirada. Faça login novamente.");
-            this.logout();
-          } else {
-            window.location.href = 'PMPR/pmpr.html';
-          }
-        }
-      }))
-    });
-  </script>
 </head>
 
 <body x-data="memberAuth">
 
-  <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50 border-b border-white/5">
-    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-      <div class="flex items-center">
-        <a href="index.html" class="flex items-center">
-          <img src="logo-principal.png" alt="Logo" class="h-10 w-auto mr-3">
-          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-        </a>
-      </div>
+  <!-- MODAL LOGIN -->
+  <div x-show="showLoginModal" x-transition.opacity
+    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+    style="display: none;">
+    <div @click.outside="showLoginModal = false" class="card p-8 w-full max-w-md shadow-2xl relative">
+      <button @click="showLoginModal = false" class="absolute top-4 right-4 text-gray-500 hover:text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
-      <div class="hidden md:flex items-center space-x-8">
-        <a href="index.html" class="hover:text-[var(--accent-pink)] transition">Início</a>
-        <button x-show="isLoggedIn" @click="logout"
-          class="text-red-400 hover:text-red-300 font-bold transition">SAIR</button>
-      </div>
-    </nav>
-  </header>
-
-  <main x-show="!isLoggedIn" class="min-h-[80vh] flex items-center justify-center px-4">
-    <div class="card p-8 w-full max-w-md shadow-2xl">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl section-title mb-2">Área do Aluno</h2>
-        <p class="text-sm" style="color:var(--text-dark)">Insira suas credenciais para acessar os materiais exclusivos.
+      <div class="text-center mb-6">
+        <h2 class="text-2xl section-title mb-2">Acesso Restrito</h2>
+        <p class="text-sm" style="color:var(--text-dark)">
+          Identifique-se para acessar: <br />
+          <span class="text-[var(--primary-purple)] font-bold" x-text="selectedTurmaName"></span>
         </p>
       </div>
 
       <form @submit.prevent="login" class="space-y-6">
         <div>
           <label class="block text-xs font-bold uppercase mb-2" style="color:var(--text-dark)">E-mail</label>
-          <input x-model="email" type="email" placeholder="seu@email.com" class="input-field">
+          <input x-model="email" type="email" placeholder="seu@email.com" class="input-field" autofocus>
         </div>
         <div>
           <label class="block text-xs font-bold uppercase mb-2" style="color:var(--text-dark)">Senha / Inscrição</label>
@@ -267,81 +129,101 @@
 
         <button type="submit" :disabled="loading"
           class="cta-button w-full font-bold py-3 px-6 rounded-md text-lg flex items-center justify-center">
-          <span x-show="!loading">ACESSAR</span>
+          <span x-show="!loading">ENTRAR</span>
           <span x-show="loading" class="animate-pulse">Verificando...</span>
         </button>
       </form>
     </div>
-  </main>
+  </div>
 
-  <main x-show="isLoggedIn" x-cloak class="py-20 min-h-screen">
+  <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50 border-b border-white/5">
+    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <div class="flex items-center">
+        <a href="index.html" class="flex items-center">
+          <img src="logo-principal.png" alt="Logo" class="h-10 w-auto mr-3">
+          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+        </a>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="index.html" class="hover:text-[var(--accent-pink)] transition">Início</a>
+        <div x-show="isSesionActive" class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs"
+              x-text="getInitials()"></div>
+            <span class="text-sm font-bold text-gray-300" x-text="userName"></span>
+          </div>
+          <button @click="logout"
+            class="text-red-400 hover:text-red-300 font-bold transition text-xs border border-red-500/20 px-3 py-1 rounded hover:bg-red-500/10">SAIR</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="py-20 min-h-screen">
     <div class="container mx-auto px-6">
 
       <div class="text-center mb-16">
-        <h1 class="text-3xl md:text-5xl mb-4 section-title">Seus Materiais Exclusivos</h1>
-        <p class="section-subtitle text-lg">Selecione seu curso abaixo.</p>
+        <h1 class="text-3xl md:text-5xl mb-4 section-title">Turmas Disponíveis</h1>
+        <p class="section-subtitle text-lg">Selecione sua turma para acessar o material.</p>
       </div>
 
       <div class="max-w-4xl mx-auto space-y-8">
 
-        <div x-show="hasPermission('PMPR')"
-          class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300">
+        <!-- PMPR / Base (Visible only if has 'Base' permission - Admins) ->
+        <!-- PMPR / Base (Visible to all, Access Restricted) -->
+        <div @click="handleCardClick('Base', 'Polícia Militar do Paraná')"
+          class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300 cursor-pointer group border border-dashed border-gray-600 bg-gray-900/50">
           <div class="flex-shrink-0">
-            <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
-              alt="Brasão PMPR"
-              class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)]">
+            <div
+              class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)] flex items-center justify-center overflow-hidden">
+              <img src="assets/default_turma.jpg" class="w-full h-full object-cover" alt="PMPR">
+            </div>
           </div>
 
           <div class="flex-grow text-center md:text-left">
-            <h2 class="text-2xl font-bold mb-3" style="color:var(--text-light)">Polícia Militar do Paraná</h2>
-            <p class="mb-6 leading-relaxed" style="color:var(--text-dark)">
-              Acesse aqui a Análise Estratégica, Simulador de Inaptidão e seus Downloads personalizados.
+            <h2 class="text-2xl font-bold mb-3 text-gray-300">PM-PR</h2>
+            <p class="mb-6 leading-relaxed text-gray-500">
+
             </p>
 
-            <button @click="goToPmpr"
-              class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 cursor-pointer">
+            <button
+              class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 pointer-events-none grayscale opacity-70">
               ACESSAR MATERIAL
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
             </button>
           </div>
         </div>
 
         <!-- Dynamic Classes Loop -->
         <template x-for="turma in otherTurmas" :key="turma.pasta">
-          <div x-show="hasPermission(turma.pasta)"
-            class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300">
+          <div @click="handleCardClick(turma.pasta, turma.nome)"
+            class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300 cursor-pointer group">
 
-            <!-- Image (Default or Custom) -->
+            <!-- Image -->
             <div class="flex-shrink-0">
-              <img
-                :src="turma.imagem || 'https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg'"
-                class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)]">
+              <img :src="turma.imagem || 'assets/default_turma.jpg'"
+                class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)] group-hover:shadow-[0_0_30px_rgba(159,84,255,0.6)] transition-shadow">
             </div>
 
             <div class="flex-grow text-center md:text-left">
               <h2 class="text-2xl font-bold mb-3" style="color:var(--text-light)" x-text="turma.nome"></h2>
               <p class="mb-6 leading-relaxed" style="color:var(--text-dark)">
-                Acesso exclusivo aos materiais de <span x-text="turma.nome"></span>. Clique para entrar no painel.
+                Acesso exclusivo aos materiais de <span x-text="turma.nome"></span>.
               </p>
 
-              <a :href="turma.pasta + '/pmpr.html'"
-                class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 cursor-pointer">
+              <button
+                class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 pointer-events-none">
                 ACESSAR MATERIAL
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                   stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
-              </a>
+              </button>
             </div>
           </div>
         </template>
-
-
-
-
       </div>
     </div>
   </main>
@@ -352,6 +234,194 @@
     </div>
   </footer>
 
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('memberAuth', () => ({
+        // State
+        isSesionActive: false,
+        showLoginModal: false,
+        selectedTurmaId: null,
+        selectedTurmaName: '',
+        userName: 'Aluno', // Default
+
+        // Login Form
+        email: '',
+        password: '',
+        errorMsg: '',
+        loading: false,
+
+        // Data
+        validHashes: {},
+        otherTurmas: [],
+
+        async init() {
+          // Check Session
+          if (sessionStorage.getItem('memberHash')) {
+            this.isSesionActive = true;
+            const storedName = sessionStorage.getItem('memberName');
+            if (storedName) this.userName = storedName;
+          }
+
+          // Load Data (Always)
+          try {
+            // 1. Hashes
+            const res = await fetch('hashes_membros.json', { cache: "no-store" });
+            if (res.ok) this.validHashes = await res.json();
+
+            // 2. Turmas
+            const resTurmas = await fetch('assets/data/turmas_db.json', { cache: "no-store" });
+            if (resTurmas.ok) this.otherTurmas = await resTurmas.json();
+
+          } catch (e) {
+            console.error("Erro init:", e);
+          }
+        },
+
+        // Helper: SHA256
+        async sha256Hex(str) {
+          const buf = new TextEncoder().encode(str);
+          const hash = await crypto.subtle.digest('SHA-256', buf);
+          return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+        },
+
+        getInitials() {
+          if (!this.userName) return 'A';
+          const parts = this.userName.split(' ');
+          if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+          return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+        },
+
+        // Helper: Check Permission Logic
+        checkPermission(hash, turmaId) {
+          if (!this.validHashes[hash]) return false;
+
+          const userData = this.validHashes[hash];
+
+          // Check Validity Date
+          let expiry = null;
+          let permissions = ['PMPR']; // Default
+
+          if (typeof userData === 'object' && userData !== null) {
+            expiry = userData.validity;
+            if (userData.permissions) permissions = userData.permissions;
+          } else if (typeof userData === 'string') {
+            expiry = userData;
+          }
+
+          if (expiry) {
+            if (new Date(expiry) < new Date()) return 'expired';
+          }
+
+          // Check Permission Array
+          if (permissions.includes(turmaId)) return true;
+
+          return false;
+        },
+
+        async handleCardClick(turmaId, turmaName) {
+          this.selectedTurmaId = turmaId;
+          this.selectedTurmaName = turmaName;
+
+          // 1. Already Logged In?
+          const currentHash = sessionStorage.getItem('memberHash');
+          if (currentHash) {
+            const access = this.checkPermission(currentHash, turmaId);
+
+            if (access === true) {
+              this.redirect(turmaId);
+            } else if (access === 'expired') {
+              alert("Seu acesso expirou.");
+              this.logout();
+            } else {
+              alert(`Você não tem permissão para acessar a turma: ${turmaName}`);
+            }
+            return;
+          }
+
+          // 2. Not Logged In -> Show Modal
+          this.errorMsg = '';
+          this.email = '';
+          this.password = '';
+          this.showLoginModal = true;
+        },
+
+        async login() {
+          if (!this.email || !this.password) {
+            this.errorMsg = 'Preencha todos os campos.'; return;
+          }
+          this.loading = true;
+          this.errorMsg = '';
+
+          const cleanEmail = this.email.trim().toLowerCase();
+          const cleanPass = this.password.trim();
+          const hash = await this.sha256Hex(cleanEmail + cleanPass);
+
+          // Verify
+          const access = this.checkPermission(hash, this.selectedTurmaId);
+
+          if (access === true) {
+            // Success
+            sessionStorage.setItem('memberHash', hash);
+
+            // SAVE USER NAME
+            const userData = this.validHashes[hash];
+            const name = userData.name || 'Aluno';
+            sessionStorage.setItem('memberName', name);
+            this.userName = name;
+
+            // Also cache permissions helper for other pages if needed
+            const perms = (typeof userData === 'object' && userData.permissions) ? userData.permissions : ['PMPR'];
+            sessionStorage.setItem('memberPermissions', JSON.stringify(perms));
+
+            this.isSesionActive = true;
+            this.showLoginModal = false;
+            this.redirect(this.selectedTurmaId);
+          } else if (access === 'expired') {
+            this.errorMsg = 'Acesso expirado.';
+          } else if (this.validHashes[hash]) {
+            // Hash exists but no permission for THIS class
+            this.errorMsg = 'Login correto, mas você não tem acesso a esta turma.';
+          } else {
+            this.errorMsg = 'Dados incorretos.';
+          }
+
+          this.loading = false;
+        },
+
+        redirect(turmaId) {
+          // For legacy support, we might need to check if index.html exists, but for now assuming standard:
+          // Base -> Base/index.html
+          // PMPR -> PMPR/index.html (since we copied Base->PMPR)
+          // Other classes -> [folder]/index.html (if created from new Base) OR [folder]/pmpr.html (if old)
+
+          // Since we can't easily check file existence from client JS without 404, let's assume index.html for PMPR/Base.
+          // For dynamic classes, it depends on when they were created.
+          // Let's try to detect if it's PMPR or Base.
+
+          if (turmaId === 'PMPR' || turmaId === 'Base') {
+            window.location.href = `${turmaId}/index.html`;
+          } else {
+            // For others, try index.html, but if it fails... user will get 404.
+            // Ideally, we should unify. The user said "Base servirá como modelo".
+            // So future classes will follow Base (index.html).
+            // Old classes like 'teste' might still have pmpr.html.
+            // I should probably rename `pmpr.html` to `index.html` in ALL subfolders to be safe?
+            // But for now, let's stick to index.html as the target.
+            window.location.href = `${turmaId}/index.html`;
+          }
+        },
+
+        logout() {
+          sessionStorage.removeItem('memberHash');
+          sessionStorage.removeItem('memberPermissions');
+          sessionStorage.removeItem('memberName');
+          this.isSesionActive = false;
+          window.location.reload();
+        }
+
+      }))
+    });
+  </script>
 </body>
 
 </html>

@@ -282,7 +282,8 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
       // Store object with validity & permissions
       publicHashes[hash] = {
         validity: s.validade || null,
-        permissions: s.permissions || ['PMPR']
+        permissions: s.permissions || [],
+        name: s.nome || 'Aluno'
       };
     }
 
@@ -405,8 +406,14 @@ function renderPermissionOptions() {
   // 1. Padrão PMPR
   const lblPMPR = document.createElement('label');
   lblPMPR.className = "flex items-center gap-2 text-xs text-slate-300 select-none cursor-pointer";
-  lblPMPR.innerHTML = `<input type="checkbox" value="PMPR" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> PMPR (Padrão)`;
+  lblPMPR.innerHTML = `<input type="checkbox" value="PMPR" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> PMPR (Antigo)`;
   container.appendChild(lblPMPR);
+
+  // 1.b Base (Modelo Admin)
+  const lblBase = document.createElement('label');
+  lblBase.className = "flex items-center gap-2 text-xs text-yellow-500 font-bold select-none cursor-pointer";
+  lblBase.innerHTML = `<input type="checkbox" value="Base" class="perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> Base (Modelo)`;
+  container.appendChild(lblBase);
 
   // 2. Turmas Dinâmicas
   turmasDB.forEach(t => {
@@ -467,8 +474,17 @@ function renderStudentTable() {
             <td class="px-6 py-4">
                 <input type="checkbox" onchange="toggleSelect(${originalIndex})" ${isSelected ? 'checked' : ''} class="w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue">
             </td>
-            <td class="px-6 py-4 font-medium">${s.nome || '-'} ${permBadge}</td>
-            <td class="px-6 py-4 text-slate-400">${s.email}</td>
+            <td class="px-6 py-4 font-medium">${s.nome || '-'}</td>
+            <td class="px-6 py-4">${s.email}</td>
+            <td class="px-6 py-4 font-mono text-xs text-slate-400">
+                ${(s.permissions || []).map(p => {
+      if (p === 'PMPR') return '<span class="bg-blue-900 text-blue-300 px-1 rounded">PMPR</span>';
+      if (p === 'Base') return '<span class="bg-yellow-900 text-yellow-300 px-1 rounded">Base</span>';
+      const turma = turmasDB.find(t => t.pasta === p);
+      const label = turma ? turma.nome : p;
+      return `<span class="bg-slate-700 px-1 rounded" title="${p}">${label}</span>`;
+    }).join(' ')}
+            </td>
             <td class="px-6 py-4">${s.cpf || '-'}</td>
             <td class="px-6 py-4 font-mono text-xs text-brand-blue">${s.inscricao}</td>
             <td class="px-6 py-4">${validityHtml}</td>
@@ -646,6 +662,7 @@ qs('#btn-add').addEventListener('click', () => {
   const cpf = qs('#new-cpf').value.trim();
   const inscricao = qs('#new-key').value.trim();
   const validade = qs('#new-validity').value;
+  const permissions = getSelectedPermissions(); // CAPTURE PERMISSIONS
 
   let hasError = false;
   if (!nome) { showInputError('#new-name', 'Obrigatório'); hasError = true; }
@@ -656,7 +673,7 @@ qs('#btn-add').addEventListener('click', () => {
   if (hasError) return notify("Corrija os erros.", "bad");
 
   if (editingStudentIndex !== null) {
-    studentsDB[editingStudentIndex] = { nome, email, cpf, inscricao, validade };
+    studentsDB[editingStudentIndex] = { nome, email, cpf, inscricao, validade, permissions }; // SAVE PERMISSIONS
     editingStudentIndex = null;
     qs('#btn-add').innerHTML = '<i class="fas fa-plus mr-1"></i> Salvar';
     qs('#btn-add').classList.remove('bg-brand-accent');
@@ -667,9 +684,9 @@ qs('#btn-add').addEventListener('click', () => {
     if (dup) {
       if (!confirm(`Dados duplicados (${dup.nome}). Substituir?`)) return;
       const idx = studentsDB.indexOf(dup);
-      studentsDB[idx] = { nome, email, cpf, inscricao, validade };
+      studentsDB[idx] = { nome, email, cpf, inscricao, validade, permissions }; // SAVE PERMISSIONS
     } else {
-      studentsDB.push({ nome, email, cpf, inscricao, validade });
+      studentsDB.push({ nome, email, cpf, inscricao, validade, permissions }); // SAVE PERMISSIONS
     }
     notify("Adicionado!", "ok");
   }
@@ -1135,10 +1152,11 @@ function validarDigitos(cpf) {
 
 async function loadTurmasData() {
   try {
-    const res = await fetch('private/turmas_db.json', { cache: 'no-store' });
+    const res = await fetch('../assets/data/turmas_db.json', { cache: 'no-store' });
     if (res.ok) {
       turmasDB = await res.json();
       console.log("Turmas carregadas:", turmasDB.length);
+      renderStudentTable(); // Re-render to show options/columns
     }
   } catch (e) {
     console.warn("Sem turmas ou erro:", e);
@@ -1181,7 +1199,7 @@ window.renderTurmasMgmt = function () {
       <p class="text-xs text-slate-400 font-mono mb-4 bg-black/20 px-2 py-1 rounded inline-block">${t.pasta || 'Sem pasta'}</p>
       
       <div class="bg-slate-800/50 rounded p-2 text-[10px] text-slate-400">
-        <div class="flex justify-between mb-1"><span>Base:</span> <span class="text-white">${t.base || 'PMPR'}</span></div>
+        <div class="flex justify-between mb-1"><span>Base:</span> <span class="text-white">${t.base || 'Base'}</span></div>
         <div class="flex justify-between"><span>Criado:</span> <span class="text-slate-500">${t.created_at ? new Date(t.created_at).toLocaleDateString() : 'Hoje'}</span></div>
       </div>
       
@@ -1288,7 +1306,7 @@ window.editTurma = function (index) {
   editingTurmaIndex = index;
   qs('#turma-nome').value = t.nome;
   qs('#turma-pasta').value = t.pasta;
-  qs('#turma-base').value = t.base || 'PMPR';
+  qs('#turma-base').value = t.base || 'Base';
   qs('#turma-imagem').value = t.imagem || '';
 
   // Change Button State
