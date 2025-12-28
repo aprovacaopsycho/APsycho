@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>TSP Dimensões | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Black+Ops+One&display=swap"
+        rel="stylesheet" />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0;
+            user-select: none;
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            position: relative;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background: radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        /* Container da Imagem com Aspect Ratio Fixo (CRÍTICO PARA AS COORDENADAS) */
+        .test-paper-container {
+            position: relative;
+            width: 100%;
+            max-width: 801px;
+            /* Proporção original 801/1024 */
+            aspect-ratio: 801 / 1024;
+            margin: 0 auto;
+            background-size: 100% 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            background-color: #fff;
+            /* Fundo branco para a imagem do teste */
+        }
+
+        /* Zonas de Clique */
+        .hit-zone {
+            position: absolute;
+            cursor: pointer;
+            /* transform: translate(-50%, -50%); - NÃO USAR TRANSLATE AQUI POIS AS COORDENADAS SÃO TOP/LEFT DIRETAS */
+            transition: all 0.1s;
+        }
+
+        .hit-zone:hover {
+            background-color: rgba(159, 84, 255, 0.2);
+            box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+        }
+
+        /* Marcação X (Execução) */
+        .execution-mark-x {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ef4444;
+            /* Vermelho */
+            pointer-events: none;
+            text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Revisão Visual - CORES */
+        .hit-zone.review-correct {
+            background-color: rgba(34, 197, 94, 0.5);
+            /* Verde */
+            border: 2px solid #22c55e;
+            cursor: default;
+        }
+
+        .hit-zone.review-correct:hover {
+            background-color: rgba(34, 197, 94, 0.6);
+        }
+
+        .hit-zone.review-wrong {
+            background-color: rgba(239, 68, 68, 0.5);
+            /* Vermelho */
+            border: 2px solid #ef4444;
+            cursor: default;
+        }
+
+        .hit-zone.review-wrong:hover {
+            background-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .hit-zone.review-omission {
+            background-color: rgba(234, 179, 8, 0.5);
+            /* Amarelo */
+            border: 2px dashed #eab308;
+            cursor: default;
+        }
+
+        .hit-zone.review-omission:hover {
+            background-color: rgba(234, 179, 8, 0.6);
+        }
+
+        /* Neutro no review */
+        .hit-zone.review-neutral {
+            cursor: default;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .hit-zone.review-neutral:hover {
+            background-color: transparent;
+        }
+
+
+        /* UI Elements */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animações e Efeitos */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stamp-inapto {
+            font-family: 'Black Ops One', cursive;
+            color: #ef4444;
+            text-transform: uppercase;
+            border: 5px solid #ef4444;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transform: rotate(-15deg) scale(1);
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Floating XP */
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-50px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .animate-float-up {
+            animation: floatUp 1s ease-out forwards;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col hero-bg" x-data="tspApp()">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">TSP <span
+                            class="text-[var(--primary-purple)]">DIMENSÕES</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <!-- User Info -->
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2025</span>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div x-show="step === 1" class="text-sm font-bold text-gray-400" x-cloak>
+                        Página <span x-text="currentPageIndex + 1"></span>/2
+                    </div>
+                    <a href="../testes_inteligencia.html"
+                        class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- EDITOR DEBUG UI -->
+
+
+
+
+
+
+    <main class="flex-grow pt-8 pb-12 px-4 flex flex-col items-center justify-center relative w-full">
+
+        <!-- INTRO STEP -->
+        <div x-show="step === 0"
+            class="glass-panel max-w-3xl w-full rounded-2xl p-8 text-center fade-in relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500">
+            </div>
+
+            <h2 class="text-3xl font-black text-white mb-6">Instruções do Teste</h2>
+
+            <div class="text-left text-gray-300 space-y-4 mb-8 bg-black/20 p-6 rounded-xl border border-white/5">
+                <p>Este teste verifica sua aptidão para percepção espacial.</p>
+                <p class="font-bold text-white text-lg">DEVE-SE MARCAR UMA DAS QUATRO FIGURAS QUE ESTÁ INVERTIDA EM
+                    RELAÇÃO À DA ESQUERDA.</p>
+                <p>Você terá 48 problemas para resolver em 5 minutos.</p>
+            </div>
+
+            <div class="flex flex-col items-center mb-8 gap-4">
+                <div class="bg-white p-2 rounded shadow-lg max-w-md">
+                    <img src="../../Imagens_base/tspdimensoes/tspdi_exemplo.png" class="w-full h-auto" alt="Exemplo"
+                        onerror="this.style.display='none'">
+                </div>
+                <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Exemplo</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-stopwatch"></i></div>
+                        <span class="font-bold text-white">Tempo Limite</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11"><strong>5 minutos</strong></p>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-bullseye"></i></div>
+                        <span class="font-bold text-white">Meta</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11">Mínimo de <strong>31 Acertos</strong>.</p>
+                </div>
+            </div>
+
+            <button @click="startTest()"
+                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-white text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    INICIAR AGORA <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </span>
+            </button>
+
+            <!-- Histórico -->
+            <div class="mt-8 pt-8 border-t border-white/10">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-bold text-gray-500 uppercase">Histórico Recente</h3>
+                    <button class="text-xs text-purple-400 hover:text-white" @click="clearHistory()">Limpar</button>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                            <tr>
+                                <th class="px-4 py-2">Data</th>
+                                <th class="px-4 py-2 text-center">Acertos</th>
+                                <th class="px-4 py-2 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <template x-if="history.length === 0">
+                                <tr>
+                                    <td colspan="3" class="px-4 py-4 text-center text-gray-600">Nenhum teste realizado.
+                                    </td>
+                                </tr>
+                            </template>
+                            <template x-for="h in history.slice(0,5)" :key="h.date">
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="px-4 py-2 text-gray-400" x-text="h.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="h.score + '/48'">
+                                    </td>
+                                    <td class="px-4 py-2 text-center font-bold"
+                                        :class="h.status === 'APTO' ? 'text-green-400' : 'text-red-400'"
+                                        x-text="h.status"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEST STEP -->
+        <div x-show="step === 1" class="w-full fade-in relative" x-cloak>
+
+            <!-- Timer Header -->
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-4" x-show="!reviewMode">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90"
+                    :class="{'border-red-500 bg-red-900/40': timeRemaining <= 30}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Tempo</div>
+                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                        :class="{'text-red-400 animate-pulse': timeRemaining <= 30}" x-text="formatTime(timeRemaining)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Indicators Legend -->
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100]" x-show="reviewMode">
+                <div class="glass-panel px-6 py-2 rounded-full flex gap-4 text-xs font-bold text-white bg-black/80">
+                    <span class="flex items-center gap-2">
+                        <div class="w-3 h-3 bg-green-500 rounded"></div> Acerto
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <div class="w-3 h-3 bg-red-500 rounded"></div> Erro
+                    </span>
+                    <span class="flex items-center gap-2">
+                        <div class="w-3 h-3 bg-yellow-500 rounded"></div> Correta (Não Marcada)
+                    </span>
+                </div>
+            </div>
+
+            <!-- XP Floats -->
+            <div class="fixed inset-0 pointer-events-none z-50">
+                <template x-for="xp in xpFloats" :key="xp.id">
+                    <div class="absolute text-yellow-400 font-black text-2xl animate-float-up"
+                        :style="`left: ${xp.x}px; top: ${xp.y}px; text-shadow: 0 0 10px gold;`">
+                        +XP
+                    </div>
+                </template>
+            </div>
+
+            <div class="w-full flex justify-center pb-20 pt-8">
+                <!-- Debug / Fixer Controls -->
+                <div x-show="debugMode"
+                    class="fixed top-20 right-4 bg-black bg-opacity-90 p-4 rounded z-50 text-white shadow-xl border border-yellow-500">
+                    <h3 class="font-bold text-yellow-500 mb-2"><i class="fas fa-wrench"></i> FIXER MODE</h3>
+                    <p class="text-xs mb-2 text-gray-300">Click correct answers to set them.</p>
+                    <button @click="exportCorrectedConfig"
+                        class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-sm w-full mb-2">
+                        <i class="fas fa-copy"></i> Copy JSON
+                    </button>
+                    <button @click="debugMode = false"
+                        class="bg-gray-700 text-white px-3 py-1 rounded text-sm w-full">Close</button>
+                </div>
+
+                <!-- Hidden Toggle Area (Top Left Corner) -->
+                <div @dblclick="debugMode = !debugMode" class="fixed top-0 left-0 w-16 h-16 z-50 cursor-pointer"
+                    title="Double Click for Fixer Mode"></div>
+
+                <!-- IMPORTANT: Using style binding for background-image to switch pages -->
+                <div class="test-paper-container" :style="`background-image: url('${currentPageImg}')`">
+
+                    <div class="absolute inset-0 z-10">
+                        <template x-for="question in currentConfig.questions" :key="question.id">
+                            <template x-for="option in question.options" :key="option.id">
+                                <!-- Click Zone -->
+                                <div @click="handleInteraction(question, option, $event)" class="hit-zone"
+                                    :class="getDebugClass(option) || getReviewClass(question, option)" :style="`
+                                        left: ${option.x}px; 
+                                        top: ${option.y}px; 
+                                        width: ${currentConfig.boxW}px; 
+                                        height: ${currentConfig.boxH}px;
+                                        ${debugMode ? 'border: 1px dashed rgba(255,255,255,0.3);' : ''}
+                                     `">
+
+                                    <!-- DEBUG INDICATOR -->
+                                    <template x-if="debugMode && option.isCorrect">
+                                        <div
+                                            class="absolute inset-0 border-4 border-green-500 bg-green-500 bg-opacity-20 pointer-events-none">
+                                        </div>
+                                    </template>
+
+                                    <!-- Execution Mark (X) -->
+                                    <template x-if="!reviewMode && isSelected(question.id, option.id)">
+                                        <div class="execution-mark-x">X</div>
+                                    </template>
+
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PAGINATION / CONTROLS -->
+            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex gap-4" x-show="!reviewMode">
+                <!-- Previous -->
+                <button @click="prevPage()" x-show="currentPageIndex > 0"
+                    class="px-6 py-3 rounded-xl bg-gray-800 text-white font-bold shadow-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Anterior
+                </button>
+
+                <!-- Next / Finish -->
+                <button @click="nextPage()"
+                    class="px-8 py-3 rounded-xl font-bold shadow-lg transition transform hover:scale-105"
+                    :class="currentPageIndex === maxPages - 1 ? 'bg-green-600 hover:bg-green-500 text-white' : 'bg-[var(--primary-purple)] hover:bg-purple-600 text-white'">
+                    <span x-text="currentPageIndex === maxPages - 1 ? 'FINALIZAR TESTE' : 'PRÓXIMA PÁGINA'"></span>
+                    <i class="fas"
+                        :class="currentPageIndex === maxPages - 1 ? 'fa-check-circle ml-2' : 'fa-arrow-right ml-2'"></i>
+                </button>
+            </div>
+
+            <!-- REVIEW CONTROLS -->
+            <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex gap-4" x-show="reviewMode">
+                <button @click="prevPage()" x-show="currentPageIndex > 0"
+                    class="px-6 py-3 rounded-xl bg-gray-800 text-white font-bold shadow-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+
+                <div class="bg-black/80 text-white px-4 py-3 rounded-xl font-bold flex items-center">
+                    Página <span x-text="currentPageIndex + 1" class="mx-1 text-purple-400"></span> / 2
+                </div>
+
+                <button @click="nextPage()" x-show="currentPageIndex < maxPages - 1"
+                    class="px-6 py-3 rounded-xl bg-gray-800 text-white font-bold shadow-lg hover:bg-gray-700 transition">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <button @click="step=2; reviewMode=false"
+                    class="px-6 py-3 rounded-xl bg-white text-black font-bold shadow-lg hover:bg-gray-200 transition">
+                    Voltar ao Resultado
+                </button>
+            </div>
+
+        </div>
+
+        <!-- RESULTS STEP -->
+        <div x-show="step === 2" class="max-w-4xl w-full text-center fade-in z-50" x-cloak>
+            <div class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 border-t border-white/20">
+
+                <div class="absolute inset-0 opacity-20 pointer-events-none"
+                    :class="finalScore >= 31 ? 'bg-green-600' : 'bg-red-900'"></div>
+
+                <h2 class="text-4xl font-black text-white mb-2 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
+                <div class="text-gray-400 text-sm mb-8 uppercase tracking-widest font-bold">TSP Dimensões</div>
+
+                <div class="flex justify-center mb-10 relative">
+                    <div x-show="finalScore >= 31" class="flex flex-col items-center animate-bounce-in">
+                        <div
+                            class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(34,197,94,0.6)] mb-4">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-green-400 tracking-tighter">APTO</h3>
+                        <p class="text-green-200/60 text-sm mt-1">Aptidão Espacial Confirmada.</p>
+                    </div>
+
+                    <div x-show="finalScore < 31" class="relative flex flex-col items-center justify-center">
+                        <div class="text-4xl font-black text-red-500 mb-2">INAPTO</div>
+                        <div class="stamp-inapto text-2xl">
+                            Tente Novamente
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 justify-center mb-8">
+                    <div class="bg-slate-900/50 p-6 rounded-xl border border-white/5 min-w-[150px]">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-2">Pontuação Final</div>
+                        <div class="text-5xl font-black text-white" x-text="finalScore"></div>
+                        <div class="text-xs text-gray-500 mt-2">de 48 possíveis</div>
+                    </div>
+
+                    <div class="flex flex-col gap-2">
+                        <div
+                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-white/5 flex items-center justify-between gap-4">
+                            <span class="text-xs text-green-400 font-bold uppercase">Acertos</span>
+                            <span class="font-bold text-white" x-text="finalScore"></span>
+                        </div>
+                        <div
+                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-white/5 flex items-center justify-between gap-4">
+                            <span class="text-xs text-red-400 font-bold uppercase">Erros</span>
+                            <span class="font-bold text-white" x-text="totalErrors"></span>
+                        </div>
+                        <div
+                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-white/5 flex items-center justify-between gap-4">
+                            <span class="text-xs text-yellow-400 font-bold uppercase">Omissões</span>
+                            <span class="font-bold text-white" x-text="48 - (finalScore + totalErrors)"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button @click="startReview()"
+                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-eye"></i> Revisar Prova
+                    </button>
+                    <button onclick="location.reload()"
+                        class="px-8 py-3 rounded-lg bg-white text-slate-900 font-bold hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-redo"></i> Novo Teste
+                    </button>
+                </div>
+
+                <div class="mt-12 text-left bg-black/40 rounded-2xl p-6 border border-white/10"
+                    x-show="finalScore > 0 || totalErrors > 0">
+                    <div class="flex flex-wrap gap-2 mb-6 border-b border-white/10 pb-4">
+                        <button @click="resultView = 'list'"
+                            :class="resultView === 'list' ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                            class="px-4 py-2 rounded-lg text-sm font-bold transition"><i class="fas fa-list mr-2"></i>
+                            Lista Comparativa</button>
+                        <button @click="resultView = 'accordion'"
+                            :class="resultView === 'accordion' ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                            class="px-4 py-2 rounded-lg text-sm font-bold transition"><i class="fas fa-stream mr-2"></i>
+                            Detalhes Visuais</button>
+                    </div>
+
+                    <!-- LIST VIEW -->
+                    <div x-show="resultView === 'list'" class="overflow-x-auto animate-fade-in">
+                        <table class="w-full text-sm">
+                            <thead class="bg-white/5 text-gray-400 uppercase text-xs">
+                                <tr>
+                                    <th class="px-4 py-3 text-left">Questão</th>
+                                    <th class="px-4 py-3 text-center">Sua Resposta</th>
+                                    <th class="px-4 py-3 text-center">Resposta Correta</th>
+                                    <th class="px-4 py-3 text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-white/10">
+                                <template x-for="(item, index) in resultData" :key="index">
+                                    <tr class="hover:bg-white/5 transition"
+                                        :class="{'bg-red-500/10': item.status === 'error'}">
+                                        <td class="px-4 py-3 font-bold text-gray-300">#<span x-text="index + 1"></span>
+                                        </td>
+                                        <td class="px-4 py-3 text-center text-gray-400" x-text="item.userLabel"></td>
+                                        <td class="px-4 py-3 text-center text-green-400 font-bold"
+                                            x-text="item.correctLabel"></td>
+                                        <td class="px-4 py-3 text-center font-bold">
+                                            <span class="px-2 py-1 rounded text-xs" :class="{
+                                                    'bg-green-500/20 text-green-400': item.status === 'correct',
+                                                    'bg-red-500/20 text-red-400': item.status === 'error',
+                                                    'bg-yellow-500/20 text-yellow-400': item.status === 'omission'
+                                                }"
+                                                x-text="item.status === 'correct' ? 'ACERTO' : (item.status === 'error' ? 'ERRO' : 'OMISSÃO')">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- ACCORDION VIEW -->
+                    <div x-show="resultView === 'accordion'" class="space-y-2 animate-fade-in">
+                        <template x-for="(item, index) in resultData" :key="index">
+                            <div class="bg-white/5 rounded-lg border border-white/5 overflow-hidden"
+                                x-data="{ expanded: false }">
+                                <div @click="expanded = !expanded"
+                                    class="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm"
+                                            :class="{
+                                                'bg-green-500 text-black': item.status === 'correct',
+                                                'bg-red-500 text-white': item.status === 'error',
+                                                'bg-yellow-500 text-black': item.status === 'omission'
+                                            }" x-text="index + 1"></div>
+                                        <div class="text-sm text-gray-300">
+                                            <span x-show="item.status === 'correct'">Você acertou!</span>
+                                            <span x-show="item.status === 'error'">Você errou. Marcou <span
+                                                    class="font-bold text-red-400"
+                                                    x-text="item.userLabel"></span></span>
+                                            <span x-show="item.status === 'omission'">Você não respondeu.</span>
+                                        </div>
+                                    </div>
+                                    <i class="fas fa-chevron-down text-gray-500 transition-transform"
+                                        :class="{'rotate-180': expanded}"></i>
+                                </div>
+                                <div x-show="expanded" x-collapse class="bg-black/40 border-t border-white/5 p-4">
+                                    <div
+                                        class="w-full h-24 relative rounded overflow-hidden border border-white/10 bg-white">
+                                        <!-- Image Crop trick -->
+                                        <div class="absolute inset-0 bg-no-repeat" :style="`
+                                                background-image: url('${item.pageIndex === 0 ? 'tsp_dimensoes_debug_1.png' : 'tsp_dimensoes_debug_2.png'}');
+                                                background-size: ${801}px ${1024}px; 
+                                                background-position: 0px -${item.y - 10}px;
+                                            `">
+                                        </div>
+                                        <!-- Overlays for correct/wrong -->
+                                        <div class="absolute w-12 h-12 border-4 border-green-500 bg-green-500/20 rounded z-10"
+                                            :style="`left: ${item.correctX}px; top: 10px; width: 50px; height: 50px;`">
+                                        </div>
+
+                                        <template x-if="item.status === 'error'">
+                                            <div class="absolute w-12 h-12 border-4 border-red-500 bg-red-500/20 rounded z-10"
+                                                :style="`left: ${item.userX}px; top: 10px; width: 50px; height: 50px;`">
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div class="text-xs text-gray-500 mt-2 text-center">Visualização da linha da questão
+                                        (Resposta correta em Verde)</div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // CONFIGS DADOS DO USUÁRIO
+        // CONFIGS DADOS DO USUÁRIO
+        const CONFIG_PAGE_1 = { "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "questions": [{ "id": 0, "options": [{ "id": 0, "x": 104, "y": 39, "isCorrect": false }, { "id": 1, "x": 184, "y": 40, "isCorrect": false }, { "id": 2, "x": 259, "y": 40, "isCorrect": true }, { "id": 3, "x": 334, "y": 40, "isCorrect": false }] }, { "id": 1, "options": [{ "id": 4, "x": 519, "y": 40, "isCorrect": false }, { "id": 5, "x": 587, "y": 39, "isCorrect": false }, { "id": 6, "x": 663, "y": 40, "isCorrect": true }, { "id": 7, "x": 734, "y": 38, "isCorrect": false }] }, { "id": 2, "options": [{ "id": 8, "x": 105, "y": 115, "isCorrect": true }, { "id": 9, "x": 184, "y": 116, "isCorrect": false }, { "id": 10, "x": 259, "y": 116, "isCorrect": false }, { "id": 11, "x": 334, "y": 116, "isCorrect": false }] }, { "id": 3, "options": [{ "id": 12, "x": 520, "y": 124, "isCorrect": false }, { "id": 13, "x": 586, "y": 119, "isCorrect": false }, { "id": 14, "x": 658, "y": 120, "isCorrect": false }, { "id": 15, "x": 734, "y": 118, "isCorrect": true }] }, { "id": 4, "options": [{ "id": 16, "x": 108, "y": 199, "isCorrect": false }, { "id": 17, "x": 181, "y": 201, "isCorrect": false }, { "id": 18, "x": 252, "y": 201, "isCorrect": false }, { "id": 19, "x": 329, "y": 201, "isCorrect": true }] }, { "id": 5, "options": [{ "id": 20, "x": 516, "y": 202, "isCorrect": false }, { "id": 21, "x": 590, "y": 200, "isCorrect": true }, { "id": 22, "x": 661, "y": 202, "isCorrect": false }, { "id": 23, "x": 736, "y": 201, "isCorrect": false }] }, { "id": 6, "options": [{ "id": 24, "x": 107, "y": 282, "isCorrect": false }, { "id": 25, "x": 184, "y": 280, "isCorrect": false }, { "id": 26, "x": 258, "y": 285, "isCorrect": true }, { "id": 27, "x": 330, "y": 284, "isCorrect": false }] }, { "id": 7, "options": [{ "id": 28, "x": 519, "y": 279, "isCorrect": false }, { "id": 29, "x": 587, "y": 278, "isCorrect": true }, { "id": 30, "x": 663, "y": 279, "isCorrect": false }, { "id": 31, "x": 734, "y": 275, "isCorrect": false }] }, { "id": 8, "options": [{ "id": 32, "x": 103, "y": 363, "isCorrect": false }, { "id": 33, "x": 182, "y": 364, "isCorrect": true }, { "id": 34, "x": 257, "y": 364, "isCorrect": false }, { "id": 35, "x": 332, "y": 364, "isCorrect": false }] }, { "id": 9, "options": [{ "id": 36, "x": 517, "y": 364, "isCorrect": true }, { "id": 37, "x": 585, "y": 363, "isCorrect": false }, { "id": 38, "x": 661, "y": 364, "isCorrect": false }, { "id": 39, "x": 732, "y": 360, "isCorrect": false }] }, { "id": 10, "options": [{ "id": 40, "x": 104, "y": 446, "isCorrect": false }, { "id": 41, "x": 183, "y": 447, "isCorrect": false }, { "id": 42, "x": 258, "y": 447, "isCorrect": false }, { "id": 43, "x": 333, "y": 447, "isCorrect": true }] }, { "id": 11, "options": [{ "id": 44, "x": 518, "y": 447, "isCorrect": false }, { "id": 45, "x": 586, "y": 446, "isCorrect": false }, { "id": 46, "x": 662, "y": 447, "isCorrect": true }, { "id": 47, "x": 733, "y": 443, "isCorrect": false }] }, { "id": 12, "options": [{ "id": 48, "x": 106, "y": 525, "isCorrect": true }, { "id": 49, "x": 177, "y": 527, "isCorrect": false }, { "id": 50, "x": 252, "y": 527, "isCorrect": false }, { "id": 51, "x": 327, "y": 527, "isCorrect": false }] }, { "id": 13, "options": [{ "id": 52, "x": 512, "y": 527, "isCorrect": false }, { "id": 53, "x": 580, "y": 526, "isCorrect": false }, { "id": 54, "x": 656, "y": 527, "isCorrect": false }, { "id": 55, "x": 727, "y": 523, "isCorrect": true }] }, { "id": 14, "options": [{ "id": 56, "x": 109, "y": 608, "isCorrect": true }, { "id": 57, "x": 181, "y": 607, "isCorrect": false }, { "id": 58, "x": 256, "y": 607, "isCorrect": false }, { "id": 59, "x": 331, "y": 607, "isCorrect": false }] }, { "id": 15, "options": [{ "id": 60, "x": 516, "y": 607, "isCorrect": false }, { "id": 61, "x": 584, "y": 606, "isCorrect": false }, { "id": 62, "x": 660, "y": 607, "isCorrect": true }, { "id": 63, "x": 731, "y": 603, "isCorrect": false }] }, { "id": 16, "options": [{ "id": 64, "x": 105, "y": 685, "isCorrect": false }, { "id": 65, "x": 184, "y": 686, "isCorrect": true }, { "id": 66, "x": 259, "y": 686, "isCorrect": false }, { "id": 67, "x": 334, "y": 686, "isCorrect": false }] }, { "id": 17, "options": [{ "id": 68, "x": 519, "y": 686, "isCorrect": false }, { "id": 69, "x": 587, "y": 685, "isCorrect": true }, { "id": 70, "x": 663, "y": 686, "isCorrect": false }, { "id": 71, "x": 734, "y": 682, "isCorrect": false }] }, { "id": 18, "options": [{ "id": 72, "x": 109, "y": 770, "isCorrect": false }, { "id": 73, "x": 181, "y": 768, "isCorrect": false }, { "id": 74, "x": 256, "y": 768, "isCorrect": true }, { "id": 75, "x": 331, "y": 768, "isCorrect": false }] }, { "id": 19, "options": [{ "id": 76, "x": 516, "y": 768, "isCorrect": true }, { "id": 77, "x": 584, "y": 767, "isCorrect": false }, { "id": 78, "x": 660, "y": 768, "isCorrect": false }, { "id": 79, "x": 731, "y": 764, "isCorrect": false }] }, { "id": 20, "options": [{ "id": 80, "x": 109, "y": 850, "isCorrect": false }, { "id": 81, "x": 185, "y": 852, "isCorrect": true }, { "id": 82, "x": 260, "y": 852, "isCorrect": false }, { "id": 83, "x": 335, "y": 852, "isCorrect": false }] }, { "id": 21, "options": [{ "id": 84, "x": 520, "y": 852, "isCorrect": false }, { "id": 85, "x": 588, "y": 851, "isCorrect": false }, { "id": 86, "x": 664, "y": 852, "isCorrect": false }, { "id": 87, "x": 735, "y": 848, "isCorrect": true }] }, { "id": 22, "options": [{ "id": 88, "x": 111, "y": 931, "isCorrect": false }, { "id": 89, "x": 183, "y": 932, "isCorrect": false }, { "id": 90, "x": 258, "y": 932, "isCorrect": false }, { "id": 91, "x": 333, "y": 932, "isCorrect": true }] }, { "id": 23, "options": [{ "id": 92, "x": 518, "y": 932, "isCorrect": false }, { "id": 93, "x": 586, "y": 931, "isCorrect": false }, { "id": 94, "x": 662, "y": 932, "isCorrect": true }, { "id": 95, "x": 733, "y": 928, "isCorrect": false }] }] };
+
+        const CONFIG_PAGE_2 = { "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "questions": [{ "id": 0, "options": [{ "id": 0, "x": 113, "y": 47, "isCorrect": false }, { "id": 1, "x": 188, "y": 47, "isCorrect": false }, { "id": 2, "x": 263, "y": 47, "isCorrect": false }, { "id": 3, "x": 338, "y": 47, "isCorrect": true }] }, { "id": 1, "options": [{ "id": 4, "x": 517, "y": 47, "isCorrect": false }, { "id": 5, "x": 588, "y": 47, "isCorrect": false }, { "id": 6, "x": 658, "y": 48, "isCorrect": true }, { "id": 7, "x": 729, "y": 45, "isCorrect": false }] }, { "id": 2, "options": [{ "id": 8, "x": 114, "y": 124, "isCorrect": false }, { "id": 9, "x": 189, "y": 124, "isCorrect": true }, { "id": 10, "x": 264, "y": 124, "isCorrect": false }, { "id": 11, "x": 339, "y": 124, "isCorrect": false }] }, { "id": 3, "options": [{ "id": 12, "x": 518, "y": 124, "isCorrect": false }, { "id": 13, "x": 589, "y": 124, "isCorrect": false }, { "id": 14, "x": 659, "y": 125, "isCorrect": false }, { "id": 15, "x": 730, "y": 122, "isCorrect": true }] }, { "id": 4, "options": [{ "id": 16, "x": 113, "y": 199, "isCorrect": false }, { "id": 17, "x": 188, "y": 199, "isCorrect": false }, { "id": 18, "x": 263, "y": 199, "isCorrect": true }, { "id": 19, "x": 338, "y": 199, "isCorrect": false }] }, { "id": 5, "options": [{ "id": 20, "x": 517, "y": 199, "isCorrect": true }, { "id": 21, "x": 588, "y": 199, "isCorrect": false }, { "id": 22, "x": 658, "y": 200, "isCorrect": false }, { "id": 23, "x": 729, "y": 197, "isCorrect": false }] }, { "id": 6, "options": [{ "id": 24, "x": 109, "y": 286, "isCorrect": false }, { "id": 25, "x": 184, "y": 286, "isCorrect": true }, { "id": 26, "x": 259, "y": 286, "isCorrect": false }, { "id": 27, "x": 334, "y": 286, "isCorrect": false }] }, { "id": 7, "options": [{ "id": 28, "x": 513, "y": 286, "isCorrect": false }, { "id": 29, "x": 584, "y": 286, "isCorrect": true }, { "id": 30, "x": 654, "y": 287, "isCorrect": false }, { "id": 31, "x": 725, "y": 284, "isCorrect": false }] }, { "id": 8, "options": [{ "id": 32, "x": 112, "y": 362, "isCorrect": true }, { "id": 33, "x": 187, "y": 362, "isCorrect": false }, { "id": 34, "x": 262, "y": 362, "isCorrect": false }, { "id": 35, "x": 337, "y": 362, "isCorrect": false }] }, { "id": 9, "options": [{ "id": 36, "x": 516, "y": 362, "isCorrect": false }, { "id": 37, "x": 587, "y": 362, "isCorrect": false }, { "id": 38, "x": 657, "y": 363, "isCorrect": true }, { "id": 39, "x": 728, "y": 360, "isCorrect": false }] }, { "id": 10, "options": [{ "id": 40, "x": 112, "y": 442, "isCorrect": true }, { "id": 41, "x": 187, "y": 442, "isCorrect": false }, { "id": 42, "x": 262, "y": 442, "isCorrect": false }, { "id": 43, "x": 337, "y": 442, "isCorrect": false }] }, { "id": 11, "options": [{ "id": 44, "x": 516, "y": 442, "isCorrect": false }, { "id": 45, "x": 587, "y": 442, "isCorrect": false }, { "id": 46, "x": 657, "y": 443, "isCorrect": false }, { "id": 47, "x": 728, "y": 440, "isCorrect": true }] }, { "id": 12, "options": [{ "id": 48, "x": 109, "y": 523, "isCorrect": false }, { "id": 49, "x": 184, "y": 523, "isCorrect": false }, { "id": 50, "x": 259, "y": 523, "isCorrect": false }, { "id": 51, "x": 334, "y": 523, "isCorrect": true }] }, { "id": 13, "options": [{ "id": 52, "x": 513, "y": 523, "isCorrect": false }, { "id": 53, "x": 584, "y": 523, "isCorrect": false }, { "id": 54, "x": 654, "y": 524, "isCorrect": true }, { "id": 55, "x": 725, "y": 521, "isCorrect": false }] }, { "id": 14, "options": [{ "id": 56, "x": 113, "y": 605, "isCorrect": false }, { "id": 57, "x": 188, "y": 605, "isCorrect": true }, { "id": 58, "x": 263, "y": 605, "isCorrect": false }, { "id": 59, "x": 338, "y": 605, "isCorrect": false }] }, { "id": 15, "options": [{ "id": 60, "x": 517, "y": 605, "isCorrect": true }, { "id": 61, "x": 588, "y": 605, "isCorrect": false }, { "id": 62, "x": 658, "y": 606, "isCorrect": false }, { "id": 63, "x": 729, "y": 603, "isCorrect": false }] }, { "id": 16, "options": [{ "id": 64, "x": 111, "y": 684, "isCorrect": false }, { "id": 65, "x": 186, "y": 684, "isCorrect": false }, { "id": 66, "x": 261, "y": 684, "isCorrect": true }, { "id": 67, "x": 336, "y": 684, "isCorrect": false }] }, { "id": 17, "options": [{ "id": 68, "x": 515, "y": 684, "isCorrect": false }, { "id": 69, "x": 586, "y": 684, "isCorrect": true }, { "id": 70, "x": 656, "y": 685, "isCorrect": false }, { "id": 71, "x": 727, "y": 682, "isCorrect": false }] }, { "id": 18, "options": [{ "id": 72, "x": 111, "y": 765, "isCorrect": false }, { "id": 73, "x": 186, "y": 765, "isCorrect": false }, { "id": 74, "x": 261, "y": 765, "isCorrect": false }, { "id": 75, "x": 336, "y": 765, "isCorrect": true }] }, { "id": 19, "options": [{ "id": 76, "x": 515, "y": 765, "isCorrect": false }, { "id": 77, "x": 586, "y": 765, "isCorrect": true }, { "id": 78, "x": 656, "y": 766, "isCorrect": false }, { "id": 79, "x": 727, "y": 763, "isCorrect": false }] }, { "id": 20, "options": [{ "id": 80, "x": 109, "y": 846, "isCorrect": true }, { "id": 81, "x": 184, "y": 846, "isCorrect": false }, { "id": 82, "x": 260, "y": 846, "isCorrect": false }, { "id": 83, "x": 335, "y": 846, "isCorrect": false }] }, { "id": 21, "options": [{ "id": 84, "x": 513, "y": 846, "isCorrect": false }, { "id": 85, "x": 584, "y": 846, "isCorrect": false }, { "id": 86, "x": 654, "y": 847, "isCorrect": false }, { "id": 87, "x": 725, "y": 844, "isCorrect": true }] }, { "id": 22, "options": [{ "id": 88, "x": 113, "y": 929, "isCorrect": false }, { "id": 89, "x": 188, "y": 929, "isCorrect": false }, { "id": 90, "x": 263, "y": 929, "isCorrect": true }, { "id": 91, "x": 338, "y": 929, "isCorrect": false }] }, { "id": 23, "options": [{ "id": 92, "x": 517, "y": 929, "isCorrect": true }, { "id": 93, "x": 588, "y": 929, "isCorrect": false }, { "id": 94, "x": 658, "y": 930, "isCorrect": false }, { "id": 95, "x": 729, "y": 927, "isCorrect": false }] }] };
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('tspApp', () => ({
+                step: 0,
+                timeRemaining: 300,
+                timer: null,
+
+                // Pagination
+                currentPageIndex: 0,
+                maxPages: 2,
+
+                // DATA
+                get currentConfig() {
+                    return this.currentPageIndex === 0 ? CONFIG_PAGE_1 : CONFIG_PAGE_2;
+                },
+
+                get currentPageImg() {
+                    return this.currentPageIndex === 0 ? '../../Imagens_base/tspdimensoes/tsp_dimensoes_debug_1.png' : '../../Imagens_base/tspdimensoes/tsp_dimensoes_debug_2.png';
+                },
+
+                // Answers Storage: { pageIndex: { questionId: optionId } }
+                answers: {},
+
+                history: [],
+                xpFloats: [],
+
+                debugMode: false,
+
+                reviewMode: false,
+                finalScore: 0,
+                totalErrors: 0,
+
+                resultView: 'list', // list, accordion
+                resultData: [],
+                carouselIndex: 0,
+
+                init() {
+                    this.loadHistory();
+                },
+
+                startTest() {
+                    this.step = 1;
+                    this.currentPageIndex = 0;
+                    this.answers = {};
+                    this.timeRemaining = 300;
+                    this.reviewMode = false;
+                    this.xpFloats = [];
+
+                    if (this.timer) clearInterval(this.timer);
+                    this.timer = setInterval(() => {
+                        this.timeRemaining--;
+                        if (this.timeRemaining <= 0) this.finishTest();
+                    }, 1000);
+
+                    window.scrollTo(0, 0);
+                },
+
+                handleInteraction(question, option, event) {
+                    // DEBUG MODE INTERACTION
+                    if (this.debugMode) {
+                        // Toggle logic
+                        if (option.isCorrect) {
+                            option.isCorrect = false;
+                        } else {
+                            // Unset siblings
+                            question.options.forEach(o => o.isCorrect = false);
+                            option.isCorrect = true;
+                        }
+                        return; // Stop normal flow
+                    }
+
+                    if (this.reviewMode) return;
+
+                    // Initialize page answers object if missing
+                    if (!this.answers[this.currentPageIndex]) {
+                        this.answers[this.currentPageIndex] = {};
+                    }
+
+                    // Check if already answered (Lock Answer)
+                    if (this.answers[this.currentPageIndex][question.id] !== undefined) {
+                        return;
+                    }
+
+                    // Register Answer
+                    this.answers[this.currentPageIndex][question.id] = option.id;
+
+                    // Immediate Feedback
+                    if (option.isCorrect) {
+                        this.spawnXP(option, event);
+                    } else {
+                        // Shake animation on the element
+                        const el = event.currentTarget;
+                        el.classList.add('animate-shake');
+                        setTimeout(() => el.classList.remove('animate-shake'), 400);
+                    }
+                },
+
+                isSelected(questionId, optionId) {
+                    return this.answers[this.currentPageIndex]?.[questionId] === optionId;
+                },
+
+                getReviewClass(question, option) {
+                    if (!this.reviewMode) return '';
+
+                    const userSelectedOptionId = this.answers[this.currentPageIndex]?.[question.id];
+                    const isUserSelected = (userSelectedOptionId === option.id);
+                    const isCorrect = option.isCorrect;
+
+                    // GREEN: User selected this, and it is Correct
+                    if (isUserSelected && isCorrect) return 'review-correct';
+
+                    // RED: User selected this, and it is WRONG
+                    if (isUserSelected && !isCorrect) return 'review-wrong';
+
+                    // YELLOW: This is the Correct option, but user didn't select it (Omission or Wrong Choice)
+                    if (!isUserSelected && isCorrect) return 'review-omission';
+
+                    return 'review-neutral';
+                },
+
+                nextPage() {
+                    if (this.currentPageIndex < this.maxPages - 1) {
+                        this.currentPageIndex++;
+                        window.scrollTo(0, 0);
+                    } else {
+                        if (!this.reviewMode) {
+                            this.finishTest();
+                        }
+                    }
+                },
+
+                prevPage() {
+                    if (this.currentPageIndex > 0) {
+                        this.currentPageIndex--;
+                        window.scrollTo(0, 0);
+                    }
+                },
+
+                finishTest() {
+                    clearInterval(this.timer);
+                    this.calculateScore();
+                    this.step = 2;
+                    this.saveHistory();
+                    if (this.finalScore >= 31) {
+                        this.triggerConfetti();
+                    }
+                    window.scrollTo(0, 0);
+                },
+
+                calculateScore() {
+                    let score = 0;
+                    let errors = 0;
+
+                    const configs = [CONFIG_PAGE_1, CONFIG_PAGE_2];
+
+                    configs.forEach((config, pageIndex) => {
+                        const pageAnswers = this.answers[pageIndex] || {};
+
+                        config.questions.forEach(question => {
+                            const userOptionId = pageAnswers[question.id];
+
+                            // If user answered this question
+                            if (userOptionId !== undefined) {
+                                // Find the option to check correctness
+                                const option = question.options.find(o => o.id === userOptionId);
+                                if (option) {
+                                    if (option.isCorrect) score++;
+                                    else errors++;
+                                }
+                            }
+                        });
+                    });
+
+                    this.finalScore = score;
+                    this.totalErrors = errors;
+
+                    // Generate Detailed Report
+                    this.resultData = [];
+                    let qGlobalIndex = 0;
+
+                    configs.forEach((config, pageIndex) => {
+                        const pageAnswers = this.answers[pageIndex] || {};
+                        config.questions.forEach(question => {
+                            const userOptionId = pageAnswers[question.id];
+                            const correctOption = question.options.find(o => o.isCorrect);
+                            let status = 'omission';
+                            let userOption = null;
+
+                            if (userOptionId !== undefined) {
+                                userOption = question.options.find(o => o.id === userOptionId);
+                                if (userOption) {
+                                    status = userOption.isCorrect ? 'correct' : 'error';
+                                }
+                            }
+
+                            // Determine visual Labels (1, 2, 3, 4 based on X position)
+                            // Sort options by X to ensure order
+                            const sortedOptions = [...question.options].sort((a, b) => a.x - b.x);
+                            const correctIndex = sortedOptions.indexOf(correctOption);
+                            const userIndex = userOption ? sortedOptions.indexOf(userOption) : -1;
+
+                            const correctLabel = ['A', 'B', 'C', 'D'][correctIndex] || '?';
+                            const userLabel = userIndex >= 0 ? ['A', 'B', 'C', 'D'][userIndex] : '-';
+
+                            this.resultData.push({
+                                index: qGlobalIndex,
+                                pageIndex: pageIndex,
+                                id: question.id,
+                                status: status,
+                                statusLabel: status === 'correct' ? 'Acerto' : (status === 'error' ? 'Erro' : 'Omissão'),
+                                userLabel: userLabel,
+                                correctLabel: correctLabel,
+                                y: question.options[0].y, // Approximate Question Y for cropping
+                                correctX: correctOption ? correctOption.x : 0,
+                                userX: userOption ? userOption.x : 0
+                            });
+                            qGlobalIndex++;
+                        });
+                    });
+                },
+
+                getErrorItems() {
+                    return this.resultData.filter(i => i.status === 'error' || i.status === 'omission');
+                },
+
+                startReview() {
+                    this.reviewMode = true;
+                    this.step = 1;
+                    this.currentPageIndex = 0;
+                    window.scrollTo(0, 0);
+                },
+
+                spawnXP(item, event) {
+                    const id = Date.now();
+                    let x, y;
+                    if (event) {
+                        x = event.clientX;
+                        y = event.clientY;
+                    } else {
+                        x = window.innerWidth / 2;
+                        y = window.innerHeight / 2;
+                    }
+
+                    this.xpFloats.push({ id, x, y });
+                    setTimeout(() => this.xpFloats = this.xpFloats.filter(f => f.id !== id), 1000);
+                },
+
+                triggerConfetti() {
+                    const duration = 3000;
+                    const end = Date.now() + duration;
+
+                    (function frame() {
+                        confetti({
+                            particleCount: 5,
+                            angle: 60,
+                            spread: 55,
+                            origin: { x: 0 },
+                            colors: ['#22c55e', '#a855f7']
+                        });
+                        confetti({
+                            particleCount: 5,
+                            angle: 120,
+                            spread: 55,
+                            origin: { x: 1 },
+                            colors: ['#22c55e', '#00c2ff']
+                        });
+
+                        if (Date.now() < end) {
+                            requestAnimationFrame(frame);
+                        }
+                    }());
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('tspdim_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const status = this.finalScore >= 31 ? "APTO" : "INAPTO";
+                    const newEntry = {
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.finalScore,
+                        status: status
+                    };
+                    this.history.unshift(newEntry);
+                    localStorage.setItem('tspdim_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm('Limpar histórico?')) {
+                        localStorage.removeItem('tspdim_history');
+                        this.history = [];
+                    }
+                },
+
+                formatTime(seconds) {
+                    const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+                    const s = (seconds % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
+                },
+
+                getDebugClass(option) {
+                    if (this.debugMode && option.isCorrect) return 'border-2 border-green-500';
+                    return '';
+                },
+
+                exportCorrectedConfig() {
+                    const str = `const CONFIG_PAGE_1 = ${JSON.stringify(CONFIG_PAGE_1)};\n\nconst CONFIG_PAGE_2 = ${JSON.stringify(CONFIG_PAGE_2)};`;
+                    navigator.clipboard.writeText(str).then(() => {
+                        alert("Configuração corrigida copiada para a área de transferência!");
+                    });
+                }
+
+
+            }));
+        });
+    </script>
+    <script>
+        document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapeador Rotas Unificado (Premium)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(13, 148, 136, 0.15) 0%, transparent 40%);
+        }
+
+        .workspace {
+            width: calc(100% - 400px);
+            height: 100vh;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+            backdrop-filter: blur(5px);
+            cursor: auto;
+        }
+
+        .workspace.dragging {
+            cursor: grabbing;
+        }
+
+        /* Glass Panel for Sidebar */
+        .glass-sidebar {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .control-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .control-input:focus {
+            border-color: #a855f7;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+        }
+
+        .premium-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            transition: all 0.2s;
+        }
+
+        .tool-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .tool-btn.active {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.5);
+            color: #c4b5fd;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.1);
+        }
+
+        /* Canvas & Markers */
+        .canvas-container {
+            position: relative;
+            background: #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transform-origin: top center;
+        }
+
+        .marker-box {
+            position: absolute;
+            background-color: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.4);
+            user-select: none;
+            z-index: 10;
+            border-radius: 4px;
+            transition: background 0.1s, border 0.1s;
+        }
+
+        .marker-box:hover {
+            background-color: rgba(6, 182, 212, 0.4);
+            border-color: #22d3ee;
+            z-index: 50;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+
+        .marker-box.is-selected {
+            background-color: rgba(251, 191, 36, 0.2) !important;
+            border: 1px dashed #fbbf24 !important;
+            z-index: 40;
+        }
+
+        .marker-box.is-target {
+            background-color: rgba(34, 197, 94, 0.4) !important;
+            border: 2px solid #22c55e !important;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+
+        .marker-box:active {
+            cursor: grabbing;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body x-data="rotasUnificado()" class="flex" @mousemove="onMouseMove" @mouseup="onMouseUp">
+
+    <aside class="w-[400px] h-screen glass-sidebar flex flex-col z-50 fixed right-0 top-0 overflow-y-auto text-xs">
+        <div class="p-6 space-y-6">
+            <h2
+                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-white/10 pb-4 flex items-center gap-2">
+                <i class="fas fa-edit text-purple-400"></i> EDITOR UNIFICADO
+            </h2>
+
+            <!-- 1. IMAGEM -->
+            <div class="control-group">
+                <label
+                    class="block uppercase text-xs font-bold text-gray-400 mb-3 tracking-wider flex items-center gap-2">
+                    <i class="fas fa-image text-blue-400"></i> 1. Imagem Base
+                </label>
+                <div class="space-y-3">
+                    <input type="file" @change="loadImage" accept="image/*"
+                        class="control-input file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-violet-500/20 file:text-violet-400 hover:file:bg-violet-500/30">
+                    <div class="flex justify-between items-center text-gray-400 font-medium">
+                        <span>Zoom: <span x-text="zoom + '%'" class="text-white"></span></span>
+                        <input type="range" x-model="zoom" min="20" max="200"
+                            class="w-32 accent-purple-500 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. IMPORTAR -->
+            <div class="control-group border-l-2 border-l-blue-500">
+                <h3 class="font-bold text-blue-400 uppercase mb-3 text-[10px] tracking-widest">2. Importar JSON</h3>
+                <textarea x-model="inputCode" class="control-input h-20 font-mono text-[10px] mb-3"
+                    placeholder="Cole const ROTAS_CONFIG ou o objeto JSON direto..."></textarea>
+                <button @click="importCode()"
+                    class="w-full py-2 bg-blue-600/80 hover:bg-blue-600 text-white font-bold rounded-lg transition border border-white/10 uppercase text-[10px] tracking-wider">
+                    Carregar Pontos
+                </button>
+            </div>
+
+            <!-- 3. DRAG MODES -->
+            <div class="control-group border-l-2 border-l-yellow-500">
+                <h3 class="font-bold text-yellow-400 uppercase mb-3 text-[10px] tracking-widest">3. Modo de Arraste</h3>
+
+                <div class="grid grid-cols-2 gap-2 mb-4">
+                    <button @click="dragMode = 'single'" :class="{'active': dragMode === 'single'}"
+                        class="tool-btn py-2 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2">
+                        <i class="fas fa-mouse-pointer"></i> ÚNICO
+                    </button>
+                    <button @click="dragMode = 'global'" :class="{'active': dragMode === 'global'}"
+                        class="tool-btn py-2 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2">
+                        <i class="fas fa-arrows-alt"></i> TUDO
+                    </button>
+                    <button @click="dragMode = 'row'" :class="{'active': dragMode === 'row'}"
+                        class="tool-btn py-2 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2">
+                        <i class="fas fa-grip-lines"></i> LINHA
+                    </button>
+                    <button @click="dragMode = 'col'" :class="{'active': dragMode === 'col'}"
+                        class="tool-btn py-2 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2">
+                        <i class="fas fa-grip-lines-vertical"></i> COLUNA
+                    </button>
+                </div>
+
+                <div class="text-[10px] text-gray-500 leading-relaxed px-2">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    <span x-show="dragMode === 'single'">Arraste um item individualmente. Clique para alternar
+                        Alvo.</span>
+                    <span x-show="dragMode === 'global'">Arraste qualquer item para mover TODOS junto.</span>
+                    <span x-show="dragMode === 'row'">Arraste um item para mover sua LINHA inteira.</span>
+                    <span x-show="dragMode === 'col'">Arraste um item para mover sua COLUNA inteira.</span>
+                </div>
+            </div>
+
+            <!-- 4. AJUSTES FINOS -->
+            <div class="control-group">
+                <h3 class="font-bold text-gray-400 uppercase mb-3 text-[10px] tracking-widest">Ajustes da Grade</h3>
+                <div class="flex gap-4 mb-3">
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Largura (W)</label>
+                        <input type="range" x-model="boxW" min="10" max="60"
+                            class="w-full accent-pink-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                        <div class="text-right text-[9px] text-pink-400" x-text="boxW + 'px'"></div>
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Altura (H)</label>
+                        <input type="range" x-model="boxH" min="10" max="60"
+                            class="w-full accent-pink-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                        <div class="text-right text-[9px] text-pink-400" x-text="boxH + 'px'"></div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 mb-3 border-t border-white/5 pt-3">
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Espaço X</label>
+                        <input type="range" x-model="spacingX" @input="updateSpacing()" min="10" max="100" step="0.5"
+                            class="w-full accent-cyan-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                        <div class="text-right text-[9px] text-cyan-400" x-text="spacingX + 'px'"></div>
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Espaço Y</label>
+                        <input type="range" x-model="spacingY" @input="updateSpacing()" min="10" max="100" step="0.5"
+                            class="w-full accent-cyan-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                        <div class="text-right text-[9px] text-cyan-400" x-text="spacingY + 'px'"></div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 mb-3">
+                    <button @click="addCol()"
+                        class="bg-blue-600 hover:bg-blue-500 text-white py-1.5 rounded text-[10px] font-bold transition flex items-center justify-center gap-1">
+                        <i class="fas fa-plus"></i> Add Coluna
+                    </button>
+                    <button @click="removeCol()"
+                        class="bg-red-900/50 hover:bg-red-800 text-red-200 py-1.5 rounded text-[10px] font-bold transition flex items-center justify-center gap-1">
+                        <i class="fas fa-minus"></i> Rem Coluna
+                    </button>
+                    <button @click="addRow()"
+                        class="bg-blue-600 hover:bg-blue-500 text-white py-1.5 rounded text-[10px] font-bold transition flex items-center justify-center gap-1">
+                        <i class="fas fa-plus"></i> Add Linha
+                    </button>
+                    <button @click="removeRow()"
+                        class="bg-red-900/50 hover:bg-red-800 text-red-200 py-1.5 rounded text-[10px] font-bold transition flex items-center justify-center gap-1">
+                        <i class="fas fa-minus"></i> Rem Linha
+                    </button>
+                </div>
+
+                <div class="space-y-2">
+                    <button @click="generateBaseGrid()"
+                        class="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-[10px] font-bold transition">
+                        Gerar Grade Padrão (Reset)
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- EXPORTAR -->
+            <div class="pt-2 pb-10">
+                <button @click="generateCode()"
+                    class="premium-btn w-full py-3 rounded-xl mb-4 flex items-center justify-center gap-2 group">
+                    <i class="fas fa-code text-white group-hover:scale-110 transition"></i>
+                    <span>GERAR JSON FINAL</span>
+                </button>
+                <textarea x-model="output" readonly
+                    class="control-input h-32 font-mono text-green-400 border-green-500/30"
+                    placeholder="// Código gerado..."></textarea>
+            </div>
+        </div>
+    </aside>
+
+    <main class="workspace" :class="{'dragging': isDragging}">
+        <div class="canvas-container"
+            :style="`width: ${imgWidth}px; height: ${imgHeight}px; transform: scale(${zoom/100});`">
+
+            <img :src="imgSrc" x-show="imgSrc" class="bg-image pointer-events-none select-none"
+                :style="`width: 100%; height: 100%;`">
+
+            <div x-show="!imgSrc"
+                class="absolute inset-0 flex items-center justify-center text-gray-500 pointer-events-none">
+                <p class="text-xl font-bold border-2 border-dashed border-gray-700 p-10 rounded-xl">Carregue a imagem
+                    (rotac.png)</p>
+            </div>
+
+            <!-- DRAG GUIDE LINES -->
+            <div x-show="isDragging && (dragMode === 'row' || dragMode === 'col')"
+                class="absolute inset-0 pointer-events-none z-0">
+                <!-- Simple visual guides could be added here if needed -->
+            </div>
+
+            <template x-for="item in items" :key="item.id">
+                <div class="marker-box" :class="{
+                        'is-target': item.isTarget,
+                        'is-selected': isSelected(item)
+                     }" @mousedown.prevent="startDrag($event, item)" @click="handleClick(item)" :style="`
+                        left: ${item.x}px; 
+                        top: ${item.y}px; 
+                        width: ${boxW}px; 
+                        height: ${boxH}px;
+                        transform: translate(-50%, -50%);
+                     `">
+                    <!-- Optional: Show coords on hover or debug -->
+                    <!-- <span class="text-[6px] opacity-50" x-text="item.id"></span> -->
+                </div>
+            </template>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('rotasUnificado', () => ({
+                // Canvas State
+                imgSrc: '',
+                imgWidth: 807,
+                imgHeight: 1095,
+                zoom: 80,
+
+                // Config State
+                rows: 30, cols: 24, // Defaults for generation
+                boxW: 22, boxH: 22,
+                spacingX: 30, spacingY: 30, // Default spacing state
+                items: [],
+
+                // Interaction State
+                dragMode: 'single', // 'single', 'row', 'col', 'global'
+                isDragging: false,
+                wasMoved: false,
+                startX: 0,
+                startY: 0,
+                dragSelection: [], // Stores { item, initialX, initialY }
+
+                // Copy/Paste
+                inputCode: '',
+                output: '',
+
+                loadImage(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        this.imgSrc = evt.target.result;
+                        const img = new Image();
+                        img.onload = () => {
+                            if (this.items.length === 0) {
+                                this.imgWidth = img.width;
+                                this.imgHeight = img.height;
+                                // Optional: Auto-generate if empty?
+                                // this.generateBaseGrid();
+                            }
+                        }
+                        img.src = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+
+                importCode() {
+                    try {
+                        let code = this.inputCode.trim();
+
+                        // 1. Remove comments (single line and block) - Simple regex approach
+                        code = code.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+
+                        // 2. Extract object part if looks like assignment
+                        if (code.includes('=')) {
+                            code = code.substring(code.indexOf('=') + 1);
+                        }
+
+                        code = code.trim();
+
+                        // 3. Remove trailing semicolon
+                        if (code.endsWith(';')) code = code.slice(0, -1);
+
+                        // 4. Wrap in parens to avoid "return \n {...}" ASI issue
+                        const config = new Function("return (" + code + ")")();
+
+                        if (config && Array.isArray(config.items)) {
+                            this.imgWidth = config.imgWidth || this.imgWidth;
+                            this.imgHeight = config.imgHeight || this.imgHeight;
+                            this.boxW = config.boxW || 36;
+                            this.boxH = config.boxH || 36;
+
+                            // Adjust zoom to fit new image if needed? No, keep user pref.
+
+                            this.items = config.items.map(i => ({
+                                id: i.id,
+                                x: i.x,
+                                y: i.y,
+                                isTarget: i.t === 1,
+                                r: i.r !== undefined ? i.r : Math.floor(i.id / 24),
+                                c: i.c !== undefined ? i.c : i.id % 24
+                            }));
+
+                            this.recalcDimensions();
+
+                            // Initialize sliders from data estimate
+                            if (this.items.length > 2) {
+                                const r0 = this.items.filter(i => i.r === 0).sort((a, b) => a.c - b.c);
+                                if (r0.length > 1) this.spacingX = Math.round(Math.abs(r0[1].x - r0[0].x) * 10) / 10;
+
+                                const c0 = this.items.filter(i => i.c === 0).sort((a, b) => a.r - b.r);
+                                if (c0.length > 1) this.spacingY = Math.round(Math.abs(c0[1].y - c0[0].y) * 10) / 10;
+                            }
+
+                            alert(`Carregados ${this.items.length} itens com sucesso!`);
+                        } else {
+                            throw new Error("Formato inválido ou sem 'items'.");
+                        }
+                    } catch (e) {
+                        console.error("Erro importação:", e);
+                        alert("Erro ao importar: " + e.message + "\nVerifique o console para detalhes.");
+                    }
+                },
+
+                generateBaseGrid() {
+                    if (this.items.length > 0 && !confirm("Isso apagará os itens atuais. Continuar?")) return;
+
+                    this.items = [];
+                    let id = 0;
+
+                    // Margins estimated for "Rota A" style documents (approx 5-8%)
+                    // For 807x1095 image:
+                    const startX = 60; // Approx left margin
+                    const startY = 85; // Approx top margin
+
+                    // Calculate usable area
+                    const endX = this.imgWidth - 40; // Right margin
+                    const endY = this.imgHeight - 60; // Bottom margin (approx)
+
+                    const usableW = endX - startX;
+                    const usableH = endY - startY;
+
+                    // Calculate steps
+                    const stepX = this.cols > 1 ? usableW / (this.cols - 1) : 0;
+                    const stepY = this.rows > 1 ? usableH / (this.rows - 1) : 0;
+
+                    this.spacingX = Math.round(stepX * 10) / 10;
+                    this.spacingY = Math.round(stepY * 10) / 10;
+
+                    for (let r = 0; r < this.rows; r++) {
+                        for (let c = 0; c < this.cols; c++) {
+                            this.items.push({
+                                id: id++,
+                                x: Math.round(startX + (c * this.spacingX)),
+                                y: Math.round(startY + (r * this.spacingY)),
+                                isTarget: false,
+                                r: r, c: c
+                            });
+                        }
+                    }
+                    this.recalcDimensions();
+                },
+
+                // ---- SPACER LOGIC ----
+                updateSpacing() {
+                    if (this.items.length === 0) return;
+
+                    // Use Top-Left item logic or center logic?
+                    // Typically user wants to adjust spacing "starting from top-left".
+                    // But if they moved the top-left item, we should respect that anchor.
+                    // Let's take the item with min ID (usually 0) or min r/c
+
+                    // Finding anchor (r=0, c=0 mostly):
+                    const anchor = this.items.find(i => i.r === 0 && i.c === 0) || this.items[0];
+                    const anchorX = anchor.x;
+                    const anchorY = anchor.y;
+
+                    this.items.forEach(item => {
+                        // We preserve the anchor's position?
+                        // Actually, if we use anchorX,Y as "start", then yes.
+                        // But what if the anchor was moved? 
+                        // If we iterate, item x = anchorX + (c * spacing)
+                        // This forces a strict grid.
+
+                        // Relative adjustment would be safer for manual tweaks but complex.
+                        // Given the request is likely for initial alignment: Strict Grid is fine.
+
+                        // We deduct the anchor's own relative c/r offset so the anchor stays PUT.
+                        // x = anchorX + ((item.c - anchor.c) * spacingX)
+
+                        const relC = item.c - anchor.c;
+                        const relR = item.r - anchor.r;
+
+                        item.x = Math.round(anchorX + (relC * this.spacingX));
+                        item.y = Math.round(anchorY + (relR * this.spacingY));
+                    });
+                },
+
+                // ---- GRID MANAGEMENT ----
+                getNextId() {
+                    if (this.items.length === 0) return 0;
+                    return Math.max(...this.items.map(i => i.id)) + 1;
+                },
+
+                recalcDimensions() {
+                    // Update rows/cols based on current items
+                    if (this.items.length === 0) { this.rows = 0; this.cols = 0; return; }
+                    this.rows = Math.max(...this.items.map(i => i.r)) + 1;
+                    this.cols = Math.max(...this.items.map(i => i.c)) + 1;
+                },
+
+                addRow() {
+                    // Find last Y to append below
+                    const lastRowY = this.items.length > 0 ? Math.max(...this.items.map(i => i.y)) : 50;
+                    const spacingY = this.boxH * 1.5; // Estimated spacing if unknown
+                    // Ideally we look at gap between last two rows, but let's assume default spacing if uniform
+                    // Or better: find Row N and Row N-1 average distance.
+
+                    let stepY = 30; // Default
+                    if (this.rows >= 2) {
+                        const r0 = this.items.find(i => i.r === 0);
+                        const r1 = this.items.find(i => i.r === 1);
+                        if (r0 && r1) stepY = Math.abs(r1.y - r0.y);
+                    }
+
+                    const newRowIndex = this.rows;
+                    const newY = lastRowY + stepY;
+                    let nextId = this.getNextId();
+
+                    // If no cols, add at least one
+                    const colCount = this.cols === 0 ? 1 : this.cols;
+
+                    // We need X positions for each column.
+                    // If items exist, copy X from the implementation of previous row
+                    // If completely empty, start from scratch
+
+                    if (this.items.length === 0) {
+                        this.items.push({ id: nextId, x: 50, y: 50, isTarget: false, r: 0, c: 0 });
+                    } else {
+                        // For each column index 0 to cols-1
+                        for (let c = 0; c < colCount; c++) {
+                            // Find an item with this column index to get its X
+                            const modelItem = this.items.find(i => i.c === c);
+                            const newX = modelItem ? modelItem.x : (50 + (c * 40));
+
+                            this.items.push({
+                                id: nextId++,
+                                x: newX,
+                                y: newY,
+                                isTarget: false,
+                                r: newRowIndex,
+                                c: c
+                            });
+                        }
+                    }
+                    this.recalcDimensions();
+                },
+
+                removeRow() {
+                    if (this.rows === 0) return;
+                    const lastRowIndex = this.rows - 1;
+                    this.items = this.items.filter(i => i.r !== lastRowIndex);
+                    this.recalcDimensions();
+                },
+
+                addCol() {
+                    // Add one item to EACH row at the end
+                    let stepX = 40;
+                    if (this.cols >= 2) {
+                        const c0 = this.items.find(i => i.c === 0);
+                        const c1 = this.items.find(i => i.c === 1);
+                        if (c0 && c1) stepX = Math.abs(c1.x - c0.x);
+                    }
+
+                    let nextId = this.getNextId();
+                    const newColIndex = this.cols;
+
+                    if (this.items.length === 0) {
+                        this.items.push({ id: nextId, x: 50, y: 50, isTarget: false, r: 0, c: 0 });
+                    } else {
+                        // Determine X position for new column (rightmost + step)
+                        // This might vary per row if grid is skewed? Usually uniform.
+                        // Let's take the max X of the grid
+                        const maxX = Math.max(...this.items.map(i => i.x));
+                        const newX = maxX + stepX;
+
+                        // Add item to every existing row
+                        for (let r = 0; r < this.rows; r++) {
+                            // Find Y of this row
+                            const modelItem = this.items.find(i => i.r === r);
+                            const rowY = modelItem ? modelItem.y : (50 + (r * 30));
+
+                            this.items.push({
+                                id: nextId++,
+                                x: newX,
+                                y: rowY,
+                                isTarget: false,
+                                r: r,
+                                c: newColIndex
+                            });
+                        }
+                    }
+                    this.recalcDimensions();
+                },
+
+                removeCol() {
+                    if (this.cols === 0) return;
+                    const lastColIndex = this.cols - 1;
+                    this.items = this.items.filter(i => i.c !== lastColIndex);
+                    this.recalcDimensions();
+                },
+
+                // ---- DRAG & DROP LOGIC ----
+
+                startDrag(e, item) {
+                    this.isDragging = true;
+                    this.wasMoved = false; // Reset move flag
+                    this.startX = e.clientX;
+                    this.startY = e.clientY;
+                    this.dragSelection = [];
+
+                    // Determine which items are being dragged based on mode
+                    if (this.dragMode === 'single') {
+                        this.addToSelection(item);
+                    } else if (this.dragMode === 'global') {
+                        this.items.forEach(i => this.addToSelection(i));
+                    } else if (this.dragMode === 'row') {
+                        // Match by explicit 'r' property if valid, OR by proximity Y
+                        // Prefer proximity Y for robustness if imported from JSON lacking 'r'
+                        const threshold = this.boxH / 2;
+                        this.items.forEach(i => {
+                            if (Math.abs(i.y - item.y) <= threshold) {
+                                this.addToSelection(i);
+                            }
+                        });
+                    } else if (this.dragMode === 'col') {
+                        // Match by proximity X
+                        const threshold = this.boxW / 2;
+                        this.items.forEach(i => {
+                            if (Math.abs(i.x - item.x) <= threshold) {
+                                this.addToSelection(i);
+                            }
+                        });
+                    }
+                },
+
+                addToSelection(item) {
+                    this.dragSelection.push({
+                        item: item,
+                        initialX: item.x,
+                        initialY: item.y
+                    });
+                },
+
+                onMouseMove(e) {
+                    if (!this.isDragging) return;
+                    e.preventDefault();
+
+                    const rawDx = e.clientX - this.startX;
+                    const rawDy = e.clientY - this.startY;
+
+                    if (Math.abs(rawDx) > 3 || Math.abs(rawDy) > 3) {
+                        this.wasMoved = true;
+                    }
+
+                    const dx = rawDx / (this.zoom / 100);
+                    const dy = rawDy / (this.zoom / 100);
+
+                    this.dragSelection.forEach(sel => {
+                        sel.item.x = Math.round(sel.initialX + dx);
+                        sel.item.y = Math.round(sel.initialY + dy);
+                    });
+                },
+
+                onMouseUp(e) {
+                    if (!this.isDragging) return;
+                    // setTimeout to allow 'click' event to fire if it was a click?
+                    // actually Alpine @click often fires after mouseup.
+                    // We just reset internal state.
+
+                    // We don't clear isDragging immediately if we want to use it in click handler?
+                    // But click verification relies on 'wasMoved'.
+
+                    // Logic flow: MouseDown -> (Drag) -> MouseUp -> Click
+                    // Click handler can check 'wasMoved'.
+
+                    // Note: If we drag, click might NOT fire depending on browser behavior if DOM moved too much?
+                    // Typically click fires on mouseup if over same element.
+
+                    this.isDragging = false;
+                    this.dragSelection = [];
+                },
+
+                handleClick(item) {
+                    // Only toggle if we didn't drag
+                    if (!this.wasMoved) {
+                        item.isTarget = !item.isTarget;
+                    }
+                    this.wasMoved = false; // Reset
+                },
+
+                // Helper for visual feedback
+                isSelected(item) {
+                    // Performance check: only useful if we want to highlight the whole row while dragging
+                    if (!this.isDragging) return false;
+                    return this.dragSelection.some(s => s.item.id === item.id);
+                },
+
+                generateCode() {
+                    const exportItems = this.items.map(i => ({
+                        id: i.id,
+                        x: Math.round(i.x),
+                        y: Math.round(i.y),
+                        t: i.isTarget ? 1 : 0
+                    }));
+                    const config = {
+                        imgWidth: this.imgWidth,
+                        imgHeight: this.imgHeight,
+                        boxW: parseInt(this.boxW),
+                        boxH: parseInt(this.boxH),
+                        items: exportItems
+                    };
+                    this.output = `const ROTAS_CONFIG = ` + JSON.stringify(config, null, 0) + `;`;
+                    navigator.clipboard.writeText(this.output);
+                    alert("JSON copiado para a área de transferência!");
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

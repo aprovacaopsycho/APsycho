@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSP Debugger</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hit-zone {
+            position: absolute;
+            background-color: rgba(0, 0, 255, 0.1);
+            border: 1px solid blue;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: blue;
+            user-select: none;
+        }
+
+        .hit-zone.correct {
+            border-color: green;
+            background-color: rgba(0, 255, 0, 0.1);
+            color: green;
+        }
+
+        .hit-zone:active {
+            cursor: grabbing;
+            background-color: rgba(0, 0, 255, 0.3);
+        }
+
+        .hit-zone.selected {
+            background-color: rgba(255, 165, 0, 0.5);
+            border: 2px solid orange;
+            z-index: 50;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-800 text-white h-screen flex flex-col" x-data="editorApp">
+
+    <!-- Toolbar -->
+    <div class="bg-gray-900 p-4 border-b border-gray-700 flex gap-4 items-center flex-wrap z-50 shadow-lg">
+        <h1 class="font-bold text-xl mr-4">TSP Editor</h1>
+
+        <!-- Page Control -->
+        <div class="flex items-center gap-2 border-r border-gray-700 pr-4">
+            <button @click="prevPage" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"><i
+                    class="fas fa-chevron-left"></i></button>
+            <span>Page <span x-text="currentPageIndex + 1"></span></span>
+            <button @click="nextPage" class="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded"><i
+                    class="fas fa-chevron-right"></i></button>
+        </div>
+
+        <!-- Drag Modes -->
+        <div class="flex items-center gap-2 border-r border-gray-700 pr-4">
+            <span class="text-sm text-gray-400">Drag Mode:</span>
+            <button @click="dragMode = 'single'" :class="dragMode === 'single' ? 'bg-blue-600' : 'bg-gray-700'"
+                class="px-3 py-1 rounded">Single</button>
+            <button @click="dragMode = 'row'" :class="dragMode === 'row' ? 'bg-blue-600' : 'bg-gray-700'"
+                class="px-3 py-1 rounded">Row</button>
+            <button @click="dragMode = 'col'" :class="dragMode === 'col' ? 'bg-blue-600' : 'bg-gray-700'"
+                class="px-3 py-1 rounded">Col</button>
+        </div>
+
+        <!-- Insert Tools -->
+        <div class="flex items-center gap-2 border-r border-gray-700 pr-4">
+            <button @click="insertSpace('y', 50)" class="px-3 py-1 bg-green-700 hover:bg-green-600 rounded text-sm"><i
+                    class="fas fa-arrows-alt-v"></i> Insert Row Gap</button>
+            <button @click="insertSpace('x', 50)" class="px-3 py-1 bg-green-700 hover:bg-green-600 rounded text-sm"><i
+                    class="fas fa-arrows-alt-h"></i> Insert Col Gap</button>
+        </div>
+
+        <div class="flex items-center gap-2 border-r border-gray-700 pr-4">
+            <button @click="duplicateSelection" class="px-3 py-1 bg-yellow-600 hover:bg-yellow-500 rounded text-sm"><i
+                    class="fas fa-copy"></i> Duplicate</button>
+            <button @click="deleteSelection" class="px-3 py-1 bg-red-700 hover:bg-red-600 rounded text-sm"><i
+                    class="fas fa-trash"></i> Delete</button>
+            <button @click="addColumn" class="px-3 py-1 bg-blue-700 hover:bg-blue-600 rounded text-sm"><i
+                    class="fas fa-plus-square"></i> Add Col</button>
+            <button @click="addQuestion" class="px-3 py-1 bg-green-700 hover:bg-green-600 rounded text-sm"><i
+                    class="fas fa-plus"></i> Add Question</button>
+        </div>
+
+        <div class="flex items-center gap-2 border-r border-gray-700 pr-4">
+            <button @click="resetConfig" class="px-3 py-1 bg-red-900 hover:bg-red-700 rounded text-sm font-bold"><i
+                    class="fas fa-bomb"></i> Reset All</button>
+        </div>
+
+        <div class="ml-auto">
+            <button @click="exportJson" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded font-bold"><i
+                    class="fas fa-save"></i> Export JSON</button>
+        </div>
+    </div>
+
+    <!-- Canvas Area -->
+    <div class="flex-1 overflow-auto bg-gray-500 relative flex justify-center p-8" @mousemove="onMouseMove"
+        @mouseup="onMouseUp">
+        <div class="relative bg-white shadow-2xl"
+            :style="`width: ${currentConfig.imgWidth}px; height: ${currentConfig.imgHeight}px; background-image: url('${currentPageImg}'); background-size: cover;`">
+
+            <!-- Questions/Options -->
+            <template x-for="question in currentConfig.questions" :key="question.id">
+                <template x-for="option in question.options" :key="option.id">
+                    <div class="hit-zone" @mousedown="onMouseDown($event, question, option)"
+                        @dblclick="toggleCorrect(question, option)"
+                        :class="{ 'correct': option.isCorrect, 'selected': isSelected(option) }"
+                        :style="`left: ${option.x}px; top: ${option.y}px; width: ${currentConfig.boxW}px; height: ${currentConfig.boxH}px;`">
+                        <span x-text="option.id"></span>
+                        <div x-show="option.isCorrect"
+                            class="absolute inset-0 border-2 border-green-500 opacity-50 rounded"></div>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Guide Lines (Optional) -->
+            <div x-show="dragMode === 'row' || dragMode === 'col'"
+                class="absolute inset-0 pointer-events-none opacity-20 bg-grid"></div>
+
+        </div>
+    </div>
+
+    <!-- Output Modal -->
+    <div x-show="showOutput" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[100]"
+        style="display: none;">
+        <div class="bg-gray-800 p-6 rounded-lg w-3/4 h-3/4 flex flex-col">
+            <h2 class="text-xl font-bold mb-4">Generated Configuration</h2>
+            <textarea readonly class="flex-1 bg-gray-900 text-green-400 font-mono p-4 rounded mb-4"
+                x-text="outputString"></textarea>
+            <div class="flex justify-end gap-4">
+                <button @click="copyToClipboard" class="px-4 py-2 bg-blue-600 rounded">Copy</button>
+                <button @click="showOutput = false" class="px-4 py-2 bg-red-600 rounded">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PLACEHOLDER CONFIGS - WILL BE INJECTED
+        const CONFIG_PAGE_1 = { "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "questions": [{ "id": 0, "options": [{ "id": 0, "x": 108, "y": 40, "isCorrect": false }, { "id": 1, "x": 184, "y": 40, "isCorrect": false }, { "id": 2, "x": 259, "y": 40, "isCorrect": true }, { "id": 3, "x": 334, "y": 40, "isCorrect": false }] }, { "id": 1, "options": [{ "id": 4, "x": 519, "y": 40, "isCorrect": true }, { "id": 5, "x": 587, "y": 39, "isCorrect": false }, { "id": 6, "x": 663, "y": 40, "isCorrect": false }, { "id": 7, "x": 734, "y": 36, "isCorrect": false }] }, { "id": 2, "options": [{ "id": 8, "x": 109, "y": 116, "isCorrect": true }, { "id": 9, "x": 184, "y": 116, "isCorrect": false }, { "id": 10, "x": 259, "y": 116, "isCorrect": false }, { "id": 11, "x": 334, "y": 116, "isCorrect": false }] }, { "id": 3, "options": [{ "id": 12, "x": 519, "y": 116, "isCorrect": false }, { "id": 13, "x": 587, "y": 115, "isCorrect": false }, { "id": 14, "x": 663, "y": 116, "isCorrect": false }, { "id": 15, "x": 734, "y": 112, "isCorrect": true }] }, { "id": 4, "options": [{ "id": 16, "x": 112, "y": 196, "isCorrect": false }, { "id": 17, "x": 187, "y": 196, "isCorrect": false }, { "id": 18, "x": 262, "y": 196, "isCorrect": false }, { "id": 19, "x": 337, "y": 196, "isCorrect": true }] }, { "id": 5, "options": [{ "id": 20, "x": 522, "y": 196, "isCorrect": false }, { "id": 21, "x": 590, "y": 195, "isCorrect": true }, { "id": 22, "x": 666, "y": 196, "isCorrect": false }, { "id": 23, "x": 737, "y": 192, "isCorrect": false }] }, { "id": 6, "options": [{ "id": 24, "x": 109, "y": 279, "isCorrect": false }, { "id": 25, "x": 184, "y": 279, "isCorrect": false }, { "id": 26, "x": 259, "y": 279, "isCorrect": true }, { "id": 27, "x": 334, "y": 279, "isCorrect": false }] }, { "id": 7, "options": [{ "id": 28, "x": 519, "y": 279, "isCorrect": false }, { "id": 29, "x": 587, "y": 278, "isCorrect": true }, { "id": 30, "x": 663, "y": 279, "isCorrect": false }, { "id": 31, "x": 734, "y": 275, "isCorrect": false }] }, { "id": 8, "options": [{ "id": 32, "x": 108, "y": 357, "isCorrect": false }, { "id": 33, "x": 183, "y": 357, "isCorrect": true }, { "id": 34, "x": 258, "y": 357, "isCorrect": false }, { "id": 35, "x": 333, "y": 357, "isCorrect": false }] }, { "id": 9, "options": [{ "id": 36, "x": 518, "y": 357, "isCorrect": true }, { "id": 37, "x": 586, "y": 356, "isCorrect": false }, { "id": 38, "x": 662, "y": 357, "isCorrect": false }, { "id": 39, "x": 733, "y": 353, "isCorrect": false }] }, { "id": 10, "options": [{ "id": 40, "x": 114, "y": 438, "isCorrect": false }, { "id": 41, "x": 189, "y": 438, "isCorrect": false }, { "id": 42, "x": 264, "y": 438, "isCorrect": false }, { "id": 43, "x": 339, "y": 438, "isCorrect": true }] }, { "id": 11, "options": [{ "id": 44, "x": 524, "y": 438, "isCorrect": false }, { "id": 45, "x": 592, "y": 437, "isCorrect": false }, { "id": 46, "x": 668, "y": 438, "isCorrect": true }, { "id": 47, "x": 739, "y": 434, "isCorrect": false }] }, { "id": 12, "options": [{ "id": 48, "x": 113, "y": 522, "isCorrect": true }, { "id": 49, "x": 188, "y": 522, "isCorrect": false }, { "id": 50, "x": 263, "y": 522, "isCorrect": false }, { "id": 51, "x": 338, "y": 522, "isCorrect": false }] }, { "id": 13, "options": [{ "id": 52, "x": 523, "y": 522, "isCorrect": false }, { "id": 53, "x": 591, "y": 521, "isCorrect": false }, { "id": 54, "x": 667, "y": 522, "isCorrect": false }, { "id": 55, "x": 738, "y": 518, "isCorrect": true }] }, { "id": 14, "options": [{ "id": 56, "x": 113, "y": 598, "isCorrect": true }, { "id": 57, "x": 188, "y": 598, "isCorrect": false }, { "id": 58, "x": 263, "y": 598, "isCorrect": false }, { "id": 59, "x": 338, "y": 598, "isCorrect": false }] }, { "id": 15, "options": [{ "id": 60, "x": 523, "y": 598, "isCorrect": false }, { "id": 61, "x": 591, "y": 597, "isCorrect": false }, { "id": 62, "x": 667, "y": 598, "isCorrect": true }, { "id": 63, "x": 738, "y": 594, "isCorrect": false }] }, { "id": 16, "options": [{ "id": 64, "x": 113, "y": 679, "isCorrect": false }, { "id": 65, "x": 188, "y": 679, "isCorrect": true }, { "id": 66, "x": 263, "y": 679, "isCorrect": false }, { "id": 67, "x": 338, "y": 679, "isCorrect": false }] }, { "id": 17, "options": [{ "id": 68, "x": 523, "y": 679, "isCorrect": false }, { "id": 69, "x": 591, "y": 678, "isCorrect": true }, { "id": 70, "x": 667, "y": 679, "isCorrect": false }, { "id": 71, "x": 738, "y": 675, "isCorrect": false }] }, { "id": 18, "options": [{ "id": 72, "x": 115, "y": 764, "isCorrect": false }, { "id": 73, "x": 190, "y": 764, "isCorrect": false }, { "id": 74, "x": 265, "y": 764, "isCorrect": true }, { "id": 75, "x": 340, "y": 764, "isCorrect": false }] }, { "id": 19, "options": [{ "id": 76, "x": 525, "y": 764, "isCorrect": true }, { "id": 77, "x": 593, "y": 763, "isCorrect": false }, { "id": 78, "x": 669, "y": 764, "isCorrect": false }, { "id": 79, "x": 740, "y": 760, "isCorrect": false }] }, { "id": 20, "options": [{ "id": 80, "x": 110, "y": 843, "isCorrect": false }, { "id": 81, "x": 185, "y": 843, "isCorrect": true }, { "id": 82, "x": 260, "y": 843, "isCorrect": false }, { "id": 83, "x": 335, "y": 843, "isCorrect": false }] }, { "id": 21, "options": [{ "id": 84, "x": 520, "y": 843, "isCorrect": false }, { "id": 85, "x": 588, "y": 842, "isCorrect": false }, { "id": 86, "x": 664, "y": 843, "isCorrect": false }, { "id": 87, "x": 735, "y": 839, "isCorrect": true }] }, { "id": 22, "options": [{ "id": 88, "x": 115, "y": 922, "isCorrect": false }, { "id": 89, "x": 190, "y": 922, "isCorrect": false }, { "id": 90, "x": 265, "y": 922, "isCorrect": false }, { "id": 91, "x": 340, "y": 922, "isCorrect": true }] }, { "id": 23, "options": [{ "id": 92, "x": 525, "y": 922, "isCorrect": false }, { "id": 93, "x": 593, "y": 921, "isCorrect": false }, { "id": 94, "x": 669, "y": 922, "isCorrect": true }, { "id": 95, "x": 740, "y": 918, "isCorrect": false }] }] };
+        const CONFIG_PAGE_2 = { "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "questions": [{ "id": 0, "options": [{ "id": 0, "x": 113, "y": 47, "isCorrect": false }, { "id": 1, "x": 188, "y": 47, "isCorrect": false }, { "id": 2, "x": 263, "y": 47, "isCorrect": false }, { "id": 3, "x": 338, "y": 47, "isCorrect": true }] }, { "id": 1, "options": [{ "id": 4, "x": 517, "y": 47, "isCorrect": false }, { "id": 5, "x": 588, "y": 47, "isCorrect": false }, { "id": 6, "x": 658, "y": 48, "isCorrect": true }, { "id": 7, "x": 729, "y": 45, "isCorrect": false }] }, { "id": 2, "options": [{ "id": 8, "x": 114, "y": 124, "isCorrect": false }, { "id": 9, "x": 189, "y": 124, "isCorrect": true }, { "id": 10, "x": 264, "y": 124, "isCorrect": false }, { "id": 11, "x": 339, "y": 124, "isCorrect": false }] }, { "id": 3, "options": [{ "id": 12, "x": 518, "y": 124, "isCorrect": false }, { "id": 13, "x": 589, "y": 124, "isCorrect": false }, { "id": 14, "x": 659, "y": 125, "isCorrect": false }, { "id": 15, "x": 730, "y": 122, "isCorrect": true }] }, { "id": 4, "options": [{ "id": 16, "x": 113, "y": 199, "isCorrect": false }, { "id": 17, "x": 188, "y": 199, "isCorrect": false }, { "id": 18, "x": 263, "y": 199, "isCorrect": true }, { "id": 19, "x": 338, "y": 199, "isCorrect": false }] }, { "id": 5, "options": [{ "id": 20, "x": 517, "y": 199, "isCorrect": true }, { "id": 21, "x": 588, "y": 199, "isCorrect": false }, { "id": 22, "x": 658, "y": 200, "isCorrect": false }, { "id": 23, "x": 729, "y": 197, "isCorrect": false }] }, { "id": 6, "options": [{ "id": 24, "x": 109, "y": 286, "isCorrect": false }, { "id": 25, "x": 184, "y": 286, "isCorrect": true }, { "id": 26, "x": 259, "y": 286, "isCorrect": false }, { "id": 27, "x": 334, "y": 286, "isCorrect": false }] }, { "id": 7, "options": [{ "id": 28, "x": 513, "y": 286, "isCorrect": false }, { "id": 29, "x": 584, "y": 286, "isCorrect": true }, { "id": 30, "x": 654, "y": 287, "isCorrect": false }, { "id": 31, "x": 725, "y": 284, "isCorrect": false }] }, { "id": 8, "options": [{ "id": 32, "x": 112, "y": 362, "isCorrect": true }, { "id": 33, "x": 187, "y": 362, "isCorrect": false }, { "id": 34, "x": 262, "y": 362, "isCorrect": false }, { "id": 35, "x": 337, "y": 362, "isCorrect": false }] }, { "id": 9, "options": [{ "id": 36, "x": 516, "y": 362, "isCorrect": false }, { "id": 37, "x": 587, "y": 362, "isCorrect": false }, { "id": 38, "x": 657, "y": 363, "isCorrect": true }, { "id": 39, "x": 728, "y": 360, "isCorrect": false }] }, { "id": 10, "options": [{ "id": 40, "x": 112, "y": 442, "isCorrect": true }, { "id": 41, "x": 187, "y": 442, "isCorrect": false }, { "id": 42, "x": 262, "y": 442, "isCorrect": false }, { "id": 43, "x": 337, "y": 442, "isCorrect": false }] }, { "id": 11, "options": [{ "id": 44, "x": 516, "y": 442, "isCorrect": false }, { "id": 45, "x": 587, "y": 442, "isCorrect": false }, { "id": 46, "x": 657, "y": 443, "isCorrect": false }, { "id": 47, "x": 728, "y": 440, "isCorrect": true }] }, { "id": 12, "options": [{ "id": 48, "x": 109, "y": 523, "isCorrect": false }, { "id": 49, "x": 184, "y": 523, "isCorrect": false }, { "id": 50, "x": 259, "y": 523, "isCorrect": false }, { "id": 51, "x": 334, "y": 523, "isCorrect": true }] }, { "id": 13, "options": [{ "id": 52, "x": 513, "y": 523, "isCorrect": false }, { "id": 53, "x": 584, "y": 523, "isCorrect": false }, { "id": 54, "x": 654, "y": 524, "isCorrect": true }, { "id": 55, "x": 725, "y": 521, "isCorrect": false }] }, { "id": 14, "options": [{ "id": 56, "x": 113, "y": 605, "isCorrect": false }, { "id": 57, "x": 188, "y": 605, "isCorrect": true }, { "id": 58, "x": 263, "y": 605, "isCorrect": false }, { "id": 59, "x": 338, "y": 605, "isCorrect": false }] }, { "id": 15, "options": [{ "id": 60, "x": 517, "y": 605, "isCorrect": true }, { "id": 61, "x": 588, "y": 605, "isCorrect": false }, { "id": 62, "x": 658, "y": 606, "isCorrect": false }, { "id": 63, "x": 729, "y": 603, "isCorrect": false }] }, { "id": 16, "options": [{ "id": 64, "x": 111, "y": 684, "isCorrect": false }, { "id": 65, "x": 186, "y": 684, "isCorrect": false }, { "id": 66, "x": 261, "y": 684, "isCorrect": true }, { "id": 67, "x": 336, "y": 684, "isCorrect": false }] }, { "id": 17, "options": [{ "id": 68, "x": 515, "y": 684, "isCorrect": false }, { "id": 69, "x": 586, "y": 684, "isCorrect": true }, { "id": 70, "x": 656, "y": 685, "isCorrect": false }, { "id": 71, "x": 727, "y": 682, "isCorrect": false }] }, { "id": 18, "options": [{ "id": 72, "x": 111, "y": 765, "isCorrect": false }, { "id": 73, "x": 186, "y": 765, "isCorrect": false }, { "id": 74, "x": 261, "y": 765, "isCorrect": false }, { "id": 75, "x": 336, "y": 765, "isCorrect": true }] }, { "id": 19, "options": [{ "id": 76, "x": 515, "y": 765, "isCorrect": false }, { "id": 77, "x": 586, "y": 765, "isCorrect": true }, { "id": 78, "x": 656, "y": 766, "isCorrect": false }, { "id": 79, "x": 727, "y": 763, "isCorrect": false }] }, { "id": 20, "options": [{ "id": 80, "x": 109, "y": 846, "isCorrect": true }, { "id": 81, "x": 184, "y": 846, "isCorrect": false }, { "id": 82, "x": 260, "y": 846, "isCorrect": false }, { "id": 83, "x": 335, "y": 846, "isCorrect": false }] }, { "id": 21, "options": [{ "id": 84, "x": 513, "y": 846, "isCorrect": false }, { "id": 85, "x": 584, "y": 846, "isCorrect": false }, { "id": 86, "x": 654, "y": 847, "isCorrect": false }, { "id": 87, "x": 725, "y": 844, "isCorrect": true }] }, { "id": 22, "options": [{ "id": 88, "x": 113, "y": 929, "isCorrect": false }, { "id": 89, "x": 188, "y": 929, "isCorrect": false }, { "id": 90, "x": 263, "y": 929, "isCorrect": true }, { "id": 91, "x": 338, "y": 929, "isCorrect": false }] }, { "id": 23, "options": [{ "id": 92, "x": 517, "y": 929, "isCorrect": true }, { "id": 93, "x": 588, "y": 929, "isCorrect": false }, { "id": 94, "x": 658, "y": 930, "isCorrect": false }, { "id": 95, "x": 729, "y": 927, "isCorrect": false }] }] };
+
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('editorApp', () => ({
+                configs: [CONFIG_PAGE_1, CONFIG_PAGE_2],
+                currentPageIndex: 0,
+                dragMode: 'single', // single, row, col
+
+                dragging: false,
+                dragStartPos: { x: 0, y: 0 },
+                dragSelection: [], // Array of { option, startX, startY }
+
+                showOutput: false,
+                outputString: '',
+
+                get currentConfig() {
+                    return this.configs[this.currentPageIndex];
+                },
+                get currentPageImg() {
+                    return this.currentPageIndex === 0 ? 'tsp_dimensoes_debug_1.png' : 'tsp_dimensoes_debug_2.png';
+                },
+
+                nextPage() { if (this.currentPageIndex < 1) this.currentPageIndex++; },
+                prevPage() { if (this.currentPageIndex > 0) this.currentPageIndex--; },
+
+                onMouseDown(event, question, option) {
+                    this.dragging = true;
+                    this.dragStartPos = { x: event.clientX, y: event.clientY };
+
+                    // Determine Selection based on Mode
+                    this.dragSelection = [];
+
+                    const tolerance = 10; // px
+                    const allOptions = [];
+                    this.currentConfig.questions.forEach(q => q.options.forEach(o => allOptions.push(o)));
+
+                    if (this.dragMode === 'single') {
+                        this.dragSelection.push({ obj: option, startX: option.x, startY: option.y });
+                    }
+                    else if (this.dragMode === 'row') {
+                        // Select all with same Y
+                        const targetY = option.y;
+                        allOptions.forEach(o => {
+                            if (Math.abs(o.y - targetY) < tolerance) {
+                                this.dragSelection.push({ obj: o, startX: o.x, startY: o.y });
+                            }
+                        });
+                    }
+                    else if (this.dragMode === 'col') {
+                        // Select all with same X
+                        const targetX = option.x;
+                        allOptions.forEach(o => {
+                            if (Math.abs(o.x - targetX) < tolerance) {
+                                this.dragSelection.push({ obj: o, startX: o.x, startY: o.y });
+                            }
+                        });
+                    }
+                },
+
+                onMouseMove(event) {
+                    if (!this.dragging) return;
+                    event.preventDefault();
+
+                    const dx = event.clientX - this.dragStartPos.x;
+                    const dy = event.clientY - this.dragStartPos.y;
+
+                    this.dragSelection.forEach(item => {
+                        // Snap to 1px? Or 5px? Let's do raw for now
+                        item.obj.x = Math.round(item.startX + dx);
+                        item.obj.y = Math.round(item.startY + dy);
+                    });
+                },
+
+                onMouseUp() {
+                    this.dragging = false;
+                    this.dragSelection = [];
+                },
+
+                toggleCorrect(question, option) {
+                    // If clicking a wrong one, make it correct and uncheck others
+                    if (!option.isCorrect) {
+                        // Unset siblings
+                        question.options.forEach(o => o.isCorrect = false);
+                        option.isCorrect = true;
+                    } else {
+                        // If clicking a correct one, just toggle off (allow no correct?)
+                        option.isCorrect = false;
+                    }
+                },
+
+                isSelected(option) {
+                    return this.dragSelection.some(item => item.obj === option);
+                },
+
+                getNextId() {
+                    let max = -1;
+                    this.configs.forEach(c => {
+                        c.questions.forEach(q => {
+                            q.options.forEach(o => {
+                                if (o.id > max) max = o.id;
+                            });
+                        });
+                    });
+                    return max + 1;
+                },
+
+                duplicateSelection() {
+                    if (this.dragSelection.length === 0) return alert("Select items to duplicate first.");
+
+                    const newSelection = [];
+                    const offset = 60; // px
+
+                    this.dragSelection.forEach(sel => {
+                        const original = sel.obj;
+                        const parentQ = this.currentConfig.questions.find(q => q.options.includes(original));
+                        if (!parentQ) return;
+
+                        const newId = this.getNextId();
+                        const copy = {
+                            ...original,
+                            id: newId,
+                            x: original.x + offset,
+                            // Shallow copy is enough for primitives
+                        };
+
+                        parentQ.options.push(copy);
+                        newSelection.push({ obj: copy, startX: copy.x, startY: copy.y });
+                    });
+
+                    this.dragSelection = newSelection;
+                },
+
+                deleteSelection() {
+                    if (this.dragSelection.length === 0) return;
+                    if (!confirm("Delete selected items?")) return;
+
+                    this.dragSelection.forEach(sel => {
+                        const item = sel.obj;
+                        this.currentConfig.questions.forEach(q => {
+                            const idx = q.options.indexOf(item);
+                            if (idx > -1) q.options.splice(idx, 1);
+                        });
+                    });
+                    this.dragSelection = [];
+                },
+
+                addColumn() {
+                    // 1. Find max X to identify last column
+                    let maxX = -Infinity;
+                    const allOptions = [];
+                    this.currentConfig.questions.forEach(q => q.options.forEach(o => allOptions.push(o)));
+
+                    if (allOptions.length === 0) return; // No items
+
+                    allOptions.forEach(o => { if (o.x > maxX) maxX = o.x; });
+
+                    // 2. Identify items in the last column (within tolerance)
+                    const tolerance = 10;
+                    const lastColItems = allOptions.filter(o => Math.abs(o.x - maxX) < tolerance);
+
+                    if (lastColItems.length === 0) return;
+
+                    // 3. Duplicate them
+                    const offset = this.currentConfig.boxW + 30; // Shift by width + padding
+
+                    lastColItems.forEach(original => {
+                        // Find parent question to push new option there?
+                        // Actually, purely duplicating visual columns might mean adding NEW QUESTIONS if the column implies new distinct items?
+                        // In TSP, typically a "column" is just visual placement. 
+                        // BUT, does a column represent a Question group?
+                        // Structure is: Questions -> Options.
+                        // If I duplicate an option, it stays in the SAME question?
+                        // If the user wants 9 columns of 4 rows... implies 9 questions? OR options distributed differently?
+                        // The user said "tem apenas 8 eu quero 9". 
+                        // If the current structure is 8 columns, it likely matches 8 Questions? or 8 steps?
+                        // If I duplicate options within the SAME question, I might break validity (e.g. 5 options for 1 question).
+                        // Let's assume we are adding NEW OPTIONS to EXISTING QUESTIONS?
+                        // OR creating NEW QUESTIONS?
+                        // Given the structure `questions: [{options: [...]}]`... 
+                        // Visually: Question 0 might be "Row 1"? No, usually logic is spatially grouped.
+                        // Looking at config: Question 0 has items at x=108, 184, 259, 334. (Row 1).
+                        // Question 1 has items at x=519... (Row 1, Col 2 block?).
+                        // It seems Questions are ROWS. 
+                        // Page 1: Y=40 -> Q0 (Left), Q1 (Right). 
+                        // If user wants a 9th COLUMN, this likely means expanding the width of the matrix.
+                        // If I duplicate the last column of options...
+                        // If Q0 has options at X1, X2, X3, X4. 
+                        // If I add X5... Q0 now has 5 options. This seems plausible.
+                        // So I will duplicate the option and add it to the SAME parent question.
+
+                        const parentQ = this.currentConfig.questions.find(q => q.options.includes(original));
+                        if (!parentQ) return;
+
+                        const newId = this.getNextId();
+                        const copy = {
+                            ...original,
+                            id: newId,
+                            x: original.x + offset,
+                            isCorrect: original.isCorrect // Keep same correctness? Or false? Let's keep it.
+                        };
+                        parentQ.options.push(copy);
+                    });
+                },
+
+                addQuestion() {
+                    // Add new Question Set (Row of 4)
+                    const qId = this.currentConfig.questions.length;
+                    const newQ = { id: qId, options: [] };
+
+                    let startId = this.getNextId();
+
+                    // Logic: Position below the last question, or at top if empty
+                    let lastY = 50;
+                    this.currentConfig.questions.forEach(q => {
+                        q.options.forEach(o => { if (o.y > lastY) lastY = o.y; });
+                    });
+
+                    const startY = (this.currentConfig.questions.length === 0) ? 50 : lastY + 80;
+                    const startX = 100;
+
+                    for (let i = 0; i < 4; i++) {
+                        newQ.options.push({
+                            id: startId + i,
+                            x: startX + (i * 75), // 75px spacing
+                            y: startY,
+                            isCorrect: i === 0
+                        });
+                    }
+                    this.currentConfig.questions.push(newQ);
+
+                    setTimeout(() => window.scrollTo(0, document.body.scrollHeight), 50);
+                },
+
+                resetConfig() {
+                    if (confirm("DANGER: This will delete ALL items on this page. Are you sure?")) {
+                        this.currentConfig.questions = [];
+                    }
+                },
+
+                insertSpace(axis, amount) {
+                    // Primitive insert: Shift all items that are visually "after" the center of the screen?
+                    // Or let user click? 
+                    // Let's assume user dragged something to define a "cursor"? No.
+                    // Let's just shift everything > 400px?
+                    // Better: Shift ALL items down/right? No that moves 0,0.
+                    // Let's use Prompt.
+
+                    const threshold = prompt(`Insert gap after which ${axis.toUpperCase()} coordinate?`, "200");
+                    if (!threshold) return;
+                    const thVal = parseInt(threshold);
+
+                    const allOptions = [];
+                    this.configs[this.currentPageIndex].questions.forEach(q => q.options.forEach(o => allOptions.push(o)));
+
+                    allOptions.forEach(o => {
+                        if (axis === 'y' && o.y > thVal) o.y += amount;
+                        if (axis === 'x' && o.x > thVal) o.x += amount;
+                    });
+                },
+
+                exportJson() {
+                    const str1 = JSON.stringify(this.configs[0]);
+                    const str2 = JSON.stringify(this.configs[1]);
+
+                    this.outputString = `const CONFIG_PAGE_1 = ${str1};\n\nconst CONFIG_PAGE_2 = ${str2};`;
+                    this.showOutput = true;
+                },
+
+                copyToClipboard() {
+                    navigator.clipboard.writeText(this.outputString);
+                    alert("Copied to clipboard!");
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

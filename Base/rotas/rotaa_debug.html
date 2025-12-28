@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Rota A - DEBUG MODE</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- SEGURANÇA REMOVIDA PARA DEBUG -->
+    <!-- <script src="../../scripts/auth_guard.js"></script> -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Black+Ops+One&display=swap"
+        rel="stylesheet" />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --primary-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-blue: #06b6d4;
+            --status-success: #22c55e;
+            --status-error: #ef4444;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Container da Imagem com Aspect Ratio Fixo (CRÍTICO PARA AS COORDENADAS) */
+        .test-paper-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            /* Proporção original 1000/1250 = 0.8 */
+            aspect-ratio: 807 / 1095;
+            margin: 0 auto;
+            background-image: url('../../Imagens_base/rotas/rotad.png');
+            background-size: 100% 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Zonas de Clique */
+        .hit-zone {
+            position: absolute;
+            cursor: crosshair;
+            transform: translate(-50%, -50%);
+            /* Centraliza o ponto X,Y */
+            transition: background-color 0.1s;
+        }
+
+        .hit-zone:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Marcação (Traço Azul) */
+        .hit-zone.marked::after {
+            content: '';
+            position: absolute;
+            width: 140%;
+            height: 3px;
+            background-color: #2563eb;
+            /* Azul caneta */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: 0 0 4px rgba(37, 99, 235, 0.5);
+            border-radius: 2px;
+        }
+
+        /* Revisão Visual */
+        .hit-zone.res-correct {
+            background-color: rgba(34, 197, 94, 0.3);
+            border: 1px solid #22c55e;
+        }
+
+        .hit-zone.res-error {
+            background-color: rgba(239, 68, 68, 0.3);
+            border: 1px solid #ef4444;
+        }
+
+        .hit-zone.res-omission {
+            border: 2px dashed #eab308;
+            background-color: rgba(234, 179, 8, 0.15);
+        }
+
+        /* Animações e Efeitos */
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Efeito Reprovado/Inapto */
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
+
+        .stamp-inapto {
+            font-family: 'Black Ops One', cursive;
+            color: #ef4444;
+            text-transform: uppercase;
+            border: 5px solid #ef4444;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transform: rotate(-15deg) scale(0);
+            animation: stampBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes stampBounce {
+            0% {
+                transform: rotate(-15deg) scale(3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(-15deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* UI Elements */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* DEBUG STYLES */
+        .debug-correct {
+            background-color: rgba(34, 197, 94, 0.5) !important;
+            border: 2px solid #22c55e !important;
+        }
+
+        .debug-incorrect {
+            background-color: rgba(239, 68, 68, 0.5) !important;
+            border: 2px solid #ef4444 !important;
+        }
+
+        .hit-zone:hover::after {
+            content: attr(data-id);
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: black;
+            color: white;
+            font-size: 10px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            white-space: nowrap;
+            z-index: 50;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col" x-data="debugSim()" @mousemove.window="onDrag($event)"
+    @mouseup.window="stopDrag()">
+
+    <!-- DEBUG TOOL PANEL -->
+    <div
+        class="fixed top-20 right-4 bg-gray-900/95 backdrop-blur p-4 rounded-xl shadow-2xl z-[100] w-80 border border-gray-700 max-h-[80vh] overflow-y-auto">
+        <h2 class="text-lg font-bold mb-4 text-purple-400 flex items-center gap-2">
+            <i class="fas fa-tools"></i> Debug Tool
+        </h2>
+
+        <div class="mb-4 bg-black/40 p-3 rounded-lg">
+            <p class="text-[10px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Legenda</p>
+            <div class="flex gap-4 text-xs font-medium">
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-green-500/50 border border-green-500 rounded"></div>
+                    <span>Correto (1)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-3 h-3 bg-red-500/50 border border-red-500 rounded"></div>
+                    <span>Incorreto (0)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4 bg-black/40 p-3 rounded-lg space-y-2">
+            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Ajuste de Fundo</p>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="text-[10px] text-gray-500">Pos X (px)</label>
+                    <input type="number" x-model="bgX"
+                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500">Pos Y (px)</label>
+                    <input type="number" x-model="bgY"
+                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500">Largura (%)</label>
+                    <input type="number" step="0.1" x-model="bgW"
+                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500">Altura (%)</label>
+                    <input type="number" step="0.1" x-model="bgH"
+                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <button @click="generateJSON()"
+                class="w-full bg-blue-600 hover:bg-blue-500 text-white rounded-lg py-2 text-xs font-bold transition flex items-center justify-center gap-2">
+                <i class="fas fa-code"></i> Gerar JSON
+            </button>
+
+            <div class="relative">
+                <textarea x-model="jsonOutput"
+                    class="w-full h-24 bg-black text-[10px] font-mono text-green-400 p-2 rounded-lg border border-gray-700 outline-none resize-none"
+                    readonly placeholder="JSON Output..."></textarea>
+                <button @click="copyJSON()" x-show="jsonOutput"
+                    class="absolute bottom-2 right-2 bg-gray-700 hover:bg-gray-600 text-white rounded px-2 py-1 text-[10px] transition">
+                    Copiar
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-4 mb-4 bg-black/40 p-3 rounded-lg space-y-2 border border-purple-500/30">
+            <p class="text-[10px] text-purple-300 uppercase font-bold tracking-wider mb-2">Movimentação</p>
+
+            <!-- Global -->
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] text-gray-400">Global</span>
+                <div class="flex gap-1">
+                    <button @click="moveGlobal(0, -1)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">⬆</button>
+                    <button @click="moveGlobal(0, 1)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">⬇</button>
+                    <button @click="moveGlobal(-1, 0)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">⬅</button>
+                    <button @click="moveGlobal(1, 0)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">➡</button>
+                </div>
+            </div>
+
+            <!-- Row -->
+            <div class="flex items-center gap-2 mb-2">
+                <div class="flex flex-col w-12">
+                    <label class="text-[9px] text-gray-500">Linha</label>
+                    <input type="number" x-model="selectedRow" @focus="activeMode='row'"
+                        class="bg-black/50 border border-gray-600 rounded text-xs px-1 text-center">
+                </div>
+                <div class="flex gap-1">
+                    <button @click="moveRow(selectedRow, 0, -1)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">⬆</button>
+                    <button @click="moveRow(selectedRow, 0, 1)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">⬇</button>
+                    <button @click="moveRow(selectedRow, -1, 0)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">⬅</button>
+                    <button @click="moveRow(selectedRow, 1, 0)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">➡</button>
+                </div>
+            </div>
+
+            <!-- Col -->
+            <div class="flex items-center gap-2">
+                <div class="flex flex-col w-12">
+                    <label class="text-[9px] text-gray-500">Coluna</label>
+                    <input type="number" x-model="selectedCol" @focus="activeMode='col'"
+                        class="bg-black/50 border border-gray-600 rounded text-xs px-1 text-center">
+                </div>
+                <div class="flex gap-1">
+                    <button @click="moveCol(selectedCol, 0, -1)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">⬆</button>
+                    <button @click="moveCol(selectedCol, 0, 1)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">⬇</button>
+                    <button @click="moveCol(selectedCol, -1, 0)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">⬅</button>
+                    <button @click="moveCol(selectedCol, 1, 0)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">➡</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4 text-[10px] text-center text-gray-500">
+            Itens: <span x-text="config.items.length" class="text-white"></span> |
+            Corretos: <span x-text="config.items.filter(i=>i.t===1).length" class="text-green-400"></span>
+        </div>
+    </div>
+
+    <header class="fixed top-0 w-full z-40 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div
+                    class="h-10 w-10 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-lg flex items-center justify-center shadow-lg">
+                    <i class="fas fa-brain text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-black text-lg tracking-tight text-white leading-tight">ROTA A <span
+                            class="text-purple-400">DEBUGGER</span></h1>
+                    <p class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">Atenção Alternada</p>
+                </div>
+            </div>
+
+            <button onclick="location.reload()"
+                class="text-xs font-bold text-gray-400 hover:text-white transition flex items-center gap-2">
+                <i class="fas fa-sign-out-alt"></i> SAIR
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-24 pb-12 px-4 flex flex-col items-center justify-center relative w-full">
+
+        <div x-show="state === 'instructions'"
+            class="glass-panel max-w-3xl w-full rounded-2xl p-8 text-center fade-in relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500">
+            </div>
+
+            <h2 class="text-3xl font-black text-white mb-2">Instruções do Teste</h2>
+            <p class="text-gray-400 mb-8">Identifique e marque todas as figuras idênticas ao modelo abaixo.</p>
+
+            <div class="flex flex-col items-center mb-8 gap-4">
+                <div
+                    class="bg-white p-6 rounded-xl shadow-lg border-2 border-purple-500/50 transform hover:scale-105 transition duration-300">
+                    <img src="modelo_rotac.png" class="h-24 object-contain" alt="Modelo"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                    <div style="display:none" class="text-slate-800 font-bold text-sm">Imagem do modelo não carregada
+                    </div>
+                </div>
+                <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Figura Alvo</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-stopwatch"></i></div>
+                        <span class="font-bold text-white">Tempo Limite</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11">Você terá exatamente <strong>2 minutos</strong>.</p>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-bullseye"></i></div>
+                        <span class="font-bold text-white">Meta de Aprovação</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11">Mínimo de <strong>168 Pontos</strong> Líquidos.</p>
+                </div>
+            </div>
+
+            <button @click="startTest()"
+                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-white text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    INICIAR AGORA <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </span>
+                <div class="absolute inset-0 rounded-xl bg-white/20 blur opacity-0 group-hover:opacity-100 transition">
+                </div>
+            </button>
+        </div>
+
+        <div class="w-full fade-in relative">
+
+            <!-- Removed Timer specific UI for Debug or kept as dummy -->
+            <div class="text-center py-4">
+                <h1 class="text-2xl font-black text-white">MODO DE DEBUG</h1>
+                <p class="text-gray-400">Clique nos itens para alternar entre Correto/Incorreto</p>
+            </div>
+
+            <div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20"
+                    :class="{'border-red-500 bg-red-900/40': time <= 10}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                        :class="{'text-red-400 animate-pulse': time <= 10}" x-text="formatTime(time)">
+                    </div>
+                </div>
+
+                <button @click="finishTest()"
+                    class="h-12 w-12 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transition hover:scale-110"
+                    title="Finalizar Teste">
+                    <i class="fas fa-stop"></i>
+                </button>
+            </div>
+
+            <div class="fixed inset-0 bg-red-600/10 pointer-events-none z-30 animate-pulse" x-show="time <= 10"></div>
+
+            <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                class="fixed bottom-6 right-6 z-40 bg-white text-slate-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center hover:bg-gray-200 transition">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+            <div class="w-full flex justify-center pb-20 pt-4 overflow-auto">
+                <div class="test-paper-container"
+                    :style="`background-position: ${bgX}px ${bgY}px; background-size: ${bgW}% ${bgH}%; background-repeat: no-repeat;`">
+                    <div class="absolute inset-0 z-10">
+                        <template x-for="item in config.items" :key="item.id">
+                            <div @mousedown.stop="startDrag($event, item)" class="hit-zone" :class="[
+                                    item.t === 1 ? 'debug-correct' : 'debug-incorrect',
+                                    activeMode === 'row' && getRow(item.id) == selectedRow ? 'ring-2 ring-yellow-400 z-50' : '',
+                                    activeMode === 'col' && getCol(item.id) == selectedCol ? 'ring-2 ring-cyan-400 z-50' : '',
+                                    draggedItem && draggedItem.id === item.id ? 'z-[100] ring-2 ring-white' : ''
+                                ]" :data-id="`ID:${item.id} R:${getRow(item.id)} C:${getCol(item.id)}`" :style="`
+                                    left: ${getPos(item.x, config.imgWidth)}%; 
+                                    top: ${getPos(item.y, config.imgHeight)}%; 
+                                    width: ${getPos(config.boxW, config.imgWidth)}%; 
+                                    height: ${getPos(config.boxH, config.imgHeight)}%;
+                                    cursor: ${draggedItem && draggedItem.id === item.id ? 'grabbing' : 'grab'};
+                                 `">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="state === 'results'" class="max-w-4xl w-full text-center fade-in z-50" x-cloak>
+
+            <div class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 border-t border-white/20">
+
+                <div class="absolute inset-0 opacity-20 pointer-events-none"
+                    :class="results.score >= 168 ? 'bg-green-600' : 'bg-red-900'"></div>
+
+                <h2 class="text-4xl font-black text-white mb-8 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
+
+                <div class="flex justify-center mb-10 relative">
+                    <div x-show="results.score >= 168" class="flex flex-col items-center animate-bounce-in">
+                        <div
+                            class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(34,197,94,0.6)] mb-4">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-green-400 tracking-tighter">APTO</h3>
+                        <p class="text-green-200/60 text-sm mt-1">Parabéns! Excelente atenção.</p>
+                    </div>
+
+                    <div x-show="results.score < 168" class="relative flex flex-col items-center justify-center">
+                        <div class="loser-text">
+                            YOU ARE A<br>BIG LOSER!
+                        </div>
+                        <div class="stamp-inapto text-3xl opacity-80 mt-2"
+                            style="position:static; transform:none; border:none; background:none; animation:none; filter:none">
+                            Tente Novamente
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Acertos</div>
+                        <div class="text-3xl font-black text-green-400" x-text="results.hits"></div>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Erros</div>
+                        <div class="text-3xl font-black text-red-400" x-text="results.errors"></div>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Omissões</div>
+                        <div class="text-3xl font-black text-yellow-400" x-text="results.omissions"></div>
+                    </div>
+                    <div
+                        class="bg-gradient-to-b from-slate-700 to-slate-900 p-4 rounded-xl border border-white/20 shadow-inner">
+                        <div class="text-xs font-bold text-white/70 uppercase mb-1">Pontuação Final</div>
+                        <div class="text-4xl font-black text-white" x-text="results.score"></div>
+                        <div class="text-[10px] text-cyan-300 mt-1">Meta: 168</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button @click="showVisualReview()"
+                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-eye"></i> Ver Onde Errei
+                    </button>
+                    <button onclick="location.reload()"
+                        class="px-8 py-3 rounded-lg bg-white text-slate-900 font-bold hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-redo"></i> Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="reviewMode" class="w-full flex justify-center pb-20 pt-8 animate-fade-in" x-cloak>
+            <div class="test-paper-container">
+                <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+
+                <div class="absolute inset-0">
+                    <template x-for="(item, index) in config.items" :key="item.id">
+                        <div class="hit-zone" :class="{
+                                  'res-correct': item.marked && item.t === 1,
+                                  'res-error': item.marked && item.t === 0,
+                                  'res-omission': !item.marked && item.t === 1 && index <= lastSelectedIndex,
+                                  'marked': item.marked
+                               }" :style="`
+                                  left: ${getPos(item.x, config.imgWidth)}%; 
+                                  top: ${getPos(item.y, config.imgHeight)}%; 
+                                  width: ${getPos(config.boxW, config.imgWidth)}%; 
+                                  height: ${getPos(config.boxH, config.imgHeight)}%;
+                               `">
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('debugSim', () => ({
+                config: { "imgWidth": 807, "imgHeight": 1095, "boxW": 20, "boxH": 22, "items": [{ "id": 0, "x": 56, "y": 72, "t": 0 }, { "id": 1, "x": 82, "y": 79, "t": 0 }, { "id": 2, "x": 113, "y": 78, "t": 0 }, { "id": 3, "x": 137, "y": 76, "t": 1 }, { "id": 4, "x": 166, "y": 77, "t": 0 }, { "id": 5, "x": 198, "y": 77, "t": 0 }, { "id": 6, "x": 227, "y": 75, "t": 1 }, { "id": 7, "x": 262, "y": 78, "t": 0 }, { "id": 8, "x": 290, "y": 79, "t": 1 }, { "id": 9, "x": 320, "y": 76, "t": 0 }, { "id": 10, "x": 352, "y": 76, "t": 0 }, { "id": 11, "x": 384, "y": 76, "t": 1 }, { "id": 12, "x": 414, "y": 73, "t": 0 }, { "id": 13, "x": 443, "y": 76, "t": 1 }, { "id": 14, "x": 476, "y": 71, "t": 0 }, { "id": 15, "x": 503, "y": 68, "t": 0 }, { "id": 16, "x": 538, "y": 69, "t": 1 }, { "id": 17, "x": 569, "y": 74, "t": 0 }, { "id": 18, "x": 600, "y": 72, "t": 0 }, { "id": 19, "x": 626, "y": 72, "t": 1 }, { "id": 20, "x": 649, "y": 75, "t": 1 }, { "id": 21, "x": 678, "y": 73, "t": 0 }, { "id": 22, "x": 704, "y": 72, "t": 0 }, { "id": 23, "x": 727, "y": 73, "t": 0 }, { "id": 24, "x": 58, "y": 110, "t": 1 }, { "id": 25, "x": 83, "y": 110, "t": 0 }, { "id": 26, "x": 112, "y": 108, "t": 0 }, { "id": 27, "x": 144, "y": 109, "t": 0 }, { "id": 28, "x": 169, "y": 110, "t": 1 }, { "id": 29, "x": 194, "y": 107, "t": 0 }, { "id": 30, "x": 230, "y": 106, "t": 0 }, { "id": 31, "x": 261, "y": 106, "t": 0 }, { "id": 32, "x": 291, "y": 106, "t": 1 }, { "id": 33, "x": 321, "y": 102, "t": 0 }, { "id": 34, "x": 352, "y": 109, "t": 1 }, { "id": 35, "x": 382, "y": 107, "t": 0 }, { "id": 36, "x": 414, "y": 104, "t": 1 }, { "id": 37, "x": 443, "y": 106, "t": 0 }, { "id": 38, "x": 475, "y": 103, "t": 0 }, { "id": 39, "x": 504, "y": 103, "t": 1 }, { "id": 40, "x": 540, "y": 100, "t": 0 }, { "id": 41, "x": 569, "y": 102, "t": 0 }, { "id": 42, "x": 599, "y": 105, "t": 1 }, { "id": 43, "x": 627, "y": 108, "t": 0 }, { "id": 44, "x": 651, "y": 106, "t": 1 }, { "id": 45, "x": 677, "y": 109, "t": 0 }, { "id": 46, "x": 704, "y": 109, "t": 0 }, { "id": 47, "x": 729, "y": 108, "t": 0 }, { "id": 48, "x": 63, "y": 143, "t": 0 }, { "id": 49, "x": 88, "y": 144, "t": 1 }, { "id": 50, "x": 115, "y": 142, "t": 0 }, { "id": 51, "x": 142, "y": 141, "t": 1 }, { "id": 52, "x": 170, "y": 140, "t": 0 }, { "id": 53, "x": 202, "y": 139, "t": 0 }, { "id": 54, "x": 230, "y": 138, "t": 0 }, { "id": 55, "x": 261, "y": 140, "t": 1 }, { "id": 56, "x": 295, "y": 139, "t": 0 }, { "id": 57, "x": 319, "y": 139, "t": 0 }, { "id": 58, "x": 350, "y": 140, "t": 1 }, { "id": 59, "x": 383, "y": 139, "t": 0 }, { "id": 60, "x": 413, "y": 137, "t": 0 }, { "id": 61, "x": 445, "y": 139, "t": 0 }, { "id": 62, "x": 473, "y": 137, "t": 0 }, { "id": 63, "x": 507, "y": 137, "t": 0 }, { "id": 64, "x": 540, "y": 138, "t": 1 }, { "id": 65, "x": 566, "y": 138, "t": 1 }, { "id": 66, "x": 596, "y": 139, "t": 0 }, { "id": 67, "x": 625, "y": 138, "t": 1 }, { "id": 68, "x": 651, "y": 138, "t": 0 }, { "id": 69, "x": 675, "y": 138, "t": 1 }, { "id": 70, "x": 704, "y": 135, "t": 0 }, { "id": 71, "x": 733, "y": 141, "t": 0 }, { "id": 72, "x": 60, "y": 174, "t": 0 }, { "id": 73, "x": 86, "y": 170, "t": 1 }, { "id": 74, "x": 117, "y": 173, "t": 1 }, { "id": 75, "x": 145, "y": 174, "t": 0 }, { "id": 76, "x": 174, "y": 174, "t": 0 }, { "id": 77, "x": 201, "y": 173, "t": 0 }, { "id": 78, "x": 231, "y": 171, "t": 0 }, { "id": 79, "x": 262, "y": 175, "t": 0 }, { "id": 80, "x": 291, "y": 176, "t": 0 }, { "id": 81, "x": 318, "y": 175, "t": 0 }, { "id": 82, "x": 349, "y": 178, "t": 0 }, { "id": 83, "x": 380, "y": 174, "t": 0 }, { "id": 84, "x": 413, "y": 175, "t": 0 }, { "id": 85, "x": 443, "y": 174, "t": 1 }, { "id": 86, "x": 473, "y": 170, "t": 1 }, { "id": 87, "x": 505, "y": 172, "t": 0 }, { "id": 88, "x": 539, "y": 177, "t": 0 }, { "id": 89, "x": 570, "y": 174, "t": 0 }, { "id": 90, "x": 602, "y": 174, "t": 1 }, { "id": 91, "x": 624, "y": 175, "t": 0 }, { "id": 92, "x": 650, "y": 174, "t": 1 }, { "id": 93, "x": 678, "y": 174, "t": 0 }, { "id": 94, "x": 706, "y": 170, "t": 0 }, { "id": 95, "x": 727, "y": 166, "t": 1 }, { "id": 96, "x": 62, "y": 206, "t": 0 }, { "id": 97, "x": 85, "y": 207, "t": 0 }, { "id": 98, "x": 112, "y": 205, "t": 0 }, { "id": 99, "x": 143, "y": 207, "t": 0 }, { "id": 100, "x": 171, "y": 204, "t": 0 }, { "id": 101, "x": 197, "y": 208, "t": 0 }, { "id": 102, "x": 230, "y": 206, "t": 1 }, { "id": 103, "x": 261, "y": 204, "t": 1 }, { "id": 104, "x": 291, "y": 207, "t": 0 }, { "id": 105, "x": 321, "y": 203, "t": 1 }, { "id": 106, "x": 350, "y": 204, "t": 0 }, { "id": 107, "x": 381, "y": 205, "t": 0 }, { "id": 108, "x": 414, "y": 205, "t": 0 }, { "id": 109, "x": 443, "y": 204, "t": 1 }, { "id": 110, "x": 475, "y": 207, "t": 1 }, { "id": 111, "x": 507, "y": 207, "t": 0 }, { "id": 112, "x": 543, "y": 207, "t": 0 }, { "id": 113, "x": 574, "y": 209, "t": 1 }, { "id": 114, "x": 601, "y": 208, "t": 0 }, { "id": 115, "x": 625, "y": 209, "t": 0 }, { "id": 116, "x": 652, "y": 212, "t": 0 }, { "id": 117, "x": 678, "y": 208, "t": 1 }, { "id": 118, "x": 706, "y": 208, "t": 0 }, { "id": 119, "x": 730, "y": 206, "t": 1 }, { "id": 120, "x": 61, "y": 241, "t": 1 }, { "id": 121, "x": 111, "y": 240, "t": 0 }, { "id": 122, "x": 83, "y": 236, "t": 0 }, { "id": 123, "x": 141, "y": 241, "t": 0 }, { "id": 124, "x": 169, "y": 242, "t": 1 }, { "id": 125, "x": 198, "y": 245, "t": 0 }, { "id": 126, "x": 230, "y": 243, "t": 1 }, { "id": 127, "x": 262, "y": 242, "t": 1 }, { "id": 128, "x": 295, "y": 241, "t": 0 }, { "id": 129, "x": 323, "y": 240, "t": 0 }, { "id": 130, "x": 350, "y": 245, "t": 0 }, { "id": 131, "x": 386, "y": 237, "t": 1 }, { "id": 132, "x": 416, "y": 239, "t": 0 }, { "id": 133, "x": 448, "y": 240, "t": 0 }, { "id": 134, "x": 480, "y": 242, "t": 0 }, { "id": 135, "x": 513, "y": 239, "t": 0 }, { "id": 136, "x": 544, "y": 242, "t": 1 }, { "id": 137, "x": 576, "y": 237, "t": 0 }, { "id": 138, "x": 600, "y": 242, "t": 0 }, { "id": 139, "x": 631, "y": 243, "t": 1 }, { "id": 140, "x": 654, "y": 240, "t": 1 }, { "id": 141, "x": 681, "y": 239, "t": 0 }, { "id": 142, "x": 708, "y": 242, "t": 0 }, { "id": 143, "x": 734, "y": 234, "t": 0 }, { "id": 144, "x": 59, "y": 272, "t": 0 }, { "id": 145, "x": 83, "y": 275, "t": 0 }, { "id": 146, "x": 110, "y": 272, "t": 1 }, { "id": 147, "x": 141, "y": 276, "t": 0 }, { "id": 148, "x": 168, "y": 273, "t": 0 }, { "id": 149, "x": 197, "y": 271, "t": 1 }, { "id": 150, "x": 230, "y": 274, "t": 1 }, { "id": 151, "x": 263, "y": 274, "t": 0 }, { "id": 152, "x": 293, "y": 274, "t": 0 }, { "id": 153, "x": 321, "y": 274, "t": 0 }, { "id": 154, "x": 352, "y": 274, "t": 0 }, { "id": 155, "x": 388, "y": 275, "t": 0 }, { "id": 156, "x": 415, "y": 273, "t": 0 }, { "id": 157, "x": 442, "y": 273, "t": 1 }, { "id": 158, "x": 472, "y": 275, "t": 0 }, { "id": 159, "x": 511, "y": 273, "t": 1 }, { "id": 160, "x": 543, "y": 271, "t": 1 }, { "id": 161, "x": 575, "y": 272, "t": 0 }, { "id": 162, "x": 601, "y": 272, "t": 0 }, { "id": 163, "x": 628, "y": 274, "t": 0 }, { "id": 164, "x": 654, "y": 273, "t": 0 }, { "id": 165, "x": 679, "y": 275, "t": 1 }, { "id": 166, "x": 710, "y": 274, "t": 1 }, { "id": 167, "x": 735, "y": 275, "t": 0 }, { "id": 168, "x": 55, "y": 306, "t": 0 }, { "id": 169, "x": 82, "y": 305, "t": 1 }, { "id": 170, "x": 113, "y": 306, "t": 0 }, { "id": 171, "x": 141, "y": 309, "t": 0 }, { "id": 172, "x": 170, "y": 307, "t": 0 }, { "id": 173, "x": 198, "y": 307, "t": 1 }, { "id": 174, "x": 231, "y": 308, "t": 1 }, { "id": 175, "x": 262, "y": 307, "t": 0 }, { "id": 176, "x": 291, "y": 301, "t": 0 }, { "id": 177, "x": 322, "y": 304, "t": 1 }, { "id": 178, "x": 354, "y": 305, "t": 1 }, { "id": 179, "x": 389, "y": 305, "t": 0 }, { "id": 180, "x": 416, "y": 305, "t": 0 }, { "id": 181, "x": 445, "y": 305, "t": 0 }, { "id": 182, "x": 469, "y": 304, "t": 0 }, { "id": 183, "x": 509, "y": 301, "t": 1 }, { "id": 184, "x": 544, "y": 304, "t": 0 }, { "id": 185, "x": 573, "y": 302, "t": 0 }, { "id": 186, "x": 603, "y": 306, "t": 1 }, { "id": 187, "x": 632, "y": 306, "t": 0 }, { "id": 188, "x": 657, "y": 308, "t": 0 }, { "id": 189, "x": 681, "y": 310, "t": 1 }, { "id": 190, "x": 712, "y": 306, "t": 0 }, { "id": 191, "x": 734, "y": 304, "t": 0 }, { "id": 192, "x": 55, "y": 334, "t": 0 }, { "id": 193, "x": 84, "y": 340, "t": 0 }, { "id": 194, "x": 113, "y": 341, "t": 0 }, { "id": 195, "x": 140, "y": 341, "t": 1 }, { "id": 196, "x": 171, "y": 341, "t": 1 }, { "id": 197, "x": 198, "y": 340, "t": 0 }, { "id": 198, "x": 229, "y": 343, "t": 1 }, { "id": 199, "x": 261, "y": 339, "t": 0 }, { "id": 200, "x": 293, "y": 341, "t": 1 }, { "id": 201, "x": 321, "y": 341, "t": 0 }, { "id": 202, "x": 352, "y": 341, "t": 0 }, { "id": 203, "x": 387, "y": 341, "t": 0 }, { "id": 204, "x": 414, "y": 346, "t": 1 }, { "id": 205, "x": 444, "y": 339, "t": 1 }, { "id": 206, "x": 473, "y": 339, "t": 0 }, { "id": 207, "x": 506, "y": 337, "t": 0 }, { "id": 208, "x": 545, "y": 339, "t": 0 }, { "id": 209, "x": 571, "y": 340, "t": 0 }, { "id": 210, "x": 600, "y": 344, "t": 0 }, { "id": 211, "x": 631, "y": 346, "t": 1 }, { "id": 212, "x": 661, "y": 344, "t": 0 }, { "id": 213, "x": 682, "y": 342, "t": 1 }, { "id": 214, "x": 709, "y": 344, "t": 0 }, { "id": 215, "x": 731, "y": 348, "t": 0 }, { "id": 216, "x": 61, "y": 380, "t": 1 }, { "id": 217, "x": 86, "y": 369, "t": 0 }, { "id": 218, "x": 112, "y": 372, "t": 1 }, { "id": 219, "x": 143, "y": 374, "t": 0 }, { "id": 220, "x": 171, "y": 374, "t": 1 }, { "id": 221, "x": 198, "y": 374, "t": 0 }, { "id": 222, "x": 232, "y": 373, "t": 0 }, { "id": 223, "x": 265, "y": 371, "t": 1 }, { "id": 224, "x": 296, "y": 371, "t": 0 }, { "id": 225, "x": 327, "y": 370, "t": 0 }, { "id": 226, "x": 356, "y": 371, "t": 0 }, { "id": 227, "x": 386, "y": 372, "t": 0 }, { "id": 228, "x": 417, "y": 374, "t": 0 }, { "id": 229, "x": 446, "y": 373, "t": 0 }, { "id": 230, "x": 477, "y": 371, "t": 1 }, { "id": 231, "x": 508, "y": 374, "t": 0 }, { "id": 232, "x": 541, "y": 376, "t": 0 }, { "id": 233, "x": 569, "y": 372, "t": 1 }, { "id": 234, "x": 603, "y": 373, "t": 0 }, { "id": 235, "x": 632, "y": 374, "t": 0 }, { "id": 236, "x": 657, "y": 375, "t": 0 }, { "id": 237, "x": 683, "y": 376, "t": 1 }, { "id": 238, "x": 708, "y": 378, "t": 0 }, { "id": 239, "x": 732, "y": 374, "t": 1 }, { "id": 240, "x": 58, "y": 406, "t": 0 }, { "id": 241, "x": 83, "y": 410, "t": 0 }, { "id": 242, "x": 115, "y": 411, "t": 0 }, { "id": 243, "x": 141, "y": 409, "t": 0 }, { "id": 244, "x": 170, "y": 413, "t": 0 }, { "id": 245, "x": 198, "y": 409, "t": 1 }, { "id": 246, "x": 234, "y": 410, "t": 0 }, { "id": 247, "x": 264, "y": 408, "t": 0 }, { "id": 248, "x": 296, "y": 404, "t": 0 }, { "id": 249, "x": 324, "y": 402, "t": 0 }, { "id": 250, "x": 355, "y": 404, "t": 0 }, { "id": 251, "x": 387, "y": 402, "t": 1 }, { "id": 252, "x": 415, "y": 407, "t": 1 }, { "id": 253, "x": 444, "y": 407, "t": 0 }, { "id": 254, "x": 479, "y": 407, "t": 0 }, { "id": 255, "x": 512, "y": 406, "t": 0 }, { "id": 256, "x": 539, "y": 410, "t": 0 }, { "id": 257, "x": 573, "y": 408, "t": 1 }, { "id": 258, "x": 605, "y": 411, "t": 1 }, { "id": 259, "x": 631, "y": 409, "t": 0 }, { "id": 260, "x": 658, "y": 412, "t": 1 }, { "id": 261, "x": 682, "y": 408, "t": 1 }, { "id": 262, "x": 704, "y": 406, "t": 0 }, { "id": 263, "x": 727, "y": 408, "t": 1 }, { "id": 264, "x": 56, "y": 444, "t": 0 }, { "id": 265, "x": 83, "y": 439, "t": 1 }, { "id": 266, "x": 115, "y": 441, "t": 0 }, { "id": 267, "x": 141, "y": 440, "t": 0 }, { "id": 268, "x": 170, "y": 444, "t": 0 }, { "id": 269, "x": 196, "y": 443, "t": 0 }, { "id": 270, "x": 230, "y": 441, "t": 1 }, { "id": 271, "x": 261, "y": 443, "t": 0 }, { "id": 272, "x": 293, "y": 438, "t": 1 }, { "id": 273, "x": 322, "y": 442, "t": 0 }, { "id": 274, "x": 356, "y": 441, "t": 1 }, { "id": 275, "x": 388, "y": 437, "t": 0 }, { "id": 276, "x": 419, "y": 438, "t": 0 }, { "id": 277, "x": 445, "y": 438, "t": 0 }, { "id": 278, "x": 475, "y": 437, "t": 0 }, { "id": 279, "x": 512, "y": 439, "t": 1 }, { "id": 280, "x": 541, "y": 438, "t": 1 }, { "id": 281, "x": 573, "y": 441, "t": 0 }, { "id": 282, "x": 601, "y": 443, "t": 1 }, { "id": 283, "x": 628, "y": 443, "t": 0 }, { "id": 284, "x": 654, "y": 442, "t": 0 }, { "id": 285, "x": 679, "y": 440, "t": 0 }, { "id": 286, "x": 703, "y": 437, "t": 1 }, { "id": 287, "x": 727, "y": 437, "t": 0 }, { "id": 288, "x": 57, "y": 475, "t": 0 }, { "id": 289, "x": 84, "y": 475, "t": 1 }, { "id": 290, "x": 116, "y": 476, "t": 1 }, { "id": 291, "x": 142, "y": 475, "t": 0 }, { "id": 292, "x": 172, "y": 470, "t": 1 }, { "id": 293, "x": 198, "y": 471, "t": 0 }, { "id": 294, "x": 232, "y": 470, "t": 0 }, { "id": 295, "x": 263, "y": 469, "t": 0 }, { "id": 296, "x": 293, "y": 469, "t": 1 }, { "id": 297, "x": 323, "y": 471, "t": 0 }, { "id": 298, "x": 357, "y": 472, "t": 0 }, { "id": 299, "x": 389, "y": 471, "t": 0 }, { "id": 300, "x": 420, "y": 472, "t": 1 }, { "id": 301, "x": 442, "y": 471, "t": 0 }, { "id": 302, "x": 475, "y": 472, "t": 1 }, { "id": 303, "x": 516, "y": 473, "t": 0 }, { "id": 304, "x": 545, "y": 474, "t": 0 }, { "id": 305, "x": 576, "y": 476, "t": 1 }, { "id": 306, "x": 604, "y": 474, "t": 0 }, { "id": 307, "x": 630, "y": 473, "t": 0 }, { "id": 308, "x": 653, "y": 472, "t": 0 }, { "id": 309, "x": 682, "y": 478, "t": 1 }, { "id": 310, "x": 704, "y": 474, "t": 0 }, { "id": 311, "x": 731, "y": 480, "t": 0 }, { "id": 312, "x": 61, "y": 508, "t": 0 }, { "id": 313, "x": 87, "y": 507, "t": 1 }, { "id": 314, "x": 117, "y": 502, "t": 0 }, { "id": 315, "x": 146, "y": 506, "t": 1 }, { "id": 316, "x": 171, "y": 510, "t": 1 }, { "id": 317, "x": 202, "y": 511, "t": 0 }, { "id": 318, "x": 231, "y": 509, "t": 0 }, { "id": 319, "x": 262, "y": 511, "t": 0 }, { "id": 320, "x": 296, "y": 509, "t": 0 }, { "id": 321, "x": 323, "y": 507, "t": 1 }, { "id": 322, "x": 354, "y": 502, "t": 0 }, { "id": 323, "x": 391, "y": 504, "t": 0 }, { "id": 324, "x": 420, "y": 505, "t": 1 }, { "id": 325, "x": 446, "y": 505, "t": 0 }, { "id": 326, "x": 477, "y": 508, "t": 0 }, { "id": 327, "x": 515, "y": 505, "t": 1 }, { "id": 328, "x": 546, "y": 505, "t": 0 }, { "id": 329, "x": 576, "y": 504, "t": 1 }, { "id": 330, "x": 601, "y": 504, "t": 0 }, { "id": 331, "x": 629, "y": 507, "t": 0 }, { "id": 332, "x": 655, "y": 508, "t": 1 }, { "id": 333, "x": 681, "y": 510, "t": 0 }, { "id": 334, "x": 705, "y": 508, "t": 0 }, { "id": 335, "x": 730, "y": 505, "t": 0 }, { "id": 336, "x": 59, "y": 537, "t": 1 }, { "id": 337, "x": 86, "y": 541, "t": 0 }, { "id": 338, "x": 115, "y": 545, "t": 0 }, { "id": 339, "x": 144, "y": 540, "t": 0 }, { "id": 340, "x": 172, "y": 541, "t": 0 }, { "id": 341, "x": 199, "y": 544, "t": 1 }, { "id": 342, "x": 227, "y": 544, "t": 0 }, { "id": 343, "x": 263, "y": 543, "t": 1 }, { "id": 344, "x": 291, "y": 544, "t": 0 }, { "id": 345, "x": 322, "y": 543, "t": 0 }, { "id": 346, "x": 353, "y": 545, "t": 1 }, { "id": 347, "x": 388, "y": 542, "t": 1 }, { "id": 348, "x": 418, "y": 541, "t": 0 }, { "id": 349, "x": 447, "y": 540, "t": 0 }, { "id": 350, "x": 477, "y": 545, "t": 0 }, { "id": 351, "x": 514, "y": 543, "t": 0 }, { "id": 352, "x": 550, "y": 544, "t": 0 }, { "id": 353, "x": 578, "y": 544, "t": 1 }, { "id": 354, "x": 603, "y": 543, "t": 0 }, { "id": 355, "x": 627, "y": 543, "t": 0 }, { "id": 356, "x": 652, "y": 544, "t": 1 }, { "id": 357, "x": 678, "y": 544, "t": 0 }, { "id": 358, "x": 708, "y": 545, "t": 1 }, { "id": 359, "x": 731, "y": 544, "t": 0 }, { "id": 360, "x": 58, "y": 575, "t": 0 }, { "id": 361, "x": 88, "y": 574, "t": 1 }, { "id": 362, "x": 112, "y": 572, "t": 1 }, { "id": 363, "x": 145, "y": 575, "t": 0 }, { "id": 364, "x": 171, "y": 574, "t": 0 }, { "id": 365, "x": 198, "y": 576, "t": 0 }, { "id": 366, "x": 228, "y": 577, "t": 1 }, { "id": 367, "x": 263, "y": 572, "t": 0 }, { "id": 368, "x": 292, "y": 574, "t": 1 }, { "id": 369, "x": 320, "y": 575, "t": 0 }, { "id": 370, "x": 356, "y": 575, "t": 0 }, { "id": 371, "x": 392, "y": 574, "t": 0 }, { "id": 372, "x": 422, "y": 571, "t": 0 }, { "id": 373, "x": 449, "y": 571, "t": 0 }, { "id": 374, "x": 479, "y": 577, "t": 1 }, { "id": 375, "x": 519, "y": 574, "t": 0 }, { "id": 376, "x": 551, "y": 577, "t": 0 }, { "id": 377, "x": 574, "y": 575, "t": 0 }, { "id": 378, "x": 606, "y": 574, "t": 1 }, { "id": 379, "x": 631, "y": 574, "t": 1 }, { "id": 380, "x": 652, "y": 568, "t": 0 }, { "id": 381, "x": 678, "y": 571, "t": 0 }, { "id": 382, "x": 708, "y": 572, "t": 0 }, { "id": 383, "x": 729, "y": 568, "t": 1 }, { "id": 384, "x": 62, "y": 602, "t": 1 }, { "id": 385, "x": 89, "y": 605, "t": 0 }, { "id": 386, "x": 115, "y": 606, "t": 0 }, { "id": 387, "x": 141, "y": 608, "t": 0 }, { "id": 388, "x": 171, "y": 603, "t": 1 }, { "id": 389, "x": 199, "y": 602, "t": 0 }, { "id": 390, "x": 228, "y": 606, "t": 1 }, { "id": 391, "x": 255, "y": 604, "t": 0 }, { "id": 392, "x": 291, "y": 605, "t": 0 }, { "id": 393, "x": 320, "y": 604, "t": 1 }, { "id": 394, "x": 355, "y": 603, "t": 0 }, { "id": 395, "x": 392, "y": 604, "t": 0 }, { "id": 396, "x": 416, "y": 602, "t": 1 }, { "id": 397, "x": 445, "y": 604, "t": 0 }, { "id": 398, "x": 475, "y": 602, "t": 0 }, { "id": 399, "x": 518, "y": 598, "t": 0 }, { "id": 400, "x": 550, "y": 602, "t": 1 }, { "id": 401, "x": 580, "y": 603, "t": 0 }, { "id": 402, "x": 604, "y": 603, "t": 0 }, { "id": 403, "x": 629, "y": 607, "t": 1 }, { "id": 404, "x": 652, "y": 602, "t": 0 }, { "id": 405, "x": 674, "y": 604, "t": 1 }, { "id": 406, "x": 701, "y": 602, "t": 0 }, { "id": 407, "x": 725, "y": 603, "t": 0 }, { "id": 408, "x": 63, "y": 641, "t": 1 }, { "id": 409, "x": 87, "y": 638, "t": 0 }, { "id": 410, "x": 114, "y": 635, "t": 0 }, { "id": 411, "x": 142, "y": 640, "t": 0 }, { "id": 412, "x": 167, "y": 639, "t": 0 }, { "id": 413, "x": 196, "y": 638, "t": 1 }, { "id": 414, "x": 225, "y": 638, "t": 0 }, { "id": 415, "x": 253, "y": 636, "t": 0 }, { "id": 416, "x": 282, "y": 632, "t": 1 }, { "id": 417, "x": 316, "y": 635, "t": 0 }, { "id": 418, "x": 344, "y": 636, "t": 0 }, { "id": 419, "x": 371, "y": 635, "t": 1 }, { "id": 420, "x": 405, "y": 638, "t": 0 }, { "id": 421, "x": 439, "y": 638, "t": 1 }, { "id": 422, "x": 468, "y": 637, "t": 0 }, { "id": 423, "x": 501, "y": 635, "t": 1 }, { "id": 424, "x": 530, "y": 635, "t": 0 }, { "id": 425, "x": 560, "y": 638, "t": 0 }, { "id": 426, "x": 591, "y": 638, "t": 1 }, { "id": 427, "x": 618, "y": 635, "t": 0 }, { "id": 428, "x": 646, "y": 639, "t": 1 }, { "id": 429, "x": 678, "y": 635, "t": 0 }, { "id": 430, "x": 704, "y": 639, "t": 0 }, { "id": 431, "x": 733, "y": 639, "t": 0 }, { "id": 432, "x": 63, "y": 668, "t": 0 }, { "id": 433, "x": 87, "y": 668, "t": 1 }, { "id": 434, "x": 116, "y": 672, "t": 0 }, { "id": 435, "x": 141, "y": 668, "t": 0 }, { "id": 436, "x": 166, "y": 672, "t": 0 }, { "id": 437, "x": 195, "y": 668, "t": 1 }, { "id": 438, "x": 227, "y": 672, "t": 0 }, { "id": 439, "x": 256, "y": 670, "t": 1 }, { "id": 440, "x": 286, "y": 669, "t": 0 }, { "id": 441, "x": 317, "y": 671, "t": 0 }, { "id": 442, "x": 349, "y": 672, "t": 1 }, { "id": 443, "x": 379, "y": 672, "t": 0 }, { "id": 444, "x": 407, "y": 673, "t": 0 }, { "id": 445, "x": 439, "y": 668, "t": 1 }, { "id": 446, "x": 469, "y": 671, "t": 0 }, { "id": 447, "x": 500, "y": 668, "t": 0 }, { "id": 448, "x": 531, "y": 668, "t": 1 }, { "id": 449, "x": 560, "y": 670, "t": 0 }, { "id": 450, "x": 590, "y": 667, "t": 0 }, { "id": 451, "x": 620, "y": 671, "t": 1 }, { "id": 452, "x": 647, "y": 669, "t": 1 }, { "id": 453, "x": 677, "y": 672, "t": 0 }, { "id": 454, "x": 701, "y": 674, "t": 0 }, { "id": 455, "x": 723, "y": 675, "t": 0 }, { "id": 456, "x": 62, "y": 707, "t": 1 }, { "id": 457, "x": 88, "y": 699, "t": 0 }, { "id": 458, "x": 119, "y": 702, "t": 1 }, { "id": 459, "x": 143, "y": 698, "t": 0 }, { "id": 460, "x": 167, "y": 699, "t": 0 }, { "id": 461, "x": 195, "y": 702, "t": 0 }, { "id": 462, "x": 224, "y": 703, "t": 0 }, { "id": 463, "x": 257, "y": 705, "t": 1 }, { "id": 464, "x": 287, "y": 706, "t": 0 }, { "id": 465, "x": 318, "y": 705, "t": 0 }, { "id": 466, "x": 346, "y": 705, "t": 0 }, { "id": 467, "x": 378, "y": 703, "t": 1 }, { "id": 468, "x": 406, "y": 702, "t": 1 }, { "id": 469, "x": 437, "y": 706, "t": 0 }, { "id": 470, "x": 470, "y": 700, "t": 0 }, { "id": 471, "x": 498, "y": 702, "t": 1 }, { "id": 472, "x": 527, "y": 705, "t": 0 }, { "id": 473, "x": 559, "y": 706, "t": 0 }, { "id": 474, "x": 592, "y": 708, "t": 1 }, { "id": 475, "x": 621, "y": 706, "t": 0 }, { "id": 476, "x": 649, "y": 706, "t": 0 }, { "id": 477, "x": 675, "y": 707, "t": 1 }, { "id": 478, "x": 701, "y": 708, "t": 0 }, { "id": 479, "x": 729, "y": 701, "t": 0 }, { "id": 480, "x": 60, "y": 739, "t": 0 }, { "id": 481, "x": 89, "y": 739, "t": 1 }, { "id": 482, "x": 118, "y": 739, "t": 0 }, { "id": 483, "x": 142, "y": 739, "t": 1 }, { "id": 484, "x": 166, "y": 736, "t": 1 }, { "id": 485, "x": 195, "y": 738, "t": 1 }, { "id": 486, "x": 223, "y": 741, "t": 0 }, { "id": 487, "x": 258, "y": 738, "t": 0 }, { "id": 488, "x": 287, "y": 736, "t": 0 }, { "id": 489, "x": 317, "y": 738, "t": 0 }, { "id": 490, "x": 352, "y": 737, "t": 1 }, { "id": 491, "x": 374, "y": 740, "t": 0 }, { "id": 492, "x": 402, "y": 737, "t": 0 }, { "id": 493, "x": 436, "y": 734, "t": 1 }, { "id": 494, "x": 469, "y": 733, "t": 0 }, { "id": 495, "x": 498, "y": 732, "t": 0 }, { "id": 496, "x": 528, "y": 734, "t": 1 }, { "id": 497, "x": 560, "y": 734, "t": 0 }, { "id": 498, "x": 588, "y": 736, "t": 0 }, { "id": 499, "x": 622, "y": 732, "t": 0 }, { "id": 500, "x": 646, "y": 735, "t": 0 }, { "id": 501, "x": 673, "y": 736, "t": 1 }, { "id": 502, "x": 704, "y": 737, "t": 0 }, { "id": 503, "x": 728, "y": 743, "t": 0 }, { "id": 504, "x": 61, "y": 769, "t": 0 }, { "id": 505, "x": 86, "y": 767, "t": 0 }, { "id": 506, "x": 114, "y": 769, "t": 1 }, { "id": 507, "x": 144, "y": 769, "t": 0 }, { "id": 508, "x": 168, "y": 771, "t": 0 }, { "id": 509, "x": 195, "y": 772, "t": 1 }, { "id": 510, "x": 223, "y": 772, "t": 1 }, { "id": 511, "x": 255, "y": 770, "t": 0 }, { "id": 512, "x": 289, "y": 776, "t": 0 }, { "id": 513, "x": 318, "y": 773, "t": 1 }, { "id": 514, "x": 349, "y": 774, "t": 0 }, { "id": 515, "x": 377, "y": 769, "t": 0 }, { "id": 516, "x": 409, "y": 772, "t": 1 }, { "id": 517, "x": 440, "y": 769, "t": 0 }, { "id": 518, "x": 470, "y": 768, "t": 1 }, { "id": 519, "x": 500, "y": 772, "t": 0 }, { "id": 520, "x": 533, "y": 768, "t": 1 }, { "id": 521, "x": 559, "y": 769, "t": 0 }, { "id": 522, "x": 590, "y": 770, "t": 0 }, { "id": 523, "x": 623, "y": 773, "t": 0 }, { "id": 524, "x": 653, "y": 770, "t": 0 }, { "id": 525, "x": 679, "y": 770, "t": 0 }, { "id": 526, "x": 704, "y": 773, "t": 1 }, { "id": 527, "x": 730, "y": 772, "t": 0 }, { "id": 528, "x": 57, "y": 802, "t": 1 }, { "id": 529, "x": 85, "y": 810, "t": 0 }, { "id": 530, "x": 116, "y": 811, "t": 0 }, { "id": 531, "x": 143, "y": 804, "t": 1 }, { "id": 532, "x": 169, "y": 807, "t": 0 }, { "id": 533, "x": 193, "y": 809, "t": 0 }, { "id": 534, "x": 224, "y": 804, "t": 1 }, { "id": 535, "x": 261, "y": 805, "t": 0 }, { "id": 536, "x": 293, "y": 804, "t": 0 }, { "id": 537, "x": 319, "y": 805, "t": 0 }, { "id": 538, "x": 348, "y": 806, "t": 1 }, { "id": 539, "x": 380, "y": 806, "t": 0 }, { "id": 540, "x": 407, "y": 808, "t": 0 }, { "id": 541, "x": 438, "y": 806, "t": 0 }, { "id": 542, "x": 469, "y": 806, "t": 0 }, { "id": 543, "x": 504, "y": 808, "t": 0 }, { "id": 544, "x": 534, "y": 808, "t": 1 }, { "id": 545, "x": 565, "y": 807, "t": 1 }, { "id": 546, "x": 592, "y": 804, "t": 0 }, { "id": 547, "x": 617, "y": 802, "t": 0 }, { "id": 548, "x": 651, "y": 807, "t": 1 }, { "id": 549, "x": 678, "y": 803, "t": 1 }, { "id": 550, "x": 706, "y": 803, "t": 0 }, { "id": 551, "x": 732, "y": 805, "t": 0 }, { "id": 552, "x": 56, "y": 840, "t": 0 }, { "id": 553, "x": 85, "y": 834, "t": 0 }, { "id": 554, "x": 111, "y": 838, "t": 0 }, { "id": 555, "x": 142, "y": 839, "t": 0 }, { "id": 556, "x": 166, "y": 841, "t": 0 }, { "id": 557, "x": 196, "y": 838, "t": 0 }, { "id": 558, "x": 224, "y": 836, "t": 1 }, { "id": 559, "x": 258, "y": 829, "t": 0 }, { "id": 560, "x": 291, "y": 829, "t": 1 }, { "id": 561, "x": 320, "y": 832, "t": 0 }, { "id": 562, "x": 350, "y": 835, "t": 0 }, { "id": 563, "x": 381, "y": 834, "t": 0 }, { "id": 564, "x": 410, "y": 838, "t": 0 }, { "id": 565, "x": 438, "y": 835, "t": 1 }, { "id": 566, "x": 473, "y": 837, "t": 0 }, { "id": 567, "x": 506, "y": 837, "t": 0 }, { "id": 568, "x": 534, "y": 837, "t": 1 }, { "id": 569, "x": 566, "y": 838, "t": 1 }, { "id": 570, "x": 593, "y": 832, "t": 0 }, { "id": 571, "x": 626, "y": 833, "t": 1 }, { "id": 572, "x": 655, "y": 833, "t": 1 }, { "id": 573, "x": 678, "y": 832, "t": 0 }, { "id": 574, "x": 705, "y": 835, "t": 0 }, { "id": 575, "x": 732, "y": 830, "t": 1 }, { "id": 576, "x": 51, "y": 869, "t": 1 }, { "id": 577, "x": 81, "y": 873, "t": 0 }, { "id": 578, "x": 112, "y": 871, "t": 1 }, { "id": 579, "x": 144, "y": 871, "t": 1 }, { "id": 580, "x": 170, "y": 874, "t": 0 }, { "id": 581, "x": 195, "y": 872, "t": 0 }, { "id": 582, "x": 225, "y": 871, "t": 0 }, { "id": 583, "x": 255, "y": 871, "t": 0 }, { "id": 584, "x": 289, "y": 872, "t": 0 }, { "id": 585, "x": 320, "y": 871, "t": 1 }, { "id": 586, "x": 350, "y": 872, "t": 0 }, { "id": 587, "x": 384, "y": 872, "t": 0 }, { "id": 588, "x": 408, "y": 872, "t": 1 }, { "id": 589, "x": 437, "y": 871, "t": 1 }, { "id": 590, "x": 471, "y": 873, "t": 0 }, { "id": 591, "x": 506, "y": 875, "t": 1 }, { "id": 592, "x": 537, "y": 872, "t": 0 }, { "id": 593, "x": 565, "y": 874, "t": 0 }, { "id": 594, "x": 592, "y": 876, "t": 0 }, { "id": 595, "x": 622, "y": 871, "t": 1 }, { "id": 596, "x": 653, "y": 875, "t": 0 }, { "id": 597, "x": 678, "y": 871, "t": 0 }, { "id": 598, "x": 705, "y": 872, "t": 0 }, { "id": 599, "x": 728, "y": 875, "t": 0 }, { "id": 600, "x": 62, "y": 901, "t": 0 }, { "id": 601, "x": 90, "y": 904, "t": 0 }, { "id": 602, "x": 113, "y": 902, "t": 1 }, { "id": 603, "x": 138, "y": 902, "t": 0 }, { "id": 604, "x": 165, "y": 902, "t": 1 }, { "id": 605, "x": 195, "y": 905, "t": 0 }, { "id": 606, "x": 228, "y": 905, "t": 1 }, { "id": 607, "x": 257, "y": 905, "t": 1 }, { "id": 608, "x": 292, "y": 906, "t": 0 }, { "id": 609, "x": 321, "y": 906, "t": 0 }, { "id": 610, "x": 353, "y": 903, "t": 0 }, { "id": 611, "x": 386, "y": 905, "t": 1 }, { "id": 612, "x": 413, "y": 901, "t": 0 }, { "id": 613, "x": 445, "y": 902, "t": 0 }, { "id": 614, "x": 473, "y": 900, "t": 1 }, { "id": 615, "x": 505, "y": 904, "t": 0 }, { "id": 616, "x": 538, "y": 901, "t": 1 }, { "id": 617, "x": 567, "y": 907, "t": 0 }, { "id": 618, "x": 596, "y": 903, "t": 0 }, { "id": 619, "x": 624, "y": 904, "t": 0 }, { "id": 620, "x": 652, "y": 907, "t": 1 }, { "id": 621, "x": 677, "y": 905, "t": 0 }, { "id": 622, "x": 706, "y": 906, "t": 0 }, { "id": 623, "x": 728, "y": 905, "t": 0 }, { "id": 624, "x": 52, "y": 927, "t": 0 }, { "id": 625, "x": 84, "y": 931, "t": 0 }, { "id": 626, "x": 114, "y": 929, "t": 1 }, { "id": 627, "x": 145, "y": 929, "t": 0 }, { "id": 628, "x": 170, "y": 932, "t": 0 }, { "id": 629, "x": 199, "y": 931, "t": 0 }, { "id": 630, "x": 229, "y": 929, "t": 1 }, { "id": 631, "x": 257, "y": 930, "t": 0 }, { "id": 632, "x": 288, "y": 930, "t": 0 }, { "id": 633, "x": 319, "y": 933, "t": 1 }, { "id": 634, "x": 350, "y": 935, "t": 1 }, { "id": 635, "x": 388, "y": 929, "t": 0 }, { "id": 636, "x": 418, "y": 927, "t": 0 }, { "id": 637, "x": 448, "y": 929, "t": 1 }, { "id": 638, "x": 480, "y": 928, "t": 0 }, { "id": 639, "x": 513, "y": 928, "t": 0 }, { "id": 640, "x": 540, "y": 930, "t": 1 }, { "id": 641, "x": 572, "y": 928, "t": 0 }, { "id": 642, "x": 596, "y": 930, "t": 0 }, { "id": 643, "x": 622, "y": 936, "t": 1 }, { "id": 644, "x": 651, "y": 938, "t": 0 }, { "id": 645, "x": 677, "y": 939, "t": 1 }, { "id": 646, "x": 703, "y": 934, "t": 0 }, { "id": 647, "x": 725, "y": 941, "t": 0 }, { "id": 648, "x": 61, "y": 962, "t": 0 }, { "id": 649, "x": 87, "y": 962, "t": 0 }, { "id": 650, "x": 117, "y": 960, "t": 0 }, { "id": 651, "x": 147, "y": 955, "t": 1 }, { "id": 652, "x": 173, "y": 958, "t": 1 }, { "id": 653, "x": 201, "y": 958, "t": 0 }, { "id": 654, "x": 230, "y": 956, "t": 0 }, { "id": 655, "x": 258, "y": 954, "t": 1 }, { "id": 656, "x": 289, "y": 959, "t": 0 }, { "id": 657, "x": 321, "y": 959, "t": 0 }, { "id": 658, "x": 349, "y": 959, "t": 0 }, { "id": 659, "x": 381, "y": 955, "t": 0 }, { "id": 660, "x": 412, "y": 957, "t": 0 }, { "id": 661, "x": 441, "y": 958, "t": 1 }, { "id": 662, "x": 475, "y": 955, "t": 0 }, { "id": 663, "x": 504, "y": 959, "t": 1 }, { "id": 664, "x": 536, "y": 958, "t": 0 }, { "id": 665, "x": 560, "y": 956, "t": 0 }, { "id": 666, "x": 592, "y": 963, "t": 1 }, { "id": 667, "x": 623, "y": 964, "t": 0 }, { "id": 668, "x": 651, "y": 963, "t": 1 }, { "id": 669, "x": 677, "y": 969, "t": 0 }, { "id": 670, "x": 703, "y": 971, "t": 1 }, { "id": 671, "x": 726, "y": 968, "t": 0 }, { "id": 672, "x": 60, "y": 986, "t": 0 }, { "id": 673, "x": 87, "y": 987, "t": 0 }, { "id": 674, "x": 121, "y": 984, "t": 0 }, { "id": 675, "x": 146, "y": 980, "t": 1 }, { "id": 676, "x": 174, "y": 981, "t": 0 }, { "id": 677, "x": 201, "y": 981, "t": 1 }, { "id": 678, "x": 228, "y": 988, "t": 1 }, { "id": 679, "x": 259, "y": 989, "t": 0 }, { "id": 680, "x": 286, "y": 992, "t": 0 }, { "id": 681, "x": 321, "y": 991, "t": 0 }, { "id": 682, "x": 350, "y": 991, "t": 1 }, { "id": 683, "x": 380, "y": 988, "t": 0 }, { "id": 684, "x": 412, "y": 989, "t": 0 }, { "id": 685, "x": 444, "y": 986, "t": 1 }, { "id": 686, "x": 473, "y": 988, "t": 0 }, { "id": 687, "x": 503, "y": 989, "t": 0 }, { "id": 688, "x": 534, "y": 986, "t": 1 }, { "id": 689, "x": 561, "y": 989, "t": 0 }, { "id": 690, "x": 593, "y": 992, "t": 0 }, { "id": 691, "x": 623, "y": 992, "t": 0 }, { "id": 692, "x": 649, "y": 997, "t": 1 }, { "id": 693, "x": 676, "y": 996, "t": 0 }, { "id": 694, "x": 704, "y": 997, "t": 0 }, { "id": 695, "x": 727, "y": 997, "t": 1 }, { "id": 696, "x": 57, "y": 1012, "t": 0 }, { "id": 697, "x": 82, "y": 1010, "t": 0 }, { "id": 698, "x": 118, "y": 1008, "t": 0 }, { "id": 699, "x": 148, "y": 1009, "t": 0 }, { "id": 700, "x": 171, "y": 1010, "t": 0 }, { "id": 701, "x": 201, "y": 1013, "t": 0 }, { "id": 702, "x": 230, "y": 1012, "t": 1 }, { "id": 703, "x": 259, "y": 1013, "t": 0 }, { "id": 704, "x": 289, "y": 1018, "t": 0 }, { "id": 705, "x": 319, "y": 1020, "t": 1 }, { "id": 706, "x": 349, "y": 1018, "t": 0 }, { "id": 707, "x": 381, "y": 1021, "t": 1 }, { "id": 708, "x": 414, "y": 1020, "t": 1 }, { "id": 709, "x": 441, "y": 1018, "t": 0 }, { "id": 710, "x": 474, "y": 1017, "t": 1 }, { "id": 711, "x": 504, "y": 1014, "t": 0 }, { "id": 712, "x": 532, "y": 1019, "t": 0 }, { "id": 713, "x": 561, "y": 1021, "t": 0 }, { "id": 714, "x": 592, "y": 1018, "t": 0 }, { "id": 715, "x": 624, "y": 1021, "t": 1 }, { "id": 716, "x": 650, "y": 1023, "t": 0 }, { "id": 717, "x": 673, "y": 1024, "t": 0 }, { "id": 718, "x": 703, "y": 1027, "t": 1 }, { "id": 719, "x": 52, "y": 1033, "t": 1 }] },
+
+                // Debug State
+                bgX: 0,
+                bgY: 0,
+                bgW: 100,
+                bgH: 100,
+                jsonOutput: '',
+                selectedRow: 0,
+                selectedCol: 0,
+                selectedRow: 0,
+                selectedCol: 0,
+                activeMode: 'global',
+
+                // Dragging State
+                isDragging: false,
+                draggedItem: null,
+                startX: 0,
+                startY: 0,
+                initialItemX: 0,
+                initialItemY: 0,
+                hasMoved: false,
+
+                getRow(id) { return Math.floor(id / 24); },
+                getCol(id) { return id % 24; },
+
+                moveGlobal(dx, dy) {
+                    this.config.items.forEach(i => {
+                        i.x += dx;
+                        i.y += dy;
+                    });
+                },
+                moveRow(r, dx, dy) {
+                    this.config.items.forEach(i => {
+                        if (this.getRow(i.id) == r) {
+                            i.x += dx;
+                            i.y += dy;
+                        }
+                    });
+                },
+                moveCol(c, dx, dy) {
+                    this.config.items.forEach(i => {
+                        if (this.getCol(i.id) == c) {
+                            i.x += dx;
+                            i.y += dy;
+                        }
+                    });
+                },
+
+                toggleType(item) {
+                    item.t = item.t === 1 ? 0 : 1;
+                },
+
+                startDrag(event, item) {
+                    this.isDragging = true;
+                    this.hasMoved = false;
+                    this.draggedItem = item;
+                    this.startX = event.clientX;
+                    this.startY = event.clientY;
+                    this.initialItemX = item.x;
+                    this.initialItemY = item.y;
+                },
+
+                onDrag(event) {
+                    if (!this.isDragging || !this.draggedItem) return;
+
+                    const container = document.querySelector('.test-paper-container');
+                    if (!container) return;
+
+                    const rect = container.getBoundingClientRect();
+                    const scaleX = this.config.imgWidth / rect.width;
+                    const scaleY = this.config.imgHeight / rect.height;
+
+                    const deltaX = (event.clientX - this.startX) * scaleX;
+                    const deltaY = (event.clientY - this.startY) * scaleY;
+
+                    if (Math.abs(event.clientX - this.startX) > 2 || Math.abs(event.clientY - this.startY) > 2) {
+                        this.hasMoved = true;
+                    }
+
+                    if (this.hasMoved) {
+                        this.draggedItem.x = Math.round(this.initialItemX + deltaX);
+                        this.draggedItem.y = Math.round(this.initialItemY + deltaY);
+                    }
+                },
+
+                stopDrag() {
+                    if (this.isDragging && !this.hasMoved && this.draggedItem) {
+                        this.toggleType(this.draggedItem);
+                    }
+                    this.isDragging = false;
+                    this.draggedItem = null;
+                },
+
+                getPos(val, total) {
+                    if (!total || total === 0) return 0;
+                    return (val / total) * 100;
+                },
+
+                generateJSON() {
+                    const itemsJson = JSON.stringify(this.config.items);
+                    this.jsonOutput = itemsJson;
+                },
+
+                copyJSON() {
+                    navigator.clipboard.writeText(this.jsonOutput);
+                    alert('JSON copiado!');
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

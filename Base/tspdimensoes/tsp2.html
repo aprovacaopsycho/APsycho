@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>TSP Dimensões</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .info {
+            max-width: 900px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #b30000;
+        }
+
+        .page {
+            position: relative;
+            width: 801px;
+            height: 1024px;
+            margin: 20px auto;
+            background-size: cover;
+            border: 2px solid #000;
+        }
+
+        .mark {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: transparent;
+            user-select: none;
+        }
+
+        .mark.selected {
+            color: #000;
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>TSP – Dimensões</h1>
+
+    <div class="info">
+        <p><strong>Objetivo:</strong> Identificar qual figura está invertida em relação à figura da esquerda.</p>
+        <p><strong>Tempo:</strong> 5 minutos | <strong>Total:</strong> 48 itens | <strong>Meta:</strong> 31 pontos</p>
+        <p class="timer">Tempo restante: <span id="time">05:00</span></p>
+    </div>
+
+    <div id="page1" class="page" style="background-image:url('tsp_dimensoes_debug_1.png')"></div>
+    <div id="page2" class="page" style="background-image:url('tsp_dimensoes_debug_2.png')"></div>
+
+    <div class="controls">
+        <button onclick="finalizar()">Finalizar Teste</button>
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        const TEMPO_TOTAL = 300;
+        let tempo = TEMPO_TOTAL;
+        let intervalo;
+
+        const respostas = {};
+
+        function iniciarTimer() {
+            intervalo = setInterval(() => {
+                tempo--;
+                const min = String(Math.floor(tempo / 60)).padStart(2, '0');
+                const sec = String(tempo % 60).padStart(2, '0');
+                document.getElementById("time").textContent = `${min}:${sec}`;
+                if (tempo <= 0) {
+                    clearInterval(intervalo);
+                    finalizar();
+                }
+            }, 1000);
+        }
+
+        function renderPage(containerId, config, offsetId) {
+            const container = document.getElementById(containerId);
+            config.items.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "mark";
+                div.style.left = item.x + "px";
+                div.style.top = item.y + "px";
+                div.dataset.id = offsetId + item.id;
+                div.dataset.correct = item.t;
+
+                div.onclick = () => {
+                    const base = Math.floor(div.dataset.id / 4) * 4;
+                    for (let i = base; i < base + 4; i++) {
+                        const el = document.querySelector(`.mark[data-id='${i}']`);
+                        if (el) el.classList.remove("selected");
+                    }
+                    div.classList.add("selected");
+                    respostas[div.dataset.id] = true;
+                };
+                container.appendChild(div);
+            });
+        }
+
+        renderPage("page1", CONFIG_PAGE_1, 0);
+        renderPage("page2", CONFIG_PAGE_2, 96);
+
+        function finalizar() {
+            clearInterval(intervalo);
+            let pontos = 0;
+            document.querySelectorAll(".mark.selected").forEach(el => {
+                if (el.dataset.correct === "1") pontos++;
+            });
+            const status = pontos >= 31 ? "APTO" : "INAPTO";
+            document.getElementById("resultado").textContent =
+                `Pontuação: ${pontos}/48 — ${status}`;
+        }
+
+        iniciarTimer();
+    </script>
+
+    <!-- CONFIGURAÇÕES INJETADAS -->
+    <script>
+        /* CONFIG_PAGE_1 e CONFIG_PAGE_2
+           (colar exatamente como você forneceu, sem alterações)
+        */
+    </script>
+
+</body>
+
+</html>

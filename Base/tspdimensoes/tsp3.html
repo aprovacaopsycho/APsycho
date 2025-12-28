@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSP Dimensões - Com Gabarito</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        /* Telas */
+        .screen {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* Estilos do Teste */
+        .test-page {
+            position: relative;
+            margin-bottom: 30px;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .test-bg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Hotspots (Zonas de Clique) */
+        .hotspot {
+            position: absolute;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: background-color 0.2s;
+            border-radius: 4px;
+        }
+
+        .hotspot:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+            border-color: #007bff;
+        }
+
+        /* Marcação de Seleção (Durante o teste) */
+        .hotspot.selected {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='blue' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E");
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-color: blue;
+            background-color: rgba(0, 0, 255, 0.1);
+        }
+
+        /* GABARITO (Pós-teste) */
+        .hotspot.correct-user {
+            /* Usuário acertou (Verde) */
+            background-color: rgba(40, 167, 69, 0.6) !important;
+            border: 3px solid #28a745 !important;
+            cursor: default;
+        }
+
+        .hotspot.wrong-user {
+            /* Usuário errou (Vermelho) */
+            background-color: rgba(220, 53, 69, 0.6) !important;
+            border: 3px solid #dc3545 !important;
+            cursor: default;
+        }
+
+        .hotspot.missed-blank {
+            /* Em branco / Correta não marcada (Amarelo) */
+            background-color: rgba(255, 193, 7, 0.6) !important;
+            border: 3px solid #ffc107 !important;
+            cursor: default;
+        }
+
+        /* Controles */
+        .controls {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+            border-top: 1px solid #ddd;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-restart {
+            background-color: #6c757d;
+            margin-top: 20px;
+        }
+
+        #timer {
+            font-size: 22px;
+            font-weight: bold;
+            color: #dc3545;
+            margin: 0 20px;
+            font-family: monospace;
+        }
+
+        /* Legenda do Resultado */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #eee;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .box-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div id="screen-intro" class="screen active">
+            <h1>TSP DIMENSÕES</h1>
+            <div style="text-align: left; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                <p><strong>Instruções:</strong> Identifique a figura que está <strong>invertida</strong> em relação ao
+                    modelo (esquerda).</p>
+                <ul>
+                    <li><strong>Tempo:</strong> 5 minutos.</li>
+                    <li><strong>Total:</strong> 48 questões (2 páginas).</li>
+                    <li>Ao final, o gabarito será exibido nas imagens.</li>
+                </ul>
+                <img src="tspdi_exemplo.png" alt="Exemplo"
+                    style="max-width: 100%; border: 1px solid #ddd; margin: 15px 0;">
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="startTest()">INICIAR TESTE</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-test" class="screen">
+
+            <div id="result-header" style="display: none; margin-bottom: 20px;">
+                <h2>Resultado: <span id="score-display">0</span>/48</h2>
+                <div id="status-display"></div>
+
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="box-color" style="background: rgba(40, 167, 69, 0.8); border: 2px solid #28a745;">
+                        </div>
+                        <span>Acertou</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="box-color" style="background: rgba(220, 53, 69, 0.8); border: 2px solid #dc3545;">
+                        </div>
+                        <span>Errou</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="box-color" style="background: rgba(255, 193, 7, 0.8); border: 2px solid #ffc107;">
+                        </div>
+                        <span>Em Branco (Era esta)</span>
+                    </div>
+                </div>
+                <button class="btn btn-restart" onclick="location.reload()">Reiniciar Teste</button>
+                <hr>
+            </div>
+
+            <div id="page1-container" class="test-page">
+                <img src="tsp_dimensoes_debug_1.png" class="test-bg" alt="Página 1">
+            </div>
+
+            <div id="page2-container" class="test-page" style="display: none;">
+                <img src="tsp_dimensoes_debug_2.png" class="test-bg" alt="Página 2">
+            </div>
+
+            <div id="controls-bar" class="controls">
+                <span id="page-info">Página: <span id="page-indicator">1</span>/2</span>
+                <span id="timer">05:00</span>
+                <button class="btn btn-primary" onclick="nextPage()" id="btn-nav" style="margin-left: 20px;">Próxima
+                    Página &gt;</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        [cite_start]// DADOS DE CONFIGURAÇÃO [cite: 7-26]
+        const CONFIG_PAGE_1 = {
+            "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "items": [
+                { "id": 0, "x": 108, "y": 40, "t": 0 }, { "id": 1, "x": 184, "y": 40, "t": 0 }, { "id": 2, "x": 259, "y": 40, "t": 1 }, { "id": 3, "x": 334, "y": 40, "t": 0 },
+                { "id": 4, "x": 519, "y": 40, "t": 1 }, { "id": 5, "x": 587, "y": 39, "t": 0 }, { "id": 6, "x": 663, "y": 40, "t": 0 }, { "id": 7, "x": 734, "y": 36, "t": 0 },
+                { "id": 8, "x": 109, "y": 116, "t": 1 }, { "id": 9, "x": 184, "y": 116, "t": 0 }, { "id": 10, "x": 259, "y": 116, "t": 0 }, { "id": 11, "x": 334, "y": 116, "t": 0 },
+                { "id": 12, "x": 519, "y": 116, "t": 0 }, { "id": 13, "x": 587, "y": 115, "t": 0 }, { "id": 14, "x": 663, "y": 116, "t": 0 }, { "id": 15, "x": 734, "y": 112, "t": 1 },
+                { "id": 16, "x": 112, "y": 196, "t": 0 }, { "id": 17, "x": 187, "y": 196, "t": 0 }, { "id": 18, "x": 262, "y": 196, "t": 0 }, { "id": 19, "x": 337, "y": 196, "t": 1 },
+                { "id": 20, "x": 522, "y": 196, "t": 0 }, { "id": 21, "x": 590, "y": 195, "t": 1 }, { "id": 22, "x": 666, "y": 196, "t": 0 }, { "id": 23, "x": 737, "y": 192, "t": 0 },
+                { "id": 24, "x": 109, "y": 279, "t": 0 }, { "id": 25, "x": 184, "y": 279, "t": 0 }, { "id": 26, "x": 259, "y": 279, "t": 1 }, { "id": 27, "x": 334, "y": 279, "t": 0 },
+                { "id": 28, "x": 519, "y": 279, "t": 0 }, { "id": 29, "x": 587, "y": 278, "t": 1 }, { "id": 30, "x": 663, "y": 279, "t": 0 }, { "id": 31, "x": 734, "y": 275, "t": 0 },
+                { "id": 32, "x": 108, "y": 357, "t": 0 }, { "id": 33, "x": 183, "y": 357, "t": 1 }, { "id": 34, "x": 258, "y": 357, "t": 0 }, { "id": 35, "x": 333, "y": 357, "t": 0 },
+                { "id": 36, "x": 518, "y": 357, "t": 1 }, { "id": 37, "x": 586, "y": 356, "t": 0 }, { "id": 38, "x": 662, "y": 357, "t": 0 }, { "id": 39, "x": 733, "y": 353, "t": 0 },
+                { "id": 40, "x": 114, "y": 438, "t": 0 }, { "id": 41, "x": 189, "y": 438, "t": 0 }, { "id": 42, "x": 264, "y": 438, "t": 0 }, { "id": 43, "x": 339, "y": 438, "t": 1 },
+                { "id": 44, "x": 524, "y": 438, "t": 0 }, { "id": 45, "x": 592, "y": 437, "t": 0 }, { "id": 46, "x": 668, "y": 438, "t": 1 }, { "id": 47, "x": 739, "y": 434, "t": 0 },
+                { "id": 48, "x": 113, "y": 522, "t": 1 }, { "id": 49, "x": 188, "y": 522, "t": 0 }, { "id": 50, "x": 263, "y": 522, "t": 0 }, { "id": 51, "x": 338, "y": 522, "t": 0 },
+                { "id": 52, "x": 523, "y": 522, "t": 0 }, { "id": 53, "x": 591, "y": 521, "t": 0 }, { "id": 54, "x": 667, "y": 522, "t": 0 }, { "id": 55, "x": 738, "y": 518, "t": 1 },
+                { "id": 56, "x": 113, "y": 598, "t": 1 }, { "id": 57, "x": 188, "y": 598, "t": 0 }, { "id": 58, "x": 263, "y": 598, "t": 0 }, { "id": 59, "x": 338, "y": 598, "t": 0 },
+                { "id": 60, "x": 523, "y": 598, "t": 0 }, { "id": 61, "x": 591, "y": 597, "t": 0 }, { "id": 62, "x": 667, "y": 598, "t": 1 }, { "id": 63, "x": 738, "y": 594, "t": 0 },
+                { "id": 64, "x": 113, "y": 679, "t": 0 }, { "id": 65, "x": 188, "y": 679, "t": 1 }, { "id": 66, "x": 263, "y": 679, "t": 0 }, { "id": 67, "x": 338, "y": 679, "t": 0 },
+                { "id": 68, "x": 523, "y": 679, "t": 0 }, { "id": 69, "x": 591, "y": 678, "t": 1 }, { "id": 70, "x": 667, "y": 679, "t": 0 }, { "id": 71, "x": 738, "y": 675, "t": 0 },
+                { "id": 72, "x": 115, "y": 764, "t": 0 }, { "id": 73, "x": 190, "y": 764, "t": 0 }, { "id": 74, "x": 265, "y": 764, "t": 1 }, { "id": 75, "x": 340, "y": 764, "t": 0 },
+                { "id": 76, "x": 525, "y": 764, "t": 1 }, { "id": 77, "x": 593, "y": 763, "t": 0 }, { "id": 78, "x": 669, "y": 764, "t": 0 }, { "id": 79, "x": 740, "y": 760, "t": 0 },
+                { "id": 80, "x": 110, "y": 843, "t": 0 }, { "id": 81, "x": 185, "y": 843, "t": 1 }, { "id": 82, "x": 260, "y": 843, "t": 0 }, { "id": 83, "x": 335, "y": 843, "t": 0 },
+                { "id": 84, "x": 520, "y": 843, "t": 0 }, { "id": 85, "x": 588, "y": 842, "t": 0 }, { "id": 86, "x": 664, "y": 843, "t": 0 }, { "id": 87, "x": 735, "y": 839, "t": 1 },
+                { "id": 88, "x": 115, "y": 922, "t": 0 }, { "id": 89, "x": 190, "y": 922, "t": 0 }, { "id": 90, "x": 265, "y": 922, "t": 0 }, { "id": 91, "x": 340, "y": 922, "t": 1 },
+                { "id": 92, "x": 525, "y": 922, "t": 0 }, { "id": 93, "x": 593, "y": 921, "t": 0 }, { "id": 94, "x": 669, "y": 922, "t": 1 }, { "id": 95, "x": 740, "y": 918, "t": 0 }
+            ]
+        };
+
+        const CONFIG_PAGE_2 = {
+            "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "items": [
+                { "id": 0, "x": 113, "y": 47, "t": 0 }, { "id": 1, "x": 188, "y": 47, "t": 0 }, { "id": 2, "x": 263, "y": 47, "t": 0 }, { "id": 3, "x": 338, "y": 47, "t": 1 },
+                { "id": 4, "x": 517, "y": 47, "t": 0 }, { "id": 5, "x": 588, "y": 47, "t": 0 }, { "id": 6, "x": 658, "y": 48, "t": 1 }, { "id": 7, "x": 729, "y": 45, "t": 0 },
+                { "id": 8, "x": 114, "y": 124, "t": 0 }, { "id": 9, "x": 189, "y": 124, "t": 1 }, { "id": 10, "x": 264, "y": 124, "t": 0 }, { "id": 11, "x": 339, "y": 124, "t": 0 },
+                { "id": 12, "x": 518, "y": 124, "t": 0 }, { "id": 13, "x": 589, "y": 124, "t": 0 }, { "id": 14, "x": 659, "y": 125, "t": 0 }, { "id": 15, "x": 730, "y": 122, "t": 1 },
+                { "id": 16, "x": 113, "y": 199, "t": 0 }, { "id": 17, "x": 188, "y": 199, "t": 0 }, { "id": 18, "x": 263, "y": 199, "t": 1 }, { "id": 19, "x": 338, "y": 199, "t": 0 },
+                { "id": 20, "x": 517, "y": 199, "t": 1 }, { "id": 21, "x": 588, "y": 199, "t": 0 }, { "id": 22, "x": 658, "y": 200, "t": 0 }, { "id": 23, "x": 729, "y": 197, "t": 0 },
+                { "id": 24, "x": 109, "y": 286, "t": 0 }, { "id": 25, "x": 184, "y": 286, "t": 1 }, { "id": 26, "x": 259, "y": 286, "t": 0 }, { "id": 27, "x": 334, "y": 286, "t": 0 },
+                { "id": 28, "x": 513, "y": 286, "t": 0 }, { "id": 29, "x": 584, "y": 286, "t": 1 }, { "id": 30, "x": 654, "y": 287, "t": 0 }, { "id": 31, "x": 725, "y": 284, "t": 0 },
+                { "id": 32, "x": 112, "y": 362, "t": 1 }, { "id": 33, "x": 187, "y": 362, "t": 0 }, { "id": 34, "x": 262, "y": 362, "t": 0 }, { "id": 35, "x": 337, "y": 362, "t": 0 },
+                { "id": 36, "x": 516, "y": 362, "t": 0 }, { "id": 37, "x": 587, "y": 362, "t": 0 }, { "id": 38, "x": 657, "y": 363, "t": 1 }, { "id": 39, "x": 728, "y": 360, "t": 0 },
+                { "id": 40, "x": 112, "y": 442, "t": 1 }, { "id": 41, "x": 187, "y": 442, "t": 0 }, { "id": 42, "x": 262, "y": 442, "t": 0 }, { "id": 43, "x": 337, "y": 442, "t": 0 },
+                { "id": 44, "x": 516, "y": 442, "t": 0 }, { "id": 45, "x": 587, "y": 442, "t": 0 }, { "id": 46, "x": 657, "y": 443, "t": 0 }, { "id": 47, "x": 728, "y": 440, "t": 1 },
+                { "id": 48, "x": 109, "y": 523, "t": 0 }, { "id": 49, "x": 184, "y": 523, "t": 0 }, { "id": 50, "x": 259, "y": 523, "t": 0 }, { "id": 51, "x": 334, "y": 523, "t": 1 },
+                { "id": 52, "x": 513, "y": 523, "t": 0 }, { "id": 53, "x": 584, "y": 523, "t": 0 }, { "id": 54, "x": 654, "y": 524, "t": 1 }, { "id": 55, "x": 725, "y": 521, "t": 0 },
+                { "id": 56, "x": 113, "y": 605, "t": 0 }, { "id": 57, "x": 188, "y": 605, "t": 1 }, { "id": 58, "x": 263, "y": 605, "t": 0 }, { "id": 59, "x": 338, "y": 605, "t": 0 },
+                { "id": 60, "x": 517, "y": 605, "t": 1 }, { "id": 61, "x": 588, "y": 605, "t": 0 }, { "id": 62, "x": 658, "y": 606, "t": 0 }, { "id": 63, "x": 729, "y": 603, "t": 0 },
+                { "id": 64, "x": 111, "y": 684, "t": 0 }, { "id": 65, "x": 186, "y": 684, "t": 0 }, { "id": 66, "x": 261, "y": 684, "t": 1 }, { "id": 67, "x": 336, "y": 684, "t": 0 },
+                { "id": 68, "x": 515, "y": 684, "t": 0 }, { "id": 69, "x": 586, "y": 684, "t": 1 }, { "id": 70, "x": 656, "y": 685, "t": 0 }, { "id": 71, "x": 727, "y": 682, "t": 0 },
+                { "id": 72, "x": 111, "y": 765, "t": 0 }, { "id": 73, "x": 186, "y": 765, "t": 0 }, { "id": 74, "x": 261, "y": 765, "t": 0 }, { "id": 75, "x": 336, "y": 765, "t": 1 },
+                { "id": 76, "x": 515, "y": 765, "t": 0 }, { "id": 77, "x": 586, "y": 765, "t": 1 }, { "id": 78, "x": 656, "y": 766, "t": 0 }, { "id": 79, "x": 727, "y": 763, "t": 0 },
+                { "id": 80, "x": 109, "y": 846, "t": 1 }, { "id": 81, "x": 184, "y": 846, "t": 0 }, { "id": 82, "x": 260, "y": 846, "t": 0 }, { "id": 83, "x": 335, "y": 846, "t": 0 },
+                { "id": 84, "x": 513, "y": 846, "t": 0 }, { "id": 85, "x": 584, "y": 846, "t": 0 }, { "id": 86, "x": 654, "y": 847, "t": 0 }, { "id": 87, "x": 725, "y": 844, "t": 1 },
+                { "id": 88, "x": 113, "y": 929, "t": 0 }, { "id": 89, "x": 188, "y": 929, "t": 0 }, { "id": 90, "x": 263, "y": 929, "t": 1 }, { "id": 91, "x": 338, "y": 929, "t": 0 },
+                { "id": 92, "x": 517, "y": 929, "t": 1 }, { "id": 93, "x": 588, "y": 929, "t": 0 }, { "id": 94, "x": 658, "y": 930, "t": 0 }, { "id": 95, "x": 729, "y": 927, "t": 0 }
+            ]
+        };
+
+        // Estado da Aplicação
+        let userAnswers = {}; // Guarda: { questionId: { itemId: 12, isCorrect: true/false } }
+        let timeLeft = 300; // 5 minutos
+        let timerInterval;
+        let currentPage = 1;
+
+        // Inicialização
+        function renderHotspots(config, containerId, pageIndexOffset) {
+            const container = document.getElementById(containerId);
+
+            config.items.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'hotspot';
+                div.style.left = item.x + 'px';
+                div.style.top = item.y + 'px';
+                div.style.width = config.boxW + 'px';
+                div.style.height = config.boxH + 'px';
+
+                // Cada 4 itens formam 1 questão
+                const localQuestionIndex = Math.floor(index / 4);
+                const globalQuestionIndex = localQuestionIndex + (pageIndexOffset * 24);
+
+                div.dataset.questionId = globalQuestionIndex;
+                div.dataset.isCorrect = item.t === 1;
+                div.dataset.itemId = index; // ID único do item na página
+
+                // Evento de clique
+                div.onclick = function () {
+                    selectAnswer(this, globalQuestionIndex, item.t === 1, index);
+                };
+
+                container.appendChild(div);
+            });
+        }
+
+        function selectAnswer(element, questionId, isCorrect, itemId) {
+            // Limpa seleção visual de outros da mesma questão
+            const siblings = document.querySelectorAll(`.hotspot[data-question-id="${questionId}"]`);
+            siblings.forEach(el => el.classList.remove('selected'));
+
+            // Marca o atual
+            element.classList.add('selected');
+
+            // Salva resposta (sobrescrevendo se houver)
+            userAnswers[questionId] = { isCorrect: isCorrect, itemId: itemId };
+        }
+
+        function startTest() {
+            document.getElementById('screen-intro').classList.remove('active');
+            document.getElementById('screen-test').classList.add('active');
+
+            // Renderiza
+            renderHotspots(CONFIG_PAGE_1, 'page1-container', 0);
+            renderHotspots(CONFIG_PAGE_2, 'page2-container', 1);
+
+            // Inicia
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').innerText =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft <= 0) {
+                finishTest();
+            }
+            timeLeft--;
+        }
+
+        function nextPage() {
+            const btn = document.getElementById('btn-nav');
+            if (currentPage === 1) {
+                document.getElementById('page1-container').style.display = 'none';
+                document.getElementById('page2-container').style.display = 'block';
+                document.getElementById('page-indicator').innerText = '2';
+                btn.innerText = 'Finalizar Teste';
+                btn.classList.remove('btn-primary');
+                btn.style.backgroundColor = '#28a745'; // Botão verde para finalizar
+                currentPage = 2;
+                window.scrollTo(0, 0);
+            } else {
+                finishTest();
+            }
+        }
+
+        function finishTest() {
+            clearInterval(timerInterval);
+
+            // Esconder barra inferior e preparar visualização
+            document.getElementById('controls-bar').style.display = 'none';
+            document.getElementById('page1-container').style.display = 'inline-block'; // Mostrar Pág 1
+            document.getElementById('page2-container').style.display = 'inline-block'; // Mostrar Pág 2
+
+            // Mostrar Header de Resultados
+            const header = document.getElementById('result-header');
+            header.style.display = 'block';
+
+            // Calcular Score e Aplicar Gabarito Visual
+            let score = 0;
+
+            // Itera por todos os hotspots da tela
+            const allHotspots = document.querySelectorAll('.hotspot');
+
+            // Mapa auxiliar para saber se a questao foi respondida
+            // Precisamos saber se a questão X foi respondida para aplicar o "Amarelo" caso contrário
+            // Mas a iteração abaixo é por hotspot. Vamos primeiro varrer as respostas.
+
+            for (let qId = 0; qId < 48; qId++) {
+                const answer = userAnswers[qId];
+                if (answer && answer.isCorrect) {
+                    score++;
+                }
+            }
+
+            // APLICAR CORES
+            allHotspots.forEach(el => {
+                el.onclick = null; // Desabilitar cliques
+                el.style.cursor = 'default';
+                el.classList.remove('selected'); // Remove a marcação azul de seleção temporária
+
+                const qId = parseInt(el.dataset.questionId);
+                const isTargetCorrect = (el.dataset.isCorrect === "true");
+                const itemId = parseInt(el.dataset.itemId);
+                const userAnswer = userAnswers[qId];
+
+                if (userAnswer) {
+                    // Usuário respondeu esta questão
+                    if (userAnswer.itemId === itemId) {
+                        // Este é o item que o usuário clicou
+                        if (userAnswer.isCorrect) {
+                            el.classList.add('correct-user'); // VERDE
+                        } else {
+                            el.classList.add('wrong-user'); // VERMELHO
+                        }
+                    }
+                } else {
+                    // Usuário NÃO respondeu esta questão (Em branco)
+                    if (isTargetCorrect) {
+                        el.classList.add('missed-blank'); // AMARELO (Mostra qual era a certa)
+                    }
+                }
+            });
+
+            document.getElementById('score-display').innerText = score;
+            const statusEl = document.getElementById('status-display');
+
+            if (score >= 31) {
+                statusEl.innerHTML = "<h3 style='color:green; margin: 5px 0;'>APROVADO</h3>";
+            } else {
+                statusEl.innerHTML = "<h3 style='color:red; margin: 5px 0;'>REPROVADO (Meta: 31)</h3>";
+            }
+
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+</body>
+
+</html>

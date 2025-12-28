@@ -67,7 +67,7 @@
             /* Proporção original 1000/1250 = 0.8 */
             aspect-ratio: 1000 / 1250;
             margin: 0 auto;
-            background-image: url('rotac.png');
+            background-image: url('../../Imagens_base/rotas/rotac.png');
             background-size: 100% 100%;
             border-radius: 8px;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
@@ -229,7 +229,7 @@
                     alt="Brasão Base"
                     class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:white">APROVAÇÃO <span
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
                             style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
                     <span class="text-white font-black text-lg leading-none">ROTA <span
                             class="text-[var(--accent-blue)]">C</span></span>
@@ -237,17 +237,34 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <a href="../../testes_atencao.html"
-                    class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                    </svg>
-                    Voltar
-                </a>
+            <div class="flex items-center gap-6">
+                <!-- User Info -->
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2025</span>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <a href="../testes_atencao.html"
+                        class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                        </svg>
+                        Sair
+                    </a>
+                </div>
             </div>
         </div>
+    </header> <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+    </svg>
+    Voltar
+    </a>
+    </div>
+    </div>
+    </div>
     </header>
 
     <main class="flex-grow pt-24 pb-12 px-4 flex flex-col items-center justify-center relative w-full">
@@ -258,17 +275,18 @@
             </div>
 
             <h2 class="text-3xl font-black text-white mb-2">Instruções do Teste</h2>
-            <p class="text-gray-400 mb-8">Identifique e marque todas as figuras idênticas ao modelo abaixo.</p>
+            <p class="text-gray-400 mb-8">Identifique e marque todas as figuras idênticas ao exemplo abaixo.</p>
 
             <div class="flex flex-col items-center mb-8 gap-4">
                 <div
                     class="bg-white p-6 rounded-xl shadow-lg border-2 border-purple-500/50 transform hover:scale-105 transition duration-300">
-                    <img src="modelo_rotac.png" class="h-24 object-contain" alt="Modelo"
+                    <img src="../../Imagens_base/apostila/rotas/rotac_exemplo.png" class="h-84 object-contain"
+                        alt="Exemplo"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
-                    <div style="display:none" class="text-slate-800 font-bold text-sm">Imagem do modelo não carregada
+                    <div style="display:none" class="text-slate-800 font-bold text-sm">Imagem do exemplo não carregada
                     </div>
                 </div>
-                <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Figura Alvo</span>
+                <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Exemplo</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
@@ -469,6 +487,7 @@
             Alpine.data('rotaSim', () => ({
                 init() {
                     this.loadHistory();
+                    document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
                 },
                 config: {
                     "imgWidth": 1000, "imgHeight": 1250, "boxW": 24, "boxH": 26,
@@ -633,6 +652,15 @@
                     return `${m}:${sec}`;
                 }
             }));
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentName = sessionStorage.getItem('memberName') || 'Visitante';
+            const nameElement = document.getElementById('header-student-name');
+            if (nameElement) {
+                nameElement.textContent = studentName;
+            }
         });
     </script>
 </body>

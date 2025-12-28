@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>TEDIF-2 (Simulador) | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Black+Ops+One&display=swap"
+        rel="stylesheet" />
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0;
+            user-select: none;
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            position: relative;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background: radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none;
+        }
+
+        /* Container da Imagem */
+        .test-paper-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            /* Proporção da imagem do TEDIF1 */
+            aspect-ratio: 791 / 1000;
+            margin: 0 auto;
+            background-image: url('../../Imagens_base/tadimtedif/tedif2.png');
+            background-size: 100% 100%;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Zonas de Clique */
+        .hit-zone {
+            position: absolute;
+            cursor: crosshair;
+            transform: translate(-50%, -50%);
+            transition: background-color 0.1s;
+        }
+
+        .hit-zone:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Marcação (Risco diagonal) */
+        .hit-zone.marked::after {
+            content: '';
+            position: absolute;
+            width: 140%;
+            height: 5px;
+            background-color: #ef4444;
+            /* Vermelho */
+            /* Azul */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            box-shadow: 0 0 4px rgba(37, 99, 235, 0.5);
+            border-radius: 2px;
+        }
+
+        /* Circulo (Double click - Sinal) */
+        .hit-zone.circled {
+            border: 3px solid #facc15;
+            /* Amarelo */
+            border-radius: 50%;
+            background-color: rgba(250, 204, 21, 0.1);
+            box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+        }
+
+        /* Revisão Visual */
+        .hit-zone.res-correct {
+            background-color: rgba(34, 197, 94, 0.3);
+            border: 1px solid #22c55e;
+            border-radius: 50%;
+        }
+
+        .hit-zone.res-error {
+            background-color: rgba(239, 68, 68, 0.3);
+            border: 1px solid #ef4444;
+            border-radius: 50%;
+        }
+
+        /* UI Elements */
+        .glass-panel {
+            background: rgba(28, 27, 41, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
+
+        .stamp-inapto {
+            font-family: 'Black Ops One', cursive;
+            color: #ef4444;
+            text-transform: uppercase;
+            border: 5px solid #ef4444;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transform: rotate(-15deg) scale(0);
+            animation: stampBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes stampBounce {
+            0% {
+                transform: rotate(-15deg) scale(3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(-15deg) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col hero-bg" x-data="tedifSim()">
+
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">TESTE <span
+                            class="text-[var(--accent-blue)]">TEDIF-2</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2025</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="../testes_atencao.html"
+                        class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                        </svg>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-24 pb-12 px-4 flex flex-col items-center justify-center relative w-full">
+
+        <div x-show="state === 'instructions'"
+            class="glass-panel max-w-3xl w-full rounded-2xl p-8 text-center fade-in relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500">
+            </div>
+
+            <h2 class="text-3xl font-black text-white mb-2">Instruções do Teste TEDIF-2</h2>
+            <div class="text-gray-300 mb-8 space-y-2">
+                <p>Marque os números de <strong>1 a 50 na sequência correta</strong>.</p>
+                <p>Primeiro o 1, depois o 2, até o 50.</p>
+                <p class="text-yellow-400 font-bold"><i class="fas fa-volume-up mr-2"></i>A cada minuto, ao ouvir o
+                    comando "SINAL", faça um círculo no último número marcado (Clique duplo).</p>
+                <div class="text-sm bg-blue-900/40 p-3 rounded-lg inline-block mt-2">
+                    <i class="fas fa-lightbulb text-yellow-300 mr-2"></i>Dica: Use os dedos para guiar sua visão.
+                </div>
+
+                <!-- Nova dica adicionada -->
+                <div class="mt-4 p-4 bg-slate-800/80 rounded-xl border border-yellow-500/30">
+                    <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Bizu de Cores</h4>
+                    <ul class="text-sm text-gray-300 space-y-1 text-left list-disc pl-5">
+                        <li>Ceará Vs Bahia</li>
+                        <li>Os números seguirão a sequência das cores:
+                            <ul class="list-circle pl-5 mt-1 text-gray-400">
+                                <li>Verde e amarelo</li>
+                                <li>Vermelho e azul</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-stopwatch"></i></div>
+                        <span class="font-bold text-white">Tempo Limite</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11">Você terá <strong>4 minutos</strong>.</p>
+                </div>
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="p-2 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-bullseye"></i></div>
+                        <span class="font-bold text-white">Meta de Aprovação</span>
+                    </div>
+                    <p class="text-sm text-gray-400 pl-11">Mínimo de <strong>45 Pontos</strong>.</p>
+                </div>
+            </div>
+
+            <button @click="startTest()"
+                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-white text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
+                <span class="relative z-10 flex items-center justify-center gap-2">
+                    INICIAR AGORA <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </span>
+                <div class="absolute inset-0 rounded-xl bg-white/20 blur opacity-0 group-hover:opacity-100 transition">
+                </div>
+            </button>
+
+            <div class="mt-8 border-t border-white/10 pt-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        @click="clearHistory()">Limpar</button>
+                </div>
+                <div class="overflow-x-auto max-h-40">
+                    <table class="w-full text-sm text-left">
+                        <tbody class="divide-y divide-white/5">
+                            <template x-if="history.length === 0">
+                                <tr>
+                                    <td class="px-4 py-4 text-center text-gray-500">Nenhum registro.</td>
+                                </tr>
+                            </template>
+                            <template x-for="(item, index) in history" :key="index">
+                                <tr class="hover:bg-white/5 transition">
+                                    <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="item.score"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-xs"
+                                        :class="item.score >= 45 ? 'text-green-400' : 'text-red-400'"
+                                        x-text="item.score >= 45 ? 'APTO' : 'INAPTO'"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="state === 'testing'" class="w-full fade-in relative" x-cloak>
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                    :class="{'border-red-500 bg-red-900/40': time <= 10}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                        :class="{'text-red-400 animate-pulse': time <= 10}" x-text="formatTime(time)">
+                    </div>
+                </div>
+
+                <div class="glass-panel px-4 py-2 rounded-full flex items-col gap-1 border border-white/10">
+                    <span class="text-[10px] text-gray-400 uppercase font-bold">Próximo</span>
+                    <span class="text-xl font-black text-yellow-400" x-text="nextExpected"></span>
+                </div>
+
+                <button @click="finishTest()"
+                    class="px-6 py-3 rounded-full bg-red-500 hover:bg-red-600 text-white font-black uppercase tracking-wider shadow-lg transition hover:scale-105 flex items-center gap-2"
+                    title="Finalizar Teste">
+                    <i class="fas fa-flag-checkered"></i> ENTREGAR
+                </button>
+            </div>
+
+            <div class="fixed inset-0 bg-red-600/10 pointer-events-none z-30 animate-pulse" x-show="time <= 10"></div>
+
+            <div class="fixed bottom-6 left-6 z-40 flex flex-col gap-2">
+                <div class="glass-panel p-2 rounded-lg flex flex-col gap-2">
+                    <button @click="zoomIn()"
+                        class="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button @click="resetZoom()"
+                        class="text-[10px] text-gray-400 font-bold py-1 hover:text-white transition">
+                        <span x-text="Math.round(zoom * 100) + '%'"></span>
+                    </button>
+                    <button @click="zoomOut()"
+                        class="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button @click="window.scrollTo({top: 0, behavior: 'smooth'})"
+                class="fixed bottom-6 right-6 z-40 bg-white text-slate-900 w-12 h-12 rounded-full shadow-xl flex items-center justify-center hover:bg-gray-200 transition">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+            <!-- Signal Indicator (optional visual cue along with audio) -->
+            <div x-show="showSignal" class="fixed inset-0 flex items-center justify-center z-[200] pointer-events-none">
+                <div
+                    class="text-6xl font-black text-yellow-400 drop-shadow-[0_0_20px_rgba(250,204,21,0.8)] animate-ping">
+                    SINAL!</div>
+            </div>
+
+            <div class="w-full flex justify-center pb-20 pt-16">
+                <div class="test-paper-container transition-transform duration-200 origin-top"
+                    :style="`transform: scale(${zoom})`">
+                    <div class="absolute inset-0 z-10">
+                        <template x-for="item in config.items" :key="item.id">
+                            <div @click="handleClick(item.id)" @dblclick="handleDoubleClick(item.id)" class="hit-zone"
+                                :class="{
+                                    'marked': item.marked, 
+                                    'circled': item.circled
+                                }" :style="`
+                                    left: ${item.x}%; 
+                                    top: ${item.y}%; 
+                                    width: ${config.boxW}%; 
+                                    height: ${config.boxH}%;
+                                 `">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="state === 'results'" class="max-w-4xl w-full text-center fade-in z-50" x-cloak>
+            <div class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 border-t border-white/20">
+                <div class="absolute inset-0 opacity-20 pointer-events-none"
+                    :class="results.score >= 45 ? 'bg-green-600' : 'bg-red-900'"></div>
+
+                <h2 class="text-4xl font-black text-white mb-8 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
+
+                <div class="flex justify-center mb-10 relative">
+                    <div x-show="results.score >= 45" class="flex flex-col items-center animate-bounce-in">
+                        <div
+                            class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(34,197,94,0.6)] mb-4">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-4xl font-black text-green-400 tracking-tighter">APTO</h3>
+                        <p class="text-green-200/60 text-sm mt-1">Parabéns! Meta atingida.</p>
+                    </div>
+
+                    <div x-show="results.score < 45" class="relative flex flex-col items-center justify-center">
+                        <div class="loser-text">INAPTO</div>
+                        <div class="stamp-inapto text-3xl opacity-80 mt-2">Tente Novamente</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Acertos</div>
+                        <div class="text-3xl font-black text-green-400" x-text="results.hits"></div>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Erros</div>
+                        <div class="text-3xl font-black text-red-400" x-text="results.errors"></div>
+                    </div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Círculos (Sinal)</div>
+                        <div class="text-3xl font-black text-yellow-400" x-text="results.circles"></div>
+                    </div>
+                    <div
+                        class="bg-gradient-to-b from-slate-700 to-slate-900 p-4 rounded-xl border border-white/20 shadow-inner">
+                        <div class="text-xs font-bold text-white/70 uppercase mb-1">Pontuação</div>
+                        <div class="text-4xl font-black text-white" x-text="results.score"></div>
+                        <div class="text-[10px] text-cyan-300 mt-1">Meta: 45</div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button @click="showVisualReview()"
+                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-eye"></i> Ver Onde Errei
+                    </button>
+                    <button onclick="location.reload()"
+                        class="px-8 py-3 rounded-lg bg-white text-slate-900 font-bold hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-redo"></i> Tentar Novamente
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div x-show="reviewMode" class="w-full flex justify-center pb-20 pt-8 animate-fade-in" x-cloak>
+            <div class="test-paper-container">
+                <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+                <div class="absolute inset-0">
+                    <template x-for="(item, index) in config.items" :key="item.id">
+                        <div class="hit-zone" :class="{
+                                  'res-correct': item.marked && !item.error,
+                                  'res-error': item.marked && item.error,
+                                  'circled': item.circled
+                               }" :style="`
+                                  left: ${item.x}%; 
+                                  top: ${item.y}%; 
+                                  width: ${config.boxW}%; 
+                                  height: ${config.boxH}%;
+                               `">
+                            <span x-show="item.marked"
+                                class="text-[10px] absolute -top-4 left-1/2 -translate-x-1/2 font-bold text-white drop-shadow-md"
+                                x-text="item.clickOrder"></span>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('tedifSim', () => ({
+                init() {
+                    this.loadHistory();
+                    document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
+                    this.config.items = this.config.items.map(item => ({ ...item, marked: false, circled: false, error: false, clickOrder: null }));
+                },
+                config: {
+                    "boxW": 4,
+                    "boxH": 3.5,
+                    "items": [
+                        { "id": 1, "x": 5.3, "y": 4.11 },
+                        { "id": 2, "x": 39.62, "y": 28.67 },
+                        { "id": 3, "x": 27.88, "y": 72.43 },
+                        { "id": 4, "x": 91.45, "y": 50.61 },
+                        { "id": 5, "x": 38.35, "y": 40.14 },
+                        { "id": 6, "x": 46.12, "y": 87.26 },
+                        { "id": 7, "x": 75.92, "y": 9.72 },
+                        { "id": 8, "x": 6.2, "y": 51.23 },
+                        { "id": 9, "x": 90.91, "y": 67.69 },
+                        { "id": 10, "x": 11.62, "y": 23.31 },
+                        { "id": 11, "x": 75.19, "y": 52.61 },
+                        { "id": 12, "x": 54.61, "y": 22.94 },
+                        { "id": 13, "x": 7.29, "y": 92.37 },
+                        { "id": 14, "x": 79.35, "y": 62.2 },
+                        { "id": 15, "x": 28.24, "y": 19.07 },
+                        { "id": 16, "x": 46.3, "y": 49.99 },
+                        { "id": 17, "x": 70.32, "y": 89.25 },
+                        { "id": 18, "x": 26.07, "y": 50.98 },
+                        { "id": 19, "x": 39.98, "y": 4.36 },
+                        { "id": 20, "x": 55.15, "y": 94.12 },
+                        { "id": 21, "x": 87.29, "y": 41.39 },
+                        { "id": 22, "x": 89.82, "y": 17.58 },
+                        { "id": 23, "x": 28.24, "y": 94.74 },
+                        { "id": 24, "x": 9.27, "y": 69.31 },
+                        { "id": 25, "x": 71.04, "y": 19.2 },
+                        { "id": 26, "x": 77, "y": 77.91 },
+                        { "id": 27, "x": 56.41, "y": 41.88 },
+                        { "id": 28, "x": 91.63, "y": 28.67 },
+                        { "id": 29, "x": 35.46, "y": 61.08 },
+                        { "id": 30, "x": 21.92, "y": 7.85 },
+                        { "id": 31, "x": 60.02, "y": 79.53 },
+                        { "id": 32, "x": 23.9, "y": 32.29 },
+                        { "id": 33, "x": 46.48, "y": 75.79 },
+                        { "id": 34, "x": 58.58, "y": 6.48 },
+                        { "id": 35, "x": 15.6, "y": 59.96 },
+                        { "id": 36, "x": 7.65, "y": 13.71 },
+                        { "id": 37, "x": 58.76, "y": 54.97 },
+                        { "id": 38, "x": 10.72, "y": 79.78 },
+                        { "id": 39, "x": 14.87, "y": 42.76 },
+                        { "id": 40, "x": 28.96, "y": 84.27 },
+                        { "id": 41, "x": 7.47, "y": 32.66 },
+                        { "id": 42, "x": 51.17, "y": 66.32 },
+                        { "id": 43, "x": 74.65, "y": 30.42 },
+                        { "id": 44, "x": 67.79, "y": 67.31 },
+                        { "id": 45, "x": 45.39, "y": 15.08 },
+                        { "id": 46, "x": 72.12, "y": 42.38 },
+                        { "id": 47, "x": 91.09, "y": 81.53 },
+                        { "id": 48, "x": 91.09, "y": 4.74 },
+                        { "id": 49, "x": 57.5, "y": 31.91 },
+                        { "id": 50, "x": 89.28, "y": 93.24 }
+                    ]
+                },
+                state: 'instructions',
+                time: 240,
+                timer: null,
+                nextExpected: 1,
+
+                // Zoom
+                zoom: 0.7,
+
+                zoomIn() {
+                    if (this.zoom < 1.5) this.zoom += 0.1;
+                },
+                zoomOut() {
+                    if (this.zoom > 0.3) this.zoom -= 0.1;
+                },
+                resetZoom() {
+                    this.zoom = 0.7;
+                },
+
+                results: { hits: 0, errors: 0, circles: 0, score: 0 },
+                reviewMode: false,
+                history: [],
+                showSignal: false,
+                audio: {
+                    prepare: new Audio('../../vozes/prepare.mp3'),
+                    finish: new Audio('../../vozes/tempoesgotado.mp3'),
+                    sinal: new Audio('../../vozes/sinal.mp3'),
+                    error: new Audio('../../vozes/error.mp3')
+                },
+
+                async startTest() {
+                    try {
+                        await this.audio.prepare.play();
+                        setTimeout(() => this.startTimerLogica(), 4000);
+                    } catch (e) {
+                        this.startTimerLogica();
+                    }
+                },
+
+                startTimerLogica() {
+                    this.state = 'testing';
+                    window.scrollTo(0, 0);
+
+                    this.timer = setInterval(() => {
+                        this.time--;
+
+                        // SINAL A CADA MINUTO (restante: 180, 120, 60)
+                        if (this.time === 180 || this.time === 120 || this.time === 60) {
+                            this.playSignal();
+                        }
+
+                        if (this.time <= 0) this.finishTest();
+                    }, 1000);
+                },
+
+                playSignal() {
+                    this.audio.sinal.play().catch(e => console.log(e));
+                    this.showSignal = true;
+                    setTimeout(() => this.showSignal = false, 1500);
+                },
+
+                handleClick(id) {
+                    const item = this.config.items.find(i => i.id === id);
+                    if (!item || item.marked) return;
+
+                    item.marked = true;
+                    item.clickOrder = this.nextExpected;
+
+                    if (id === this.nextExpected) {
+                        this.nextExpected++;
+                    } else {
+                        item.error = true;
+                    }
+                },
+
+                handleDoubleClick(id) {
+                    const item = this.config.items.find(i => i.id === id);
+                    if (item) {
+                        item.circled = !item.circled;
+                    }
+                },
+
+                finishTest() {
+                    clearInterval(this.timer);
+                    this.audio.finish.play().catch(e => console.log('Áudio erro'));
+
+                    let hits = 0;
+                    let errors = 0;
+                    let circles = 0;
+
+                    this.config.items.forEach(item => {
+                        if (item.marked) {
+                            if (!item.error) hits++;
+                            else errors++;
+                        }
+                        if (item.circled) circles++;
+                    });
+
+                    let score = hits - errors;
+                    if (score < 0) score = 0;
+
+                    this.results = { hits, errors, circles, score };
+
+                    this.state = 'results';
+                    window.scrollTo(0, 0);
+
+                    if (this.results.score >= 45) {
+                        this.triggerConfetti();
+                    } else {
+                        document.body.classList.add('shake-screen');
+                        setTimeout(() => document.body.classList.remove('shake-screen'), 500);
+                    }
+                    this.saveHistory();
+                },
+
+                triggerConfetti() {
+                    const end = Date.now() + 3000;
+                    (function frame() {
+                        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#22c55e', '#a855f7'] });
+                        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#22c55e', '#06b6d4'] });
+                        if (Date.now() < end) requestAnimationFrame(frame);
+                    }());
+                },
+
+                loadHistory() {
+                    const h = localStorage.getItem('tedif2_history');
+                    if (h) this.history = JSON.parse(h);
+                },
+
+                saveHistory() {
+                    const newItem = {
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: this.results.score,
+                        passed: this.results.score >= 45
+                    };
+                    this.history.unshift(newItem);
+                    localStorage.setItem('tedif2_history', JSON.stringify(this.history));
+                },
+
+                clearHistory() {
+                    if (confirm('Limpar?')) {
+                        localStorage.removeItem('tedif2_history');
+                        this.history = [];
+                    }
+                },
+
+                showVisualReview() {
+                    this.reviewMode = true;
+                    setTimeout(() => {
+                        document.querySelector('.test-paper-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                },
+
+                formatTime(s) {
+                    const m = Math.floor(s / 60).toString().padStart(2, '0');
+                    const sec = (s % 60).toString().padStart(2, '0');
+                    return `${m}:${sec}`;
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

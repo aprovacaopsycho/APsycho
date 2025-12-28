@@ -200,27 +200,26 @@
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img src="logo-principal.png" alt="Logo" class="h-8">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
                     class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">AC <span
-                            class="text-[var(--accent-blue)]">VETOR</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
+                            style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">AC VETOR</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2025</span>
+                </div>
                 <a href="testes_atencao.html"
-                    class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                    </svg>
-                    Voltar
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
             </div>
         </div>
@@ -720,6 +719,24 @@
                     }, stepTime > 10 ? stepTime : 10);
                 }
             }));
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentName = sessionStorage.getItem('memberName');
+            if (studentName) {
+                const nameEl = document.getElementById('header-student-name');
+                if (nameEl) nameEl.textContent = studentName;
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentName = sessionStorage.getItem('memberName');
+            if (studentName) {
+                const nameEl = document.getElementById('header-student-name');
+                if (nameEl) nameEl.textContent = studentName;
+            }
         });
     </script>
 </body>

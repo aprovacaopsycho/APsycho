@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapeador TSP Dimensoes (Premium)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(13, 148, 136, 0.15) 0%, transparent 40%);
+        }
+
+        .workspace {
+            width: calc(100% - 400px);
+            height: 100vh;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Glass Panel for Sidebar */
+        .glass-sidebar {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .control-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 12px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .control-input:focus {
+            border-color: #a855f7;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+        }
+
+        .premium-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* Canvas & Markers */
+        .canvas-container {
+            position: relative;
+            background: #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transform-origin: top center;
+        }
+
+        .marker-box {
+            position: absolute;
+            background-color: rgba(236, 72, 153, 0.15);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.4);
+            user-select: none;
+            z-index: 10;
+            border-radius: 4px;
+            transition: background 0.1s, border 0.1s;
+        }
+
+        .marker-box:hover {
+            background-color: rgba(6, 182, 212, 0.4);
+            border-color: #22d3ee;
+            z-index: 50;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.4);
+        }
+
+        .marker-box.is-target {
+            background-color: rgba(34, 197, 94, 0.4) !important;
+            border: 2px solid #22c55e !important;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+
+        .marker-box.is-highlighted {
+            border-color: #fbbf24 !important;
+            background-color: rgba(251, 191, 36, 0.3) !important;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.5);
+            z-index: 40;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body x-data="tspMapper()" class="flex" @mousemove="onDrag" @mouseup="stopDrag">
+
+    <aside class="w-[400px] h-screen glass-sidebar flex flex-col z-50 fixed right-0 top-0 overflow-y-auto text-xs">
+        <div class="p-6 space-y-6">
+            <h2
+                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-white/10 pb-4 flex items-center gap-2">
+                <i class="fas fa-ruler-combined text-purple-400"></i> TSP MAPPER
+            </h2>
+
+            <div class="control-group">
+                <label
+                    class="block uppercase text-xs font-bold text-gray-400 mb-3 tracking-wider flex items-center gap-2">
+                    <i class="fas fa-file-image text-blue-400"></i> 1. Página
+                </label>
+                <div class="flex gap-2">
+                    <button @click="setPage(1)" class="flex-1 py-2 rounded text-xs font-bold transition"
+                        :class="page === 1 ? 'bg-purple-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'">
+                        Página 1
+                    </button>
+                    <button @click="setPage(2)" class="flex-1 py-2 rounded text-xs font-bold transition"
+                        :class="page === 2 ? 'bg-purple-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'">
+                        Página 2
+                    </button>
+                </div>
+                <div class="mt-4 flex justify-between items-center text-gray-400 font-medium">
+                    <span>Zoom: <span x-text="zoom + '%'" class="text-white"></span></span>
+                    <input type="range" x-model="zoom" min="20" max="200"
+                        class="w-32 accent-purple-500 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                </div>
+            </div>
+
+            <div class="control-group border-l-2 border-l-yellow-500">
+                <h3 class="font-bold text-yellow-400 uppercase mb-3 text-[10px] tracking-widest">2. Ferramentas de Grupo
+                </h3>
+
+                <div class="flex bg-black/40 p-1 rounded-lg mb-4">
+                    <button @click="mode = 'global'"
+                        :class="mode === 'global' ? 'bg-purple-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">TUDO</button>
+                    <button @click="mode = 'row'"
+                        :class="mode === 'row' ? 'bg-yellow-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">LINHA</button>
+                    <button @click="mode = 'col'"
+                        :class="mode === 'col' ? 'bg-green-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">COLUNA</button>
+                </div>
+
+                <div x-show="mode === 'row'"
+                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-white/5">
+                    <button @click="selectedRow = Math.max(0, selectedRow - 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">-</button>
+                    <span class="font-bold text-yellow-400 text-xs">LINHA <span x-text="selectedRow"
+                            class="text-white ml-1"></span></span>
+                    <button @click="selectedRow = Math.min(rows-1, selectedRow + 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">+</button>
+                </div>
+
+                <div x-show="mode === 'col'"
+                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-white/5">
+                    <button @click="selectedCol = Math.max(0, selectedCol - 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">-</button>
+                    <span class="font-bold text-green-400 text-xs">COLUNA <span x-text="selectedCol"
+                            class="text-white ml-1"></span></span>
+                    <button @click="selectedCol = Math.min(cols-1, selectedCol + 1)"
+                        class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">+</button>
+                </div>
+
+                <div class="border-t border-white/10 pt-3 mt-3">
+                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Deslocar (Mover)</p>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button @click="nudge(0, -1)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-up"></i></button>
+                        <button @click="nudge(0, 1)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-down"></i></button>
+                        <button @click="nudge(-1, 0)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-left"></i></button>
+                        <button @click="nudge(1, 0)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
+                                class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/10 pt-3 mt-3">
+                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Espaçamento</p>
+                    <div class="flex gap-2 mb-2">
+                        <button @click="stretch('x', -0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-compress-arrows-alt mr-1"></i> X-</button>
+                        <button @click="stretch('x', 0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-expand-arrows-alt mr-1"></i> X+</button>
+                    </div>
+                    <div class="flex gap-2">
+                        <button @click="stretch('y', -0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-compress-arrows-alt mr-1"></i> Y-</button>
+                        <button @click="stretch('y', 0.5)"
+                            class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
+                                class="fas fa-expand-arrows-alt mr-1"></i> Y+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="flex gap-4">
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Largura</label>
+                        <input type="range" x-model="boxW" min="10" max="80"
+                            class="w-full accent-blue-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Altura</label>
+                        <input type="range" x-model="boxH" min="10" max="80"
+                            class="w-full accent-blue-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group border-l-2 border-l-red-500">
+                <h3 class="font-bold text-red-400 uppercase mb-3 text-[10px] tracking-widest">4. Grid Generator</h3>
+                <button @click="generateBaseGrid()"
+                    class="w-full py-2 bg-red-600/20 hover:bg-red-600/40 text-red-100 font-bold rounded-lg transition border border-red-500/30 uppercase text-[10px] tracking-wider">
+                    RE-GERAR GRID (Reset)
+                </button>
+            </div>
+
+            <div class="pt-2 pb-10">
+                <button @click="generateCode()"
+                    class="premium-btn w-full py-3 rounded-xl mb-4 flex items-center justify-center gap-2 group">
+                    <i class="fas fa-code text-white group-hover:scale-110 transition"></i>
+                    <span>GERAR CONFIG JSON</span>
+                </button>
+                <textarea x-model="output" readonly
+                    class="control-input h-32 font-mono text-green-400 border-green-500/30"
+                    placeholder="// O código será gerado aqui..."></textarea>
+            </div>
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <div class="canvas-container"
+            :style="`width: ${imgWidth}px; height: ${imgHeight}px; transform: scale(${zoom/100});`">
+
+            <img :src="currentImage" class="bg-image" :style="`width: 100%; height: 100%;`">
+
+            <template x-for="item in items" :key="item.id">
+                <div class="marker-box" :class="{
+                        'is-dragging': draggingId === item.id,
+                        'is-target': item.isTarget,
+                        'is-highlighted': isHighlighted(item)
+                     }" @mousedown.prevent="startDrag($event, item.id)" :style="`
+                        left: ${item.x}px; 
+                        top: ${item.y}px; 
+                        width: ${boxW}px; 
+                        height: ${boxH}px;
+                        transform: translate(-50%, -50%); /* Centralizado no ponto */
+                     `">
+                    <span x-text="item.id"></span>
+                </div>
+            </template>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('tspMapper', () => ({
+                page: 1,
+                imgWidth: 801,
+                imgHeight: 1024,
+                zoom: 80,
+
+                // Estrutura TSP Dimensoes: 12 linhas x 8 colunas = 96 itens
+                rows: 12, cols: 8,
+                boxW: 50, boxH: 50,
+
+                items: [],
+
+                // Modos
+                mode: 'global',
+                selectedRow: 0,
+                selectedCol: 0,
+
+                output: '',
+
+                // Dragging
+                draggingId: null,
+                startX: 0, startY: 0,
+                initialItemX: 0, initialItemY: 0,
+                isClick: false,
+
+                get currentImage() {
+                    return this.page === 1 ? 'tsp_dimensoes_debug_1.png' : 'tsp_dimensoes_debug_2.png';
+                },
+
+                init() {
+                    this.generateBaseGrid();
+                },
+
+                setPage(p) {
+                    this.page = p;
+                    // Ao mudar de página, mantemos a grid atual ou resetamos?
+                    // Geralmente resetamos para o padrão
+                    this.generateBaseGrid();
+                    this.output = '';
+                },
+
+                // CONFIGS INJETADAS PARA EDICAO
+                configPage1: { "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "items": [{ "id": 0, "x": 108, "y": 40, "t": 0 }, { "id": 1, "x": 184, "y": 40, "t": 0 }, { "id": 2, "x": 259, "y": 40, "t": 1 }, { "id": 3, "x": 334, "y": 40, "t": 0 }, { "id": 4, "x": 519, "y": 40, "t": 1 }, { "id": 5, "x": 587, "y": 39, "t": 0 }, { "id": 6, "x": 663, "y": 40, "t": 0 }, { "id": 7, "x": 734, "y": 36, "t": 0 }, { "id": 8, "x": 109, "y": 116, "t": 1 }, { "id": 9, "x": 184, "y": 116, "t": 0 }, { "id": 10, "x": 259, "y": 116, "t": 0 }, { "id": 11, "x": 334, "y": 116, "t": 0 }, { "id": 12, "x": 519, "y": 116, "t": 0 }, { "id": 13, "x": 587, "y": 115, "t": 0 }, { "id": 14, "x": 663, "y": 116, "t": 0 }, { "id": 15, "x": 734, "y": 112, "t": 1 }, { "id": 16, "x": 112, "y": 196, "t": 0 }, { "id": 17, "x": 187, "y": 196, "t": 0 }, { "id": 18, "x": 262, "y": 196, "t": 0 }, { "id": 19, "x": 337, "y": 196, "t": 1 }, { "id": 20, "x": 522, "y": 196, "t": 0 }, { "id": 21, "x": 590, "y": 195, "t": 1 }, { "id": 22, "x": 666, "y": 196, "t": 0 }, { "id": 23, "x": 737, "y": 192, "t": 0 }, { "id": 24, "x": 109, "y": 279, "t": 0 }, { "id": 25, "x": 184, "y": 279, "t": 0 }, { "id": 26, "x": 259, "y": 279, "t": 1 }, { "id": 27, "x": 334, "y": 279, "t": 0 }, { "id": 28, "x": 519, "y": 279, "t": 0 }, { "id": 29, "x": 587, "y": 278, "t": 1 }, { "id": 30, "x": 663, "y": 279, "t": 0 }, { "id": 31, "x": 734, "y": 275, "t": 0 }, { "id": 32, "x": 108, "y": 357, "t": 0 }, { "id": 33, "x": 183, "y": 357, "t": 1 }, { "id": 34, "x": 258, "y": 357, "t": 0 }, { "id": 35, "x": 333, "y": 357, "t": 0 }, { "id": 36, "x": 518, "y": 357, "t": 1 }, { "id": 37, "x": 586, "y": 356, "t": 0 }, { "id": 38, "x": 662, "y": 357, "t": 0 }, { "id": 39, "x": 733, "y": 353, "t": 0 }, { "id": 40, "x": 114, "y": 438, "t": 0 }, { "id": 41, "x": 189, "y": 438, "t": 0 }, { "id": 42, "x": 264, "y": 438, "t": 0 }, { "id": 43, "x": 339, "y": 438, "t": 1 }, { "id": 44, "x": 524, "y": 438, "t": 0 }, { "id": 45, "x": 592, "y": 437, "t": 0 }, { "id": 46, "x": 668, "y": 438, "t": 1 }, { "id": 47, "x": 739, "y": 434, "t": 0 }, { "id": 48, "x": 113, "y": 522, "t": 1 }, { "id": 49, "x": 188, "y": 522, "t": 0 }, { "id": 50, "x": 263, "y": 522, "t": 0 }, { "id": 51, "x": 338, "y": 522, "t": 0 }, { "id": 52, "x": 523, "y": 522, "t": 0 }, { "id": 53, "x": 591, "y": 521, "t": 0 }, { "id": 54, "x": 667, "y": 522, "t": 0 }, { "id": 55, "x": 738, "y": 518, "t": 1 }, { "id": 56, "x": 113, "y": 598, "t": 1 }, { "id": 57, "x": 188, "y": 598, "t": 0 }, { "id": 58, "x": 263, "y": 598, "t": 0 }, { "id": 59, "x": 338, "y": 598, "t": 0 }, { "id": 60, "x": 523, "y": 598, "t": 0 }, { "id": 61, "x": 591, "y": 597, "t": 0 }, { "id": 62, "x": 667, "y": 598, "t": 1 }, { "id": 63, "x": 738, "y": 594, "t": 0 }, { "id": 64, "x": 113, "y": 679, "t": 0 }, { "id": 65, "x": 188, "y": 679, "t": 1 }, { "id": 66, "x": 263, "y": 679, "t": 0 }, { "id": 67, "x": 338, "y": 679, "t": 0 }, { "id": 68, "x": 523, "y": 679, "t": 0 }, { "id": 69, "x": 591, "y": 678, "t": 1 }, { "id": 70, "x": 667, "y": 679, "t": 0 }, { "id": 71, "x": 738, "y": 675, "t": 0 }, { "id": 72, "x": 115, "y": 764, "t": 0 }, { "id": 73, "x": 190, "y": 764, "t": 0 }, { "id": 74, "x": 265, "y": 764, "t": 1 }, { "id": 75, "x": 340, "y": 764, "t": 0 }, { "id": 76, "x": 525, "y": 764, "t": 1 }, { "id": 77, "x": 593, "y": 763, "t": 0 }, { "id": 78, "x": 669, "y": 764, "t": 0 }, { "id": 79, "x": 740, "y": 760, "t": 0 }, { "id": 80, "x": 110, "y": 843, "t": 0 }, { "id": 81, "x": 185, "y": 843, "t": 1 }, { "id": 82, "x": 260, "y": 843, "t": 0 }, { "id": 83, "x": 335, "y": 843, "t": 0 }, { "id": 84, "x": 520, "y": 843, "t": 0 }, { "id": 85, "x": 588, "y": 842, "t": 0 }, { "id": 86, "x": 664, "y": 843, "t": 0 }, { "id": 87, "x": 735, "y": 839, "t": 1 }, { "id": 88, "x": 115, "y": 922, "t": 0 }, { "id": 89, "x": 190, "y": 922, "t": 0 }, { "id": 90, "x": 265, "y": 922, "t": 0 }, { "id": 91, "x": 340, "y": 922, "t": 1 }, { "id": 92, "x": 525, "y": 922, "t": 0 }, { "id": 93, "x": 593, "y": 921, "t": 0 }, { "id": 94, "x": 669, "y": 922, "t": 1 }, { "id": 95, "x": 740, "y": 918, "t": 0 }] },
+                configPage2: { "imgWidth": 801, "imgHeight": 1024, "boxW": 50, "boxH": 50, "items": [{ "id": 0, "x": 113, "y": 47, "t": 0 }, { "id": 1, "x": 188, "y": 47, "t": 0 }, { "id": 2, "x": 263, "y": 47, "t": 0 }, { "id": 3, "x": 338, "y": 47, "t": 1 }, { "id": 4, "x": 517, "y": 47, "t": 0 }, { "id": 5, "x": 588, "y": 47, "t": 0 }, { "id": 6, "x": 658, "y": 48, "t": 1 }, { "id": 7, "x": 729, "y": 45, "t": 0 }, { "id": 8, "x": 114, "y": 124, "t": 0 }, { "id": 9, "x": 189, "y": 124, "t": 1 }, { "id": 10, "x": 264, "y": 124, "t": 0 }, { "id": 11, "x": 339, "y": 124, "t": 0 }, { "id": 12, "x": 518, "y": 124, "t": 0 }, { "id": 13, "x": 589, "y": 124, "t": 0 }, { "id": 14, "x": 659, "y": 125, "t": 0 }, { "id": 15, "x": 730, "y": 122, "t": 1 }, { "id": 16, "x": 113, "y": 199, "t": 0 }, { "id": 17, "x": 188, "y": 199, "t": 0 }, { "id": 18, "x": 263, "y": 199, "t": 1 }, { "id": 19, "x": 338, "y": 199, "t": 0 }, { "id": 20, "x": 517, "y": 199, "t": 1 }, { "id": 21, "x": 588, "y": 199, "t": 0 }, { "id": 22, "x": 658, "y": 200, "t": 0 }, { "id": 23, "x": 729, "y": 197, "t": 0 }, { "id": 24, "x": 109, "y": 286, "t": 0 }, { "id": 25, "x": 184, "y": 286, "t": 1 }, { "id": 26, "x": 259, "y": 286, "t": 0 }, { "id": 27, "x": 334, "y": 286, "t": 0 }, { "id": 28, "x": 513, "y": 286, "t": 0 }, { "id": 29, "x": 584, "y": 286, "t": 1 }, { "id": 30, "x": 654, "y": 287, "t": 0 }, { "id": 31, "x": 725, "y": 284, "t": 0 }, { "id": 32, "x": 112, "y": 362, "t": 1 }, { "id": 33, "x": 187, "y": 362, "t": 0 }, { "id": 34, "x": 262, "y": 362, "t": 0 }, { "id": 35, "x": 337, "y": 362, "t": 0 }, { "id": 36, "x": 516, "y": 362, "t": 0 }, { "id": 37, "x": 587, "y": 362, "t": 0 }, { "id": 38, "x": 657, "y": 363, "t": 1 }, { "id": 39, "x": 728, "y": 360, "t": 0 }, { "id": 40, "x": 112, "y": 442, "t": 1 }, { "id": 41, "x": 187, "y": 442, "t": 0 }, { "id": 42, "x": 262, "y": 442, "t": 0 }, { "id": 43, "x": 337, "y": 442, "t": 0 }, { "id": 44, "x": 516, "y": 442, "t": 0 }, { "id": 45, "x": 587, "y": 442, "t": 0 }, { "id": 46, "x": 657, "y": 443, "t": 0 }, { "id": 47, "x": 728, "y": 440, "t": 1 }, { "id": 48, "x": 109, "y": 523, "t": 0 }, { "id": 49, "x": 184, "y": 523, "t": 0 }, { "id": 50, "x": 259, "y": 523, "t": 0 }, { "id": 51, "x": 334, "y": 523, "t": 1 }, { "id": 52, "x": 513, "y": 523, "t": 0 }, { "id": 53, "x": 584, "y": 523, "t": 0 }, { "id": 54, "x": 654, "y": 524, "t": 1 }, { "id": 55, "x": 725, "y": 521, "t": 0 }, { "id": 56, "x": 113, "y": 605, "t": 0 }, { "id": 57, "x": 188, "y": 605, "t": 1 }, { "id": 58, "x": 263, "y": 605, "t": 0 }, { "id": 59, "x": 338, "y": 605, "t": 0 }, { "id": 60, "x": 517, "y": 605, "t": 1 }, { "id": 61, "x": 588, "y": 605, "t": 0 }, { "id": 62, "x": 658, "y": 606, "t": 0 }, { "id": 63, "x": 729, "y": 603, "t": 0 }, { "id": 64, "x": 111, "y": 684, "t": 0 }, { "id": 65, "x": 186, "y": 684, "t": 0 }, { "id": 66, "x": 261, "y": 684, "t": 1 }, { "id": 67, "x": 336, "y": 684, "t": 0 }, { "id": 68, "x": 515, "y": 684, "t": 0 }, { "id": 69, "x": 586, "y": 684, "t": 1 }, { "id": 70, "x": 656, "y": 685, "t": 0 }, { "id": 71, "x": 727, "y": 682, "t": 0 }, { "id": 72, "x": 111, "y": 765, "t": 0 }, { "id": 73, "x": 186, "y": 765, "t": 0 }, { "id": 74, "x": 261, "y": 765, "t": 0 }, { "id": 75, "x": 336, "y": 765, "t": 1 }, { "id": 76, "x": 515, "y": 765, "t": 0 }, { "id": 77, "x": 586, "y": 765, "t": 1 }, { "id": 78, "x": 656, "y": 766, "t": 0 }, { "id": 79, "x": 727, "y": 763, "t": 0 }, { "id": 80, "x": 109, "y": 846, "t": 1 }, { "id": 81, "x": 184, "y": 846, "t": 0 }, { "id": 82, "x": 260, "y": 846, "t": 0 }, { "id": 83, "x": 335, "y": 846, "t": 0 }, { "id": 84, "x": 513, "y": 846, "t": 0 }, { "id": 85, "x": 584, "y": 846, "t": 0 }, { "id": 86, "x": 654, "y": 847, "t": 0 }, { "id": 87, "x": 725, "y": 844, "t": 1 }, { "id": 88, "x": 113, "y": 929, "t": 0 }, { "id": 89, "x": 188, "y": 929, "t": 0 }, { "id": 90, "x": 263, "y": 929, "t": 1 }, { "id": 91, "x": 338, "y": 929, "t": 0 }, { "id": 92, "x": 517, "y": 929, "t": 1 }, { "id": 93, "x": 588, "y": 929, "t": 0 }, { "id": 94, "x": 658, "y": 930, "t": 0 }, { "id": 95, "x": 729, "y": 927, "t": 0 }] },
+
+                generateBaseGrid() {
+                    const activeConfig = this.page === 1 ? this.configPage1 : this.configPage2;
+
+                    // Atualiza configurações da página
+                    this.imgWidth = activeConfig.imgWidth;
+                    this.imgHeight = activeConfig.imgHeight;
+                    this.boxW = activeConfig.boxW;
+                    this.boxH = activeConfig.boxH;
+
+                    // Mapeia itens da config para o formato do mapper
+                    this.items = activeConfig.items.map(i => ({
+                        id: i.id,
+                        x: i.x,
+                        y: i.y,
+                        isTarget: i.t === 1,
+                        r: Math.floor(i.id / 8), // Recalcula Linha (baseado em 8 colunas para Dimensoes)
+                        c: i.id % 8              // Recalcula Coluna
+                    }));
+                },
+
+                // Lógica de Seleção
+                isHighlighted(item) {
+                    if (this.mode === 'row' && item.r === this.selectedRow) return true;
+                    if (this.mode === 'col' && item.c === this.selectedCol) return true;
+                    return false;
+                },
+
+                // FERRAMENTA DE DESLOCAMENTO (MOVER)
+                nudge(dx, dy) {
+                    const multiplier = 2; // Pixel step
+                    this.items.forEach(item => {
+                        let active = false;
+                        if (this.mode === 'global') active = true;
+                        else if (this.mode === 'row' && item.r === this.selectedRow) active = true;
+                        else if (this.mode === 'col' && item.c === this.selectedCol) active = true;
+
+                        if (active) {
+                            item.x += (dx * multiplier);
+                            item.y += (dy * multiplier);
+                        }
+                    });
+                },
+
+                // FERRAMENTA DE ESPAÇAMENTO (STRETCH)
+                stretch(axis, amount) {
+                    let activeItems = this.items.filter(item => {
+                        if (this.mode === 'global') return true;
+                        if (this.mode === 'row' && item.r === this.selectedRow) return true;
+                        if (this.mode === 'col' && item.c === this.selectedCol) return true;
+                        return false;
+                    });
+
+                    if (activeItems.length === 0) return;
+
+                    // Ordena corretamente
+                    if (axis === 'x') activeItems.sort((a, b) => a.c - b.c);
+                    if (axis === 'y') activeItems.sort((a, b) => a.r - b.r);
+
+                    if (this.mode === 'global') {
+                        // Global X: afeta todas as colunas
+                        if (axis === 'x') {
+                            for (let c = 0; c < this.cols; c++) {
+                                const offset = c * amount;
+                                this.items.filter(i => i.c === c).forEach(i => i.x += offset);
+                            }
+                        }
+                        // Global Y: afeta todas as linhas
+                        if (axis === 'y') {
+                            for (let r = 0; r < this.rows; r++) {
+                                const offset = r * amount;
+                                this.items.filter(i => i.r === r).forEach(i => i.y += offset);
+                            }
+                        }
+                    }
+                    else {
+                        // Modo Linha/Coluna Específica
+                        activeItems.forEach((item, idx) => {
+                            if (axis === 'x') item.x += (idx * amount);
+                            if (axis === 'y') item.y += (idx * amount);
+                        });
+                    }
+                },
+
+                // Drag Logic (Group Aware)
+                startDrag(e, id) {
+                    this.draggingId = id;
+                    this.isClick = true;
+                    this.startX = e.clientX;
+                    this.startY = e.clientY;
+
+                    const clickedItem = this.items.find(i => i.id === id);
+
+                    // Auto-select based on click
+                    if (this.mode === 'row') this.selectedRow = clickedItem.r;
+                    if (this.mode === 'col') this.selectedCol = clickedItem.c;
+
+                    // Snapshot initial positions for ALL relevant items
+                    this.dragSnapshot = {};
+
+                    this.items.forEach(item => {
+                        let shouldMove = false;
+                        if (this.mode === 'global') shouldMove = true;
+                        else if (this.mode === 'row' && item.r === clickedItem.r) shouldMove = true;
+                        else if (this.mode === 'col' && item.c === clickedItem.c) shouldMove = true;
+
+                        if (shouldMove) {
+                            this.dragSnapshot[item.id] = { x: item.x, y: item.y };
+                        }
+                    });
+
+                    // Fallback: if no mode matches (unexpected), just move clicked
+                    if (Object.keys(this.dragSnapshot).length === 0) {
+                        this.dragSnapshot[clickedItem.id] = { x: clickedItem.x, y: clickedItem.y };
+                    }
+                },
+
+                onDrag(e) {
+                    if (this.draggingId === null) return;
+                    e.preventDefault();
+
+                    const dx = e.clientX - this.startX;
+                    const dy = e.clientY - this.startY;
+
+                    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) this.isClick = false;
+
+                    const scale = this.zoom / 100;
+
+                    // Apply to all in snapshot
+                    for (const [id, pos] of Object.entries(this.dragSnapshot)) {
+                        const item = this.items.find(i => i.id == id); // == for string key
+                        if (item) {
+                            item.x = Math.round(pos.x + (dx / scale));
+                            item.y = Math.round(pos.y + (dy / scale));
+                        }
+                    }
+                },
+
+                stopDrag() {
+                    if (this.draggingId !== null) {
+                        if (this.isClick) {
+                            const item = this.items.find(i => i.id === this.draggingId);
+                            item.isTarget = !item.isTarget;
+                        }
+                        this.draggingId = null;
+                        this.dragSnapshot = {};
+                    }
+                },
+
+                generateCode() {
+                    const exportItems = this.items.map(i => ({
+                        id: i.id,
+                        x: Math.round(i.x),
+                        y: Math.round(i.y),
+                        t: i.isTarget ? 1 : 0
+                    }));
+                    const config = {
+                        imgWidth: this.imgWidth,
+                        imgHeight: this.imgHeight,
+                        boxW: parseInt(this.boxW),
+                        boxH: parseInt(this.boxH),
+                        items: exportItems
+                    };
+                    const varName = this.page === 1 ? 'CONFIG_PAGE_1' : 'CONFIG_PAGE_2';
+                    this.output = `const ${varName} = ` + JSON.stringify(config, null, 0) + `;`;
+                    navigator.clipboard.writeText(this.output);
+                    alert("JSON copiado! Cole no seu arquivo HTML.");
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

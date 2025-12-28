@@ -8,8 +8,8 @@
     <title>Rota C - DEBUG MODE</title>
     <link rel="icon" type="image/png" href="favicon.png">
 
-    <!-- SEGURANÇA -->
-    <script src="../../scripts/auth_guard.js"></script>
+    <!-- SEGURANÇA REMOVIDA PARA DEBUG -->
+    <!-- <script src="../../scripts/auth_guard.js"></script> -->
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -50,9 +50,9 @@
             width: 100%;
             max-width: 1200px;
             /* Proporção original 1000/1250 = 0.8 */
-            aspect-ratio: 1000 / 1250;
+            aspect-ratio: 807 / 1095;
             margin: 0 auto;
-            background-image: url('rotac.png');
+            background-image: url('rotaa.png');
             background-size: 100% 100%;
             border-radius: 8px;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
@@ -291,6 +291,63 @@
             </div>
         </div>
 
+        <div class="mt-4 mb-4 bg-black/40 p-3 rounded-lg space-y-2 border border-purple-500/30">
+            <p class="text-[10px] text-purple-300 uppercase font-bold tracking-wider mb-2">Movimentação</p>
+
+            <!-- Global -->
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-[10px] text-gray-400">Global</span>
+                <div class="flex gap-1">
+                    <button @click="moveGlobal(0, -1)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">⬆</button>
+                    <button @click="moveGlobal(0, 1)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">⬇</button>
+                    <button @click="moveGlobal(-1, 0)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">⬅</button>
+                    <button @click="moveGlobal(1, 0)"
+                        class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">➡</button>
+                </div>
+            </div>
+
+            <!-- Row -->
+            <div class="flex items-center gap-2 mb-2">
+                <div class="flex flex-col w-12">
+                    <label class="text-[9px] text-gray-500">Linha</label>
+                    <input type="number" x-model="selectedRow" @focus="activeMode='row'"
+                        class="bg-black/50 border border-gray-600 rounded text-xs px-1 text-center">
+                </div>
+                <div class="flex gap-1">
+                    <button @click="moveRow(selectedRow, 0, -1)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">⬆</button>
+                    <button @click="moveRow(selectedRow, 0, 1)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">⬇</button>
+                    <button @click="moveRow(selectedRow, -1, 0)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">⬅</button>
+                    <button @click="moveRow(selectedRow, 1, 0)"
+                        class="w-6 h-6 bg-blue-900/50 rounded text-xs hover:bg-blue-800 text-blue-200">➡</button>
+                </div>
+            </div>
+
+            <!-- Col -->
+            <div class="flex items-center gap-2">
+                <div class="flex flex-col w-12">
+                    <label class="text-[9px] text-gray-500">Coluna</label>
+                    <input type="number" x-model="selectedCol" @focus="activeMode='col'"
+                        class="bg-black/50 border border-gray-600 rounded text-xs px-1 text-center">
+                </div>
+                <div class="flex gap-1">
+                    <button @click="moveCol(selectedCol, 0, -1)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">⬆</button>
+                    <button @click="moveCol(selectedCol, 0, 1)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">⬇</button>
+                    <button @click="moveCol(selectedCol, -1, 0)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">⬅</button>
+                    <button @click="moveCol(selectedCol, 1, 0)"
+                        class="w-6 h-6 bg-green-900/50 rounded text-xs hover:bg-green-800 text-green-200">➡</button>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-4 text-[10px] text-center text-gray-500">
             Itens: <span x-text="config.items.length" class="text-white"></span> |
             Corretos: <span x-text="config.items.filter(i=>i.t===1).length" class="text-green-400"></span>
@@ -402,8 +459,11 @@
                     :style="`background-position: ${bgX}px ${bgY}px; background-size: ${bgW}% ${bgH}%; background-repeat: no-repeat;`">
                     <div class="absolute inset-0 z-10">
                         <template x-for="item in config.items" :key="item.id">
-                            <div @click="toggleType(item)" class="hit-zone"
-                                :class="item.t === 1 ? 'debug-correct' : 'debug-incorrect'" :data-id="item.id" :style="`
+                            <div @click="toggleType(item)" class="hit-zone" :class="[
+                                    item.t === 1 ? 'debug-correct' : 'debug-incorrect',
+                                    activeMode === 'row' && getRow(item.id) == selectedRow ? 'ring-2 ring-yellow-400 z-50' : '',
+                                    activeMode === 'col' && getCol(item.id) == selectedCol ? 'ring-2 ring-cyan-400 z-50' : ''
+                                ]" :data-id="`ID:${item.id} R:${getRow(item.id)} C:${getCol(item.id)}`" :style="`
                                     left: ${getPos(item.x, config.imgWidth)}%; 
                                     top: ${getPos(item.y, config.imgHeight)}%; 
                                     width: ${getPos(config.boxW, config.imgWidth)}%; 
@@ -518,9 +578,38 @@
                 // Debug State
                 bgX: 0,
                 bgY: 0,
-                bgW: 100,
-                bgH: 100,
+                bgW: 200,
+                bgH: 200,
                 jsonOutput: '',
+                selectedRow: 0,
+                selectedCol: 0,
+                activeMode: 'global',
+
+                getRow(id) { return Math.floor(id / 24); },
+                getCol(id) { return id % 24; },
+
+                moveGlobal(dx, dy) {
+                    this.config.items.forEach(i => {
+                        i.x += dx;
+                        i.y += dy;
+                    });
+                },
+                moveRow(r, dx, dy) {
+                    this.config.items.forEach(i => {
+                        if (this.getRow(i.id) == r) {
+                            i.x += dx;
+                            i.y += dy;
+                        }
+                    });
+                },
+                moveCol(c, dx, dy) {
+                    this.config.items.forEach(i => {
+                        if (this.getCol(i.id) == c) {
+                            i.x += dx;
+                            i.y += dy;
+                        }
+                    });
+                },
 
                 toggleType(item) {
                     item.t = item.t === 1 ? 0 : 1;

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug TADIM 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --primary: #3b82f6;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+            cursor: crosshair;
+        }
+
+        .marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(59, 130, 246, 0.8);
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body x-data="tadimDebug()" class="p-8" @mousemove.window="drag($event)" @mouseup.window="stopDrag()">
+
+    <div class="fixed top-4 right-4 bg-gray-800 p-4 rounded shadow-lg z-50 w-64">
+        <h2 class="text-xl font-bold mb-4">Ferramentas</h2>
+
+        <div class="mb-4">
+            <label class="block text-sm text-gray-400 mb-1">Zoom: <span
+                    x-text="Math.round(zoom * 100) + '%'"></span></label>
+            <input type="range" class="w-full accent-blue-500" min="0.3" max="2" step="0.1" x-model="zoom">
+        </div>
+
+        <div class="mb-4">
+            <p class="mb-2">Próximo Número: <span x-text="nextNumber" class="text-yellow-400 font-bold text-xl"></span>
+            </p>
+            <p class="text-sm text-gray-400">Clique na imagem para marcar o número.</p>
+        </div>
+
+        <div class="flex gap-2 mb-4">
+            <button @click="undo()" class="bg-red-600 hover:bg-red-500 px-3 py-1 rounded text-sm w-full">
+                <i class="fas fa-undo"></i> Desfazer
+            </button>
+            <button @click="reset()" class="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded text-sm w-full">
+                <i class="fas fa-trash"></i> Limpar
+            </button>
+        </div>
+
+        <button @click="exportJSON()" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded font-bold w-full mb-2">
+            <i class="fas fa-copy"></i> Copiar JSON
+        </button>
+
+        <div class="text-xs text-gray-500 mt-4">
+            Total Pontos: <span x-text="points.length"></span>
+        </div>
+    </div>
+
+    <div class="flex justify-center overflow-auto">
+        <div class="image-container origin-top" :style="`transform: scale(${zoom})`" @click="handleImageClick($event)">
+            <img x-ref="img" src="../../Imagens_base/tadimtedif/tadim1.png" alt="TADIM 1 Base"
+                class="max-w-none shadow-2xl rounded">
+
+            <template x-for="p in points" :key="p.id">
+                <div class="marker cursor-grab active:cursor-grabbing hover:bg-blue-600 transition-colors"
+                    :style="`left: ${p.x}%; top: ${p.y}%; transform: translate(-50%, -50%) scale(${1/zoom});`"
+                    @mousedown.stop="startDrag(p.id, $event)" x-text="p.id">
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('tadimDebug', () => ({
+                points: [
+                    { "id": 1, "x": 5.49, "y": 4.17 },
+                    { "id": 2, "x": 28.3, "y": 42.46 },
+                    { "id": 3, "x": 79.45, "y": 21.16 },
+                    { "id": 4, "x": 4.74, "y": 23.09 },
+                    { "id": 5, "x": 40.5, "y": 7.8 },
+                    { "id": 6, "x": 56.74, "y": 36.06 },
+                    { "id": 7, "x": 50.16, "y": 54.82 },
+                    { "id": 8, "x": 20.13, "y": 62.92 },
+                    { "id": 9, "x": 95.79, "y": 55.51 },
+                    { "id": 10, "x": 56.63, "y": 78.68 },
+                    { "id": 11, "x": 4.96, "y": 48.26 },
+                    { "id": 12, "x": 45.28, "y": 31.19 },
+                    { "id": 13, "x": 86.87, "y": 44.32 },
+                    { "id": 14, "x": 51.54, "y": 68.41 },
+                    { "id": 15, "x": 22.68, "y": 73.58 },
+                    { "id": 16, "x": 77.54, "y": 80.91 },
+                    { "id": 17, "x": 38.17, "y": 86.01 },
+                    { "id": 18, "x": 14.4, "y": 30.27 },
+                    { "id": 19, "x": 58.86, "y": 22.24 },
+                    { "id": 20, "x": 94.51, "y": 6.49 },
+                    { "id": 21, "x": 23.74, "y": 9.96 },
+                    { "id": 22, "x": 40.93, "y": 17.76 },
+                    { "id": 23, "x": 27.56, "y": 29.96 },
+                    { "id": 24, "x": 34.77, "y": 53.97 },
+                    { "id": 25, "x": 63.95, "y": 57.6 },
+                    { "id": 26, "x": 39.76, "y": 75.12 },
+                    { "id": 27, "x": 6.44, "y": 80.06 },
+                    { "id": 28, "x": 71.38, "y": 70.1 },
+                    { "id": 29, "x": 44.96, "y": 43.31 },
+                    { "id": 30, "x": 19.71, "y": 20.46 },
+                    { "id": 31, "x": 57.27, "y": 6.49 },
+                    { "id": 32, "x": 94.73, "y": 18.07 },
+                    { "id": 33, "x": 64.48, "y": 44.86 },
+                    { "id": 34, "x": 35.09, "y": 66.55 },
+                    { "id": 35, "x": 91.12, "y": 69.33 },
+                    { "id": 36, "x": 24.27, "y": 83 },
+                    { "id": 37, "x": 55.89, "y": 95.27 },
+                    { "id": 38, "x": 55.68, "y": 93.81 },
+                    { "id": 39, "x": 56, "y": 94.12 },
+                    { "id": 40, "x": 27.77, "y": 94.58 },
+                    { "id": 41, "x": 92.18, "y": 85.08 },
+                    { "id": 42, "x": 79.02, "y": 61.07 },
+                    { "id": 43, "x": 15.57, "y": 53.97 },
+                    { "id": 44, "x": 73.82, "y": 33.05 },
+                    { "id": 45, "x": 10.69, "y": 13.2 },
+                    { "id": 46, "x": 75.84, "y": 10.65 },
+                    { "id": 47, "x": 9.2, "y": 40.15 },
+                    { "id": 48, "x": 94.62, "y": 33.2 },
+                    { "id": 49, "x": 7.29, "y": 92.11 },
+                    { "id": 50, "x": 92.5, "y": 94.27 }
+                ],
+                nextNumber: 51,
+                zoom: 0.5,
+                draggingId: null,
+
+                handleImageClick(e) {
+                    // Prevent adding point if we just finished dragging
+                    if (this.draggingId) return;
+                    this.addPoint(e);
+                },
+
+                addPoint(e) {
+                    if (this.nextNumber > 50) return;
+
+                    const rect = this.$refs.img.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    this.points.push({
+                        id: this.nextNumber,
+                        x: parseFloat(x.toFixed(2)),
+                        y: parseFloat(y.toFixed(2))
+                    });
+
+                    this.nextNumber++;
+                },
+
+                startDrag(id, e) {
+                    this.draggingId = id;
+                },
+
+                drag(e) {
+                    if (!this.draggingId) return;
+                    e.preventDefault();
+
+                    const rect = this.$refs.img.getBoundingClientRect();
+                    // Calcule relative to image, not screen, taking zoom into account implicitly via bounding client rect
+                    let x = ((e.clientX - rect.left) / rect.width) * 100;
+                    let y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    // Clamp to 0-100%
+                    x = Math.max(0, Math.min(100, x));
+                    y = Math.max(0, Math.min(100, y));
+
+                    const point = this.points.find(p => p.id === this.draggingId);
+                    if (point) {
+                        point.x = parseFloat(x.toFixed(2));
+                        point.y = parseFloat(y.toFixed(2));
+                    }
+                },
+
+                stopDrag() {
+                    if (this.draggingId) {
+                        // Small delay to prevent click event from firing immediately after drag release on same element if logic overlapped
+                        setTimeout(() => { this.draggingId = null; }, 50);
+                    }
+                },
+
+                undo() {
+                    if (this.points.length > 0) {
+                        this.points.pop();
+                        this.nextNumber--;
+                    }
+                },
+
+                reset() {
+                    if (confirm('Limpar tudo?')) {
+                        this.points = [];
+                        this.nextNumber = 1;
+                    }
+                },
+
+                exportJSON() {
+                    const json = JSON.stringify(this.points, null, 2);
+                    navigator.clipboard.writeText(json).then(() => {
+                        alert('JSON copiado!');
+                    });
+                    console.log(json);
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

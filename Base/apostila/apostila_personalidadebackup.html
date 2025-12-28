@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apostila: Testes de Personalidade — Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+
+    <!-- SEGURANÇA -->
+    <script src="../../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+
+    <!-- CONFIGURAÇÃO TAILWIND -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0f',
+                        primary: '#9f54ff',
+                        accent: '#ff00ff',
+                        cyan: '#00c2ff',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050508;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
+            color: #e2e8f0;
+        }
+
+        .glass-panel {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #9f54ff, #ff00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f0e1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9f54ff;
+        }
+
+        /* Interactive Button States */
+        .btn-option {
+            transition: all 0.2s;
+        }
+
+        .btn-option:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-option.selected-correct {
+            background-color: rgba(34, 197, 94, 0.2);
+            border-color: #22c55e;
+            color: #4ade80;
+        }
+
+        .btn-option.selected-wrong {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+            color: #f87171;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+</head>
+
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-purple-500 selection:text-white"
+    x-data="{ section: 'intro', sidebarOpen: true, fontSize: 16, imageScale: 100, isFullscreen: false, toggleFS() { if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } }"
+    x-data="{ section: 'intro', sidebarOpen: true, fontSize: 16, imageScale: 100, isFullscreen: false, toggleFS() { if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } }"
+    x-init="
+        document.addEventListener('fullscreenchange', () => isFullscreen = !!document.fullscreenElement);
+        
+        // ScrollSpy
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    section = entry.target.id;
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('section[id]').forEach(section => {
+            observer.observe(section);
+        });
+    ">
+
+    <!-- HEADER -->
+    <header class="glass-panel sticky top-0 z-50 border-b border-white/5">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="flex items-center gap-4 group">
+                    <div
+                        class="h-10 w-10 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-105 transition">
+                        <i class="fas fa-book-open text-white text-lg"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-black text-white tracking-tight">APOSTILA <span
+                                class="gradient-text">PSYCHO</span></span>
+                        <span class="text-xs text-gray-500 font-medium tracking-wider uppercase">Base de
+                            Conhecimento</span>
+                    </div>
+                </a>
+            </div>
+
+            <a href="index.html"
+                class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white transition-all text-base font-bold">
+                <i class="fas fa-arrow-left"></i>
+                <span class="hidden md:inline">Voltar à Biblioteca</span>
+            </a>
+        </div>
+    </header>
+
+    <main
+        class="container mx-auto px-4 py-10 max-w-7xl flex-grow gap-8 flex flex-col lg:flex-row transition-all duration-300">
+
+        <!-- SIDEBAR DE NAVEGAÇÃO -->
+        <aside class="lg:w-1/4 transition-all duration-300" x-show="sidebarOpen"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-x-4"
+            x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-4">
+            <div class="glass-panel rounded-2xl p-4 sticky top-28 space-y-2">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 px-2">Conteúdo</h3>
+
+                <button
+                    @click="section = 'intro'; document.getElementById('intro').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'intro' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    1. Introdução <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'intro'"></i>
+                </button>
+
+                <button
+                    @click="section = 'scale'; document.getElementById('scale').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'scale' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    2. Escala de Respostas <i class="fas fa-chevron-right text-xs opacity-50"
+                        x-show="section === 'scale'"></i>
+                </button>
+
+                <button
+                    @click="section = 'defined'; document.getElementById('defined').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'defined' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    3. Perfis Definidos (2/6) <i class="fas fa-chevron-right text-xs opacity-50"
+                        x-show="section === 'defined'"></i>
+                </button>
+
+                <button
+                    @click="section = 'balanced'; document.getElementById('balanced').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'balanced' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    4. Perfis Equilibrados (4) <i class="fas fa-chevron-right text-xs opacity-50"
+                        x-show="section === 'balanced'"></i>
+                </button>
+
+                <button @click="section = 'ifp2'; document.getElementById('ifp2').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'ifp2' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    5. IFP-2 <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'ifp2'"></i>
+                </button>
+
+                <button @click="section = 'bfp'; document.getElementById('bfp').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'bfp' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    6. BFP <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'bfp'"></i>
+                </button>
+
+                <button @click="section = 'neo'; document.getElementById('neo').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'neo' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    7. NEO <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'neo'"></i>
+                </button>
+
+                <button @click="section = 'eata'; document.getElementById('eata').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'eata' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    8. EATA <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'eata'"></i>
+                </button>
+
+                <button
+                    @click="section = 'esavi'; document.getElementById('esavi').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'esavi' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    9. EsAVI <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'esavi'"></i>
+                </button>
+
+                <button @click="section = 'palo'; document.getElementById('palo').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'palo' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    10. Palográfico <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'palo'"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <article class="space-y-12 transition-all duration-300" :class="sidebarOpen ? 'lg:w-3/4' : 'w-full'">
+
+            <!-- BARRA DE FERRAMENTAS (Menu + Fonte) -->
+            <!-- BARRA DE FERRAMENTAS (Menu + Fonte) -->
+            <div
+                class="glass-panel p-2 rounded-xl flex gap-3 justify-end items-center sticky top-24 z-40 mb-4 bg-black/90 backdrop-blur-xl border border-white/10 w-fit ml-auto shadow-2xl">
+
+                <!-- Controle de Fonte -->
+                <div class="flex items-center gap-1 bg-white/5 rounded-lg p-1 border border-white/5">
+                    <button @click="fontSize = Math.max(12, fontSize - 2)"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        title="Diminuir Fonte">
+                        <i class="fas fa-minus text-xs"></i>
+                    </button>
+                    <span class="w-8 text-center text-sm font-bold text-white select-none" x-text="fontSize"></span>
+                    <button @click="fontSize = Math.min(24, fontSize + 2)"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        title="Aumentar Fonte">
+                        <i class="fas fa-plus text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Controle de Zoom de Imagem -->
+                <div class="flex items-center gap-1 bg-white/5 rounded-lg p-1 border border-white/5"
+                    x-show="section === 'palo'">
+                    <button @click="imageScale = Math.max(20, imageScale - 10)"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        title="Diminuir Imagens">
+                        <i class="fas fa-search-minus text-xs"></i>
+                    </button>
+                    <span class="w-10 text-center text-xs font-bold text-white select-none"
+                        x-text="imageScale + '%'"></span>
+                    <button @click="imageScale = Math.min(100, imageScale + 10)"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        title="Aumentar Imagens">
+                        <i class="fas fa-search-plus text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Botão Fullscreen -->
+                <button @click="toggleFS()"
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all border"
+                    :class="isFullscreen ? 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]' : 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10'"
+                    title="Tela Cheia">
+                    <i class="fas" :class="isFullscreen ? 'fa-compress' : 'fa-expand-arrows-alt'"></i>
+                </button>
+
+                <!-- Botão Menu Lateral -->
+                <button @click="sidebarOpen = !sidebarOpen"
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all border"
+                    :class="sidebarOpen ? 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10' : 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]'"
+                    title="Alternar Menu">
+                    <span x-text="sidebarOpen ? 'Ocultar' : 'Expandir'"></span>
+                    <i class="fas" :class="sidebarOpen ? 'fa-columns' : 'fa-expand'"></i>
+                </button>
+            </div>
+
+            <!-- WRAPPER DO CONTEÚDO (Para aplicar a fonte) -->
+            <div :style="'font-size: ' + fontSize + 'px; line-height: 1.6;'" class="space-y-12">
+
+                <!-- 1. INTRODUÇÃO -->
+                <section id="intro" class="scroll-mt-28">
+                    <div class="glass-panel p-8 rounded-2xl border-l-4 border-l-primary">
+                        <h1 class="text-4xl font-black text-white mb-2">Testes de Personalidade</h1>
+                        <p class="text-xl text-primary font-medium mb-6">Aprovação Psycho – Descomplicando o
+                            Psicotécnico
+                        </p>
+                        <div class="space-y-4 text-lg text-gray-300 leading-relaxed">
+                            <p>Os <strong>testes de personalidade</strong> avaliam características individuais,
+                                tendências
+                                comportamentais, padrões emocionais e formas recorrentes de agir.</p>
+                            <ul class="list-disc pl-5 space-y-1 text-gray-400">
+                                <li>Como você tende a reagir</li>
+                                <li>Como se comporta em grupo</li>
+                                <li>Como lida com regras, autoridade e pressão</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. ESCALA -->
+                <section id="scale" class="scroll-mt-28">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3"><span
+                            class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">2</span>
+                        Escala
+                        Likert</h2>
+                    <div class="glass-panel p-6 rounded-2xl bg-black/20 text-gray-300 text-lg">
+                        <p class="mb-4">O teste utiliza uma escala de 1 a 7 para medir intensidade e frequência.</p>
+                        <div class="flex flex-wrap justify-between gap-2 text-center text-sm font-bold uppercase">
+                            <div class="flex-1 bg-red-900/30 p-2 rounded border border-red-500/30 text-red-400">
+                                1<br>Nunca
+                            </div>
+                            <div
+                                class="flex-1 bg-orange-900/30 p-2 rounded border border-orange-500/30 text-orange-400">
+                                2<br>Raramente</div>
+                            <div
+                                class="flex-1 bg-yellow-900/30 p-2 rounded border border-yellow-500/30 text-yellow-400">
+                                3<br>Pouco</div>
+                            <div class="flex-1 bg-blue-900/30 p-2 rounded border border-blue-500/30 text-blue-400">
+                                4<br>Médio</div>
+                            <div class="flex-1 bg-green-900/30 p-2 rounded border border-green-500/30 text-green-400">
+                                5<br>Muito</div>
+                            <div class="flex-1 bg-green-900/50 p-2 rounded border border-green-500/50 text-green-300">
+                                6<br>Frequentemente</div>
+                            <div class="flex-1 bg-red-900/50 p-2 rounded border border-red-500/50 text-red-300">
+                                7<br>Sempre
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. PERFIS DEFINIDOS (2 ou 6) -->
+                <section id="defined" class="scroll-mt-28">
+                    <div class="mb-8 border-b border-white/10 pb-4">
+                        <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                            <span
+                                class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">3</span>
+                            Perfis Definidos
+                        </h2>
+                        <p class="text-gray-400 text-base mt-2 ml-14">Nestas características, espera-se um
+                            posicionamento
+                            claro: <strong>2 (Discordo)</strong> ou <strong>6 (Concordo)</strong>.</p>
+                    </div>
+
+                    <div class="grid gap-6">
+
+                        <!-- Confiança -->
+                        <div x-data="{ answered: false, correct: 6 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Confiança nas Pessoas</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Expectativa positiva sobre o outro</li>
+                                <li>Capacidade de cooperação</li>
+                                <li>Visão social equilibrada</li>
+                            </ul>
+
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "A maioria das pessoas é honesta"
+                                </p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i" :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 
+                                                     'bg-red-600 text-white border-red-400': answered === i && i !== correct,
+                                                     'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        6</span>
+                                    <span x-show="answered !== correct && answered" class="text-red-400">Resposta
+                                        indicada:
+                                        6</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Conformidade Legal -->
+                        <div x-data="{ answered: false, correct: 2 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Conformidade Legal</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Respeito às leis</li>
+                                <li>Ética</li>
+                                <li>Senso de justiça</li>
+                                <li>Ausência de autoritarismo</li>
+                            </ul>
+
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "A sociedade protege demais os
+                                    criminosos"</p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i" :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 
+                                                     'bg-red-600 text-white border-red-400': answered === i && i !== correct,
+                                                     'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        2</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ordem -->
+                        <div x-data="{ answered: false, correct: 2 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Ordem</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Organização pessoal</li>
+                                <li>Higiene</li>
+                                <li>Planejamento</li>
+                                <li>Atenção a detalhes</li>
+                                <li>Pontualidade</li>
+                            </ul>
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "Viveria em locais de pouca
+                                    higiene"
+                                </p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i"
+                                            :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 'bg-red-600 text-white border-red-400': answered === i && i !== correct, 'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        2</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Deferência -->
+                        <div x-data="{ answered: false, correct: 6 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Deferência</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Hierarquia</li>
+                                <li>Respeito</li>
+                                <li>Capacidade de seguir liderança legítima</li>
+                            </ul>
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "Aceito com prazer a liderança das
+                                    pessoas que admiro"</p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i"
+                                            :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 'bg-red-600 text-white border-red-400': answered === i && i !== correct, 'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        6</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 6</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Autoconfiança -->
+                        <div x-data="{ answered: false, correct: 2 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Autoconfiança</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Autoestima</li>
+                                <li>Segurança emocional</li>
+                                <li>Capacidade decisória</li>
+                            </ul>
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "Sinto-me inferior às pessoas que
+                                    conheço"</p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i"
+                                            :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 'bg-red-600 text-white border-red-400': answered === i && i !== correct, 'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        2</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expansividade -->
+                        <div x-data="{ answered: false, correct: 6 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Expansividade</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Sociabilidade</li>
+                                <li>Comunicação</li>
+                                <li>Expressividade</li>
+                            </ul>
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "Tenho facilidade em conversar com
+                                    as
+                                    pessoas"</p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i"
+                                            :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 'bg-red-600 text-white border-red-400': answered === i && i !== correct, 'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        6</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 6</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Enfrentamento -->
+                        <div x-data="{ answered: false, correct: 2 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Enfrentamento</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Controle emocional</li>
+                                <li>Reação ao estresse</li>
+                                <li>Capacidade de agir sob pressão</li>
+                            </ul>
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "Acho que vou desmaiar ao ver
+                                    sangue"
+                                </p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i"
+                                            :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 'bg-red-600 text-white border-red-400': answered === i && i !== correct, 'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        2</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Altruísmo -->
+                        <div x-data="{ answered: false, correct: 6 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Altruísmo</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Empatia</li>
+                                <li>Solidariedade</li>
+                                <li>Disposição para ajudar</li>
+                            </ul>
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "Gostaria de dedicar minha vida ao
+                                    próximo"</p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i"
+                                            :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 'bg-red-600 text-white border-red-400': answered === i && i !== correct, 'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        6</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 6</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Desejabilidade Social -->
+                        <div x-data="{ answered: false, correct: 2 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white text-xl mb-3">Desejabilidade Social</h3>
+                            <ul class="text-gray-400 text-base mb-4 list-disc pl-5 space-y-1">
+                                <li>Honestidade</li>
+                                <li>Autenticidade</li>
+                                <li>Capacidade de admitir falhas humanas</li>
+                            </ul>
+                            <div class="bg-black/30 p-4 rounded-lg border border-white/5">
+                                <p class="text-white italic text-base mb-3">Exemplo: "Já me apropriei de algo que não
+                                    era
+                                    meu"</p>
+                                <div class="flex gap-1 justify-center">
+                                    <template x-for="i in 7">
+                                        <button @click="answered = i"
+                                            :class="{'bg-green-600 text-white border-green-400': answered === i && i === correct, 'bg-red-600 text-white border-red-400': answered === i && i !== correct, 'bg-white/5 text-gray-400 hover:bg-white/10': answered !== i}"
+                                            class="w-9 h-9 rounded border border-white/10 font-bold text-sm transition-colors"
+                                            x-text="i"></button>
+                                    </template>
+                                </div>
+                                <div x-show="answered" class="mt-3 text-center text-sm font-bold" x-transition>
+                                    <span x-show="answered === correct" class="text-green-400">Correto! Resposta
+                                        indicada:
+                                        2</span>
+                                    <span x-show="answered !== correct" class="text-red-400">Resposta indicada: 2</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- 4. PERFIS EQUILIBRADOS (4) -->
+                <section id="balanced" class="scroll-mt-28">
+                    <div class="mb-8 border-b border-white/10 pb-4">
+                        <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                            <span
+                                class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">4</span>
+                            Perfis Equilibrados
+                        </h2>
+                        <p class="text-gray-400 text-base mt-2 ml-14">Características onde os extremos são ruins. Busque
+                            o
+                            equilíbrio: <strong>4 (Médio)</strong>.</p>
+                    </div>
+
+                    <div class="grid gap-6">
+
+                        <!-- Dominância -->
+                        <div x-data="{ answered: false, correct: 4 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white mb-3 text-lg">Dominância</h3>
+                            <p class="text-gray-400 text-sm mb-3">Avalia necessidade de controlar.</p>
+                            <div class="bg-black/30 p-3 rounded">
+                                <p class="text-white italic text-sm mb-2">"Gosto de dizer aos outros como fazer seus
+                                    trabalhos."</p>
+                                <div class="flex gap-1 justify-center scale-90">
+                                    <template x-for="i in 7"><button @click="answered = i"
+                                            :class="{'bg-green-600': answered===i&&i===correct, 'bg-red-600': answered===i&&i!==correct, 'bg-white/10': answered!==i}"
+                                            class="w-8 h-8 rounded text-xs" x-text="i"></button></template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Exibição -->
+                        <div x-data="{ answered: false, correct: 4 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white mb-3 text-lg">Exibição</h3>
+                            <ul class="text-gray-400 text-sm mb-3 list-disc pl-4">
+                                <li>Avalia busca por atenção</li>
+                                <li>Chamar a atenção</li>
+                            </ul>
+                            <div class="bg-black/30 p-3 rounded">
+                                <p class="text-white italic text-sm mb-2">"Gosto de estar no centro das atenções."</p>
+                                <div class="flex gap-1 justify-center scale-90">
+                                    <template x-for="i in 7"><button @click="answered = i"
+                                            :class="{'bg-green-600': answered===i&&i===correct, 'bg-red-600': answered===i&&i!==correct, 'bg-white/10': answered!==i}"
+                                            class="w-8 h-8 rounded text-xs" x-text="i"></button></template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mudança -->
+                        <div x-data="{ answered: false, correct: 4 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white mb-3 text-lg">Mudança (Abertura)</h3>
+                            <ul class="text-gray-400 text-sm mb-3 list-disc pl-4">
+                                <li>Flexibilidade</li>
+                                <li>Adaptação</li>
+                            </ul>
+                            <div class="bg-black/30 p-3 rounded">
+                                <p class="text-white italic text-sm mb-2">"Sempre gosto de fazer coisas novas."</p>
+                                <div class="flex gap-1 justify-center scale-90">
+                                    <template x-for="i in 7"><button @click="answered = i"
+                                            :class="{'bg-green-600': answered===i&&i===correct, 'bg-red-600': answered===i&&i!==correct, 'bg-white/10': answered!==i}"
+                                            class="w-8 h-8 rounded text-xs" x-text="i"></button></template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Amabilidade -->
+                        <div x-data="{ answered: false, correct: 4 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white mb-3 text-lg">Amabilidade</h3>
+                            <ul class="text-gray-400 text-sm mb-3 list-disc pl-4">
+                                <li>Avalia dependência emocional</li>
+                                <li>Necessidade de Afago</li>
+                            </ul>
+                            <div class="bg-black/30 p-3 rounded">
+                                <p class="text-white italic text-sm mb-2">"É importante para mim ser aceito em minha
+                                    comunidade."</p>
+                                <div class="flex gap-1 justify-center scale-90">
+                                    <template x-for="i in 7"><button @click="answered = i"
+                                            :class="{'bg-green-600': answered===i&&i===correct, 'bg-red-600': answered===i&&i!==correct, 'bg-white/10': answered!==i}"
+                                            class="w-8 h-8 rounded text-xs" x-text="i"></button></template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Abstrato -->
+                        <div x-data="{ answered: false, correct: 4 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white mb-3 text-lg">Abstrato</h3>
+                            <ul class="text-gray-400 text-sm mb-3 list-disc pl-4">
+                                <li>Pensamento conceitual</li>
+                                <li>Interesses culturais</li>
+                            </ul>
+                            <div class="bg-black/30 p-3 rounded">
+                                <p class="text-white italic text-sm mb-2">"Gosto de filmes que contam a história de duas
+                                    pessoas apaixonadas."</p>
+                                <div class="flex gap-1 justify-center scale-90">
+                                    <template x-for="i in 7"><button @click="answered = i"
+                                            :class="{'bg-green-600': answered===i&&i===correct, 'bg-red-600': answered===i&&i!==correct, 'bg-white/10': answered!==i}"
+                                            class="w-8 h-8 rounded text-xs" x-text="i"></button></template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Intensidade -->
+                        <div x-data="{ answered: false, correct: 4 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white mb-3 text-lg">Intensidade</h3>
+                            <p class="text-gray-400 text-sm mb-3">Avalia nível de energia emocional (tudo que
+                                extrapola).
+                            </p>
+                            <div class="bg-black/30 p-3 rounded">
+                                <p class="text-white italic text-sm mb-2">"Estou explodindo de energia."</p>
+                                <div class="flex gap-1 justify-center scale-90">
+                                    <template x-for="i in 7"><button @click="answered = i"
+                                            :class="{'bg-green-600': answered===i&&i===correct, 'bg-red-600': answered===i&&i!==correct, 'bg-white/10': answered!==i}"
+                                            class="w-8 h-8 rounded text-xs" x-text="i"></button></template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Intracepção -->
+                        <div x-data="{ answered: false, correct: 4 }"
+                            class="glass-panel p-6 rounded-xl border-l-4 border-l-purple-500">
+                            <h3 class="font-bold text-white mb-3 text-lg">Intracepção</h3>
+                            <ul class="text-gray-400 text-sm mb-3 list-disc pl-4">
+                                <li>Analisar e observar sentimentos</li>
+                                <li>Autoanálise e observação dos outros</li>
+                            </ul>
+                            <div class="bg-black/30 p-3 rounded">
+                                <p class="text-white italic text-sm mb-2">"Costumo analisar meus próprios sentimentos."
+                                </p>
+                                <div class="flex gap-1 justify-center scale-90">
+                                    <template x-for="i in 7"><button @click="answered = i"
+                                            :class="{'bg-green-600': answered===i&&i===correct, 'bg-red-600': answered===i&&i!==correct, 'bg-white/10': answered!==i}"
+                                            class="w-8 h-8 rounded text-xs" x-text="i"></button></template>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+                <!-- 5. IFP2 - Inventário Fatorial -->
+                <section id="ifp2" class="scroll-mt-28">
+                    <div class="glass-panel p-8 rounded-2xl border-l-4 border-l-cyan-500 relative overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[60px] rounded-full -translate-y-1/3 translate-x-1/3">
+                        </div>
+
+                        <div class="relative z-10">
+                            <h2 class="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                                <span
+                                    class="bg-cyan-500/20 text-cyan-400 w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg shadow-cyan-500/10">5</span>
+                                IFP-2
+                            </h2>
+                            <h3 class="text-xl text-cyan-400 font-bold mb-6">Inventário Fatorial de Personalidade</h3>
+
+                            <div class="flex flex-col md:flex-row gap-8 mb-8">
+                                <div class="flex-1 space-y-4">
+                                    <p class="text-gray-300">Objetivo: Traçar o perfil de personalidade do indivíduo
+                                        através
+                                        de <strong>13 necessidades/motivos psicológicos</strong>.</p>
+
+                                    <div class="grid grid-cols-2 gap-2 text-sm text-gray-400">
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Assistência</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Intracepção</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Afago</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Autonomia</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Deferência</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Afiliação</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Dominância</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Desempenho</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Exibição</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Agressão</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Ordem</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Persistência</div>
+                                        <div class="flex items-center gap-2"><i
+                                                class="fas fa-check text-cyan-500/50"></i>
+                                            Mudança</div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="glass-panel bg-black/40 p-6 rounded-xl border border-cyan-500/20 min-w-[250px]">
+                                    <h4 class="text-cyan-400 font-bold mb-4 border-b border-cyan-500/20 pb-2">
+                                        Características</h4>
+                                    <ul class="space-y-3 text-sm text-gray-300">
+                                        <li class="flex justify-between"><span>Tempo:</span> <span
+                                                class="text-white font-bold">30 min</span></li>
+                                        <li class="flex justify-between"><span>Itens:</span> <span
+                                                class="text-white font-bold">100</span></li>
+                                        <li class="flex justify-between"><span>Escala:</span> <span
+                                                class="text-white font-bold">1 a 7</span></li>
+                                    </ul>
+                                    <div class="mt-6 p-4 bg-cyan-900/20 rounded-lg border border-cyan-500/30">
+                                        <p class="text-xs text-cyan-300 font-bold uppercase tracking-wider mb-1"><i
+                                                class="fas fa-lightbulb mr-1"></i> Macete</p>
+                                        <p class="text-white font-bold">Nas duas últimas questões, a resposta é 2.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <a href="https://drive.google.com/file/d/16nIFF9_unxwwn8OYLFLhDEcbtsugJnzq/view?usp=sharing"
+                                    target="_blank"
+                                    class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
+                                    <i class="fas fa-download text-cyan-400"></i> Download PDF
+                                </a>
+                                <a href="../ifp2.html"
+                                    class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
+                                    <i class="fas fa-play-circle text-cyan-400"></i> Simulador
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. BFP - Bateria Fatorial -->
+                <section id="bfp" class="scroll-mt-28">
+                    <div class="glass-panel p-8 rounded-2xl border-l-4 border-l-pink-500 relative overflow-hidden">
+                        <img src="assets/structure.png"
+                            class="absolute top-0 right-0 w-2/3 h-full object-cover opacity-10 mask-linear-gradient pointer-events-none"
+                            style="mask-image: linear-gradient(to right, transparent, black);" alt="Abstract Structure">
+
+                        <div class="relative z-10">
+                            <h2 class="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                                <span
+                                    class="bg-pink-500/20 text-pink-400 w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg shadow-pink-500/10">6</span>
+                                BFP
+                            </h2>
+                            <h3 class="text-xl text-pink-400 font-bold mb-6">Bateria Fatorial de Personalidade (Big
+                                Five)
+                            </h3>
+
+                            <div class="flex flex-col md:flex-row gap-8 mb-8">
+                                <div class="flex-1 space-y-4">
+                                    <p class="text-gray-300">Avaliação baseada no modelo dos <strong>Cinco Grandes
+                                            Fatores
+                                            (CGF)</strong>:</p>
+                                    <ul class="space-y-2 text-gray-300 pl-4 border-l-2 border-pink-500/30">
+                                        <li><strong class="text-white">1. Extroversão</strong></li>
+                                        <li><strong class="text-white">2. Socialização</strong></li>
+                                        <li><strong class="text-white">3. Realização</strong></li>
+                                        <li><strong class="text-white">4. Neuroticismo</strong></li>
+                                        <li><strong class="text-white">5. Abertura a experiências</strong></li>
+                                    </ul>
+                                </div>
+
+                                <div
+                                    class="glass-panel bg-black/40 p-6 rounded-xl border border-pink-500/20 min-w-[250px]">
+                                    <h4 class="text-pink-400 font-bold mb-4 border-b border-pink-500/20 pb-2">
+                                        Características</h4>
+                                    <ul class="space-y-3 text-sm text-gray-300">
+                                        <li class="flex justify-between"><span>Tempo:</span> <span
+                                                class="text-white font-bold">30 min</span></li>
+                                        <li class="flex justify-between"><span>Itens:</span> <span
+                                                class="text-white font-bold">126</span></li>
+                                        <li class="flex justify-between"><span>Escala:</span> <span
+                                                class="text-white font-bold">1 a 7</span></li>
+                                    </ul>
+                                    <div class="mt-6 p-4 bg-pink-900/20 rounded-lg border border-pink-500/30">
+                                        <p class="text-xs text-pink-300 font-bold uppercase tracking-wider mb-2"><i
+                                                class="fas fa-key mr-1"></i> Gabarito Específico</p>
+                                        <ul class="space-y-1 text-sm">
+                                            <li class="text-white">item 106 = <span
+                                                    class="text-pink-400 font-bold">1</span>
+                                            </li>
+                                            <li class="text-white">item 109 = <span
+                                                    class="text-pink-400 font-bold">7</span>
+                                            </li>
+                                            <li class="text-white">item 119 = <span
+                                                    class="text-pink-400 font-bold">4</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <a href="https://drive.google.com/file/d/1hBeLy8ZunjwSA3f2-6ssexHU71lzvRtm/view?usp=sharing"
+                                    target="_blank"
+                                    class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
+                                    <i class="fas fa-download text-pink-400"></i> Download PDF
+                                </a>
+                                <a href="../bfp.html"
+                                    class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
+                                    <i class="fas fa-play-circle text-pink-400"></i> Simulador
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. NEO -->
+                <section id="neo" class="scroll-mt-28">
+                    <div class="glass-panel p-8 rounded-2xl border-l-4 border-l-yellow-500">
+                        <h2 class="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                            <span
+                                class="bg-yellow-500/20 text-yellow-400 w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg shadow-yellow-500/10">7</span>
+                            NEO PI-R / FFI-R
+                        </h2>
+                        <h3 class="text-xl text-yellow-400 font-bold mb-6">Inventário de Personalidade NEO (30 Facetas)
+                        </h3>
+
+                        <div class="grid md:grid-cols-2 gap-8 mb-8">
+                            <!-- Column 1: Versions & Scale -->
+                            <div class="space-y-6">
+                                <div class="glass-panel bg-black/20 p-4 rounded-xl">
+                                    <h4 class="text-yellow-500 font-bold mb-3 text-sm uppercase tracking-wider">Versões
+                                    </h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                                            <span class="text-white font-bold">NEO-PI-R (Completo)</span>
+                                            <div class="text-right text-xs text-gray-400">
+                                                <div>240 itens</div>
+                                                <div>1h - 2h</div>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-white font-bold">NEO-FFI-R (Curto)</span>
+                                            <div class="text-right text-xs text-gray-400">
+                                                <div>60 itens</div>
+                                                <div>20 min</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="glass-panel bg-black/20 p-4 rounded-xl">
+                                    <h4 class="text-yellow-500 font-bold mb-3 text-sm uppercase tracking-wider">
+                                        Estratégia
+                                        de Resposta</h4>
+                                    <div class="grid grid-cols-3 gap-2 text-center">
+                                        <div class="bg-red-900/40 p-2 rounded border border-red-500/30">
+                                            <div class="text-xs text-red-400 uppercase">Discordo</div>
+                                            <div class="text-xl font-bold text-white">2</div>
+                                        </div>
+                                        <div class="bg-blue-900/40 p-2 rounded border border-blue-500/30">
+                                            <div class="text-xs text-blue-400 uppercase">Neutro</div>
+                                            <div class="text-xl font-bold text-white">4</div>
+                                        </div>
+                                        <div class="bg-green-900/40 p-2 rounded border border-green-500/30">
+                                            <div class="text-xs text-green-400 uppercase">Concordo</div>
+                                            <div class="text-xl font-bold text-white">6</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Column 2: Facets -->
+                            <div class="glass-panel bg-black/20 p-4 rounded-xl">
+                                <h4 class="text-yellow-500 font-bold mb-3 text-sm uppercase tracking-wider">Big Five e
+                                    Facetas</h4>
+                                <div class="space-y-4 text-sm" x-data="{active: null}">
+
+                                    <!-- Neuroticismo -->
+                                    <div class="border border-white/5 rounded-lg bg-white/5 overflow-hidden">
+                                        <button @click="active = active === 'N' ? null : 'N'"
+                                            class="w-full flex justify-between items-center p-3 text-left hover:bg-white/5 transition">
+                                            <span class="font-bold text-gray-200">Neuroticismo (N)</span>
+                                            <i class="fas"
+                                                :class="active === 'N' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        </button>
+                                        <ul x-show="active === 'N'" class="p-3 pt-0 text-gray-400 space-y-1 pl-6">
+                                            <li>Ansiedade, Raiva, Depressão, Embaraço, Impulsividade, Vulnerabilidade
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Extroversão -->
+                                    <div class="border border-white/5 rounded-lg bg-white/5 overflow-hidden">
+                                        <button @click="active = active === 'E' ? null : 'E'"
+                                            class="w-full flex justify-between items-center p-3 text-left hover:bg-white/5 transition">
+                                            <span class="font-bold text-gray-200">Extroversão (E)</span>
+                                            <i class="fas"
+                                                :class="active === 'E' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        </button>
+                                        <ul x-show="active === 'E'" class="p-3 pt-0 text-gray-400 space-y-1 pl-6">
+                                            <li>Acolhimento, Gregarismo, Assertividade, Atividade, Busca de sensações,
+                                                Emoções positivas</li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Abertura -->
+                                    <div class="border border-white/5 rounded-lg bg-white/5 overflow-hidden">
+                                        <button @click="active = active === 'O' ? null : 'O'"
+                                            class="w-full flex justify-between items-center p-3 text-left hover:bg-white/5 transition">
+                                            <span class="font-bold text-gray-200">Abertura (O)</span>
+                                            <i class="fas"
+                                                :class="active === 'O' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        </button>
+                                        <ul x-show="active === 'O'" class="p-3 pt-0 text-gray-400 space-y-1 pl-6">
+                                            <li>Fantasia, Estética, Sentimentos, Ações variadas, Ideias, Valores</li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Amabilidade -->
+                                    <div class="border border-white/5 rounded-lg bg-white/5 overflow-hidden">
+                                        <button @click="active = active === 'A' ? null : 'A'"
+                                            class="w-full flex justify-between items-center p-3 text-left hover:bg-white/5 transition">
+                                            <span class="font-bold text-gray-200">Amabilidade (A)</span>
+                                            <i class="fas"
+                                                :class="active === 'A' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        </button>
+                                        <ul x-show="active === 'A'" class="p-3 pt-0 text-gray-400 space-y-1 pl-6">
+                                            <li>Confiança, Franqueza, Altruísmo, Complacência, Modéstia, Sensibilidade
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Conscienciosidade -->
+                                    <div class="border border-white/5 rounded-lg bg-white/5 overflow-hidden">
+                                        <button @click="active = active === 'C' ? null : 'C'"
+                                            class="w-full flex justify-between items-center p-3 text-left hover:bg-white/5 transition">
+                                            <span class="font-bold text-gray-200">Conscienciosidade (C)</span>
+                                            <i class="fas"
+                                                :class="active === 'C' ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        </button>
+                                        <ul x-show="active === 'C'" class="p-3 pt-0 text-gray-400 space-y-1 pl-6">
+                                            <li>Competência, Ordem, Senso do dever, Esforço, Autodisciplina, Ponderação
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 mt-8">
+                            <button disabled
+                                class="px-4 py-2 rounded-lg bg-white/5 text-gray-500 text-sm font-bold border border-white/10 cursor-not-allowed opacity-50 flex items-center gap-2">
+                                <i class="fas fa-download"></i> Download PDF
+                            </button>
+                            <a href="../neopi.html"
+                                class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
+                                <i class="fas fa-play-circle text-yellow-400"></i> Simulador
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 8. EATA -->
+                <section id="eata" class="scroll-mt-28">
+                    <div class="glass-panel p-8 rounded-2xl border-l-4 border-l-red-500">
+                        <h2 class="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                            <span
+                                class="bg-red-500/20 text-red-400 w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg shadow-red-500/10">8</span>
+                            EATA
+                        </h2>
+                        <h3 class="text-xl text-red-400 font-bold mb-6">Escala de Avaliação de Tendência à Agressividade
+                        </h3>
+
+                        <div class="flex flex-col md:flex-row gap-8 mb-8">
+                            <div class="flex-1 space-y-6">
+                                <p class="text-gray-300 text-lg">Avalia a tendência à manifestação de condutas
+                                    agressivas.
+                                    Neste teste, as respostas possíveis são <strong>0, 1 e 2</strong>.</p>
+
+                                <div class="glass-panel bg-red-900/10 border border-red-500/20 p-4 rounded-xl">
+                                    <p class="text-red-300 font-bold mb-2"><i
+                                            class="fas fa-crosshairs mr-2"></i>Estratégia
+                                        Principal</p>
+                                    <p class="text-gray-300 italic mb-3">"As perguntas pouco importam, desde que
+                                        consigamos
+                                        a pontuação requerida."</p>
+                                    <p class="text-gray-400 text-sm">A lógica é responder com pontuação máxima (2)
+                                        apenas em
+                                        itens específicos "leves" para atingir a meta, e zerar o restante.</p>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <h4 class="text-white font-bold border-b border-white/10 pb-2">Exemplos Práticos
+                                    </h4>
+                                    <ul class="space-y-2 text-sm">
+                                        <li class="flex justify-between items-center bg-white/5 p-2 rounded">
+                                            <span class="text-gray-300">1. Ao cometer um erro, mostro
+                                                indiferença.</span>
+                                            <span
+                                                class="text-red-400 font-bold bg-red-900/30 px-2 py-1 rounded border border-red-500/30">Resposta
+                                                2</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white/5 p-2 rounded">
+                                            <span class="text-gray-300">2. Culpo outra pessoa por coisas que fiz.</span>
+                                            <span
+                                                class="text-red-400 font-bold bg-red-900/30 px-2 py-1 rounded border border-red-500/30">Resposta
+                                                2</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white/5 p-2 rounded">
+                                            <span class="text-gray-300">3. Falo dos outros pelas costas.</span>
+                                            <span
+                                                class="text-red-400 font-bold bg-red-900/30 px-2 py-1 rounded border border-red-500/30">Resposta
+                                                2</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white/5 p-2 rounded">
+                                            <span class="text-gray-300">4. Gosto de bater em animais.</span>
+                                            <span
+                                                class="text-red-400 font-bold bg-red-900/30 px-2 py-1 rounded border border-red-500/30">Resposta
+                                                2</span>
+                                        </li>
+                                        <li
+                                            class="flex justify-between items-center bg-white/5 p-2 rounded border-l-2 border-green-500">
+                                            <span class="text-gray-300">5. Gosto de brincar de empurrar/provocar
+                                                quedas...</span>
+                                            <span
+                                                class="text-green-400 font-bold bg-green-900/30 px-2 py-1 rounded border border-green-500/30">Resposta
+                                                0</span>
+                                        </li>
+                                        <li
+                                            class="flex justify-between items-center bg-white/5 p-2 rounded border-l-2 border-green-500">
+                                            <span class="text-gray-300">6. Gosto de deixar as pessoas com raiva de
+                                                mim.</span>
+                                            <span
+                                                class="text-green-400 font-bold bg-green-900/30 px-2 py-1 rounded border border-green-500/30">Resposta
+                                                0</span>
+                                        </li>
+                                    </ul>
+                                    <p class="text-xs text-gray-500 mt-2">Ao responder 4 questões com 2, você soma 8
+                                        pontos,
+                                        ficando dentro da meta de segurança.</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="glass-panel bg-black/40 p-6 rounded-xl border border-red-500/20 min-w-[250px] flex flex-col gap-6">
+                                <div>
+                                    <h4 class="text-red-400 font-bold mb-4 border-b border-red-500/20 pb-2">Parâmetros
+                                    </h4>
+                                    <ul class="space-y-3 text-sm text-gray-300">
+                                        <li class="flex justify-between"><span>Tempo:</span> <span
+                                                class="text-white font-bold">20 min</span></li>
+                                        <li class="flex justify-between"><span>Itens:</span> <span
+                                                class="text-white font-bold">40</span></li>
+                                        <li class="flex justify-between items-center">
+                                            <span>Meta:</span>
+                                            <span class="text-red-400 font-black bg-red-500/10 px-2 rounded">7 a
+                                                12</span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="w-full bg-gray-800 h-4 rounded-full overflow-hidden relative mt-auto">
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center text-[10px] font-bold z-10 text-white shadow-black drop-shadow-md">
+                                        META</div>
+                                    <div class="bg-red-500 h-full w-[15%] absolute left-[17%]" title="7-12 pts"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 mt-8">
+                            <a href="https://drive.google.com/file/d/1SgUAkw9yPAhs1mzLu1ApuD8SDNM2AWrE/view?usp=sharing"
+                                target="_blank"
+                                class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
+                                <i class="fas fa-download text-red-400"></i> Download PDF
+                            </a>
+                            <button disabled
+                                class="px-4 py-2 rounded-lg bg-white/5 text-gray-500 text-sm font-bold border border-white/10 cursor-not-allowed opacity-50 flex items-center gap-2">
+                                <i class="fas fa-play-circle"></i> Simulador
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 9. EsAVI -->
+                <section id="esavi" class="scroll-mt-28">
+                    <div class="glass-panel p-8 rounded-2xl border-l-4 border-l-orange-500">
+                        <h2 class="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                            <span
+                                class="bg-orange-500/20 text-orange-400 w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg shadow-orange-500/10">9</span>
+                            EsAVI
+                        </h2>
+                        <h3 class="text-xl text-orange-400 font-bold mb-6">Escala de Avaliação da Impulsividade</h3>
+
+                        <div class="mb-8">
+                            <p class="text-gray-300 text-lg mb-4">Avalia a propensão a reações rápidas e não planejadas
+                                a
+                                partir de estímulos internos ou externos, sem considerar as consequências negativas.</p>
+
+                            <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-400 mb-6">
+                                <div class="bg-black/20 p-3 rounded border border-white/5">
+                                    <strong class="text-orange-300 block mb-1">Definições Principais:</strong>
+                                    <ul class="list-disc pl-4 space-y-1">
+                                        <li>Ação motora rápida</li>
+                                        <li>Resposta sem reflexão prévia</li>
+                                        <li>Dificuldade de concentração prolongada</li>
+                                        <li>Ausência de premeditação/planejamento</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-black/20 p-3 rounded border border-white/5">
+                                    <strong class="text-orange-300 block mb-1">Versões A e B:</strong>
+                                    <p>Possuem os mesmos itens, apenas distribuídos de forma diferente para dificultar o
+                                        treinamento de respostas memorizadas.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-6 mb-8">
+                            <!-- Fatores Negativos -->
+                            <div
+                                class="glass-panel bg-red-900/10 border border-red-500/30 p-4 rounded-xl text-center relative overflow-hidden group hover:bg-red-900/20 transition-all">
+                                <div
+                                    class="text-4xl font-black text-red-500 mb-2 group-hover:scale-110 transition-transform">
+                                    2</div>
+                                <h4 class="text-red-400 font-bold uppercase tracking-wider text-sm mb-3">Fatores
+                                    Negativos
+                                </h4>
+                                <ul class="text-left text-xs text-gray-300 space-y-2 border-t border-red-500/20 pt-3">
+                                    <li><i class="fas fa-times text-red-500 mr-1"></i> Agir de forma imediata</li>
+                                    <li><i class="fas fa-times text-red-500 mr-1"></i> Falta de concentração</li>
+                                    <li><i class="fas fa-times text-red-500 mr-1"></i> Falta de planejamento</li>
+                                    <li><i class="fas fa-times text-red-500 mr-1"></i> Envolver-se em riscos</li>
+                                    <li><i class="fas fa-times text-red-500 mr-1"></i> Audácia e temeridade</li>
+                                </ul>
+                            </div>
+
+                            <!-- Abertura -->
+                            <div
+                                class="glass-panel bg-blue-900/10 border border-blue-500/30 p-4 rounded-xl text-center relative overflow-hidden group hover:bg-blue-900/20 transition-all">
+                                <div
+                                    class="text-4xl font-black text-blue-500 mb-2 group-hover:scale-110 transition-transform">
+                                    3</div>
+                                <h4 class="text-blue-400 font-bold uppercase tracking-wider text-sm mb-3">Abertura</h4>
+                                <div class="text-left text-xs text-gray-300 border-t border-blue-500/20 pt-3 h-full">
+                                    <p class="flex items-center gap-2"><i class="fas fa-dot-circle text-blue-500"></i>
+                                        Abertura a novidades</p>
+                                </div>
+                            </div>
+
+                            <!-- Fatores Positivos -->
+                            <div
+                                class="glass-panel bg-green-900/10 border border-green-500/30 p-4 rounded-xl text-center relative overflow-hidden group hover:bg-green-900/20 transition-all">
+                                <div
+                                    class="text-4xl font-black text-green-500 mb-2 group-hover:scale-110 transition-transform">
+                                    4</div>
+                                <h4 class="text-green-400 font-bold uppercase tracking-wider text-sm mb-3">Fatores
+                                    Positivos
+                                </h4>
+                                <ul class="text-left text-xs text-gray-300 space-y-2 border-t border-green-500/20 pt-3">
+                                    <li><i class="fas fa-check text-green-500 mr-1"></i> Planejamento antes de agir</li>
+                                    <li><i class="fas fa-check text-green-500 mr-1"></i> Pensar, Avaliar, Prever</li>
+                                    <li><i class="fas fa-check text-green-500 mr-1"></i> Cautela</li>
+                                    <li><i class="fas fa-check text-green-500 mr-1"></i> Paciência e persistência</li>
+                                    <li><i class="fas fa-check text-green-500 mr-1"></i> Foco e atenção</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/30 p-4 rounded-xl border border-white/5">
+                            <h4 class="text-white font-bold mb-3 flex items-center gap-2"><i
+                                    class="fas fa-graduation-cap text-orange-400"></i> Exemplos de Resposta</h4>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-red-900/20 p-3 rounded border-l-2 border-red-500">
+                                    <p class="text-gray-300 text-sm italic mb-2">"Perco a concentração facilmente"</p>
+                                    <p class="text-xs text-red-400">Demonstra falta de foco -> <strong>Resposta
+                                            2</strong>
+                                    </p>
+                                </div>
+                                <div class="bg-green-900/20 p-3 rounded border-l-2 border-green-500">
+                                    <p class="text-gray-300 text-sm italic mb-2">"Planejo minhas ações cuidadosamente"
+                                    </p>
+                                    <p class="text-xs text-green-400">Demonstra avaliação/planejamento ->
+                                        <strong>Resposta
+                                            4</strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 mt-8">
+                            <a href="https://drive.google.com/file/d/1vKviYtenz9Kb7hoahPIeooRW0Mh0wnlB/view?usp=sharing"
+                                target="_blank"
+                                class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
+                                <i class="fas fa-download text-orange-400"></i> Download PDF
+                            </a>
+                            <button disabled
+                                class="px-4 py-2 rounded-lg bg-white/5 text-gray-500 text-sm font-bold border border-white/10 cursor-not-allowed opacity-50 flex items-center gap-2">
+                                <i class="fas fa-play-circle"></i> Simulador
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 10. Palográfico -->
+                <!-- 10. Palográfico -->
+                <style>
+                    #palo img {
+                        width: var(--img-width, 100%);
+                        transition: width 0.3s ease;
+                    }
+                </style>
+                <section id="palo" class="scroll-mt-28" :style="'--img-width: ' + imageScale + '%'">
+                    <div class="glass-panel p-8 rounded-2xl border-l-4 border-l-purple-500">
+                        <h2 class="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                            <span
+                                class="bg-purple-500/20 text-purple-400 w-10 h-10 rounded-lg flex items-center justify-center text-lg shadow-lg shadow-purple-500/10">10</span>
+                            Palográfico
+                        </h2>
+                        <h3 class="text-xl text-purple-400 font-bold mb-6">Teste de Personalidade Palográfico</h3>
+
+                        <div class="flex flex-wrap gap-4 mb-8">
+                            <a href="../palografico.html"
+                                class="px-4 py-2 rounded-lg bg-purple-500/20 text-purple-300 text-sm font-bold border border-purple-500/30 hover:bg-purple-500/30 hover:text-white flex items-center gap-2 transition-colors">
+                                <i class="fas fa-play-circle"></i> Simulador
+                            </a>
+                            <a href="https://drive.google.com/file/d/1fOmT9lxU3vqeyViDTJ2U5DmvdaTjSpd4/view?usp=sharing"
+                                target="_blank"
+                                class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 text-sm font-bold border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.2)] hover:bg-cyan-500/20 hover:text-white flex items-center gap-2 transition-colors">
+                                <i class="fas fa-file-alt"></i> Folha para Simulação
+                            </a>
+                            <a href="https://drive.google.com/file/d/1-UsCdUGO_CuSrgMSH4eAku81gy8FjCOh/view?usp=sharing"
+                                target="_blank"
+                                class="px-4 py-2 rounded-lg bg-green-500/10 text-green-400 text-sm font-bold border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.2)] hover:bg-green-500/20 hover:text-white flex items-center gap-2 transition-colors">
+                                <i class="fas fa-check-circle"></i> Palo Marcado
+                            </a>
+                        </div>
+
+
+                        <!-- Aplicação -->
+                        <div class="mb-8">
+                            <h4 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Aplicação</h4>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <div class="glass-panel bg-black/20 p-4 rounded-xl">
+                                        <h5 class="text-purple-300 font-bold mb-2 text-sm uppercase">Material</h5>
+                                        <ul class="list-disc pl-5 text-gray-300 text-sm space-y-1">
+                                            <li>Lápis nº 2 (preto) bem apontado.</li>
+                                            <li>Mesa lisa e nivelada, cadeira confortável.</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="glass-panel bg-black/20 p-4 rounded-xl">
+                                        <h5 class="text-purple-300 font-bold mb-2 text-sm uppercase">Fase 1: Treino
+                                            (Adaptação)</h5>
+                                        <ul class="text-gray-300 text-sm space-y-2">
+                                            <li class="flex justify-between"><span>Tempo Total:</span> <span
+                                                    class="font-bold text-white">2 min e 30s</span></li>
+                                            <li class="flex justify-between"><span>Intervalos:</span> <span
+                                                    class="font-bold text-white">5 de 30s</span></li>
+                                        </ul>
+                                        <p class="mt-3 text-xs text-gray-400 italic">Objetivo: Avaliar o nível
+                                            consciente, a
+                                            compreensão das instruções e a adaptação instrumental à tarefa.</p>
+                                    </div>
+                                </div>
+
+                                <div class="glass-panel bg-black/20 p-4 rounded-xl h-full">
+                                    <h5 class="text-purple-300 font-bold mb-2 text-sm uppercase">Fase 2: Teste
+                                        (Avaliação)
+                                    </h5>
+                                    <ul class="text-gray-300 text-sm space-y-2">
+                                        <li class="flex justify-between"><span>Tempo Total:</span> <span
+                                                class="font-bold text-white">5 minutos</span></li>
+                                        <li class="flex justify-between"><span>Intervalos:</span> <span
+                                                class="font-bold text-white">5 de 1 min</span></li>
+                                    </ul>
+                                    <p class="mt-3 text-xs text-gray-400 italic">Objetivo: Avaliar a produtividade real,
+                                        a
+                                        fadiga, o comportamento expressivo (inconsciente) e a capacidade de manter o
+                                        ritmo e
+                                        a atenção concentrada.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fatores Avaliados -->
+                        <div class="mb-8">
+                            <h4 class="text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Fatores
+                                Avaliados
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-purple-900/20 p-3 rounded-lg border border-purple-500/30 text-center">
+                                    <i class="fas fa-search text-purple-400 mb-2 text-xl"></i>
+                                    <div class="font-bold text-white">Qualidade</div>
+                                    <div class="text-xs text-gray-400">Traçado, Organização, Margens...</div>
+                                </div>
+                                <div class="bg-purple-900/20 p-3 rounded-lg border border-purple-500/30 text-center">
+                                    <i class="fas fa-wave-square text-purple-400 mb-2 text-xl"></i>
+                                    <div class="font-bold text-white">Oscilação</div>
+                                    <div class="text-xs text-gray-400">Ritmo</div>
+                                </div>
+                                <div class="bg-purple-900/20 p-3 rounded-lg border border-purple-500/30 text-center">
+                                    <i class="fas fa-sort-amount-up text-purple-400 mb-2 text-xl"></i>
+                                    <div class="font-bold text-white">Quantidade</div>
+                                    <div class="text-xs text-gray-400">Produtividade</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Qualidade -->
+                        <div class="mb-12">
+                            <h4 class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-2">Qualidade</h4>
+                            <p class="text-gray-300 mb-4">A qualidade dos traços e da organização espacial reflete
+                                aspectos
+                                profundos da personalidade, como equilíbrio emocional, clareza mental, organização e
+                                adaptabilidade social.</p>
+
+                            <div class="bg-blue-900/20 p-4 rounded-lg border-l-4 border-blue-500 mb-6">
+                                <p class="text-sm text-blue-200"><strong>Nota:</strong> Usaremos como referência de
+                                    qualidade os palos que já vêm impressos na folha de teste.</p>
+                                <img src="../../Imagens_base/apostila/palografico/palo1.png" alt="Referência"
+                                    style="width: 50%;"
+                                    class="mt-2 mx-auto rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                            </div>
+
+                            <!-- 1. Distância entre os palos -->
+                            <div class="bg-black/20 p-6 rounded-xl border border-white/5 mb-8">
+                                <h5 class="text-xl text-purple-400 font-bold mb-2">1. Distância entre os palos
+                                    (Expansividade)</h5>
+                                <p class="text-gray-400 text-sm mb-6">Refere-se à necessidade de contato interpessoal e
+                                    liberdade.</p>
+
+                                <div class="space-y-6">
+                                    <!-- Aumentada -->
+                                    <div class="grid md:grid-cols-2 gap-4 items-center bg-white/5 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-white font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-red-500"></span> Aumentada / Muito
+                                                Larga (> 4,6 mm)
+                                            </h6>
+                                            <ul class="text-sm text-gray-300 space-y-1">
+                                                <li><strong>Interpretação:</strong> Extroversão, expansividade,
+                                                    confiança e
+                                                    necessidade de contato.</li>
+                                                <li class="text-red-300"><strong>Se excessiva (> 5,8 mm):</strong> Pode
+                                                    indicar exibicionismo, superficialidade, dispersão e gasto
+                                                    desnecessário
+                                                    de energia.</li>
+                                            </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo2.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Normal -->
+                                    <div
+                                        class="grid md:grid-cols-2 gap-4 items-center bg-green-900/10 border border-green-500/20 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-green-400 font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-green-500"></span> Normal / Média
+                                                (3,3
+                                                a 4,5 mm)
+                                            </h6>
+                                            <ul class="text-sm text-gray-300 space-y-1">
+                                                <li><strong>Interpretação:</strong> Equilíbrio emocional, boa adaptação
+                                                    ao
+                                                    ambiente, organização, visão clara e ponderação.</li>
+                                            </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo3.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Estreita -->
+                                    <div class="grid md:grid-cols-2 gap-4 items-center bg-white/5 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-white font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span> Estreita /
+                                                Diminuída (< 3,2 mm) </h6>
+                                                    <ul class="text-sm text-gray-300 space-y-1">
+                                                        <li><strong>Interpretação:</strong> Introversão, prudência,
+                                                            economia, capacidade de concentração e detalhismo.</li>
+                                                        <li class="text-yellow-300"><strong>Se excessiva (< 1,0
+                                                                    mm):</strong> Avareza, desconfiança, fechamento em
+                                                                    si
+                                                                    mesmo e inibição.</li>
+                                                    </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo4.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                </div>
+
+                                <!-- Alertas de Desvios -->
+                                <div class="mt-6 grid md:grid-cols-2 gap-4">
+                                    <div class="bg-red-900/20 p-4 rounded-lg border border-red-500/30">
+                                        <p class="text-red-300 font-bold mb-2 text-sm"><i
+                                                class="fas fa-exclamation-triangle mr-1"></i> Evitar Agrupamentos</p>
+                                        <p class="text-xs text-gray-400 mb-2">Podem indicar impulsividade.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo5.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                    <div class="bg-red-900/20 p-4 rounded-lg border border-red-500/30">
+                                        <p class="text-red-300 font-bold mb-2 text-sm"><i
+                                                class="fas fa-times-circle mr-1"></i> Evitar Cruzamentos</p>
+                                        <p class="text-xs text-gray-400 mb-2">Indicam insegurança, confusão ou
+                                            agressividade.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo6.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. Inclinação -->
+                            <div class="bg-black/20 p-6 rounded-xl border border-white/5 mb-8">
+                                <h5 class="text-xl text-purple-400 font-bold mb-2">2. Inclinação dos Palos (Afetividade)
+                                </h5>
+                                <p class="text-gray-400 text-sm mb-6">Reflete a necessidade de contato com os outros, a
+                                    espontaneidade afetiva e o equilíbrio entre a razão e a emoção.</p>
+
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <!-- Vertical -->
+                                    <div class="bg-green-900/10 border border-green-500/20 p-4 rounded-lg">
+                                        <h6 class="text-green-400 font-bold mb-2">Vertical (Reta - 90º)</h6>
+                                        <p class="text-sm text-gray-300 mb-3">Predomínio da razão sobre a emoção. Indica
+                                            autocontrole, estabilidade, firmeza de atitudes, constância e maturidade.
+                                        </p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo7.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Direita -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2">Inclinada à Direita (Destra)</h6>
+                                        <p class="text-sm text-gray-300 mb-2">Extroversão e movimento em direção ao
+                                            outro
+                                            (futuro). Indica facilidade de relacionamento e afetividade expressiva.</p>
+                                        <p class="text-xs text-red-300 mb-3"><strong>Se excessiva:</strong> Dependência
+                                            afetiva, falta de controle, sugestionabilidade.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo8.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Esquerda -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2">Inclinada à Esquerda (Sinistra)</h6>
+                                        <p class="text-sm text-gray-300 mb-2">Introversão e movimento de recuo
+                                            (passado/Eu).
+                                            Indica desconfiança, repressão dos afetos e cautela.</p>
+                                        <p class="text-xs text-yellow-300 mb-3"><strong>Aspecto Negativo:</strong> Medo
+                                            de
+                                            entrega, narcisismo ou dissimulação.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo9.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Oscilante -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2">Oscilante (Mista)</h6>
+                                        <p class="text-sm text-gray-300 mb-3">Ambivalência afetiva. Indica dúvidas,
+                                            indecisão, luta interna entre a necessidade de contato e o medo dele
+                                            (conflito
+                                            razão x emoção).</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo10.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 3. Tamanho -->
+                            <div class="bg-black/20 p-6 rounded-xl border border-white/5 mb-8">
+                                <h5 class="text-xl text-purple-400 font-bold mb-2">3. Tamanho dos palos (Autoestima)
+                                </h5>
+                                <p class="text-gray-400 text-sm mb-6">Refere-se à autovalorização e confiança pessoal.
+                                </p>
+
+                                <div class="space-y-6">
+                                    <!-- Grande -->
+                                    <div class="grid md:grid-cols-2 gap-4 items-center bg-white/5 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-white font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-blue-500"></span> Aumentado /
+                                                Grande (>
+                                                9,8 mm)
+                                            </h6>
+                                            <ul class="text-sm text-gray-300 space-y-1">
+                                                <li><strong>Interpretação:</strong> Expansividade, autoconfiança,
+                                                    ambição,
+                                                    liderança e vitalidade.</li>
+                                                <li class="text-blue-300"><strong>Se excessivo (> 12,5 mm):</strong>
+                                                    Euforia, falta de senso crítico, vaidade ou megalomania.</li>
+                                            </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo11.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Normal -->
+                                    <div
+                                        class="grid md:grid-cols-2 gap-4 items-center bg-green-900/10 border border-green-500/20 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-green-400 font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-green-500"></span> Normal / Médio
+                                                (7,0
+                                                a 9,7 mm)
+                                            </h6>
+                                            <ul class="text-sm text-gray-300 space-y-1">
+                                                <li><strong>Interpretação:</strong> Equilíbrio afetivo, autocontrole,
+                                                    constância e estabilidade de comportamento.</li>
+                                            </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo12.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Pequeno -->
+                                    <div class="grid md:grid-cols-2 gap-4 items-center bg-white/5 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-white font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-yellow-500"></span> Diminuído /
+                                                Pequeno
+                                                (< 6,8 mm) </h6>
+                                                    <ul class="text-sm text-gray-300 space-y-1">
+                                                        <li><strong>Interpretação:</strong> Timidez, modéstia,
+                                                            sentimento de
+                                                            inferioridade, mas também alta capacidade de análise e
+                                                            minúcia.
+                                                        </li>
+                                                    </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo13.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 4. Direção das Linhas -->
+                            <div class="bg-black/20 p-6 rounded-xl border border-white/5 mb-8">
+                                <h5 class="text-xl text-purple-400 font-bold mb-2">4. Direção das Linhas (Humor e
+                                    Vontade)
+                                </h5>
+
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <!-- Horizontal -->
+                                    <div class="bg-green-900/10 border border-green-500/20 p-4 rounded-lg">
+                                        <h6 class="text-green-400 font-bold mb-2">Horizontal</h6>
+                                        <p class="text-sm text-gray-300 mb-3">Estabilidade de humor, disciplina e
+                                            constância
+                                            de objetivos.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo14.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Ascendente -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2">Ascendente</h6>
+                                        <p class="text-sm text-gray-300 mb-3">Otimismo, ambição, ardor e autoconfiança.
+                                            Pode
+                                            indicar arrogância se excessivo.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo15.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Descendente -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2">Descendente</h6>
+                                        <p class="text-sm text-gray-300 mb-3">Pessimismo, falta de energia, fadiga
+                                            física ou
+                                            psíquica, desânimo.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo16.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Serpentina -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2">Serpentina / Ondulante</h6>
+                                        <p class="text-sm text-gray-300 mb-3">Diplomacia, mas também insegurança,
+                                            sugestionabilidade, falta de firmeza.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo17.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 5. Distância entre as linhas -->
+                            <div class="bg-black/20 p-6 rounded-xl border border-white/5 mb-8">
+                                <h5 class="text-xl text-purple-400 font-bold mb-2">5. Distância entre as linhas</h5>
+                                <p class="text-gray-400 text-sm mb-6">Avalia o distanciamento que o indivíduo deseja
+                                    manter
+                                    em relação aos outros, a clareza nas relações e a percepção de limites.</p>
+
+                                <div class="space-y-6">
+                                    <!-- Aumentada -->
+                                    <div class="grid md:grid-cols-2 gap-4 items-center bg-white/5 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-white font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-red-500"></span> Muito Aumentada (>
+                                                10,8 mm)
+                                            </h6>
+                                            <ul class="text-sm text-gray-300 space-y-1">
+                                                <li><strong>Interpretação:</strong> Isolamento acentuado, dificuldade de
+                                                    contato, excesso de formalidade e escrúpulos.</li>
+                                            </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo18.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Normal -->
+                                    <div
+                                        class="grid md:grid-cols-2 gap-4 items-center bg-green-900/10 border border-green-500/20 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-green-400 font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-green-500"></span> Média / Normal
+                                                (2,7
+                                                a 8,0 mm)
+                                            </h6>
+                                            <ul class="text-sm text-gray-300 space-y-1">
+                                                <li><strong>Interpretação:</strong> Equilíbrio nas relações
+                                                    interpessoais.
+                                                    Respeita o espaço do outro e faz-se respeitar.</li>
+                                            </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo19.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <!-- Diminuída -->
+                                    <div class="grid md:grid-cols-2 gap-4 items-center bg-white/5 p-4 rounded-lg">
+                                        <div>
+                                            <h6 class="text-white font-bold mb-2 flex items-center gap-2">
+                                                <span class="w-3 h-3 rounded-full bg-blue-500"></span> Diminuída /
+                                                Próxima (
+                                                < 2,6 mm) </h6>
+                                                    <ul class="text-sm text-gray-300 space-y-1">
+                                                        <li><strong>Interpretação:</strong> Facilidade de contato,
+                                                            sociabilidade e espontaneidade.</li>
+                                                        <li class="text-blue-300"><strong>Se excessiva:</strong>
+                                                            Indiscrição, dificuldade em respeitar a privacidade alheia.
+                                                        </li>
+                                                    </ul>
+                                        </div>
+                                        <img src="../../Imagens_base/apostila/palografico/palo20.png"
+                                            style="width: 100%;"
+                                            class="rounded-lg border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 6. Margens -->
+                            <div class="bg-black/20 p-6 rounded-xl border border-white/5 mb-8">
+                                <h5 class="text-xl text-purple-400 font-bold mb-2">6. Margens (Adaptação e Organização)
+                                </h5>
+
+                                <div class="flex flex-col gap-6">
+                                    <!-- Esquerda -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2 border-b border-white/10 pb-1">Margem
+                                            Esquerda
+                                            (O Passado / O Eu)</h6>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+                                            <div>
+                                                <p class="text-green-400 text-sm font-bold">Normal / Equilibrada</p>
+                                                <p class="text-xs text-gray-400 mb-2">Boa adaptação social, ordem
+                                                    interna.</p>
+                                                <img src="../../Imagens_base/apostila/palografico/palo21.png"
+                                                    style="width: 100%;"
+                                                    class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                            </div>
+                                            <div>
+                                                <p class="text-white text-sm font-bold">Larga (Afastada)</p>
+                                                <p class="text-xs text-gray-400 mb-2">Extroversão, desprendimento. Se
+                                                    excessiva: Descuido.</p>
+                                                <img src="../../Imagens_base/apostila/palografico/palo22.png"
+                                                    style="width: 100%;"
+                                                    class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                            </div>
+                                            <div>
+                                                <p class="text-white text-sm font-bold">Estreita (Colada)</p>
+                                                <p class="text-xs text-gray-400 mb-2">Introversão, economia, apego ao
+                                                    passado.</p>
+                                                <img src="../../Imagens_base/apostila/palografico/palo23.png"
+                                                    style="width: 100%;"
+                                                    class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Direita -->
+                                    <div class="bg-white/5 p-4 rounded-lg">
+                                        <h6 class="text-white font-bold mb-2 border-b border-white/10 pb-1">Margem
+                                            Direita
+                                            (O Futuro / O Outro)</h6>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+                                            <div>
+                                                <p class="text-green-400 text-sm font-bold">Normal</p>
+                                                <p class="text-xs text-gray-400 mb-2">Boa adaptação, autocontrole,
+                                                    vitalidade.</p>
+                                                <img src="../../Imagens_base/apostila/palografico/palo24.png"
+                                                    style="width: 100%;"
+                                                    class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                            </div>
+                                            <div>
+                                                <p class="text-white text-sm font-bold">Estreita (Vai até o fim)</p>
+                                                <p class="text-xs text-gray-400 mb-2">Decisão, coragem, sociabilidade.
+                                                </p>
+                                                <img src="../../Imagens_base/apostila/palografico/palo25.png"
+                                                    style="width: 100%;"
+                                                    class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                            </div>
+                                            <div>
+                                                <p class="text-white text-sm font-bold">Larga (Para antes)</p>
+                                                <p class="text-xs text-gray-400 mb-2">Temor do futuro, insegurança,
+                                                    medo.</p>
+                                                <img src="../../Imagens_base/apostila/palografico/palo26.png"
+                                                    style="width: 100%;"
+                                                    class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 7. Irregularidades Específicas -->
+                            <div class="bg-black/20 p-6 rounded-xl border border-white/5">
+                                <h5 class="text-xl text-purple-400 font-bold mb-4">7. Irregularidades Específicas</h5>
+
+                                <div class="flex flex-col gap-6 mb-6">
+                                    <div class="bg-white/5 p-4 rounded-xl">
+                                        <h6 class="text-white font-bold text-lg mb-2">Tremores</h6>
+                                        <p class="text-gray-400 text-sm mb-4">Emoção forte, instabilidade ou
+                                            substâncias.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo27.png"
+                                            style="width: 70%;"
+                                            class="rounded mx-auto border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <div class="bg-white/5 p-4 rounded-xl">
+                                        <h6 class="text-white font-bold text-lg mb-2">Palos quebrados</h6>
+                                        <p class="text-gray-400 text-sm mb-4">Queda de energia, fadiga intensa.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo28.png"
+                                            style="width: 40%;"
+                                            class="rounded mx-auto border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <div class="bg-white/5 p-4 rounded-xl">
+                                        <h6 class="text-white font-bold text-lg mb-2">Correções/Retoques</h6>
+                                        <p class="text-gray-400 text-sm mb-4">Insegurança, ansiedade, TOC.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo29.png"
+                                            style="width: 50%;"
+                                            class="rounded mx-auto border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+
+                                    <div class="bg-white/5 p-4 rounded-xl">
+                                        <h6 class="text-white font-bold text-lg mb-2">Ganchos (Agressividade)</h6>
+                                        <p class="text-gray-400 text-sm mb-4">Tenacidade e agressividade.</p>
+                                        <img src="../../Imagens_base/apostila/palografico/palo30.png"
+                                            style="width: 100%;"
+                                            class="rounded border border-white/10 h-auto object-contain bg-black/40">
+                                    </div>
+                                </div>
+
+                                <div class="bg-red-900/10 border border-red-500/20 p-4 rounded-lg">
+                                    <h6 class="text-red-300 font-bold mb-2 text-sm flex items-center gap-2"><i
+                                            class="fas fa-exclamation-circle"></i> Atenção aos Ganchos</h6>
+                                    <p class="text-xs text-gray-300 mb-3">Calcula-se a porcentagem de ganchos. Acima de
+                                        15%
+                                        indica agressividade excessiva e conflito frequente.</p>
+                                    <div class="bg-black/20 p-3 rounded text-xs text-gray-400">
+                                        <strong class="text-white block mb-1">Dicas para corrigir:</strong>
+                                        1. Movimento vertical estrito (descer e subir).<br>
+                                        2. Tirar totalmente o lápis do papel antes de mover para o lado.<br>
+                                        3. Controlar a pressão e a pressa.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> <!-- Fim de Qualidade -->
+
+                        <!-- Oscilação (Ritmo) -->
+                        <div class="mb-12">
+                            <h4 class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-2">Oscilação
+                                (Ritmo)
+                            </h4>
+                            <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5">
+                                <p class="text-gray-300 mb-4">Avalia a estabilidade da produtividade e o controle
+                                    emocional
+                                    através do cálculo do NOR.</p>
+
+                                <div class="grid md:grid-cols-2 gap-8 items-center">
+                                    <div class="space-y-3">
+                                        <div class="bg-white/5 p-3 rounded flex justify-between items-center">
+                                            <span class="text-gray-400 text-sm">Muito Baixo (0,0 - 2,1)</span>
+                                            <span class="text-yellow-400 font-bold text-sm">Rigidez</span>
+                                        </div>
+                                        <div
+                                            class="bg-green-900/20 border border-green-500/20 p-3 rounded flex justify-between items-center">
+                                            <span class="text-gray-300 text-sm">Baixo / Ideal (2,2 - 4,1)</span>
+                                            <span class="text-green-400 font-bold text-sm"><i
+                                                    class="fas fa-check mr-1"></i>
+                                                Estabilidade</span>
+                                        </div>
+                                        <div class="bg-white/5 p-3 rounded flex justify-between items-center">
+                                            <span class="text-gray-400 text-sm">Médio (4,2 - 8,6)</span>
+                                            <span class="text-gray-300 font-bold text-sm">Oscilação Natural</span>
+                                        </div>
+                                        <div
+                                            class="bg-red-900/20 border border-red-500/20 p-3 rounded flex justify-between items-center">
+                                            <span class="text-gray-400 text-sm">Alto (> 8,7)</span>
+                                            <span class="text-red-400 font-bold text-sm">Instabilidade</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div
+                                            class="bg-blue-900/20 p-4 rounded-lg border border-blue-500/30 text-center">
+                                            <p class="text-blue-200 font-bold mb-1">META DO NOR</p>
+                                            <p class="text-3xl font-black text-white">2,2 a 4,1</p>
+                                            <p class="text-xs text-blue-300 mt-2">Busque manter sempre a mesma
+                                                quantidade de
+                                                traços em cada tempo.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quantidade (Produtividade) -->
+                        <div class="mb-8">
+                            <h4 class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-2">Quantidade
+                                (Produtividade)</h4>
+                            <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5">
+                                <p class="text-gray-300 mb-4">Reflete a capacidade laborativa e a energia vital.</p>
+
+                                <div class="overflow-x-auto">
+                                    <table class="w-full text-sm text-center">
+                                        <thead>
+                                            <tr class="text-gray-400 border-b border-white/10">
+                                                <th class="py-2 px-4">Nível</th>
+                                                <th class="py-2 px-4">Quantidade</th>
+                                                <th class="py-2 px-4">Interpretação</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-gray-300">
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-2 px-4 text-red-400">Muito Baixa</td>
+                                                <td class="py-2 px-4">
+                                                    < 321</td>
+                                                <td class="py-2 px-4">Lentidão excessiva</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-2 px-4 text-yellow-400">Baixa</td>
+                                                <td class="py-2 px-4">321 - 468</td>
+                                                <td class="py-2 px-4">Produtividade reduzida</td>
+                                            </tr>
+                                            <tr class="bg-green-900/10 border-b border-green-500/20">
+                                                <td class="py-2 px-4 text-green-400 font-bold">Média</td>
+                                                <td class="py-2 px-4 font-bold">469 - 734</td>
+                                                <td class="py-2 px-4">Bom rendimento</td>
+                                            </tr>
+                                            <tr class="border-b border-white/5">
+                                                <td class="py-2 px-4 text-white">Alta</td>
+                                                <td class="py-2 px-4">735 - 1038</td>
+                                                <td class="py-2 px-4">Alta produtividade</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 px-4 text-purple-400">Muito Alta</td>
+                                                <td class="py-2 px-4">> 1038</td>
+                                                <td class="py-2 px-4">Agitação / Ansiedade</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div
+                                    class="mt-6 bg-purple-900/20 p-4 rounded-lg border border-purple-500/30 flex items-center justify-between">
+                                    <div>
+                                        <p class="text-purple-300 font-bold text-sm uppercase">Meta de Quantidade</p>
+                                        <p class="text-xs text-gray-400">Para garantir aprovação com folga.</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-3xl font-black text-white">600</span>
+                                        <span class="text-sm text-purple-300">palos</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+            </div> <!-- Fim Wrapper Fonte -->
+        </article>
+    </main>
+
+    <footer class="mt-auto py-8 text-center text-sm text-gray-600 border-t border-white/5 bg-black/20 backdrop-blur-sm">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Aprovação Psycho. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

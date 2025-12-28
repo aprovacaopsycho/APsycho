@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug TEDIF 1</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #1a1a1a;
+            --primary: #3b82f6;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .image-container {
+            position: relative;
+            display: inline-block;
+            cursor: crosshair;
+        }
+
+        .marker {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: rgba(59, 130, 246, 0.8);
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body x-data="tedifDebug()" class="p-8" @mousemove.window="drag($event)" @mouseup.window="stopDrag()">
+
+    <div class="fixed top-4 right-4 bg-gray-800 p-4 rounded shadow-lg z-50 w-64">
+        <h2 class="text-xl font-bold mb-4">Ferramentas TEDIF 1</h2>
+
+        <div class="mb-4">
+            <label class="block text-sm text-gray-400 mb-1">Zoom: <span
+                    x-text="Math.round(zoom * 100) + '%'"></span></label>
+            <input type="range" class="w-full accent-blue-500" min="0.3" max="2" step="0.1" x-model="zoom">
+        </div>
+
+        <div class="mb-4">
+            <p class="mb-2">Próximo Número: <span x-text="nextNumber" class="text-yellow-400 font-bold text-xl"></span>
+            </p>
+            <p class="text-sm text-gray-400">Clique na imagem para marcar o número.</p>
+        </div>
+
+        <div class="flex gap-2 mb-4">
+            <button @click="undo()" class="bg-red-600 hover:bg-red-500 px-3 py-1 rounded text-sm w-full">
+                <i class="fas fa-undo"></i> Desfazer
+            </button>
+            <button @click="reset()" class="bg-gray-600 hover:bg-gray-500 px-3 py-1 rounded text-sm w-full">
+                <i class="fas fa-trash"></i> Limpar
+            </button>
+        </div>
+
+        <button @click="exportJSON()" class="bg-green-600 hover:bg-green-500 px-4 py-2 rounded font-bold w-full mb-2">
+            <i class="fas fa-copy"></i> Copiar JSON
+        </button>
+
+        <div class="text-xs text-gray-500 mt-4">
+            Total Pontos: <span x-text="points.length"></span>
+        </div>
+    </div>
+
+    <div class="flex justify-center overflow-auto">
+        <div class="image-container origin-top" :style="`transform: scale(${zoom})`" @click="handleImageClick($event)">
+            <!-- UPDATED IMAGE SOURCE -->
+            <img x-ref="img" src="../../Imagens_base/tadimtedif/tedif3.png" alt="TEDIF 3 Base"
+                class="max-w-none shadow-2xl rounded">
+
+            <template x-for="p in points" :key="p.id">
+                <div class="marker cursor-grab active:cursor-grabbing hover:bg-blue-600 transition-colors"
+                    :style="`left: ${p.x}%; top: ${p.y}%; transform: translate(-50%, -50%) scale(${1/zoom});`"
+                    @mousedown.stop="startDrag(p.id, $event)" x-text="p.id">
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('tedifDebug', () => ({
+                points: [], // Start empty for new map
+                nextNumber: 1,
+                zoom: 0.5,
+                draggingId: null,
+
+                handleImageClick(e) {
+                    if (this.draggingId) return;
+                    this.addPoint(e);
+                },
+
+                addPoint(e) {
+                    if (this.nextNumber > 50) return;
+
+                    const rect = this.$refs.img.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    this.points.push({
+                        id: this.nextNumber,
+                        x: parseFloat(x.toFixed(2)),
+                        y: parseFloat(y.toFixed(2))
+                    });
+
+                    this.nextNumber++;
+                },
+
+                startDrag(id, e) {
+                    this.draggingId = id;
+                },
+
+                drag(e) {
+                    if (!this.draggingId) return;
+                    e.preventDefault();
+
+                    const rect = this.$refs.img.getBoundingClientRect();
+                    let x = ((e.clientX - rect.left) / rect.width) * 100;
+                    let y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                    x = Math.max(0, Math.min(100, x));
+                    y = Math.max(0, Math.min(100, y));
+
+                    const point = this.points.find(p => p.id === this.draggingId);
+                    if (point) {
+                        point.x = parseFloat(x.toFixed(2));
+                        point.y = parseFloat(y.toFixed(2));
+                    }
+                },
+
+                stopDrag() {
+                    if (this.draggingId) {
+                        setTimeout(() => { this.draggingId = null; }, 50);
+                    }
+                },
+
+                undo() {
+                    if (this.points.length > 0) {
+                        this.points.pop();
+                        this.nextNumber--;
+                    }
+                },
+
+                reset() {
+                    if (confirm('Limpar tudo?')) {
+                        this.points = [];
+                        this.nextNumber = 1;
+                    }
+                },
+
+                exportJSON() {
+                    const json = JSON.stringify(this.points, null, 2);
+                    navigator.clipboard.writeText(json).then(() => {
+                        alert('JSON copiado!');
+                    });
+                    console.log(json);
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+---
+Data: 2025-12-20T12:44
+updated: 2025-12-20T12:54
+---
+## G36
+
+O teste de raciocínio G36 é um instrumento psicométrico utilizado para avaliar a inteligência geral, especialmente o raciocínio lógico-abstrato. Ele é bastante utilizado em processos seletivos, avaliações psicológicas e contextos educacionais.
+
+### Características
+
+- **Formato:** O teste é composto por 36 itens, cada um apresentando uma matriz de dominós com uma peça faltando. O candidato deve escolher, entre as alternativas apresentadas, a peça que completa logicamente a sequência ou padrão.
+- **Meta**: 28
+- **Tempo**: 30 minutos
+
+### Exemplos
+
+#### Exemplo 1
+![](https://i.imgur.com/WUpwhsD.png)
+
+**Explicação:** Perceba que na linha 1 há duas figuras iguais, logo a linha 2 deve manter esse mesmo padrão, portanto o gabarito é o 6.
+
+#### Exemplo 2
+
+![](https://i.imgur.com/oy7HtOU.png)
+
+
+**Explicação**
+- Na coluna 1 temos figuras planas (duas dimensões - quadrado e triângulo);
+- Na coluna 2 há uma figura em três dimensões, o cubo, que é uma figura formada por quadrados. Logo, a figura que está faltando deve ser uma figura em três dimensões formada por triângulos, a saber, a pirâmide, gabarito 6.
+
+
+| Gabarito G-36 |          |
+| ------------- | -------- |
+| Questões      | Resposta |
+| 1             | 2        |
+| 2             | 6        |
+| 3             | 2        |
+| 4             | 4        |
+| 5             | 5        |
+| 6             | 2        |
+| 7             | 3        |
+| 8             | 4        |
+| 9             | 2        |
+| 10            | 3        |
+| 11            | 4        |
+| 12            | 6        |
+| 13            | 3        |
+| 14            | 2        |
+| 15            | 3        |
+| 16            | 4        |
+| 17            | 6        |
+| 18            | 5        |
+| 16            | 4        |
+| 17            | 6        |
+| 18            | 5        |
+| 19            | 4        |
+| 20            | 5        |
+| 21            | 2        |
+| 22            | 4        |
+| 23            | 4        |
+| 24            | 2        |
+| 25            | 4        |
+| 26            | 6        |
+| 27            | 6        |
+| 28            | 3        |
+| 29            | 2        |
+| 30            | 1        |
+| 31            | 1        |
+| 32            | 6        |
+| 33            | 2        |
+| 34            | 1        |
+| 35            | 5        |
+| 36            | 1        |
+
+
+
+---
+
+[[MIG - MATRIZES DE INTELIGÊNCIA]]

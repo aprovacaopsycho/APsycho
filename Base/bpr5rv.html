@@ -137,24 +137,19 @@
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-
             <div class="flex items-center gap-3">
                 <img src="../logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
                     class="h-10 w-10 rounded-full border border-[var(--primary)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-accent"
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent)]"
                             style="text-shadow:0 0 8px var(--accent)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">TESTE <span
-                            class="text-[var(--primary)]">BPR-5 RV</span></span>
-                    <span class="text-sm font-bold text-gray-400 font-medium tracking-wider">RACIOCÍNIO VERBAL</span>
+                    <span class="text-white font-black text-lg leading-none">TESTE BPR-5 RV</span>
                 </div>
             </div>
 
-            <!-- Stats Bar (Header) -->
             <div class="flex items-center gap-6">
-
                 <!-- Streak Counter (Mini) -->
                 <div x-show="streak > 1"
                     class="hidden md:flex items-center gap-2 text-orange-400 font-bold animate-pulse-fast">
@@ -162,8 +157,10 @@
                     <span x-text="streak + 'x'"></span>
                 </div>
 
-                <!-- Timer Removed -->
-
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent)] uppercase tracking-wider font-bold">BASE 2025</span>
+                </div>
                 <a href="testes_inteligencia.html" @click="return confirm('Sair do teste? O progresso será perdido.')"
                     class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
                     <i class="fas fa-sign-out-alt"></i> Sair
@@ -674,6 +671,15 @@
                 }
             }
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentName = sessionStorage.getItem('memberName');
+            if (studentName) {
+                const nameEl = document.getElementById('header-student-name');
+                if (nameEl) nameEl.textContent = studentName;
+            }
+        });
     </script>
 </body>
 

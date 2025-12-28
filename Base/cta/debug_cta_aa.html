@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapeador CTA-AA (Premium)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- 
+        NOTA: Este debugger combina a estrutura de itens individuais (como o Rota C) 
+        com a capacidade de arrastar linhas e colunas (Grid Manipulation).
+    -->
+
+    <style>
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(13, 148, 136, 0.15) 0%, transparent 40%);
+        }
+
+        .glass-sidebar {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .control-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .premium-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5);
+        }
+
+        .canvas-container {
+            position: relative;
+            background: #1e293b;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transform-origin: top center;
+        }
+
+        /* ITENS */
+        .hit-zone {
+            position: absolute;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            transition: background 0.1s, border 0.1s;
+        }
+
+        .hit-zone:hover {
+            border-color: white;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 10;
+        }
+
+        .hit-zone.type-correct {
+            border: 2px solid #22c55e;
+            background: rgba(34, 197, 94, 0.3);
+        }
+
+        .hit-zone.type-incorrect {
+            border: 2px solid #ef4444;
+            background: rgba(239, 68, 68, 0.3);
+        }
+
+        /* DRAG HANDLES */
+        .handle-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* Row Handles (Left side controls) */
+        .row-handle {
+            position: absolute;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            /* Will be set dynamically */
+            background: rgba(234, 179, 8, 0.3);
+            /* Yellow Tint */
+            border-right: 2px solid #eab308;
+            cursor: row-resize;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: #fef08a;
+            user-select: none;
+        }
+
+        .row-handle:hover,
+        .row-handle.dragging {
+            background: #eab308;
+            color: black;
+            width: 100%;
+            /* Extend to show guide line */
+            opacity: 0.5;
+            z-index: 100;
+        }
+
+        /* Col Handles (Top side controls) */
+        .col-handle {
+            position: absolute;
+            top: 0;
+            height: 20px;
+            width: 20px;
+            /* Will be set dynamically */
+            background: rgba(6, 182, 212, 0.3);
+            /* Cyan Tint */
+            border-bottom: 2px solid #06b6d4;
+            cursor: col-resize;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            color: #cffafe;
+            user-select: none;
+        }
+
+        .col-handle:hover,
+        .col-handle.dragging {
+            background: #06b6d4;
+            color: black;
+            height: 100%;
+            /* Extend to show guide line */
+            opacity: 0.5;
+            z-index: 100;
+        }
+
+        /* Visual Guide when dragging */
+        .drag-guide {
+            position: absolute;
+            background: cyan;
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body x-data="ctaMapper()" class="flex" @mouseup.document="stopDrag" @mousemove.document="onDrag">
+
+    <aside class="w-[400px] h-screen glass-sidebar flex flex-col z-50 fixed right-0 top-0 overflow-y-auto">
+        <div class="p-6 space-y-6">
+            <h2
+                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-white/10 pb-4 flex items-center gap-2">
+                <i class="fas fa-th text-purple-400"></i> CTA-AA DEBUG
+            </h2>
+
+            <!-- IMAGEM -->
+            <div class="control-group">
+                <label class="block uppercase text-xs font-bold text-gray-400 mb-2">Zoom</label>
+                <div class="flex items-center gap-2">
+                    <input type="range" x-model="zoom" min="20" max="200"
+                        class="w-full h-1 bg-gray-700 accent-purple-500">
+                    <span class="text-xs font-mono w-10 text-right" x-text="zoom + '%'"></span>
+                </div>
+            </div>
+
+            <div class="control-group border-l-2 border-l-yellow-500">
+                <h3 class="font-bold text-yellow-400 uppercase mb-3 text-[10px] tracking-widest">Controles de Grade</h3>
+
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-gray-400">Total Linhas:</span>
+                        <input type="number" x-model="config.rows" @change="generateGrid()"
+                            class="w-16 bg-black/50 border border-gray-600 rounded text-center">
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-gray-400">Total Colunas:</span>
+                        <input type="number" x-model="config.cols" @change="generateGrid()"
+                            class="w-16 bg-black/50 border border-gray-600 rounded text-center">
+                    </div>
+
+                    <button @click="generateGrid()" class="w-full bg-gray-700 hover:bg-gray-600 py-1 rounded text-xs">
+                        <i class="fas fa-sync mr-1"></i> Resetar Grade
+                    </button>
+
+                    <div
+                        class="p-2 bg-yellow-900/30 rounded border border-yellow-500/20 text-[10px] text-yellow-200 leading-tight">
+                        <i class="fas fa-hand-pointer mr-1"></i>
+                        <strong>Arraste:</strong>
+                        <ul class="list-disc pl-4 mt-1 space-y-1">
+                            <li>Barras <strong>Superiores</strong> (Ciano) para mover Colunas.</li>
+                            <li>Barras <strong>Laterais</strong> (Amarelo) para mover Linhas.</li>
+                            <li>Botões abaixo para ajuste fino.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Movimentação Fina (Buttons fallback) -->
+            <div class="control-group">
+                <h3 class="font-bold text-gray-400 uppercase mb-3 text-[10px] tracking-widest">Ajuste Fino</h3>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Row Control -->
+                    <div>
+                        <div class="flex items-center justify-between text-[10px] text-yellow-400 font-bold mb-1">
+                            LINHA <span x-text="selectedRow"></span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1">
+                            <button @click="moveRow(selectedRow, -1)"
+                                class="bg-gray-700 rounded p-1 hover:bg-yellow-600">⬆</button>
+                            <button @click="moveRow(selectedRow, 1)"
+                                class="bg-gray-700 rounded p-1 hover:bg-yellow-600">⬇</button>
+                            <input type="number" x-model="selectedRow" class="bg-black text-center text-[10px] rounded">
+                        </div>
+                    </div>
+
+                    <!-- Col Control -->
+                    <div>
+                        <div class="flex items-center justify-between text-[10px] text-cyan-400 font-bold mb-1">
+                            COLUNA <span x-text="selectedCol"></span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-1">
+                            <button @click="moveCol(selectedCol, -1)"
+                                class="bg-gray-700 rounded p-1 hover:bg-cyan-600">⬅</button>
+                            <button @click="moveCol(selectedCol, 1)"
+                                class="bg-gray-700 rounded p-1 hover:bg-cyan-600">➡</button>
+                            <input type="number" x-model="selectedCol" class="bg-black text-center text-[10px] rounded">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3 class="font-bold text-gray-400 uppercase mb-3 text-[10px] tracking-widest">Tamanho dos Box</h3>
+                <div class="flex gap-2">
+                    <div class="w-1/2">
+                        <label class="text-[9px]">Largura</label>
+                        <input type="range" x-model="config.boxW" min="10" max="100"
+                            class="w-full h-1 bg-gray-600 accent-white">
+                    </div>
+                    <div class="w-1/2">
+                        <label class="text-[9px]">Altura</label>
+                        <input type="range" x-model="config.boxH" min="10" max="100"
+                            class="w-full h-1 bg-gray-600 accent-white">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-2 pb-10">
+                <button @click="generateJSON()"
+                    class="premium-btn w-full py-3 rounded-xl flex items-center justify-center gap-2">
+                    <i class="fas fa-copy"></i>
+                    <span>COPIAR CONFIGURAÇÃO</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <div class="canvas-container"
+            :style="`width: ${imgWidth}px; height: ${imgHeight}px; transform: scale(${zoom/100});`">
+            <img :src="imgSrc" class="bg-image w-full h-full">
+
+            <!-- ITEMS -->
+            <template x-for="item in items" :key="item.id">
+                <div class="hit-zone" @click="toggleType(item)"
+                    :class="item.t === 1 ? 'type-correct' : 'type-incorrect'" :style="`
+                        left: ${item.x}px;
+                        top: ${item.y}px;
+                        width: ${config.boxW}px;
+                        height: ${config.boxH}px;
+                    `">
+                    <!-- Optional: Show ID on hover -->
+                </div>
+            </template>
+
+            <!-- HANDLES LAYER -->
+            <div class="handle-layer">
+                <!-- ROW HANDLES (Left Edge) -->
+                <template x-for="r in parseInt(config.rows)">
+                    <div class="row-handle" @mousedown.stop="startDrag('row', r-1, $event)" :style="`
+                            top: ${getRowAvgY(r-1)}px; 
+                            height: ${config.boxH}px;
+                        `">
+                        <span x-text="r-1"></span>
+                    </div>
+                </template>
+
+                <!-- COL HANDLES (Top Edge) -->
+                <template x-for="c in parseInt(config.cols)">
+                    <div class="col-handle" @mousedown.stop="startDrag('col', c-1, $event)" :style="`
+                             left: ${getColAvgX(c-1)}px; 
+                             width: ${config.boxW}px;
+                         `">
+                        <span x-text="c-1"></span>
+                    </div>
+                </template>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('ctaMapper', () => ({
+                imgSrc: '../../Imagens_base/cta/cta_aa.png',
+                imgWidth: 639,
+                imgHeight: 790,
+                zoom: 80,
+
+                config: {
+                    rows: 14,
+                    cols: 9,
+                    boxW: 45,
+                    boxH: 47
+                },
+
+                items: [],
+
+                // Dragging State
+                dragging: {
+                    type: null,
+                    index: null,
+                    startMouse: 0,
+                    itemStartPositions: [] // Store initial POS of all affected items
+                },
+
+                selectedRow: 0,
+                selectedCol: 0,
+
+                init() {
+                    const img = new Image();
+                    img.onload = () => {
+                        this.imgWidth = img.width;
+                        this.imgHeight = img.height;
+                        this.generateGrid();
+                    }
+                    img.src = this.imgSrc;
+                },
+
+                generateGrid() {
+                    this.items = [];
+                    let id = 0;
+                    // Auto-calc nice start positions
+                    const cellW = (this.imgWidth - 40) / this.config.cols;
+                    const cellH = (this.imgHeight - 40) / this.config.rows;
+
+                    for (let r = 0; r < this.config.rows; r++) {
+                        for (let c = 0; c < this.config.cols; c++) {
+                            this.items.push({
+                                id: id++,
+                                r: r, // Keep track of logical row
+                                c: c, // Keep track of logical col
+                                x: Math.round(20 + c * cellW),
+                                y: Math.round(20 + r * cellH),
+                                t: 0
+                            });
+                        }
+                    }
+                },
+
+                // Helper to find visual position for handles
+                getRowAvgY(r) {
+                    const rowItems = this.items.filter(i => i.r === r);
+                    if (!rowItems.length) return 0;
+                    return rowItems[0].y; // Just take the first one, assuming they align perfectly usually
+                },
+                getColAvgX(c) {
+                    const colItems = this.items.filter(i => i.c === c);
+                    if (!colItems.length) return 0;
+                    return colItems[0].x;
+                },
+
+                // DRAG LOGIC
+                startDrag(type, index, e) {
+                    this.dragging.type = type;
+                    this.dragging.index = index;
+                    this.dragging.startMouse = (type === 'col') ? e.clientX : e.clientY;
+
+                    // Snapshot positions of affected items
+                    // This allows for non-destructive consistent dragging
+                    if (type === 'col') {
+                        this.selectedCol = index; // Auto select for fine tuning
+                        this.dragging.itemStartPositions = this.items
+                            .filter(i => i.c === index)
+                            .map(i => ({ id: i.id, val: i.x }));
+                    } else {
+                        this.selectedRow = index;
+                        this.dragging.itemStartPositions = this.items
+                            .filter(i => i.r === index)
+                            .map(i => ({ id: i.id, val: i.y }));
+                    }
+                },
+
+                onDrag(e) {
+                    if (!this.dragging.type) return;
+                    e.preventDefault();
+
+                    const currentMouse = (this.dragging.type === 'col') ? e.clientX : e.clientY;
+                    const delta = (currentMouse - this.dragging.startMouse) / (this.zoom / 100);
+
+                    if (this.dragging.type === 'col') {
+                        // Update X for all items in Col
+                        this.dragging.itemStartPositions.forEach(snap => {
+                            const item = this.items.find(i => i.id === snap.id);
+                            if (item) item.x = Math.round(snap.val + delta);
+                        });
+                    } else {
+                        // Update Y for all items in Row
+                        this.dragging.itemStartPositions.forEach(snap => {
+                            const item = this.items.find(i => i.id === snap.id);
+                            if (item) item.y = Math.round(snap.val + delta);
+                        });
+                    }
+                },
+
+                stopDrag() {
+                    this.dragging.type = null;
+                    this.dragging.itemStartPositions = [];
+                },
+
+                // Button Moves
+                moveRow(r, dy) {
+                    this.items.filter(i => i.r === r).forEach(i => i.y += dy);
+                },
+                moveCol(c, dx) {
+                    this.items.filter(i => i.c === c).forEach(i => i.x += dx);
+                },
+
+                toggleType(item) {
+                    item.t = item.t === 1 ? 0 : 1;
+                },
+
+                generateJSON() {
+                    const exportData = {
+                        imgWidth: this.imgWidth,
+                        imgHeight: this.imgHeight,
+                        boxW: parseInt(this.config.boxW),
+                        boxH: parseInt(this.config.boxH),
+                        // Clean up item objects before export (remove r, c helpers if not needed by main app, but useful for debug)
+                        // The main app expects id, x, y, t.
+                        items: this.items.map(({ id, x, y, t }) => ({ id, x, y, t }))
+                    };
+
+                    const str = `config: ` + JSON.stringify(exportData, null, 4) + `,`;
+                    navigator.clipboard.writeText(str);
+                    alert("JSON copiado!");
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

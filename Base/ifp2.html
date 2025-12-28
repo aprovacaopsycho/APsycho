@@ -121,23 +121,21 @@
                     alt="Brasão Base"
                     class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">IFP-II <span
-                            class="text-[var(--accent-pink)]">INVENTÁRIO</span></span>
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
+                            style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">IFP-II INVENTÁRIO</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <!-- Timer Removed from Header -->
-
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2025</span>
+                </div>
                 <a href="testes_personalidade.html"
-                    class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 17l-5-5m0 0l5-5m-5 5h12" />
-                    </svg>
-                    Voltar
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
             </div>
         </div>
@@ -1336,6 +1334,15 @@
             loadDashboard();
         };
 
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentName = sessionStorage.getItem('memberName');
+            if (studentName) {
+                const nameEl = document.getElementById('header-student-name');
+                if (nameEl) nameEl.textContent = studentName;
+            }
+        });
     </script>
 </body>
 
