@@ -105,13 +105,28 @@
         .hit-zone.marked::after {
             content: '';
             position: absolute;
-            width: 80%;
-            height: 3px;
-            background-color: #0044ff;
+            width: 120%;
+            height: 5px;
+            background-color: #ff00b3;
             top: 50%;
-            left: 10%;
-            transform: rotate(-45deg);
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
             border-radius: 2px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Anulação (Círculo) */
+        .hit-zone.annulled::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #ff00ff;
+            /* Pink accent */
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
         }
 
@@ -224,9 +239,9 @@
 
         <div x-show="state === 'instructions'" class="max-w-4xl mx-auto fade-in mt-10">
             <div class="bg-[#151427] rounded-2xl p-8 border border-white/5 text-center shadow-2xl backdrop-blur-sm">
-                <h1 class="text-3xl font-black text-white mb-4">CTA - Atenção Dividida</h1>
+                <h1 class="text-3xl font-black text-white mb-4">CTA-AD - Atenção Dividida</h1>
                 <p class="text-gray-400 mb-8 text-lg">Faça um traço em qualquer figura igual a <strong>UM DOS 3
-                        MODELOS</strong>.</p>
+                        ALVOS.</strong><br>Para anular o erro circule (clique duplo).</br></p>
 
                 <div class="flex justify-center mb-8">
                     <div class="flex flex-col items-center gap-3">
@@ -324,7 +339,7 @@
                         <span class="text-xs font-bold text-gray-400 uppercase hidden sm:inline">ALVOS:</span>
                         <div
                             class="h-14 bg-white/10 rounded flex items-center justify-center overflow-hidden border border-white/20 px-2">
-                            <img src="modelo_ctaad.png" class="h-full w-auto object-contain">
+                            <img src="../../Imagens_base/cta/modelo_ctaad.png" class="h-full w-auto object-contain">
                         </div>
                     </div>
 
@@ -349,7 +364,10 @@
                       `">
 
                         <template x-for="(cell, index) in grid" :key="index">
-                            <div @click="handleClick(index)" class="hit-zone" :class="{'marked': cell.marked}">
+                            <div @click="handleClick(index)" @dblclick="handleDblClick(index)" class="hit-zone" :class="{
+                                'marked': cell.marked,
+                                'annulled': cell.annulled,
+                            }">
                             </div>
                         </template>
                     </div>
@@ -429,7 +447,8 @@
                                       'res-correct': cell.marked && cell.isTarget,
                                       'res-error': cell.marked && !cell.isTarget,
                                       'res-omission': !cell.marked && cell.isTarget && index <= lastSelectedIndex,
-                                      'marked': cell.marked
+                                      'marked': cell.marked,
+                                      'annulled': cell.annulled
                                    }">
                                 </div>
                             </template>
@@ -488,6 +507,7 @@
                         this.grid.push({
                             index: i,
                             marked: false,
+                            annulled: false,
                             isTarget: this.config.correctIndices.includes(i)
                         });
                     }
@@ -519,10 +539,32 @@
                 },
 
                 handleClick(index) {
-                    // Bloqueio: Não desmarca
-                    if (this.grid[index].marked) return;
+                    const item = this.grid[index];
 
-                    this.grid[index].marked = true;
+                    // Ciclo: Desmarcado -> Marcado -> Anulado -> Desmarcado
+                    if (!item.marked && !item.annulled) {
+                        // 1. Marcar
+                        item.marked = true;
+                    } else if (item.marked) {
+                        // 2. Anular (Círculo)
+                        item.marked = false;
+                        item.annulled = true;
+                    } else if (item.annulled) {
+                        // 3. Voltar para Marcado
+                        item.annulled = false;
+                        item.marked = true;
+                    }
+
+                    if (index > this.lastSelectedIndex) {
+                        this.lastSelectedIndex = index;
+                    }
+                },
+
+                handleDblClick(index) {
+                    const item = this.grid[index];
+                    // Força o estado para Anulado (Círculo)
+                    item.marked = false;
+                    item.annulled = true;
 
                     if (index > this.lastSelectedIndex) {
                         this.lastSelectedIndex = index;

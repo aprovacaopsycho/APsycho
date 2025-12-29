@@ -488,6 +488,52 @@
                 init() {
                     this.loadHistory();
                     document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
+                    this.reorderConfig();
+                },
+                reorderConfig() {
+                    // 1. Sort by Y first to process linearly
+                    let tempItems = [...this.config.items].sort((a, b) => a.y - b.y);
+
+                    let rows = [];
+                    const threshold = 25; // Max vertical distance to belong to same row
+
+                    tempItems.forEach(item => {
+                        let added = false;
+                        for (let row of rows) {
+                            // Check against the first item of the row as a reference (sorted low Y)
+                            if (Math.abs(item.y - row[0].y) < threshold) {
+                                row.push(item);
+                                added = true;
+                                break;
+                            }
+                        }
+                        if (!added) {
+                            rows.push([item]);
+                        }
+                    });
+
+                    // 2. Sort rows by Y just to be sure
+                    rows.sort((a, b) => a[0].y - b[0].y);
+
+                    // 3. Snake sort within rows
+                    let newItems = [];
+                    rows.forEach((row, index) => {
+                        if (index % 2 === 0) {
+                            // Even: L -> R
+                            row.sort((a, b) => a.x - b.x);
+                        } else {
+                            // Odd: R -> L
+                            row.sort((a, b) => b.x - a.x);
+                        }
+                        newItems = newItems.concat(row);
+                    });
+
+                    // 4. Re-index
+                    newItems.forEach((item, index) => {
+                        item.id = index;
+                    });
+
+                    this.config.items = newItems;
                 },
                 config: {
                     "imgWidth": 1000, "imgHeight": 1250, "boxW": 24, "boxH": 26,

@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Imagem Pro - Camadas & IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-panel: #1e293b;
+            --bg-hover: #334155;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) var(--bg-panel);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Header */
+        header {
+            height: 50px;
+            background-color: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            z-index: 20;
+        }
+
+        h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+
+        button:hover {
+            background-color: var(--bg-hover);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button.primary {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        button.primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Layout */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Tools Sidebar (Left) */
+        .tools-sidebar {
+            width: 50px;
+            background-color: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            gap: 12px;
+        }
+
+        .tool-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 1.2rem;
+            border: 1px solid transparent;
+        }
+
+        .tool-btn.active {
+            background-color: var(--bg-hover);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Main Canvas Area */
+        .canvas-area {
+            flex: 1;
+            background-color: #0b0f19;
+            background-image:
+                linear-gradient(45deg, #151b28 25%, transparent 25%),
+                linear-gradient(-45deg, #151b28 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #151b28 75%),
+                linear-gradient(-45deg, transparent 75%, #151b28 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: auto;
+        }
+
+        canvas {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        /* Right Panel (Adjustments & Layers) */
+        .right-panel {
+            width: 300px;
+            background-color: var(--bg-panel);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-section {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid var(--border);
+            max-height: 50%;
+        }
+
+        .panel-section.flex-grow {
+            flex: 1;
+            max-height: none;
+        }
+
+        .panel-header {
+            padding: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            background-color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-content {
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Sliders */
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-dark);
+            border-radius: 2px;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+        }
+
+        input[type="number"] {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: white;
+            padding: 4px;
+            border-radius: 4px;
+            width: 60px;
+        }
+
+        /* Layers List */
+        .layers-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .layer-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .layer-item.active {
+            border-color: var(--accent);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .layer-preview {
+            width: 32px;
+            height: 32px;
+            background: #000;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        .layer-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .layer-actions {
+            display: flex;
+            gap: 4px;
+            opacity: 0.5;
+        }
+
+        .layer-item:hover .layer-actions {
+            opacity: 1;
+        }
+
+        /* Crop Overlay */
+        #cropOverlay {
+            position: absolute;
+            border: 2px dashed #fff;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+            display: none;
+            pointer-events: none;
+        }
+
+        /* Status Bar */
+        footer {
+            height: 24px;
+            background-color: var(--bg-dark);
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Apsycho Editor Pro</h1>
+        <div class="header-actions">
+            <button onclick="document.getElementById('fileInput').click()">📂 Abrir</button>
+            <button onclick="insertLayer()">➕ Camada</button>
+            <button onclick="handlePaste()" title="Ctrl+V">📋 Colar</button>
+            <button class="primary" onclick="saveImage()">💾 Salvar</button>
+        </div>
+        <input type="file" id="fileInput" accept="image/*" hidden onchange="handleFileSelect(event)">
+    </header>
+
+    <div class="workspace">
+        <!-- Tools -->
+        <aside class="tools-sidebar">
+            <button class="tool-btn active" id="tool-move" onclick="setTool('move')" title="Mover (M)">✥</button>
+            <button class="tool-btn" id="tool-crop" onclick="setTool('crop')" title="Recortar (C)">✂</button>
+            <button class="tool-btn" id="tool-split" onclick="setTool('split')"
+                title="Fatiar (Divisor)">boxplus;</button>
+        </aside>
+
+        <!-- Canvas -->
+        <main class="canvas-area" id="canvasArea">
+            <canvas id="mainCanvas"></canvas>
+            <div id="cropOverlay"></div>
+            <!-- New Guides Overlay -->
+            <div id="guidesOverlay" style="pointer-events: none; position: absolute; top:0; left:0; display:none;">
+            </div>
+        </main>
+
+        <!-- Panels -->
+        <aside class="right-panel">
+
+            <!-- Adjustment Section (Default) -->
+            <div class="panel-section" id="panel-adjustments">
+                <div class="panel-header">
+                    <span>Ajustes</span>
+                    <button onclick="autoAdjust()" style="padding: 2px 6px; font-size: 0.7rem;">⚡ Auto</button>
+                </div>
+                <div class="panel-content">
+                    <!-- Rotation -->
+                    <div class="control-group">
+                        <div class="control-label">
+                            <span>Rotação (Graus)</span>
+                            <input type="number" id="rotInput" value="0" step="0.1"
+                                onchange="applyRotationManual(this.value)">
+                        </div>
+                        <input type="range" min="-180" max="180" value="0" step="0.1"
+                            oninput="applyRotationManual(this.value)">
+                        <div style="margin-top:4px;">
+                            <label
+                                style="font-size:0.75rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+                                <input type="checkbox" id="showGridCheck" onchange="updateGuides()"> Mostrar Grade de
+                                Alinhamento
+                            </label>
+                            <div id="gridOptions"
+                                style="display:flex; margin-top: 4px; gap: 8px; align-items: center; padding-left: 20px;">
+                                <label style="font-size:0.7rem; color:var(--text-muted);">Qtd:</label>
+                                <input type="number" id="gridSize" value="3" min="2" max="20"
+                                    style="width: 40px; padding: 2px;" oninput="updateGuides()">
+                                <label style="font-size:0.7rem; color:var(--text-muted);">Cor:</label>
+                                <input type="color" id="gridColor" value="#ffffff"
+                                    style="width: 24px; height: 24px; padding: 0; border: none;"
+                                    oninput="updateGuides()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid var(--border); margin: 8px 0;">
+
+                    <!-- Basic Color -->
+                    <div class="control-group">
+                        <div class="control-label"><span>Brilho</span> <span id="val-bri">0</span></div>
+                        <input type="range" min="-100" max="100" value="0"
+                            oninput="updateFilter('brightness', this.value)">
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label"><span>Contraste</span> <span id="val-con">0</span></div>
+                        <input type="range" min="-100" max="100" value="0"
+                            oninput="updateFilter('contrast', this.value)">
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label"><span>Saturação</span> <span id="val-sat">0</span></div>
+                        <input type="range" min="-100" max="100" value="0"
+                            oninput="updateFilter('saturation', this.value)">
+                    </div>
+
+                    <!-- Advanced -->
+                    <div class="control-group">
+                        <div class="control-label"><span>Gama</span> <span id="val-gam">1.0</span></div>
+                        <input type="range" min="0.1" max="3.0" step="0.1" value="1.0"
+                            oninput="updateFilter('gamma', this.value)">
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label"><span>Nitidez</span> <span id="val-shp">0</span></div>
+                        <input type="range" min="0" max="10" step="1" value="0"
+                            oninput="updateFilter('sharpness', this.value)">
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label"><span>Temperatura</span> <span id="val-tmp">0</span></div>
+                        <input type="range" min="-50" max="50" step="1" value="0"
+                            oninput="updateFilter('temperature', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crop Section (Hidden by default) -->
+            <div class="panel-section" id="panel-crop" style="display:none;">
+                <div class="panel-header">
+                    <span>Cortar</span>
+                    <button onclick="setTool('move')" style="font-size:0.7rem">↩ Voltar</button>
+                </div>
+                <div class="panel-content">
+                    <button class="primary" onclick="autoCrop()" style="width:100%; margin-bottom:12px;">✨ Corte
+                        Automático Imagem</button>
+
+                    <div class="control-label">Proporção</div>
+                    <div class="ratio-grid" id="ratioGrid">
+                        <!-- Generated by JS or static -->
+                        <button class="ratio-btn active" onclick="setAspectRatio(null)">Livre</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(1)">Quadrado (1:1)</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(16/9)">16:9</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(4/3)">4:3</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(3/2)">3:2</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(9/16)">9:16</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(3/4)">3:4</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(5/4)">5:4</button>
+                        <button class="ratio-btn" onclick="setAspectRatio(2/1)">2:1</button>
+                    </div>
+
+                    <div style="margin-top: auto; padding-top: 16px;">
+                        <button class="primary" style="width:100%; padding: 10px;"
+                            onclick="applyCrop()">Concluído</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Split Section (Hidden by default) -->
+            <div class="panel-section" id="panel-split" style="display:none;">
+                <div class="panel-header">
+                    <span>Fatiar Imagem</span>
+                    <button onclick="setTool('move')" style="font-size:0.7rem">↩ Voltar</button>
+                </div>
+                <div class="panel-content">
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Divida a imagem em partes
+                        iguais.</p>
+
+                    <div class="control-group">
+                        <div class="control-label">Linhas (Horizontal)</div>
+                        <input type="number" id="splitRows" value="1" min="1" max="10" oninput="updateGuides()">
+                    </div>
+                    <div class="control-group">
+                        <div class="control-label">Colunas (Vertical)</div>
+                        <input type="number" id="splitCols" value="1" min="1" max="10" oninput="updateGuides()">
+                    </div>
+
+                    <div style="margin-top: 16px;">
+                        <button class="primary" style="width:100%; padding: 10px;" onclick="applySplit()">✂ Fatiar &
+                            Baixar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layers Section -->
+            <div class="panel-section flex-grow">
+                <div class="panel-header">
+                    <span>Camadas</span>
+                    <div style="display:flex; gap:4px;">
+                        <button onclick="moveLayer(-1)" title="Baixo">↓</button>
+                        <button onclick="moveLayer(1)" title="Cima">↑</button>
+                        <button onclick="deleteLayer()" class="danger" title="Excluir">🗑</button>
+                    </div>
+                </div>
+                <div class="panel-content">
+                    <ul class="layers-list" id="layersList">
+                        <!-- Layer items go here -->
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <style>
+        /* Extra styles for new panels */
+        .ratio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .ratio-btn {
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            border-radius: 4px;
+            padding: 8px 4px;
+            font-size: 0.7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            height: 60px;
+        }
+
+        .ratio-btn:hover {
+            background-color: var(--bg-hover);
+        }
+
+        .ratio-btn.active {
+            border-color: var(--accent);
+            color: var(--text-main);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Crop Overlay Handles */
+        #cropOverlay .crop-handle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--accent);
+            border: 1px solid #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: auto;
+            /* Catch events */
+        }
+
+        .handle-nw {
+            top: 0;
+            left: 0;
+            cursor: nw-resize;
+        }
+
+        .handle-ne {
+            top: 0;
+            right: 0;
+            transform: translate(50%, -50%) !important;
+            cursor: ne-resize;
+        }
+
+        .handle-sw {
+            bottom: 0;
+            left: 0;
+            transform: translate(-50%, 50%) !important;
+            cursor: sw-resize;
+        }
+
+        .handle-se {
+            bottom: 0;
+            right: 0;
+            transform: translate(50%, 50%) !important;
+            cursor: se-resize;
+        }
+
+        .handle-n {
+            top: 0;
+            left: 50%;
+            cursor: n-resize;
+        }
+
+        .handle-s {
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 50%) !important;
+            cursor: s-resize;
+        }
+
+        .handle-w {
+            top: 50%;
+            left: 0;
+            cursor: w-resize;
+        }
+
+        .handle-e {
+            top: 50%;
+            right: 0;
+            transform: translate(50%, -50%) !important;
+            cursor: e-resize;
+        }
+
+        #cropOverlay {
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+            /* Dim background */
+        }
+    </style>
+
+    <footer>
+        <span id="statusParams">0 x 0 px</span>
+        <span id="statusTool">Ferramenta: Mover</span>
+    </footer>
+
+    <script>
+        // System State
+        let layers = [];
+        let activeLayerId = null;
+        let canvasWidth = 800;
+        let canvasHeight = 600;
+        let currentTool = 'move';
+
+        // DOM Elements
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const layersListEl = document.getElementById('layersList');
+        const cropOverlay = document.getElementById('cropOverlay');
+        const canvasArea = document.getElementById('canvasArea');
+
+        // Crop State
+        let isDragging = false;
+        let dragAction = null; // 'create', 'move', 'resize-nw', etc.
+        let startX, startY;
+        let cropRect = { x: 0, y: 0, w: 0, h: 0 }; // Relative to Canvas
+
+        // Add handles to overlay
+        function createHandles() {
+            const positions = ['nw', 'ne', 'sw', 'se', 'n', 's', 'w', 'e'];
+            cropOverlay.innerHTML = '';
+            positions.forEach(pos => {
+                const hud = document.createElement('div');
+                hud.className = `crop-handle handle-${pos}`;
+                hud.dataset.action = `resize-${pos}`;
+                cropOverlay.appendChild(hud);
+            });
+        }
+        createHandles();
+
+        // Filters State (Buffer)
+        let filterState = {
+            brightness: 0,
+            contrast: 0,
+            saturation: 0,
+            gamma: 1.0,
+            sharpness: 0,
+            temperature: 0,
+            rotation: 0
+        };
+
+        // --- Initialization ---
+        function init() {
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            requestRender();
+
+            // Keybinds (unchanged)
+            window.addEventListener('paste', handlePaste);
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Delete') deleteLayer();
+                if (e.key === 'v' && e.ctrlKey) return;
+            });
+
+            // Input Events
+            canvasArea.addEventListener('mousedown', onMouseDown);
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+
+            updateStatus();
+        }
+
+        // ... Layer System (unchanged) ...
+        class Layer {
+            constructor(imgSource, name) {
+                this.id = Date.now() + Math.random();
+                this.name = name || 'Camada ' + (layers.length + 1);
+                this.visible = true;
+                this.x = 0;
+                this.y = 0;
+                this.rotation = 0;
+                this.source = imgSource;
+                this.width = imgSource.naturalWidth || imgSource.width;
+                this.height = imgSource.naturalHeight || imgSource.height;
+                this.filters = { ...filterState };
+            }
+        }
+        function addLayer(imgSource, name) {
+            const layer = new Layer(imgSource, name);
+            if (layer.width === 0 || layer.height === 0) {
+                console.error("Image dimensions are 0");
+                alert("Erro: Imagem com dimensões 0 ou inválida.");
+                return;
+            }
+            layer.x = (canvasWidth - layer.width) / 2;
+            layer.y = (canvasHeight - layer.height) / 2;
+            layers.unshift(layer);
+            setActiveLayer(layer.id);
+            if (layers.length === 1) {
+                canvasWidth = layer.width;
+                canvasHeight = layer.height;
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+                layer.x = 0;
+                layer.y = 0;
+            }
+            renderLayersList();
+            requestRender();
+        }
+        function setActiveLayer(id) {
+            activeLayerId = id;
+            renderLayersList();
+            const layer = layers.find(l => l.id === id);
+            if (layer) {
+                filterState = { ...layer.filters };
+                updateUIFromFilters();
+            }
+        }
+        function deleteLayer() {
+            if (!activeLayerId) return;
+            layers = layers.filter(l => l.id !== activeLayerId);
+            if (layers.length > 0) setActiveLayer(layers[0].id);
+            else activeLayerId = null;
+            renderLayersList();
+            requestRender();
+        }
+        function moveLayer(dir) {
+            if (!activeLayerId) return;
+            const idx = layers.findIndex(l => l.id === activeLayerId);
+            const newIdx = idx - dir;
+            if (newIdx >= 0 && newIdx < layers.length) {
+                const temp = layers[idx];
+                layers[idx] = layers[newIdx];
+                layers[newIdx] = temp;
+                renderLayersList();
+                requestRender();
+            }
+        }
+        function toggleVisibility(id, e) {
+            e.stopPropagation();
+            const layer = layers.find(l => l.id === id);
+            if (layer) {
+                layer.visible = !layer.visible;
+                renderLayersList();
+                requestRender();
+            }
+        }
+        function renderLayersList() {
+            layersListEl.innerHTML = '';
+            layers.forEach(l => {
+                const li = document.createElement('li');
+                li.className = `layer-item ${l.id === activeLayerId ? 'active' : ''}`;
+                li.onclick = () => setActiveLayer(l.id);
+                li.innerHTML = `
+                <span style="cursor:pointer;" onclick="toggleVisibility(${l.id}, event)">${l.visible ? '👁️' : '🚫'}</span>
+                <span class="layer-name">${l.name}</span>
+            `;
+                layersListEl.appendChild(li);
+            });
+        }
+
+        let renderRequested = false;
+        function requestRender() {
+            if (!renderRequested) {
+                renderRequested = true;
+                requestAnimationFrame(renderLoop);
+            }
+        }
+        function renderLoop() {
+            renderRequested = false;
+            render();
+        }
+
+        // --- Tools Logic ---
+        function setTool(t) {
+            currentTool = t;
+            document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+            if (document.getElementById(`tool-${t}`)) {
+                document.getElementById(`tool-${t}`).classList.add('active');
+            }
+            document.getElementById('panel-adjustments').style.display = (t === 'move') ? 'flex' : 'none';
+            document.getElementById('panel-crop').style.display = (t === 'crop') ? 'flex' : 'none';
+            document.getElementById('panel-split').style.display = (t === 'split') ? 'flex' : 'none';
+
+            let toolName = (t === 'crop') ? 'Recortar' : (t === 'split') ? 'Fatiar' : 'Mover';
+            document.getElementById('statusTool').innerText = "Ferramenta: " + toolName;
+
+            if (t === 'crop') {
+                if (cropRect.w === 0) {
+                    // Init full crop if empty
+                    cropRect = { x: 10, y: 10, w: canvasWidth - 20, h: canvasHeight - 20 };
+                }
+                cropOverlay.style.display = 'block';
+                updateCropVisuals();
+            } else {
+                cropOverlay.style.display = 'none';
+            }
+        }
+
+        function onMouseDown(e) {
+            if (currentTool === 'move' && activeLayerId) {
+                isDragging = true;
+                dragAction = 'move-layer';
+                startX = e.clientX;
+                startY = e.clientY;
+            } else if (currentTool === 'crop') {
+                isDragging = true;
+                // Check what we clicked
+                if (e.target.classList.contains('crop-handle')) {
+                    dragAction = e.target.dataset.action;
+                } else if (e.target === cropOverlay) {
+                    dragAction = 'move-crop'; // Click inside box
+                } else {
+                    // Clicked outside? Or maybe user meant to create new... 
+                    // Let's assume clicking outside resets creates new?
+                    // Complex. For now, assume just move/resize existing.
+                    // But if we clicked on canvasArea (parent), we start NEW crop?
+                    // Because handler is on canvasArea.
+                    // If event target is canvasArea, it means we missed overlay.
+                    dragAction = 'create-crop';
+                    const rect = canvas.getBoundingClientRect();
+                    startX = e.clientX - rect.left;
+                    startY = e.clientY - rect.top;
+                    cropRect = { x: startX, y: startY, w: 0, h: 0 };
+                    updateCropVisuals();
+                    return;
+                }
+
+                startX = e.clientX;
+                startY = e.clientY;
+                // Store initial state for delta calculations
+                cropRect.startX = cropRect.x;
+                cropRect.startY = cropRect.y;
+                cropRect.startW = cropRect.w;
+                cropRect.startH = cropRect.h;
+            }
+        }
+
+        let currentAspectRatio = null;
+        function setAspectRatio(ratio) {
+            currentAspectRatio = ratio;
+            document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+            // Apply logic immediately to center
+            if (ratio) {
+                // Adjust height to match width
+                let newH = cropRect.w / ratio;
+                if (newH > canvasHeight) {
+                    // If too tall, fit height then width
+                    newH = canvasHeight;
+                    cropRect.w = newH * ratio;
+                }
+                cropRect.h = newH;
+                // Center?
+                updateCropVisuals();
+            }
+        }
+
+        function onMouseMove(e) {
+            if (!isDragging) return;
+
+            if (currentTool === 'move' && dragAction === 'move-layer') {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                const layer = layers.find(l => l.id === activeLayerId);
+                if (layer) {
+                    layer.x += dx;
+                    layer.y += dy;
+                    requestRender();
+                }
+                startX = e.clientX;
+                startY = e.clientY;
+
+            } else if (currentTool === 'crop') {
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+
+                if (dragAction === 'move-crop') {
+                    cropRect.x = cropRect.startX + dx;
+                    cropRect.y = cropRect.startY + dy;
+                } else if (dragAction === 'create-crop') {
+                    const rect = canvas.getBoundingClientRect();
+                    const currX = e.clientX - rect.left;
+                    const currY = e.clientY - rect.top;
+                    cropRect.w = currX - cropRect.x;
+                    cropRect.h = currY - cropRect.y;
+                } else if (dragAction.startsWith('resize')) {
+                    // Logic for 8 handles
+                    // Simple delta application
+                    // TODO: Aspect ratio constraints
+                    if (dragAction.includes('e')) cropRect.w = cropRect.startW + dx;
+                    if (dragAction.includes('s')) cropRect.h = cropRect.startH + dy;
+                    if (dragAction.includes('w')) {
+                        cropRect.x = cropRect.startX + dx;
+                        cropRect.w = cropRect.startW - dx;
+                    }
+                    if (dragAction.includes('n')) {
+                        cropRect.y = cropRect.startY + dy;
+                        cropRect.h = cropRect.startH - dy;
+                    }
+
+                    if (currentAspectRatio) {
+                        // Simple override: H = W / Ratio
+                        // This feels jumpy if dragging H handle. 
+                        // Better: Master axis?
+                        // If dragging corner, take max delta?
+                        cropRect.h = cropRect.w / currentAspectRatio;
+                    }
+                }
+                updateCropVisuals();
+            }
+        }
+
+        function onMouseUp() {
+            if (isDragging) {
+                // Normalize rect (negative width/height)
+                if (cropRect.w < 0) { cropRect.x += cropRect.w; cropRect.w *= -1; }
+                if (cropRect.h < 0) { cropRect.y += cropRect.h; cropRect.h *= -1; }
+            }
+            isDragging = false;
+            dragAction = null;
+        }
+
+        function updateCropVisuals() {
+            if (!cropOverlay) return;
+            const canvasRect = canvas.getBoundingClientRect();
+            const areaRect = canvasArea.getBoundingClientRect();
+
+            // Convert Canvas Coords -> Screen/Area Coords
+            const outputX = cropRect.x + (canvasRect.left - areaRect.left) + canvasArea.scrollLeft;
+            const outputY = cropRect.y + (canvasRect.top - areaRect.top) + canvasArea.scrollTop;
+
+            cropOverlay.style.left = outputX + 'px';
+            cropOverlay.style.top = outputY + 'px';
+            cropOverlay.style.width = cropRect.w + 'px';
+            cropOverlay.style.height = cropRect.h + 'px';
+        }
+
+        function applyCrop() {
+            // Using cropRect - BUT verify Scaling
+            // The cropRect is in "Display Pixels" (CSS pixels of the canvas element)
+            // The Layers/Canvas are in "Internal Pixels" (canvas.width/height)
+            // If CSS size != Internal size, we must scale.
+
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+
+            const x = cropRect.x * scaleX;
+            const y = cropRect.y * scaleY;
+            const w = cropRect.w * scaleX;
+            const h = cropRect.h * scaleY;
+
+            if (w < 10 || h < 10) {
+                alert("Seleção muito pequena.");
+                return;
+            }
+
+            // We need to crop the *CANVAS*. 
+            // This means adjusting layer positions and canvas size.
+            // 1. Shift all layers by -x, -y
+            layers.forEach(l => {
+                l.x -= x;
+                l.y -= y;
+            });
+
+            // 2. Resize Canvas
+            canvasWidth = w;
+            canvasHeight = h;
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            // 3. Reset Tool
+            cropOverlay.style.display = 'none';
+            setTool('move');
+            requestRender();
+        }
+
+        // Smart Auto Crop
+        function autoCrop() {
+            // Find visible bounds of all layers combined
+            // Or finding edges on the final composition
+            if (layers.length === 0) return;
+
+            // Determine composite bounds
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+            layers.forEach(l => {
+                if (!l.visible) return;
+                if (l.x < minX) minX = l.x;
+                if (l.y < minY) minY = l.y;
+                if (l.x + l.width > maxX) maxX = l.x + l.width;
+                if (l.y + l.height > maxY) maxY = l.y + l.height;
+            });
+
+            if (minX === Infinity) return;
+
+            // Apply resize
+            const finalW = maxX - minX;
+            const finalH = maxY - minY;
+
+            // Shift all layers so minX/minY becomes 0,0
+            layers.forEach(l => {
+                l.x -= minX;
+                l.y -= minY;
+            });
+
+            canvasWidth = finalW;
+            canvasHeight = finalH;
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            requestRender();
+            alert('Corte Automático Ajustado aos limites das camadas.');
+            setTool('move'); // Switch back
+        }
+
+        // --- Splitting ---
+        function applySplit() {
+            const rows = parseInt(document.getElementById('splitRows').value) || 1;
+            const cols = parseInt(document.getElementById('splitCols').value) || 1;
+
+            if (rows < 1 || cols < 1) return;
+
+            // Render full canvas to image data
+            const tempC = document.createElement('canvas');
+            tempC.width = canvasWidth;
+            tempC.height = canvasHeight;
+            const tCtx = tempC.getContext('2d');
+            // Render High Quality
+            render(tCtx, canvasWidth, canvasHeight, true);
+
+            const partW = canvasWidth / cols;
+            const partH = canvasHeight / rows;
+
+            // We will trigger downloads for each part. 
+            // Warning: Browser might block multiple downloads.
+            // Let's create a visual list of links if fails? Or just try.
+
+            let count = 0;
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    count++;
+                    const pCan = document.createElement('canvas');
+                    pCan.width = partW;
+                    pCan.height = partH;
+                    const pCtx = pCan.getContext('2d');
+
+                    // Draw slice
+                    pCtx.drawImage(tempC,
+                        c * partW, r * partH, partW, partH,
+                        0, 0, partW, partH
+                    );
+
+                    // Download
+                    const link = document.createElement('a');
+                    link.download = `fatia_${r}_${c}.png`;
+                    link.href = pCan.toDataURL();
+                    // Slight delay to help with blocking?
+                    setTimeout(() => link.click(), count * 200);
+                }
+            }
+        }
+
+        // --- Inputs & Files ---
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                loadFile(file);
+                e.target.value = ''; // Reset to allow re-selecting same file
+            }
+        }
+
+        function insertLayer() {
+            document.getElementById('fileInput').click();
+        }
+
+        function handlePaste(e) {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let item of items) {
+                if (item.type.indexOf('image') !== -1) {
+                    const blob = item.getAsFile();
+                    loadFile(blob);
+                }
+            }
+        }
+
+        function loadFile(blob) {
+            const img = new Image();
+            const url = URL.createObjectURL(blob);
+            img.src = url;
+            img.onload = () => {
+                addLayer(img, "Nova Imagem");
+            }
+        }
+
+        // --- Filters Logic ---
+        // --- Filters Logic ---
+        function updateFilter(key, val) {
+            // Update active layer state
+            if (!activeLayerId) return;
+            const layer = layers.find(l => l.id === activeLayerId);
+            if (layer) {
+                layer.filters[key] = parseFloat(val);
+
+                // Update UI Labels
+                // Map key to label span ID
+                const idMap = {
+                    'brightness': 'val-bri',
+                    'contrast': 'val-con',
+                    'saturation': 'val-sat',
+                    'gamma': 'val-gam',
+                    'sharpness': 'val-shp',
+                    'temperature': 'val-tmp'
+                };
+
+                const spanId = idMap[key];
+                if (spanId) {
+                    const span = document.getElementById(spanId);
+                    if (span) span.innerText = val;
+                }
+
+                // Special handling for rotation which has an input, not a span label
+                if (key === 'rotation') {
+                    const rotInput = document.getElementById('rotInput');
+                    if (rotInput && rotInput.value !== val) rotInput.value = val;
+                }
+
+                // Sync Global slider state
+                filterState[key] = parseFloat(val);
+                requestRender();
+            }
+        }
+
+        function updateUIFromFilters() {
+            const f = filterState;
+            // Update labels
+            const idMap = {
+                'brightness': 'val-bri',
+                'contrast': 'val-con',
+                'saturation': 'val-sat',
+                'gamma': 'val-gam',
+                'sharpness': 'val-shp',
+                'temperature': 'val-tmp'
+            };
+
+            for (let [key, val] of Object.entries(f)) {
+                if (idMap[key]) {
+                    const span = document.getElementById(idMap[key]);
+                    if (span) span.innerText = val;
+                }
+            }
+
+            // Update inputs manually (since we don't have unique IDs for sliders, we assume user drags them)
+            // Ideally we'd bind them, but for now we just sync rotation input
+            document.getElementById('rotInput').value = f.rotation;
+        }
+
+        function applyRotationManual(val) {
+            updateFilter('rotation', val);
+            setTimeout(updateGuides, 0); // Update grid if rotating
+        }
+
+        // --- Guides & Visuals ---
+        function updateGuides() {
+            const overlay = document.getElementById('guidesOverlay');
+            if (!overlay) return;
+
+            // Sync with canvas position/size
+            const canvasRect = canvas.getBoundingClientRect();
+            const areaRect = canvasArea.getBoundingClientRect();
+
+            // Calculate position relative to container
+            const outputX = (canvasRect.left - areaRect.left) + canvasArea.scrollLeft;
+            const outputY = (canvasRect.top - areaRect.top) + canvasArea.scrollTop;
+
+            overlay.style.left = outputX + 'px';
+            overlay.style.top = outputY + 'px';
+            overlay.style.width = canvasRect.width + 'px';
+            overlay.style.height = canvasRect.height + 'px';
+
+            overlay.innerHTML = '';
+            overlay.style.display = 'block';
+
+            if (currentTool === 'split') {
+                const rows = parseInt(document.getElementById('splitRows').value) || 1;
+                const cols = parseInt(document.getElementById('splitCols').value) || 1;
+
+                // Draw Rows
+                for (let i = 1; i < rows; i++) {
+                    const line = document.createElement('div');
+                    line.style.position = 'absolute';
+                    line.style.left = '0';
+                    line.style.right = '0';
+                    line.style.height = '1px';
+                    line.style.top = `${(i / rows) * 100}%`;
+                    line.style.backgroundColor = 'cyan';
+                    line.style.boxShadow = '0 0 2px rgba(0,0,0,0.5)';
+                    overlay.appendChild(line);
+                }
+
+                // Draw Cols
+                for (let i = 1; i < cols; i++) {
+                    const line = document.createElement('div');
+                    line.style.position = 'absolute';
+                    line.style.top = '0';
+                    line.style.bottom = '0';
+                    line.style.width = '1px';
+                    line.style.left = `${(i / cols) * 100}%`;
+                    line.style.backgroundColor = 'cyan';
+                    line.style.boxShadow = '0 0 2px rgba(0,0,0,0.5)';
+                    overlay.appendChild(line);
+                }
+
+            } else if (currentTool === 'rotate' || (document.getElementById('showGridCheck') && document.getElementById('showGridCheck').checked)) {
+                // Check if grid is enabled
+                const check = document.getElementById('showGridCheck');
+                if (check && check.checked) {
+                    // Draw Grid based on settings
+                    const sizeInput = document.getElementById('gridSize');
+                    const colorInput = document.getElementById('gridColor');
+                    const size = sizeInput ? (parseInt(sizeInput.value) || 3) : 3;
+                    const color = colorInput ? colorInput.value : '#ffffff';
+
+                    // Rows
+                    for (let i = 1; i < size; i++) {
+                        const line = document.createElement('div');
+                        line.style.position = 'absolute';
+                        line.style.left = '0';
+                        line.style.right = '0';
+                        line.style.height = '1px';
+                        line.style.top = `${(i / size) * 100}%`;
+                        line.style.backgroundColor = color;
+                        overlay.appendChild(line);
+                    }
+                    // Cols
+                    for (let i = 1; i < size; i++) {
+                        const line = document.createElement('div');
+                        line.style.position = 'absolute';
+                        line.style.top = '0';
+                        line.style.bottom = '0';
+                        line.style.width = '1px';
+                        line.style.left = `${(i / size) * 100}%`;
+                        line.style.backgroundColor = color;
+                        overlay.appendChild(line);
+                    }
+                } else {
+                    overlay.innerHTML = '';
+                }
+            } else {
+                overlay.style.display = 'none';
+            }
+        }
+
+        function autoAdjust() {
+            // Simple mock auto-adjust: Set brightness/contrast to optimized values
+            // ideally based on histogram.
+            updateFilter('brightness', 10);
+            updateFilter('contrast', 20);
+            updateFilter('saturation', 15);
+        }
+
+        // --- Render Function ---
+        function render(targetCtx = ctx, targetCanvasWidth = canvasWidth, targetCanvasHeight = canvasHeight, isExport = false) {
+            try {
+                // Clear background
+                targetCtx.clearRect(0, 0, targetCanvasWidth, targetCanvasHeight);
+
+                if (layers.length === 0) return;
+
+                // Render from bottom (last in list) to top (0 in list)
+                // For export, we render in the order they appear in the layers array (top to bottom visually)
+                // For display, we render from bottom to top (layers[0] is top, layers[n] is bottom)
+                const renderLayers = isExport ? layers : layers.slice().reverse();
+
+                renderLayers.forEach(layer => {
+                    if (!layer.visible) return;
+
+                    targetCtx.save();
+
+                    // Translations
+                    const cx = layer.x + layer.width / 2;
+                    const cy = layer.y + layer.height / 2;
+
+                    targetCtx.translate(cx, cy);
+                    targetCtx.rotate((Number(layer.filters.rotation) || 0) * Math.PI / 180);
+                    targetCtx.translate(-cx, -cy);
+
+                    // Apply standard CSS filters
+                    const f = layer.filters;
+                    const b = 100 + (Number(f.brightness) || 0);
+                    const c = 100 + (Number(f.contrast) || 0);
+                    const s = 100 + (Number(f.saturation) || 0);
+                    const h = Number(f.temperature) || 0;
+
+                    targetCtx.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%) hue-rotate(${h}deg)`;
+
+                    // Draw
+                    if (layer.source && layer.width > 0 && layer.height > 0) {
+                        targetCtx.drawImage(layer.source, layer.x, layer.y, layer.width, layer.height);
+                    }
+
+                    targetCtx.restore();
+
+                    // Apply Gamma/Sharpness using pixel manipulation here individually?
+                    // Or apply to final canvas?
+                    // Gamma is best applied to final pixel data or per layer.
+                    if (f.gamma !== 1.0 && isExport) { // Only apply gamma during export to avoid double application or performance issues
+                        const idata = targetCtx.getImageData(0, 0, targetCanvasWidth, targetCanvasHeight);
+                        // Apply gamma to pixels
+                        const data = idata.data;
+                        const gCorrection = 1 / (Number(f.gamma) || 1.0);
+                        for (let i = 0; i < data.length; i += 4) {
+                            data[i] = 255 * Math.pow((data[i] / 255), gCorrection);
+                            data[i + 1] = 255 * Math.pow((data[i + 1] / 255), gCorrection);
+                            data[i + 2] = 255 * Math.pow((data[i + 2] / 255), gCorrection);
+                        }
+                        targetCtx.putImageData(idata, 0, 0);
+                    }
+                });
+
+                // Debug Info
+                document.getElementById('statusParams').innerText = `${canvasWidth} x ${canvasHeight} px | Layers: ${layers.length}`;
+            } catch (e) {
+                console.error("Render Error:", e);
+                document.getElementById('statusParams').innerText = "Erro no Render";
+            }
+        }
+
+        // --- Save ---
+        // --- Save ---
+        async function saveImage() {
+            // 1. Create offline canvas of full size
+            const tempC = document.createElement('canvas');
+            tempC.width = canvasWidth;
+            tempC.height = canvasHeight;
+            const tCtx = tempC.getContext('2d');
+
+            // 2. Render to this canvas with export flag (enables high-quality filters)
+            render(tCtx, canvasWidth, canvasHeight, true); // true = isExport
+
+            // 3. Save
+            try {
+                const handle = await window.showSaveFilePicker({
+                    suggestedName: 'edicao_apsycho.png',
+                    types: [{
+                        description: 'PNG Image',
+                        accept: { 'image/png': ['.png'] },
+                    }],
+                });
+                const writable = await handle.createWritable();
+                const blob = await new Promise(r => tempC.toBlob(r));
+                await writable.write(blob);
+                await writable.close();
+            } catch (err) {
+                // Fallback
+                console.warn('File System API not supported or cancelled', err);
+                const link = document.createElement('a');
+                link.download = 'edicao_apsycho.png';
+                link.href = tempC.toDataURL();
+                link.click();
+            }
+        }
+
+        function updateStatus() {
+            document.getElementById('statusParams').innerText = `${canvasWidth} x ${canvasHeight} px`;
+        }
+
+        // Start
+        init();
+
+    </script>
+
+</body>
+
+</html>

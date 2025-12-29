@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>CTA-AC (Simulador Final) | Aprovação Psycho</title>
+    <title>BPA-AD (Simulador) | Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="favicon.png">
 
     <!-- SEGURANÇA -->
@@ -70,10 +70,9 @@
             position: relative;
             margin: 0 auto;
             width: 100%;
-            max-width: 639px;
-            aspect-ratio: 639 / 790;
-            /* ATENÇÃO: FORMATO PNG AGORA */
-            background-image: url('../../Imagens_base/cta/fundo_cta.png');
+            max-width: 850px;
+            aspect-ratio: 894 / 1182;
+            background-image: url('../../Imagens_base/bpa/BPA AD2.jpg');
             background-size: 100% 100%;
             background-repeat: no-repeat;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
@@ -100,13 +99,13 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* Marcação (Traço Azul) */
+        /* Marcação (Traço Azul/Rosa) */
         .hit-zone.marked::after {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 5px;
-            background-color: #ff00b3;
+            width: 150%;
+            height: 4px;
+            background-color: #ff0062;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
@@ -120,8 +119,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 2px solid #ff00ff;
-            /* Pink accent */
+            border: 3px solid #ff0062;
             border-radius: 50%;
             top: 50%;
             left: 50%;
@@ -191,7 +189,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen hero-bg" x-data="ctaFinal()">
+<body class="flex flex-col min-h-screen hero-bg" x-data="bpaAD()">
 
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -203,7 +201,7 @@
                 <div class="flex flex-col">
                     <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
                             style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">CTA-AC <span
+                    <span class="text-white font-black text-lg leading-none">BPA-AD <span
                             class="text-[var(--accent-pink)]">SIMULADOR</span></span>
                     <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
@@ -238,32 +236,35 @@
 
         <div x-show="state === 'instructions'" class="max-w-4xl mx-auto fade-in mt-10">
             <div class="bg-[#151427] rounded-2xl p-8 border border-white/5 text-center shadow-2xl backdrop-blur-sm">
-                <h1 class="text-3xl font-black text-white mb-4">CTA-AC - Atenção Concentrada</h1>
-                <p class="text-gray-400 mb-8 text-lg">Faça um traço (clique) em todas as figuras iguais ao modelo. Para
-                    anular o erro circule (clique duplo).</p>
+                <h1 class="text-3xl font-black text-white mb-4">BPA-AD - Atenção Dividida</h1>
+                <p class="text-gray-400 mb-8 text-lg">Faça um traço / (clique) nas figuras iguais aos modelos. Para
+                    anular
+                    o erro
+                    circule a figura (clique duas vezes)</p>
 
                 <div class="flex justify-center mb-8">
                     <div class="flex flex-col items-center gap-3">
                         <div
                             class="p-4 bg-white/5 rounded-lg flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.05)] border border-white/10">
-                            <img src="../../Imagens_base/cta/modelo_cta.png" alt="Modelo Alvo"
-                                class="h-24 w-auto object-contain">
+                            <img src="../../Imagens_base/bpa/BPA AD1.jpg" alt="Modelo BPA AD"
+                                class="h-72 w-auto object-contain">
                         </div>
-                        <span class="text-xs text-[var(--accent-pink)] uppercase font-bold tracking-widest">FIGURA
-                            ALVO</span>
                     </div>
                 </div>
 
                 <div
                     class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left bg-black/20 p-6 rounded-xl max-w-xl mx-auto mb-8 border border-white/5">
                     <p class="text-gray-300 flex items-center"><i class="fas fa-clock text-cyan-400 w-6"></i> Tempo:
-                        <strong>1 Minuto</strong>.
+                        <strong>4 Minutos</strong>.
                     </p>
                     <p class="text-gray-300 flex items-center"><i class="fas fa-trophy text-yellow-400 w-6"></i> Meta:
-                        <strong>32 Pontos</strong>.
+                        <strong>72 Pontos</strong>.
                     </p>
                     <p class="text-gray-300 flex items-center"><i class="fas fa-calculator text-green-400 w-6"></i>
                         Pontos = Acertos - (Erros + Omissões).</p>
+                    <p class="text-gray-300 flex items-center"><i class="fas fa-lightbulb text-purple-400 w-6"></i>
+                        Bizu: Padrão 6 figuras por linha (2 de cada tipo).
+                    </p>
                     <p class="text-gray-300 flex items-center"><i class="fas fa-lock text-red-400 w-6"></i>
                         <strong>Atenção:</strong> Seleção definitiva.
                     </p>
@@ -334,22 +335,30 @@
                 class="sticky top-0 z-[100] bg-[#100f1c]/90 backdrop-blur-md border-b border-white/10 shadow-2xl p-3 mb-6">
                 <div class="max-w-5xl mx-auto flex justify-between items-center">
 
-                    <div class="flex items-center  gap-4 bg-black/40 px-4 py-2 rounded-lg border border-white/10">
-                        <span class="text-xs font-bold text-gray-400 uppercase hidden sm:inline">ALVO:</span>
-                        <div
-                            class="h-14 w-14 bg-white/10 rounded flex items-center justify-center overflow-hidden border border-white/20">
-                            <img src="../../Imagens_base/cta/modelo_cta.png" class="h-full w-full object-contain p-1">
-                        </div>
-                    </div>
 
                     <div class="flex items-center gap-6">
-                        <!-- Timer Removed from here -->
 
                         <button @click="finishTest()"
                             class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/50 px-6 py-3 rounded-lg font-bold text-sm transition hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]">
                             FINALIZAR
                         </button>
                     </div>
+                </div>
+
+
+            </div>
+
+            <!-- Calibration UI -->
+            <div x-show="showCalibration"
+                class="fixed bottom-4 right-4 bg-black/80 text-white p-4 rounded-lg border border-purple-500 z-[200]">
+                <h4 class="font-bold mb-2">Calibração</h4>
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <label>Offset X: <input type="number" x-model.number="calX" class="bg-white/10 w-16 px-1"></label>
+                    <label>Offset Y: <input type="number" x-model.number="calY" class="bg-white/10 w-16 px-1"></label>
+                    <label>Scale X: <input type="number" step="0.001" x-model.number="scaleX"
+                            class="bg-white/10 w-16 px-1"></label>
+                    <label>Scale Y: <input type="number" step="0.001" x-model.number="scaleY"
+                            class="bg-white/10 w-16 px-1"></label>
                 </div>
             </div>
 
@@ -360,10 +369,11 @@
                         <template x-for="(item, index) in grid" :key="item.id">
                             <div @click="handleClick(index)" @dblclick="handleDblClick(index)" class="hit-zone" :class="{
                                 'marked': item.marked,
-                                'annulled': item.annulled
+                                'annulled': item.annulled,
+                                'border border-red-500/50': showCalibration // Outline in calib mode
                             }" :style="`
-                                    left: ${(item.x / config.imgWidth) * 100}%; 
-                                    top: ${(item.y / config.imgHeight) * 100}%; 
+                                    left: ${((item.x * scaleX + calX) / config.imgWidth) * 100}%; 
+                                    top: ${((item.y * scaleY + calY) / config.imgHeight) * 100}%; 
                                     width: ${(config.boxW / config.imgWidth) * 100}%; 
                                     height: ${(config.boxH / config.imgHeight) * 100}%; 
                                     transform: translate(-50%, -50%);
@@ -381,7 +391,7 @@
 
                 <div class="flex flex-col items-center justify-center mb-8">
                     <!-- APROVADO -->
-                    <template x-if="results.score >= 32">
+                    <template x-if="results.score >= 72">
                         <span
                             class="px-8 py-3 rounded-full text-2xl font-bold border flex items-center gap-3 transition-all bg-green-500/10 text-green-400 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
                             <i class="fas fa-check-circle"></i>
@@ -390,7 +400,7 @@
                     </template>
 
                     <!-- INAPTO (Novo Estilo) -->
-                    <template x-if="results.score < 32">
+                    <template x-if="results.score < 72">
                         <div class="flex flex-col items-center">
                             <div class="loser-text">
                                 VOCÊ FICOU<br>INAPTO!
@@ -424,7 +434,7 @@
                         class="bg-gradient-to-br from-purple-900/50 to-blue-900/50 p-4 rounded-xl border border-purple-500/30 relative overflow-hidden">
                         <div class="text-sm text-white font-bold uppercase relative z-10">Pontuação</div>
                         <div class="text-4xl font-black text-white relative z-10" x-text="results.score"></div>
-                        <div class="text-[10px] text-cyan-300 mt-1 relative z-10">Meta: 32</div>
+                        <div class="text-[10px] text-cyan-300 mt-1 relative z-10">Meta: 72</div>
                         <div class="absolute inset-0 bg-white/5 blur-xl"></div>
                     </div>
                 </div>
@@ -445,9 +455,9 @@
                                       'res-omission': !item.marked && item.isTarget && index <= lastSelectedIndex,
                                       'marked': item.marked,
                                       'annulled': item.annulled
-                                   }" :style="`
-                                        left: ${(item.x / config.imgWidth) * 100}%; 
-                                        top: ${(item.y / config.imgHeight) * 100}%; 
+                                        }" :style="`
+                                        left: ${((item.x * scaleX + calX) / config.imgWidth) * 100}%; 
+                                        top: ${((item.y * scaleY + calY) / config.imgHeight) * 100}%; 
                                         width: ${(config.boxW / config.imgWidth) * 100}%; 
                                         height: ${(config.boxH / config.imgHeight) * 100}%; 
                                         transform: translate(-50%, -50%);
@@ -471,15 +481,14 @@
 
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('ctaFinal', () => ({
+            Alpine.data('bpaAD', () => ({
                 // =================================================================
-                // CONFIGURAÇÃO (COLE AQUI SE MUDAR NO MAPEADOR)
+                // CONFIGURAÇÃO
                 // =================================================================
-                config: { "imgWidth": 639, "imgHeight": 790, "boxW": 44, "boxH": 50, "items": [{ "id": 0, "x": 32, "y": 35, "t": 1 }, { "id": 1, "x": 95, "y": 35, "t": 0 }, { "id": 2, "x": 158, "y": 35, "t": 0 }, { "id": 3, "x": 221, "y": 35, "t": 1 }, { "id": 4, "x": 283, "y": 35, "t": 0 }, { "id": 5, "x": 346, "y": 35, "t": 0 }, { "id": 6, "x": 409, "y": 35, "t": 0 }, { "id": 7, "x": 472, "y": 35, "t": 0 }, { "id": 8, "x": 534, "y": 35, "t": 0 }, { "id": 9, "x": 597, "y": 35, "t": 1 }, { "id": 10, "x": 32, "y": 96, "t": 0 }, { "id": 11, "x": 95, "y": 96, "t": 0 }, { "id": 12, "x": 158, "y": 96, "t": 1 }, { "id": 13, "x": 221, "y": 96, "t": 0 }, { "id": 14, "x": 283, "y": 96, "t": 0 }, { "id": 15, "x": 346, "y": 96, "t": 1 }, { "id": 16, "x": 409, "y": 96, "t": 1 }, { "id": 17, "x": 472, "y": 96, "t": 0 }, { "id": 18, "x": 534, "y": 96, "t": 0 }, { "id": 19, "x": 597, "y": 96, "t": 0 }, { "id": 20, "x": 32, "y": 156, "t": 1 }, { "id": 21, "x": 95, "y": 156, "t": 0 }, { "id": 22, "x": 158, "y": 156, "t": 0 }, { "id": 23, "x": 221, "y": 156, "t": 1 }, { "id": 24, "x": 283, "y": 156, "t": 0 }, { "id": 25, "x": 346, "y": 156, "t": 1 }, { "id": 26, "x": 409, "y": 156, "t": 0 }, { "id": 27, "x": 472, "y": 156, "t": 0 }, { "id": 28, "x": 534, "y": 156, "t": 0 }, { "id": 29, "x": 597, "y": 156, "t": 0 }, { "id": 30, "x": 32, "y": 217, "t": 0 }, { "id": 31, "x": 94, "y": 217, "t": 1 }, { "id": 32, "x": 158, "y": 217, "t": 1 }, { "id": 33, "x": 221, "y": 217, "t": 0 }, { "id": 34, "x": 283, "y": 217, "t": 0 }, { "id": 35, "x": 346, "y": 217, "t": 0 }, { "id": 36, "x": 412, "y": 217, "t": 1 }, { "id": 37, "x": 472, "y": 217, "t": 0 }, { "id": 38, "x": 534, "y": 217, "t": 1 }, { "id": 39, "x": 597, "y": 217, "t": 1 }, { "id": 40, "x": 32, "y": 277, "t": 0 }, { "id": 41, "x": 95, "y": 277, "t": 0 }, { "id": 42, "x": 158, "y": 277, "t": 0 }, { "id": 43, "x": 221, "y": 277, "t": 0 }, { "id": 44, "x": 286, "y": 278, "t": 1 }, { "id": 45, "x": 346, "y": 277, "t": 0 }, { "id": 46, "x": 409, "y": 277, "t": 0 }, { "id": 47, "x": 472, "y": 277, "t": 0 }, { "id": 48, "x": 534, "y": 277, "t": 1 }, { "id": 49, "x": 597, "y": 277, "t": 0 }, { "id": 50, "x": 35, "y": 339, "t": 1 }, { "id": 51, "x": 95, "y": 338, "t": 0 }, { "id": 52, "x": 158, "y": 338, "t": 1 }, { "id": 53, "x": 221, "y": 338, "t": 0 }, { "id": 54, "x": 283, "y": 338, "t": 0 }, { "id": 55, "x": 346, "y": 338, "t": 1 }, { "id": 56, "x": 409, "y": 338, "t": 1 }, { "id": 57, "x": 472, "y": 338, "t": 0 }, { "id": 58, "x": 534, "y": 338, "t": 1 }, { "id": 59, "x": 597, "y": 338, "t": 0 }, { "id": 60, "x": 32, "y": 394, "t": 1 }, { "id": 61, "x": 95, "y": 394, "t": 0 }, { "id": 62, "x": 158, "y": 394, "t": 0 }, { "id": 63, "x": 221, "y": 394, "t": 1 }, { "id": 64, "x": 283, "y": 394, "t": 1 }, { "id": 65, "x": 346, "y": 394, "t": 0 }, { "id": 66, "x": 409, "y": 394, "t": 0 }, { "id": 67, "x": 472, "y": 394, "t": 1 }, { "id": 68, "x": 534, "y": 394, "t": 0 }, { "id": 69, "x": 597, "y": 394, "t": 1 }, { "id": 70, "x": 32, "y": 455, "t": 1 }, { "id": 71, "x": 95, "y": 455, "t": 0 }, { "id": 72, "x": 161, "y": 455, "t": 1 }, { "id": 73, "x": 221, "y": 455, "t": 1 }, { "id": 74, "x": 284, "y": 457, "t": 1 }, { "id": 75, "x": 346, "y": 455, "t": 1 }, { "id": 76, "x": 409, "y": 455, "t": 0 }, { "id": 77, "x": 472, "y": 455, "t": 0 }, { "id": 78, "x": 534, "y": 455, "t": 1 }, { "id": 79, "x": 597, "y": 455, "t": 0 }, { "id": 80, "x": 32, "y": 514, "t": 0 }, { "id": 81, "x": 95, "y": 514, "t": 0 }, { "id": 82, "x": 158, "y": 514, "t": 1 }, { "id": 83, "x": 221, "y": 514, "t": 0 }, { "id": 84, "x": 283, "y": 514, "t": 0 }, { "id": 85, "x": 346, "y": 514, "t": 0 }, { "id": 86, "x": 409, "y": 514, "t": 0 }, { "id": 87, "x": 472, "y": 514, "t": 0 }, { "id": 88, "x": 534, "y": 514, "t": 0 }, { "id": 89, "x": 597, "y": 514, "t": 1 }, { "id": 90, "x": 32, "y": 571, "t": 1 }, { "id": 91, "x": 95, "y": 571, "t": 0 }, { "id": 92, "x": 158, "y": 571, "t": 1 }, { "id": 93, "x": 221, "y": 571, "t": 0 }, { "id": 94, "x": 283, "y": 571, "t": 0 }, { "id": 95, "x": 346, "y": 571, "t": 0 }, { "id": 96, "x": 409, "y": 571, "t": 0 }, { "id": 97, "x": 472, "y": 571, "t": 0 }, { "id": 98, "x": 534, "y": 571, "t": 0 }, { "id": 99, "x": 597, "y": 571, "t": 1 }, { "id": 100, "x": 32, "y": 637, "t": 1 }, { "id": 101, "x": 95, "y": 637, "t": 0 }, { "id": 102, "x": 158, "y": 637, "t": 0 }, { "id": 103, "x": 221, "y": 637, "t": 0 }, { "id": 104, "x": 283, "y": 637, "t": 0 }, { "id": 105, "x": 346, "y": 637, "t": 1 }, { "id": 106, "x": 409, "y": 637, "t": 0 }, { "id": 107, "x": 472, "y": 637, "t": 0 }, { "id": 108, "x": 534, "y": 637, "t": 0 }, { "id": 109, "x": 597, "y": 637, "t": 1 }, { "id": 110, "x": 32, "y": 695, "t": 1 }, { "id": 111, "x": 95, "y": 694, "t": 0 }, { "id": 112, "x": 158, "y": 694, "t": 1 }, { "id": 113, "x": 221, "y": 694, "t": 0 }, { "id": 114, "x": 283, "y": 694, "t": 1 }, { "id": 115, "x": 346, "y": 694, "t": 0 }, { "id": 116, "x": 409, "y": 694, "t": 0 }, { "id": 117, "x": 472, "y": 694, "t": 1 }, { "id": 118, "x": 534, "y": 694, "t": 0 }, { "id": 119, "x": 597, "y": 694, "t": 0 }, { "id": 120, "x": 33, "y": 754, "t": 1 }, { "id": 121, "x": 95, "y": 754, "t": 0 }, { "id": 122, "x": 158, "y": 754, "t": 1 }, { "id": 123, "x": 221, "y": 754, "t": 1 }, { "id": 124, "x": 283, "y": 754, "t": 0 }, { "id": 125, "x": 346, "y": 754, "t": 0 }, { "id": 126, "x": 409, "y": 754, "t": 1 }, { "id": 127, "x": 472, "y": 754, "t": 0 }, { "id": 128, "x": 534, "y": 754, "t": 1 }, { "id": 129, "x": 597, "y": 754, "t": 1 }] },
-                // =================================================================
+                config: { "imgWidth": 894, "imgHeight": 1182, "boxW": 28, "boxH": 25, "items": [{ "id": 0, "x": 51, "y": 186, "t": 0 }, { "id": 1, "x": 91, "y": 186, "t": 1 }, { "id": 2, "x": 130, "y": 186, "t": 0 }, { "id": 3, "x": 170, "y": 186, "t": 1 }, { "id": 4, "x": 209, "y": 186, "t": 0 }, { "id": 5, "x": 249, "y": 186, "t": 0 }, { "id": 6, "x": 288, "y": 186, "t": 1 }, { "id": 7, "x": 328, "y": 186, "t": 0 }, { "id": 8, "x": 367, "y": 186, "t": 0 }, { "id": 9, "x": 407, "y": 186, "t": 0 }, { "id": 10, "x": 446, "y": 186, "t": 1 }, { "id": 11, "x": 486, "y": 186, "t": 0 }, { "id": 12, "x": 525, "y": 186, "t": 1 }, { "id": 13, "x": 565, "y": 186, "t": 0 }, { "id": 14, "x": 604, "y": 186, "t": 0 }, { "id": 15, "x": 644, "y": 186, "t": 1 }, { "id": 16, "x": 683, "y": 186, "t": 0 }, { "id": 17, "x": 723, "y": 186, "t": 1 }, { "id": 18, "x": 762, "y": 186, "t": 0 }, { "id": 19, "x": 802, "y": 186, "t": 0 }, { "id": 24, "x": 51, "y": 237, "t": 1 }, { "id": 25, "x": 91, "y": 237, "t": 0 }, { "id": 26, "x": 130, "y": 237, "t": 0 }, { "id": 27, "x": 170, "y": 237, "t": 0 }, { "id": 28, "x": 209, "y": 237, "t": 1 }, { "id": 29, "x": 249, "y": 237, "t": 0 }, { "id": 30, "x": 288, "y": 237, "t": 0 }, { "id": 31, "x": 328, "y": 237, "t": 0 }, { "id": 32, "x": 367, "y": 237, "t": 1 }, { "id": 33, "x": 407, "y": 237, "t": 0 }, { "id": 34, "x": 446, "y": 237, "t": 0 }, { "id": 35, "x": 486, "y": 237, "t": 0 }, { "id": 36, "x": 525, "y": 237, "t": 0 }, { "id": 37, "x": 565, "y": 237, "t": 1 }, { "id": 38, "x": 604, "y": 237, "t": 0 }, { "id": 39, "x": 644, "y": 237, "t": 0 }, { "id": 40, "x": 683, "y": 237, "t": 0 }, { "id": 41, "x": 723, "y": 237, "t": 1 }, { "id": 42, "x": 762, "y": 237, "t": 0 }, { "id": 43, "x": 802, "y": 237, "t": 1 }, { "id": 48, "x": 51, "y": 287, "t": 0 }, { "id": 49, "x": 91, "y": 287, "t": 0 }, { "id": 50, "x": 130, "y": 287, "t": 1 }, { "id": 51, "x": 170, "y": 287, "t": 0 }, { "id": 52, "x": 209, "y": 287, "t": 0 }, { "id": 53, "x": 249, "y": 287, "t": 0 }, { "id": 54, "x": 288, "y": 287, "t": 1 }, { "id": 55, "x": 328, "y": 287, "t": 0 }, { "id": 56, "x": 367, "y": 287, "t": 0 }, { "id": 57, "x": 407, "y": 287, "t": 1 }, { "id": 58, "x": 446, "y": 287, "t": 0 }, { "id": 59, "x": 486, "y": 287, "t": 0 }, { "id": 60, "x": 525, "y": 287, "t": 0 }, { "id": 61, "x": 565, "y": 287, "t": 1 }, { "id": 62, "x": 604, "y": 287, "t": 0 }, { "id": 63, "x": 644, "y": 287, "t": 1 }, { "id": 64, "x": 683, "y": 287, "t": 0 }, { "id": 65, "x": 723, "y": 287, "t": 1 }, { "id": 66, "x": 762, "y": 287, "t": 0 }, { "id": 67, "x": 802, "y": 287, "t": 0 }, { "id": 72, "x": 51, "y": 338, "t": 1 }, { "id": 73, "x": 91, "y": 338, "t": 0 }, { "id": 74, "x": 130, "y": 338, "t": 1 }, { "id": 75, "x": 170, "y": 338, "t": 0 }, { "id": 76, "x": 209, "y": 338, "t": 1 }, { "id": 77, "x": 249, "y": 338, "t": 0 }, { "id": 78, "x": 288, "y": 338, "t": 0 }, { "id": 79, "x": 328, "y": 338, "t": 1 }, { "id": 80, "x": 367, "y": 338, "t": 0 }, { "id": 81, "x": 407, "y": 338, "t": 0 }, { "id": 82, "x": 446, "y": 338, "t": 1 }, { "id": 83, "x": 486, "y": 338, "t": 0 }, { "id": 84, "x": 525, "y": 338, "t": 1 }, { "id": 85, "x": 565, "y": 338, "t": 0 }, { "id": 86, "x": 604, "y": 338, "t": 0 }, { "id": 87, "x": 644, "y": 338, "t": 0 }, { "id": 88, "x": 683, "y": 338, "t": 0 }, { "id": 89, "x": 723, "y": 338, "t": 0 }, { "id": 90, "x": 762, "y": 338, "t": 0 }, { "id": 91, "x": 802, "y": 338, "t": 0 }, { "id": 96, "x": 51, "y": 388, "t": 0 }, { "id": 97, "x": 91, "y": 388, "t": 0 }, { "id": 98, "x": 130, "y": 388, "t": 0 }, { "id": 99, "x": 170, "y": 388, "t": 0 }, { "id": 100, "x": 209, "y": 388, "t": 0 }, { "id": 101, "x": 249, "y": 388, "t": 0 }, { "id": 102, "x": 288, "y": 388, "t": 1 }, { "id": 103, "x": 328, "y": 388, "t": 0 }, { "id": 104, "x": 367, "y": 388, "t": 1 }, { "id": 105, "x": 407, "y": 388, "t": 0 }, { "id": 106, "x": 446, "y": 388, "t": 1 }, { "id": 107, "x": 486, "y": 388, "t": 0 }, { "id": 108, "x": 525, "y": 388, "t": 0 }, { "id": 109, "x": 565, "y": 388, "t": 0 }, { "id": 110, "x": 604, "y": 388, "t": 1 }, { "id": 111, "x": 644, "y": 388, "t": 0 }, { "id": 112, "x": 683, "y": 388, "t": 1 }, { "id": 113, "x": 723, "y": 388, "t": 0 }, { "id": 114, "x": 762, "y": 388, "t": 1 }, { "id": 115, "x": 802, "y": 388, "t": 0 }, { "id": 120, "x": 51, "y": 439, "t": 0 }, { "id": 121, "x": 91, "y": 439, "t": 0 }, { "id": 122, "x": 130, "y": 439, "t": 0 }, { "id": 123, "x": 170, "y": 439, "t": 1 }, { "id": 124, "x": 209, "y": 439, "t": 0 }, { "id": 125, "x": 249, "y": 439, "t": 1 }, { "id": 126, "x": 288, "y": 439, "t": 0 }, { "id": 127, "x": 328, "y": 439, "t": 0 }, { "id": 128, "x": 367, "y": 439, "t": 0 }, { "id": 129, "x": 407, "y": 439, "t": 1 }, { "id": 130, "x": 446, "y": 439, "t": 0 }, { "id": 131, "x": 486, "y": 439, "t": 0 }, { "id": 132, "x": 525, "y": 439, "t": 0 }, { "id": 133, "x": 565, "y": 439, "t": 1 }, { "id": 134, "x": 604, "y": 439, "t": 0 }, { "id": 135, "x": 644, "y": 439, "t": 0 }, { "id": 136, "x": 683, "y": 439, "t": 0 }, { "id": 137, "x": 723, "y": 439, "t": 1 }, { "id": 138, "x": 762, "y": 439, "t": 0 }, { "id": 139, "x": 802, "y": 439, "t": 1 }, { "id": 144, "x": 51, "y": 489, "t": 1 }, { "id": 145, "x": 91, "y": 489, "t": 0 }, { "id": 146, "x": 130, "y": 489, "t": 0 }, { "id": 147, "x": 170, "y": 489, "t": 0 }, { "id": 148, "x": 209, "y": 489, "t": 1 }, { "id": 149, "x": 249, "y": 489, "t": 0 }, { "id": 150, "x": 288, "y": 489, "t": 0 }, { "id": 151, "x": 328, "y": 489, "t": 0 }, { "id": 152, "x": 367, "y": 489, "t": 1 }, { "id": 153, "x": 407, "y": 489, "t": 0 }, { "id": 154, "x": 446, "y": 489, "t": 0 }, { "id": 155, "x": 486, "y": 489, "t": 0 }, { "id": 156, "x": 525, "y": 489, "t": 1 }, { "id": 157, "x": 565, "y": 489, "t": 0 }, { "id": 158, "x": 604, "y": 489, "t": 0 }, { "id": 159, "x": 644, "y": 489, "t": 1 }, { "id": 160, "x": 683, "y": 489, "t": 1 }, { "id": 161, "x": 723, "y": 489, "t": 0 }, { "id": 162, "x": 762, "y": 489, "t": 0 }, { "id": 163, "x": 802, "y": 489, "t": 0 }, { "id": 168, "x": 51, "y": 540, "t": 0 }, { "id": 169, "x": 91, "y": 540, "t": 1 }, { "id": 170, "x": 130, "y": 540, "t": 0 }, { "id": 171, "x": 170, "y": 540, "t": 1 }, { "id": 172, "x": 209, "y": 540, "t": 0 }, { "id": 173, "x": 249, "y": 540, "t": 0 }, { "id": 174, "x": 288, "y": 540, "t": 0 }, { "id": 175, "x": 328, "y": 540, "t": 0 }, { "id": 176, "x": 367, "y": 540, "t": 0 }, { "id": 177, "x": 407, "y": 540, "t": 1 }, { "id": 178, "x": 446, "y": 540, "t": 0 }, { "id": 179, "x": 486, "y": 540, "t": 1 }, { "id": 180, "x": 525, "y": 540, "t": 0 }, { "id": 181, "x": 565, "y": 540, "t": 0 }, { "id": 182, "x": 604, "y": 540, "t": 1 }, { "id": 183, "x": 644, "y": 540, "t": 0 }, { "id": 184, "x": 683, "y": 540, "t": 0 }, { "id": 185, "x": 723, "y": 540, "t": 0 }, { "id": 186, "x": 762, "y": 540, "t": 0 }, { "id": 187, "x": 802, "y": 540, "t": 1 }, { "id": 192, "x": 51, "y": 590, "t": 1 }, { "id": 193, "x": 91, "y": 590, "t": 0 }, { "id": 194, "x": 130, "y": 590, "t": 0 }, { "id": 195, "x": 170, "y": 590, "t": 0 }, { "id": 196, "x": 209, "y": 590, "t": 1 }, { "id": 197, "x": 249, "y": 590, "t": 1 }, { "id": 198, "x": 288, "y": 590, "t": 1 }, { "id": 199, "x": 328, "y": 590, "t": 0 }, { "id": 200, "x": 367, "y": 590, "t": 0 }, { "id": 201, "x": 407, "y": 590, "t": 0 }, { "id": 202, "x": 446, "y": 590, "t": 1 }, { "id": 203, "x": 486, "y": 590, "t": 0 }, { "id": 204, "x": 525, "y": 590, "t": 0 }, { "id": 205, "x": 565, "y": 590, "t": 0 }, { "id": 206, "x": 604, "y": 590, "t": 0 }, { "id": 207, "x": 644, "y": 590, "t": 0 }, { "id": 208, "x": 683, "y": 590, "t": 0 }, { "id": 209, "x": 723, "y": 590, "t": 1 }, { "id": 210, "x": 762, "y": 590, "t": 0 }, { "id": 211, "x": 802, "y": 590, "t": 0 }, { "id": 216, "x": 51, "y": 641, "t": 0 }, { "id": 217, "x": 91, "y": 641, "t": 0 }, { "id": 218, "x": 130, "y": 641, "t": 1 }, { "id": 219, "x": 170, "y": 641, "t": 0 }, { "id": 220, "x": 209, "y": 641, "t": 0 }, { "id": 221, "x": 249, "y": 641, "t": 1 }, { "id": 222, "x": 288, "y": 641, "t": 0 }, { "id": 223, "x": 328, "y": 641, "t": 0 }, { "id": 224, "x": 367, "y": 641, "t": 0 }, { "id": 225, "x": 407, "y": 641, "t": 1 }, { "id": 226, "x": 446, "y": 641, "t": 0 }, { "id": 227, "x": 486, "y": 641, "t": 1 }, { "id": 228, "x": 525, "y": 641, "t": 1 }, { "id": 229, "x": 565, "y": 641, "t": 0 }, { "id": 230, "x": 604, "y": 641, "t": 1 }, { "id": 231, "x": 644, "y": 641, "t": 0 }, { "id": 232, "x": 683, "y": 641, "t": 0 }, { "id": 233, "x": 723, "y": 641, "t": 0 }, { "id": 234, "x": 762, "y": 641, "t": 0 }, { "id": 235, "x": 802, "y": 641, "t": 0 }, { "id": 240, "x": 51, "y": 691, "t": 1 }, { "id": 241, "x": 91, "y": 691, "t": 1 }, { "id": 242, "x": 130, "y": 691, "t": 0 }, { "id": 243, "x": 170, "y": 691, "t": 0 }, { "id": 244, "x": 209, "y": 691, "t": 0 }, { "id": 245, "x": 249, "y": 691, "t": 0 }, { "id": 246, "x": 288, "y": 691, "t": 0 }, { "id": 247, "x": 328, "y": 691, "t": 0 }, { "id": 248, "x": 367, "y": 691, "t": 0 }, { "id": 249, "x": 407, "y": 691, "t": 0 }, { "id": 250, "x": 446, "y": 691, "t": 0 }, { "id": 251, "x": 486, "y": 691, "t": 0 }, { "id": 252, "x": 525, "y": 691, "t": 0 }, { "id": 253, "x": 565, "y": 691, "t": 1 }, { "id": 254, "x": 604, "y": 691, "t": 0 }, { "id": 255, "x": 644, "y": 691, "t": 0 }, { "id": 256, "x": 683, "y": 691, "t": 1 }, { "id": 257, "x": 723, "y": 691, "t": 0 }, { "id": 258, "x": 762, "y": 691, "t": 1 }, { "id": 259, "x": 802, "y": 691, "t": 1 }, { "id": 264, "x": 51, "y": 742, "t": 0 }, { "id": 265, "x": 91, "y": 742, "t": 0 }, { "id": 266, "x": 130, "y": 742, "t": 0 }, { "id": 267, "x": 170, "y": 742, "t": 1 }, { "id": 268, "x": 209, "y": 742, "t": 0 }, { "id": 269, "x": 249, "y": 742, "t": 1 }, { "id": 270, "x": 288, "y": 742, "t": 0 }, { "id": 271, "x": 328, "y": 742, "t": 1 }, { "id": 272, "x": 367, "y": 742, "t": 0 }, { "id": 273, "x": 407, "y": 742, "t": 1 }, { "id": 274, "x": 446, "y": 742, "t": 0 }, { "id": 275, "x": 486, "y": 742, "t": 1 }, { "id": 276, "x": 525, "y": 742, "t": 0 }, { "id": 277, "x": 565, "y": 742, "t": 0 }, { "id": 278, "x": 604, "y": 742, "t": 1 }, { "id": 279, "x": 644, "y": 742, "t": 0 }, { "id": 280, "x": 683, "y": 742, "t": 0 }, { "id": 281, "x": 723, "y": 742, "t": 0 }, { "id": 282, "x": 762, "y": 742, "t": 0 }, { "id": 283, "x": 802, "y": 742, "t": 0 }, { "id": 288, "x": 51, "y": 792, "t": 1 }, { "id": 289, "x": 91, "y": 792, "t": 0 }, { "id": 290, "x": 130, "y": 792, "t": 1 }, { "id": 291, "x": 170, "y": 792, "t": 0 }, { "id": 292, "x": 209, "y": 792, "t": 1 }, { "id": 293, "x": 249, "y": 792, "t": 0 }, { "id": 294, "x": 288, "y": 792, "t": 0 }, { "id": 295, "x": 328, "y": 792, "t": 1 }, { "id": 296, "x": 367, "y": 792, "t": 0 }, { "id": 297, "x": 407, "y": 792, "t": 0 }, { "id": 298, "x": 446, "y": 792, "t": 0 }, { "id": 299, "x": 486, "y": 792, "t": 0 }, { "id": 300, "x": 525, "y": 792, "t": 1 }, { "id": 301, "x": 565, "y": 792, "t": 0 }, { "id": 302, "x": 604, "y": 792, "t": 0 }, { "id": 303, "x": 644, "y": 792, "t": 0 }, { "id": 304, "x": 683, "y": 792, "t": 0 }, { "id": 305, "x": 723, "y": 792, "t": 0 }, { "id": 306, "x": 762, "y": 792, "t": 1 }, { "id": 307, "x": 802, "y": 792, "t": 0 }, { "id": 312, "x": 51, "y": 843, "t": 1 }, { "id": 313, "x": 91, "y": 843, "t": 0 }, { "id": 314, "x": 130, "y": 843, "t": 0 }, { "id": 315, "x": 170, "y": 843, "t": 0 }, { "id": 316, "x": 209, "y": 843, "t": 0 }, { "id": 317, "x": 249, "y": 843, "t": 1 }, { "id": 318, "x": 288, "y": 843, "t": 0 }, { "id": 319, "x": 328, "y": 843, "t": 1 }, { "id": 320, "x": 367, "y": 843, "t": 0 }, { "id": 321, "x": 407, "y": 843, "t": 0 }, { "id": 322, "x": 446, "y": 843, "t": 0 }, { "id": 323, "x": 486, "y": 843, "t": 1 }, { "id": 324, "x": 525, "y": 843, "t": 0 }, { "id": 325, "x": 565, "y": 843, "t": 0 }, { "id": 326, "x": 604, "y": 843, "t": 1 }, { "id": 327, "x": 644, "y": 843, "t": 1 }, { "id": 328, "x": 683, "y": 843, "t": 0 }, { "id": 329, "x": 723, "y": 843, "t": 0 }, { "id": 330, "x": 762, "y": 843, "t": 0 }, { "id": 331, "x": 802, "y": 843, "t": 0 }, { "id": 336, "x": 51, "y": 893, "t": 0 }, { "id": 337, "x": 91, "y": 893, "t": 0 }, { "id": 338, "x": 130, "y": 893, "t": 1 }, { "id": 339, "x": 170, "y": 893, "t": 0 }, { "id": 340, "x": 209, "y": 893, "t": 0 }, { "id": 341, "x": 249, "y": 893, "t": 0 }, { "id": 342, "x": 288, "y": 893, "t": 0 }, { "id": 343, "x": 328, "y": 893, "t": 1 }, { "id": 344, "x": 367, "y": 893, "t": 0 }, { "id": 345, "x": 407, "y": 893, "t": 0 }, { "id": 346, "x": 446, "y": 893, "t": 0 }, { "id": 347, "x": 486, "y": 893, "t": 1 }, { "id": 348, "x": 525, "y": 893, "t": 0 }, { "id": 349, "x": 565, "y": 893, "t": 1 }, { "id": 350, "x": 604, "y": 893, "t": 0 }, { "id": 351, "x": 644, "y": 893, "t": 0 }, { "id": 352, "x": 683, "y": 893, "t": 0 }, { "id": 353, "x": 723, "y": 893, "t": 1 }, { "id": 354, "x": 762, "y": 893, "t": 0 }, { "id": 355, "x": 802, "y": 893, "t": 1 }, { "id": 360, "x": 51, "y": 944, "t": 0 }, { "id": 361, "x": 91, "y": 944, "t": 1 }, { "id": 362, "x": 130, "y": 944, "t": 0 }, { "id": 363, "x": 170, "y": 944, "t": 0 }, { "id": 364, "x": 209, "y": 944, "t": 0 }, { "id": 365, "x": 249, "y": 944, "t": 0 }, { "id": 366, "x": 288, "y": 944, "t": 1 }, { "id": 367, "x": 328, "y": 944, "t": 0 }, { "id": 368, "x": 367, "y": 944, "t": 1 }, { "id": 369, "x": 407, "y": 944, "t": 0 }, { "id": 370, "x": 446, "y": 944, "t": 1 }, { "id": 371, "x": 486, "y": 944, "t": 0 }, { "id": 372, "x": 525, "y": 944, "t": 1 }, { "id": 373, "x": 565, "y": 944, "t": 0 }, { "id": 374, "x": 604, "y": 944, "t": 0 }, { "id": 375, "x": 644, "y": 944, "t": 1 }, { "id": 376, "x": 683, "y": 944, "t": 0 }, { "id": 377, "x": 723, "y": 944, "t": 0 }, { "id": 378, "x": 762, "y": 944, "t": 0 }, { "id": 379, "x": 802, "y": 944, "t": 0 }, { "id": 384, "x": 51, "y": 994, "t": 1 }, { "id": 385, "x": 91, "y": 994, "t": 0 }, { "id": 386, "x": 130, "y": 994, "t": 0 }, { "id": 387, "x": 170, "y": 994, "t": 1 }, { "id": 388, "x": 209, "y": 994, "t": 1 }, { "id": 389, "x": 249, "y": 994, "t": 0 }, { "id": 390, "x": 288, "y": 994, "t": 0 }, { "id": 391, "x": 328, "y": 994, "t": 0 }, { "id": 392, "x": 367, "y": 994, "t": 0 }, { "id": 393, "x": 407, "y": 994, "t": 0 }, { "id": 394, "x": 446, "y": 994, "t": 0 }, { "id": 395, "x": 486, "y": 994, "t": 1 }, { "id": 396, "x": 525, "y": 994, "t": 0 }, { "id": 397, "x": 565, "y": 994, "t": 0 }, { "id": 398, "x": 604, "y": 994, "t": 0 }, { "id": 399, "x": 644, "y": 994, "t": 0 }, { "id": 400, "x": 683, "y": 994, "t": 0 }, { "id": 401, "x": 723, "y": 994, "t": 0 }, { "id": 402, "x": 762, "y": 994, "t": 1 }, { "id": 403, "x": 802, "y": 994, "t": 1 }, { "id": 408, "x": 51, "y": 1045, "t": 0 }, { "id": 409, "x": 91, "y": 1045, "t": 1 }, { "id": 410, "x": 130, "y": 1045, "t": 0 }, { "id": 411, "x": 170, "y": 1045, "t": 0 }, { "id": 412, "x": 209, "y": 1045, "t": 0 }, { "id": 413, "x": 249, "y": 1045, "t": 1 }, { "id": 414, "x": 288, "y": 1045, "t": 0 }, { "id": 415, "x": 328, "y": 1045, "t": 0 }, { "id": 416, "x": 367, "y": 1045, "t": 1 }, { "id": 417, "x": 407, "y": 1045, "t": 0 }, { "id": 418, "x": 446, "y": 1045, "t": 0 }, { "id": 419, "x": 486, "y": 1045, "t": 0 }, { "id": 420, "x": 525, "y": 1045, "t": 0 }, { "id": 421, "x": 565, "y": 1045, "t": 1 }, { "id": 422, "x": 604, "y": 1045, "t": 0 }, { "id": 423, "x": 644, "y": 1045, "t": 0 }, { "id": 424, "x": 683, "y": 1045, "t": 1 }, { "id": 425, "x": 723, "y": 1045, "t": 1 }, { "id": 426, "x": 762, "y": 1045, "t": 0 }, { "id": 427, "x": 802, "y": 1045, "t": 0 }, { "id": 428, "x": 51, "y": 1095, "t": 0 }, { "id": 429, "x": 91, "y": 1095, "t": 0 }, { "id": 430, "x": 130, "y": 1095, "t": 0 }, { "id": 431, "x": 170, "y": 1095, "t": 1 }, { "id": 432, "x": 209, "y": 1095, "t": 0 }, { "id": 433, "x": 249, "y": 1095, "t": 0 }, { "id": 434, "x": 288, "y": 1095, "t": 1 }, { "id": 435, "x": 328, "y": 1095, "t": 1 }, { "id": 436, "x": 367, "y": 1095, "t": 0 }, { "id": 437, "x": 407, "y": 1095, "t": 0 }, { "id": 438, "x": 446, "y": 1095, "t": 1 }, { "id": 439, "x": 486, "y": 1095, "t": 0 }, { "id": 440, "x": 525, "y": 1095, "t": 0 }, { "id": 441, "x": 565, "y": 1095, "t": 0 }, { "id": 442, "x": 604, "y": 1095, "t": 1 }, { "id": 443, "x": 644, "y": 1095, "t": 0 }, { "id": 444, "x": 683, "y": 1095, "t": 0 }, { "id": 445, "x": 723, "y": 1095, "t": 0 }, { "id": 446, "x": 762, "y": 1095, "t": 0 }, { "id": 447, "x": 802, "y": 1095, "t": 0 }, { "id": 448, "x": 51, "y": 1146, "t": 0 }, { "id": 449, "x": 91, "y": 1146, "t": 1 }, { "id": 450, "x": 130, "y": 1146, "t": 0 }, { "id": 451, "x": 170, "y": 1146, "t": 0 }, { "id": 452, "x": 209, "y": 1146, "t": 1 }, { "id": 453, "x": 249, "y": 1146, "t": 0 }, { "id": 454, "x": 288, "y": 1146, "t": 0 }, { "id": 455, "x": 328, "y": 1146, "t": 0 }, { "id": 456, "x": 367, "y": 1146, "t": 0 }, { "id": 457, "x": 407, "y": 1146, "t": 1 }, { "id": 458, "x": 446, "y": 1146, "t": 0 }, { "id": 459, "x": 486, "y": 1146, "t": 0 }, { "id": 460, "x": 525, "y": 1146, "t": 1 }, { "id": 461, "x": 565, "y": 1146, "t": 0 }, { "id": 462, "x": 604, "y": 1146, "t": 0 }, { "id": 463, "x": 644, "y": 1146, "t": 0 }, { "id": 464, "x": 683, "y": 1146, "t": 1 }, { "id": 465, "x": 723, "y": 1146, "t": 0 }, { "id": 466, "x": 762, "y": 1146, "t": 0 }, { "id": 467, "x": 802, "y": 1146, "t": 1 }] },                // =================================================================
 
                 state: 'instructions',
-                time: 60,
+                time: 240, // 4 minutes
                 timer: null,
                 grid: [],
                 lastSelectedIndex: -1,
@@ -487,9 +496,16 @@
                 reviewMode: false,
                 preparing: false,
 
+                // Calibration (Initial guess - Reset to neutral for new coordinates)
+                showCalibration: false,
+                calX: 3,
+                calY: 0,
+                scaleX: 1.046,
+                scaleY: 1.002,
+
                 init() {
                     this.loadHistory();
-                    // Constrói grid baseado nos items com coordenadas
+                    // Constrói grid
                     this.grid = this.config.items.map(item => ({
                         ...item,
                         marked: false,
@@ -499,8 +515,13 @@
                 },
                 history: [],
 
+                toggleCalibration() {
+                    this.showCalibration = !this.showCalibration;
+                },
+
                 startVoiceCommand() {
                     this.preparing = true;
+                    // Using same audio as template
                     const audio = document.getElementById('cmd-audio');
                     audio.play().then(() => {
                         audio.onended = () => {
@@ -516,7 +537,7 @@
 
                 startTest() {
                     this.state = 'testing';
-                    window.scrollTo(0, 0); // Rola para o topo para ver o modelo
+                    window.scrollTo(0, 0); // Rola para o topo
                     this.timer = setInterval(() => {
                         this.time--;
                         if (this.time <= 0) this.finishTest();
@@ -540,6 +561,7 @@
                         item.marked = true;
                     }
 
+                    // Se marcou ou anulou, atualiza o índice máximo
                     if (index > this.lastSelectedIndex) {
                         this.lastSelectedIndex = index;
                     }
@@ -554,6 +576,14 @@
                     if (index > this.lastSelectedIndex) {
                         this.lastSelectedIndex = index;
                     }
+                },
+
+                recalcLastIndex() {
+                    let last = -1;
+                    for (let i = 0; i < this.grid.length; i++) {
+                        if (this.grid[i].marked) last = i;
+                    }
+                    this.lastSelectedIndex = last;
                 },
 
                 finishTest() {
@@ -576,86 +606,62 @@
                     const score = hits - (errors + omissions);
                     this.results = { hits, errors, omissions, score };
 
+                    this.saveHistory(this.results);
                     this.state = 'results';
                     window.scrollTo(0, 0);
 
-                    // Confetti se aprovado
-                    if (this.results.score >= 32) {
-                        const duration = 3000;
-                        const end = Date.now() + duration;
-
-                        (function frame() {
-                            confetti({
-                                particleCount: 5,
-                                angle: 60,
-                                spread: 55,
-                                origin: { x: 0 },
-                                colors: ['#9f54ff', '#ff00ff', '#00c2ff']
-                            });
-                            confetti({
-                                particleCount: 5,
-                                angle: 120,
-                                spread: 55,
-                                origin: { x: 1 },
-                                colors: ['#9f54ff', '#ff00ff', '#00c2ff']
-                            });
-
-                            if (Date.now() < end) {
-                                requestAnimationFrame(frame);
-                            }
-                        }());
+                    // Efeitos
+                    if (score >= 72) {
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#22c55e', '#00ff00', '#ffffff'] // Verde
+                        });
+                        const audio = new Audio('../../vozes/aprovado.mp3');
+                        audio.play().catch(e => console.log(e));
                     } else {
-                        document.getElementById('time-up-audio').play().catch(e => console.log("Audio play err", e));
+                        // Opcional: som de falha
+                        // const audio = new Audio('../../vozes/reprovado.mp3');
+                        // audio.play().catch(e => console.log(e));
                     }
+                },
 
-                    this.saveHistory();
+                formatTime(seconds) {
+                    const m = Math.floor(seconds / 60);
+                    const s = seconds % 60;
+                    return `${m}:${s.toString().padStart(2, '0')}`;
                 },
 
                 showVisualReview() {
-                    this.reviewMode = true;
-                    setTimeout(() => {
-                        document.querySelector('.test-paper-container').scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
+                    this.reviewMode = !this.reviewMode;
                 },
 
-                formatTime(s) {
-                    const min = Math.floor(s / 60).toString().padStart(2, '0');
-                    const sec = (s % 60).toString().padStart(2, '0');
-                    return `${min}:${sec}`;
+                saveHistory(result) {
+                    const now = new Date();
+                    const entry = {
+                        date: now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR'),
+                        score: result.score,
+                        passed: result.score >= 72
+                    };
+                    this.history.unshift(entry);
+                    if (this.history.length > 10) this.history.pop();
+                    localStorage.setItem('bpa_ad_history', JSON.stringify(this.history));
                 },
 
                 loadHistory() {
-                    const h = localStorage.getItem('ctaac_history');
-                    if (h) this.history = JSON.parse(h);
-                },
-
-                saveHistory() {
-                    const passed = this.results.score >= 32;
-                    this.history.unshift({
-                        date: new Date().toLocaleString('pt-BR'),
-                        score: this.results.score,
-                        passed: passed
-                    });
-                    localStorage.setItem('ctaac_history', JSON.stringify(this.history));
+                    const saved = localStorage.getItem('bpa_ad_history');
+                    if (saved) {
+                        this.history = JSON.parse(saved);
+                    }
                 },
 
                 clearHistory() {
-                    if (confirm('Limpar histórico?')) {
-                        localStorage.removeItem('ctaac_history');
-                        this.history = [];
-                    }
+                    this.history = [];
+                    localStorage.removeItem('bpa_ad_history');
                 }
-            }));
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const studentName = sessionStorage.getItem('memberName') || 'Visitante';
-            const nameElement = document.getElementById('header-student-name');
-            if (nameElement) {
-                nameElement.textContent = studentName;
-            }
-        });
+            }))
+        })
     </script>
 </body>
 

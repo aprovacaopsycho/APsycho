@@ -105,13 +105,28 @@
         .hit-zone.marked::after {
             content: '';
             position: absolute;
-            width: 80%;
-            height: 3px;
-            background-color: #0044ff;
+            width: 120%;
+            height: 5px;
+            background-color: #ff00b3;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
             border-radius: 2px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Anulação (Círculo) */
+        .hit-zone.annulled::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid #ff00ff;
+            /* Pink accent */
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
         }
 
@@ -362,26 +377,16 @@
                     <!-- AREA DE CLIQUE (HIT ZONES) -->
                     <div class="items-layer">
                         <template x-for="(item, index) in grid" :key="item.id">
-                            <div class="hit-zone border border-transparent hover:border-blue-500/30"
-                                :class="{'bg-blue-500/20': item.marked, 'bg-red-500/20': item.cancelled}" :style="`
+                            <div class="hit-zone border border-transparent hover:border-blue-500/30" :class="{
+                                    'bg-blue-500/20': item.marked,
+                                    'marked': item.marked,
+                                    'annulled': item.annulled
+                                }" :style="`
                             left: ${(item.x / config.imgWidth) * 100}%; 
                             top: ${(item.y / config.imgHeight) * 100}%; 
                             width: ${(config.boxW / config.imgWidth) * 100}%; 
                             height: ${(config.boxH / config.imgHeight) * 100}%;
                         `" @click="handleClick(index)" @dblclick="handleDblClick(index)">
-
-                                <!-- Visual Indicator for Marked (Slash) -->
-                                <div x-show="item.marked && !item.cancelled"
-                                    class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                                    <div
-                                        class="w-[2px] h-[120%] bg-blue-600 rotate-45 transform origin-center shadow-sm">
-                                    </div>
-                                </div>
-
-                                <!-- Visual Indicator for Cancelled (Circle) -->
-                                <div x-show="item.cancelled"
-                                    class="absolute inset-0 border-2 border-blue-600 rounded-full pointer-events-none">
-                                </div>
                             </div>
                         </template>
                     </div>
@@ -458,7 +463,8 @@
                                       'res-correct': item.marked && item.isTarget,
                                       'res-error': item.marked && !item.isTarget,
                                       'res-omission': !item.marked && item.isTarget && index <= lastSelectedIndex,
-                                      'marked': item.marked
+                                      'marked': item.marked,
+                                      'annulled': item.annulled
                                     }" :style="`
                                         left: ${(item.x / config.imgWidth) * 100}%; 
                                         top: ${(item.y / config.imgHeight) * 100}%; 
@@ -1266,13 +1272,11 @@
 
                 init() {
                     this.loadHistory();
-                    if (this.config.items.length === 0) {
-                        console.warn('SEM COORDENADAS CONFIGURADAS! Use o debug_cta_aa.html');
-                    }
+                    // Constrói grid baseado nos items com coordenadas
                     this.grid = this.config.items.map(item => ({
                         ...item,
                         marked: false,
-                        cancelled: false,
+                        annulled: false,
                         isTarget: item.t === 1
                     }));
                 },
@@ -1280,27 +1284,22 @@
 
                 startVoiceCommand() {
                     this.preparing = true;
-                    // Tenta tocar o audio
                     const audio = document.getElementById('cmd-audio');
-                    if (audio) {
-                        audio.play().then(() => {
-                            audio.onended = () => {
-                                this.preparing = false;
-                                this.startTest();
-                            };
-                        }).catch(e => {
-                            console.warn("Erro audio:", e);
+                    audio.play().then(() => {
+                        audio.onended = () => {
                             this.preparing = false;
                             this.startTest();
-                        });
-                    } else {
-                        this.startTest();
-                    }
+                        };
+                    }).catch(e => {
+                        console.error("Erro audio:", e);
+                        this.preparing = false;
+                        this.startTest(); // Fallback
+                    });
                 },
 
                 startTest() {
                     this.state = 'testing';
-                    window.scrollTo(0, 0);
+                    window.scrollTo(0, 0); // Rola para o topo para ver o modelo
                     this.timer = setInterval(() => {
                         this.time--;
                         if (this.time <= 0) this.finishTest();
@@ -1308,10 +1307,21 @@
                 },
 
                 handleClick(index) {
-                    if (this.grid[index].cancelled) return; // Se anulado, não mexe
-                    if (this.grid[index].marked) return;
+                    const item = this.grid[index];
 
-                    this.grid[index].marked = true;
+                    // Ciclo: Desmarcado -> Marcado -> Anulado -> Desmarcado
+                    if (!item.marked && !item.annulled) {
+                        // 1. Marcar
+                        item.marked = true;
+                    } else if (item.marked) {
+                        // 2. Anular (Círculo)
+                        item.marked = false;
+                        item.annulled = true;
+                    } else if (item.annulled) {
+                        // 3. Voltar para Marcado (Impossível desmarcar)
+                        item.annulled = false;
+                        item.marked = true;
+                    }
 
                     if (index > this.lastSelectedIndex) {
                         this.lastSelectedIndex = index;
