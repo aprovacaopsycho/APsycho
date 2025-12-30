@@ -203,6 +203,19 @@
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     10. BPA <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'bpa'"></i>
                 </button>
+
+                <button @click="section = 'bda'; document.getElementById('bda').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'bda' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    11. BDA <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'bda'"></i>
+                </button>
+
+                <button
+                    @click="section = 'tecon'; document.getElementById('tecon').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'tecon' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    12. TECON <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'tecon'"></i>
+                </button>
             </div>
         </aside>
 
@@ -230,7 +243,7 @@
 
                 <!-- Controle de Zoom de Imagem -->
                 <div class="flex items-center gap-1 bg-white/5 rounded-lg p-1 border border-white/5"
-                    x-show="['diffuse', 'tedif2', 'tedif3', 'cta', 'rotas', 'bpa'].includes(section)">
+                    x-show="['diffuse', 'tedif2', 'tedif3', 'cta', 'rotas', 'bpa', 'bda', 'tecon'].includes(section)">
                     <button @click="imageScale = Math.max(20, imageScale - 10)"
                         class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
                         title="Diminuir Imagens">
@@ -756,7 +769,7 @@
                             </div>
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
                                 <img src="../../Imagens_base/apostila/CTA/cta_ac.PNG" alt="CTA-AC"
-                                    class="mx-auto max-h-60" :style="'transform: scale(' + (imageScale/100) + ')'">
+                                    class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
                             <div class="mb-6">
@@ -803,7 +816,7 @@
                             </div>
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
                                 <img src="../../Imagens_base/apostila/CTA/cta_ad.PNG" alt="CTA-AD"
-                                    class="mx-auto max-h-60" :style="'transform: scale(' + (imageScale/100) + ')'">
+                                    class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
                             <div class="mb-6">
@@ -850,7 +863,7 @@
                             </div>
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
                                 <img src="../../Imagens_base/apostila/CTA/cta_aa.PNG" alt="CTA-AA"
-                                    class="mx-auto max-h-60" :style="'transform: scale(' + (imageScale/100) + ')'">
+                                    class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
                             <div class="mb-6">
@@ -927,7 +940,7 @@
                             </div>
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
                                 <img src="../../Imagens_base/apostila/rotas/rotaa_exemplo.png" alt="Rota A"
-                                    class="mx-auto max-h-60" :style="'transform: scale(' + (imageScale/100) + ')'">
+                                    class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
                             <div class="mb-6">
@@ -974,7 +987,7 @@
                             </div>
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
                                 <img src="../../Imagens_base/apostila/rotas/rotac_exemplo.png" alt="Rota C"
-                                    class="mx-auto max-h-60" :style="'transform: scale(' + (imageScale/100) + ')'">
+                                    class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
                             <div class="mb-6">
@@ -1021,7 +1034,7 @@
                             </div>
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
                                 <img src="../../Imagens_base/apostila/rotas/rotad_exemplo.png" alt="Rota D"
-                                    class="mx-auto max-h-60" :style="'transform: scale(' + (imageScale/100) + ')'">
+                                    class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
                             <div class="mb-6">
@@ -1102,7 +1115,7 @@
                             </div>
 
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                <img src="../../Imagens_base/bpa/BPA AC1.jpg" alt="BPA-AC" class="mx-auto max-h-60"
+                                <img src="../../Imagens_base/bpa/BPA AC1.jpg" alt="BPA-AC" class="mx-auto max-h-70"
                                     :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
 
@@ -1153,7 +1166,9 @@
                             <div class="mt-4 p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-6">
                                 <h4 class="text-yellow-400 font-bold mb-1"><i class="fas fa-lightbulb mr-2"></i>Bizu
                                 </h4>
-                                <p class="text-gray-300 text-sm">6 figuras corretas por linha, sendo duas de cada tipo.
+                                <p class="text-gray-300 text-sm"><b>6 figuras</b> corretas por linha, sendo duas de cada
+                                    tipo.
+                                    Para facilitar, deve-se procurar na seguinte <b>ordem:</b>
                                 </p>
                                 <div class="mt-2 text-center">
                                     <img src="../../Imagens_base/bpa/image_25.png" alt="Bizu BPA AD"
@@ -1162,7 +1177,7 @@
                             </div>
 
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                <img src="../../Imagens_base/bpa/BPA AD1.jpg" alt="BPA-AD" class="mx-auto max-h-60"
+                                <img src="../../Imagens_base/bpa/BPA AD1.jpg" alt="BPA-AD" class="mx-auto max-h-70"
                                     :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
 
@@ -1220,7 +1235,7 @@
                             </div>
 
                             <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                <img src="../../Imagens_base/bpa/BPA AA1.jpg" alt="BPA-AA" class="mx-auto max-h-60"
+                                <img src="../../Imagens_base/bpa/BPA AA1.jpg" alt="BPA-AA" class="mx-auto max-h-70"
                                     :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
 
@@ -1235,6 +1250,459 @@
                                         </div>
                                         <div>
                                             <h4 class="font-bold text-white">Simulador BPA-AA</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="w-full h-px bg-white/10 my-8"></div>
+
+                <!-- 11. BDA -->
+                <section id="bda" class="scroll-mt-28">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">11</span>
+                        BDA - Bateria Diferencial de Atenção
+                    </h2>
+
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                        <p class="mb-6">A Bateria Diferencial de Atenção (BDA) é um instrumento que avalia três
+                            modalidades de atenção: alternada, concentrada e difusa/dividida. Para cada uma dessas
+                            modalidades, a BDA disponibiliza três formas distintas de avaliação (A, B e C). Assim, tanto
+                            a atenção alternada quanto a concentrada e a difusa/dividida podem ser avaliadas em qualquer
+                            uma dessas três formas, totalizando nove combinações possíveis para mensuração dos
+                            diferentes tipos de atenção.</p>
+
+                        <!-- BDA-AC -->
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-white mb-4">BDA-AC (Atenção Concentrada)</h3>
+                            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">2 min</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">55</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-list-ol mb-2 text-blue-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">80</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Total Itens</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-6">
+                                <h4 class="text-yellow-400 font-bold mb-1"><i
+                                        class="fas fa-exclamation-triangle mr-2"></i>Atenção</h4>
+                                <p class="text-gray-300 text-sm">Não há quantidade fixa por linha.</p>
+                            </div>
+
+                            <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/bda/bda_ac.png" alt="BDA-AC" class="mx-auto max-h-70"
+                                    :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- SIMULADOR BTN -->
+                            <div class="mb-6">
+                                <a href="../bda/bda_ac.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador BDA-AC</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- BDA-AD -->
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-white mb-4">BDA-AD (Atenção Dividida)</h3>
+                            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">2 min</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">55</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-list-ol mb-2 text-blue-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">80</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Total Itens</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-6">
+                                <h4 class="text-yellow-400 font-bold mb-1"><i
+                                        class="fas fa-exclamation-triangle mr-2"></i>Atenção</h4>
+                                <p class="text-gray-300 text-sm">Não há quantidade fixa por linha.</p>
+                            </div>
+
+                            <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/bda/bda_ad.png" alt="BDA-AD" class="mx-auto max-h-70"
+                                    :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- SIMULADOR BTN -->
+                            <div class="mb-6">
+                                <a href="../bda/bda_ad.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador BDA-AD</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- BDA-AA -->
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-white mb-4">BDA-AA (Atenção Alternada)</h3>
+                            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">2 min</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">55</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-list-ol mb-2 text-blue-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">80</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Total Itens</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-6">
+                                <h4 class="text-yellow-400 font-bold mb-1"><i
+                                        class="fas fa-exclamation-triangle mr-2"></i>Atenção</h4>
+                                <p class="text-gray-300 text-sm">Não há quantidade fixa por linha.</p>
+                            </div>
+
+                            <div class="mb-4 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/bda/bda_aa.png" alt="BDA-AA" class="mx-auto max-h-70"
+                                    :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- SIMULADOR BTN -->
+                            <div class="mb-6">
+                                <a href="../bda/bda_aa.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador BDA-AA</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- 12. TECON -->
+                <section id="tecon" class="scroll-mt-28">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">12</span>
+                        TECON (Atenção Concentrada Complexa)
+                    </h2>
+
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                        <p class="mb-6 text-lg">Atenção Concentrada Complexa é a habilidade mental de focar em um grupo
+                            de estímulos enquanto ignora um grupo maior e semelhante de distrações.</p>
+
+                        <!-- TECON 1 -->
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-white mb-4">TECON-1</h3>
+
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">3min 30s</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">96</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (16 Linhas)</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-calculator mb-2 text-purple-400 text-xl"></i>
+                                    <span class="text-sm font-bold text-white">Acertos - (Erros + Omissões)</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação</span>
+                                </div>
+                            </div>
+
+                            <!-- Warning -->
+                            <div class="mb-6 p-4 border-l-4 border-red-500 bg-red-500/10 rounded-r-lg">
+                                <h4 class="text-red-400 font-bold mb-1"><i
+                                        class="fas fa-exclamation-circle mr-2"></i>Como
+                                    Anular Erro</h4>
+                                <p class="text-gray-300 text-sm">Se por acaso alguém riscar errado um quadrado, deverá
+                                    fazer
+                                    um outro risco, completando um <strong>X</strong>. O erro será processado como
+                                    anulado. (No simulador: <strong>Clique Duplo</strong>)</p>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/tecon/tecon1_exemplo.png" alt="Exemplo TECON 1"
+                                    class="mx-auto max-h-72" :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- Tips -->
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
+                                    <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Dica
+                                        1</h4>
+                                    <ul class="list-disc pl-5 text-gray-300 text-sm space-y-1">
+                                        <li>6 figuras corretas por linha (a última linha só tem 4)</li>
+                                        <li>Se tiver 2 azuis ⬆️ ⬆️, terá 2 vermelhos ⬇️⬇️. Logo resta 1 amarelo ➡️ e 1
+                                            verde
+                                            ⬅️.</li>
+                                        <li>Se tiver 2 verdes ⬅️⬅️, terá dois amarelos ➡️➡️. Logo resta 1 azul ⬆️ e 1
+                                            vermelho ⬇️.</li>
+                                    </ul>
+                                </div>
+                                <div class="p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg">
+                                    <h4 class="text-blue-400 font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>Dica
+                                        2</h4>
+                                    <ul class="list-disc pl-5 text-gray-300 text-sm space-y-1">
+                                        <li>Céu 🟦 e Inferno 🟥</li>
+                                        <li>Vai buscar o ouro 🟨, volta para floresta 🟩</li>
+                                    </ul>
+                                    <div class="mt-2 rounded overflow-hidden border border-white/10">
+                                        <img src="../../Imagens_base/tecon/tecon1_dica.png" alt="Dica TECON 1"
+                                            class="w-full h-auto opacity-80 hover:opacity-100 transition">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Simulator Button -->
+                            <div class="mb-6">
+                                <a href="../tecon/tecon1.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador TECON-1</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-px bg-white/10 my-8"></div>
+
+                        <!-- TECON 2 -->
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-white mb-4">TECON-2</h3>
+
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">3min 30s</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">96</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (16 Linhas)</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-calculator mb-2 text-purple-400 text-xl"></i>
+                                    <span class="text-sm font-bold text-white">Acertos - (Erros + Omissões)</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação</span>
+                                </div>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/tecon/tecon2_exemplo.png" alt="Exemplo TECON 2"
+                                    class="mx-auto max-h-72" :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- Tips -->
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
+                                    <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Dica
+                                        1
+                                    </h4>
+                                    <ul class="list-disc pl-5 text-gray-300 text-sm space-y-1">
+                                        <li>6 figuras corretas por linha</li>
+                                        <li>Se tiver 2 azuis, terá 2 vermelhos. Logo resta 1 amarelo e 1 verde.</li>
+                                        <li>Se tiver 2 verdes, terá dois amarelos. Logo resta 1 azul e 1 vermelho.</li>
+                                    </ul>
+                                    <div class="mt-2 rounded overflow-hidden border border-white/10 mb-3">
+                                        <img src="../../Imagens_base/tecon/tecon2_dica.png" alt="Dica TECON 2 - 1"
+                                            class="w-full h-auto opacity-80 hover:opacity-100 transition">
+                                    </div>
+                                </div>
+                                <div class="p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg">
+                                    <h4 class="text-blue-400 font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>Dica
+                                        2</h4>
+
+                                    <div class="mt-2 rounded overflow-hidden border border-white/10">
+                                        <img src="../../Imagens_base/tecon/tecon2_dica2.png" alt="Dica TECON 2 - 2"
+                                            class="w-full h-auto opacity-80 hover:opacity-100 transition">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Simulator Button -->
+                            <div class="mb-6">
+                                <a href="../tecon/tecon2.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador TECON-2</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="w-full h-px bg-white/10 my-8"></div>
+
+                        <!-- TECON 3 -->
+                        <div class="mb-12">
+                            <h3 class="text-2xl font-bold text-white mb-4">TECON-3</h3>
+
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">3min 30s</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">96</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (16 Linhas)</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-calculator mb-2 text-purple-400 text-xl"></i>
+                                    <span class="text-sm font-bold text-white">Acertos - (Erros + Omissões)</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação</span>
+                                </div>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/tecon/tecon3_exemplo.png" alt="Exemplo TECON 3"
+                                    class="mx-auto max-h-72" :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- Tips -->
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
+                                    <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Dica
+                                        1
+                                    </h4>
+
+                                    <ul class="list-disc pl-5 text-gray-300 text-sm space-y-1">
+                                        <li>6 figuras corretas por linha</li>
+                                        <li>Se tiver 2 azuis, terá 2 vermelhos. Logo resta 1 amarelo e 1 verde.</li>
+                                        <li>Se tiver 2 verdes, terá dois amarelos. Logo resta 1 azul e 1 vermelho.</li>
+                                    </ul>
+                                    <div class="mt-2 rounded overflow-hidden border border-white/10 mb-4">
+                                        <img src="../../Imagens_base/tecon/tecon3_dica.png" alt="Dica TECON 3 - 1"
+                                            class="w-full h-auto opacity-80 hover:opacity-100 transition">
+                                    </div>
+                                </div>
+                                <div class="p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg">
+                                    <h4 class="text-blue-400 font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>Dica
+                                        2
+                                    </h4>
+                                    <div class="mt-2 rounded overflow-hidden border border-white/10">
+                                        <img src="../../Imagens_base/tecon/tecon3_dica2.png" alt="Dica TECON 3 - 2"
+                                            class="w-full h-auto opacity-80 hover:opacity-100 transition">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Simulator Button -->
+                            <div class="mb-6">
+                                <a href="../tecon/tecon3.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador TECON-3</h4>
                                             <p class="text-xs text-gray-400">Pratique agora</p>
                                         </div>
                                     </div>

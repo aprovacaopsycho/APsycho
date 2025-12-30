@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Avaliação EATA | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #333;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 10px 30px rgba(159, 84, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        [x-cloak] {
+            display: none !important
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            position: relative;
+            isolation: isolate;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            /* animated grid glow */
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background:
+                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none
+        }
+
+        .scale-option input:checked+div {
+            background: rgba(159, 84, 255, 0.2);
+            border-color: var(--primary-purple);
+            color: white;
+            box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--primary-purple);
+        }
+
+        /* Efeito Reprovado/Inapto */
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
+                            style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">EATA</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2025</span>
+                </div>
+                <a href="testes_personalidade.html"
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div id="screen-dashboard" class="fade-in">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-white mb-2">Painel de Controle</h2>
+                <p class="text-gray-400">Escala para Avaliação de Tendência à Agressividade.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                            <i class="fas fa-clipboard-check text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total</span>
+                    </div>
+                    <div class="text-4xl font-bold text-white mb-1" id="dash-total">0</div>
+                    <p class="text-sm text-gray-500">Testes realizados</p>
+                </div>
+
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-cyan-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                            <i class="fas fa-stopwatch text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Último</span>
+                    </div>
+                    <div class="text-lg font-bold text-white mb-1 truncate" id="dash-last-date">-</div>
+                    <p class="text-sm text-gray-500" id="dash-last-status">Sem dados</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#151427] to-[#1a1a35] rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+                    onclick="novoTeste()">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 text-white">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3 class="text-white font-bold mb-1">Iniciar Novo Teste</h3>
+                    <p class="text-xs text-gray-400">EATA Completo</p>
+                </div>
+
+
+            </div>
+
+            <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        onclick="limparHistorico()">Limpar Histórico</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-[#0f0e1a]/50">
+                            <tr>
+                                <th class="px-6 py-4 font-medium">Teste</th>
+                                <th class="px-6 py-4 font-medium">Data</th>
+                                <th class="px-6 py-4 font-medium text-center">Pontos</th>
+                                <th class="px-6 py-4 font-medium text-center">Status</th>
+                                <th class="px-6 py-4 font-medium text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5" id="history-container">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-import" class="hidden fade-in max-w-4xl mx-auto">
+            <div class="bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Importar Respostas</h2>
+                        <p class="text-gray-400 text-sm">Cole a lista de números (um por linha ou separados por espaço).
+                            Use 0, 1 ou 2. Exatamente 40 respostas.</p>
+                    </div>
+                    <button onclick="showScreen('dashboard')" class="text-gray-500 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <textarea id="input-answers"
+                    class="w-full h-64 bg-[#0f0e1a] border border-white/10 rounded-xl p-4 text-white font-mono text-xs focus:ring-2 focus:ring-purple-500 outline-none mb-4"
+                    placeholder="Ex: 
+0
+1
+2
+..."></textarea>
+
+                <div class="flex justify-between items-center">
+                    <span id="count-display" class="text-xs font-bold text-gray-500">0 respostas detectadas</span>
+                    <button onclick="processarInputImportado()"
+                        class="px-8 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold hover:shadow-lg hover:shadow-purple-500/20 transition-all">
+                        <i class="fas fa-calculator mr-2"></i> PROCESSAR
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-quiz" class="hidden fade-in max-w-5xl mx-auto">
+            <div
+                class="bg-[#151427] rounded-2xl p-6 border border-white/5 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">EATA</h2>
+                        <p class="text-sm text-gray-400">Escala para Avaliação de Tendência à Agressividade</p>
+                        <p class="text-xs text-gray-500 mt-1">0: Nunca/Raramente | 1: Às vezes | 2: Muito Frequentemente
+                        </p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-cyan-400" id="progress-text">0%</span>
+                    </div>
+                </div>
+                <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ease-out"
+                        id="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Unified Timer (Vanilla JS) -->
+            <div id="unified-timer-container"
+                class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+                <div id="unified-timer-pill"
+                    class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                    <div id="unified-timer-display"
+                        class="font-mono text-3xl font-black text-white tabular-nums leading-none">20:00</div>
+                </div>
+            </div>
+
+            <!-- FILTRO E TIMER -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+                <div></div> <!-- Spacer -->
+
+                <button onclick="abrirImportacao()"
+                    class="flex items-center gap-2 bg-[#151427] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium">
+                    <i class="fas fa-paste text-purple-400"></i>
+                    Colar Respostas
+                </button>
+            </div>
+
+            <div id="quiz-container" class="space-y-6">
+            </div>
+
+            <div class="mt-10 flex flex-col items-center gap-4 pb-20">
+                <button onclick="calculate()"
+                    class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
+                    FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="screen-result" class="hidden fade-in">
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+                <div>
+                    <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÓRIO DE PERFIL</h2>
+                    <p class="text-gray-400 flex items-center gap-2">
+                        <i class="far fa-calendar-alt"></i> <span id="report-date">...</span>
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0 text-center">
+                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div id="final-status-badge"
+                        class="px-8 py-3 rounded-full text-xl font-bold bg-gray-800 text-gray-400 border border-gray-700">
+                        CALCULANDO...
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mb-8 no-print">
+                <button onclick="editarRespostas()"
+                    class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/30 transition font-medium text-sm">
+                    <i class="fas fa-edit mr-1"></i> Editar Respostas
+                </button>
+                <button onclick="showScreen('dashboard')"
+                    class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition font-medium text-sm">
+                    <i class="fas fa-arrow-left mr-1"></i> Voltar
+                </button>
+                <button onclick="window.print()"
+                    class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/30 transition font-medium text-sm">
+                    <i class="fas fa-print mr-1"></i> Imprimir PDF
+                </button>
+            </div>
+
+            <div id="report-content" class="space-y-10">
+            </div>
+
+            <div class="mt-20 text-center border-t border-white/5 pt-10 pb-10">
+                <p class="text-gray-600 text-sm">Aprovação Psycho - Método Titan - EATA</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        /* ================= DADOS EATA ================= */
+
+        const DATA_QUESTIONS = [
+            { "id": 1, "text": "AO COMETER UM ERRO, MOSTRO INDIFERENÇA" },
+            { "id": 2, "text": "CULPO OUTRA PESSOAS POR COISAS QUE FIZ" },
+            { "id": 3, "text": "FALO DOS OUTROS PELAS COSTAS" },
+            { "id": 4, "text": "GOSTO DE BATER EM ANIMAIS" },
+            { "id": 5, "text": "GOSTO DE BRINCAR DE EMPURRAR OU PROVOCAR QUEDAS PARA CAUSAR CONSTRANGIMENTO" },
+            { "id": 6, "text": "GOSTO DE DEIXAR AS PESSOAS COM RAIVA DE MIM" },
+            { "id": 7, "text": "GOSTO DE MOSTRAR MEUS CONHECIMENTOS" },
+            { "id": 8, "text": "QUANDO NÃO GOSTO DE ALGUÉM, SINTO VONTADE DE ESCONDER A VERDADE PARA PREJUDICÁ-LO" },
+            { "id": 9, "text": "QUANDO NÃO GOSTO DE ALGUÉM, SINTO VONTADE DE CRIAR UMA SITUAÇÃO PARA DESAFIÁ-LO" },
+            { "id": 10, "text": "QUANDO SINTO RAIVA, TENHO VONTADE DE DESCONTAR EM ALGUÉM" },
+            { "id": 11, "text": "RELATO SENTIMENTOS NÃO VERDADEIROS PARA INICIAR UM RELACIONAMENTO SEXUAL" },
+            { "id": 12, "text": "TENHO VONTADE DE ANDAR ARMADO" },
+            { "id": 13, "text": "TRANSO SEM PRESERVATIVO COM DIFERENTES PARCEIROS" },
+            { "id": 14, "text": "XINGO PESSOAS POR NÃO QUEREREM TER RELAÇÕES SEXUAIS COMIGO" },
+            { "id": 15, "text": "ALTERO O TOM DE VOZ QUANDO NÃO SOU ATENDIDO OU ENTENDIDO" },
+            { "id": 16, "text": "AUMENTO UMA INFORMAÇÃO PARA PROVOCAR SENTIMENTO DE CULPA NOS OUTROS" },
+            { "id": 17, "text": "DEIXO DE ALIMENTAR MEU ANIMAL DE ESTIMAÇÃO PARA PUNI-LO" },
+            { "id": 18, "text": "DESCARREGO EXTINTORES PARA BRINCAR OU EXTRAVASSAR TENSÃO" },
+            { "id": 19, "text": "DURANTE UMA CONVERSA NÃO DEIXO ESPAÇO PARA O OUTRO SE COLOCAR" },
+            { "id": 20, "text": "ESTACIONO O CARRO EM UMA VAGA PARA DEFICIENTES FÍSICOS" },
+            { "id": 21, "text": "GOSTO DE BATER EM PLACAS DE TRÂNSITO" },
+            { "id": 22, "text": "GOSTO DE CORRER COM O CARRO" },
+            { "id": 23, "text": "PONHO APELIDO MALDOSOS NAS PESSOAS" },
+            { "id": 24, "text": "PROVOCO OS OUTROS RELEMBRANDO FALHAS QUE COMETERAM" },
+            { "id": 25, "text": "QUEBRO E/OU ARRANCO PLANTAS EM JARDINS" },
+            { "id": 26, "text": "SE NÃO TIVER PERIGO DE SER VISTO, ENTRO NO CINEMA SEM PAGAR" },
+            { "id": 27, "text": "SINTO VONTADE DE FAZER COISAS INDEPENDENTE DAS NORMAS" },
+            { "id": 28, "text": "AMEAÇO CONTAR \"SEGREDOS\" DA PESSOAS PARA FORÇÁ-LA A FAZER ALGO" },
+            { "id": 29, "text": "COMETO ERROS PASSADOS MESMO SABENDO O DANO CAUSADO" },
+            { "id": 30, "text": "DIRIJO APÓS INGERIR BEBIDA ALCOÓLICA" },
+            { "id": 31, "text": "DISTORÇO OU AMENIZO UMA INFORMAÇÃO QUE PODERIA ME TRAZER PREJUÍZOS" },
+            { "id": 32, "text": "FAÇO ULTRAPASSAGENS EM LOCAIS PROIBIDOS" },
+            { "id": 33, "text": "GOSTO DE BRIGAR" },
+            { "id": 34, "text": "GOSTO DE CONTROLAR INFORMAÇÕES PARA QUE OS OUTROS FAÇAM O QUE QUERO" },
+            { "id": 35, "text": "GOSTO DE INCOMODAR OS OUTROS" },
+            { "id": 36, "text": "GOSTO DE XAVECAR PESSOAS COM MENOS DE 18 ANOS" },
+            { "id": 37, "text": "QUANDO ENCONTRO COM UMA TURMA, SEMPRE TENHO FOFOCA PARA CONTAR" },
+            { "id": 38, "text": "QUANDO FAÇO ALGO ERRADO, DISFARÇO OU SAIO PARA NÃO PERCEBEREM QUE FUI EU" },
+            { "id": 39, "text": "QUANDO QUEBRO ALGUMA COISA, DIGO QUE FOI OUTRA PESSOA" },
+            { "id": 40, "text": "UTILIZO O NOME DE ALGUÉM PARA CONSEGUIR BENEFÍCIOS SEM SEU CONHECIMENTO" }
+        ];
+
+        // Mapeamento Soma -> Percentil (PTS -> %)
+        const DATA_PERCENTILES = [
+            1, 2, 4, 7, 12, 18, 24, 30, 37, 43, 49, 54, 58, 61, 65,
+            68, 72, 75, 78, 80, 82, 83, 85, 87, 88, 89, 90, 91, 92, 92,
+            93, 93, 93, 93, 93, 93, 93, 94, 94, 94, 94, 94, 94, 94, 94,
+            94, 94, 94, 94, 94, 94, 94, 94, 94, 95, 95, 95, 96, 96, 96,
+            97, 98, 98, 99, 99, 99, 99, 99, 100, 100, 100, 100, 100, 100,
+            100, 100, 100, 100, 100, 100, 100, 100
+        ];
+
+        /* ================= LÓGICA ================= */
+
+        function showScreen(id) {
+            document.getElementById('screen-dashboard').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-import').classList.add('hidden');
+
+            document.getElementById('screen-' + id).classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            if (id === 'dashboard') loadDashboard();
+        }
+
+        function novoTeste() {
+            if (confirm("Iniciar novo teste?")) {
+                document.querySelectorAll('input').forEach(i => i.checked = false);
+                updateProgress();
+                showScreen('quiz');
+
+                // Audio sequencia: Prepare -> Start Timer
+                audioPrepare.play().then(() => {
+                    audioPrepare.onended = () => {
+                        startTimer();
+                    };
+                }).catch(e => {
+                    console.error("Erro prepare:", e);
+                    startTimer();
+                });
+            }
+        }
+
+        function abrirImportacao() {
+            document.getElementById('input-answers').value = '';
+            document.getElementById('count-display').innerText = '0 respostas detectadas';
+            showScreen('import');
+        }
+
+        // Monitor de digitação para importação
+        document.getElementById('input-answers').addEventListener('input', function () {
+            const raw = this.value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+            document.getElementById('count-display').innerText = `${answers.length} respostas detectadas`;
+
+            if (answers.length === 40) {
+                document.getElementById('count-display').className = "text-xs font-bold text-green-400";
+            } else {
+                document.getElementById('count-display').className = "text-xs font-bold text-red-400";
+            }
+        });
+
+        function processarInputImportado() {
+            const raw = document.getElementById('input-answers').value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+
+            if (answers.length !== DATA_QUESTIONS.length) {
+                alert(`Erro: Você forneceu ${answers.length} respostas, mas o teste requer exatamente ${DATA_QUESTIONS.length}.`);
+                return;
+            }
+
+            const invalid = answers.some(n => isNaN(n) || n < 0 || n > 2);
+            if (invalid) {
+                if (!confirm("Alguns valores parecem inválidos (fora de 0-2). Continuar mesmo assim?")) return;
+            }
+
+            calculate(answers);
+        }
+
+        function updateProgress() {
+            const total = DATA_QUESTIONS.length;
+            const done = document.querySelectorAll('input:checked').length;
+            const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-text').innerText = pct + '%';
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            let html = '';
+            const options = [0, 1, 2];
+            const labels = ["Nunca/Raramente", "Às Vezes", "Muito Frequentemente"];
+
+            DATA_QUESTIONS.forEach((q, index) => {
+                html += `
+    <div id="q-card-${index}" class="question-card bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all scroll-mt-32">
+        <div class="flex gap-3 mb-4 pl-2">
+            <span class="text-purple-400 font-bold font-mono">#${q.id}</span>
+            <p class="text-gray-200 font-medium">${q.text}</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2 items-center">
+            ${options.map((v, i) => `
+                <label class="scale-option cursor-pointer relative group/opt">
+                    <input type="radio" name="q${q.id}" value="${v}" class="peer sr-only" onchange="updateProgress()">
+                    <div class="h-12 w-full bg-[#0f0e1a] border border-white/10 rounded-md flex flex-col items-center justify-center text-gray-400 font-bold transition-all peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 hover:bg-white/5 hover:border-white/20 px-2">
+                        <span class="text-lg">${v}</span>
+                        <span class="text-[9px] uppercase tracking-wide opacity-50">${labels[i]}</span>
+                    </div>
+                </label>
+            `).join('')}
+        </div>
+    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- FUNCIONALIDADES EXTRAS ---
+
+        const audioPrepare = new Audio('../vozes/prepare.mp3');
+        const audioOneMin = new Audio('../vozes/resta1minuto.mp3');
+        const audioTimeUp = new Audio('../vozes/tempoesgotado.mp3');
+
+        let timerInterval;
+        let timeRemaining = 20 * 60; // 20 minutos (Exemplo, não especificado)
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeRemaining = 20 * 60;
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining === 60) {
+                    audioOneMin.play().catch(e => console.log("Erro audio:", e));
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    audioTimeUp.play().catch(e => console.log("Erro audio:", e));
+                    alert("Tempo esgotado! Tente finalizar o teste.");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeRemaining / 60);
+            const s = timeRemaining % 60;
+            const text = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+            const display = document.getElementById('unified-timer-display');
+            const pill = document.getElementById('unified-timer-pill');
+
+            if (display) display.innerText = text;
+
+            if (timeRemaining < 300) { // 5 min
+                if (display) display.className = "font-mono text-3xl font-black text-red-400 animate-pulse tabular-nums leading-none";
+                if (pill) pill.className = "glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-red-500 bg-red-900/40 backdrop-blur-md";
+            } else {
+                if (display) display.className = "font-mono text-3xl font-black text-white tabular-nums leading-none";
+                if (pill) pill.className = "glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md";
+            }
+        }
+
+        function editarRespostas() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.querySelector('header').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculate(pastedAnswers = null) {
+            clearInterval(timerInterval); // Parar timer
+
+            let answersMap = new Map();
+            let sum = 0;
+
+            if (pastedAnswers) {
+                pastedAnswers.forEach((val, idx) => {
+                    const qId = idx + 1;
+                    answersMap.set(qId, val);
+                    sum += val;
+                });
+            } else {
+                let missing = [];
+                DATA_QUESTIONS.forEach(q => {
+                    const checked = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    if (checked) {
+                        const val = parseInt(checked.value);
+                        answersMap.set(q.id, val);
+                        sum += val;
+                    } else {
+                        missing.push(q.id);
+                    }
+                });
+
+                if (missing.length > 0) {
+                    alert(`Faltam ${missing.length} respostas. Por favor preencha todas.`);
+                    // Scroll to first missing
+                    const firstMissing = document.getElementById(`q-card-${missing[0] - 1}`);
+                    if (firstMissing) firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+            }
+
+            // --- LÓGICA DE RESULTADO EATA ---
+            // APTO: Entre 7 e 12 (inclusive)
+            let passed = false;
+            let statusText = "INAPTO";
+            let statusColor = "text-red-500 border-red-500/50 bg-red-500/10";
+
+            if (sum >= 7 && sum <= 12) {
+                passed = true;
+                statusText = "APTO";
+                statusColor = "text-green-500 border-green-500/50 bg-green-500/10";
+            }
+
+            // Percentil
+            // Se maior que 80, usa 100.
+            let percentil = 100;
+            if (sum < DATA_PERCENTILES.length) {
+                percentil = DATA_PERCENTILES[sum];
+            }
+
+            // Display Results
+            const report = document.getElementById('report-content');
+            const now = new Date();
+            document.getElementById('report-date').innerText = now.toLocaleString('pt-BR');
+
+            const badge = document.getElementById('final-status-badge');
+            badge.className = `px-8 py-3 rounded-full text-xl font-bold border ${statusColor} shadow-lg`;
+            badge.innerText = statusText;
+
+            // Generate Content
+            let html = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-[#0f0e1a] p-6 rounded-xl border border-white/10">
+                        <h3 class="text-xl font-bold text-white mb-4">Pontuação</h3>
+                        <div class="flex justify-between items-center mb-4 py-2 border-b border-white/5">
+                            <span class="text-gray-400">Total de Pontos (Soma)</span>
+                            <span class="text-2xl font-bold text-white">${sum}</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-4 py-2 border-b border-white/5">
+                            <span class="text-gray-400">Percentil</span>
+                            <span class="text-2xl font-bold text-purple-400">${percentil}%</span>
+                        </div>
+                        <div class="mt-4 p-4 rounded-lg bg-white/5 text-sm text-gray-400">
+                            <strong>Critério:</strong> Deve estar entre 7 e 12 pontos.<br>
+                            Sua pontuação: ${sum}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-[#0f0e1a] p-6 rounded-xl border border-white/10 flex flex-col justify-center items-center text-center">
+                         ${!passed ? `<div class="loser-text">INAPTO</div>
+                         <p class="text-red-400 text-sm">Sua pontuação indica uma tendência fora do esperado.</p>` :
+                    `<div class="text-5xl text-green-500 mb-4"><i class="fas fa-check-circle"></i></div>
+                         <div class="text-3xl font-bold text-white mb-2">APROVADO</div>
+                         <p class="text-green-400 text-sm">Seu perfil está dentro dos parâmetros exigidos.</p>`}
+                    </div>
+                </div>
+            `;
+
+            report.innerHTML = html;
+
+            saveToHistory("EATA", sum, statusText);
+            showScreen('result');
+
+            if (!passed) {
+                document.body.classList.add('shake-screen');
+                setTimeout(() => document.body.classList.remove('shake-screen'), 500);
+            }
+        }
+
+        // --- DASHBOARD ---
+        function loadDashboard() {
+            const history = getHistory();
+            document.getElementById('dash-total').innerText = history.length;
+
+            if (history.length > 0) {
+                const last = history[0];
+                document.getElementById('dash-last-date').innerText = new Date(last.date).toLocaleDateString();
+                document.getElementById('dash-last-status').innerText = last.status;
+                document.getElementById('dash-last-status').className =
+                    last.status === 'APTO' ? 'text-sm font-bold text-green-400' : 'text-sm font-bold text-red-400';
+            }
+
+            renderHistoryTable();
+        }
+
+        function getHistory() {
+            return JSON.parse(localStorage.getItem('psycho_eata_history') || '[]');
+        }
+
+        function saveToHistory(testName, score, status) {
+            const h = getHistory();
+            h.unshift({
+                test: testName,
+                date: new Date().toISOString(),
+                score: score,
+                status: status
+            });
+            localStorage.setItem('psycho_eata_history', JSON.stringify(h));
+        }
+
+        function limparHistorico() {
+            if (confirm("Tem certeza?")) {
+                localStorage.removeItem('psycho_eata_history');
+                loadDashboard();
+            }
+        }
+
+        function renderHistoryTable() {
+            const h = getHistory();
+            const tbody = document.getElementById('history-container');
+            if (h.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">Nenhum teste realizado ainda.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = h.map((item, index) => `
+                <tr class="hover:bg-white/5 transition">
+                    <td class="px-6 py-4 font-medium text-white">${item.test}</td>
+                    <td class="px-6 py-4 text-gray-400">${new Date(item.date).toLocaleDateString()} ${new Date(item.date).toLocaleTimeString()}</td>
+                    <td class="px-6 py-4 text-center text-purple-300 font-bold">${item.score}</td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="${item.status === 'APTO' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'} px-2 py-1 rounded text-xs font-bold">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="deleteHistoryItem(${index})" class="text-red-400 hover:text-red-300 transition">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteHistoryItem(index) {
+            const h = getHistory();
+            h.splice(index, 1);
+            localStorage.setItem('psycho_eata_history', JSON.stringify(h));
+            loadDashboard();
+        }
+
+        // Init
+        loadDashboard();
+        renderQuiz();
+
+    </script>
+</body>
+
+</html>
