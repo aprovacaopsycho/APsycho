@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editor Universal (APsycho)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --glass: rgba(30, 41, 59, 0.95);
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(13, 148, 136, 0.15) 0%, transparent 40%);
+        }
+
+        /* --- LAYOUT --- */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .workspace {
+            flex-grow: 1;
+            height: 100%;
+            overflow: auto;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            cursor: crosshair;
+        }
+
+        .sidebar {
+            width: 400px;
+            height: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        /* --- CONTROLS --- */
+        .panel {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .panel-title {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 800;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ctrl-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .input-group {
+            flex-grow: 1;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 9px;
+            color: #64748b;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+
+        .ctrl-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px;
+            font-size: 11px;
+            color: white;
+            transition: all 0.2s;
+        }
+
+        input[type="color"] {
+            padding: 0;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .ctrl-input:focus {
+            border-color: #8b5cf6;
+            outline: none;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn.primary {
+            background: #4f46e5;
+            border-color: #6366f1;
+            color: white;
+        }
+
+        .btn.primary:hover {
+            background: #4338ca;
+        }
+
+        .btn.active {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: #8b5cf6;
+            color: #ddd6fe;
+        }
+
+        .btn-icon {
+            padding: 6px;
+        }
+
+        /* --- CANVAS MARKERS --- */
+        .canvas-area {
+            position: relative;
+            background: #1e293b;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transform-origin: top center;
+        }
+
+        .marker {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.1s, border-color 0.1s;
+        }
+
+        .marker:hover {
+            z-index: 100;
+            border-color: white !important;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .marker:active {
+            cursor: grabbing;
+        }
+
+        .marker.selected {
+            box-shadow: 0 0 0 2px white, 0 0 15px #8b5cf6 !important;
+            z-index: 90;
+        }
+
+        /* SHAPES */
+        .marker.shape-circle {
+            border-radius: 50%;
+        }
+
+        .marker.shape-box {
+            border-radius: 4px;
+        }
+
+        /* STYLES */
+        /* Solid: Background Color, Border Matches */
+        .marker.style-solid {
+            background-color: var(--m-color);
+            border: 1px solid var(--m-color);
+            color: white;
+        }
+
+        .marker.style-solid.v-0 {
+            /* Value 0 inherits color chosen by user now */
+        }
+
+        /* Outline: Transparent Bg, Colored Border */
+        .marker.style-outline {
+            background-color: rgba(0, 0, 0, 0.1);
+            border: 2px solid var(--m-color);
+            color: var(--m-color);
+        }
+
+        .marker.style-outline.v-0 {
+            /* Value 0 inherits */
+        }
+
+        /* Cross: Transparent, X icon */
+        .marker.style-cross {
+            border: 1px solid transparent;
+            /* Hitbox visible on hover */
+        }
+
+        .marker.style-cross::before,
+        .marker.style-cross::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 3px;
+            background-color: var(--m-color);
+            top: 50%;
+            left: 50%;
+            transform-origin: center;
+        }
+
+        .marker.style-cross::before {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .marker.style-cross::after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .marker.style-cross.v-0 {
+            opacity: 0.2;
+        }
+
+        /* Dim ghost */
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body x-data="universalEditor()" @keydown.window="handleKeydown($event)" @keyup.delete.window="deleteSelected">
+
+    <div class="app-container">
+
+        <!-- WORKSPACE -->
+        <div class="workspace" @mousedown.self="clearSelection">
+            <div class="canvas-area"
+                :style="`width: ${imgWidth}px; height: ${imgHeight}px; transform: scale(${zoom/100});`"
+                @click="handleCanvasClick">
+
+                <!-- Background Image -->
+                <img :src="imgSrc" x-show="imgSrc" class="absolute pointer-events-none select-none object-fill"
+                    :style="`left: ${bgX}px; top: ${bgY}px; width: ${bgW}%; height: ${bgH}%;`">
+
+                <!-- Guidelines -->
+                <div x-show="showGrid" class="absolute inset-0 pointer-events-none"
+                    :style="`background-image: linear-gradient(#4b5563 1px, transparent 1px), linear-gradient(90deg, #4b5563 1px, transparent 1px); background-size: ${boxW}px ${boxH}px; opacity: ${gridOpacity}`">
+                </div>
+
+                <!-- Empty State -->
+                <div x-show="!imgSrc"
+                    class="absolute inset-0 flex flex-col items-center justify-center text-gray-500 pointer-events-none">
+                    <i class="fas fa-image text-6xl mb-4 opacity-20"></i>
+                    <p class="text-xs uppercase tracking-widest font-bold opacity-50">Carregue uma Imagem</p>
+                </div>
+
+                <!-- Markers -->
+                <template x-for="item in items" :key="item.id">
+                    <div class="marker" :class="[
+                            `v-${item.v}`, 
+                            `shape-${globalShape}`,
+                            `style-${getStyle(item.v)}`,
+                            isSelected(item) ? 'selected' : ''
+                         ]" :style="`
+                            left: ${item.x}px; 
+                            top: ${item.y}px; 
+                            width: ${boxW}px; 
+                            height: ${boxH}px;
+                            transform: translate(-50%, -50%);
+                            --m-color: ${getColor(item.v)};
+                            opacity: ${getOpacity(item.v)};
+                         `" @mousedown.stop="startDrag($event, item)" @click.stop="handleClick(item)"
+                        @dblclick.stop="handleDblClick(item)">
+
+                        <!-- Show ID if enabled or Debug -->
+                        <span x-show="showIds" x-text="item.id"
+                            class="relative z-10 text-[8px] bg-black/50 px-1 rounded"></span>
+
+                        <!-- Show Value number if not Cross style -->
+                        <span x-show="!showIds && getStyle(item.v) !== 'cross' && item.v > 0" x-text="item.v"
+                            class="relative z-10"></span>
+                    </div>
+                </template>
+
+            </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <div class="p-4 border-b border-white/10 flex justify-between items-center bg-black/30">
+                <h1 class="font-bold text-white tracking-widest text-xs flex items-center gap-2">
+                    <i class="fas fa-cube text-purple-400"></i> EDITOR UNIVERSAL V3
+                </h1>
+                <div class="text-[9px] text-gray-500">APSYCHO</div>
+            </div>
+
+            <div class="sidebar-content">
+
+                <!-- 1. IMAGEM -->
+                <div class="panel">
+                    <div class="panel-title"><i class="fas fa-image"></i> Imagem Base</div>
+                    <div class="ctrl-row">
+                        <input type="file" @change="loadImage" accept="image/*"
+                            class="ctrl-input text-[9px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-purple-600 file:text-white">
+                    </div>
+                    <div class="ctrl-row">
+                        <i class="fas fa-search text-gray-500 text-xs"></i>
+                        <input type="range" x-model.number="zoom" min="10" max="200"
+                            class="w-full accent-purple-500 h-1 bg-gray-700 rounded cursor-pointer">
+                        <span class="text-[9px] w-8 text-right" x-text="zoom + '%'"></span>
+                    </div>
+
+                    <!-- Background Image Adjustment -->
+                    <div class="mt-3 pt-2 border-t border-white/10">
+                        <div class="input-label mb-2">AJUSTE FINO DA IMAGEM</div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="input-group">
+                                <label class="input-label">Pos X</label>
+                                <input type="number" x-model.number="bgX" class="ctrl-input py-1">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Pos Y</label>
+                                <input type="number" x-model.number="bgY" class="ctrl-input py-1">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Largura %</label>
+                                <input type="number" x-model.number="bgW" class="ctrl-input py-1">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Altura %</label>
+                                <input type="number" x-model.number="bgH" class="ctrl-input py-1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. CONFIGURAÇÃO DE ITENS -->
+                <div class="panel border-l-2 border-l-purple-500">
+                    <div class="panel-title text-purple-400"><i class="fas fa-shapes"></i> Estilo e Formato</div>
+
+                    <!-- Formato Global -->
+                    <div class="input-label mb-2">FORMATO GLOBAL</div>
+                    <div class="grid grid-cols-2 gap-2 mb-4">
+                        <button @click="globalShape = 'box'" :class="{'active': globalShape === 'box'}'" class="btn">
+                            <i class="fas fa-square"></i> Quadrado
+                        </button>
+                        <button @click="globalShape = 'circle'" :class="{'active': globalShape === 'circle'}"
+                            class="btn">
+                            <i class="fas fa-circle"></i> Círculo
+                        </button>
+                    </div>
+
+                    <div class="ctrl-row">
+                        <div class="input-group">
+                            <label class="input-label">Largura (px)</label>
+                            <input type="number" x-model.number="boxW" class="ctrl-input">
+                        </div>
+                        <div class="input-group">
+                            <label class="input-label">Altura (px)</label>
+                            <input type="number" x-model.number="boxH" class="ctrl-input">
+                        </div>
+                    </div>
+
+                    <!-- Configuração por Valor -->
+                    <div class="mt-4 pt-3 border-t border-white/10">
+                        <div class="flex justify-between items-end mb-2">
+                            <div class="input-label">ESTILOS POR VALOR</div>
+                            <div class="input-group w-20">
+                                <label class="text-[8px] text-gray-500">Max Val</label>
+                                <input type="number" x-model.number="maxVal" min="1" max="5"
+                                    class="ctrl-input py-0 px-1 text-center h-5">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <!-- Loop de Configuração -->
+                            <template x-for="i in maxVal + 1" :key="i">
+                                <div class="flex items-center gap-2 bg-black/20 p-1 rounded">
+                                    <div class="text-[9px] font-bold w-4 text-center" x-text="i-1"></div>
+
+                                    <!-- Cor -->
+                                    <input type="color" x-model="valStyles[i-1].color"
+                                        class="w-6 h-6 rounded border-0 p-0 overflow-hidden" title="Cor">
+
+                                    <!-- Opacidade -->
+                                    <input type="range" x-model="valStyles[i-1].opacity" min="0" max="1" step="0.1"
+                                        class="w-8 h-1 accent-purple-500 bg-gray-700 rounded cursor-pointer"
+                                        title="Opacidade">
+
+                                    <!-- Estilo Dropdown -->
+                                    <select x-model="valStyles[i-1].style" class="ctrl-input py-1 text-[9px]">
+                                        <option value="solid">Sólido</option>
+                                        <option value="outline">Borda</option>
+                                        <option value="cross">X (Cruz)</option>
+                                    </select>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. COMPORTAMENTO -->
+                <div class="panel border-l-2 border-l-blue-500">
+                    <div class="panel-title text-blue-400"><i class="fas fa-mouse"></i> Comportamento</div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-label">AÇÃO CLIQUE DUPLO</label>
+                        <select x-model="dblClickAction" class="ctrl-input">
+                            <option value="none">Nenhuma (Padrão)</option>
+                            <option value="cycle">Ciclar (+2)</option>
+                            <option value="max">Definir Máximo (Val <span x-text="maxVal"></span>)</option>
+                            <option value="reset">Resetar (Val 0)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <button @click="tool = 'select'" :class="{'active': tool === 'select'}" class="btn">
+                            <i class="fas fa-mouse-pointer"></i> Selecionar
+                        </button>
+                        <button @click="tool = 'add'" :class="{'active': tool === 'add'}" class="btn">
+                            <i class="fas fa-plus"></i> Adicionar
+                        </button>
+                    </div>
+
+                    <!-- Drag Mode -->
+                    <div class="mt-3 pt-2 border-t border-white/10">
+                        <div class="input-label mb-2">MODO DE ARRASTE</div>
+                        <div class="grid grid-cols-4 gap-1">
+                            <button @click="dragMode = 'single'" :class="{'active': dragMode === 'single'}" class="btn"
+                                title="Único">
+                                <i class="fas fa-circle"></i>
+                            </button>
+                            <button @click="dragMode = 'row'" :class="{'active': dragMode === 'row'}" class="btn"
+                                title="Linha">
+                                <i class="fas fa-grip-lines"></i>
+                            </button>
+                            <button @click="dragMode = 'col'" :class="{'active': dragMode === 'col'}" class="btn"
+                                title="Coluna">
+                                <i class="fas fa-grip-lines-vertical"></i>
+                            </button>
+                            <button @click="dragMode = 'global'" :class="{'active': dragMode === 'global'}" class="btn"
+                                title="Tudo">
+                                <i class="fas fa-arrows-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-1 mt-3">
+                        <label class="flex items-center gap-2 text-[10px] text-gray-400">
+                            <input type="checkbox" x-model="showIds" class="accent-purple-500"> Mostrar IDs
+                        </label>
+                        <div class="flex items-center gap-2">
+                            <label class="flex items-center gap-2 text-[10px] text-gray-400">
+                                <input type="checkbox" x-model="showGrid" class="accent-purple-500"> Mostrar Grade
+                            </label>
+                            <input type="range" x-model="gridOpacity" min="0" max="1" step="0.1"
+                                class="w-16 h-1 accent-purple-500 bg-gray-700 rounded cursor-pointer"
+                                title="Opacidade da Grade">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. GESTÃO DE GRADE -->
+                <div class="panel">
+                    <div class="panel-title cursor-pointer" @click="showGridGen = !showGridGen">
+                        <i class="fas fa-th"></i> Grade e Alinhamento <i class="fas fa-chevron-down ml-auto"></i>
+                    </div>
+
+                    <div x-show="showGridGen" x-transition>
+                        <div class="ctrl-row mt-2">
+                            <div class="input-group">
+                                <label class="input-label">Linhas</label>
+                                <input type="number" x-model.number="rows" class="ctrl-input">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Colunas</label>
+                                <input type="number" x-model.number="cols" class="ctrl-input">
+                            </div>
+                        </div>
+
+                        <!-- Spacing Controls -->
+                        <div class="ctrl-row">
+                            <div class="input-group">
+                                <label class="input-label">Distância H (px)</label>
+                                <input type="number" x-model.number="spacingX" @input="updateSpacing"
+                                    class="ctrl-input">
+                            </div>
+                            <div class="input-group">
+                                <label class="input-label">Distância V (px)</label>
+                                <input type="number" x-model.number="spacingY" @input="updateSpacing"
+                                    class="ctrl-input">
+                            </div>
+                        </div>
+
+                        <button @click="generateGrid" class="btn w-full bg-slate-700 text-white mt-2 mb-3">
+                            <i class="fas fa-magic"></i> Gerar Grade
+                        </button>
+
+                        <!-- Row/Col Managment -->
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[8px] text-gray-400 font-bold text-center">LINHAS</span>
+                                <div class="flex gap-1">
+                                    <button @click="addRow" class="btn flex-1 py-1 text-[10px]"
+                                        title="Adicionar Linha"><i class="fas fa-plus"></i></button>
+                                    <button @click="removeRow" class="btn flex-1 py-1 text-[10px]"
+                                        title="Remover Linha"><i class="fas fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[8px] text-gray-400 font-bold text-center">COLUNAS</span>
+                                <div class="flex gap-1">
+                                    <button @click="addCol" class="btn flex-1 py-1 text-[10px]"
+                                        title="Adicionar Coluna"><i class="fas fa-plus"></i></button>
+                                    <button @click="removeCol" class="btn flex-1 py-1 text-[10px]"
+                                        title="Remover Coluna"><i class="fas fa-minus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-label">AJUSTE DE ORDEM (RENUMERAR)</div>
+
+                        <!-- Direction Toggle -->
+                        <div class="flex gap-2 mb-2">
+                            <button @click="renumberDir = 'horizontal'"
+                                :class="{'active': renumberDir === 'horizontal'}" class="btn flex-1 text-[9px]">
+                                <i class="fas fa-arrows-alt-h"></i> Horizontal
+                            </button>
+                            <button @click="renumberDir = 'vertical'" :class="{'active': renumberDir === 'vertical'}"
+                                class="btn flex-1 text-[9px]">
+                                <i class="fas fa-arrows-alt-v"></i> Vertical
+                            </button>
+                        </div>
+
+                        <!-- Pattern Selection -->
+                        <div class="flex gap-2">
+                            <button @click="renumber('standard')" class="btn flex-1 text-[9px]">
+                                <i class="fas fa-wave-square"></i> Padrão (Z)
+                            </button>
+                            <button @click="renumber('snake')" class="btn flex-1 text-[9px]">
+                                <i class="fas fa-water"></i> Cobra (S)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. IMPORT/EXPORT -->
+                <div class="panel border-l-2 border-l-pink-500">
+                    <div class="panel-title text-pink-400"><i class="fas fa-file-code"></i> Dados JSON</div>
+
+                    <div class="flex gap-1 mb-2 bg-black/30 p-1 rounded">
+                        <button @click="exportMode = 'rotas'" :class="{'bg-purple-600': exportMode==='rotas'}"
+                            class="flex-1 py-1 rounded text-[9px] transition">ROTAS (t)</button>
+                        <button @click="exportMode = 'value'" :class="{'bg-blue-600': exportMode==='value'}"
+                            class="flex-1 py-1 rounded text-[9px] transition">VALOR (v)</button>
+                    </div>
+
+                    <textarea x-model="jsonIO" class="ctrl-input h-16 font-mono text-[9px] text-green-400 mb-2"
+                        placeholder="JSON aqui..."></textarea>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button @click="importJson" class="btn"><i class="fas fa-upload"></i> Importar</button>
+                        <button @click="generateJson" class="btn primary"><i class="fas fa-download"></i>
+                            Copiar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('universalEditor', () => ({
+                // --- STATE ---
+                imgSrc: '',
+                imgWidth: 1000,
+                imgHeight: 800,
+                zoom: 100,
+                items: [], // { id, x, y, v, r, c }
+
+                // Background Image Adjustment
+                bgX: 0,
+                bgY: 0,
+                bgW: 100,
+                bgH: 100,
+
+                // Config
+                boxW: 30, boxH: 30,
+                maxVal: 1,
+                showGridGen: false,
+
+                // Visual Config
+                globalShape: 'box', // 'box', 'circle'
+                valStyles: Array.from({ length: 6 }, (_, i) => ({
+                    color: ['#94a3b8', '#22c55e', '#3b82f6', '#eab308', '#f97316', '#ef4444'][i],
+                    style: 'solid',
+                    opacity: 1.0
+                })),
+
+                // Behavior Config
+                dblClickAction: 'none', // 'none', 'max', 'reset', 'cycle'
+
+                // Tools
+                tool: 'select',
+                dragMode: 'single',
+                exportMode: 'rotas',
+
+                // Editor Locals
+                showIds: false,
+                showGrid: false,
+                // Double click protection
+                lastClickTime: 0,
+
+                // Selection Drag
+                selection: [],
+                isDragging: false,
+                dragStart: { x: 0, y: 0 },
+                wasMoved: false,
+
+                // Auto Grid
+                rows: 10, cols: 10,
+                spacingX: 50,
+                spacingY: 50,
+                renumberDir: 'horizontal', // 'horizontal' or 'vertical'
+                gridOpacity: 0.2, // Default 20%
+                jsonIO: '',
+
+                // --- HELPERS ---
+                getStyle(val) {
+                    return this.valStyles[val]?.style || 'solid';
+                },
+                getColor(val) {
+                    return this.valStyles[val]?.color || '#ffffff';
+                },
+                getOpacity(val) {
+                    return this.valStyles[val]?.opacity ?? 1.0;
+                },
+
+                // --- INIT & IMAGE ---
+                loadImage(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        this.imgSrc = evt.target.result;
+                        const img = new Image();
+                        img.onload = () => {
+                            if (this.items.length === 0) {
+                                this.imgWidth = img.width;
+                                this.imgHeight = img.height;
+                                this.zoom = Math.min(Math.round((window.innerWidth - 450) / img.width * 100), 100);
+                            }
+                        }
+                        img.src = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+
+                // --- INTERACTION ---
+
+                handleCanvasClick(e) {
+                    if (this.tool === 'add') {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const scale = this.zoom / 100;
+                        const x = (e.clientX - rect.left) / scale;
+                        const y = (e.clientY - rect.top) / scale;
+                        this.addItem(x, y);
+                    }
+                },
+
+                handleClick(item) {
+                    if (this.wasMoved) { this.wasMoved = false; return; }
+
+                    if (this.tool === 'select') {
+                        // Standard Single Click: Cycle
+                        item.v = (item.v + 1) % (this.maxVal + 1);
+
+                        // Update selection
+                        if (!this.selection.includes(item.id)) this.selection = [item.id];
+                    }
+                },
+
+                handleDblClick(item) {
+                    if (this.tool !== 'select') return;
+
+                    if (this.dblClickAction === 'max') {
+                        item.v = this.maxVal;
+                    } else if (this.dblClickAction === 'reset') {
+                        item.v = 0;
+                    } else if (this.dblClickAction === 'cycle') {
+                        // Extra cycle
+                        item.v = (item.v + 1) % (this.maxVal + 1);
+                    }
+                    // 'none' does nothing special (user essentially did 2 single clicks)
+                },
+
+                startDrag(e, item) {
+                    if (this.tool !== 'select') return;
+
+                    this.isDragging = true;
+                    this.dragStart = { x: e.clientX, y: e.clientY };
+                    this.wasMoved = false;
+
+                    // Apply Selection based on Drag Mode
+                    if (this.dragMode === 'single') {
+                        this.selection = [item.id];
+                    } else if (this.dragMode === 'global') {
+                        this.selection = this.items.map(i => i.id);
+                    } else if (this.dragMode === 'row') {
+                        const threshold = this.boxH * 0.8;
+                        this.selection = this.items.filter(i => Math.abs(i.y - item.y) < threshold).map(i => i.id);
+                    } else if (this.dragMode === 'col') {
+                        const threshold = this.boxW * 0.8;
+                        this.selection = this.items.filter(i => Math.abs(i.x - item.x) < threshold).map(i => i.id);
+                    }
+
+                    // Store initial positions
+                    this.items.forEach(i => {
+                        if (this.selection.includes(i.id)) {
+                            i._sx = i.x;
+                            i._sy = i.y;
+                        }
+                    });
+
+                    const moveHandler = (ev) => this.onDragMove(ev);
+                    const upHandler = (ev) => {
+                        this.isDragging = false;
+                        document.removeEventListener('mousemove', moveHandler);
+                        document.removeEventListener('mouseup', upHandler);
+                    };
+                    document.addEventListener('mousemove', moveHandler);
+                    document.addEventListener('mouseup', upHandler);
+                },
+
+                onDragMove(e) {
+                    if (!this.isDragging) return;
+                    e.preventDefault();
+
+                    const dxRaw = e.clientX - this.dragStart.x;
+                    const dyRaw = e.clientY - this.dragStart.y;
+
+                    if (Math.abs(dxRaw) > 2 || Math.abs(dyRaw) > 2) this.wasMoved = true;
+
+                    const scale = this.zoom / 100;
+                    const dx = dxRaw / scale;
+                    const dy = dyRaw / scale;
+
+                    this.items.forEach(i => {
+                        if (this.selection.includes(i.id)) {
+                            i.x = Math.round(i._sx + dx);
+                            i.y = Math.round(i._sy + dy);
+                        }
+                    });
+                },
+
+                handleKeydown(e) {
+                    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                        // Nudge
+                        const sel = this.selection;
+                        if (sel.length) {
+                            if (e.key === 'ArrowUp') { this.nudge(0, -1); e.preventDefault(); }
+                            if (e.key === 'ArrowDown') { this.nudge(0, 1); e.preventDefault(); }
+                            if (e.key === 'ArrowLeft') { this.nudge(-1, 0); e.preventDefault(); }
+                            if (e.key === 'ArrowRight') { this.nudge(1, 0); e.preventDefault(); }
+                        }
+                    }
+                },
+
+                nudge(dx, dy) {
+                    this.items.forEach(i => {
+                        if (this.selection.includes(i.id)) { i.x += dx; i.y += dy; }
+                    });
+                },
+
+                // --- DATA OPS ---
+                getNextId() { return this.items.length > 0 ? Math.max(...this.items.map(i => i.id)) + 1 : 0; },
+                addItem(x, y) { this.items.push({ id: this.getNextId(), x: Math.round(x), y: Math.round(y), v: 0, r: -1, c: -1 }); },
+                deleteSelected() { if (this.selection.length && confirm("Deletar selecionados?")) { this.items = this.items.filter(i => !this.selection.includes(i.id)); this.selection = []; } },
+                clearSelection() { this.selection = []; },
+                isSelected(item) { return this.selection.includes(item.id); },
+
+                // --- GRID ---
+                generateGrid() {
+                    if (this.items.length && !confirm("Substituir?")) return;
+                    this.items = [];
+                    const margin = 50;
+                    const stepX = this.spacingX || 50;
+                    const stepY = this.spacingY || 50;
+                    let id = 0;
+                    for (let r = 0; r < this.rows; r++) {
+                        for (let c = 0; c < this.cols; c++) {
+                            this.items.push({ id: id++, x: Math.round(margin + c * stepX), y: Math.round(margin + r * stepY), v: 0, r: r, c: c });
+                        }
+                    }
+                },
+
+                updateSpacing() {
+                    const gridItems = this.items.filter(i => i.r >= 0 && i.c >= 0);
+                    if (gridItems.length === 0) return;
+
+                    // Find the anchor (top-left indices)
+                    const minR = Math.min(...gridItems.map(i => i.r));
+                    const minC = Math.min(...gridItems.map(i => i.c));
+
+                    // Find the item strictly at minR/minC to serve as fixed pivot
+                    // If it is missing (deleted), we fall back to min coordinates
+                    let refItem = gridItems.find(i => i.r === minR && i.c === minC);
+
+                    let refX, refY;
+                    if (refItem) {
+                        refX = refItem.x;
+                        refY = refItem.y;
+                    } else {
+                        refX = Math.min(...gridItems.map(i => i.x));
+                        refY = Math.min(...gridItems.map(i => i.y));
+                    }
+
+                    // Apply new spacing relative to reference
+                    gridItems.forEach(item => {
+                        item.x = Math.round(refX + (item.c - minC) * this.spacingX);
+                        item.y = Math.round(refY + (item.r - minR) * this.spacingY);
+                    });
+                },
+
+                // --- ROW/COL OPS ---
+                getGridRef() {
+                    const gridItems = this.items.filter(i => i.r >= 0 && i.c >= 0);
+                    if (!gridItems.length) return null;
+                    const minR = Math.min(...gridItems.map(i => i.r));
+                    const minC = Math.min(...gridItems.map(i => i.c));
+                    const maxR = Math.max(...gridItems.map(i => i.r));
+                    const maxC = Math.max(...gridItems.map(i => i.c));
+
+                    // Find anchor pos
+                    let startX = 50, startY = 50;
+                    const anchor = gridItems.find(i => i.r === minR && i.c === minC);
+                    if (anchor) { startX = anchor.x; startY = anchor.y; }
+                    else {
+                        startX = Math.min(...gridItems.map(i => i.x));
+                        startY = Math.min(...gridItems.map(i => i.y));
+                    }
+
+                    return { minR, minC, maxR, maxC, startX, startY };
+                },
+
+                addRow() {
+                    const ref = this.getGridRef();
+                    if (!ref) { this.generateGrid(); return; } // Start if empty
+
+                    const newR = ref.maxR + 1;
+                    let id = this.getNextId();
+
+                    // Add item for each existing col index (from minC to maxC)
+                    // We assume dense grid for simplicity, but robust to sparse
+                    for (let c = ref.minC; c <= ref.maxC; c++) {
+                        // Check if this col exists in the row above (optional, but keeps shape)
+                        // For pure grid, just add all
+                        const x = Math.round(ref.startX + (c - ref.minC) * this.spacingX);
+                        const y = Math.round(ref.startY + (newR - ref.minR) * this.spacingY);
+                        this.items.push({ id: id++, x, y, v: 0, r: newR, c: c });
+                    }
+                    this.rows = newR - ref.minR + 1; // Update UI Control
+                },
+
+                removeRow() {
+                    const ref = this.getGridRef();
+                    if (!ref) return;
+                    this.items = this.items.filter(i => i.r !== ref.maxR);
+                    this.rows = Math.max(0, this.rows - 1);
+                },
+
+                addCol() {
+                    const ref = this.getGridRef();
+                    if (!ref) { this.generateGrid(); return; }
+
+                    const newC = ref.maxC + 1;
+                    let id = this.getNextId();
+
+                    for (let r = ref.minR; r <= ref.maxR; r++) {
+                        const x = Math.round(ref.startX + (newC - ref.minC) * this.spacingX);
+                        const y = Math.round(ref.startY + (r - ref.minR) * this.spacingY);
+                        this.items.push({ id: id++, x, y, v: 0, r: r, c: newC });
+                    }
+                    this.cols = newC - ref.minC + 1; // Update UI Control
+                },
+
+                removeCol() {
+                    const ref = this.getGridRef();
+                    if (!ref) return;
+                    this.items = this.items.filter(i => i.c !== ref.maxC);
+                    this.cols = Math.max(0, this.cols - 1);
+                },
+
+                renumber(mode) {
+                    const dir = this.renumberDir;
+
+                    if (dir === 'horizontal') {
+                        // 1. Sort purely by Y to cluster rows
+                        const sortedByY = [...this.items].sort((a, b) => a.y - b.y);
+
+                        // 2. Cluster into distinct rows based on Y gaps
+                        const rows = [];
+                        if (sortedByY.length) {
+                            let currentRow = [sortedByY[0]];
+
+                            for (let i = 1; i < sortedByY.length; i++) {
+                                const item = sortedByY[i];
+                                const prevItem = sortedByY[i - 1];
+
+                                // Tolerance: >60% of box height gap implies new row
+                                if (Math.abs(item.y - prevItem.y) > this.boxH * 0.6) {
+                                    rows.push(currentRow);
+                                    currentRow = [];
+                                }
+                                currentRow.push(item);
+                            }
+                            rows.push(currentRow);
+                        }
+
+                        // 3. Sort each row by X and apply ID
+                        let id = 0;
+                        rows.forEach((rowItems, rIdx) => {
+                            // Sort L->R
+                            rowItems.sort((a, b) => a.x - b.x);
+
+                            // If Snake and Odd Row, Reverse (R->L)
+                            if (mode === 'snake' && rIdx % 2 !== 0) {
+                                rowItems.reverse();
+                            }
+
+                            rowItems.forEach(item => item.id = id++);
+                        });
+
+                        // Resort main array by ID to keep clean
+                        this.items.sort((a, b) => a.id - b.id);
+
+                    } else { // Vertical
+                        // 1. Sort purely by X to cluster cols
+                        const sortedByX = [...this.items].sort((a, b) => a.x - b.x);
+
+                        // 2. Cluster into distinct cols based on X gaps
+                        const cols = [];
+                        if (sortedByX.length) {
+                            let currentCol = [sortedByX[0]];
+                            for (let i = 1; i < sortedByX.length; i++) {
+                                const item = sortedByX[i];
+                                const prevItem = sortedByX[i - 1];
+
+                                if (Math.abs(item.x - prevItem.x) > this.boxW * 0.6) {
+                                    cols.push(currentCol);
+                                    currentCol = [];
+                                }
+                                currentCol.push(item);
+                            }
+                            cols.push(currentCol);
+                        }
+
+                        // 3. Sort each col by Y and apply ID
+                        let id = 0;
+                        cols.forEach((colItems, cIdx) => {
+                            // Sort T->B
+                            colItems.sort((a, b) => a.y - b.y);
+
+                            // If Snake and Odd Col, Reverse (B->T)
+                            if (mode === 'snake' && cIdx % 2 !== 0) {
+                                colItems.reverse();
+                            }
+                            colItems.forEach(item => item.id = id++);
+                        });
+                        this.items.sort((a, b) => a.id - b.id);
+                    }
+
+                    alert('Renumerado!');
+                },
+
+                // --- IO ---
+                generateJson() {
+                    let exportItems = [];
+                    if (this.exportMode === 'rotas') {
+                        exportItems = this.items.map(i => ({ id: i.id, x: Math.round(i.x), y: Math.round(i.y), t: i.v > 0 ? 1 : 0 }));
+                    } else if (this.exportMode === 'value') {
+                        exportItems = this.items.map(i => ({ id: i.id, x: Math.round(i.x), y: Math.round(i.y), v: i.v }));
+                    }
+                    const out = { imgWidth: this.imgWidth, imgHeight: this.imgHeight, boxW: this.boxW, boxH: this.boxH, items: exportItems };
+                    this.jsonIO = JSON.stringify(out, null, 0);
+                    navigator.clipboard.writeText(`const ROTAS_CONFIG = ${this.jsonIO};`);
+                    alert("Copiado!");
+                },
+                importJson() {
+                    try {
+                        let txt = this.jsonIO.trim();
+                        // Try to extract the object part if it's an assignment
+                        if (txt.includes('=')) {
+                            txt = txt.substring(txt.indexOf('=') + 1);
+                        }
+                        if (txt.endsWith(';')) {
+                            txt = txt.substring(0, txt.lastIndexOf(';'));
+                        }
+
+                        // Use Function constructor for relaxed JSON (allows keys without quotes, etc)
+                        // This handles "const x = {...}" or just "{...}"
+                        const data = (new Function('return ' + txt))();
+
+                        if (!data) throw new Error("Dados vazios");
+
+                        this.imgWidth = data.imgWidth || 1000;
+                        this.imgHeight = data.imgHeight || 800;
+                        this.boxW = data.boxW || 30;
+                        this.boxH = data.boxH || 30;
+
+                        // Helper to find starting max ID
+                        let maxId = 0;
+
+                        if (data.items) {
+                            this.items = data.items.map(i => {
+                                maxId = Math.max(maxId, i.id);
+                                return {
+                                    id: i.id, x: i.x, y: i.y,
+                                    v: i.v !== undefined ? i.v : (i.t || 0),
+                                    r: i.r || -1, c: i.c || -1
+                                };
+                            });
+                        }
+
+                        // Restore Visual Settings if present
+                        if (data.globalShape) this.globalShape = data.globalShape;
+                        if (data.valStyles) this.valStyles = data.valStyles;
+                        if (data.dblClickAction) this.dblClickAction = data.dblClickAction;
+                        if (data.maxVal) this.maxVal = data.maxVal; // Fix maxVal import
+
+                        alert("Importado com Sucesso!");
+                    } catch (e) {
+                        console.error(e);
+                        alert("Erro ao Importar: " + e.message);
+                    }
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

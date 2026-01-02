@@ -216,6 +216,33 @@
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     12. TECON <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'tecon'"></i>
                 </button>
+
+                <button
+                    @click="section = 'teaco'; document.getElementById('teaco').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'teaco' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    13. TEACO <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'teaco'"></i>
+                </button>
+
+                <button
+                    @click="section = 'teadi'; document.getElementById('teadi').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'teadi' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    14. TEADI <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'teadi'"></i>
+                </button>
+
+                <button
+                    @click="section = 'tealt'; document.getElementById('tealt').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'tealt' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    15. TEALT <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'tealt'"></i>
+                </button>
+
+                <button @click="section = 'ac'; document.getElementById('ac').scrollIntoView({behavior: 'smooth'})"
+                    :class="section === 'ac' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
+                    16. AC Vetor <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'ac'"></i>
+                </button>
             </div>
         </aside>
 
@@ -243,7 +270,7 @@
 
                 <!-- Controle de Zoom de Imagem -->
                 <div class="flex items-center gap-1 bg-white/5 rounded-lg p-1 border border-white/5"
-                    x-show="['diffuse', 'tedif2', 'tedif3', 'cta', 'rotas', 'bpa', 'bda', 'tecon'].includes(section)">
+                    x-show="['diffuse', 'tedif2', 'tedif3', 'cta', 'rotas', 'bpa', 'bda', 'tecon', 'teaco', 'teadi', 'tealt', 'ac'].includes(section)">
                     <button @click="imageScale = Math.max(20, imageScale - 10)"
                         class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
                         title="Diminuir Imagens">
@@ -395,15 +422,7 @@
                             <p class="text-xs text-gray-500 py-2">Exemplo visual: TEDIF-1 e TADIM-1</p>
                         </div>
 
-                        <!-- DOWNLOAD BUTTON -->
-                        <div class="flex justify-center mt-6">
-                            <a href="https://drive.google.com/file/d/1SqBK2OtWtg3TGlrHqtpwKLegBd9yDEUQ/view?usp=sharing"
-                                target="_blank"
-                                class="flex items-center gap-3 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all transform hover:-translate-y-1">
-                                <i class="fas fa-cloud-download-alt text-xl"></i>
-                                <span>Baixar Kits Completos (TADIM/TEDIF)</span>
-                            </a>
-                        </div>
+
                     </div>
                 </section>
 
@@ -473,7 +492,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../tadim/tadim1.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -488,6 +507,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1SqBK2OtWtg3TGlrHqtpwKLegBd9yDEUQ/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar TADIM/TEDIF</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
 
@@ -567,7 +603,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../tedif/tedif1.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -582,6 +618,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1SqBK2OtWtg3TGlrHqtpwKLegBd9yDEUQ/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar TADIM/TEDIF</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
 
@@ -628,7 +681,7 @@
                         </div>
 
                         <!-- SIMULADOR BTN -->
-                        <div class="mt-4">
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <a href="../tedif/tedif2.html"
                                 class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
@@ -643,6 +696,23 @@
                                 </div>
                                 <i
                                     class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1SqBK2OtWtg3TGlrHqtpwKLegBd9yDEUQ/view?usp=sharing"
+                                target="_blank"
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                        <i class="fas fa-cloud-download-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white">Baixar TADIM/TEDIF</h4>
+                                        <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                    </div>
+                                </div>
+                                <i
+                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
                     </div>
@@ -707,7 +777,7 @@
                         </div>
 
                         <!-- SIMULADOR BTN -->
-                        <div class="mt-4">
+                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <a href="../tedif/tedif3.html"
                                 class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
@@ -722,6 +792,23 @@
                                 </div>
                                 <i
                                     class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            </a>
+
+                            <a href="https://drive.google.com/file/d/1SqBK2OtWtg3TGlrHqtpwKLegBd9yDEUQ/view?usp=sharing"
+                                target="_blank"
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                        <i class="fas fa-cloud-download-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white">Baixar TADIM/TEDIF</h4>
+                                        <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                    </div>
+                                </div>
+                                <i
+                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
                     </div>
@@ -772,7 +859,7 @@
                                     class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../cta/ctaac.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -787,6 +874,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1E71GrFgd8gkPTebhY_GTbRfPtPsEdZEQ/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar CTA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -819,7 +923,7 @@
                                     class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../cta/ctaad.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -834,6 +938,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1E71GrFgd8gkPTebhY_GTbRfPtPsEdZEQ/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar CTA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -866,7 +987,7 @@
                                     class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../cta/cta_aa.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -882,18 +1003,27 @@
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
+
+                                <a href="https://drive.google.com/file/d/1E71GrFgd8gkPTebhY_GTbRfPtPsEdZEQ/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar CTA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
                             </div>
                         </div>
 
-                        <!-- CTA DOWNLOAD BUTTON -->
-                        <div class="flex justify-center mt-6">
-                            <a href="https://drive.google.com/file/d/1E71GrFgd8gkPTebhY_GTbRfPtPsEdZEQ/view?usp=sharing"
-                                target="_blank"
-                                class="flex items-center gap-3 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all transform hover:-translate-y-1">
-                                <i class="fas fa-cloud-download-alt text-xl"></i>
-                                <span>Baixar CTA</span>
-                            </a>
-                        </div>
+
                     </div>
                 </section>
 
@@ -943,7 +1073,7 @@
                                     class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../rotas/rotaa.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -958,6 +1088,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/184-ZItLsqUfPPfV9jorXLO_oX5imud74/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar Rotas</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -990,7 +1137,7 @@
                                     class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../rotas/rotac.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1005,6 +1152,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/184-ZItLsqUfPPfV9jorXLO_oX5imud74/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar Rotas</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -1037,7 +1201,7 @@
                                     class="mx-auto max-h-70" :style="'transform: scale(' + (imageScale/100) + ')'">
                             </div>
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../rotas/rotad.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1053,18 +1217,27 @@
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
+
+                                <a href="https://drive.google.com/file/d/184-ZItLsqUfPPfV9jorXLO_oX5imud74/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar Rotas</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
                             </div>
                         </div>
 
-                        <!-- ROTAS DOWNLOAD BUTTON -->
-                        <div class="flex justify-center mt-6">
-                            <a href="https://drive.google.com/file/d/184-ZItLsqUfPPfV9jorXLO_oX5imud74/view?usp=sharing"
-                                target="_blank"
-                                class="flex items-center gap-3 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-bold shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transition-all transform hover:-translate-y-1">
-                                <i class="fas fa-cloud-download-alt text-xl"></i>
-                                <span>Baixar Rotas</span>
-                            </a>
-                        </div>
+
                     </div>
                 </section>
 
@@ -1120,7 +1293,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../bpa/bpa_ac.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1135,6 +1308,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1V_2ul3Dwd-lDkpCB-vnOyJMzDTiba1xA/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar BPA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -1182,7 +1372,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../bpa/bpa_ad.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1197,6 +1387,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1V_2ul3Dwd-lDkpCB-vnOyJMzDTiba1xA/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar BPA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -1240,7 +1447,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../bpa/bpa_aa.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1255,6 +1462,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1V_2ul3Dwd-lDkpCB-vnOyJMzDTiba1xA/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar BPA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -1315,7 +1539,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../bda/bda_ac.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1330,6 +1554,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1QlPB_kfofp4uakNR3KgrFCa93kskg0cd/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar BDA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -1370,7 +1611,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../bda/bda_ad.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1385,6 +1626,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1QlPB_kfofp4uakNR3KgrFCa93kskg0cd/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar BDA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -1425,7 +1683,7 @@
                             </div>
 
                             <!-- SIMULADOR BTN -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../bda/bda_aa.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1440,6 +1698,23 @@
                                     </div>
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1QlPB_kfofp4uakNR3KgrFCa93kskg0cd/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar BDA</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
                             </div>
                         </div>
@@ -1693,7 +1968,7 @@
                             </div>
 
                             <!-- Simulator Button -->
-                            <div class="mb-6">
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <a href="../tecon/tecon3.html"
                                     class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
                                     <div class="flex items-center gap-4">
@@ -1709,9 +1984,460 @@
                                     <i
                                         class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
                                 </a>
+
+                                <a href="https://drive.google.com/file/d/1K2YAi4B-xYDBiW2-C7vmQfSDgmFKbsg7/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar TECON</h4>
+                                            <p class="text-xs text-gray-400">Download do Kit Completo</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
                             </div>
                         </div>
 
+                    </div>
+                </section>
+
+                <div class="w-full h-px bg-white/10 my-8"></div>
+
+                <!-- 13. TEACO -->
+                <section id="teaco" class="scroll-mt-28">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">13</span>
+                        TEACO (Teste de Atenção Concentrada)
+                    </h2>
+
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                        <p class="mb-6 text-lg">O TESTE <strong>TEACO</strong> é uma avaliação psicológica usada para
+                            medir a capacidade de focar em um único estímulo em meio a distratores, onde o candidato
+                            deve riscar alvos específicos em uma folha dentro de um tempo limitado.</p>
+
+                        <div class="mb-12">
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <!-- Time -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">4 min</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <!-- Items -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-list-ol mb-2 text-blue-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">180</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                                </div>
+                                <!-- Meta -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">144</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (16 col x 9)</span>
+                                </div>
+                                <!-- Pontuação -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-calculator mb-2 text-purple-400 text-xl"></i>
+                                    <span class="text-sm font-bold text-white">A - (E + O)</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação</span>
+                                </div>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/teaco/teaco_exemplo.png" alt="Exemplo TEACO"
+                                    class="mx-auto max-h-72" :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- Tips -->
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <div class="p-4 border-l-4 border-red-500 bg-red-500/10 rounded-r-lg">
+                                    <h4 class="text-red-400 font-bold mb-2"><i
+                                            class="fas fa-exclamation-triangle mr-2"></i>Atenção</h4>
+                                    <p class="text-gray-300 text-sm">Responda por <strong>coluna</strong> seguindo a
+                                        direção das setas, <strong>não</strong> por linha.</p>
+                                </div>
+                                <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
+                                    <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Dica
+                                    </h4>
+                                    <p class="text-gray-300 text-sm">Tem sempre <strong>9 figuras corretas</strong> por
+                                        coluna.</p>
+                                </div>
+                            </div>
+
+                            <!-- Simulator Button -->
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <a href="../teaco/teaco.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador TEACO</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1U57w0cdytC6DXb2NLriZVo5gMlOm7ogV/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar TEACO</h4>
+                                            <p class="text-xs text-gray-400">Download do Teste</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="w-full h-px bg-white/10 my-8"></div>
+
+                <!-- 14. TEADI -->
+                <section id="teadi" class="scroll-mt-28">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">14</span>
+                        TEADI (Teste de Atenção Dividida)
+                    </h2>
+
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                        <p class="mb-6 text-lg">O Teste <strong>TEADI</strong> (Teste de Atenção Dividida) é um
+                            instrumento psicológico que avalia a capacidade de uma pessoa de focar em dois ou mais
+                            estímulos ao mesmo tempo, ignorando distrações.</p>
+
+                        <p class="mb-6 text-gray-300"><strong>Objetivo:</strong> Medir a capacidade de atenção dividida,
+                            ou seja, de atender a múltiplas demandas ou estímulos simultaneamente.</p>
+
+                        <p class="mb-6 text-gray-300"><strong>Como Funciona:</strong> O indivíduo precisa procurar e
+                            identificar estímulos específicos (como formas geométricas) em uma prancha, alternando a
+                            atenção entre eles e ignorando outros.</p>
+
+                        <div class="mb-12">
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <!-- Time -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">5 min</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <!-- Max Points -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-list-ol mb-2 text-blue-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">180</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Máx Pontos</span>
+                                </div>
+                                <!-- Meta -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">126</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (21 Linhas x
+                                        6)</span>
+                                </div>
+                                <!-- Pontuação -->
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-calculator mb-2 text-purple-400 text-xl"></i>
+                                    <span class="text-sm font-bold text-white">Acertos - (E + O)</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação</span>
+                                </div>
+                            </div>
+
+                            <!-- Tips -->
+                            <div class="mb-6 p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
+                                <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Dica
+                                </h4>
+                                <p class="text-gray-300 text-sm">Tem sempre <strong>6 figuras corretas</strong> por
+                                    LINHA.</p>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/teadi/TEADI_exemplo.png" alt="Exemplo TEADI"
+                                    class="mx-auto max-h-72" :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <a href="../teadi/teadi.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador TEADI</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1UwOdsqvVQ1EUylATNRWtar2JMnH9cbjR/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar TEADI</h4>
+                                            <p class="text-xs text-gray-400">Download do Teste</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="w-full h-px bg-white/10 my-8"></div>
+
+                <!-- 15. TEALT -->
+                <section id="tealt" class="scroll-mt-28">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">15</span>
+                        TEALT - Teste de Atenção Alternada
+                    </h2>
+
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                        <p class="mb-6 text-lg">O TESTE <strong>TEALT</strong> (Teste de Atenção Alternada) é um
+                            instrumento psicológico que avalia a habilidade de alternar o foco da atenção entre
+                            diferentes estímulos em sequência, medindo a flexibilidade e o controle atencional.</p>
+
+                        <p class="mb-6"><strong>O que ele avalia?</strong><br>
+                            A capacidade de mudar rapidamente o foco entre dois ou mais estímulos.<br>
+                            Controle atencional e flexibilidade cognitiva.</p>
+
+                        <div class="mb-12">
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">2m 30s</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-list-ol mb-2 text-blue-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">128</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Máx Pontos</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">96</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (12x8)</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-calculator mb-2 text-purple-400 text-xl"></i>
+                                    <span class="text-sm font-bold text-white">A - (E + O)</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação</span>
+                                </div>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/tealt/tealt_exemplo.jpg" alt="Exemplo TEALT"
+                                    class="mx-auto max-h-72" :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- Tips -->
+                            <div class="mb-6 p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
+                                <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Dica
+                                </h4>
+                                <p class="text-gray-300 text-sm">Tem sempre <strong>8 figuras corretas</strong> por
+                                    LINHA.</p>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <a href="../tealt/tealt.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador TEALT</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1q7y-bK5-L787cGavLSVOE7TZ9k520ZsV/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar TEALT</h4>
+                                            <p class="text-xs text-gray-400">Download do Teste</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="w-full h-px bg-white/10 my-8"></div>
+
+                <!-- 16. AC Vetor -->
+                <section id="ac" class="scroll-mt-28">
+                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                        <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">16</span>
+                        AC Vetor (Atenção Concentrada)
+                    </h2>
+
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                        <p class="mb-6 text-lg">O <strong>Teste AC</strong> é uma ferramenta prática e confiável
+                            desenvolvida para avaliar a atenção <em>concentrada</em>, ou seja, a capacidade de um
+                            indivíduo para focar em estímulos específicos enquanto filtra distrações. Com uma aplicação
+                            ágil (apenas 5 minutos), ele identifica o desempenho em tarefas que exigem alto nível de
+                            concentração.</p>
+
+                        <p class="mb-6 text-gray-300">Para realizar o teste, deve-se marcar setas iguais as do
+                            retângulo. Elas podem vir juntas ou separadas, não necessariamente nessa mesma ordem.</p>
+
+                        <div class="mb-12">
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
+                                    <span class="text-xl font-bold text-white">5 min</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-list-ol mb-2 text-blue-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">147</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Máx Pontos</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
+                                    <span class="text-xl font-bold text-white">119</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (17x7)</span>
+                                </div>
+                                <div
+                                    class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
+                                    <i class="fas fa-calculator mb-2 text-purple-400 text-xl"></i>
+                                    <span class="text-sm font-bold text-white">A - (E + O)</span>
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação</span>
+                                </div>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                                <img src="../../Imagens_base/testeac/ac_exemplo.jpg" alt="Exemplo AC Vetor"
+                                    class="mx-auto max-h-72" :style="'transform: scale(' + (imageScale/100) + ')'">
+                            </div>
+
+                            <!-- Tips -->
+                            <div class="grid md:grid-cols-2 gap-4 mb-6">
+                                <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
+                                    <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Dica
+                                    </h4>
+                                    <p class="text-gray-300 text-sm mb-2">Para ficar mais fácil, vamos passar em cada
+                                        linha 3x, procurando uma figura por vez, na seguinte ordem:</p>
+                                    <img src="../../Imagens_base/testeac/ac_dica.jpg" alt="Dica Ordem"
+                                        class="w-full h-auto rounded opacity-90 border border-white/10">
+                                </div>
+                                <div class="flex flex-col gap-4">
+                                    <div class="p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg flex-1">
+                                        <h4 class="text-blue-400 font-bold mb-2"><i
+                                                class="fas fa-check-circle mr-2"></i>Padrão</h4>
+                                        <p class="text-gray-300 text-sm">Tem sempre <strong>7 figuras corretas</strong>
+                                            por linha.</p>
+                                    </div>
+                                    <div class="p-4 border-l-4 border-green-500 bg-green-500/10 rounded-r-lg flex-1">
+                                        <h4 class="text-green-400 font-bold mb-2"><i class="fas fa-undo mr-2"></i>Anular
+                                            Erro</h4>
+                                        <p class="text-gray-300 text-sm">Caso marquem uma seta errada, deve-se fazer um
+                                            círculo em volta dela para que não seja considerada um erro.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <a href="../acvetor.html"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                            <i class="fas fa-play"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Simulador AC Vetor</h4>
+                                            <p class="text-xs text-gray-400">Pratique agora</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+
+                                <a href="https://drive.google.com/file/d/1W02LCTJhsWqnC24mWszzV5SqE6s_IyCd/view?usp=sharing"
+                                    target="_blank"
+                                    class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                    <div class="flex items-center gap-4">
+                                        <div
+                                            class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-bold text-white">Baixar Teste AC</h4>
+                                            <p class="text-xs text-gray-400">Download do Teste</p>
+                                        </div>
+                                    </div>
+                                    <i
+                                        class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </section>
 

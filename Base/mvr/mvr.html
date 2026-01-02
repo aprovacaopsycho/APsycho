@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVR | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../../favicon.png" />
+
+    <!-- SEGURANÇA -->
+    <script src="../../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Web Font for Rota C Style -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;600;800&display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#100f1c',
+                        card: 'rgba(23, 22, 35, 0.7)',
+                        primary: '#9f54ff', // Roxo Principal
+                        accent: '#ff00ff',  // Rosa Choque
+                        cyan: '#00c2ff',    // Ciano Neon
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Black Ops One', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        :root {
+            --text-light: #e5e7eb;
+            --accent-pink: #ff00ff;
+        }
+
+        body {
+            background-color: #100f1c;
+            color: #a0a0a0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .hero-bg {
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
+        }
+
+        .glass-panel {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .fade-enter {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f0e1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9f54ff;
+        }
+
+        /* Zoom controls */
+        .zoom-container {
+            overflow: auto;
+            max-height: 80vh;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            position: relative;
+            background: #1a1a20;
+            padding: 20px;
+        }
+
+        .zoom-img {
+            transform-origin: top center;
+            transition: transform 0.2s ease;
+            display: block;
+        }
+
+        /* Rota C Styles Adoption */
+        .stamp-inapto {
+            font-family: 'Black Ops One', cursive;
+            color: #ef4444;
+            text-transform: uppercase;
+            border: 5px solid #ef4444;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transform: rotate(-15deg) scale(0);
+            animation: stampBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        @keyframes stampBounce {
+            0% {
+                transform: rotate(-15deg) scale(3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(-15deg) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body x-data="mvrApp()" x-init="init()" class="min-h-screen flex flex-col hero-bg">
+
+    <!-- AUDIO FILES -->
+    <audio id="audio-prepare" src="../../vozes/prepare.mp3"></audio>
+    <audio id="audio-timeout" src="../../vozes/tempoesgotado.mp3"></audio>
+
+    <!-- HEADER (Exact TEPIC-M Replica) -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[#9f54ff] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">MVR</span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <!-- User Info -->
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] uppercase tracking-wider font-bold" style="color:#ff00ff">BASE 2025</span>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <!-- Back Button -->
+                    <a href="../testes_memoria.html"
+                        class="text-sm hover:text-white flex items-center gap-2 font-bold transition"
+                        style="color:#ff00ff">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                        </svg>
+                        Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow relative max-w-[1600px]">
+
+        <!-- STEP 1: INSTRUCTIONS (Updated to TEPIC Style List) -->
+        <div x-show="step === 1" class="max-w-4xl mx-auto text-center fade-enter">
+            <div class="mb-10">
+                <h2 class="text-4xl font-black text-white mb-2">Memória Visual de Rostos (MVR)</h2>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-red-500 text-xs font-bold uppercase tracking-wider mb-2">
+                    <i class="fas fa-exclamation-triangle"></i> Desfavorável pelo SATEPSI
+                </div>
+                <p class="text-gray-400">Teste de Memorização e Evocação de Detalhes</p>
+            </div>
+
+            <div
+                class="glass-panel p-8 mb-10 border border-white/10 relative overflow-hidden group hover:border-pink-500/30 transition-all text-left rounded-2xl">
+
+                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2 relative z-10">
+                    <i class="fas fa-clipboard-list" style="color:#ff00ff"></i> Instruções
+                </h3>
+
+                <div class="space-y-6 relative z-10">
+                    <!-- Item 1: Memorization -->
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold shrink-0 border border-purple-500/30">
+                            1
+                        </div>
+                        <div>
+                            <strong class="text-white block text-lg">Memorização (4 Minutos)</strong>
+                            <span class="text-gray-400">Você terá 4 minutos para memorizar a ficha com 12 rostos e suas
+                                informações.</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Response -->
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold shrink-0 border border-blue-500/30">
+                            2
+                        </div>
+                        <div>
+                            <strong class="text-white block text-lg">Resposta (6 Minutos)</strong>
+                            <span class="text-gray-400">
+                                Responda a 20 questões.
+                                <br>
+                                <span class="text-sm opacity-80">
+                                    • Clique para marcar X (Trava a questão). <br>
+                                    • Clique duplo para corrigir (Preenche e anula).
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Meta (Added here as requested) -->
+                    <div class="flex items-start gap-4">
+                        <div
+                            class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-400 font-bold shrink-0 border border-green-500/30">
+                            3
+                        </div>
+                        <div>
+                            <strong class="text-white block text-lg">Meta</strong>
+                            <span class="text-gray-400">Você precisa de pelo menos <strong>13 pontos</strong> para ser
+                                aprovado.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button @click="startMemorization()"
+                class="bg-gradient-to-r from-pink-600 to-purple-600 hover:scale-105 text-white font-bold py-4 px-10 rounded-xl shadow-[0_0_20px_rgba(159,84,255,0.3)] transition flex items-center gap-3 mx-auto">
+                <i class="fas fa-play"></i> INICIAR TESTE
+            </button>
+            <p class="text-xs text-gray-500 mt-4"><i class="fas fa-volume-up"></i> Certifique-se de que seu áudio está
+                ligado.</p>
+        </div>
+
+        <!-- STEP 2: MEMORIZATION -->
+        <div x-show="step === 2" class="h-full flex flex-col fade-enter" x-cloak>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Memorize os Rostos</h2>
+                <div class="flex items-center gap-4">
+                    <!-- Timer -->
+                    <div class="px-4 py-2 rounded-full bg-black/50 border border-white/10 font-mono text-xl font-bold text-cyan"
+                        :class="timeRemaining < 10 ? 'text-red-500 animate-pulse' : ''">
+                        <i class="fas fa-clock mr-2"></i><span x-text="formatTime(timeRemaining)"></span>
+                    </div>
+                    <button @click="skipMemorization()"
+                        class="text-xs text-gray-400 hover:text-white border border-gray-600 px-3 py-1 rounded">PULAR</button>
+                </div>
+            </div>
+
+            <div
+                class="flex-grow bg-black/20 rounded-xl border border-white/10 p-4 flex items-center justify-center overflow-auto">
+                <img src="../../Imagens_base/mvr/mvr_memo.jpg" alt="Ficha de Memorização"
+                    class="max-h-[85vh] w-auto object-contain rounded shadow-2xl">
+            </div>
+        </div>
+
+        <!-- STEP 3: TESTING (ANSWERING) -->
+        <div x-show="step === 3" class="h-full flex flex-col fade-enter" x-cloak>
+
+            <!-- FIXED TIMER & META -->
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-4">
+                <!-- Meta -->
+                <div
+                    class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-green-500/30 bg-[#1c1b29]/90 backdrop-blur-md">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Meta</div>
+                    <div class="font-mono text-3xl font-black text-green-400 tabular-nums leading-none">13</div>
+                </div>
+
+                <!-- Timer -->
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
+                    :class="{'border-red-500 bg-red-900/40': timeRemaining <= 30}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                        :class="{'text-red-400 animate-pulse': timeRemaining <= 30}" x-text="formatTime(timeRemaining)">
+                    </div>
+                </div>
+
+                <button @click="finishTest()"
+                    class="h-12 w-12 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transition hover:scale-110"
+                    title="Finalizar Teste">
+                    <i class="fas fa-stop"></i>
+                </button>
+            </div>
+
+            <!-- Toolbar & Pagination -->
+            <div class="glass-panel p-3 rounded-xl mb-4 flex justify-between items-center z-40 mt-16 lg:mt-0">
+                <div class="flex items-center gap-4">
+                    <span class="text-sm font-bold text-gray-300 uppercase hidden md:inline">
+                        <i class="fas fa-book mr-2"></i> Questões
+                    </span>
+
+                    <!-- PAGINATION BUTTONS -->
+                    <div class="flex bg-black/40 rounded-lg p-1 gap-1">
+                        <button @click="setPage(1)" class="px-4 py-1.5 rounded-md text-sm font-bold transition"
+                            :class="currentPage === 1 ? 'bg-[#9f54ff] text-white shadow' : 'text-gray-400 hover:text-white hover:bg-white/10'">
+                            Pág 1
+                        </button>
+                        <button @click="setPage(2)" class="px-4 py-1.5 rounded-md text-sm font-bold transition"
+                            :class="currentPage === 2 ? 'bg-[#9f54ff] text-white shadow' : 'text-gray-400 hover:text-white hover:bg-white/10'">
+                            Pág 2
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 bg-black/40 rounded-lg p-1">
+                    <button @click="zoomOut()" class="p-2 text-gray-400 hover:text-white" title="Diminuir Zoom"><i
+                            class="fas fa-search-minus"></i></button>
+                    <span class="px-2 font-mono text-xs text-gray-500" x-text="Math.round(zoom * 100) + '%'"></span>
+                    <button @click="zoomIn()" class="p-2 text-gray-400 hover:text-white" title="Aumentar Zoom"><i
+                            class="fas fa-search-plus"></i></button>
+                </div>
+            </div>
+
+            <!-- Content Split -->
+            <div class="flex flex-col lg:flex-row gap-6 h-full items-start">
+                <!-- Left: Content Pages (Paginated) -->
+                <div class="lg:w-2/3 w-full bg-transparent">
+                    <div id="content-container" class="zoom-container min-h-[500px]">
+
+                        <!-- Page 1 Content -->
+                        <div x-show="currentPage === 1" class="transition-opacity duration-300 w-full text-gray-300"
+                            :style="`transform: scale(${zoom}); transform-origin: top left; width: ${100/zoom}%;`">
+
+                            <!-- Examples -->
+                            <div class="bg-blue-500/10 border border-blue-500/20 p-4 rounded mb-6">
+                                <h5 class="font-bold text-blue-400 mb-2 uppercase text-sm">Exemplos</h5>
+                                <div class="grid gap-4">
+                                    <div class="bg-black/20 p-2 rounded">
+                                        <p class="text-sm">E1. Escolha a pessoa vista na Ficha de Memorização.</p>
+                                        <img src="../../Imagens_base/mvr/mvr_exemplo.png" class="rounded max-h-20 mt-2">
+                                    </div>
+                                    <div class="bg-black/20 p-2 rounded">
+                                        <p class="text-sm">E2. O nome da mulher que era médica era...</p>
+                                        <ul class="ml-4 text-xs text-gray-400 list-[upper-alpha] mt-1">
+                                            <li>Carmem</li>
+                                            <li>Rosa</li>
+                                            <li>Tânia</li>
+                                            <li>Norma</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-black/20 p-2 rounded">
+                                        <p class="text-sm">E3. A assistente social era...</p>
+                                        <ul class="ml-4 text-xs text-gray-400 list-[upper-alpha] mt-1">
+                                            <li>de São Paulo</li>
+                                            <li>Isabel</li>
+                                            <li>Maria Angela</li>
+                                            <li>Casada</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <h4 class="text-xl font-bold text-purple-400 mb-4 border-b border-white/10 pb-2">Página 1
+                            </h4>
+
+                            <div class="grid gap-8 pb-10">
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="mb-2 font-bold">1. Escolha a pessoa vista na Ficha de Memorização.</p>
+                                    <img src="../../Imagens_base/mvr/q1.png"
+                                        class="rounded border border-white/10 max-w-sm">
+                                </div>
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="mb-2 font-bold">2. Escolha a pessoa vista na Ficha de Memorização.</p>
+                                    <img src="../../Imagens_base/mvr/q2.png"
+                                        class="rounded border border-white/10 max-w-sm">
+                                </div>
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="mb-2 font-bold">3. Escolha a pessoa vista na Ficha de Memorização.</p>
+                                    <img src="../../Imagens_base/mvr/q3.png"
+                                        class="rounded border border-white/10 max-w-sm">
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">4. O sobrenome da mulher chamada Rosa era...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>Pinho</li>
+                                        <li>Lourenço</li>
+                                        <li>Bueno</li>
+                                        <li>Nóbrega</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">5. A pessoa que estava na cidade de Brasília:</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>era um homem</li>
+                                        <li>não era nutricionista</li>
+                                        <li>estava na primeira linha</li>
+                                        <li>tinha o sobrenome Nóbrega</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">6. Havia um homem de óculos...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>na coluna à esquerda</li>
+                                        <li>na última linha</li>
+                                        <li>na primeira linha</li>
+                                        <li>no centro, à direita</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">7. O professor de sobrenome Guerreiro era de:</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>Goiânia</li>
+                                        <li>Curitiba</li>
+                                        <li>Santo André</li>
+                                        <li>Rio de Janeiro</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">8. Havia um homem de gravata que era ...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>de Campinas</li>
+                                        <li>da primeira linha</li>
+                                        <li>da primeira coluna</li>
+                                        <li>de Campo Grande</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">9. A mulher penteada com rabo de cavalo...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>era professora</li>
+                                        <li>estava em São Paulo</li>
+                                        <li>era psicóloga</li>
+                                        <li>era secretária</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">10. Na primeira coluna havia...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>dois homens</li>
+                                        <li>três mulheres</li>
+                                        <li>quatro homens</li>
+                                        <li>duas mulheres</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">11. A pessoa chamada Jorge Batista era...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>médico</li>
+                                        <li>professor</li>
+                                        <li>padre</li>
+                                        <li>eletricista</li>
+                                    </ul>
+                                </div>
+
+                                <!-- Pagination Trigger -->
+                                <div id="page1-end" class="h-10 w-full"></div>
+                            </div>
+                        </div>
+
+                        <!-- Page 2 Content -->
+                        <div x-show="currentPage === 2" class="transition-opacity duration-300 w-full text-gray-300"
+                            x-cloak
+                            :style="`transform: scale(${zoom}); transform-origin: top left; width: ${100/zoom}%;`">
+
+                            <h4 class="text-xl font-bold text-purple-400 mb-4 border-b border-white/10 pb-2">Página 2
+                            </h4>
+
+                            <div class="grid gap-8">
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="mb-2 font-bold">12. Escolha a pessoa vista na Ficha de Memorização.</p>
+                                    <img src="../../Imagens_base/mvr/q12.png"
+                                        class="rounded border border-white/10 max-w-sm">
+                                </div>
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="mb-2 font-bold">13. Escolha a pessoa vista na Ficha de Memorização.</p>
+                                    <img src="../../Imagens_base/mvr/q13.png"
+                                        class="rounded border border-white/10 max-w-sm">
+                                </div>
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="mb-2 font-bold">14. Escolha a pessoa vista na Ficha de Memorização.</p>
+                                    <img src="../../Imagens_base/mvr/q14.png"
+                                        class="rounded border border-white/10 max-w-sm">
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">15. A mulher que era nutricionista também era...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>da primeira linha</li>
+                                        <li>de Brasília</li>
+                                        <li>da primeira coluna</li>
+                                        <li>do Rio de Janeiro</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">16. A pessoa com sobrenome Moraes era...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>um médico</li>
+                                        <li>um professor</li>
+                                        <li>uma mulher</li>
+                                        <li>uma assistente social</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">17. Era de Goiânia...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>Alberto Hering</li>
+                                        <li>uma recepcionista</li>
+                                        <li>uma nutricionista</li>
+                                        <li>um professor</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">18. A pessoa chamada Inácio Barbosa...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>olhava de frente</li>
+                                        <li>usava gravata</li>
+                                        <li>tinha bigode</li>
+                                        <li>usava óculos</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">19. Na ficha havia...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>duas secretárias</li>
+                                        <li>duas professoras</li>
+                                        <li>duas assistentes social</li>
+                                        <li>dois professores</li>
+                                    </ul>
+                                </div>
+
+                                <div class="bg-black/20 p-4 rounded border border-white/5">
+                                    <p class="font-bold">20. Entre os homens tinha um padre que era de ...</p>
+                                    <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha] mt-2 space-y-1">
+                                        <li>Curitiba</li>
+                                        <li>Porto Alegre</li>
+                                        <li>Blumenau</li>
+                                        <li>Campo Grande</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right: Answer Sheet (Refined: Compact and Larger Circles) -->
+                <div class="lg:w-1/3 w-full max-w-sm pl-4">
+                    <div
+                        class="glass-panel rounded-xl p-3 sticky top-4 max-h-[80vh] overflow-y-auto flex flex-col custom-scrollbar">
+                        <div class="mb-2 border-b border-white/10 pb-2">
+                            <h3 class="text-white font-bold text-center">Respostas</h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-0.5">
+                            <!-- HEADER LABELS -->
+                            <div
+                                class="flex items-center gap-1 px-1 mb-1 text-[10px] text-gray-500 font-bold uppercase">
+                                <span class="w-10 text-center">Item</span>
+                                <div class="flex gap-1 justify-center flex-grow">
+                                    <span class="w-12 text-center">A</span>
+                                    <span class="w-12 text-center">B</span>
+                                    <span class="w-12 text-center">C</span>
+                                    <span class="w-12 text-center">D</span>
+                                </div>
+                            </div>
+
+                            <!-- EXAMPLES -->
+                            <template x-for="ex in ['E1', 'E2', 'E3']" :key="ex">
+                                <div
+                                    class="flex items-center gap-1 bg-blue-500/5 p-0.5 rounded border border-blue-500/10">
+                                    <span class="font-mono text-blue-400 text-sm font-bold w-10 text-center"
+                                        x-text="ex"></span>
+                                    <div class="flex gap-1 justify-center flex-grow">
+                                        <template x-for="opt in ['A','B','C','D']" :key="opt">
+                                            <button @click="handleClick(ex, opt)" @dblclick="handleDoubleClick(ex, opt)"
+                                                class="w-12 h-12 relative flex items-center justify-center rounded-full transition-all hover:bg-white/5"
+                                                :class="getOptionClass(ex, opt)">
+
+                                                <!-- Correct Answer Hint (Green Ring) -->
+                                                <template x-if="correctAnswers[ex] === opt">
+                                                    <div
+                                                        class="absolute inset-0 rounded-full border-2 border-green-500/30 shadow-[0_0_10px_rgba(34,197,94,0.2)]">
+                                                    </div>
+                                                </template>
+
+                                                <!-- Base Circle -->
+                                                <div class="w-8 h-8 rounded-full border-2 transition-all relative z-10"
+                                                    :class="getCircleClass(ex, opt)">
+                                                </div>
+
+                                                <!-- X Mark for Selection -->
+                                                <template x-if="isMarked(ex, opt)">
+                                                    <i
+                                                        class="fas fa-times absolute text-red-500 text-2xl pointer-events-none z-20"></i>
+                                                </template>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <div class="h-px bg-white/10 my-1"></div>
+
+                            <!-- QUESTIONS 1-20 -->
+                            <template x-for="q in 20" :key="q">
+                                <div
+                                    class="flex items-center gap-1 bg-white/5 p-0.5 rounded hover:bg-white/10 transition group">
+                                    <span class="font-mono text-cyan text-sm font-bold w-10 text-center"
+                                        x-text="q.toString().padStart(2, '0')"></span>
+                                    <div class="flex gap-1 justify-center flex-grow">
+                                        <!-- Options A, B, C, D -->
+                                        <template x-for="opt in ['A','B','C','D']" :key="opt">
+                                            <button @click="handleClick(q, opt)" @dblclick="handleDoubleClick(q, opt)"
+                                                class="w-12 h-12 relative flex items-center justify-center rounded-full transition-all group-hover:bg-white/5"
+                                                :class="getOptionClass(q, opt)">
+
+                                                <!-- Base Circle (Enlarged to w-8 h-8) -->
+                                                <div class="w-8 h-8 rounded-full border-2 transition-all"
+                                                    :class="getCircleClass(q, opt)">
+                                                </div>
+
+                                                <!-- X Mark for Selection -->
+                                                <template x-if="isMarked(q, opt)">
+                                                    <i
+                                                        class="fas fa-times absolute text-red-500 text-2xl pointer-events-none"></i>
+                                                </template>
+                                            </button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 4: RESULTS (Rota C Style) -->
+        <div x-show="step === 4" class="max-w-5xl mx-auto fade-enter pt-10" x-cloak>
+            <div
+                class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 text-center border-t border-white/20">
+
+                <div class="absolute inset-0 opacity-20 pointer-events-none"
+                    :class="passed ? 'bg-green-600' : 'bg-red-900'"></div>
+
+                <h2 class="text-4xl font-black text-white mb-8 drop-shadow-lg font-display tracking-widest">RELATÓRIO DE
+                    DESEMPENHO</h2>
+
+                <div class="flex justify-center mb-10 relative min-h-[200px] items-center">
+                    <!-- PASSED -->
+                    <div x-show="passed" class="flex flex-col items-center animate-bounce-in">
+                        <div
+                            class="h-28 w-28 rounded-full bg-green-500 text-white flex items-center justify-center text-6xl shadow-[0_0_50px_rgba(34,197,94,0.6)] mb-4">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-5xl font-black text-green-400 tracking-tighter font-display">APTO</h3>
+                        <p class="text-green-200/60 text-lg mt-2">Parabéns! Excelente desempenho.</p>
+                    </div>
+
+                    <!-- FAILED -->
+                    <div x-show="!passed" class="relative flex flex-col items-center justify-center">
+                        <div class="text-6xl text-red-500 font-display uppercase font-black mb-4"
+                            style="text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);">
+                            VOCÊ FICOU<br>INAPTO!
+                        </div>
+                        <div class="stamp-inapto text-3xl opacity-80 mt-2">
+                            Tente Novamente
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 relative z-10">
+                    <div class="bg-black/40 p-5 rounded-xl border border-white/10 backdrop-blur-sm">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-2">Acertos</div>
+                        <div class="text-4xl font-black text-green-400 font-mono" x-text="hits"></div>
+                    </div>
+                    <div class="bg-black/40 p-5 rounded-xl border border-white/10 backdrop-blur-sm">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-2">Erros</div>
+                        <div class="text-4xl font-black text-red-400 font-mono" x-text="errors"></div>
+                    </div>
+                    <div class="bg-black/40 p-5 rounded-xl border border-white/10 backdrop-blur-sm">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-2">Penalidade</div>
+                        <div class="text-4xl font-black text-orange-400 font-mono" x-text="(errors/3).toFixed(1)"></div>
+                    </div>
+                    <div
+                        class="bg-gradient-to-b from-gray-800 to-black p-5 rounded-xl border border-white/20 shadow-inner">
+                        <div class="text-xs font-bold text-white/70 uppercase mb-2">Pontuação Final</div>
+                        <div class="text-5xl font-black text-white font-mono" x-text="score.toFixed(1)"></div>
+                        <div class="text-[10px] text-gray-400 mt-1">Meta: 13</div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col md:flex-row gap-4 justify-center relative z-10">
+                    <button @click="location.reload()"
+                        class="px-8 py-4 rounded-xl bg-white text-slate-900 font-bold hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-redo"></i> Tentar Novamente
+                    </button>
+                    <a href="../testes_memoria.html"
+                        class="px-8 py-4 rounded-xl border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-list"></i> Voltar ao Menu
+                    </a>
+                </div>
+
+                <!-- Expanded Gabarito -->
+                <div class="mt-8 pt-8 border-t border-white/10 text-left">
+                    <h4 class="text-sm font-bold text-gray-400 uppercase mb-4">Detalhamento das Respostas</h4>
+
+                    <!-- Examples in Results -->
+                    <div class="mb-4 p-4 bg-white/5 rounded border border-white/5">
+                        <h5 class="text-xs text-gray-500 uppercase font-bold mb-2">Exemplos</h5>
+                        <div class="flex gap-4">
+                            <div class="text-xs text-gray-400">E1: <span class="font-bold text-white">D</span></div>
+                            <div class="text-xs text-gray-400">E2: <span class="font-bold text-white">C</span></div>
+                            <div class="text-xs text-gray-400">E3: <span class="font-bold text-white">B</span></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2">
+                        <template x-for="q in 20" :key="q">
+                            <div class="p-2 rounded border text-xs text-center border-white/5 transition hover:scale-105 cursor-default"
+                                :class="getGabaritoClass(q)">
+                                <strong class="block mb-1">Q<span x-text="q"></span></strong>
+                                <div class="flex justify-center items-center gap-1">
+                                    <span class="font-mono" x-text="getFinalAnswer(q) || '-'"></span>
+                                    <i class="fas fa-arrow-right text-[10px] opacity-50"></i>
+                                    <span class="font-mono font-bold" x-text="correctAnswers[q]"></span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function mvrApp() {
+            return {
+                step: 1, // 1:Intro, 2:Memo, 3:Test, 4:Result
+                currentPage: 1, // Pagination for Test Phase
+                timeRemaining: 0,
+                timerInterval: null,
+                zoom: 1.0,
+
+                // DATA STRUCTURE: answers[q] = { selected: 'A', annulled: ['B'] }
+                answers: {},
+
+                score: 0,
+                hits: 0,
+                errors: 0,
+                passed: false,
+                studentName: sessionStorage.getItem('memberName') || 'Visitante',
+                observer: null,
+
+                correctAnswers: {
+                    'E1': 'D', 'E2': 'C', 'E3': 'B',
+                    1: 'C', 2: 'D', 3: 'C', 4: 'C', 5: 'B', 6: 'B', 7: 'B', 8: 'A', 9: 'D', 10: 'B',
+                    11: 'D', 12: 'D', 13: 'A', 14: 'C', 15: 'A', 16: 'C', 17: 'B', 18: 'C', 19: 'D', 20: 'B'
+                },
+
+                init() {
+                    document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
+
+                    // Initialize Answers (Questions + Examples)
+                    ['E1', 'E2', 'E3'].forEach(k => this.answers[k] = { selected: null, annulled: [] });
+                    for (let i = 1; i <= 20; i++) {
+                        this.answers[i] = { selected: null, annulled: [] };
+                    }
+                },
+
+                handleClick(q, opt) {
+                    let record = this.answers[q];
+
+                    // If this option is already annulled, ignore
+                    if (record.annulled.includes(opt)) return;
+
+                    // If we differ from current selection AND current selection exists -> Locked!
+                    if (record.selected && record.selected !== opt) return;
+
+                    // If we click the same selection -> Do nothing (wait for double click to annul)
+                    if (record.selected === opt) return;
+
+                    // Select
+                    record.selected = opt;
+                },
+
+                handleDoubleClick(q, opt) {
+                    let record = this.answers[q];
+
+                    // Can only annul if it is currently selected
+                    if (record.selected === opt) {
+                        record.selected = null;
+                        record.annulled.push(opt);
+                    }
+                },
+
+                isMarked(q, opt) {
+                    return this.answers[q].selected === opt;
+                },
+
+                isAnnulled(q, opt) {
+                    return this.answers[q].annulled.includes(opt);
+                },
+
+                getOptionClass(q, opt) {
+                    return '';
+                },
+
+                getCircleClass(q, opt) {
+                    if (this.isAnnulled(q, opt)) {
+                        return 'bg-white border-white'; // Filled paint for annulled
+                    }
+                    if (this.answers[q].selected === opt) {
+                        return 'border-white bg-transparent'; // Will have X overlaid
+                    }
+                    return 'border-gray-600 bg-transparent hover:border-gray-400';
+                },
+
+                startMemorization() {
+                    document.getElementById('audio-prepare').play().catch(e => console.log("Audio ignored"));
+                    this.step = 2;
+                    this.startTimer(240, () => this.startTestPhase());
+                },
+
+                skipMemorization() {
+                    this.stopTimer();
+                    this.startTestPhase();
+                },
+
+                startTestPhase() {
+                    this.step = 3;
+                    window.scrollTo(0, 0);
+                    this.currentPage = 1;
+                    this.zoom = 1.0;
+                    this.startTimer(360, () => this.finishTest());
+                },
+
+                setPage(p) {
+                    this.currentPage = p;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    const container = document.getElementById('content-container');
+                    if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
+                },
+
+                startTimer(seconds, onComplete) {
+                    this.stopTimer();
+                    this.timeRemaining = seconds;
+                    this.timerInterval = setInterval(() => {
+                        this.timeRemaining--;
+                        if (this.timeRemaining <= 0) {
+                            this.stopTimer();
+                            document.getElementById('audio-timeout').play().catch(e => { });
+                            onComplete();
+                        }
+                    }, 1000);
+                },
+
+                stopTimer() {
+                    if (this.timerInterval) clearInterval(this.timerInterval);
+                },
+
+                formatTime(sec) {
+                    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+                    const s = (sec % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
+                },
+
+                zoomIn() {
+                    if (this.zoom < 3.0) this.zoom += 0.2;
+                },
+                zoomOut() {
+                    if (this.zoom > 0.6) this.zoom -= 0.2;
+                },
+
+                finishTest() {
+                    this.stopTimer();
+                    this.calculateScore();
+                    this.step = 4;
+                    window.scrollTo(0, 0);
+                    if (this.passed) {
+                        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#22c55e', '#a855f7'] });
+                    }
+                },
+
+                getFinalAnswer(q) {
+                    return this.answers[q].selected;
+                },
+
+                getGabaritoClass(q) {
+                    let ans = this.getFinalAnswer(q);
+                    let correct = this.correctAnswers[q];
+                    if (!ans) return 'bg-white/5 text-gray-500'; // Blank
+                    if (ans === correct) return 'bg-green-500/10 border-green-500/30 text-green-300';
+                    return 'bg-red-500/10 border-red-500/30 text-red-300';
+                },
+
+                calculateScore() {
+                    this.score = 0;
+                    this.hits = 0;
+                    this.errors = 0;
+
+                    for (let i = 1; i <= 20; i++) {
+                        const userAns = this.getFinalAnswer(i);
+
+                        // We count non-annulled final answers
+                        if (userAns) {
+                            if (userAns === this.correctAnswers[i]) {
+                                this.hits++;
+                            } else {
+                                this.errors++;
+                            }
+                        }
+                    }
+
+                    this.score = this.hits - (this.errors / 3);
+                    this.passed = this.score >= 13;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

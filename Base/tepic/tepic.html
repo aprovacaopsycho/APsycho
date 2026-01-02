@@ -40,6 +40,10 @@
             display: none !important;
         }
 
+        .hidden {
+            display: none !important;
+        }
+
         /* ---- HERO (glass + grid) ---- */
         .hero-bg {
             position: relative;
@@ -214,7 +218,7 @@
                         <div>
                             <strong class="text-white block text-lg">Evocação (2 Minutos)</strong>
                             <span class="text-gray-400">A imagem desaparecerá. Você deverá digitar o nome de todas as
-                                figuras que lembrar.</span>
+                                figuras que lembrar. Erros ortográficos não são descontados.</span>
                         </div>
                     </div>
 
@@ -224,8 +228,8 @@
                             3</div>
                         <div>
                             <strong class="text-white block text-lg">Meta</strong>
-                            <span class="text-gray-400">Você precisa acertar pelo menos <strong>20 nomes</strong>
-                                corretos para ser aprovado.</span>
+                            <span class="text-gray-400">Você precisa acertar pelo menos <strong>17 pontos</strong>
+                                para ser aprovado. Itens compostos (ex: pessoa com algo) valem 2 pontos.</span>
                         </div>
                     </div>
                 </div>
@@ -247,8 +251,10 @@
                     class="flex justify-between items-center bg-black/50 p-4 rounded-xl border border-white/10 sticky top-20 z-40 backdrop-blur shadow-lg">
                     <h2 class="text-xl font-bold text-white flex items-center gap-2"><i
                             class="fas fa-eye text-purple-400"></i> Fase de Memorização</h2>
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2"><i
-                            class="fas fa-eye text-purple-400"></i> Fase de Memorização</h2>
+                    <button onclick="skipMemorization()"
+                        class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-sm rounded-lg border border-white/10 transition flex items-center gap-2">
+                        Pular <i class="fas fa-forward"></i>
+                    </button>
                 </div>
                 <!-- Barra de Progresso -->
                 <div class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
@@ -299,92 +305,157 @@
                 </div>
             </div>
 
-            <div id="screen-result" class="hidden max-w-3xl mx-auto mt-10 fade-in">
-                <div id="result-card"
-                    class="glass-card p-10 text-center border-2 border-transparent transition-all duration-500 relative overflow-hidden group">
-                    <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none">
-                    </div>
+            <!-- RESULT SCREEN MOVED TO MODAL -->
+    </main>
 
-                    <div class="mb-8 relative z-10">
-                        <div id="result-icon" class="text-7xl mb-6 animate-bounce filter drop-shadow-lg"></div>
-                        <h2 class="text-5xl font-black text-white mb-2 tracking-tight" id="result-title">RESULTADO</h2>
-                        <p class="text-gray-400 text-lg" id="result-msg">Análise de desempenho TEPIC-M</p>
-                    </div>
+    <!-- RESULT MODAL OVERLAY -->
+    <div id="screen-result"
+        class="hidden fixed inset-0 z-[200] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 overflow-y-auto">
+        <div id="result-card"
+            class="relative w-full max-w-3xl bg-[#1c1b29] border border-white/10 rounded-2xl shadow-2xl p-8 md:p-12 text-center animate-fade-in-up">
 
-                    <div class="grid grid-cols-2 gap-6 mb-10 max-w-lg mx-auto relative z-10">
-                        <div class="bg-[#100f1c] rounded-xl p-6 border border-white/10 shadow-inner">
-                            <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Acertos</span>
-                            <div class="text-5xl font-black text-white mt-2 drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]"
-                                id="score-val">0</div>
-                        </div>
-                        <div class="bg-[#100f1c] rounded-xl p-6 border border-white/10 shadow-inner">
-                            <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Meta</span>
-                            <div class="text-5xl font-black text-gray-600 mt-2">20</div>
-                        </div>
-                    </div>
+            <div class="mb-8">
+                <div id="result-icon" class="text-7xl mb-4"></div>
+                <h2 class="text-5xl font-black text-white mb-2" id="result-title">RESULTADO</h2>
+                <p class="text-gray-400 text-lg" id="result-msg">Análise de desempenho</p>
+            </div>
 
-                    <div class="text-left space-y-4 max-w-xl mx-auto relative z-10 mb-8">
-                        <div class="bg-green-500/10 border border-green-500/20 rounded-xl p-6 shadow-inner">
-                            <h4
-                                class="text-green-400 font-bold mb-4 flex items-center gap-2 border-b border-green-500/20 pb-2">
-                                <i class="fas fa-check"></i>
-                                Respostas Corretas
-                            </h4>
-                            <div id="list-correct" class="flex flex-wrap gap-2 text-sm"></div>
-                        </div>
-
-                        <div class="bg-red-500/10 border border-red-500/20 rounded-xl p-6 shadow-inner">
-                            <h4
-                                class="text-red-400 font-bold mb-4 flex items-center gap-2 border-b border-red-500/20 pb-2">
-                                <i class="fas fa-times"></i>
-                                Palavras Não Aceitas
-                            </h4>
-                            <div id="list-wrong" class="flex flex-wrap gap-2 text-sm text-gray-400"></div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center gap-4 relative z-10">
-                        <button onclick="location.reload()"
-                            class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition flex items-center gap-3 border border-white/10 hover:border-white/20">
-                            <i class="fas fa-redo"></i> Refazer Teste
-                        </button>
-                        <a href="../testes_memoria.html"
-                            class="px-8 py-4 bg-[var(--accent-pink)] hover:bg-pink-600 text-white rounded-xl font-bold transition flex items-center gap-3 shadow-lg shadow-pink-500/20">
-                            <i class="fas fa-list"></i> Outros Testes
-                        </a>
-                    </div>
+            <div class="grid grid-cols-2 gap-6 mb-10 max-w-lg mx-auto">
+                <div class="bg-black/30 rounded-xl p-6 border border-white/5">
+                    <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Acertos</span>
+                    <div class="text-5xl font-black text-white mt-2" id="score-val">0</div>
+                </div>
+                <div class="bg-black/30 rounded-xl p-6 border border-white/5">
+                    <span class="text-gray-500 text-xs uppercase tracking-wider font-bold">Meta</span>
+                    <div class="text-5xl font-black text-gray-500 mt-2">17</div>
                 </div>
             </div>
 
-    </main>
+            <div class="text-left space-y-4 max-w-xl mx-auto mb-10">
+                <div class="bg-green-900/10 border border-green-500/20 rounded-xl p-6">
+                    <h4 class="text-green-400 font-bold mb-4 flex items-center gap-2 border-b border-green-500/10 pb-2">
+                        <i class="fas fa-check"></i> Respostas Corretas
+                    </h4>
+                    <div id="list-correct" class="flex flex-wrap gap-2 text-sm"></div>
+                </div>
+
+                <div class="bg-red-900/10 border border-red-500/20 rounded-xl p-6">
+                    <h4 class="text-red-400 font-bold mb-4 flex items-center gap-2 border-b border-red-500/10 pb-2">
+                        <i class="fas fa-times"></i> Palavras Não Aceitas
+                    </h4>
+                    <div id="list-wrong" class="flex flex-wrap gap-2 text-sm text-gray-500"></div>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="location.reload()"
+                    class="px-8 py-4 bg-white/5 hover:bg-white/10 text-white rounded-xl font-bold transition flex items-center justify-center gap-3 border border-white/10">
+                    <i class="fas fa-redo"></i> Refazer
+                </button>
+                <a href="../testes_memoria.html"
+                    class="px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold transition flex items-center justify-center gap-3 shadow-lg shadow-purple-500/20">
+                    <i class="fas fa-list"></i> Sair
+                </a>
+            </div>
+        </div>
+    </div>
 
     <script>
         // --- CONFIGURAÇÕES ---
         const TIME_MEMO = 60;   // 1 minuto
         const TIME_RECALL = 120; // 2 minutos
-        const PASSING_SCORE = 20;
+        const PASSING_SCORE = 17;
 
         // Set Student Name
         document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
 
-        // Lista Normalizada (Processada ao iniciar)
-        const RAW_LIST = `água, arco-íris, árvore, avião, balanço, balão, balde, barco, navio, barraca, barraquinha de camping, bola, cadeira, caminho, carro, fusca, casa, cesta de basquete, céu, chaminé, criança, deck, ponte, cruzamento, escorregador, fogueira, foguete, fumaça, gangorra, grama, helicóptero, janela, jet-ski, moto d'água, lancha, carro d'água ,linha da pipa, linha da vara ,mesa, nuvem, onda, paraquedas, paraquedista, parque, pássaro, gaivota, falcão, pato, peixe, tubarão, pescador, homem pescando, pessoa em balão, pessoa em paraquedas, pessoa em trampolim, pessoa em escada de pular, pipa, papagaio, poço, churrasqueira, forno a lenha, porta, prancha, rabiola, sol,, surfista, terra, trampolim, escada de pular, toboágua, vara, vara de pesca, vela`;
+        // --- BASE DE DADOS DE ITENS ---
+        // Estrutura: { id: 'unico', terms: ['termo1', 'termo2'], points: 1 }
+        // Para itens compostos que valem mais pontos, definimos explicitamente.
+        // O sistema irá buscar a melhor pontuação possível para cada "id" único.
 
-        // Processamento da lista oficial para comparação
-        let VALID_SET = new Set();
+        const TEPIC_ITEMS = [
+            { id: 'agua', terms: ['agua'], points: 1 },
+            { id: 'arcoiris', terms: ['arco-iris', 'arco iris'], points: 1 },
+            { id: 'arvore', terms: ['arvore'], points: 1 },
+            { id: 'aviao', terms: ['aviao'], points: 1 },
+            { id: 'balanco', terms: ['balanco'], points: 1 },
+            { id: 'balao', terms: ['balao'], points: 1 },
+            { id: 'balde', terms: ['balde'], points: 1 },
+            { id: 'barco', terms: ['barco', 'navio'], points: 1 },
+            { id: 'barraca', terms: ['barraca', 'barraquinha de camping', 'barraquinha'], points: 1 },
+            { id: 'bola', terms: ['bola'], points: 1 },
+            { id: 'cadeira', terms: ['cadeira'], points: 1 },
+            { id: 'caminho', terms: ['caminho'], points: 1 },
+            { id: 'carro', terms: ['carro', 'fusca'], points: 1 },
+            { id: 'casa', terms: ['casa'], points: 1 },
+            { id: 'cesta', terms: ['cesta de basquete', 'cesta'], points: 1 },
+            { id: 'ceu', terms: ['ceu'], points: 1 },
+            { id: 'chamine', terms: ['chamine'], points: 1 },
+            { id: 'crianca', terms: ['crianca'], points: 1 },
+            { id: 'deck', terms: ['deck', 'ponte', 'cruzamento'], points: 1 },
+            { id: 'escorregador', terms: ['escorregador'], points: 1 },
+            { id: 'fogueira', terms: ['fogueira'], points: 1 },
+            { id: 'foguete', terms: ['foguete'], points: 1 },
+            { id: 'fumaca', terms: ['fumaca'], points: 1 },
+            { id: 'gangorra', terms: ['gangorra'], points: 1 },
+            { id: 'grama', terms: ['grama'], points: 1 },
+            { id: 'helicoptero', terms: ['helicoptero'], points: 1 },
+            { id: 'janela', terms: ['janela'], points: 1 },
+            { id: 'jetski', terms: ['jet-ski', 'jet ski', 'moto d\'agua', 'moto dagua'], points: 1 },
+            { id: 'lancha', terms: ['lancha', 'carro d\'agua', 'carro dagua'], points: 1 },
+            { id: 'linhapipa', terms: ['linha da pipa'], points: 1 },
+            { id: 'linhavara', terms: ['linha da vara'], points: 1 },
+            { id: 'mesa', terms: ['mesa'], points: 1 },
+            { id: 'nuvem', terms: ['nuvem'], points: 1 },
+            { id: 'onda', terms: ['onda'], points: 1 },
+
+            // Paraquedas e Pessoas (Lógica Complexa)
+            // Se escrever apenas "paraquedas" = 1 ponto (ID: paraquedas)
+            // Se escrever "pessoa em paraquedas" = 2 pontos. (Isso conta como ID: pessoa_paraquedas)
+            // Precisamos garantir que não conte os dois se for a mesma figura.
+            // A solução simplificada aqui é tratar como IDs distintos e somar, MAS a instrução diz:
+            // "Quando o indivíduo escreve pessoa em paraquedas são pontuados a pessoa e o paraquedas (2 pontos)."
+            // Isso sugere que ele ganha o ponto da pessoa E do paraquedas.
+            // Vamos modelar como itens atômicos que podem ser acionados por frases.
+
+            { id: 'paraquedas', terms: ['paraquedas'], points: 1 },
+            { id: 'paraquedista', terms: ['paraquedista'], points: 1 }, // Vale 1 ponto segundo instruções
+
+            { id: 'parque', terms: ['parque'], points: 1 },
+            { id: 'passaro', terms: ['passaro', 'gaivota', 'falcao'], points: 1 },
+            { id: 'pato', terms: ['pato'], points: 1 },
+            { id: 'peixe', terms: ['peixe', 'tubarao'], points: 1 },
+
+            { id: 'pescador', terms: ['pescador', 'homem pescando'], points: 1 }, // "não é subentendido que a vara... foram percebidas" -> só 1 ponto
+
+            // Itens Compostos (Valem 2 pontos se escritos juntos, ou 1 se separados? A instrução diz "pontuam-se o trampolim e a pessoa")
+            // Vou usar uma lógica de correspondência direta de frases para pontos extras.
+            { id: 'pessoa_balao', terms: ['pessoa em balao', 'pessoa no balao'], points: 2 },
+            { id: 'pessoa_paraquedas', terms: ['pessoa em paraquedas', 'pessoa no paraquedas'], points: 2 },
+            { id: 'pessoa_trampolim', terms: ['pessoa em trampolim', 'pessoa no trampolim'], points: 2 },
+            { id: 'pessoa_escada', terms: ['pessoa em escada de pular', 'pessoa na escada de pular'], points: 2 },
+
+            { id: 'pipa', terms: ['pipa', 'papagaio'], points: 1 },
+            { id: 'poco', terms: ['poco', 'churrasqueira', 'forno a lenha'], points: 1 },
+            { id: 'porta', terms: ['porta'], points: 1 },
+            { id: 'prancha', terms: ['prancha'], points: 1 },
+            { id: 'rabiola', terms: ['rabiola'], points: 1 },
+            { id: 'sol', terms: ['sol'], points: 1 },
+            { id: 'surfista', terms: ['surfista'], points: 1 },
+            { id: 'terra', terms: ['terra'], points: 1 },
+            { id: 'trampolim', terms: ['trampolim', 'escada de pular', 'toboagua'], points: 1 },
+            { id: 'vara', terms: ['vara', 'vara de pesca'], points: 1 },
+            { id: 'vela', terms: ['vela'], points: 1 }
+        ];
 
         function normalizeText(text) {
             return text
                 .toLowerCase()
                 .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove acentos
+                .replace(/[^a-z0-9 ]/g, "") // Remove especiais
                 .trim();
         }
-
-        // Inicializa lista válida
-        RAW_LIST.split(',').forEach(w => {
-            const clean = normalizeText(w);
-            if (clean) VALID_SET.add(clean);
-        });
 
         // --- ESTADO ---
         let userWords = [];
@@ -392,10 +463,18 @@
 
         // --- NAVEGAÇÃO ---
         function showScreen(id) {
+            // Hide all
             ['screen-instructions', 'screen-memorization', 'screen-recall', 'screen-result'].forEach(s => {
-                document.getElementById(s).classList.add('hidden');
+                const el = document.getElementById(s);
+                el.classList.add('hidden');
+                el.style.display = 'none'; // Force hide
             });
-            document.getElementById(id).classList.remove('hidden');
+
+            // Show target
+            const target = document.getElementById(id);
+            target.classList.remove('hidden');
+            target.style.display = 'block'; // Force show
+
             window.scrollTo(0, 0);
         }
 
@@ -432,7 +511,7 @@
 
             audio.play().then(() => { }).catch(e => {
                 console.error("Audio error", e);
-                alert("Não foi possível tocar o áudio.");
+                // Fallback silencioso ou alerta
                 startMemorization();
             });
 
@@ -442,6 +521,11 @@
         }
 
         // --- FASE 1: MEMORIZAÇÃO ---
+        function skipMemorization() {
+            clearInterval(intervalId); // Stop the timer
+            startRecallPhase();        // Jump to next phase
+        }
+
         function startMemorization() {
             showScreen('screen-memorization');
 
@@ -540,60 +624,152 @@
         function addWord() {
             const text = inputField.value.trim();
             if (text) {
-                // Adiciona visualmente (Guardamos o texto original para exibição)
                 userWords.push(text);
 
                 const tag = document.createElement('div');
                 tag.className = 'word-tag px-3 py-1 bg-gray-800 border border-white/10 rounded-full text-white flex items-center gap-2';
-                tag.innerHTML = `<span>${text}</span> <button onclick="removeWord(this, '${text}')" class="text-gray-500 hover:text-red-400"><i class="fas fa-times"></i></button>`;
+                tag.innerHTML = `<span>${text}</span> <button onclick="removeWord(this, '${text.replace(/'/g, "\\'")}')" class="text-gray-500 hover:text-red-400"><i class="fas fa-times"></i></button>`;
 
-                wordsContainer.prepend(tag); // Adiciona no começo
+                wordsContainer.prepend(tag);
                 inputField.value = '';
                 countDisplay.innerText = userWords.length;
             }
         }
 
         function removeWord(btnElement, text) {
-            // Remove do array (apenas a primeira ocorrência para evitar bugs se tiver duplicado)
             const index = userWords.indexOf(text);
             if (index > -1) userWords.splice(index, 1);
-
-            // Remove do DOM
             btnElement.parentElement.remove();
             countDisplay.innerText = userWords.length;
         }
 
-        // --- FINALIZAÇÃO E CORREÇÃO ---
-        function finishTest() {
-            clearInterval(intervalId);
-            document.getElementById('unified-timer-container').classList.add('hidden');
+        // Levenshtein for fuzzy matching
+        function levenshtein(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
 
-            let score = 0;
-            let correctList = [];
-            let wrongList = [];
-            let processedSet = new Set(); // Para evitar pontuar duplicadas (ex: avião e aviao)
+            const matrix = [];
 
-            userWords.forEach(word => {
-                const normalized = normalizeText(word);
+            // increment along the first column of each row
+            for (let i = 0; i <= b.length; i++) {
+                matrix[i] = [i];
+            }
 
-                // Verifica se está na lista oficial E se ainda não foi pontuada
-                if (VALID_SET.has(normalized)) {
-                    if (!processedSet.has(normalized)) {
-                        score++;
-                        processedSet.add(normalized);
-                        correctList.push(word); // Guarda a palavra como o usuário escreveu
+            // increment each column in the first row
+            for (let j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+            }
+
+            // Fill in the rest of the matrix
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
                     } else {
-                        // Palavra repetida (ignorar)
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1, // substitution
+                            Math.min(
+                                matrix[i][j - 1] + 1, // insertion
+                                matrix[i - 1][j] + 1  // deletion
+                            )
+                        );
                     }
-                } else {
-                    wrongList.push(word);
                 }
-            });
+            }
 
-            displayResults(score, correctList, wrongList);
+            return matrix[b.length][a.length];
+        }
+
+        // Check compatibility with tolerance
+        function isMatch(userTerm, dbTerm) {
+            const u = normalizeText(userTerm);
+            const d = normalizeText(dbTerm);
+
+            // 1. Exact match
+            if (u === d) return true;
+
+            // 2. Contains match (if user typed extra words, but the core term is there?) 
+            // Risky, maybe strict is better. Let's stick to Distance for now.
+
+            // 3. Levenshtein Distance (Tolerance: 1 for short words, 2 for longer)
+            const dist = levenshtein(u, d);
+            const tolerance = d.length > 5 ? 2 : 1;
+
+            return dist <= tolerance;
+        }
+
+        // --- FINALIZAÇÃO E CORREÇÃO (LOGICA AVANCADA) ---
+        function finishTest() {
+            console.log("Starting finishTest...");
+            try {
+                clearInterval(intervalId);
+                const timerEl = document.getElementById('unified-timer-container');
+                if (timerEl) timerEl.classList.add('hidden');
+                if (timerEl) timerEl.style.display = 'none';
+
+                let score = 0;
+                let correctList = [];
+                let wrongList = [];
+
+                let matchedIds = new Set();
+                let usedInputs = new Set(); // Indicar quais inputs do usuário foram validados
+
+                console.log("Sorting DB...");
+                // 1. Verificar itens compostos/valiosos primeiro
+                const sortedDB = [...TEPIC_ITEMS].sort((a, b) => b.points - a.points);
+
+                console.log("Traversing items...");
+                // Iterar sobre a base de dados (dos itens mais valiosos para os menos)
+                sortedDB.forEach(dbItem => {
+                    let found = false;
+                    let bestMatchIndex = -1;
+
+                    for (let i = 0; i < userWords.length; i++) {
+                        if (usedInputs.has(i)) continue;
+
+                        // Check against all terms for this DB item
+                        if (dbItem.terms.some(term => isMatch(userWords[i], term))) {
+                            found = true;
+                            bestMatchIndex = i;
+                            break;
+                        }
+                    }
+
+                    if (found && bestMatchIndex !== -1) {
+                        // Double check uniqueness constraint if needed, but prioritizing high points usually solves it.
+                        if (!matchedIds.has(dbItem.id)) {
+                            usedInputs.add(bestMatchIndex);
+                            correctList.push(userWords[bestMatchIndex] + (dbItem.points > 1 ? ` (+${dbItem.points})` : ''));
+
+                            score += dbItem.points;
+                            matchedIds.add(dbItem.id);
+
+                            // Lógica de exclusão mútua (Ad hoc)
+                            if (dbItem.id === 'pessoa_balao') matchedIds.add('balao');
+                            if (dbItem.id === 'pessoa_paraquedas') { matchedIds.add('paraquedas'); matchedIds.add('parque'); }
+                            if (dbItem.id === 'pessoa_trampolim') matchedIds.add('trampolim');
+                        }
+                    }
+                });
+
+                console.log("Checking errors...");
+                // 2. O que sobrou na lista do usuário e não foi "usedInputs" é erro
+                userWords.forEach((w, i) => {
+                    if (!usedInputs.has(i)) {
+                        wrongList.push(w);
+                    }
+                });
+
+                console.log("Displaying results...", { score, correctList, wrongList });
+                displayResults(score, correctList, wrongList);
+            } catch (e) {
+                console.error("Critical Error in finishTest:", e);
+                alert("Erro ao finalizar teste: " + e.message);
+            }
         }
 
         function displayResults(score, correct, wrong) {
+            console.log("Inside displayResults. Showing screen-result...");
             showScreen('screen-result');
 
             const isPassed = score >= PASSING_SCORE;
@@ -602,32 +778,38 @@
             const title = document.getElementById('result-title');
             const msg = document.getElementById('result-msg');
 
-            // Atualiza UI Principal
+            console.log("Animating value...", score);
             animateValue("score-val", 0, score, 2000);
 
             if (isPassed) {
+                console.log("Result: PASSED");
                 card.className = "glass-card p-10 text-center border-2 border-green-500/50 shadow-[0_0_50px_rgba(34,197,94,0.3)] relative overflow-hidden";
                 icon.innerHTML = "🏆";
                 title.textContent = "APROVADO";
                 title.className = "text-5xl font-black text-green-400 mb-2 tracking-tighter";
-                msg.textContent = "Excelente! Você demonstrou ótima memória visual.";
+                msg.textContent = "Excelente! Você atingiu a meta.";
 
-                // Confetti Explosion
-                confetti({
-                    particleCount: 150,
-                    spread: 70,
-                    origin: { y: 0.6 },
-                    colors: ['#ff00ff', '#ffffff']
-                });
+                // Confetti Explosion (Safety Check)
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#ff00ff', '#ffffff']
+                    });
+                } else {
+                    console.warn("Confetti dependency not loaded.");
+                }
             } else {
+                console.log("Result: FAILED");
                 card.className = "glass-card p-10 text-center border-2 border-red-500/50 shadow-[0_0_50px_rgba(239,68,68,0.3)] relative overflow-hidden";
                 icon.innerHTML = "⚠️";
-                title.textContent = "INAPTO";
+                title.textContent = "REPROVADO";
                 title.className = "text-5xl font-black text-red-500 mb-2 tracking-tighter";
-                msg.textContent = "Pontuação abaixo do mínimo exigido.";
+                msg.textContent = "Não atingiu o mínimo de acertos.";
             }
 
-            // Preenche as listas
+            console.log("Rendering lists...");
             const correctContainer = document.getElementById('list-correct');
             const wrongContainer = document.getElementById('list-wrong');
 
@@ -638,6 +820,8 @@
             wrongContainer.innerHTML = wrong.length > 0
                 ? wrong.map(w => `<span class="px-2 py-1 bg-red-500/10 text-red-300 rounded text-xs line-through opacity-70">${w}</span>`).join('')
                 : '<span class="text-gray-500 italic">Nenhum erro.</span>';
+
+            console.log("Results displayed successfully.");
         }
     </script>
 </body>

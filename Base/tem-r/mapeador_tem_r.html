@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Mapeador Rotas Unificado (Premium)</title>
+    <title>Mapeador TEM-R</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -144,10 +144,18 @@
             z-index: 40;
         }
 
-        .marker-box.is-target {
+        /* 1 Point Style - Green */
+        .marker-box.score-1 {
             background-color: rgba(34, 197, 94, 0.4) !important;
             border: 2px solid #22c55e !important;
             box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+
+        /* 2 Points Style - Blue/Purple */
+        .marker-box.score-2 {
+            background-color: rgba(59, 130, 246, 0.5) !important;
+            border: 2px solid #3b82f6 !important;
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
         }
 
         .marker-box:active {
@@ -180,7 +188,7 @@
         <div class="p-6 space-y-6">
             <h2
                 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-white/10 pb-4 flex items-center gap-2">
-                <i class="fas fa-edit text-purple-400"></i> EDITOR UNIFICADO
+                <i class="fas fa-edit text-purple-400"></i> EDITOR TEM-R
             </h2>
 
             <!-- 1. IMAGEM -->
@@ -236,11 +244,8 @@
 
                 <div class="text-[10px] text-gray-500 leading-relaxed px-2">
                     <i class="fas fa-info-circle mr-1"></i>
-                    <span x-show="dragMode === 'single'">Arraste um item individualmente. Clique para alternar
-                        Alvo.</span>
-                    <span x-show="dragMode === 'global'">Arraste qualquer item para mover TODOS junto.</span>
-                    <span x-show="dragMode === 'row'">Arraste um item para mover sua LINHA inteira.</span>
-                    <span x-show="dragMode === 'col'">Arraste um item para mover sua COLUNA inteira.</span>
+                    <span x-show="dragMode === 'single'">Arraste um item individualmente. Clique = 1pt, Clique Novamente
+                        = 2pts.</span>
                 </div>
             </div>
 
@@ -329,18 +334,18 @@
             <div x-show="!imgSrc"
                 class="absolute inset-0 flex items-center justify-center text-gray-500 pointer-events-none">
                 <p class="text-xl font-bold border-2 border-dashed border-gray-700 p-10 rounded-xl">Carregue a imagem
-                    (rotac.png)</p>
+                    (tem-r.png)</p>
             </div>
 
             <!-- DRAG GUIDE LINES -->
             <div x-show="isDragging && (dragMode === 'row' || dragMode === 'col')"
                 class="absolute inset-0 pointer-events-none z-0">
-                <!-- Simple visual guides could be added here if needed -->
             </div>
 
             <template x-for="item in items" :key="item.id">
                 <div class="marker-box" :class="{
-                        'is-target': item.isTarget,
+                        'score-1': item.score === 1,
+                        'score-2': item.score === 2,
                         'is-selected': isSelected(item)
                      }" @mousedown.prevent="startDrag($event, item)" @click="handleClick(item)" :style="`
                         left: ${item.x}px; 
@@ -349,8 +354,9 @@
                         height: ${boxH}px;
                         transform: translate(-50%, -50%);
                      `">
-                    <!-- Optional: Show coords on hover or debug -->
-                    <!-- <span class="text-[6px] opacity-50" x-text="item.id"></span> -->
+                    <!-- Display score for clarity if > 0 -->
+                    <span x-show="item.score > 0" x-text="item.score"
+                        class="font-bold text-white drop-shadow-md text-sm"></span>
                 </div>
             </template>
 
@@ -395,8 +401,6 @@
                             if (this.items.length === 0) {
                                 this.imgWidth = img.width;
                                 this.imgHeight = img.height;
-                                // Optional: Auto-generate if empty?
-                                // this.generateBaseGrid();
                             }
                         }
                         img.src = evt.target.result;
@@ -407,21 +411,12 @@
                 importCode() {
                     try {
                         let code = this.inputCode.trim();
-
-                        // 1. Remove comments (single line and block) - Simple regex approach
                         code = code.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
-
-                        // 2. Extract object part if looks like assignment
                         if (code.includes('=')) {
                             code = code.substring(code.indexOf('=') + 1);
                         }
-
                         code = code.trim();
-
-                        // 3. Remove trailing semicolon
                         if (code.endsWith(';')) code = code.slice(0, -1);
-
-                        // 4. Wrap in parens to avoid "return \n {...}" ASI issue
                         const config = new Function("return (" + code + ")")();
 
                         if (config && Array.isArray(config.items)) {
@@ -430,20 +425,17 @@
                             this.boxW = config.boxW || 36;
                             this.boxH = config.boxH || 36;
 
-                            // Adjust zoom to fit new image if needed? No, keep user pref.
-
                             this.items = config.items.map(i => ({
                                 id: i.id,
                                 x: i.x,
                                 y: i.y,
-                                isTarget: i.t === 1,
+                                score: i.t || 0, // Map 't' to 'score'
                                 r: i.r !== undefined ? i.r : Math.floor(i.id / 24),
                                 c: i.c !== undefined ? i.c : i.id % 24
                             }));
 
                             this.recalcDimensions();
 
-                            // Initialize sliders from data estimate
                             if (this.items.length > 2) {
                                 const r0 = this.items.filter(i => i.r === 0).sort((a, b) => a.c - b.c);
                                 if (r0.length > 1) this.spacingX = Math.round(Math.abs(r0[1].x - r0[0].x) * 10) / 10;
@@ -467,20 +459,14 @@
 
                     this.items = [];
                     let id = 0;
-
-                    // Margins estimated for "Rota A" style documents (approx 5-8%)
-                    // For 807x1095 image:
-                    const startX = 60; // Approx left margin
-                    const startY = 85; // Approx top margin
-
-                    // Calculate usable area
-                    const endX = this.imgWidth - 40; // Right margin
-                    const endY = this.imgHeight - 60; // Bottom margin (approx)
+                    const startX = 60;
+                    const startY = 85;
+                    const endX = this.imgWidth - 40;
+                    const endY = this.imgHeight - 60;
 
                     const usableW = endX - startX;
                     const usableH = endY - startY;
 
-                    // Calculate steps
                     const stepX = this.cols > 1 ? usableW / (this.cols - 1) : 0;
                     const stepY = this.rows > 1 ? usableH / (this.rows - 1) : 0;
 
@@ -493,7 +479,7 @@
                                 id: id++,
                                 x: Math.round(startX + (c * this.spacingX)),
                                 y: Math.round(startY + (r * this.spacingY)),
-                                isTarget: false,
+                                score: 0,
                                 r: r, c: c
                             });
                         }
@@ -501,93 +487,55 @@
                     this.recalcDimensions();
                 },
 
-                // ---- SPACER LOGIC ----
                 updateSpacing() {
                     if (this.items.length === 0) return;
-
-                    // Use Top-Left item logic or center logic?
-                    // Typically user wants to adjust spacing "starting from top-left".
-                    // But if they moved the top-left item, we should respect that anchor.
-                    // Let's take the item with min ID (usually 0) or min r/c
-
-                    // Finding anchor (r=0, c=0 mostly):
                     const anchor = this.items.find(i => i.r === 0 && i.c === 0) || this.items[0];
                     const anchorX = anchor.x;
                     const anchorY = anchor.y;
 
                     this.items.forEach(item => {
-                        // We preserve the anchor's position?
-                        // Actually, if we use anchorX,Y as "start", then yes.
-                        // But what if the anchor was moved? 
-                        // If we iterate, item x = anchorX + (c * spacing)
-                        // This forces a strict grid.
-
-                        // Relative adjustment would be safer for manual tweaks but complex.
-                        // Given the request is likely for initial alignment: Strict Grid is fine.
-
-                        // We deduct the anchor's own relative c/r offset so the anchor stays PUT.
-                        // x = anchorX + ((item.c - anchor.c) * spacingX)
-
                         const relC = item.c - anchor.c;
                         const relR = item.r - anchor.r;
-
                         item.x = Math.round(anchorX + (relC * this.spacingX));
                         item.y = Math.round(anchorY + (relR * this.spacingY));
                     });
                 },
 
-                // ---- GRID MANAGEMENT ----
                 getNextId() {
                     if (this.items.length === 0) return 0;
                     return Math.max(...this.items.map(i => i.id)) + 1;
                 },
 
                 recalcDimensions() {
-                    // Update rows/cols based on current items
                     if (this.items.length === 0) { this.rows = 0; this.cols = 0; return; }
                     this.rows = Math.max(...this.items.map(i => i.r)) + 1;
                     this.cols = Math.max(...this.items.map(i => i.c)) + 1;
                 },
 
                 addRow() {
-                    // Find last Y to append below
                     const lastRowY = this.items.length > 0 ? Math.max(...this.items.map(i => i.y)) : 50;
-                    const spacingY = this.boxH * 1.5; // Estimated spacing if unknown
-                    // Ideally we look at gap between last two rows, but let's assume default spacing if uniform
-                    // Or better: find Row N and Row N-1 average distance.
-
-                    let stepY = 30; // Default
+                    let stepY = 30;
                     if (this.rows >= 2) {
                         const r0 = this.items.find(i => i.r === 0);
                         const r1 = this.items.find(i => i.r === 1);
                         if (r0 && r1) stepY = Math.abs(r1.y - r0.y);
                     }
-
                     const newRowIndex = this.rows;
                     const newY = lastRowY + stepY;
                     let nextId = this.getNextId();
-
-                    // If no cols, add at least one
                     const colCount = this.cols === 0 ? 1 : this.cols;
 
-                    // We need X positions for each column.
-                    // If items exist, copy X from the implementation of previous row
-                    // If completely empty, start from scratch
-
                     if (this.items.length === 0) {
-                        this.items.push({ id: nextId, x: 50, y: 50, isTarget: false, r: 0, c: 0 });
+                        this.items.push({ id: nextId, x: 50, y: 50, score: 0, r: 0, c: 0 });
                     } else {
-                        // For each column index 0 to cols-1
                         for (let c = 0; c < colCount; c++) {
-                            // Find an item with this column index to get its X
                             const modelItem = this.items.find(i => i.c === c);
                             const newX = modelItem ? modelItem.x : (50 + (c * 40));
-
                             this.items.push({
                                 id: nextId++,
                                 x: newX,
                                 y: newY,
-                                isTarget: false,
+                                score: 0,
                                 r: newRowIndex,
                                 c: c
                             });
@@ -604,37 +552,28 @@
                 },
 
                 addCol() {
-                    // Add one item to EACH row at the end
                     let stepX = 40;
                     if (this.cols >= 2) {
                         const c0 = this.items.find(i => i.c === 0);
                         const c1 = this.items.find(i => i.c === 1);
                         if (c0 && c1) stepX = Math.abs(c1.x - c0.x);
                     }
-
                     let nextId = this.getNextId();
                     const newColIndex = this.cols;
 
                     if (this.items.length === 0) {
-                        this.items.push({ id: nextId, x: 50, y: 50, isTarget: false, r: 0, c: 0 });
+                        this.items.push({ id: nextId, x: 50, y: 50, score: 0, r: 0, c: 0 });
                     } else {
-                        // Determine X position for new column (rightmost + step)
-                        // This might vary per row if grid is skewed? Usually uniform.
-                        // Let's take the max X of the grid
                         const maxX = Math.max(...this.items.map(i => i.x));
                         const newX = maxX + stepX;
-
-                        // Add item to every existing row
                         for (let r = 0; r < this.rows; r++) {
-                            // Find Y of this row
                             const modelItem = this.items.find(i => i.r === r);
                             const rowY = modelItem ? modelItem.y : (50 + (r * 30));
-
                             this.items.push({
                                 id: nextId++,
                                 x: newX,
                                 y: rowY,
-                                isTarget: false,
+                                score: 0,
                                 r: r,
                                 c: newColIndex
                             });
@@ -650,23 +589,18 @@
                     this.recalcDimensions();
                 },
 
-                // ---- DRAG & DROP LOGIC ----
-
                 startDrag(e, item) {
                     this.isDragging = true;
-                    this.wasMoved = false; // Reset move flag
+                    this.wasMoved = false;
                     this.startX = e.clientX;
                     this.startY = e.clientY;
                     this.dragSelection = [];
 
-                    // Determine which items are being dragged based on mode
                     if (this.dragMode === 'single') {
                         this.addToSelection(item);
                     } else if (this.dragMode === 'global') {
                         this.items.forEach(i => this.addToSelection(i));
                     } else if (this.dragMode === 'row') {
-                        // Match by explicit 'r' property if valid, OR by proximity Y
-                        // Prefer proximity Y for robustness if imported from JSON lacking 'r'
                         const threshold = this.boxH / 2;
                         this.items.forEach(i => {
                             if (Math.abs(i.y - item.y) <= threshold) {
@@ -674,7 +608,6 @@
                             }
                         });
                     } else if (this.dragMode === 'col') {
-                        // Match by proximity X
                         const threshold = this.boxW / 2;
                         this.items.forEach(i => {
                             if (Math.abs(i.x - item.x) <= threshold) {
@@ -695,7 +628,6 @@
                 onMouseMove(e) {
                     if (!this.isDragging) return;
                     e.preventDefault();
-
                     const rawDx = e.clientX - this.startX;
                     const rawDy = e.clientY - this.startY;
 
@@ -714,34 +646,19 @@
 
                 onMouseUp(e) {
                     if (!this.isDragging) return;
-                    // setTimeout to allow 'click' event to fire if it was a click?
-                    // actually Alpine @click often fires after mouseup.
-                    // We just reset internal state.
-
-                    // We don't clear isDragging immediately if we want to use it in click handler?
-                    // But click verification relies on 'wasMoved'.
-
-                    // Logic flow: MouseDown -> (Drag) -> MouseUp -> Click
-                    // Click handler can check 'wasMoved'.
-
-                    // Note: If we drag, click might NOT fire depending on browser behavior if DOM moved too much?
-                    // Typically click fires on mouseup if over same element.
-
                     this.isDragging = false;
                     this.dragSelection = [];
                 },
 
                 handleClick(item) {
-                    // Only toggle if we didn't drag
                     if (!this.wasMoved) {
-                        item.isTarget = !item.isTarget;
+                        // Cycle Score: 0 -> 1 -> 2 -> 0
+                        item.score = (item.score + 1) % 3;
                     }
-                    this.wasMoved = false; // Reset
+                    this.wasMoved = false;
                 },
 
-                // Helper for visual feedback
                 isSelected(item) {
-                    // Performance check: only useful if we want to highlight the whole row while dragging
                     if (!this.isDragging) return false;
                     return this.dragSelection.some(s => s.item.id === item.id);
                 },
@@ -751,7 +668,7 @@
                         id: i.id,
                         x: Math.round(i.x),
                         y: Math.round(i.y),
-                        t: i.isTarget ? 1 : 0
+                        t: i.score // Export 'score' as 't'
                     }));
                     const config = {
                         imgWidth: this.imgWidth,

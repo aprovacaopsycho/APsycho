@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TMR | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;600;800&display=swap"
+        rel="stylesheet" />
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0f',
+                        card: 'rgba(23, 22, 35, 0.7)',
+                        primary: '#9f54ff',
+                        accent: '#ff00ff',
+                        cyan: '#00c2ff',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Black Ops One', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050508;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        .glass-panel {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .fade-enter {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .item-overlay {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.2s;
+            /* Debugging: border: 1px solid rgba(255,0,0,0.2); */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+        }
+
+        .item-overlay:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        /* Slash Marker */
+        .marker-slash {
+            width: 190%;
+            height: 190%;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .marker-slash svg {
+            width: 190%;
+            /* Adjusted for better centering/fit */
+            height: 190%;
+            stroke: #ef4444;
+            /* Red Pen */
+            stroke-width: 12;
+            stroke-linecap: round;
+            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+        }
+
+        /* X Marker for Annulment */
+        .marker-x {
+            width: 190%;
+            height: 190%;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .marker-x svg {
+            width: 190%;
+            height: 190%;
+            stroke: #ef4444;
+            stroke-width: 12;
+            stroke-linecap: round;
+            filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+        }
+
+
+        /* Stamp Animation for Results */
+        .stamp-inapto {
+            font-family: 'Black Ops One', cursive;
+            color: #ef4444;
+            text-transform: uppercase;
+            border: 5px solid #ef4444;
+            padding: 10px 20px;
+            border-radius: 10px;
+            transform: rotate(-15deg) scale(0);
+            animation: stampBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes stampBounce {
+            0% {
+                transform: rotate(-15deg) scale(3);
+                opacity: 0;
+            }
+
+            100% {
+                transform: rotate(-15deg) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body x-data="tmrApp()" x-init="init()" class="min-h-screen flex flex-col">
+
+    <!-- AUDIO FILES -->
+    <audio id="audio-prepare" src="../vozes/prepare.mp3"></audio>
+    <audio id="audio-timeout" src="../vozes/tempoesgotado.mp3"></audio>
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-primary object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black text-white">APROVAÇÃO <span class="text-primary"
+                            style="text-shadow:0 0 8px var(--primary)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">TMR <span
+                            class="text-[var(--accent)]">MEMÓRIA</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-accent uppercase tracking-wider font-bold">BASE 2025</span>
+                </div>
+                <a href="testes_memoria.html"
+                    class="text-accent hover:text-white transition text-sm font-bold flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow relative text-center">
+
+        <!-- STEP 1: INSTRUCTIONS -->
+        <div x-show="step === 1" class="max-w-4xl mx-auto text-center fade-enter">
+            <h1 class="text-5xl font-black text-white mb-6">TMR - Teste de Memória de Reconhecimento</h1>
+            <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                Este teste avalia sua capacidade de memorizar figuras geométricas e reconhecê-las posteriormente.
+            </p>
+
+            <!-- Example Image -->
+            <div class="mb-10">
+                <span class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2 block">Exemplo</span>
+                <img src="../Imagens_base/tmr/tmr_exemplo.jpg" alt="Exemplo"
+                    class="mx-auto rounded-lg shadow-2xl border border-white/10 max-h-64">
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-primary text-left">
+                    <h3 class="text-lg font-bold text-white mb-2"><i class="fas fa-brain text-primary"></i> Memorização
+                    </h3>
+                    <p class="text-gray-400">Você terá <strong>1 minuto</strong> para memorizar uma página com figuras
+                        geométricas coloridas.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-2xl border-l-4 border-l-cyan text-left">
+                    <h3 class="text-lg font-bold text-white mb-2"><i class="fas fa-edit text-cyan"></i> Resposta</h3>
+                    <p class="text-gray-400">Em seguida, terá <strong>2 minutos</strong> para identificar as figuras
+                        memorizadas em duas páginas.</p>
+                </div>
+            </div>
+
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 mb-8 text-yellow-200 text-left">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <strong>Atenção:</strong>
+                <ul class="list-disc list-inside mt-2 ml-4 text-sm">
+                    <li>Clique nas figuras que recorda ter visto.</li>
+                    <li><strong>Clique Duplo:</strong> Para anular uma marcação errada, clique novamente sobre o traço
+                        (/) para transformá-lo em um X. O X anula a resposta.</li>
+                    <li>Erros e omissões não descontam ponto.</li>
+                </ul>
+
+                <div class="mt-4 p-3 bg-red-900/30 border border-red-500/30 rounded text-red-200 text-xs">
+                    <strong class="text-sm block mb-1">CUIDADO!</strong>
+                    "Se o número de erros for igual ou superior ao número de acertos, pode ser indicativo de protocolo
+                    inválido, porque possivelmente terá ocorrido a marcação de respostas ao acaso."
+                    <br><br>
+                    Se você marcar todas as figuras da folha, terá acertado todas as corretas (Acertos máximos), mas
+                    também marcado todas as erradas (Erros máximos). Como resultado, o número de Erros será muito alto,
+                    provavelmente igualando ou superando os acertos, o que fará o psicólogo considerar o teste como
+                    inválido.
+                </div>
+            </div>
+
+            <button @click="startMemorization()"
+                class="bg-primary hover:bg-purple-600 text-white font-bold py-4 px-10 rounded-xl shadow-[0_0_20px_rgba(159,84,255,0.3)] transition transform hover:scale-105 flex items-center gap-3 mx-auto">
+                <i class="fas fa-play"></i> INICIAR TESTE
+            </button>
+        </div>
+
+        <!-- STEP 2: MEMORIZATION -->
+        <div x-show="step === 2" class="h-full flex flex-col fade-enter" x-cloak>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold text-white">Memorize as Figuras</h2>
+                <div class="flex items-center gap-4">
+                    <div class="px-4 py-2 rounded-full bg-black/50 border border-white/10 font-mono text-xl font-bold text-cyan"
+                        :class="timeRemaining < 10 ? 'text-red-500 animate-pulse' : ''">
+                        <i class="fas fa-clock mr-2"></i><span x-text="formatTime(timeRemaining)"></span>
+                    </div>
+                    <button @click="skipMemorization()"
+                        class="text-xs text-gray-400 hover:text-white border border-gray-600 px-3 py-1 rounded">PULAR</button>
+                </div>
+            </div>
+
+            <div
+                class="flex-grow bg-white/5 rounded-xl border border-white/10 p-4 flex items-center justify-center overflow-hidden">
+                <img src="../Imagens_base/tmr/tmr_memorizar.jpg" alt="Memorização"
+                    class="max-h-[80vh] w-auto object-contain rounded shadow-2xl">
+            </div>
+        </div>
+
+        <!-- STEP 3: TESTING (Side by Side) -->
+        <div x-show="step === 3" class="h-full flex flex-col fade-enter" x-cloak>
+
+            <!-- TIMER FIXED -->
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-4">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20"
+                    :class="{'border-red-500 bg-red-900/40': timeRemaining <= 30}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Tempo</div>
+                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
+                        :class="{'text-red-400 animate-pulse': timeRemaining <= 30}" x-text="formatTime(timeRemaining)">
+                    </div>
+                </div>
+                <button @click="finishTest()"
+                    class="h-12 w-12 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transition hover:scale-110"
+                    title="Finalizar Teste">
+                    <i class="fas fa-stop"></i>
+                </button>
+            </div>
+
+            <!-- INTERACTIVE AREA - SIDE BY SIDE (SCROLLABLE WRAPPER) -->
+            <div class="flex-grow flex justify-center p-4 overflow-auto custom-scrollbar mt-12 w-full">
+
+                <!-- Wrapper for Zoom -->
+                <div class="flex flex-col md:flex-row gap-4 origin-top transition-transform duration-200"
+                    :style="`transform: scale(${zoom});`">
+
+                    <!-- PAGE 1 -->
+                    <div class="relative bg-white shadow-2xl rounded-sm flex-shrink-0"
+                        :style="`width: ${pageConfig[1].imgWidth}px; height: ${pageConfig[1].imgHeight}px;`">
+                        <img src="../Imagens_base/tmr/tmr_pg1.jpg" class="absolute inset-0 w-full h-full object-contain"
+                            alt="Página 1">
+
+                        <template x-for="(item, index) in pageConfig[1].items" :key="'p1-'+index">
+                            <div class="item-overlay"
+                                :style="`left: ${item.x}px; top: ${item.y}px; width: ${pageConfig[1].boxW}px; height: ${pageConfig[1].boxH}px;`"
+                                @click="markAnswer(1, index)">
+
+                                <div x-show="userAnswers[1].includes(index)" class="marker-slash">
+                                    <svg viewBox="0 0 100 100">
+                                        <!-- SLASH / -->
+                                        <line x1="20" y1="80" x2="80" y2="20" />
+                                    </svg>
+                                </div>
+
+                                <div x-show="annulledAnswers[1].includes(index)" class="marker-x">
+                                    <svg viewBox="0 0 100 100">
+                                        <!-- X CROSS -->
+                                        <line x1="20" y1="20" x2="80" y2="80" />
+                                        <line x1="80" y1="20" x2="20" y2="80" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 text-xs rounded">PÁGINA 1
+                        </div>
+                    </div>
+
+                    <!-- PAGE 2 -->
+                    <div class="relative bg-white shadow-2xl rounded-sm flex-shrink-0"
+                        :style="`width: ${pageConfig[2].imgWidth}px; height: ${pageConfig[2].imgHeight}px;`">
+                        <img src="../Imagens_base/tmr/tmr_pg2.jpg" class="absolute inset-0 w-full h-full object-contain"
+                            alt="Página 2">
+
+                        <template x-for="(item, index) in pageConfig[2].items" :key="'p2-'+index">
+                            <div class="item-overlay"
+                                :style="`left: ${item.x}px; top: ${item.y}px; width: ${pageConfig[2].boxW}px; height: ${pageConfig[2].boxH}px;`"
+                                @click="markAnswer(2, index)">
+
+                                <div x-show="userAnswers[2].includes(index)" class="marker-slash">
+                                    <svg viewBox="0 0 100 100">
+                                        <!-- SLASH / -->
+                                        <line x1="20" y1="80" x2="80" y2="20" />
+                                    </svg>
+                                </div>
+
+                                <div x-show="annulledAnswers[2].includes(index)" class="marker-x">
+                                    <svg viewBox="0 0 100 100">
+                                        <!-- X CROSS -->
+                                        <line x1="20" y1="20" x2="80" y2="80" />
+                                        <line x1="80" y1="20" x2="20" y2="80" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </template>
+                        <div class="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 text-xs rounded">PÁGINA 2
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ZOOM CONTROL STICKY -->
+            <div class="fixed bottom-4 right-4 glass-panel p-2 rounded-lg flex gap-2 z-50">
+                <button @click="zoom -= 0.1"
+                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 text-white"><i
+                        class="fas fa-minus"></i></button>
+                <span class="w-12 text-center text-sm leading-8 text-white font-mono"
+                    x-text="Math.round(zoom*100)+'%'"></span>
+                <button @click="zoom += 0.1"
+                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 text-white"><i
+                        class="fas fa-plus"></i></button>
+            </div>
+        </div>
+
+        <!-- STEP 4: RESULTS -->
+        <div x-show="step === 4" class="max-w-4xl mx-auto fade-enter pt-10" x-cloak>
+            <div class="glass-panel rounded-3xl p-10 relative overflow-hidden text-center border-t border-white/20">
+
+                <h2 class="text-4xl font-black text-white mb-8 drop-shadow-lg font-display tracking-widest">RESULTADO
+                    TMR</h2>
+
+                <div class="flex justify-center mb-10 relative min-h-[160px] items-center">
+                    <!-- PASSED -->
+                    <div x-show="passed" class="flex flex-col items-center">
+                        <div
+                            class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_50px_rgba(34,197,94,0.6)] mb-4">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-5xl font-black text-green-400 tracking-tighter font-display">APTO</h3>
+                    </div>
+
+                    <!-- FAILED -->
+                    <div x-show="!passed" class="flex flex-col items-center">
+                        <div class="stamp-inapto text-4xl opacity-90 rotate-[-12deg]">INAPTO</div>
+                        <p class="text-red-300 mt-4 text-sm font-bold uppercase tracking-widest">Mínimo necessário: 12
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-2xl mx-auto">
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/10">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Acertos</div>
+                        <div class="text-4xl font-black text-green-400 font-mono" x-text="score"></div>
+                    </div>
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/10">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Erros</div>
+                        <div class="text-4xl font-black text-red-400 font-mono" x-text="totalErrors"></div>
+                    </div>
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/10">
+                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Total Marcado</div>
+                        <div class="text-4xl font-black text-white font-mono" x-text="totalMarked"></div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 justify-center">
+                    <button @click="step = 5; window.scrollTo(0,0)"
+                        class="px-8 py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition shadow-lg">
+                        <i class="fas fa-eye mr-2"></i> Ver Gabarito
+                    </button>
+                    <button @click="location.reload()"
+                        class="px-8 py-3 bg-white text-black font-bold rounded-lg hover:scale-105 transition shadow-lg">
+                        <i class="fas fa-redo mr-2"></i> Tentar Novamente
+                    </button>
+                    <a href="testes_memoria.html"
+                        class="px-8 py-3 border border-white/20 text-white font-bold rounded-lg hover:bg-white/10 transition">
+                        Sair
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- STEP 5: GABARITO (ANSWER KEY) -->
+        <div x-show="step === 5" class="h-full flex flex-col fade-enter" x-cloak>
+            <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100]">
+                <div class="glass-panel px-6 py-2 rounded-full flex gap-4 text-xs font-bold uppercase tracking-wider">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-sm"></div> Acerto
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-sm"></div> Erro
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 border-2 border-blue-400 rounded-sm"></div> Omissão
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 text-gray-500">X</div> Anulado
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-grow flex justify-center p-4 overflow-auto custom-scrollbar mt-12 w-full">
+                <div class="flex flex-col md:flex-row gap-4 origin-top transition-transform duration-200"
+                    :style="`transform: scale(${zoom});`">
+
+                    <!-- PAGE 1 GABARITO -->
+                    <div class="relative bg-white shadow-2xl rounded-sm flex-shrink-0"
+                        :style="`width: ${pageConfig[1].imgWidth}px; height: ${pageConfig[1].imgHeight}px;`">
+                        <img src="../Imagens_base/tmr/tmr_pg1.jpg"
+                            class="absolute inset-0 w-full h-full object-contain opacity-50">
+
+                        <template x-for="(item, index) in pageConfig[1].items" :key="'g1-'+index">
+                            <div class="item-overlay"
+                                :style="`left: ${item.x}px; top: ${item.y}px; width: ${pageConfig[1].boxW}px; height: ${pageConfig[1].boxH}px; cursor: default; pointer-events: none;`">
+
+                                <!-- USER MARKED (/) -->
+                                <div x-show="userAnswers[1].includes(index)" class="marker-slash">
+                                    <svg viewBox="0 0 100 100">
+                                        <!-- Color based on Correctness -->
+                                        <line x1="20" y1="80" x2="80" y2="20"
+                                            :stroke="item.t === 1 ? '#22c55e' : '#ef4444'" />
+                                    </svg>
+                                </div>
+
+                                <!-- ANNULLED (X) -->
+                                <div x-show="annulledAnswers[1].includes(index)" class="marker-x opacity-50 grayscale">
+                                    <svg viewBox="0 0 100 100">
+                                        <line x1="20" y1="20" x2="80" y2="80" />
+                                        <line x1="80" y1="20" x2="20" y2="80" />
+                                    </svg>
+                                </div>
+
+                                <!-- OMISSION (Target=1 but NOT Marked and NOT Annulled) -->
+                                <div x-show="item.t === 1 && !userAnswers[1].includes(index) && !annulledAnswers[1].includes(index)"
+                                    class="w-full h-full border-4 border-blue-400 rounded-full opacity-70">
+                                </div>
+
+                            </div>
+                        </template>
+                        <div class="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 text-xs rounded">PÁGINA 1
+                            (GABARITO)</div>
+                    </div>
+
+                    <!-- PAGE 2 GABARITO -->
+                    <div class="relative bg-white shadow-2xl rounded-sm flex-shrink-0"
+                        :style="`width: ${pageConfig[2].imgWidth}px; height: ${pageConfig[2].imgHeight}px;`">
+                        <img src="../Imagens_base/tmr/tmr_pg2.jpg"
+                            class="absolute inset-0 w-full h-full object-contain opacity-50">
+
+                        <template x-for="(item, index) in pageConfig[2].items" :key="'g2-'+index">
+                            <div class="item-overlay"
+                                :style="`left: ${item.x}px; top: ${item.y}px; width: ${pageConfig[2].boxW}px; height: ${pageConfig[2].boxH}px; cursor: default; pointer-events: none;`">
+
+                                <!-- USER MARKED (/) -->
+                                <div x-show="userAnswers[2].includes(index)" class="marker-slash">
+                                    <svg viewBox="0 0 100 100">
+                                        <line x1="20" y1="80" x2="80" y2="20"
+                                            :stroke="item.t === 1 ? '#22c55e' : '#ef4444'" />
+                                    </svg>
+                                </div>
+
+                                <!-- ANNULLED (X) -->
+                                <div x-show="annulledAnswers[2].includes(index)" class="marker-x opacity-50 grayscale">
+                                    <svg viewBox="0 0 100 100">
+                                        <line x1="20" y1="20" x2="80" y2="80" />
+                                        <line x1="80" y1="20" x2="20" y2="80" />
+                                    </svg>
+                                </div>
+
+                                <!-- OMISSION -->
+                                <div x-show="item.t === 1 && !userAnswers[2].includes(index) && !annulledAnswers[2].includes(index)"
+                                    class="w-full h-full border-4 border-blue-400 rounded-full opacity-70">
+                                </div>
+                            </div>
+                        </template>
+                        <div class="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 text-xs rounded">PÁGINA 2
+                            (GABARITO)</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Back to Results -->
+            <div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+                <button @click="step = 4"
+                    class="px-6 py-2 bg-white text-black font-bold rounded-lg shadow-lg hover:scale-105 transition">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Resultado
+                </button>
+            </div>
+            <!-- ZOOM CONTROL STICKY (Reusable) -->
+            <div class="fixed bottom-4 right-4 glass-panel p-2 rounded-lg flex gap-2 z-50">
+                <button @click="zoom -= 0.1"
+                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 text-white"><i
+                        class="fas fa-minus"></i></button>
+                <span class="w-12 text-center text-sm leading-8 text-white font-mono"
+                    x-text="Math.round(zoom*100)+'%'"></span>
+                <button @click="zoom += 0.1"
+                    class="w-8 h-8 flex items-center justify-center rounded hover:bg-white/10 text-white"><i
+                        class="fas fa-plus"></i></button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        function tmrApp() {
+            return {
+                step: 1,
+                timeRemaining: 60,
+                timerInterval: null,
+                zoom: 0.5, // Start smaller to see both pages
+                userAnswers: { 1: [], 2: [] }, // page -> array of indices
+                annulledAnswers: { 1: [], 2: [] }, // page -> array of indices (X)
+                score: 0,
+                totalErrors: 0,
+                totalMarked: 0,
+                passed: false,
+
+                // CONFIGURAÇÃO DAS PÁGINAS (JSON fornecido)
+                pageConfig: {
+                    1: { "imgWidth": 980, "imgHeight": 1274, "boxW": 90, "boxH": 90, "items": [{ "id": 0, "x": 111, "y": 117, "t": 0 }, { "id": 1, "x": 301, "y": 130, "t": 0 }, { "id": 2, "x": 485, "y": 126, "t": 1 }, { "id": 3, "x": 673, "y": 128, "t": 0 }, { "id": 4, "x": 861, "y": 134, "t": 1 }, { "id": 5, "x": 111, "y": 470, "t": 0 }, { "id": 6, "x": 301, "y": 470, "t": 1 }, { "id": 7, "x": 485, "y": 483, "t": 1 }, { "id": 8, "x": 673, "y": 470, "t": 0 }, { "id": 9, "x": 863, "y": 492, "t": 1 }, { "id": 10, "x": 120, "y": 812, "t": 1 }, { "id": 11, "x": 301, "y": 823, "t": 0 }, { "id": 12, "x": 485, "y": 823, "t": 0 }, { "id": 13, "x": 673, "y": 823, "t": 1 }, { "id": 14, "x": 863, "y": 823, "t": 0 }, { "id": 15, "x": 122, "y": 1159, "t": 0 }, { "id": 16, "x": 299, "y": 1157, "t": 1 }, { "id": 17, "x": 496, "y": 1159, "t": 0 }, { "id": 18, "x": 684, "y": 1159, "t": 1 }, { "id": 19, "x": 863, "y": 1170, "t": 1 }] },
+                    2: { "imgWidth": 980, "imgHeight": 1276, "boxW": 90, "boxH": 90, "items": [{ "id": 0, "x": 111, "y": 117, "t": 1 }, { "id": 1, "x": 301, "y": 130, "t": 0 }, { "id": 2, "x": 485, "y": 126, "t": 1 }, { "id": 3, "x": 673, "y": 112, "t": 0 }, { "id": 4, "x": 860, "y": 124, "t": 0 }, { "id": 5, "x": 106, "y": 444, "t": 1 }, { "id": 6, "x": 301, "y": 470, "t": 0 }, { "id": 7, "x": 484, "y": 457, "t": 1 }, { "id": 8, "x": 673, "y": 470, "t": 1 }, { "id": 9, "x": 863, "y": 492, "t": 0 }, { "id": 10, "x": 109, "y": 816, "t": 0 }, { "id": 11, "x": 296, "y": 803, "t": 1 }, { "id": 12, "x": 484, "y": 803, "t": 0 }, { "id": 13, "x": 673, "y": 800, "t": 0 }, { "id": 14, "x": 868, "y": 800, "t": 1 }, { "id": 15, "x": 110, "y": 1143, "t": 1 }, { "id": 16, "x": 299, "y": 1157, "t": 1 }, { "id": 17, "x": 477, "y": 1134, "t": 0 }, { "id": 18, "x": 670, "y": 1145, "t": 1 }, { "id": 19, "x": 857, "y": 1144, "t": 0 }] }
+                },
+
+                init() {
+                    document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
+                    // Auto layout adjust
+                    if (window.innerWidth < 1000) this.zoom = 0.3;
+                    else this.zoom = 0.45;
+                },
+
+                startMemorization() {
+                    document.getElementById('audio-prepare').play().catch(e => { });
+                    this.step = 2;
+                    this.startTimer(60, () => this.startTestPhase()); // 1 min memo
+                },
+
+                skipMemorization() {
+                    this.stopTimer();
+                    this.startTestPhase();
+                },
+
+                startTestPhase() {
+                    this.step = 3;
+                    window.scrollTo(0, 0);
+                    this.startTimer(120, () => this.finishTest()); // 2 min test
+                },
+
+                markAnswer(page, index) {
+                    const marked = this.userAnswers[page];
+                    const annulled = this.annulledAnswers[page];
+
+                    if (annulled.includes(index)) {
+                        // Already annulled (X). Do nothing (final state).
+                        return;
+                    }
+
+                    if (marked.includes(index)) {
+                        // Already marked (/). Transition to Annulled (X).
+                        this.userAnswers[page] = marked.filter(i => i !== index);
+                        this.annulledAnswers[page].push(index);
+                    } else {
+                        // Not marked. Mark it (/).
+                        this.userAnswers[page].push(index);
+                    }
+                },
+
+                startTimer(sec, onComplete) {
+                    this.stopTimer();
+                    this.timeRemaining = sec;
+                    this.timerInterval = setInterval(() => {
+                        this.timeRemaining--;
+                        if (this.timeRemaining <= 0) {
+                            this.stopTimer();
+                            document.getElementById('audio-timeout').play().catch(e => { });
+                            onComplete();
+                        }
+                    }, 1000);
+                },
+
+                stopTimer() {
+                    if (this.timerInterval) clearInterval(this.timerInterval);
+                },
+
+                formatTime(sec) {
+                    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+                    const s = (sec % 60).toString().padStart(2, '0');
+                    return `${m}:${s}`;
+                },
+
+                finishTest() {
+                    this.stopTimer();
+                    this.calculateScore();
+                    this.step = 4;
+                    window.scrollTo(0, 0);
+                    if (this.passed) {
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#22c55e', '#a855f7']
+                        });
+                    }
+                },
+
+                calculateScore() {
+                    this.score = 0;
+                    this.totalMarked = 0;
+                    let correctCount = 0;
+                    let wrongCount = 0;
+
+                    // Iterate pages
+                    [1, 2].forEach(p => {
+                        const items = this.pageConfig[p].items;
+                        const userSelected = this.userAnswers[p];
+                        this.totalMarked += userSelected.length;
+
+                        // Check user selections
+                        userSelected.forEach(idx => {
+                            if (items[idx].t === 1) {
+                                correctCount++;
+                            } else {
+                                wrongCount++;
+                            }
+                        });
+                    });
+
+                    // Scoring Rule:
+                    // Only correct hits count. 
+                    // Errors and omissions are NOT deducted
+                    this.score = correctCount;
+                    this.totalErrors = wrongCount;
+
+                    // Meta: 12
+                    this.passed = this.score >= 12;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
