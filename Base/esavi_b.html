@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Avaliação ESAVI B | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: #a0a0a0
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #333;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 10px 30px rgba(159, 84, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        [x-cloak] {
+            display: none !important
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            position: relative;
+            isolation: isolate;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            /* animated grid glow */
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background:
+                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none
+        }
+
+        .scale-option input:checked+div {
+            background: rgba(159, 84, 255, 0.2);
+            border-color: var(--primary-purple);
+            color: white;
+            box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--primary-purple);
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .hero-bg {
+                background: none;
+            }
+
+            .hero-bg::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
+                            style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">ESAVI-B</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2026</span>
+                </div>
+                <a href="testes_personalidade.html"
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Unified Timer Overlay -->
+        <div id="unified-timer-container"
+            class="hidden fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+            <div id="timer-glass-panel"
+                class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md">
+                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                <div id="timer-display" class="font-mono text-3xl font-black text-white tabular-nums leading-none">20:00
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-import" class="hidden fade-in max-w-3xl mx-auto">
+            <div class="bg-[#151427] rounded-2xl p-8 border border-white/5">
+                <h2 class="text-2xl font-bold text-white mb-4">Importar Respostas</h2>
+                <p class="text-gray-400 mb-6 text-sm">Cole abaixo suas respostas separadas por espaços, vírgulas ou
+                    quebras de linha. O sistema espera 31 números (1-5).</p>
+
+                <textarea id="input-answers" rows="10"
+                    class="w-full bg-[#0f0e1a] border border-purple-500/20 rounded-xl p-4 text-white font-mono text-sm focus:outline-none focus:border-purple-500 transition-colors"
+                    placeholder="1 2 3 4 5..."></textarea>
+
+                <div class="flex justify-between items-center mt-4">
+                    <span id="count-display" class="text-xs font-bold text-gray-500">0 respostas detectadas</span>
+                    <div class="flex gap-3">
+                        <button onclick="showScreen('dashboard')"
+                            class="px-4 py-2 rounded-lg text-gray-400 hover:text-white transition">Cancelar</button>
+                        <button onclick="processarInputImportado()"
+                            class="px-6 py-2 rounded-lg bg-purple-600 text-white font-bold hover:bg-purple-500 transition shadow-lg shadow-purple-600/20">Processar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-dashboard" class="fade-in">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-white mb-2">Painel ESAVI-B</h2>
+                <p class="text-gray-400">Escala de Avaliação de Impulsividade.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                            <i class="fas fa-clipboard-check text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total</span>
+                    </div>
+                    <div class="text-4xl font-bold text-white mb-1" id="dash-total">0</div>
+                    <p class="text-sm text-gray-500">Testes realizados</p>
+                </div>
+
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-cyan-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                            <i class="fas fa-stopwatch text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Último</span>
+                    </div>
+                    <div class="text-lg font-bold text-white mb-1 truncate" id="dash-last-date">-</div>
+                    <p class="text-sm text-gray-500" id="dash-last-status">Sem dados</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#151427] to-[#1a1a35] rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+                    onclick="novoTeste()">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 text-white">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3 class="text-white font-bold mb-1">Iniciar Novo Teste</h3>
+                    <p class="text-xs text-gray-400">Questionário Completo</p>
+                </div>
+            </div>
+
+            <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        onclick="limparHistorico()">Limpar Histórico</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-[#0f0e1a]/50">
+                            <tr>
+                                <th class="px-6 py-4 font-medium">Teste</th>
+                                <th class="px-6 py-4 font-medium">Data</th>
+                                <th class="px-6 py-4 font-medium text-center">Status</th>
+                                <th class="px-6 py-4 font-medium text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5" id="history-container">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-quiz" class="hidden fade-in max-w-5xl mx-auto">
+            <div
+                class="bg-[#151427] rounded-2xl p-6 border border-white/5 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-4 gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">ESAVI-B</h2>
+                        <p class="text-sm text-gray-400">Escala de Impulsividade (31 itens)</p>
+                    </div>
+
+                    <button onclick="abrirImportacao()"
+                        class="flex items-center gap-2 bg-[#1c1b29] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium h-[38px]">
+                        <i class="fas fa-paste text-purple-400"></i>
+                        Colar Respostas
+                    </button>
+
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-cyan-400" id="progress-text">0%</span>
+                    </div>
+                </div>
+                <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ease-out"
+                        id="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <div id="quiz-container" class="space-y-6">
+            </div>
+
+            <div class="mt-10 flex flex-col items-center gap-4 pb-20">
+                <button onclick="calculate()"
+                    class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
+                    FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="screen-result" class="hidden fade-in">
+            <div
+                class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+                <div>
+                    <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÓRIO ESAVI</h2>
+                    <p class="text-gray-400 flex items-center gap-2">
+                        <i class="far fa-calendar-alt"></i> <span id="report-date">...</span>
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0 text-center">
+                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div id="final-status-badge"
+                        class="px-8 py-3 rounded-full text-xl font-bold bg-gray-800 text-gray-400 border border-gray-700">
+                        CALCULANDO...
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mb-8 no-print">
+                <button onclick="editarRespostas()"
+                    class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/30 transition font-medium text-sm">
+                    <i class="fas fa-edit mr-1"></i> Editar Respostas
+                </button>
+                <button onclick="showScreen('dashboard')"
+                    class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition font-medium text-sm">
+                    <i class="fas fa-arrow-left mr-1"></i> Voltar
+                </button>
+                <button onclick="window.print()"
+                    class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/30 transition font-medium text-sm">
+                    <i class="fas fa-print mr-1"></i> Imprimir PDF
+                </button>
+            </div>
+
+            <div id="report-content" class="space-y-10">
+            </div>
+
+            <div class="mt-20 text-center border-t border-white/5 pt-10 pb-10">
+                <p class="text-gray-600 text-sm">Aprovação Psycho - Método Titan</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const DATA_QUESTIONS = [
+            { id: 1, text: "PERCO A CONCENTRAÇÃO FACILMENTE.", f: "F1" },
+            { id: 2, text: "MEU PENSAMENTO É DISPERSO.", f: "F1" },
+            { id: 3, text: "PENSO EM COMO ESTARA MINHA VIDA DAQUI A 5 ANOS.", f: "F3" },
+            { id: 4, text: "PLANEJO MINHAS AÇÕES CUIDADOSAMENTE.", f: "F2" },
+            { id: 5, text: "FICO ENTENDIADO COM FACILIDADE.", f: "F1" },
+            { id: 6, text: "FICO NERVOSO QUANDO TENHO QUE REALIZAR VÁRIAS ATIVIDADES AO MESMO TEMPO.", f: "F1" },
+            { id: 7, text: "PENSO ANTES DE FALAR.", f: "F2" },
+            { id: 8, text: "TENHO DIFICULDADE DE TERMINAR O QUE COMEÇO.", f: "F1" },
+            { id: 9, text: "EM SALAS DE ESPERA FICO IRRITADO.", f: "F1" },
+            { id: 10, text: "SOU UMA PESSOA OUSADA.", f: "F4" },
+            { id: 11, text: "SOU CAUTELOSO EM MINHAS ATIVIDADES.", f: "F2" },
+            { id: 12, text: "EM CONVERSA COM AMIGOS, PENSO ANTES DE EXPRESSAR MINHAS OPINIÕES.", f: "F2" },
+            { id: 13, text: "DEFINO MINHAS ESTRATÉGIAS ANTES DE AGIR.", f: "F2" },
+            { id: 14, text: "PROCURO AVALIAR OS RISCOS ANTES DE AGIR.", f: "F2" },
+            { id: 15, text: "PERCO O INTERESSE RAPIDAMENTE QUANDO COMEÇO UMA ATIVIDADE.", f: "F1" },
+            { id: 16, text: "GOSTO DE ATIVIDADES QUE ENVOLVAM RISCO", f: "F4" },
+            { id: 17, text: "GOSTO DE PREVER O QUE IRÁ ACONTECER COM MINHA VIDA.", f: "F3" },
+            { id: 18, text: "SOU UMA PESSOA ANSIOSA.", f: "F1" },
+            { id: 19, text: "ACREDITO QUE VIVER O PRESENTE É MAIS IMPORTANTE DO QUE PLANEJAR O FUTURO.", f: "F3", inv: true },
+            { id: 20, text: "TENHO DIFICULDADE EM CUMPRIR AS TAREFAS DA VIDA COTIDIANA.", f: "F1" },
+            { id: 21, text: "PENSO MAIS NO FUTURO DO QUE NO PRESENTE.", f: "F3" },
+            { id: 22, text: "AJO DE FORMA IMEDIATA PARA CONSEGUIR O QUE QUERO.", f: "F4" },
+            { id: 23, text: "PROCURO PROGRAMAR O QUE TENHO A FAZER NO DIA.", f: "F2" },
+            { id: 24, text: "TENHO DIFICULDADE DE MANTER A ATENÇÃO POR PERÍODOS LONGOS.", f: "F1" },
+            { id: 25, text: "GOSTO DE ASSUMIR RISCOS, MESMO SEM OBTER BENEFÍCIOS COM ISSO.", f: "F4" },
+            { id: 26, text: "DURANTE MINHAS ATIVIDADES,ME DISTRAIO COM FACILIDADE.", f: "F1" },
+            { id: 27, text: "REALIZO MINHAS VONTADES,INDEPENDENTE DE QUALQUER COISA.", f: "F4" },
+            { id: 28, text: "GOSTO DE BUSCAR SENSAÇÕES NOVAS.", f: "F4" },
+            { id: 29, text: "FICO IRRITADO QUANDO TENHO QUE ESPERAR POR ALGO.", f: "F1" },
+            { id: 30, text: "ANTES DE TOMAR UMA DECISÃO, ANALISO A SITUAÇÃO CUIDADOSAMENTE.", f: "F2" },
+            { id: 31, text: "PREFIRO VIVER O PRESENTE A PENSAR NO FUTURO.", f: "F3", inv: true }
+        ];
+
+        const SCALE_LABELS = {
+            1: "NUNCA", 2: "POUCAS VEZES", 3: "ÀS VEZES", 4: "MUITAS VEZES", 5: "SEMPRE"
+        };
+
+        const FACTOR_INFO = {
+            "F1": { name: "Falta de Concentração e Persistência", apt: [1, 2, 3] }, // Aptidão 1-3
+            "F2": { name: "Controle Cognitivo", apt: [3, 4, 5] }, // 3-4 e assumindo 5 é melhor
+            "F3": { name: "Planejamento de Futuro", apt: [3, 4, 5] },
+            "F4": { name: "Audácia e Temeridade", apt: [2, 3] } // Aptidão 2-3
+        };
+
+        const NOTE_TABLE = {
+            "F1": [
+                { max: 14, note: 1 }, { max: 20, note: 2 }, { max: 30, note: 3 }, { max: 37, note: 4 }, { max: 999, note: 5 }
+            ],
+            "F2": [
+                { max: 22, note: 1 }, { max: 28, note: 2 }, { max: 36, note: 3 }, { max: 39, note: 4 }, { max: 999, note: 5 }
+            ],
+            "F3": [
+                { max: 9, note: 1 }, { max: 13, note: 2 }, { max: 19, note: 3 }, { max: 22, note: 4 }, { max: 999, note: 5 }
+            ],
+            "F4": [
+                { max: 10, note: 1 }, { max: 13, note: 2 }, { max: 19, note: 3 }, { max: 22, note: 4 }, { max: 999, note: 5 }
+            ]
+        };
+
+        // UI Logic
+        function showScreen(id) {
+            document.querySelectorAll('[id^="screen-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById('screen-' + id).classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            if (id === 'dashboard') loadDashboard();
+        }
+
+        function novoTeste() {
+            if (confirm("Iniciar novo teste?")) {
+                document.querySelectorAll('input').forEach(i => i.checked = false);
+                renderQuiz();
+                updateProgress();
+                showScreen('quiz');
+                startTimer();
+            }
+        }
+
+        function abrirImportacao() {
+            document.getElementById('input-answers').value = '';
+            document.getElementById('count-display').innerText = '0 respostas detectadas';
+            showScreen('import');
+        }
+
+        document.getElementById('input-answers').addEventListener('input', function () {
+            const raw = this.value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+            document.getElementById('count-display').innerText = `${answers.length} respostas detectadas`;
+        });
+
+        function processarInputImportado() {
+            const raw = document.getElementById('input-answers').value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+
+            if (answers.length !== DATA_QUESTIONS.length) {
+                alert(`Erro: Você forneceu ${answers.length} respostas, mas o teste requer exatamente ${DATA_QUESTIONS.length}.`);
+                return;
+            }
+
+            calculate(answers);
+        }
+
+        function updateProgress() {
+            const total = DATA_QUESTIONS.length;
+            const done = document.querySelectorAll('input:checked').length;
+            const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-text').innerText = pct + '%';
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            let html = '';
+            DATA_QUESTIONS.forEach((q, index) => {
+                html += `
+            <div id="q-card-${index}" class="bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all">
+                <div class="flex gap-3 mb-4 pl-2">
+                    <span class="text-purple-400 font-bold font-mono">#${q.id}</span>
+                    <p class="text-gray-200 font-medium uppercase">${q.text}</p>
+                </div>
+                <div class="grid grid-cols-5 gap-2 items-center">
+                    ${[1, 2, 3, 4, 5].map(v => `
+                        <label class="scale-option cursor-pointer relative group/opt">
+                            <input type="radio" name="q${q.id}" value="${v}" class="peer sr-only" onchange="updateProgress()">
+                            <div class="h-12 w-full bg-[#0f0e1a] border border-white/10 rounded-md flex flex-col items-center justify-center text-gray-400 font-bold transition-all peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 hover:bg-white/5 hover:border-white/20">
+                                <span class="text-lg leading-none mb-1">${v}</span>
+                                <span class="text-[8px] uppercase tracking-tighter opacity-70">${SCALE_LABELS[v]}</span>
+                            </div>
+                        </label>
+                    `).join('')}
+                </div>
+            </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        let timerInterval;
+        let timeRemaining = 20 * 60;
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeRemaining = 20 * 60;
+            updateTimerDisplay();
+            document.getElementById('unified-timer-container').classList.remove('hidden');
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Tempo esgotado! Finalize o teste.");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeRemaining / 60);
+            const s = timeRemaining % 60;
+            const text = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            document.getElementById('timer-display').innerText = text;
+        }
+
+        function calculate(pastedAnswers = null) {
+            clearInterval(timerInterval);
+            document.getElementById('unified-timer-container').classList.add('hidden');
+
+            let answersMap = new Map();
+
+            if (pastedAnswers) {
+                pastedAnswers.forEach((val, idx) => answersMap.set(idx + 1, val));
+            } else {
+                let missing = [];
+                DATA_QUESTIONS.forEach(q => {
+                    const el = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    if (el) answersMap.set(q.id, parseInt(el.value));
+                    else missing.push(q.id);
+                });
+
+                if (missing.length > 0) {
+                    alert(`Faltam ${missing.length} questões para responder.`);
+                    return;
+                }
+            }
+
+            // Calculation
+            let scores = { "F1": 0, "F2": 0, "F3": 0, "F4": 0 };
+
+            answersMap.forEach((val, id) => {
+                const q = DATA_QUESTIONS.find(x => x.id === id);
+                let points = val;
+                if (q.inv) points = 6 - val;
+                scores[q.f] += points;
+            });
+
+            // Aptitude
+            let results = {};
+            let aptCount = 0;
+
+            for (let f in scores) {
+                const raw = scores[f];
+                const table = NOTE_TABLE[f];
+                let note = 5;
+                for (let r of table) {
+                    if (raw <= r.max) {
+                        note = r.note;
+                        break;
+                    }
+                }
+
+                const factorDef = FACTOR_INFO[f];
+                // Check if note is in accepted list. (Note: The user provided instructions imply specific Notes = Apto) 
+                // Using explicit aptitude logic from markdown table "Aptidão" column
+                const isApto = factorDef.apt.includes(note);
+                if (isApto) aptCount++;
+
+                results[f] = { raw, note, isApto, name: factorDef.name };
+            }
+
+            const overallApto = aptCount >= 3;
+
+            renderResults(results, overallApto);
+            saveHistory(overallApto);
+            showScreen('result');
+        }
+
+        function renderResults(results, overall) {
+            const container = document.getElementById('report-content');
+            const date = new Date().toLocaleString();
+            document.getElementById('report-date').innerText = date;
+
+            const finalBadge = document.getElementById('final-status-badge');
+            if (overall) {
+                finalBadge.innerText = "APTO";
+                finalBadge.className = "px-8 py-3 rounded-full text-xl font-bold bg-green-500/20 text-green-400 border border-green-500/50 shadow-[0_0_15px_rgba(74,222,128,0.2)]";
+            } else {
+                finalBadge.innerText = "INAPTO";
+                finalBadge.className = "px-8 py-3 rounded-full text-xl font-bold bg-red-500/20 text-red-400 border border-red-500/50 shadow-[0_0_15px_rgba(248,113,113,0.2)]";
+            }
+
+            let html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">`;
+
+            for (let f in results) {
+                const r = results[f];
+                const statusColor = r.isApto ? "text-green-400" : "text-red-400";
+                const statusIcon = r.isApto ? "fa-check-circle" : "fa-times-circle";
+                const statusText = r.isApto ? "APTO" : "INAPTO";
+                const bg = r.isApto ? "bg-green-500/20 border-green-500/30" : "bg-red-500/20 border-red-500/30";
+
+                html += `
+                <div class="p-6 rounded-xl border ${bg}">
+                    <div class="flex justify-between mb-2">
+                        <span class="font-bold text-white text-lg">${f}</span>
+                        <span class="text-xs text-gray-400 bg-black/20 px-2 py-1 rounded">Nota ${r.note}</span>
+                    </div>
+                    <div class="text-sm text-gray-400 h-10 mb-4 leading-tight">${r.name}</div>
+                    <div class="flex justify-between items-end">
+                        <span class="text-2xl font-mono font-bold text-white">${r.raw} <span class="text-xs text-gray-500 font-sans font-normal">pts</span></span>
+                        <div class="flex items-center gap-2 ${statusColor} font-bold">
+                            <span>${statusText}</span>
+                            <i class="fas ${statusIcon}"></i>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            html += `</div>`;
+            container.innerHTML = html;
+        }
+
+        // History Setup
+        function loadDashboard() {
+            const hist = JSON.parse(localStorage.getItem('psycho_history_esavib') || '[]');
+            document.getElementById('dash-total').innerText = hist.length;
+
+            if (hist.length > 0) {
+                const last = hist[0];
+                document.getElementById('dash-last-date').innerText = last.date;
+                document.getElementById('dash-last-status').innerText = last.result;
+                document.getElementById('dash-last-status').className = "text-sm font-bold " + (last.result === "APTO" ? "text-green-400" : "text-red-400");
+            }
+
+            const tbody = document.getElementById('history-container');
+            tbody.innerHTML = hist.map((h, i) => `
+                <tr class="hover:bg-white/5 transition">
+                    <td class="px-6 py-4 font-bold text-white">ESAVI-B #${hist.length - i}</td>
+                    <td class="px-6 py-4 text-gray-400">${h.date}</td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-2 py-1 rounded text-xs font-bold ${h.result === 'APTO' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">
+                            ${h.result}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button class="text-gray-500 hover:text-white"><i class="fas fa-eye"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function saveHistory(apto) {
+            const hist = JSON.parse(localStorage.getItem('psycho_history_esavib') || '[]');
+            hist.unshift({
+                date: new Date().toLocaleDateString(),
+                result: apto ? "APTO" : "INAPTO"
+            });
+            localStorage.setItem('psycho_history_esavib', JSON.stringify(hist));
+        }
+
+        function limparHistorico() {
+            if (confirm("Limpar histórico?")) {
+                localStorage.removeItem('psycho_history_esavib');
+                loadDashboard();
+            }
+        }
+
+        function editarRespostas() {
+            showScreen('quiz');
+        }
+
+        // Init
+        loadDashboard();
+
+    </script>
+</body>
+
+</html>

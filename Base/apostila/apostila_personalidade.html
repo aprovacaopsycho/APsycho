@@ -9,6 +9,7 @@
 
     <!-- SEGURANÇA -->
     <script src="../../scripts/auth_guard.js"></script>
+    <script src="../scripts/protection.js"></script>
 
     <!-- LIBS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -35,6 +36,15 @@
     </script>
 
     <style>
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+            --text-light: #e2e8f0;
+        }
+
         body {
             background-color: #050508;
             background-image:
@@ -101,9 +111,9 @@
 
 <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-purple-500 selection:text-white"
     x-data="{ section: 'intro', sidebarOpen: true, fontSize: 16, imageScale: 100, isFullscreen: false, toggleFS() { if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } }"
-    x-data="{ section: 'intro', sidebarOpen: true, fontSize: 16, imageScale: 100, isFullscreen: false, toggleFS() { if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } }"
     x-init="
         document.addEventListener('fullscreenchange', () => isFullscreen = !!document.fullscreenElement);
+        document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
         
         // ScrollSpy
         const observer = new IntersectionObserver((entries) => {
@@ -120,28 +130,40 @@
     ">
 
     <!-- HEADER -->
-    <header class="glass-panel sticky top-0 z-50 border-b border-white/5">
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <a href="../index.html" class="flex items-center gap-4 group">
-                    <div
-                        class="h-10 w-10 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-105 transition">
-                        <i class="fas fa-book-open text-white text-lg"></i>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-2xl font-black text-white tracking-tight">APOSTILA <span
-                                class="gradient-text">PSYCHO</span></span>
-                        <span class="text-xs text-gray-500 font-medium tracking-wider uppercase">Base de
-                            Conhecimento</span>
-                    </div>
-                </a>
+            <div class="flex items-center gap-3">
+                <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">APOSTILA <span
+                            class="text-[var(--accent-pink)]">PERSONALIDADE</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
             </div>
+            <div class="flex items-center gap-6">
+                <!-- User Info -->
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2026</span>
+                </div>
 
-            <a href="index.html"
-                class="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-gray-400 hover:bg-white/5 hover:text-white transition-all text-base font-bold">
-                <i class="fas fa-arrow-left"></i>
-                <span class="hidden md:inline">Voltar à Biblioteca</span>
-            </a>
+                <div class="flex items-center gap-4">
+                    <a href="index.html"
+                        class="text-sm text-[var(--accent-pink)] hover:text-white flex items-center gap-2 font-bold transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 17l-5-5m0 0l5-5m-5 5h12" />
+                        </svg>
+                        Voltar
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -1313,10 +1335,10 @@
                                 class="px-4 py-2 rounded-lg bg-white/5 text-white text-sm font-bold border border-white/10 hover:bg-white/10 flex items-center gap-2 transition-colors">
                                 <i class="fas fa-download text-orange-400"></i> Download PDF
                             </a>
-                            <button disabled
-                                class="px-4 py-2 rounded-lg bg-white/5 text-gray-500 text-sm font-bold border border-white/10 cursor-not-allowed opacity-50 flex items-center gap-2">
+                            <a href="../esavi_b.html"
+                                class="px-4 py-2 rounded-lg bg-orange-500/10 text-orange-400 text-sm font-bold border border-orange-500/50 shadow-[0_0_10px_rgba(249,115,22,0.2)] hover:bg-orange-500/20 hover:text-white flex items-center gap-2 transition-colors">
                                 <i class="fas fa-play-circle"></i> Simulador
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </section>
@@ -2032,10 +2054,8 @@
         </article>
     </main>
 
-    <footer class="mt-auto py-8 text-center text-sm text-gray-600 border-t border-white/5 bg-black/20 backdrop-blur-sm">
-        <div class="container mx-auto">
-            <p>&copy; 2025 Aprovação Psycho. Todos os direitos reservados.</p>
-        </div>
+    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
     </footer>
 
 </body>

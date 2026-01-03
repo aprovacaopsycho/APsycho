@@ -75,7 +75,7 @@
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <img src="../logo-principal.png" alt="Logo" class="h-8">
+                <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
                     class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
@@ -83,7 +83,7 @@
                     <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
                             style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
                     <span class="text-white font-black text-lg leading-none">Base <span
-                            class="text-[var(--accent-pink)]">2025</span></span>
+                            class="text-[var(--accent-pink)]">2026</span></span>
                     <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
@@ -243,8 +243,7 @@
                 </a>
 
                 <!-- CARD: TRI -->
-                <a href="tri/tri.html"
-                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                <a href="tri.html" class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
                     <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
                         <i class="fas fa-puzzle-piece text-5xl text-[var(--accent-purple)]"></i>
                     </div>
@@ -335,13 +334,35 @@
                     </div>
                 </a>
 
+                <!-- CARD: WMT-2 -->
+                <a href="wmt2.html" class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <i class="fas fa-th-list text-5xl text-[var(--accent-purple)]"></i>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-purple)]/10 flex items-center justify-center mb-6 text-[var(--accent-purple)] group-hover:scale-110 transition">
+                            <i class="fas fa-border-all text-4xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">WMT-2</h2>
+                        <p class="text-gray-400 text-sm mb-6">Matrizes de Viena.<br>Raciocínio lógico matricial.</p>
+                        <span
+                            class="text-[var(--accent-purple)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
             </div>
         </section>
 
     </main>
 
-    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a]/50 text-center text-sm text-gray-600">
-        &copy; 2025 Aprovação Psycho.
+    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
     </footer>
 
 </body>

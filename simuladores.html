@@ -193,7 +193,7 @@
     <header class="sticky top-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/10">
         <nav class="mx-auto max-w-7xl px-5 xl:px-8 py-3 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-3" aria-label="Página inicial">
-                <img src="logo-principal.png" alt="Logo Aprovação Psycho" class="h-10 w-auto" loading="lazy" />
+                <img src="Imagens_base/logo-principal.png" alt="Logo Aprovação Psycho" class="h-10 w-auto" loading="lazy" />
                 <span class="text-[1.1rem] sm:text-xl font-black" style="color: var(--text-light);">APROVAÇÃO <span
                         style="color: var(--accent-pink); filter: drop-shadow(0 0 8px rgba(255,0,255,.7));">PSYCHO</span></span>
             </a>
@@ -451,19 +451,8 @@
         </main>
     </div>
 
-    <footer x-show="currentSimulator === 'selection'" class="border-t border-gray-800">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <p class="text-sm text-text-dark">&copy; 2024 Aprovação Psycho. Todos os direitos reservados.</p>
-            <p class="text-sm mt-2"><a href="https://www.instagram.com/aprovacaopsycho/" target="_blank"
-                    rel="noopener noreferrer" style="color:var(--text-light);">
-                    <svg class="inline w-4 h-4 mr-2 align-text-bottom" aria-hidden="true">
-                        <use xlink:href="assets/icons.svg#icon-instagram"></use>
-                    </svg>
-                    Instagram: @aprovacaopsycho
-                </a></p>
-            <p class="text-sm mt-2"><a href="https://www.instagram.com/aprovacaopsycho/" target="_blank"
-                    rel="noopener noreferrer" style="color:var(--text-light);">Instagram: @aprovacaopsycho</a></p>
-        </div>
+    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js" defer></script>
