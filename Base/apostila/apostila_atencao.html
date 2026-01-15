@@ -101,7 +101,7 @@
                     section = entry.target.id;
                 }
             });
-        }, { threshold: 0.5 });
+        }, { rootMargin: '-50% 0px -50% 0px' });
         
         document.querySelectorAll('section[id]').forEach(section => {
             observer.observe(section);

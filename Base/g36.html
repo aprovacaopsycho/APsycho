@@ -214,14 +214,63 @@
                     class="glass-panel p-8 rounded-2xl text-center mx-auto my-auto w-full">
                     <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste G36</h1>
                     <p class="text-gray-300 mb-6 text-lg leading-relaxed">
-                        Este teste avalia sua capacidade de raciocínio lógico abstrato através de dominós.
-                        Identifique o padrão e escolha a opção correta.
+                        Este teste avalia sua capacidade de raciocínio lógico através de matrizes de figuras.
+                        Identifique a lei de formação e escolha a opção que completa a lacuna.
                     </p>
 
-                    <div class="mb-8 p-4 bg-white/5 rounded-xl border border-white/10 text-left">
-                        <p class="text-sm text-gray-400 mb-2 font-bold uppercase tracking-wider">Como funciona</p>
-                        <p class="text-gray-300 text-sm">Observe os valores numéricos ou quantidades nas peças de dominó
-                            e descubra a lógica da sequência.</p>
+                    <div class="mb-8 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
+                        x-data="{ answered: false, correct: false, selected: null, answer: '6' }">
+                        <h3
+                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo Prático
+                        </h3>
+
+                        <div class="flex flex-col items-center gap-6">
+                            <img src="../Imagens_base/g36/g36_2.png" alt="Exemplo G36"
+                                class="w-full max-w-[700px] rounded-lg border border-white/10 shadow-lg mx-auto">
+
+                            <!-- Opções Interativas -->
+                            <div class="w-full max-w-lg" x-show="!answered">
+                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
+                                <div class="grid grid-cols-6 gap-2">
+                                    <template x-for="opt in ['1','2','3','4','5','6']">
+                                        <button @click="selected = opt; answered = true; correct = (opt === answer)"
+                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
+                                            <span x-text="opt"
+                                                class="group-hover:text-primary transition-colors"></span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Feedback -->
+                            <div x-show="answered" x-transition
+                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
+                                :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
+
+                                <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
+                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
+                                    <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
+                                </div>
+
+                                <div class="text-gray-300 text-sm leading-relaxed text-left">
+                                    <p class="mb-2"><strong class="text-purple-400">Explicação:</strong></p>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>Na coluna 1 temos figuras planas (duas dimensões - quadrado e triângulo);
+                                        </li>
+                                        <li>Na coluna 2 há figuras em três dimensões. Da mesma forma que o quadrado
+                                            corresponde ao cubo, o triângulo corresponde à pirâmide.</li>
+                                        <li>Portanto, o gabarito é o <strong>número 6</strong>.</li>
+                                    </ul>
+                                </div>
+
+                                <button @click="answered = false; selected = null"
+                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
+                                    <i class="fas fa-redo"></i> Tentar novamente
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <ul

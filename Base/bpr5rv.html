@@ -200,20 +200,69 @@
             <p class="text-gray-300 mb-6 text-lg leading-relaxed">
                 Este teste avalia sua capacidade de analogia verbal. Encontre a palavra que completa a relação lógica.
             </p>
-            <div class="bg-black/30 p-4 rounded-lg mb-6 text-left border border-white/5">
-                <p class="text-gray-400 text-sm mb-2 font-bold">EXEMPLO:</p>
-                <div class="text-lg text-white font-medium mb-3">
-                    <span class="text-[var(--accent)] font-bold">Dia</span> está para <span
-                        class="text-[var(--accent)] font-bold">Noite</span> assim como <span
+            <!-- Interactive Example Section -->
+            <div x-data="{ 
+                selectedKey: null, 
+                showFeedback: false,
+                check(key) {
+                    if (this.showFeedback) return;
+                    this.selectedKey = key;
+                    this.showFeedback = true;
+                }
+            }" class="glass-panel p-6 rounded-xl border border-white/10 mb-6 text-left relative overflow-hidden group">
+
+                <h3
+                    class="text-[var(--accent)] font-bold mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
+                    <i class="fas fa-flask"></i> Exemplo Prático
+                </h3>
+
+                <!-- Question Text -->
+                <div
+                    class="text-xl md:text-2xl text-white font-medium mb-6 text-center leading-relaxed bg-black/20 p-4 rounded-xl border border-white/5">
+                    <span class="text-gray-300 font-bold">Dia</span> está para <span
+                        class="text-gray-300 font-bold">Noite</span> assim como <span
                         class="text-[var(--primary)] font-bold">Claro</span> está para...
                 </div>
-                <div class="grid grid-cols-5 gap-2 text-xs text-gray-400">
-                    <div class="p-2 border border-white/10 rounded">A. Luz</div>
-                    <div class="p-2 border border-white/10 rounded">B. Energia</div>
-                    <div class="p-2 bg-green-500/20 border border-green-500/50 text-green-400 font-bold rounded">C.
-                        Escuro</div>
-                    <div class="p-2 border border-white/10 rounded">D. Claridade</div>
-                    <div class="p-2 border border-white/10 rounded">E. Eletricidade</div>
+
+                <!-- Options Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3 mb-4">
+                    <template x-for="opt in [
+                        {key:'A', val:'Luz'},
+                        {key:'B', val:'Energia'},
+                        {key:'C', val:'Escuro', correct:true},
+                        {key:'D', val:'Claridade'},
+                        {key:'E', val:'Eletricidade'}
+                    ]">
+                        <button @click="check(opt.key)"
+                            class="p-3 rounded-xl border font-bold text-sm transition-all transform active:scale-95 flex flex-col items-center gap-1"
+                            :class="{
+                                'bg-white/5 border-white/10 hover:bg-white/10 text-gray-300': !showFeedback,
+                                'bg-green-500/20 border-green-500 text-green-400': showFeedback && opt.correct,
+                                'bg-red-500/20 border-red-500 text-red-400 opacity-50': showFeedback && !opt.correct && selectedKey === opt.key,
+                                'opacity-30': showFeedback && !opt.correct && selectedKey !== opt.key
+                            }">
+                            <span x-text="opt.key" class="text-xs opacity-50"></span>
+                            <span x-text="opt.val"></span>
+
+                            <!-- Result Icon -->
+                            <template x-if="showFeedback && opt.correct">
+                                <i class="fas fa-check text-green-400 mt-1"></i>
+                            </template>
+                        </button>
+                    </template>
+                </div>
+
+                <!-- Feedback Message -->
+                <div x-show="showFeedback" x-transition
+                    class="bg-black/40 p-3 rounded-lg border border-white/10 text-center">
+                    <p class="text-gray-300 text-sm">
+                        <strong class="text-green-400">Correto!</strong> O oposto de Claro é <strong>Escuro</strong>
+                        (Alternativa C), assim como o oposto de Dia é Noite.
+                    </p>
+                </div>
+
+                <div x-show="!showFeedback" class="text-xs text-gray-500 mt-2 text-center animate-pulse">
+                    Toque na alternativa correta para testar
                 </div>
             </div>
 

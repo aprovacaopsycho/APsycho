@@ -197,7 +197,7 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="../base/testes_inteligencia.html"
+                    <a href="../Base/testes_inteligencia.html"
                         class="text-sm text-accent hover:text-white flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -238,10 +238,157 @@
                         Identifique a figura que completa logicamente a matriz.
                     </p>
 
-                    <div class="mb-8 p-4 bg-white/5 rounded-xl border border-white/10 text-left">
-                        <p class="text-sm text-gray-400 mb-2 font-bold uppercase tracking-wider">Como funciona</p>
-                        <p class="text-gray-300 text-sm">Analise as linhas e colunas para descobrir o padrão e escolha a
-                            opção correta (A-H).</p>
+                    <!-- Exemplo A -->
+                    <div class="mb-4 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
+                        x-data="{ answered: false, correct: false, selected: null, answer: 'E' }">
+                        <h3
+                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo A
+                        </h3>
+
+                        <div class="flex flex-col items-center gap-6">
+                            <img src="../Imagens_base/wmt2/wmt2_exemplo_a.jpg" alt="Exemplo WMT2 A"
+                                class="w-full max-w-[400px] rounded-lg border border-white/10 shadow-lg mx-auto">
+
+                            <!-- Opções Interativas -->
+                            <div class="w-full max-w-lg" x-show="!answered">
+                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
+                                <div class="grid grid-cols-8 gap-2">
+                                    <template x-for="opt in ['A','B','C','D','E','F','G','H']">
+                                        <button @click="selected = opt; answered = true; correct = (opt === answer)"
+                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
+                                            <span x-text="opt"
+                                                class="group-hover:text-primary transition-colors"></span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Feedback -->
+                            <div x-show="answered" x-transition
+                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
+                                :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
+
+                                <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
+                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
+                                    <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
+                                </div>
+
+                                <p class="text-gray-300 text-sm leading-relaxed text-left">
+                                    Linha 1: Triângulo, Círculo, Quadrado.
+                                    Linha 2: Círculo, Quadrado, Triângulo.
+                                    Linha 3: Quadrado, Triângulo... falta o <strong>Círculo</strong>.
+                                    Gabarito <strong>Letra E</strong>.
+                                </p>
+
+                                <button @click="answered = false; selected = null"
+                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
+                                    <i class="fas fa-redo"></i> Tentar novamente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exemplo B -->
+                    <div class="mb-4 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
+                        x-data="{ answered: false, correct: false, selected: null, answer: 'E' }">
+                        <h3
+                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo B
+                        </h3>
+
+                        <div class="flex flex-col items-center gap-6">
+                            <img src="../Imagens_base/wmt2/wmt2_exemplo_b.jpg" alt="Exemplo WMT2 B"
+                                class="w-full max-w-[400px] rounded-lg border border-white/10 shadow-lg mx-auto">
+
+                            <!-- Opções Interativas -->
+                            <div class="w-full max-w-lg" x-show="!answered">
+                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
+                                <div class="grid grid-cols-8 gap-2">
+                                    <template x-for="opt in ['A','B','C','D','E','F','G','H']">
+                                        <button @click="selected = opt; answered = true; correct = (opt === answer)"
+                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
+                                            <span x-text="opt"
+                                                class="group-hover:text-primary transition-colors"></span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Feedback -->
+                            <div x-show="answered" x-transition
+                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
+                                :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
+
+                                <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
+                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
+                                    <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
+                                </div>
+
+                                <p class="text-gray-300 text-sm leading-relaxed text-left">
+                                    As setas giram no sentido horário.
+                                    Linha 3: Horizontal -> Diagonal Baixo -> Vertical Baixo.
+                                    Gabarito <strong>Letra E</strong>.
+                                </p>
+
+                                <button @click="answered = false; selected = null"
+                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
+                                    <i class="fas fa-redo"></i> Tentar novamente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exemplo C -->
+                    <div class="mb-8 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
+                        x-data="{ answered: false, correct: false, selected: null, answer: 'G' }">
+                        <h3
+                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo C
+                        </h3>
+
+                        <div class="flex flex-col items-center gap-6">
+                            <img src="../Imagens_base/wmt2/wmt2_exemplo_c.jpg" alt="Exemplo WMT2 C"
+                                class="w-full max-w-[400px] rounded-lg border border-white/10 shadow-lg mx-auto">
+
+                            <!-- Opções Interativas -->
+                            <div class="w-full max-w-lg" x-show="!answered">
+                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
+                                <div class="grid grid-cols-8 gap-2">
+                                    <template x-for="opt in ['A','B','C','D','E','F','G','H']">
+                                        <button @click="selected = opt; answered = true; correct = (opt === answer)"
+                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
+                                            <span x-text="opt"
+                                                class="group-hover:text-primary transition-colors"></span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Feedback -->
+                            <div x-show="answered" x-transition
+                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
+                                :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
+
+                                <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
+                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
+                                    <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
+                                </div>
+
+                                <p class="text-gray-300 text-sm leading-relaxed text-left">
+                                    Em cada linha, a última figura é a soma das duas anteriores.
+                                    Gabarito <strong>Letra G</strong>.
+                                </p>
+
+                                <button @click="answered = false; selected = null"
+                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
+                                    <i class="fas fa-redo"></i> Tentar novamente
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <ul

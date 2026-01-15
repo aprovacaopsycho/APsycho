@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste TRI | Aprovação Psycho</title>
+    <title>Teste TRL | Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -146,8 +146,8 @@
     </style>
 </head>
 
-<body x-data="triApp()" x-init="loadHistory()" class="min-h-screen flex flex-col font-sans overflow-x-hidden"
-    :class="{'alert-mode': timeRemaining <= 20 && !finished && currentQuestion > 0}">
+<body x-data="trlApp()" x-init="loadHistory()" class="min-h-screen flex flex-col font-sans overflow-x-hidden"
+    :class="{'alert-mode': timeRemaining <= 60 && !finished && currentQuestion > 0}">
 
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -163,7 +163,7 @@
                     <span class="text-xl font-black text-white">APROVAÇÃO <span class="text-accent"
                             style="text-shadow:0 0 8px var(--accent)">PSYCHO</span></span>
                     <span class="text-white font-black text-lg leading-none">TESTE <span
-                            class="text-[var(--primary)]">TRI</span></span>
+                            class="text-[var(--primary)]">TRL</span></span>
                     <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
@@ -178,7 +178,7 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="../base/testes_inteligencia.html"
+                    <a href="../testes_inteligencia.html"
                         class="text-sm text-accent hover:text-white flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -212,80 +212,29 @@
                 <!-- INTRO / INSTRUÇÕES (Só aparece se currentQuestion === 0) -->
                 <div x-show="currentQuestion === 0 && !finished"
                     class="glass-panel p-8 rounded-2xl text-center mx-auto my-auto w-full">
-                    <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste TRI</h1>
+                    <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste TRL</h1>
                     <p class="text-gray-300 mb-6 text-lg leading-relaxed">
-                        Este teste avalia sua capacidade de raciocínio lógico através de sequências de figuras.
-                        Identifique qual das opções completa o raciocínio.
+                        Este teste avalia sua capacidade de raciocínio lógico indutivo.
+                        Identifique qual das opções completa a sequência lógica.
                     </p>
 
-                    <!-- Exemplo 1 -->
-                    <div class="mb-4 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
-                        x-data="{ answered: false, correct: false, selected: null, answer: 'A' }">
-                        <h3
-                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo 1
-                        </h3>
-
-                        <div class="flex flex-col items-center gap-6">
-                            <img src="../Imagens_base/tri/tri_exemplo1.png" alt="Exemplo TRI 1"
-                                class="w-full max-w-[400px] rounded-lg border border-white/10 shadow-lg mx-auto">
-
-                            <!-- Opções Interativas -->
-                            <div class="w-full max-w-lg" x-show="!answered">
-                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
-                                <div class="grid grid-cols-4 gap-3">
-                                    <template x-for="opt in ['A','B','C','D']">
-                                        <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
-                                            <span x-text="opt"
-                                                class="group-hover:text-primary transition-colors"></span>
-                                        </button>
-                                    </template>
-                                </div>
-                            </div>
-
-                            <!-- Feedback -->
-                            <div x-show="answered" x-transition
-                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
-                                :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
-
-                                <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
-                                    <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
-                                    <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
-                                </div>
-
-                                <p class="text-gray-300 text-sm leading-relaxed text-left">
-                                    Na linha 1 temos círculo, triângulo e quadrado. Na linha 2 temos quadrado e círculo.
-                                    Falta o <strong>triângulo</strong> para completar o conjunto. Gabarito <strong>Letra
-                                        A</strong>.
-                                </p>
-
-                                <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
-                                    <i class="fas fa-redo"></i> Tentar novamente
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Exemplo 2 -->
+                    <!-- Exemplo Visual Interativo -->
                     <div class="mb-8 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
-                        x-data="{ answered: false, correct: false, selected: null, answer: 'C' }">
+                        x-data="{ answered: false, correct: false, selected: null, answer: 'E' }">
                         <h3
                             class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo 2
+                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo Prático
                         </h3>
 
                         <div class="flex flex-col items-center gap-6">
-                            <img src="../Imagens_base/tri/tri_exemplo2.png" alt="Exemplo TRI 2"
-                                class="w-full max-w-[400px] rounded-lg border border-white/10 shadow-lg mx-auto">
+                            <img src="../Imagens_base/trl/trl_exemplo.png" alt="Exemplo TRL"
+                                class="w-full max-w-[700px] rounded-lg border border-white/10 shadow-lg mx-auto">
 
                             <!-- Opções Interativas -->
                             <div class="w-full max-w-lg" x-show="!answered">
                                 <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
-                                <div class="grid grid-cols-4 gap-3">
-                                    <template x-for="opt in ['A','B','C','D']">
+                                <div class="grid grid-cols-6 gap-2">
+                                    <template x-for="opt in ['A','B','C','D','E','F']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
                                             class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
                                             <span x-text="opt"
@@ -307,9 +256,10 @@
                                 </div>
 
                                 <p class="text-gray-300 text-sm leading-relaxed text-left">
-                                    Acima: Quadrado -> Quadrado c/1 dentro -> Quadrado c/2 dentro.
-                                    Abaixo: Círculo -> Círculo c/1 dentro -> Círculo c/2 dentro.
-                                    Gabarito <strong>Letra C</strong>.
+                                    Observe que nas duas primeiras linhas há 3 figuras iguais. Portanto, a última linha
+                                    deve seguir o mesmo padrão.
+                                    Como já existem 2 losangos, a figura que falta é um losango.
+                                    Resposta: <strong class="text-green-400">Letra E</strong>.
                                 </p>
 
                                 <button @click="answered = false; selected = null"
@@ -327,8 +277,10 @@
                         <li><i class="fas fa-fire text-orange-500 mr-2"></i> Mantenha o <strong>Combo (Streak)</strong>
                             para
                             pontuar mais alto.</li>
-                        <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>4 minutos</strong> para 15
+                        <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>10 minutos</strong> para 15
                             questões.</li>
+                        <li><i class="fas fa-bullseye text-green-400 mr-2"></i> Meta mínima: <strong>10 Acertos</strong>
+                            (Apto)</li>
                         <li><i class="fas fa-trophy text-purple-400 mr-2"></i> Alcance o rank <strong>DIAMANTE</strong>!
                         </li>
                     </ul>
@@ -380,8 +332,8 @@
                                         <td class="px-6 py-4 text-center font-bold text-[10px] uppercase tracking-wider"
                                             :class="item.rankColor" x-text="item.rank"></td>
                                         <td class="px-6 py-4 text-center font-bold"
-                                            :class="item.score >= 9 ? 'text-green-400' : 'text-red-400'"
-                                            x-text="item.score >= 9 ? 'APTO' : 'INAPTO'"></td>
+                                            :class="item.score >= 10 ? 'text-green-400' : 'text-red-400'"
+                                            x-text="item.score >= 10 ? 'APTO' : 'INAPTO'"></td>
                                     </tr>
                                 </template>
                             </tbody>
@@ -442,8 +394,8 @@
                                 </div>
                             </div>
 
-                            <img :src="`../Imagens_base/tri/tri${currentQuestion}.png`" @load="imageLoading = false"
-                                @error="imageLoading = false" alt="Questão TRI"
+                            <img :src="`../Imagens_base/trl/trl${currentQuestion}.png`" @load="imageLoading = false"
+                                @error="imageLoading = false" alt="Questão TRL"
                                 class="w-full h-auto object-contain max-h-[500px] transition-opacity duration-300"
                                 :class="imageLoading ? 'opacity-0' : 'opacity-100'">
                         </div>
@@ -460,6 +412,14 @@
                                 <span
                                     x-text="currentQuestion === 15 ? 'VER RESULTADO FINAL' : 'PRÓXIMA QUESTÃO'"></span>
                                 <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                        <!-- Finish Button Mobile/Desktop Main -->
+                        <div class="mt-2 text-center w-full">
+                            <button @click="if(confirm('Tem certeza que deseja finalizar o teste?')) finishTest()"
+                                class="text-xs text-red-500 hover:text-red-400 font-bold uppercase tracking-widest transition border border-transparent hover:border-red-500/30 rounded-lg px-4 py-2 opacity-50 hover:opacity-100">
+                                <i class="fas fa-flag mr-1"></i> Finalizar Agora
                             </button>
                         </div>
                     </div>
@@ -496,19 +456,19 @@
                             </div>
 
                             <div class="text-6xl font-black mb-2 relative z-10"
-                                :class="score >= 9 ? 'text-green-400' : 'text-red-500'">
+                                :class="score >= 10 ? 'text-green-400' : 'text-red-500'">
                                 <span x-text="score"></span><span class="text-2xl text-gray-500">/15</span>
                             </div>
 
                             <!-- CONDITIONAL STATUS -->
                             <div class="relative z-10 w-full text-center">
-                                <template x-if="score >= 9">
+                                <template x-if="score >= 10">
                                     <div
                                         class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border bg-green-500/10 text-green-400 border-green-500/20 inline-block">
                                         APROVADO
                                     </div>
                                 </template>
-                                <template x-if="score < 9">
+                                <template x-if="score < 10">
                                     <div>
                                         <div class="loser-text text-2xl md:text-3xl lg:text-4xl mt-2">
                                             VOCÊ FICOU<br>INAPTO!
@@ -552,7 +512,7 @@
                         <h3 class="text-white font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
                             <i class="fas fa-list-ul text-primary"></i> Análise de Performance
                         </h3>
-                        <div class="grid grid-cols-5 sm:grid-cols-9 gap-2">
+                        <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
                             <template x-for="(ans, index) in correctAnswers" :key="index">
                                 <div x-show="index > 0"
                                     class="p-2 rounded-lg text-center border text-xs flex flex-col gap-1 relative overflow-hidden group transition-all hover:scale-105"
@@ -577,7 +537,7 @@
                     </div>
 
                     <div class="mt-10 flex justify-center gap-4">
-                        <a href="../base/testes_inteligencia.html"
+                        <a href="../testes_inteligencia.html"
                             class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition group">
                             <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
                             Voltar
@@ -593,7 +553,7 @@
 
             <!-- COLUNA DIREITA: Navegação / Gabarito -->
             <aside class="hidden lg:block sticky top-24" x-show="currentQuestion > 0 && !finished">
-                <div class="glass-panel p-6 rounded-xl border border-white/10 shadow-xl">
+                <div class="glass-panel p-6 rounded-xl border border-white/10 shadow-xl w-full">
                     <h3 class="text-white font-bold mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
                         <i class="fas fa-th text-purple-400"></i> Gabarito
                     </h3>
@@ -613,13 +573,13 @@
                                     </template>
                                 </div>
 
-                                <div class="flex justify-between gap-1">
+                                <div class="grid grid-cols-3 gap-1">
                                     <template x-for="opt in options" :key="opt">
                                         <button @click="selectAnswer(q, opt)" :disabled="userAnswers[q]"
-                                            class="w-8 h-8 rounded-full text-xs font-bold transition-all border flex items-center justify-center transform hover:scale-110"
+                                            class="h-6 rounded text-[10px] font-bold transition-all border flex items-center justify-center transform hover:scale-105"
                                             :class="{
                                                 'bg-white/10 text-gray-400 border-white/10 hover:bg-white/20': !userAnswers[q],
-                                                'bg-purple-600 text-white border-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.5)]': userAnswers[q] === opt,
+                                                'bg-purple-600 text-white border-purple-500 shadow-[0_0_5px_rgba(168,85,247,0.5)]': userAnswers[q] === opt,
                                                 'bg-black/40 text-gray-600 border-transparent': userAnswers[q] && userAnswers[q] !== opt
                                             }">
                                             <span x-text="opt"></span>
@@ -641,16 +601,23 @@
                                 :style="`width: ${(Object.keys(userAnswers).length / 15) * 100}%`"></div>
                         </div>
                     </div>
+
+                    <!-- Finish Button Sidebar -->
+                    <button @click="if(confirm('Tem certeza que deseja finalizar o teste?')) finishTest()"
+                        class="w-full mt-4 bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 hover:border-red-500/40 font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 group">
+                        <i class="fas fa-flag group-hover:rotate-12 transition-transform"></i>
+                        FINALIZAR TESTE
+                    </button>
                 </div>
             </aside>
         </div>
     </main>
 
     <script>
-        function triApp() {
+        function trlApp() {
             return {
                 currentQuestion: 0, // 0 = Intro
-                timeRemaining: 4 * 60, // 4 min
+                timeRemaining: 10 * 60, // 10 min
                 timerInterval: null,
                 finished: false,
                 imageLoading: false,
@@ -661,14 +628,14 @@
                 shake: false,
                 xpFloats: [],
                 history: [],
-                options: ['A', 'B', 'C', 'D'],
+                options: ['A', 'B', 'C', 'D', 'E', 'F'],
 
-                // GABARITO TRI: ACBDDCAAACABACA
+                // GABARITO (Index 1-15)
                 correctAnswers: [
                     null,
-                    'A', 'C', 'B', 'D', 'D',
-                    'C', 'A', 'A', 'A', 'C',
-                    'A', 'B', 'A', 'C', 'A'
+                    'A', 'F', 'E', 'D', 'E', // 1-5
+                    'B', 'F', 'B', 'C', 'C', // 6-10
+                    'A', 'A', 'E', 'C', 'F'  // 11-15
                 ],
 
                 userAnswers: {},
@@ -691,7 +658,6 @@
                     audio.play().catch(e => console.log("Audio play error:", e));
                 },
 
-                // Gamification Logic
                 selectAnswer(questionNum, option, event) {
                     if (this.finished) return;
                     if (this.userAnswers[questionNum]) return; // Prevent changing answer
@@ -702,7 +668,6 @@
 
                     if (isCorrect) {
                         this.streak++;
-                        // Visual XP effect
                         if (event) {
                             const rect = event.target.getBoundingClientRect();
                             this.spawnXP(rect.left + rect.width / 2, rect.top);
@@ -760,17 +725,16 @@
                         console.log("Audio play error, starting immediately:", e);
                         this.preparing = false;
                         this.currentQuestion = 1;
-                        this.startTimer(); // Ensure timer starts if audio fails
+                        this.startTimer();
                     });
                 },
 
                 preloadNextImages() {
-                    // Preload das próximas 3 imagens
                     for (let i = 1; i <= 3; i++) {
                         const targetQ = this.currentQuestion + i;
                         if (targetQ <= 15) {
                             const img = new Image();
-                            img.src = `../Imagens_base/tri/tri${targetQ}.png`;
+                            img.src = `../Imagens_base/trl/trl${targetQ}.png`;
                         }
                     }
                 },
@@ -780,7 +744,6 @@
                     clearInterval(this.timerInterval);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                    // Calculate Score and Streak correctly at the end
                     this.score = 0;
                     this.maxStreak = 0;
                     let currentStreak = 0;
@@ -801,14 +764,14 @@
                         this.playAudio('tempoesgotado');
                     }
 
-                    if (this.score >= 9) { // 60% of 15 is 9
+                    if (this.score >= 10) {
                         this.launchConfetti();
                     }
                     this.saveHistory();
                 },
 
                 loadHistory() {
-                    const h = localStorage.getItem('tri_history');
+                    const h = localStorage.getItem('trl_history');
                     if (h) this.history = JSON.parse(h);
                 },
 
@@ -817,15 +780,15 @@
                         date: new Date().toLocaleString('pt-BR'),
                         score: this.score,
                         rank: this.rankName,
-                        rankColor: this.rankColor // Save color
+                        rankColor: this.rankColor
                     };
                     this.history.unshift(newItem);
-                    localStorage.setItem('tri_history', JSON.stringify(this.history));
+                    localStorage.setItem('trl_history', JSON.stringify(this.history));
                 },
 
                 clearHistory() {
                     if (confirm("Limpar histórico?")) {
-                        localStorage.removeItem('tri_history');
+                        localStorage.removeItem('trl_history');
                         this.history = [];
                     }
                 },
@@ -862,29 +825,27 @@
                     return `${m}:${s}`;
                 },
 
-                // Rank Getters for 15 Questions
-                // F: 0-4, B: 5-8, P: 9-11 (Apto), O: 12-13, D: 14-15
                 get rankName() {
-                    if (this.score <= 4) return "FERRO";
-                    if (this.score <= 8) return "BRONZE";
-                    if (this.score <= 11) return "PRATA";
-                    if (this.score <= 13) return "OURO";
+                    if (this.score <= 3) return "FERRO";
+                    if (this.score <= 6) return "BRONZE";
+                    if (this.score <= 9) return "PRATA";
+                    if (this.score <= 12) return "OURO";
                     return "DIAMANTE";
                 },
 
                 get rankColor() {
-                    if (this.score <= 4) return "from-gray-500 to-gray-700";
-                    if (this.score <= 8) return "from-orange-700 to-yellow-800";
-                    if (this.score <= 11) return "from-gray-300 to-gray-500";
-                    if (this.score <= 13) return "from-yellow-300 to-yellow-600";
+                    if (this.score <= 3) return "from-gray-500 to-gray-700";
+                    if (this.score <= 6) return "from-orange-700 to-yellow-800";
+                    if (this.score <= 9) return "from-gray-300 to-gray-500";
+                    if (this.score <= 12) return "from-yellow-300 to-yellow-600";
                     return "from-cyan-300 to-blue-500 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]";
                 },
 
                 get rankMsg() {
-                    if (this.score < 9) return "Pratique mais! Você consegue.";
-                    if (this.score <= 11) return "Apto! Bom trabalho.";
-                    if (this.score <= 13) return "Excelente! Alta performance.";
-                    return "GÊNIO! Raciocínio nível máximo.";
+                    if (this.score <= 6) return "Continue treinando para subir de patente!";
+                    if (this.score <= 9) return "Muito bom! Você está perto da meta.";
+                    if (this.score <= 12) return "Excelente! Performance de elite.";
+                    return "LENDÁRIO! Raciocínio impecável.";
                 }
             }
         }

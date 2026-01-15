@@ -208,26 +208,65 @@
                         completar a matriz com a alternativa correta.
                     </p>
 
-                    <!-- Example Section -->
-                    <div class="grid md:grid-cols-2 gap-6 mb-8 text-left">
-                        <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                            <h3 class="text-primary font-bold mb-2 text-sm uppercase">Exemplo</h3>
-                            <img src="../Imagens_base/mig/Exemplo.png" alt="Exemplo MIG"
-                                class="w-full h-64 object-contain bg-black/40 rounded-lg mb-2">
-                            <p class="text-gray-400 text-xs">
-                                Perceba que na primeira coluna as figuras são iguais. Logo, na segunda coluna as figuras
-                                também
-                                devem ser iguais.
-                            </p>
-                        </div>
-                        <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                            <h3 class="text-green-400 font-bold mb-2 text-sm uppercase">Solução</h3>
-                            <img src="../Imagens_base/mig/resposta.png" alt="Resposta MIG"
-                                class="w-full h-64 object-contain bg-black/40 rounded-lg mb-2">
-                            <p class="text-gray-400 text-xs">
-                                A resposta deve ser uma seta vermelha para direita (Alternativa C), mantendo o padrão da
-                                coluna.
-                            </p>
+                    <!-- Exemplo Interativo -->
+                    <div class="mb-8 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
+                        x-data="{ answered: false, correct: false, selected: null, answer: 'C' }">
+                        <h3
+                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo Prático
+                        </h3>
+
+                        <div class="flex flex-col items-center gap-6">
+                            <div class="grid md:grid-cols-2 gap-4 items-center w-full max-w-2xl mx-auto">
+                                <div class="bg-black/40 p-2 rounded-lg border border-white/10">
+                                    <img src="../Imagens_base/mig/Exemplo.png" alt="Exemplo MIG"
+                                        class="w-full h-auto rounded">
+                                </div>
+                                <div
+                                    class="bg-black/40 p-2 rounded-lg border border-white/10 flex flex-col items-center justify-center h-full">
+                                    <p class="text-xs text-gray-400 mb-2 uppercase tracking-wide">Opções</p>
+                                    <img src="../Imagens_base/mig/resposta.png" alt="Opções MIG"
+                                        class="w-full h-auto rounded">
+                                </div>
+                            </div>
+
+                            <!-- Opções Interativas -->
+                            <div class="w-full max-w-lg" x-show="!answered">
+                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
+                                <div class="grid grid-cols-6 gap-2">
+                                    <template x-for="opt in ['A','B','C','D','E','F']">
+                                        <button @click="selected = opt; answered = true; correct = (opt === answer)"
+                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
+                                            <span x-text="opt"
+                                                class="group-hover:text-primary transition-colors"></span>
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Feedback -->
+                            <div x-show="answered" x-transition
+                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
+                                :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
+
+                                <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
+                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
+                                    <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
+                                </div>
+
+                                <p class="text-gray-300 text-sm leading-relaxed text-left">
+                                    Perceba que na primeira coluna as figuras são iguais (setas azuis para esquerda).
+                                    Logo, seguindo o padrão, na segunda coluna as figuras devem ser iguais.
+                                    Então a resposta deve ser uma <strong class="text-green-400">seta vermelha para
+                                        direita (alternativa C)</strong>.
+                                </p>
+
+                                <button @click="answered = false; selected = null"
+                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
+                                    <i class="fas fa-redo"></i> Tentar novamente
+                                </button>
+                            </div>
                         </div>
                     </div>
 

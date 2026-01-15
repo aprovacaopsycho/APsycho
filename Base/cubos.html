@@ -221,28 +221,74 @@
                     </p>
 
                     <!-- Exemplos -->
-                    <div class="grid md:grid-cols-2 gap-6 mb-8 text-left">
-                        <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                            <h3 class="text-primary font-bold mb-2">Exemplo 1</h3>
-                            <div class="mb-3 rounded overflow-hidden border border-white/10">
-                                <img src="../Imagens_base/cubos/EXEMPLO 1.jpg" alt="Exemplo 1" class="w-full h-auto">
+                    <!-- Interactive Example Section -->
+                    <div x-data="{ 
+                        selectedObj: null, 
+                        showFeedback: false,
+                        check(opt) {
+                            if (this.showFeedback) return;
+                            this.selectedObj = opt;
+                            this.showFeedback = true;
+                        }
+                    }" class="mb-8 p-6 bg-black/20 rounded-xl border border-white/5">
+
+                        <h3 class="text-primary font-bold mb-4 flex items-center gap-2">
+                            <i class="fas fa-flask"></i> Exemplo Interativo
+                        </h3>
+
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+
+                            <!-- Image Container -->
+                            <div class="bg-white/5 rounded-lg p-2 border border-white/10">
+                                <img src="../Imagens_base/cubos/EXEMPLO 1.jpg" alt="Exemplo Cubos"
+                                    class="w-full h-auto rounded shadow-lg">
                             </div>
-                            <p class="text-sm text-gray-400">
-                                <strong class="text-white">Resposta:</strong> A terceira camada horizontal faz uma
-                                rotação no sentido anti-horário.
-                                <span class="text-green-400 font-bold block mt-1">Gabarito: C</span>
-                            </p>
-                        </div>
-                        <div class="bg-black/20 p-4 rounded-xl border border-white/5">
-                            <h3 class="text-primary font-bold mb-2">Exemplo 2</h3>
-                            <div class="mb-3 rounded overflow-hidden border border-white/10">
-                                <img src="../Imagens_base/cubos/EXEMPLO 2.jpg" alt="Exemplo 2" class="w-full h-auto">
+
+                            <!-- Interaction Side -->
+                            <div>
+                                <p class="text-gray-300 text-sm mb-4">
+                                    Observe os cubos girando. Para o exemplo acima, qual é a alternativa correta?
+                                </p>
+
+                                <div class="grid grid-cols-5 gap-2 mb-4">
+                                    <template x-for="opt in ['A','B','C','D','E']">
+                                        <button @click="check(opt)"
+                                            class="h-10 rounded-lg font-bold border transition-all transform active:scale-95"
+                                            :class="{
+                                                'bg-white/10 border-white/20 hover:bg-white/20 text-white': !showFeedback,
+                                                'bg-green-500 text-white border-green-400 shadow-[0_0_10px_rgba(34,197,94,0.5)]': showFeedback && opt === 'C',
+                                                'bg-red-500/50 text-white border-red-500 opacity-50': showFeedback && opt !== 'C' && selectedObj === opt,
+                                                'opacity-30': showFeedback && opt !== 'C' && selectedObj !== opt
+                                            }">
+                                            <span x-text="opt"></span>
+                                        </button>
+                                    </template>
+                                </div>
+
+                                <!-- Feedback Area -->
+                                <div x-show="showFeedback" x-transition.opacity
+                                    class="bg-black/40 rounded-lg p-4 border"
+                                    :class="selectedObj === 'C' ? 'border-green-500/30' : 'border-red-500/30'">
+
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <i class="fas"
+                                            :class="selectedObj === 'C' ? 'fa-check-circle text-green-400' : 'fa-times-circle text-red-400'"></i>
+                                        <span class="font-bold text-sm"
+                                            :class="selectedObj === 'C' ? 'text-green-400' : 'text-red-400'"
+                                            x-text="selectedObj === 'C' ? 'Correto!' : 'Incorreto'"></span>
+                                    </div>
+
+                                    <p class="text-xs text-gray-400 leading-relaxed">
+                                        A terceira camada horizontal faz uma rotação no sentido anti-horário.
+                                        <strong class="text-white">Gabarito: C</strong>
+                                    </p>
+                                </div>
+
+                                <div x-show="!showFeedback"
+                                    class="text-xs text-gray-500 mt-2 text-center animate-pulse">
+                                    Clique na opção correta para testar
+                                </div>
                             </div>
-                            <p class="text-sm text-gray-400">
-                                <strong class="text-white">Resposta:</strong> A camada da parte de trás vertical faz uma
-                                rotação no sentido anti-horário.
-                                <span class="text-green-400 font-bold block mt-1">Gabarito: B</span>
-                            </p>
                         </div>
                     </div>
 
