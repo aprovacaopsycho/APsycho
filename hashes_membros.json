@@ -2,15 +2,18 @@
   "549f1c88c31a8a0b2bf04134864ad7221f0069c9562f37e4cb1b60b9a973bd6f": {
     "validity": null,
     "permissions": [
+      "PMPR",
       "Base",
-      "pces"
+      "PPMG_2026",
+      "PC-PI_2026"
     ],
     "name": "Titan da Silva Pinto"
   },
   "1cec35615ed4d4c9aeadb7210e40c5e1a18cb3c0a4ee7292a9b1be6d4b922f02": {
     "validity": null,
     "permissions": [
-      "pces"
+      "PPMG_2026",
+      "PC-PI_2026"
     ],
     "name": "APROVACAO PSYCHO"
   }

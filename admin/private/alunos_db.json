@@ -6,8 +6,10 @@
     "inscricao": "TDSP0767",
     "validade": "",
     "permissions": [
+      "PMPR",
       "Base",
-      "pces"
+      "PPMG_2026",
+      "PC-PI_2026"
     ]
   },
   {
@@ -17,7 +19,8 @@
     "inscricao": "Apr0v@c@0_174",
     "validade": "",
     "permissions": [
-      "pces"
+      "PPMG_2026",
+      "PC-PI_2026"
     ]
   }
 ]
