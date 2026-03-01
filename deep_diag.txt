@@ -1,0 +1,51 @@
+=== DEEP DIAGNOSTIC ===
+
+tecon/tecon1.html: PROBLEMS
+  -> REFS to .t in rendering: 2 lines
+tecon/tecon2.html: PROBLEMS
+  -> REFS to .t in rendering: 2 lines
+tecon/tecon3.html: PROBLEMS
+  -> REFS to .t in rendering: 2 lines
+bpa/bpa_aa.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+bpa/bpa_ac.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+bpa/bpa_ad.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+cta/cta_aa.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+cta/ctaac.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+cta/ctaad.html: PROBLEMS
+  -> Uses isTarget without fetch
+  -> NO fetch AND NO GoogleRunner
+bda/bda_aa.html: PROBLEMS
+  -> REFS to .t in rendering: 2 lines
+bda/bda_ac.html: PROBLEMS
+  -> REFS to .t in rendering: 3 lines
+  -> NO fetch AND NO GoogleRunner
+bda/bda_ad.html: PROBLEMS
+  -> REFS to .t in rendering: 3 lines
+  -> NO fetch AND NO GoogleRunner
+teaco/teaco.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+teadi/teadi.html: PROBLEMS
+  -> REFS to .t in rendering: 3 lines
+tealt/tealt.html: PROBLEMS
+  -> REFS to .t in rendering: 3 lines
+tedif/tedif1.html: OK
+tedif/tedif2.html: OK
+rotas/rotaa.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+rotas/rotac.html: PROBLEMS
+  -> REFS to .t in rendering: 4 lines
+rotas/rotad.html: PROBLEMS
+  -> REFS to .t in rendering: 1 lines
+tadim/tadim1.html: OK
+tem-r/tem_r_2.html: PROBLEMS
+  -> REFS to .t in rendering: 5 lines
+acvetor.html: OK
+tspdimensoes/tsp3.html: PROBLEMS
+  -> REFS to .t in rendering: 2 lines
+  -> Uses isTarget without fetch
+  -> NO fetch AND NO GoogleRunner

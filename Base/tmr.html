@@ -39,15 +39,95 @@
     </script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
         body {
-            background-color: #050508;
-            background-image:
-                radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
             color: #e2e8f0;
-            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             user-select: none;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(34, 211, 238, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(192, 132, 252, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(34, 211, 238, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(192, 132, 252, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         .glass-panel {
@@ -163,6 +243,19 @@
 </head>
 
 <body x-data="tmrApp()" x-init="init()" class="min-h-screen flex flex-col">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <!-- AUDIO FILES -->
     <audio id="audio-prepare" src="../vozes/prepare.mp3"></audio>
@@ -578,8 +671,8 @@
 
                 // CONFIGURAÇÃO DAS PÁGINAS (JSON fornecido)
                 pageConfig: {
-                    1: { "imgWidth": 980, "imgHeight": 1274, "boxW": 90, "boxH": 90, "items": [{ "id": 0, "x": 111, "y": 117, "t": 0 }, { "id": 1, "x": 301, "y": 130, "t": 0 }, { "id": 2, "x": 485, "y": 126, "t": 1 }, { "id": 3, "x": 673, "y": 128, "t": 0 }, { "id": 4, "x": 861, "y": 134, "t": 1 }, { "id": 5, "x": 111, "y": 470, "t": 0 }, { "id": 6, "x": 301, "y": 470, "t": 1 }, { "id": 7, "x": 485, "y": 483, "t": 1 }, { "id": 8, "x": 673, "y": 470, "t": 0 }, { "id": 9, "x": 863, "y": 492, "t": 1 }, { "id": 10, "x": 120, "y": 812, "t": 1 }, { "id": 11, "x": 301, "y": 823, "t": 0 }, { "id": 12, "x": 485, "y": 823, "t": 0 }, { "id": 13, "x": 673, "y": 823, "t": 1 }, { "id": 14, "x": 863, "y": 823, "t": 0 }, { "id": 15, "x": 122, "y": 1159, "t": 0 }, { "id": 16, "x": 299, "y": 1157, "t": 1 }, { "id": 17, "x": 496, "y": 1159, "t": 0 }, { "id": 18, "x": 684, "y": 1159, "t": 1 }, { "id": 19, "x": 863, "y": 1170, "t": 1 }] },
-                    2: { "imgWidth": 980, "imgHeight": 1276, "boxW": 90, "boxH": 90, "items": [{ "id": 0, "x": 111, "y": 117, "t": 1 }, { "id": 1, "x": 301, "y": 130, "t": 0 }, { "id": 2, "x": 485, "y": 126, "t": 1 }, { "id": 3, "x": 673, "y": 112, "t": 0 }, { "id": 4, "x": 860, "y": 124, "t": 0 }, { "id": 5, "x": 106, "y": 444, "t": 1 }, { "id": 6, "x": 301, "y": 470, "t": 0 }, { "id": 7, "x": 484, "y": 457, "t": 1 }, { "id": 8, "x": 673, "y": 470, "t": 1 }, { "id": 9, "x": 863, "y": 492, "t": 0 }, { "id": 10, "x": 109, "y": 816, "t": 0 }, { "id": 11, "x": 296, "y": 803, "t": 1 }, { "id": 12, "x": 484, "y": 803, "t": 0 }, { "id": 13, "x": 673, "y": 800, "t": 0 }, { "id": 14, "x": 868, "y": 800, "t": 1 }, { "id": 15, "x": 110, "y": 1143, "t": 1 }, { "id": 16, "x": 299, "y": 1157, "t": 1 }, { "id": 17, "x": 477, "y": 1134, "t": 0 }, { "id": 18, "x": 670, "y": 1145, "t": 1 }, { "id": 19, "x": 857, "y": 1144, "t": 0 }] }
+                    1: { "imgWidth": 980, "imgHeight": 1274, "boxW": 90, "boxH": 90, "items": [{ "id": 0, "x": 111, "y": 117 }, { "id": 1, "x": 301, "y": 130 }, { "id": 2, "x": 485, "y": 126 }, { "id": 3, "x": 673, "y": 128 }, { "id": 4, "x": 861, "y": 134 }, { "id": 5, "x": 111, "y": 470 }, { "id": 6, "x": 301, "y": 470 }, { "id": 7, "x": 485, "y": 483 }, { "id": 8, "x": 673, "y": 470 }, { "id": 9, "x": 863, "y": 492 }, { "id": 10, "x": 120, "y": 812 }, { "id": 11, "x": 301, "y": 823 }, { "id": 12, "x": 485, "y": 823 }, { "id": 13, "x": 673, "y": 823 }, { "id": 14, "x": 863, "y": 823 }, { "id": 15, "x": 122, "y": 1159 }, { "id": 16, "x": 299, "y": 1157 }, { "id": 17, "x": 496, "y": 1159 }, { "id": 18, "x": 684, "y": 1159 }, { "id": 19, "x": 863, "y": 1170 }] },
+                    2: { "imgWidth": 980, "imgHeight": 1276, "boxW": 90, "boxH": 90, "items": [{ "id": 0, "x": 111, "y": 117 }, { "id": 1, "x": 301, "y": 130 }, { "id": 2, "x": 485, "y": 126 }, { "id": 3, "x": 673, "y": 112 }, { "id": 4, "x": 860, "y": 124 }, { "id": 5, "x": 106, "y": 444 }, { "id": 6, "x": 301, "y": 470 }, { "id": 7, "x": 484, "y": 457 }, { "id": 8, "x": 673, "y": 470 }, { "id": 9, "x": 863, "y": 492 }, { "id": 10, "x": 109, "y": 816 }, { "id": 11, "x": 296, "y": 803 }, { "id": 12, "x": 484, "y": 803 }, { "id": 13, "x": 673, "y": 800 }, { "id": 14, "x": 868, "y": 800 }, { "id": 15, "x": 110, "y": 1143 }, { "id": 16, "x": 299, "y": 1157 }, { "id": 17, "x": 477, "y": 1134 }, { "id": 18, "x": 670, "y": 1145 }, { "id": 19, "x": 857, "y": 1144 }] }
                 },
 
                 init() {

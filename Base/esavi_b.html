@@ -10,15 +10,19 @@
 
     <!-- SEGURANÇA -->
     <script src="../scripts/auth_guard.js"></script>
+    <script src="../google-runner.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
         :root {
             --bg-dark: #100f1c;
             --bg-card: #1c1b29;
@@ -28,9 +32,91 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            color: #a0a0a0
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
+            color: #a0a0a0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 194, 255, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         .card {
@@ -111,6 +197,19 @@
 </head>
 
 <body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -323,63 +422,41 @@
 
     <script>
         const DATA_QUESTIONS = [
-            { id: 1, text: "PERCO A CONCENTRAÇÃO FACILMENTE.", f: "F1" },
-            { id: 2, text: "MEU PENSAMENTO É DISPERSO.", f: "F1" },
-            { id: 3, text: "PENSO EM COMO ESTARA MINHA VIDA DAQUI A 5 ANOS.", f: "F3" },
-            { id: 4, text: "PLANEJO MINHAS AÇÕES CUIDADOSAMENTE.", f: "F2" },
-            { id: 5, text: "FICO ENTENDIADO COM FACILIDADE.", f: "F1" },
-            { id: 6, text: "FICO NERVOSO QUANDO TENHO QUE REALIZAR VÁRIAS ATIVIDADES AO MESMO TEMPO.", f: "F1" },
-            { id: 7, text: "PENSO ANTES DE FALAR.", f: "F2" },
-            { id: 8, text: "TENHO DIFICULDADE DE TERMINAR O QUE COMEÇO.", f: "F1" },
-            { id: 9, text: "EM SALAS DE ESPERA FICO IRRITADO.", f: "F1" },
-            { id: 10, text: "SOU UMA PESSOA OUSADA.", f: "F4" },
-            { id: 11, text: "SOU CAUTELOSO EM MINHAS ATIVIDADES.", f: "F2" },
-            { id: 12, text: "EM CONVERSA COM AMIGOS, PENSO ANTES DE EXPRESSAR MINHAS OPINIÕES.", f: "F2" },
-            { id: 13, text: "DEFINO MINHAS ESTRATÉGIAS ANTES DE AGIR.", f: "F2" },
-            { id: 14, text: "PROCURO AVALIAR OS RISCOS ANTES DE AGIR.", f: "F2" },
-            { id: 15, text: "PERCO O INTERESSE RAPIDAMENTE QUANDO COMEÇO UMA ATIVIDADE.", f: "F1" },
-            { id: 16, text: "GOSTO DE ATIVIDADES QUE ENVOLVAM RISCO", f: "F4" },
-            { id: 17, text: "GOSTO DE PREVER O QUE IRÁ ACONTECER COM MINHA VIDA.", f: "F3" },
-            { id: 18, text: "SOU UMA PESSOA ANSIOSA.", f: "F1" },
-            { id: 19, text: "ACREDITO QUE VIVER O PRESENTE É MAIS IMPORTANTE DO QUE PLANEJAR O FUTURO.", f: "F3", inv: true },
-            { id: 20, text: "TENHO DIFICULDADE EM CUMPRIR AS TAREFAS DA VIDA COTIDIANA.", f: "F1" },
-            { id: 21, text: "PENSO MAIS NO FUTURO DO QUE NO PRESENTE.", f: "F3" },
-            { id: 22, text: "AJO DE FORMA IMEDIATA PARA CONSEGUIR O QUE QUERO.", f: "F4" },
-            { id: 23, text: "PROCURO PROGRAMAR O QUE TENHO A FAZER NO DIA.", f: "F2" },
-            { id: 24, text: "TENHO DIFICULDADE DE MANTER A ATENÇÃO POR PERÍODOS LONGOS.", f: "F1" },
-            { id: 25, text: "GOSTO DE ASSUMIR RISCOS, MESMO SEM OBTER BENEFÍCIOS COM ISSO.", f: "F4" },
-            { id: 26, text: "DURANTE MINHAS ATIVIDADES,ME DISTRAIO COM FACILIDADE.", f: "F1" },
-            { id: 27, text: "REALIZO MINHAS VONTADES,INDEPENDENTE DE QUALQUER COISA.", f: "F4" },
-            { id: 28, text: "GOSTO DE BUSCAR SENSAÇÕES NOVAS.", f: "F4" },
-            { id: 29, text: "FICO IRRITADO QUANDO TENHO QUE ESPERAR POR ALGO.", f: "F1" },
-            { id: 30, text: "ANTES DE TOMAR UMA DECISÃO, ANALISO A SITUAÇÃO CUIDADOSAMENTE.", f: "F2" },
-            { id: 31, text: "PREFIRO VIVER O PRESENTE A PENSAR NO FUTURO.", f: "F3", inv: true }
+            { id: 1, text: "PERCO A CONCENTRAÇÃO FACILMENTE." },
+            { id: 2, text: "MEU PENSAMENTO É DISPERSO." },
+            { id: 3, text: "PENSO EM COMO ESTARA MINHA VIDA DAQUI A 5 ANOS." },
+            { id: 4, text: "PLANEJO MINHAS AÇÕES CUIDADOSAMENTE." },
+            { id: 5, text: "FICO ENTENDIADO COM FACILIDADE." },
+            { id: 6, text: "FICO NERVOSO QUANDO TENHO QUE REALIZAR VÁRIAS ATIVIDADES AO MESMO TEMPO." },
+            { id: 7, text: "PENSO ANTES DE FALAR." },
+            { id: 8, text: "TENHO DIFICULDADE DE TERMINAR O QUE COMEÇO." },
+            { id: 9, text: "EM SALAS DE ESPERA FICO IRRITADO." },
+            { id: 10, text: "SOU UMA PESSOA OUSADA." },
+            { id: 11, text: "SOU CAUTELOSO EM MINHAS ATIVIDADES." },
+            { id: 12, text: "EM CONVERSA COM AMIGOS, PENSO ANTES DE EXPRESSAR MINHAS OPINIÕES." },
+            { id: 13, text: "DEFINO MINHAS ESTRATÉGIAS ANTES DE AGIR." },
+            { id: 14, text: "PROCURO AVALIAR OS RISCOS ANTES DE AGIR." },
+            { id: 15, text: "PERCO O INTERESSE RAPIDAMENTE QUANDO COMEÇO UMA ATIVIDADE." },
+            { id: 16, text: "GOSTO DE ATIVIDADES QUE ENVOLVAM RISCO" },
+            { id: 17, text: "GOSTO DE PREVER O QUE IRÁ ACONTECER COM MINHA VIDA." },
+            { id: 18, text: "SOU UMA PESSOA ANSIOSA." },
+            { id: 19, text: "ACREDITO QUE VIVER O PRESENTE É MAIS IMPORTANTE DO QUE PLANEJAR O FUTURO." },
+            { id: 20, text: "TENHO DIFICULDADE EM CUMPRIR AS TAREFAS DA VIDA COTIDIANA." },
+            { id: 21, text: "PENSO MAIS NO FUTURO DO QUE NO PRESENTE." },
+            { id: 22, text: "AJO DE FORMA IMEDIATA PARA CONSEGUIR O QUE QUERO." },
+            { id: 23, text: "PROCURO PROGRAMAR O QUE TENHO A FAZER NO DIA." },
+            { id: 24, text: "TENHO DIFICULDADE DE MANTER A ATENÇÃO POR PERÍODOS LONGOS." },
+            { id: 25, text: "GOSTO DE ASSUMIR RISCOS, MESMO SEM OBTER BENEFÍCIOS COM ISSO." },
+            { id: 26, text: "DURANTE MINHAS ATIVIDADES,ME DISTRAIO COM FACILIDADE." },
+            { id: 27, text: "REALIZO MINHAS VONTADES,INDEPENDENTE DE QUALQUER COISA." },
+            { id: 28, text: "GOSTO DE BUSCAR SENSAÇÕES NOVAS." },
+            { id: 29, text: "FICO IRRITADO QUANDO TENHO QUE ESPERAR POR ALGO." },
+            { id: 30, text: "ANTES DE TOMAR UMA DECISÃO, ANALISO A SITUAÇÃO CUIDADOSAMENTE." },
+            { id: 31, text: "PREFIRO VIVER O PRESENTE A PENSAR NO FUTURO." }
         ];
 
         const SCALE_LABELS = {
             1: "NUNCA", 2: "POUCAS VEZES", 3: "ÀS VEZES", 4: "MUITAS VEZES", 5: "SEMPRE"
-        };
-
-        const FACTOR_INFO = {
-            "F1": { name: "Falta de Concentração e Persistência", apt: [1, 2, 3] }, // Aptidão 1-3
-            "F2": { name: "Controle Cognitivo", apt: [3, 4, 5] }, // 3-4 e assumindo 5 é melhor
-            "F3": { name: "Planejamento de Futuro", apt: [3, 4, 5] },
-            "F4": { name: "Audácia e Temeridade", apt: [2, 3] } // Aptidão 2-3
-        };
-
-        const NOTE_TABLE = {
-            "F1": [
-                { max: 14, note: 1 }, { max: 20, note: 2 }, { max: 30, note: 3 }, { max: 37, note: 4 }, { max: 999, note: 5 }
-            ],
-            "F2": [
-                { max: 22, note: 1 }, { max: 28, note: 2 }, { max: 36, note: 3 }, { max: 39, note: 4 }, { max: 999, note: 5 }
-            ],
-            "F3": [
-                { max: 9, note: 1 }, { max: 13, note: 2 }, { max: 19, note: 3 }, { max: 22, note: 4 }, { max: 999, note: 5 }
-            ],
-            "F4": [
-                { max: 10, note: 1 }, { max: 13, note: 2 }, { max: 19, note: 3 }, { max: 22, note: 4 }, { max: 999, note: 5 }
-            ]
         };
 
         // UI Logic
@@ -485,76 +562,71 @@
             document.getElementById('timer-display').innerText = text;
         }
 
-        function calculate(pastedAnswers = null) {
+        async function calculate(pastedAnswers = null) {
             clearInterval(timerInterval);
             document.getElementById('unified-timer-container').classList.add('hidden');
 
-            let answersMap = new Map();
+            let answersMap = {};
 
             if (pastedAnswers) {
-                pastedAnswers.forEach((val, idx) => answersMap.set(idx + 1, val));
+                pastedAnswers.forEach((val, idx) => answersMap[idx + 1] = val);
             } else {
                 let missing = [];
                 DATA_QUESTIONS.forEach(q => {
                     const el = document.querySelector(`input[name="q${q.id}"]:checked`);
-                    if (el) answersMap.set(q.id, parseInt(el.value));
+                    if (el) answersMap[q.id] = parseInt(el.value);
                     else missing.push(q.id);
                 });
 
                 if (missing.length > 0) {
                     alert(`Faltam ${missing.length} questões para responder.`);
+                    startTimer();
                     return;
                 }
             }
 
-            // Calculation
-            let scores = { "F1": 0, "F2": 0, "F3": 0, "F4": 0 };
-
-            answersMap.forEach((val, id) => {
-                const q = DATA_QUESTIONS.find(x => x.id === id);
-                let points = val;
-                if (q.inv) points = 6 - val;
-                scores[q.f] += points;
-            });
-
-            // Aptitude
-            let results = {};
-            let aptCount = 0;
-
-            for (let f in scores) {
-                const raw = scores[f];
-                const table = NOTE_TABLE[f];
-                let note = 5;
-                for (let r of table) {
-                    if (raw <= r.max) {
-                        note = r.note;
-                        break;
-                    }
-                }
-
-                const factorDef = FACTOR_INFO[f];
-                // Check if note is in accepted list. (Note: The user provided instructions imply specific Notes = Apto) 
-                // Using explicit aptitude logic from markdown table "Aptidão" column
-                const isApto = factorDef.apt.includes(note);
-                if (isApto) aptCount++;
-
-                results[f] = { raw, note, isApto, name: factorDef.name };
+            // Backend Call
+            const btn = document.querySelector('button[onclick="calculate()"]');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processando...';
             }
 
-            const overallApto = aptCount >= 3;
+            try {
+                const API_URL = "https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec";
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ tipo: 'esavib', respostas: answersMap })
+                });
+                const result = await response.json();
 
-            renderResults(results, overallApto);
-            saveHistory(overallApto);
-            showScreen('result');
+                if (result.sucesso) {
+                    renderResults(result.facetas, result.status);
+                    saveHistory(result.status === 'APTO');
+                    showScreen('result');
+                } else {
+                    alert("Erro ao processar: " + (result.erro || "Desconhecido"));
+                }
+            } catch (e) {
+                alert("Erro de conexão: " + e.message);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'FINALIZAR TESTE';
+                }
+            }
         }
 
-        function renderResults(results, overall) {
+        function renderResults(results, status) {
             const container = document.getElementById('report-content');
             const date = new Date().toLocaleString();
             document.getElementById('report-date').innerText = date;
 
+            const isAptoOverall = status === 'APTO' || status === true; // Handle string or boolean
+
             const finalBadge = document.getElementById('final-status-badge');
-            if (overall) {
+            if (isAptoOverall) {
                 finalBadge.innerText = "APTO";
                 finalBadge.className = "px-8 py-3 rounded-full text-xl font-bold bg-green-500/20 text-green-400 border border-green-500/50 shadow-[0_0_15px_rgba(74,222,128,0.2)]";
             } else {
@@ -567,10 +639,11 @@
 
             for (let f in results) {
                 const r = results[f];
-                const statusColor = r.isApto ? "text-green-400" : "text-red-400";
-                const statusIcon = r.isApto ? "fa-check-circle" : "fa-times-circle";
-                const statusText = r.isApto ? "APTO" : "INAPTO";
-                const bg = r.isApto ? "bg-green-500/20 border-green-500/30" : "bg-red-500/20 border-red-500/30";
+                const isApto = r.isApto;
+                const statusColor = isApto ? "text-green-400" : "text-red-400";
+                const statusIcon = isApto ? "fa-check-circle" : "fa-times-circle";
+                const statusText = isApto ? "APTO" : "INAPTO";
+                const bg = isApto ? "bg-green-500/20 border-green-500/30" : "bg-red-500/20 border-red-500/30";
 
                 html += `
                 <div class="p-6 rounded-xl border ${bg}">

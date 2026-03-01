@@ -14,11 +14,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
         :root {
             --bg-dark: #100f1c;
             --bg-card: #1c1b29;
@@ -28,9 +31,60 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg-dark);
             color: #a0a0a0;
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         /* Fundo Estilo Hero */
@@ -193,6 +247,18 @@
 </head>
 
 <body class="flex flex-col min-h-screen hero-bg" x-data="ctaAdSimulator()">
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -571,73 +637,33 @@
                     }
                 },
 
-                finishTest() {
+                
+                async finishTest() {
                     clearInterval(this.timer);
+                    if(this.audio && this.audio.finish) this.audio.finish.play().catch(e=>e);
+                    
+                    const btn = document.querySelector('[onclick="finishTest()"], [x-on\\:click="finishTest()"], [\\@click="finishTest()"]');
+                    if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
-                    let hits = 0, errors = 0, omissions = 0;
-
-                    this.grid.forEach((cell, idx) => {
-                        if (cell.marked) {
-                            if (cell.isTarget) hits++;
-                            else errors++;
-                        } else {
-                            // Omissão: era alvo, não marcou, e está dentro do intervalo percorrido
-                            if (cell.isTarget && idx <= this.lastSelectedIndex) {
-                                omissions++;
-                            }
-                        }
-                    });
-
-                    const score = hits - (errors + omissions);
-                    this.results = { hits, errors, omissions, score };
-
-                    this.state = 'results';
-                    window.scrollTo(0, 0);
-
-                    // Confetti se aprovado
-                    if (this.results.score >= 32) {
-                        const duration = 3000;
-                        const end = Date.now() + duration;
-
-                        (function frame() {
-                            confetti({
-                                particleCount: 5,
-                                angle: 60,
-                                spread: 55,
-                                origin: { x: 0 },
-                                colors: ['#9f54ff', '#ff00ff', '#00c2ff']
-                            });
-                            confetti({
-                                particleCount: 5,
-                                angle: 120,
-                                spread: 55,
-                                origin: { x: 1 },
-                                colors: ['#9f54ff', '#ff00ff', '#00c2ff']
-                            });
-
-                            if (Date.now() < end) {
-                                requestAnimationFrame(frame);
-                            }
-                        }());
-                    } else {
-                        document.getElementById('time-up-audio').play().catch(e => console.log("Audio play err", e));
-                    }
-                    this.saveHistory();
+                    const payload = { tipo: 'cta_ad', respostas: this.marks||[], annulled: this.annulled||[], lastSelectedIndex: this.lastSelectedIndex };
+                    
+                    try {
+                        const response = await fetch("AKfycbzSb0NgcW6pFcVF-ZXyw0bugKWA2a28Go3-X-d5PfCgnnEnD3eV2R6Xj0RbmIk6xBrN".includes('https') ? "AKfycbzSb0NgcW6pFcVF-ZXyw0bugKWA2a28Go3-X-d5PfCgnnEnD3eV2R6Xj0RbmIk6xBrN" : "https://script.google.com/macros/s/AKfycbzSb0NgcW6pFcVF-ZXyw0bugKWA2a28Go3-X-d5PfCgnnEnD3eV2R6Xj0RbmIk6xBrN/exec", {
+                            method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+                        if(result.sucesso) {
+                            this.results = { hits: result.hits, errors: result.errors, omissions: result.omissions, score: result.pontuacao };
+                            const gab = result.gabarito || [];
+                            this.config.items.forEach(i => i.t = gab.includes(i.id) ? 1 : 0);
+                            this.state = 'results';
+                            window.scrollTo(0, 0);
+                            if(this.results.score >= 32 && typeof this.triggerConfetti === 'function') this.triggerConfetti();
+                            else if(this.results.score < 32) { document.body.classList.add('shake-screen'); setTimeout(() => document.body.classList.remove('shake-screen'), 500); }
+                            if(typeof this.saveHistory === 'function') this.saveHistory();
+                        } else { alert("Erro: " + result.erro); if(btn) btn.innerHTML = '<i class="fas fa-stop"></i>'; }
+                    } catch(e) { alert("Erro conexão: " + e.message); if(btn) btn.innerHTML = '<i class="fas fa-stop"></i>'; }
                 },
-
-                showVisualReview() {
-                    this.reviewMode = true;
-                    setTimeout(() => {
-                        document.querySelector('.test-paper-container').scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                },
-
-                formatTime(s) {
-                    const min = Math.floor(s / 60).toString().padStart(2, '0');
-                    const sec = (s % 60).toString().padStart(2, '0');
-                    return `${min}:${sec}`;
-                },
-
                 loadHistory() {
                     const h = localStorage.getItem('ctaad_history');
                     if (h) this.history = JSON.parse(h);

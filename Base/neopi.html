@@ -407,259 +407,248 @@
     // DADOS OFICIAIS (PLACEHOLDER)
     // ==========================================================================
 
-    const DATA_CRITERIA = {
-      "ansiedade": { min: 0, max: 51 }, "raiva": { min: 0, max: 51 }, "depressao": { min: 0, max: 51 },
-      "embaraco": { min: 0, max: 51 }, "impulsividade": { min: 0, max: 51 }, "vulnerabilidade": { min: 0, max: 51 },
-      "acolhimento caloroso": { min: 30, max: 85 }, "gregarismo": { min: 30, max: 85 }, "assertividade": { min: 30, max: 100 },
-      "atividade": { min: 30, max: 100 }, "busca de sensacoes": { min: 30, max: 80 }, "emocoes positivas": { min: 30, max: 80 },
-      "fantasia": { min: 20, max: 80 }, "estetica": { min: 30, max: 80 }, "sentimentos": { min: 20, max: 80 },
-      "acoes variadas": { min: 20, max: 80 }, "ideias": { min: 20, max: 80 }, "valores": { min: 20, max: 80 },
-      "confianca": { min: 20, max: 80 }, "franqueza": { min: 20, max: 80 }, "altruismo": { min: 30, max: 100 },
-      "complacencia": { min: 20, max: 80 }, "modestia": { min: 20, max: 100 }, "sensibilidade": { min: 20, max: 80 },
-      "competencia": { min: 40, max: 100 }, "ordem": { min: 30, max: 100 }, "senso de dever": { min: 30, max: 100 },
-      "esforco por realizacao": { min: 30, max: 100 }, "auto disciplina": { min: 30, max: 100 }, "ponderacao": { min: 30, max: 300 }
-    };
+    // DATA_CRITERIA movido para backend (segurança)
     const DATA_QUESTIONS = [
-      { "id": 1, "text": "Sou uma pessoa despreocupada", "facet": "ansiedade", "inverted": true },
-      { "id": 2, "text": "Gosto realmente da maioria das pessoas que encontro", "facet": "acolhimento caloroso", "inverted": false },
-      { "id": 3, "text": "Tenho uma imaginação muito fértil", "facet": "fantasia", "inverted": false },
-      { "id": 4, "text": "Tendo a ser descrente frente às intenções dos outros", "facet": "confianca", "inverted": true },
-      { "id": 5, "text": "Sou conhecido (a) pela minha prudência e bom senso", "facet": "competencia", "inverted": false },
-      { "id": 6, "text": "Muitas vezes, fico irritado (a) com a maneira como as pessoas me tratam", "facet": "raiva", "inverted": false },
-      { "id": 7, "text": "Não gosto de multidões e por isso as evito", "facet": "gregarismo", "inverted": true },
-      { "id": 8, "text": "Assuntos de estética e arte não são muito importantes para mim", "facet": "estetica", "inverted": true },
-      { "id": 9, "text": "Não sou dissimulado (a) nem espertalhão (ona)", "facet": "franqueza", "inverted": false },
-      { "id": 10, "text": "Prefiro deixar as opções em aberto que planejar tudo com antecedência", "facet": "ordem", "inverted": true },
-      { "id": 11, "text": "Raramente me sinto só ou triste", "facet": "depressao", "inverted": true },
-      { "id": 12, "text": "Sou dominador (a), firme e assertivo (a)", "facet": "assertividade", "inverted": false },
-      { "id": 13, "text": "Sem emoções fortes a vida não teria muito graça para mim", "facet": "sentimentos", "inverted": false },
-      { "id": 14, "text": "Algumas pessoas pensam que sou invejoso (a) e egoísta", "facet": "altruismo", "inverted": true },
-      { "id": 15, "text": "Tento cumprir todas as minhas obrigações com responsabilidade", "facet": "senso de dever", "inverted": false },
-      { "id": 16, "text": "Ao lidar com outras pessoas, sempre tenho medo de fazer alguma coisa errada", "facet": "embaraco", "inverted": false },
-      { "id": 17, "text": "Gosto de realizar as coisas com calma", "facet": "atividade", "inverted": false },
-      { "id": 18, "text": "Sou bastante agarrado (a) às minhas próprias maneiras de agir", "facet": "acoes variadas", "inverted": false },
-      { "id": 19, "text": "Prefiro colaborar com as outras pessoas a competir com elas", "facet": "complacencia", "inverted": false },
-      { "id": 20, "text": "Sou despreocupado (a) e pouco determinado (a)", "facet": "esforco por realizacao", "inverted": true },
-      { "id": 21, "text": "Raramente me excedo em qualquer coisa", "facet": "impulsividade", "inverted": true },
-      { "id": 22, "text": "Sinto, muitas vezes, forte necessidade de me divertir", "facet": "busca de sensacoes", "inverted": false },
-      { "id": 23, "text": "Muitas vezes, sinto prazer em brincar com teorias e idéias abstratas", "facet": "ideias", "inverted": false },
-      { "id": 24, "text": "Não me incomodo de me vangloriar de meus talentos e sucessos", "facet": "modestia", "inverted": true },
-      { "id": 25, "text": "Eu sou bom (boa) em organizar meu tempo de maneira a fazer as coisas dentro do prazo", "facet": "auto disciplina", "inverted": false },
-      { "id": 26, "text": "Sinto-me, muitas vezes, desamparado (a) desejando que alguém resolva meus problemas", "facet": "vulnerabilidade", "inverted": false },
-      { "id": 27, "text": "Para dizer a verdade, nunca pulei de alegria", "facet": "emocoes positivas", "inverted": true },
-      { "id": 28, "text": "Acredito que deixar estudantes ouvirem pessoas com idéias controversas só vai confundi-los e desorientá-los", "facet": "valores", "inverted": false },
-      { "id": 29, "text": "Os governantes precisam estar muito mais atentos para o lado humano dos seus projetos politicos", "facet": "sensibilidade", "inverted": false },
-      { "id": 30, "text": "Ao longo dos anos cometi muitos erros", "facet": "ponderacao", "inverted": false },
-      { "id": 31, "text": "Assusto-me facilmente", "facet": "ansiedade", "inverted": false },
-      { "id": 32, "text": "Eu não gosto muito de ficar conversando com as pessoas", "facet": "acolhimento caloroso", "inverted": true },
-      { "id": 33, "text": "Tento sempre organizar os meus pensamentos de forma realista, não dando asas a imaginação", "facet": "fantasia", "inverted": true },
-      { "id": 34, "text": "Acredito que a maioria das pessoas é, no fundo, bem intencionada", "facet": "confianca", "inverted": false },
-      { "id": 35, "text": "Não levo muito a sério os deveres cívicos, como votar", "facet": "competencia", "inverted": true },
-      { "id": 36, "text": "Sou uma pessoa tranquila", "facet": "raiva", "inverted": true },
-      { "id": 37, "text": "Gosto de ter muita gente a minha volta", "facet": "gregarismo", "inverted": false },
-      { "id": 38, "text": "Em algumas ocasiões, quando ouço musica, não presto atenção em mais nada", "facet": "estetica", "inverted": false },
-      { "id": 39, "text": "Ser for necessário, estou disposto (a) a manipular as pessoas para conseguir aquilo que quero", "facet": "franqueza", "inverted": true },
-      { "id": 40, "text": "Mantenho as minhas coisas limpas e em ordem", "facet": "ordem", "inverted": false },
-      { "id": 41, "text": "Às vezes, sinto que eu não valho nada", "facet": "depressao", "inverted": false },
-      { "id": 42, "text": "As vezes, eu deveria mostrar maior firmeza em minhas ações", "facet": "assertividade", "inverted": true },
-      { "id": 43, "text": "Raramente experimento forte emoções", "facet": "sentimentos", "inverted": true },
-      { "id": 44, "text": "Tento ser educado (a) com todas as pessoas que encontro", "facet": "altruismo", "inverted": false },
-      { "id": 45, "text": "Às vezes, não sou tão confiável como deveria ser", "facet": "senso de dever", "inverted": true },
-      { "id": 46, "text": "Raramente me sinto constrangido (a) quando estou rodeado (a) de pessoas", "facet": "embaraco", "inverted": true },
-      { "id": 47, "text": "Quando faço alguma coisa, eu faço com todo entusiasmo", "facet": "atividade", "inverted": false },
-      { "id": 48, "text": "Acho interessante aprender e cultivar novos hobbies (passatempos)", "facet": "acoes variadas", "inverted": true },
-      { "id": 49, "text": "Sei ser sarcástico (a) e irônico (a) quando necessário", "facet": "complacencia", "inverted": true },
-      { "id": 50, "text": "Tenho objetivos claros e busco atingi-los de forma organizada", "facet": "esforco por realizacao", "inverted": false },
-      { "id": 51, "text": "Tenho dificuldades em resistir aos meus desejos", "facet": "impulsividade", "inverted": false },
-      { "id": 52, "text": "Não gostaria de passar as férias em um lugar muito freqüentado e agitado", "facet": "busca de sensacoes", "inverted": true },
-      { "id": 53, "text": "Acho as discussões filosóficas enfadonhas (chatas)", "facet": "ideias", "inverted": true },
-      { "id": 54, "text": "Quando eu estou conversando com as pessoas, prefiro não falar de mim mesmo (a) e das minhas realizações", "facet": "modestia", "inverted": false },
-      { "id": 55, "text": "Perco muito tempo antes de me concentrar no trabalho", "facet": "auto disciplina", "inverted": true },
-      { "id": 56, "text": "Sinto que sou capaz de resolver a maioria dos problemas", "facet": "vulnerabilidade", "inverted": true },
-      { "id": 57, "text": "Já experimentei, algumas vezes, sensações de grande alegria ou êxtase (arrebatamento)", "facet": "emocoes positivas", "inverted": false },
-      { "id": 58, "text": "Acredito que as leis e a políticas sociais deveriam mudar para que possam refletir as necessidades atuais", "facet": "valores", "inverted": true },
-      { "id": 59, "text": "Sou inflexível e teimoso (a) nas minhas atitudes", "facet": "sensibilidade", "inverted": true },
-      { "id": 60, "text": "Penso muito antes de tomar uma decisão", "facet": "ponderacao", "inverted": false },
-      { "id": 61, "text": "Raramente me sinto amedrontado (a) ou ansioso (a)", "facet": "ansiedade", "inverted": true },
-      { "id": 62, "text": "Sou uma pessoa amigável e simpática", "facet": "acolhimento caloroso", "inverted": false },
-      { "id": 63, "text": "Tenho uma grande capacidade de fantasiar", "facet": "fantasia", "inverted": false },
-      { "id": 64, "text": "Acredito que, se você deixar, as pessoas vão te passar para trás (enganar)", "facet": "confianca", "inverted": true },
-      { "id": 65, "text": "Mantenho-me informado (a) e, geralmente, tomo decisões inteligentes", "facet": "competencia", "inverted": false },
-      { "id": 66, "text": "Eu sou conhecido (a) como uma pessoa esquentada", "facet": "raiva", "inverted": false },
-      { "id": 67, "text": "Normalmente, prefiro fazer as coisas sozinho (a)", "facet": "gregarismo", "inverted": true },
-      { "id": 68, "text": "Assistir balé ou dança moderna me deixa entediado (a)", "facet": "estetica", "inverted": true },
-      { "id": 69, "text": "Mesmo que quisesse, não conseguiria enganar ninguém", "facet": "franqueza", "inverted": false },
-      { "id": 70, "text": "Sou uma pessoa muito metódica (ordeira)", "facet": "ordem", "inverted": false },
-      { "id": 71, "text": "Raramente estou triste ou deprimido (a)", "facet": "depressao", "inverted": true },
-      { "id": 72, "text": "Já fui muitas vezes líder de grupos a que pertenci", "facet": "assertividade", "inverted": false },
-      { "id": 73, "text": "É importante para mim como eu me sinto frente a pessoas ou situações", "facet": "sentimentos", "inverted": false },
-      { "id": 74, "text": "Algumas pessoas consideram-me frio (a) e calculista", "facet": "altruismo", "inverted": true },
-      { "id": 75, "text": "Pago as minhas dividas em dias", "facet": "senso de dever", "inverted": false },
-      { "id": 76, "text": "Algumas vezes senti tão envergonhado (a) que simplesmente queria sumir", "facet": "embaraco", "inverted": false },
-      { "id": 77, "text": "Trabalho devagar, mas persistentemente (de forma regular)", "facet": "atividade", "inverted": false },
-      { "id": 78, "text": "Quando encontro a maneira correta de fazer uma coisa me agarro a ela", "facet": "acoes variadas", "inverted": false },
-      { "id": 79, "text": "Apesar de ter direito, tenho receio de mostrar a minha indignação e raiva, pois posso magoar as pessoas", "facet": "complacencia", "inverted": false },
-      { "id": 80, "text": "Quando inicio um programa de modificação pessoal (regime, esporte), deixo de cumpri-lo após alguns dias", "facet": "esforco por realizacao", "inverted": true },
-      { "id": 81, "text": "Eu não tenho dificuldades de resistir às tentações.", "facet": "impulsividade", "inverted": true },
-      { "id": 82, "text": "Já fiz algumas coisas só por puro entusiasmo", "facet": "busca de sensacoes", "inverted": false },
-      { "id": 83, "text": "Gosto de resolver problemas e quebra-cabeças", "facet": "ideias", "inverted": false },
-      { "id": 84, "text": "Sou melhor que a maioria das pessoas e tenho consciência disso", "facet": "modestia", "inverted": true },
-      { "id": 85, "text": "Eu sou uma pessoa produtiva que sempre consegue fazer as coisas", "facet": "auto disciplina", "inverted": false },
-      { "id": 86, "text": "Quando estou sob uma grande tensão, algumas vezes sinto que não vou resistir", "facet": "vulnerabilidade", "inverted": false },
-      { "id": 87, "text": "Não sou um (a) grande otimista", "facet": "emocoes positivas", "inverted": true },
-      { "id": 88, "text": "Acredito que devemos confiar nas nossas autoridades religiosas para decisões sobre assuntos morais", "facet": "valores", "inverted": false },
-      { "id": 89, "text": "Nunca fazemos o suficiente pelos pobres e pelos velhos", "facet": "sensibilidade", "inverted": false },
-      { "id": 90, "text": "As vezes, ajo primeiro e penso depois", "facet": "ponderacao", "inverted": true },
-      { "id": 91, "text": "Freqüentemente, sinto-me tenso (a) e agitado (a)", "facet": "ansiedade", "inverted": false },
-      { "id": 92, "text": "Muitas pessoas de vêem como alguém um pouco frio e distante", "facet": "acolhimento caloroso", "inverted": true },
-      { "id": 93, "text": "Não gosto de perder tempo sonhando acordado (a)", "facet": "fantasia", "inverted": true },
-      { "id": 94, "text": "Penso que a maioria das pessoas com quem lido é honesta e digna de confiança", "facet": "confianca", "inverted": false },
-      { "id": 95, "text": "Freqüentemente entro em situações sem estar totalmente preparado (a) para elas", "facet": "competencia", "inverted": true },
-      { "id": 96, "text": "Não sou considerado (a) uma pessoa melindrosa e temperamental", "facet": "raiva", "inverted": true },
-      { "id": 97, "text": "Sinto muita necessidade de estar com outras pessoas quando fico sozinho (a) durante muito tempo", "facet": "gregarismo", "inverted": false },
-      { "id": 98, "text": "Fico admirado (a) com a variedade de padrões que encontro na arte e na natureza", "facet": "estetica", "inverted": false },
-      { "id": 99, "text": "Penso que ser totalmente honesto (a) não é uma boa maneira de fazer negócios", "facet": "franqueza", "inverted": true },
-      { "id": 100, "text": "Gosto de ter as coisas no seu lugar, pois assim sei onde posso encontrá-las", "facet": "ordem", "inverted": false },
-      { "id": 101, "text": "Já senti, algumas vezes, uma sensação profunda de culpa ou de ter pecado", "facet": "depressao", "inverted": false },
-      { "id": 102, "text": "Geralmente, nas reuniões, deixo os outros falarem", "facet": "assertividade", "inverted": false },
-      { "id": 103, "text": "Raramente presto muita atenção ao que estou sentindo no momento", "facet": "sentimentos", "inverted": true },
-      { "id": 104, "text": "Geralmente, procuro ser atencioso (a) e delicado (a)", "facet": "altruismo", "inverted": false },
-      { "id": 105, "text": "Em alguns jogos, acho divertido conseguir trapacear os outros sem ser percebido", "facet": "senso de dever", "inverted": true },
-      { "id": 106, "text": "Não fico desconcertado (a) se as pessoas me ridicularizam ou me provocam", "facet": "embaraco", "inverted": true },
-      { "id": 107, "text": "Frequentemente, sinto-me explodindo de energia", "facet": "atividade", "inverted": false },
-      { "id": 108, "text": "Frequentemente, experimento comidas novas e desconhecidas", "facet": "acoes variadas", "inverted": true },
-      { "id": 109, "text": "Quando não gosto de alguém, faço questão de demonstrar", "facet": "complacencia", "inverted": true },
-      { "id": 110, "text": "Trabalho muito para conseguir o que quero", "facet": "esforco por realizacao", "inverted": false },
-      { "id": 111, "text": "Tenho tendência a me esbaldar, a agir em excesso, quando estou diante de coisas ou situações que gosto muito", "facet": "impulsividade", "inverted": false },
-      { "id": 112, "text": "Procuro evitar filmes com cenas muito chocantes ou assustadoras", "facet": "busca de sensacoes", "inverted": true },
-      { "id": 113, "text": "As vezes, perco o interesse quando as pessoas começam a falar sobre os assuntos muito teóricos e abstratos", "facet": "ideias", "inverted": true },
-      { "id": 114, "text": "Tento ser humilde", "facet": "modestia", "inverted": false },
-      { "id": 115, "text": "Tenho dificuldade em começar a fazer o que eu devo fazer", "facet": "auto disciplina", "inverted": true },
-      { "id": 116, "text": "Em casos de emergência, mantenho a cabeça fria", "facet": "vulnerabilidade", "inverted": true },
-      { "id": 117, "text": "Às vezes, sinto que vou explodir de alegria", "facet": "emocoes positivas", "inverted": false },
-      { "id": 118, "text": "Considero que definir o que é certo e errado depende da cultura em que as pessoas vivem", "facet": "valores", "inverted": true },
-      { "id": 119, "text": "Não gosto de mendigos", "facet": "sensibilidade", "inverted": true },
-      { "id": 120, "text": "Sempre penso nas consequências antes de agir", "facet": "ponderacao", "inverted": false },
-      { "id": 121, "text": "Fico apreensivo (a) com o futuro", "facet": "ansiedade", "inverted": false },
-      { "id": 122, "text": "Gosto muito de falar com as outras pessoas", "facet": "acolhimento caloroso", "inverted": false },
-      { "id": 123, "text": "Gosto de me concentrar numa fantasia e explorar todas as suas possibilidades, deixando crescer e se desenvolver", "facet": "fantasia", "inverted": false },
-      { "id": 124, "text": "Fico desconfiado (a) quando alguém faz alguma coisa boa para mim", "facet": "confianca", "inverted": true },
-      { "id": 125, "text": "Tenho orgulho do meu bom senso", "facet": "competencia", "inverted": false },
-      { "id": 126, "text": "Freqüentemente, sinto simpatia pelas pessoas com as quais tenho que conviver", "facet": "raiva", "inverted": true },
-      { "id": 127, "text": "Prefiro trabalhos que possa fazer sozinho (a), sem ser incomodado (a) por outras pessoas", "facet": "gregarismo", "inverted": true },
-      { "id": 128, "text": "A poesia pouco ou nada me sensibiliza", "facet": "estetica", "inverted": true },
-      { "id": 129, "text": "Ficaria aborrecido (a) se alguém me considerasse uma pessoa hipócrita", "facet": "franqueza", "inverted": false },
-      { "id": 130, "text": "Parece que nunca consigo ser organizado (a)", "facet": "ordem", "inverted": true },
-      { "id": 131, "text": "Tenho tendência a me culpar se alguma coisa dá errado", "facet": "depressao", "inverted": false },
-      { "id": 132, "text": "Muitas vezes, outras pessoas pedem para eu ajudá-las a tomar decisões", "facet": "assertividade", "inverted": false },
-      { "id": 133, "text": "Experimento uma grande variedade de emoções e sentimentos", "facet": "sentimentos", "inverted": false },
-      { "id": 134, "text": "Não sou conhecido (a) como alguém generoso (a)", "facet": "altruismo", "inverted": true },
-      { "id": 135, "text": "Quando assumo um compromisso as pessoas confiam que vou cumprir", "facet": "senso de dever", "inverted": false },
-      { "id": 136, "text": "Sinto-me, muitas vezes inferior as outras pessoas", "facet": "embaraco", "inverted": false },
-      { "id": 137, "text": "Não sou tão ativo (a) e animado (a) como as outras pessoas", "facet": "atividade", "inverted": true },
-      { "id": 138, "text": "Prefiro ficar em ambientes conhecidos", "facet": "acoes variadas", "inverted": false },
-      { "id": 139, "text": "Quando sou insultado (a), tendo a perdoar e esquecer", "facet": "complacencia", "inverted": false },
-      { "id": 140, "text": "Não sou ambicioso (a)", "facet": "esforco por realizacao", "inverted": true },
-      { "id": 141, "text": "Tenho facilidade em resistir a meus impulsos", "facet": "impulsividade", "inverted": true },
-      { "id": 142, "text": "Gosto de estar em lugares animados", "facet": "busca de sensacoes", "inverted": false },
-      { "id": 143, "text": "Gosto de resolver problemas complicados do tipo quebra-cabeça", "facet": "ideias", "inverted": false },
-      { "id": 144, "text": "Eu tenho uma opinião boa sobre mim", "facet": "modestia", "inverted": false },
-      { "id": 145, "text": "Quando começo um projeto, quase sempre termino", "facet": "auto disciplina", "inverted": false },
-      { "id": 146, "text": "Frequentemente, tenho dificuldade em tomar decisões", "facet": "vulnerabilidade", "inverted": false },
-      { "id": 147, "text": "Não me considero uma pessoa alegre", "facet": "emocoes positivas", "inverted": true },
-      { "id": 148, "text": "Acredito que é mais importante ser fiel aos meus idéias e princípios do que ter uma mente aberta", "facet": "valores", "inverted": false },
-      { "id": 149, "text": "As necessidades humanas são mais importantes que os interesses econômicos", "facet": "sensibilidade", "inverted": false },
-      { "id": 150, "text": "Costumo agir sem pensar", "facet": "ponderacao", "inverted": true },
-      { "id": 151, "text": "Frequentemente me preocupo com as coisas que podem dar errado", "facet": "ansiedade", "inverted": false },
-      { "id": 152, "text": "É fácil para mim sorrir e ser simpático (a) com pessoas desconhecidas", "facet": "acolhimento caloroso", "inverted": false },
-      { "id": 153, "text": "Quando percebo que estou sendo levado (a) pela minha própria imaginação, procuro me concentrar ocupando-me com algum trabalho ou atividade", "facet": "fantasia", "inverted": false },
-      { "id": 154, "text": "Minha primeira reação é confiar nas pessoas", "facet": "confianca", "inverted": false },
-      { "id": 155, "text": "Eu acho que não tive sucesso completo em coisa nenhuma", "facet": "competencia", "inverted": true },
-      { "id": 156, "text": "É preciso muito para me irritar", "facet": "raiva", "inverted": true },
-      { "id": 157, "text": "Prefiro passar as férias numa praia cheia a um chalé isolado nas montanhas", "facet": "gregarismo", "inverted": false },
-      { "id": 158, "text": "Fico extasiado com certos tipos de musica", "facet": "estetica", "inverted": false },
-      { "id": 159, "text": "Por vezes, levo as pessoas a fazerem o que eu quero", "facet": "franqueza", "inverted": true },
-      { "id": 160, "text": "Sou uma pessoa exigente e meticulosa", "facet": "ordem", "inverted": false },
-      { "id": 161, "text": "Tenho uma opinião pouco favorável de mim de mesmo (a)", "facet": "depressao", "inverted": false },
-      { "id": 162, "text": "Prefiro tratar da minha vida a ser um (a) lider para outras pessoas", "facet": "assertividade", "inverted": true },
-      { "id": 163, "text": "Raramente me dou conta dos humores ou sentimentos que diferentes ambientes causam", "facet": "sentimentos", "inverted": true },
-      { "id": 164, "text": "A maioria das pessoas que me conhece gosta de mim", "facet": "altruismo", "inverted": false },
-      { "id": 165, "text": "Sigo, rigorosamente, meus princípios éticos", "facet": "senso de dever", "inverted": false },
-      { "id": 166, "text": "Sinto-me a vontade na presença do meu chefe ou de outras autoridades", "facet": "embaraco", "inverted": true },
-      { "id": 167, "text": "As pessoas acham que estou sempre com pressa", "facet": "atividade", "inverted": false },
-      { "id": 168, "text": "Por vezes, mudo coisas em minha casa só para experimentar a diferença", "facet": "acoes variadas", "inverted": true },
-      { "id": 169, "text": "Se alguém começa uma briga, estou sempre pronto (a) para revidar", "facet": "complacencia", "inverted": true },
-      { "id": 170, "text": "Esforço-me para conseguir tudo que puder", "facet": "esforco por realizacao", "inverted": false },
-      { "id": 171, "text": "Às vezes, como até me sentir mal", "facet": "impulsividade", "inverted": false },
-      { "id": 172, "text": "Adoraria sentir as emoções de pular de pára-quedas", "facet": "busca de sensacoes", "inverted": false },
-      { "id": 173, "text": "Tenho pouco interesse em especular sobre a natureza do universo ou da condição humana", "facet": "ideias", "inverted": true },
-      { "id": 174, "text": "Sinto que não sou melhor que os outros, seja qual for a condição deles", "facet": "modestia", "inverted": true },
-      { "id": 175, "text": "Quando um projeto se torna difícil, minha tendência é começar de novo", "facet": "auto disciplina", "inverted": true },
-      { "id": 176, "text": "Consigo me controlar muito bem diante numa situação de crise", "facet": "vulnerabilidade", "inverted": true },
-      { "id": 177, "text": "Sou uma pessoa alegre e bem disposta", "facet": "emocoes positivas", "inverted": false },
-      { "id": 178, "text": "Considero-me um individuo aberto e tolerante quanto ao estilo de vida das outras pessoas", "facet": "valores", "inverted": true },
-      { "id": 179, "text": "Penso que todos os seres humanos são dignos de respeito", "facet": "sensibilidade", "inverted": true },
-      { "id": 180, "text": "Raramente tomo decisões precipitadas", "facet": "ponderacao", "inverted": false },
-      { "id": 181, "text": "Tenho menos temores que a maioria das pessoas", "facet": "ansiedade", "inverted": true },
-      { "id": 182, "text": "Tenho fortes ligações afetivas com meus amigos", "facet": "acolhimento caloroso", "inverted": false },
-      { "id": 183, "text": "Quando criança, raramente me divertia com jogos de faz de conta", "facet": "fantasia", "inverted": true },
-      { "id": 184, "text": "Tendo a pensar o melhor acerca das pessoas", "facet": "confianca", "inverted": false },
-      { "id": 185, "text": "Sou uma pessoa muito competente", "facet": "competencia", "inverted": false },
-      { "id": 186, "text": "Algumas vezes senti ressentimento e amargura", "facet": "raiva", "inverted": false },
-      { "id": 187, "text": "Geralmente eu fico entediado (a) em encontro social", "facet": "gregarismo", "inverted": true },
-      { "id": 188, "text": "Às vezes, ao ler poesia ou ao olhar para uma obra de arte, sinto um arrepio, uma onda de emoção", "facet": "estetica", "inverted": false },
-      { "id": 189, "text": "Às vezes, intimido ou bajulo as pessoas para que elas façam o que eu quero", "facet": "franqueza", "inverted": true },
-      { "id": 190, "text": "Não tenho obsessão por limpeza", "facet": "ordem", "inverted": true },
-      { "id": 191, "text": "Às vezes, as coisas parecem-me bastante tristes e sem esperança", "facet": "depressao", "inverted": false },
-      { "id": 192, "text": "Nas conversas, tendo a falar mais do que os outros", "facet": "assertividade", "inverted": true },
-      { "id": 193, "text": "Acho difícil ser empático (a), ou seja, o que os outros sentem", "facet": "sentimentos", "inverted": false },
-      { "id": 194, "text": "Considero-me uma pessoa caridosa", "facet": "altruismo", "inverted": false },
-      { "id": 195, "text": "Tento fazer as tarefas com todo cuidado, para não ter necessidade fazê-las novamente", "facet": "senso de dever", "inverted": false },
-      { "id": 196, "text": "Caso eu tenha dito ou feito algo errado a alguém, custa-me muito encará-lo outra vez", "facet": "embaraco", "inverted": false },
-      { "id": 197, "text": "Minha vida é muito agitada", "facet": "atividade", "inverted": false },
-      { "id": 198, "text": "Quando estou em férias, prefiro voltar a um lugar já conhecido", "facet": "acoes variadas", "inverted": false },
-      { "id": 199, "text": "Sou cabeçudo (a) e teimoso (a)", "facet": "complacencia", "inverted": true },
-      { "id": 200, "text": "Esforço-me por ser excelente em tudo que faço", "facet": "esforco por realizacao", "inverted": false },
-      { "id": 201, "text": "Às vezes, faço coisas de modo tão impulsivo que, mais tarde, me arrependo", "facet": "impulsividade", "inverted": false },
-      { "id": 202, "text": "Sinto-me atraído (a) por cores alegres e os estilos exuberantes", "facet": "busca de sensacoes", "inverted": false },
-      { "id": 203, "text": "Tenho muita curiosidade intelectual", "facet": "ideias", "inverted": false },
-      { "id": 204, "text": "Prefiro muito mais elogiar os outros a ser elogiado (a)", "facet": "modestia", "inverted": false },
-      { "id": 205, "text": "Têm tantas pequenas coisas que precisam ser feitas que, as vezes, eu simplesmente ignoro todas elas", "facet": "auto disciplina", "inverted": true },
-      { "id": 206, "text": "Mesmo quando tudo parece estar dando errado, ainda consigo tomar boas decisões", "facet": "vulnerabilidade", "inverted": true },
-      { "id": 207, "text": "É raro eu utilizar palavras como 'fantástico' ou 'sensacional' para descrever minhas experiências", "facet": "emocoes positivas", "inverted": true },
-      { "id": 208, "text": "Acho que se as pessoas com 25 anos de idade não sabem no que acreditam, alguma coisa está errada com elas", "facet": "valores", "inverted": false },
-      { "id": 209, "text": "Tenho pena de pessoas com menos sorte do que eu", "facet": "sensibilidade", "inverted": true },
-      { "id": 210, "text": "Planejo as minhas viagens com antecedência e com cuidado", "facet": "ponderacao", "inverted": false },
-      { "id": 211, "text": "Às vezes, tenho pensamentos aterrorizantes", "facet": "ansiedade", "inverted": false },
-      { "id": 212, "text": "Crio facilmente vinculos sociais com as pessoas com quem trabalho", "facet": "acolhimento caloroso", "inverted": false },
-      { "id": 213, "text": "Tenho dificuldade em soltar a minha imaginação (devanear)", "facet": "fantasia", "inverted": true },
-      { "id": 214, "text": "Tenho bastante fé na natureza humana", "facet": "confianca", "inverted": false },
-      { "id": 215, "text": "Sou eficiente e eficaz no meu trabalho", "facet": "competencia", "inverted": false },
-      { "id": 216, "text": "Mesmo os pequenos contratempos podem ser frustrantes para mim", "facet": "raiva", "inverted": false },
-      { "id": 217, "text": "Gosto de festas com muita gente", "facet": "gregarismo", "inverted": false },
-      { "id": 218, "text": "Gosto mais de ler poesia do que histórias estruturadas (romance e contos)", "facet": "estetica", "inverted": false },
-      { "id": 219, "text": "Orgulho-me do meu jeito de lidar com as pessoas", "facet": "franqueza", "inverted": false },
-      { "id": 220, "text": "Gasto muito tempo à procura de coisas que coloquei fora do lugar", "facet": "ordem", "inverted": true },
-      { "id": 221, "text": "Muitas vezes, quando as coisas dão errado, fico desanimado (a) e tenho vontade de desistir", "facet": "depressao", "inverted": false },
-      { "id": 222, "text": "Não considero fácil dirigir (comandar) uma situação", "facet": "assertividade", "inverted": true },
-      { "id": 223, "text": "Coisas diferentes, como certos cheiros ou nomes de locais distantes, podem evocar em mim fortes emoções", "facet": "sentimentos", "inverted": false },
-      { "id": 224, "text": "Quando posso, deixo o que estou fazendo para ajudar os outros", "facet": "altruismo", "inverted": false },
-      { "id": 225, "text": "Só faltaria ao trabalho se estivesse realmente doente", "facet": "senso de dever", "inverted": false },
-      { "id": 226, "text": "Quando as pessoas que eu conheço fazem uma bobagem, fico constrangido (a) por elas", "facet": "embaraco", "inverted": false },
-      { "id": 227, "text": "Sou uma pessoa muito ativa", "facet": "atividade", "inverted": false },
-      { "id": 228, "text": "Sigo sempre o mesmo caminho quando vou a qualquer lugar", "facet": "acoes variadas", "inverted": false },
-      { "id": 229, "text": "Frequentemente me envolvo em discussões com a minha família e colegas de trabalho", "facet": "complacencia", "inverted": true },
-      { "id": 230, "text": "Sou um pouco viciado (a) em trabalho", "facet": "esforco por realizacao", "inverted": true },
-      { "id": 231, "text": "Consigo sempre manter os meus sentimentos sob controle", "facet": "impulsividade", "inverted": true },
-      { "id": 232, "text": "Gosto de fazer parte da multidão em acontecimentos esportivos", "facet": "busca de sensacoes", "inverted": false },
-      { "id": 233, "text": "Tenho uma grande variedade de interesses intelectuais", "facet": "ideias", "inverted": false },
-      { "id": 234, "text": "Considero que sou melhor que a maioria das pessoas", "facet": "modestia", "inverted": true },
-      { "id": 235, "text": "Tenho muita autodisciplina", "facet": "auto disciplina", "inverted": false },
-      { "id": 236, "text": "Sou bastante estável do ponto de vista emocional", "facet": "vulnerabilidade", "inverted": true },
-      { "id": 237, "text": "Sou propenso (a) a rir facilmente", "facet": "emocoes positivas", "inverted": false },
-      { "id": 238, "text": "Penso que a nova moralidade, que consiste em tudo permitir, não é moralidade nenhuma", "facet": "valores", "inverted": false },
-      { "id": 239, "text": "Prefiro ser conhecido (a) como uma pessoa 'compreensiva' (inclinada a perdoar) do que como uma pessoa 'justa' (inclinada ao rigor)", "facet": "sensibilidade", "inverted": false },
-      { "id": 240, "text": "Penso duas vezes antes de responder a uma pergunta.", "facet": "ponderacao", "inverted": false }
+      { "id": 1, "text": "Sou uma pessoa despreocupada", "facet": "ansiedade" },
+      { "id": 2, "text": "Gosto realmente da maioria das pessoas que encontro", "facet": "acolhimento caloroso" },
+      { "id": 3, "text": "Tenho uma imaginação muito fértil", "facet": "fantasia" },
+      { "id": 4, "text": "Tendo a ser descrente frente às intenções dos outros", "facet": "confianca" },
+      { "id": 5, "text": "Sou conhecido (a) pela minha prudência e bom senso", "facet": "competencia" },
+      { "id": 6, "text": "Muitas vezes, fico irritado (a) com a maneira como as pessoas me tratam", "facet": "raiva" },
+      { "id": 7, "text": "Não gosto de multidões e por isso as evito", "facet": "gregarismo" },
+      { "id": 8, "text": "Assuntos de estética e arte não são muito importantes para mim", "facet": "estetica" },
+      { "id": 9, "text": "Não sou dissimulado (a) nem espertalhão (ona)", "facet": "franqueza" },
+      { "id": 10, "text": "Prefiro deixar as opções em aberto que planejar tudo com antecedência", "facet": "ordem" },
+      { "id": 11, "text": "Raramente me sinto só ou triste", "facet": "depressao" },
+      { "id": 12, "text": "Sou dominador (a), firme e assertivo (a)", "facet": "assertividade" },
+      { "id": 13, "text": "Sem emoções fortes a vida não teria muito graça para mim", "facet": "sentimentos" },
+      { "id": 14, "text": "Algumas pessoas pensam que sou invejoso (a) e egoísta", "facet": "altruismo" },
+      { "id": 15, "text": "Tento cumprir todas as minhas obrigações com responsabilidade", "facet": "senso de dever" },
+      { "id": 16, "text": "Ao lidar com outras pessoas, sempre tenho medo de fazer alguma coisa errada", "facet": "embaraco" },
+      { "id": 17, "text": "Gosto de realizar as coisas com calma", "facet": "atividade" },
+      { "id": 18, "text": "Sou bastante agarrado (a) às minhas próprias maneiras de agir", "facet": "acoes variadas" },
+      { "id": 19, "text": "Prefiro colaborar com as outras pessoas a competir com elas", "facet": "complacencia" },
+      { "id": 20, "text": "Sou despreocupado (a) e pouco determinado (a)", "facet": "esforco por realizacao" },
+      { "id": 21, "text": "Raramente me excedo em qualquer coisa", "facet": "impulsividade" },
+      { "id": 22, "text": "Sinto, muitas vezes, forte necessidade de me divertir", "facet": "busca de sensacoes" },
+      { "id": 23, "text": "Muitas vezes, sinto prazer em brincar com teorias e idéias abstratas", "facet": "ideias" },
+      { "id": 24, "text": "Não me incomodo de me vangloriar de meus talentos e sucessos", "facet": "modestia" },
+      { "id": 25, "text": "Eu sou bom (boa) em organizar meu tempo de maneira a fazer as coisas dentro do prazo", "facet": "auto disciplina" },
+      { "id": 26, "text": "Sinto-me, muitas vezes, desamparado (a) desejando que alguém resolva meus problemas", "facet": "vulnerabilidade" },
+      { "id": 27, "text": "Para dizer a verdade, nunca pulei de alegria", "facet": "emocoes positivas" },
+      { "id": 28, "text": "Acredito que deixar estudantes ouvirem pessoas com idéias controversas só vai confundi-los e desorientá-los", "facet": "valores" },
+      { "id": 29, "text": "Os governantes precisam estar muito mais atentos para o lado humano dos seus projetos politicos", "facet": "sensibilidade" },
+      { "id": 30, "text": "Ao longo dos anos cometi muitos erros", "facet": "ponderacao" },
+      { "id": 31, "text": "Assusto-me facilmente", "facet": "ansiedade" },
+      { "id": 32, "text": "Eu não gosto muito de ficar conversando com as pessoas", "facet": "acolhimento caloroso" },
+      { "id": 33, "text": "Tento sempre organizar os meus pensamentos de forma realista, não dando asas a imaginação", "facet": "fantasia" },
+      { "id": 34, "text": "Acredito que a maioria das pessoas é, no fundo, bem intencionada", "facet": "confianca" },
+      { "id": 35, "text": "Não levo muito a sério os deveres cívicos, como votar", "facet": "competencia" },
+      { "id": 36, "text": "Sou uma pessoa tranquila", "facet": "raiva" },
+      { "id": 37, "text": "Gosto de ter muita gente a minha volta", "facet": "gregarismo" },
+      { "id": 38, "text": "Em algumas ocasiões, quando ouço musica, não presto atenção em mais nada", "facet": "estetica" },
+      { "id": 39, "text": "Ser for necessário, estou disposto (a) a manipular as pessoas para conseguir aquilo que quero", "facet": "franqueza" },
+      { "id": 40, "text": "Mantenho as minhas coisas limpas e em ordem", "facet": "ordem" },
+      { "id": 41, "text": "Às vezes, sinto que eu não valho nada", "facet": "depressao" },
+      { "id": 42, "text": "As vezes, eu deveria mostrar maior firmeza em minhas ações", "facet": "assertividade" },
+      { "id": 43, "text": "Raramente experimento forte emoções", "facet": "sentimentos" },
+      { "id": 44, "text": "Tento ser educado (a) com todas as pessoas que encontro", "facet": "altruismo" },
+      { "id": 45, "text": "Às vezes, não sou tão confiável como deveria ser", "facet": "senso de dever" },
+      { "id": 46, "text": "Raramente me sinto constrangido (a) quando estou rodeado (a) de pessoas", "facet": "embaraco" },
+      { "id": 47, "text": "Quando faço alguma coisa, eu faço com todo entusiasmo", "facet": "atividade" },
+      { "id": 48, "text": "Acho interessante aprender e cultivar novos hobbies (passatempos)", "facet": "acoes variadas" },
+      { "id": 49, "text": "Sei ser sarcástico (a) e irônico (a) quando necessário", "facet": "complacencia" },
+      { "id": 50, "text": "Tenho objetivos claros e busco atingi-los de forma organizada", "facet": "esforco por realizacao" },
+      { "id": 51, "text": "Tenho dificuldades em resistir aos meus desejos", "facet": "impulsividade" },
+      { "id": 52, "text": "Não gostaria de passar as férias em um lugar muito freqüentado e agitado", "facet": "busca de sensacoes" },
+      { "id": 53, "text": "Acho as discussões filosóficas enfadonhas (chatas)", "facet": "ideias" },
+      { "id": 54, "text": "Quando eu estou conversando com as pessoas, prefiro não falar de mim mesmo (a) e das minhas realizações", "facet": "modestia" },
+      { "id": 55, "text": "Perco muito tempo antes de me concentrar no trabalho", "facet": "auto disciplina" },
+      { "id": 56, "text": "Sinto que sou capaz de resolver a maioria dos problemas", "facet": "vulnerabilidade" },
+      { "id": 57, "text": "Já experimentei, algumas vezes, sensações de grande alegria ou êxtase (arrebatamento)", "facet": "emocoes positivas" },
+      { "id": 58, "text": "Acredito que as leis e a políticas sociais deveriam mudar para que possam refletir as necessidades atuais", "facet": "valores" },
+      { "id": 59, "text": "Sou inflexível e teimoso (a) nas minhas atitudes", "facet": "sensibilidade" },
+      { "id": 60, "text": "Penso muito antes de tomar uma decisão", "facet": "ponderacao" },
+      { "id": 61, "text": "Raramente me sinto amedrontado (a) ou ansioso (a)", "facet": "ansiedade" },
+      { "id": 62, "text": "Sou uma pessoa amigável e simpática", "facet": "acolhimento caloroso" },
+      { "id": 63, "text": "Tenho uma grande capacidade de fantasiar", "facet": "fantasia" },
+      { "id": 64, "text": "Acredito que, se você deixar, as pessoas vão te passar para trás (enganar)", "facet": "confianca" },
+      { "id": 65, "text": "Mantenho-me informado (a) e, geralmente, tomo decisões inteligentes", "facet": "competencia" },
+      { "id": 66, "text": "Eu sou conhecido (a) como uma pessoa esquentada", "facet": "raiva" },
+      { "id": 67, "text": "Normalmente, prefiro fazer as coisas sozinho (a)", "facet": "gregarismo" },
+      { "id": 68, "text": "Assistir balé ou dança moderna me deixa entediado (a)", "facet": "estetica" },
+      { "id": 69, "text": "Mesmo que quisesse, não conseguiria enganar ninguém", "facet": "franqueza" },
+      { "id": 70, "text": "Sou uma pessoa muito metódica (ordeira)", "facet": "ordem" },
+      { "id": 71, "text": "Raramente estou triste ou deprimido (a)", "facet": "depressao" },
+      { "id": 72, "text": "Já fui muitas vezes líder de grupos a que pertenci", "facet": "assertividade" },
+      { "id": 73, "text": "É importante para mim como eu me sinto frente a pessoas ou situações", "facet": "sentimentos" },
+      { "id": 74, "text": "Algumas pessoas consideram-me frio (a) e calculista", "facet": "altruismo" },
+      { "id": 75, "text": "Pago as minhas dividas em dias", "facet": "senso de dever" },
+      { "id": 76, "text": "Algumas vezes senti tão envergonhado (a) que simplesmente queria sumir", "facet": "embaraco" },
+      { "id": 77, "text": "Trabalho devagar, mas persistentemente (de forma regular)", "facet": "atividade" },
+      { "id": 78, "text": "Quando encontro a maneira correta de fazer uma coisa me agarro a ela", "facet": "acoes variadas" },
+      { "id": 79, "text": "Apesar de ter direito, tenho receio de mostrar a minha indignação e raiva, pois posso magoar as pessoas", "facet": "complacencia" },
+      { "id": 80, "text": "Quando inicio um programa de modificação pessoal (regime, esporte), deixo de cumpri-lo após alguns dias", "facet": "esforco por realizacao" },
+      { "id": 81, "text": "Eu não tenho dificuldades de resistir às tentações.", "facet": "impulsividade" },
+      { "id": 82, "text": "Já fiz algumas coisas só por puro entusiasmo", "facet": "busca de sensacoes" },
+      { "id": 83, "text": "Gosto de resolver problemas e quebra-cabeças", "facet": "ideias" },
+      { "id": 84, "text": "Sou melhor que a maioria das pessoas e tenho consciência disso", "facet": "modestia" },
+      { "id": 85, "text": "Eu sou uma pessoa produtiva que sempre consegue fazer as coisas", "facet": "auto disciplina" },
+      { "id": 86, "text": "Quando estou sob uma grande tensão, algumas vezes sinto que não vou resistir", "facet": "vulnerabilidade" },
+      { "id": 87, "text": "Não sou um (a) grande otimista", "facet": "emocoes positivas" },
+      { "id": 88, "text": "Acredito que devemos confiar nas nossas autoridades religiosas para decisões sobre assuntos morais", "facet": "valores" },
+      { "id": 89, "text": "Nunca fazemos o suficiente pelos pobres e pelos velhos", "facet": "sensibilidade" },
+      { "id": 90, "text": "As vezes, ajo primeiro e penso depois", "facet": "ponderacao" },
+      { "id": 91, "text": "Freqüentemente, sinto-me tenso (a) e agitado (a)", "facet": "ansiedade" },
+      { "id": 92, "text": "Muitas pessoas de vêem como alguém um pouco frio e distante", "facet": "acolhimento caloroso" },
+      { "id": 93, "text": "Não gosto de perder tempo sonhando acordado (a)", "facet": "fantasia" },
+      { "id": 94, "text": "Penso que a maioria das pessoas com quem lido é honesta e digna de confiança", "facet": "confianca" },
+      { "id": 95, "text": "Freqüentemente entro em situações sem estar totalmente preparado (a) para elas", "facet": "competencia" },
+      { "id": 96, "text": "Não sou considerado (a) uma pessoa melindrosa e temperamental", "facet": "raiva" },
+      { "id": 97, "text": "Sinto muita necessidade de estar com outras pessoas quando fico sozinho (a) durante muito tempo", "facet": "gregarismo" },
+      { "id": 98, "text": "Fico admirado (a) com a variedade de padrões que encontro na arte e na natureza", "facet": "estetica" },
+      { "id": 99, "text": "Penso que ser totalmente honesto (a) não é uma boa maneira de fazer negócios", "facet": "franqueza" },
+      { "id": 100, "text": "Gosto de ter as coisas no seu lugar, pois assim sei onde posso encontrá-las", "facet": "ordem" },
+      { "id": 101, "text": "Já senti, algumas vezes, uma sensação profunda de culpa ou de ter pecado", "facet": "depressao" },
+      { "id": 102, "text": "Geralmente, nas reuniões, deixo os outros falarem", "facet": "assertividade" },
+      { "id": 103, "text": "Raramente presto muita atenção ao que estou sentindo no momento", "facet": "sentimentos" },
+      { "id": 104, "text": "Geralmente, procuro ser atencioso (a) e delicado (a)", "facet": "altruismo" },
+      { "id": 105, "text": "Em alguns jogos, acho divertido conseguir trapacear os outros sem ser percebido", "facet": "senso de dever" },
+      { "id": 106, "text": "Não fico desconcertado (a) se as pessoas me ridicularizam ou me provocam", "facet": "embaraco" },
+      { "id": 107, "text": "Frequentemente, sinto-me explodindo de energia", "facet": "atividade" },
+      { "id": 108, "text": "Frequentemente, experimento comidas novas e desconhecidas", "facet": "acoes variadas" },
+      { "id": 109, "text": "Quando não gosto de alguém, faço questão de demonstrar", "facet": "complacencia" },
+      { "id": 110, "text": "Trabalho muito para conseguir o que quero", "facet": "esforco por realizacao" },
+      { "id": 111, "text": "Tenho tendência a me esbaldar, a agir em excesso, quando estou diante de coisas ou situações que gosto muito", "facet": "impulsividade" },
+      { "id": 112, "text": "Procuro evitar filmes com cenas muito chocantes ou assustadoras", "facet": "busca de sensacoes" },
+      { "id": 113, "text": "As vezes, perco o interesse quando as pessoas começam a falar sobre os assuntos muito teóricos e abstratos", "facet": "ideias" },
+      { "id": 114, "text": "Tento ser humilde", "facet": "modestia" },
+      { "id": 115, "text": "Tenho dificuldade em começar a fazer o que eu devo fazer", "facet": "auto disciplina" },
+      { "id": 116, "text": "Em casos de emergência, mantenho a cabeça fria", "facet": "vulnerabilidade" },
+      { "id": 117, "text": "Às vezes, sinto que vou explodir de alegria", "facet": "emocoes positivas" },
+      { "id": 118, "text": "Considero que definir o que é certo e errado depende da cultura em que as pessoas vivem", "facet": "valores" },
+      { "id": 119, "text": "Não gosto de mendigos", "facet": "sensibilidade" },
+      { "id": 120, "text": "Sempre penso nas consequências antes de agir", "facet": "ponderacao" },
+      { "id": 121, "text": "Fico apreensivo (a) com o futuro", "facet": "ansiedade" },
+      { "id": 122, "text": "Gosto muito de falar com as outras pessoas", "facet": "acolhimento caloroso" },
+      { "id": 123, "text": "Gosto de me concentrar numa fantasia e explorar todas as suas possibilidades, deixando crescer e se desenvolver", "facet": "fantasia" },
+      { "id": 124, "text": "Fico desconfiado (a) quando alguém faz alguma coisa boa para mim", "facet": "confianca" },
+      { "id": 125, "text": "Tenho orgulho do meu bom senso", "facet": "competencia" },
+      { "id": 126, "text": "Freqüentemente, sinto simpatia pelas pessoas com as quais tenho que conviver", "facet": "raiva" },
+      { "id": 127, "text": "Prefiro trabalhos que possa fazer sozinho (a), sem ser incomodado (a) por outras pessoas", "facet": "gregarismo" },
+      { "id": 128, "text": "A poesia pouco ou nada me sensibiliza", "facet": "estetica" },
+      { "id": 129, "text": "Ficaria aborrecido (a) se alguém me considerasse uma pessoa hipócrita", "facet": "franqueza" },
+      { "id": 130, "text": "Parece que nunca consigo ser organizado (a)", "facet": "ordem" },
+      { "id": 131, "text": "Tenho tendência a me culpar se alguma coisa dá errado", "facet": "depressao" },
+      { "id": 132, "text": "Muitas vezes, outras pessoas pedem para eu ajudá-las a tomar decisões", "facet": "assertividade" },
+      { "id": 133, "text": "Experimento uma grande variedade de emoções e sentimentos", "facet": "sentimentos" },
+      { "id": 134, "text": "Não sou conhecido (a) como alguém generoso (a)", "facet": "altruismo" },
+      { "id": 135, "text": "Quando assumo um compromisso as pessoas confiam que vou cumprir", "facet": "senso de dever" },
+      { "id": 136, "text": "Sinto-me, muitas vezes inferior as outras pessoas", "facet": "embaraco" },
+      { "id": 137, "text": "Não sou tão ativo (a) e animado (a) como as outras pessoas", "facet": "atividade" },
+      { "id": 138, "text": "Prefiro ficar em ambientes conhecidos", "facet": "acoes variadas" },
+      { "id": 139, "text": "Quando sou insultado (a), tendo a perdoar e esquecer", "facet": "complacencia" },
+      { "id": 140, "text": "Não sou ambicioso (a)", "facet": "esforco por realizacao" },
+      { "id": 141, "text": "Tenho facilidade em resistir a meus impulsos", "facet": "impulsividade" },
+      { "id": 142, "text": "Gosto de estar em lugares animados", "facet": "busca de sensacoes" },
+      { "id": 143, "text": "Gosto de resolver problemas complicados do tipo quebra-cabeça", "facet": "ideias" },
+      { "id": 144, "text": "Eu tenho uma opinião boa sobre mim", "facet": "modestia" },
+      { "id": 145, "text": "Quando começo um projeto, quase sempre termino", "facet": "auto disciplina" },
+      { "id": 146, "text": "Frequentemente, tenho dificuldade em tomar decisões", "facet": "vulnerabilidade" },
+      { "id": 147, "text": "Não me considero uma pessoa alegre", "facet": "emocoes positivas" },
+      { "id": 148, "text": "Acredito que é mais importante ser fiel aos meus idéias e princípios do que ter uma mente aberta", "facet": "valores" },
+      { "id": 149, "text": "As necessidades humanas são mais importantes que os interesses econômicos", "facet": "sensibilidade" },
+      { "id": 150, "text": "Costumo agir sem pensar", "facet": "ponderacao" },
+      { "id": 151, "text": "Frequentemente me preocupo com as coisas que podem dar errado", "facet": "ansiedade" },
+      { "id": 152, "text": "É fácil para mim sorrir e ser simpático (a) com pessoas desconhecidas", "facet": "acolhimento caloroso" },
+      { "id": 153, "text": "Quando percebo que estou sendo levado (a) pela minha própria imaginação, procuro me concentrar ocupando-me com algum trabalho ou atividade", "facet": "fantasia" },
+      { "id": 154, "text": "Minha primeira reação é confiar nas pessoas", "facet": "confianca" },
+      { "id": 155, "text": "Eu acho que não tive sucesso completo em coisa nenhuma", "facet": "competencia" },
+      { "id": 156, "text": "É preciso muito para me irritar", "facet": "raiva" },
+      { "id": 157, "text": "Prefiro passar as férias numa praia cheia a um chalé isolado nas montanhas", "facet": "gregarismo" },
+      { "id": 158, "text": "Fico extasiado com certos tipos de musica", "facet": "estetica" },
+      { "id": 159, "text": "Por vezes, levo as pessoas a fazerem o que eu quero", "facet": "franqueza" },
+      { "id": 160, "text": "Sou uma pessoa exigente e meticulosa", "facet": "ordem" },
+      { "id": 161, "text": "Tenho uma opinião pouco favorável de mim de mesmo (a)", "facet": "depressao" },
+      { "id": 162, "text": "Prefiro tratar da minha vida a ser um (a) lider para outras pessoas", "facet": "assertividade" },
+      { "id": 163, "text": "Raramente me dou conta dos humores ou sentimentos que diferentes ambientes causam", "facet": "sentimentos" },
+      { "id": 164, "text": "A maioria das pessoas que me conhece gosta de mim", "facet": "altruismo" },
+      { "id": 165, "text": "Sigo, rigorosamente, meus princípios éticos", "facet": "senso de dever" },
+      { "id": 166, "text": "Sinto-me a vontade na presença do meu chefe ou de outras autoridades", "facet": "embaraco" },
+      { "id": 167, "text": "As pessoas acham que estou sempre com pressa", "facet": "atividade" },
+      { "id": 168, "text": "Por vezes, mudo coisas em minha casa só para experimentar a diferença", "facet": "acoes variadas" },
+      { "id": 169, "text": "Se alguém começa uma briga, estou sempre pronto (a) para revidar", "facet": "complacencia" },
+      { "id": 170, "text": "Esforço-me para conseguir tudo que puder", "facet": "esforco por realizacao" },
+      { "id": 171, "text": "Às vezes, como até me sentir mal", "facet": "impulsividade" },
+      { "id": 172, "text": "Adoraria sentir as emoções de pular de pára-quedas", "facet": "busca de sensacoes" },
+      { "id": 173, "text": "Tenho pouco interesse em especular sobre a natureza do universo ou da condição humana", "facet": "ideias" },
+      { "id": 174, "text": "Sinto que não sou melhor que os outros, seja qual for a condição deles", "facet": "modestia" },
+      { "id": 175, "text": "Quando um projeto se torna difícil, minha tendência é começar de novo", "facet": "auto disciplina" },
+      { "id": 176, "text": "Consigo me controlar muito bem diante numa situação de crise", "facet": "vulnerabilidade" },
+      { "id": 177, "text": "Sou uma pessoa alegre e bem disposta", "facet": "emocoes positivas" },
+      { "id": 178, "text": "Considero-me um individuo aberto e tolerante quanto ao estilo de vida das outras pessoas", "facet": "valores" },
+      { "id": 179, "text": "Penso que todos os seres humanos são dignos de respeito", "facet": "sensibilidade" },
+      { "id": 180, "text": "Raramente tomo decisões precipitadas", "facet": "ponderacao" },
+      { "id": 181, "text": "Tenho menos temores que a maioria das pessoas", "facet": "ansiedade" },
+      { "id": 182, "text": "Tenho fortes ligações afetivas com meus amigos", "facet": "acolhimento caloroso" },
+      { "id": 183, "text": "Quando criança, raramente me divertia com jogos de faz de conta", "facet": "fantasia" },
+      { "id": 184, "text": "Tendo a pensar o melhor acerca das pessoas", "facet": "confianca" },
+      { "id": 185, "text": "Sou uma pessoa muito competente", "facet": "competencia" },
+      { "id": 186, "text": "Algumas vezes senti ressentimento e amargura", "facet": "raiva" },
+      { "id": 187, "text": "Geralmente eu fico entediado (a) em encontro social", "facet": "gregarismo" },
+      { "id": 188, "text": "Às vezes, ao ler poesia ou ao olhar para uma obra de arte, sinto um arrepio, uma onda de emoção", "facet": "estetica" },
+      { "id": 189, "text": "Às vezes, intimido ou bajulo as pessoas para que elas façam o que eu quero", "facet": "franqueza" },
+      { "id": 190, "text": "Não tenho obsessão por limpeza", "facet": "ordem" },
+      { "id": 191, "text": "Às vezes, as coisas parecem-me bastante tristes e sem esperança", "facet": "depressao" },
+      { "id": 192, "text": "Nas conversas, tendo a falar mais do que os outros", "facet": "assertividade" },
+      { "id": 193, "text": "Acho difícil ser empático (a), ou seja, o que os outros sentem", "facet": "sentimentos" },
+      { "id": 194, "text": "Considero-me uma pessoa caridosa", "facet": "altruismo" },
+      { "id": 195, "text": "Tento fazer as tarefas com todo cuidado, para não ter necessidade fazê-las novamente", "facet": "senso de dever" },
+      { "id": 196, "text": "Caso eu tenha dito ou feito algo errado a alguém, custa-me muito encará-lo outra vez", "facet": "embaraco" },
+      { "id": 197, "text": "Minha vida é muito agitada", "facet": "atividade" },
+      { "id": 198, "text": "Quando estou em férias, prefiro voltar a um lugar já conhecido", "facet": "acoes variadas" },
+      { "id": 199, "text": "Sou cabeçudo (a) e teimoso (a)", "facet": "complacencia" },
+      { "id": 200, "text": "Esforço-me por ser excelente em tudo que faço", "facet": "esforco por realizacao" },
+      { "id": 201, "text": "Às vezes, faço coisas de modo tão impulsivo que, mais tarde, me arrependo", "facet": "impulsividade" },
+      { "id": 202, "text": "Sinto-me atraído (a) por cores alegres e os estilos exuberantes", "facet": "busca de sensacoes" },
+      { "id": 203, "text": "Tenho muita curiosidade intelectual", "facet": "ideias" },
+      { "id": 204, "text": "Prefiro muito mais elogiar os outros a ser elogiado (a)", "facet": "modestia" },
+      { "id": 205, "text": "Têm tantas pequenas coisas que precisam ser feitas que, as vezes, eu simplesmente ignoro todas elas", "facet": "auto disciplina" },
+      { "id": 206, "text": "Mesmo quando tudo parece estar dando errado, ainda consigo tomar boas decisões", "facet": "vulnerabilidade" },
+      { "id": 207, "text": "É raro eu utilizar palavras como 'fantástico' ou 'sensacional' para descrever minhas experiências", "facet": "emocoes positivas" },
+      { "id": 208, "text": "Acho que se as pessoas com 25 anos de idade não sabem no que acreditam, alguma coisa está errada com elas", "facet": "valores" },
+      { "id": 209, "text": "Tenho pena de pessoas com menos sorte do que eu", "facet": "sensibilidade" },
+      { "id": 210, "text": "Planejo as minhas viagens com antecedência e com cuidado", "facet": "ponderacao" },
+      { "id": 211, "text": "Às vezes, tenho pensamentos aterrorizantes", "facet": "ansiedade" },
+      { "id": 212, "text": "Crio facilmente vinculos sociais com as pessoas com quem trabalho", "facet": "acolhimento caloroso" },
+      { "id": 213, "text": "Tenho dificuldade em soltar a minha imaginação (devanear)", "facet": "fantasia" },
+      { "id": 214, "text": "Tenho bastante fé na natureza humana", "facet": "confianca" },
+      { "id": 215, "text": "Sou eficiente e eficaz no meu trabalho", "facet": "competencia" },
+      { "id": 216, "text": "Mesmo os pequenos contratempos podem ser frustrantes para mim", "facet": "raiva" },
+      { "id": 217, "text": "Gosto de festas com muita gente", "facet": "gregarismo" },
+      { "id": 218, "text": "Gosto mais de ler poesia do que histórias estruturadas (romance e contos)", "facet": "estetica" },
+      { "id": 219, "text": "Orgulho-me do meu jeito de lidar com as pessoas", "facet": "franqueza" },
+      { "id": 220, "text": "Gasto muito tempo à procura de coisas que coloquei fora do lugar", "facet": "ordem" },
+      { "id": 221, "text": "Muitas vezes, quando as coisas dão errado, fico desanimado (a) e tenho vontade de desistir", "facet": "depressao" },
+      { "id": 222, "text": "Não considero fácil dirigir (comandar) uma situação", "facet": "assertividade" },
+      { "id": 223, "text": "Coisas diferentes, como certos cheiros ou nomes de locais distantes, podem evocar em mim fortes emoções", "facet": "sentimentos" },
+      { "id": 224, "text": "Quando posso, deixo o que estou fazendo para ajudar os outros", "facet": "altruismo" },
+      { "id": 225, "text": "Só faltaria ao trabalho se estivesse realmente doente", "facet": "senso de dever" },
+      { "id": 226, "text": "Quando as pessoas que eu conheço fazem uma bobagem, fico constrangido (a) por elas", "facet": "embaraco" },
+      { "id": 227, "text": "Sou uma pessoa muito ativa", "facet": "atividade" },
+      { "id": 228, "text": "Sigo sempre o mesmo caminho quando vou a qualquer lugar", "facet": "acoes variadas" },
+      { "id": 229, "text": "Frequentemente me envolvo em discussões com a minha família e colegas de trabalho", "facet": "complacencia" },
+      { "id": 230, "text": "Sou um pouco viciado (a) em trabalho", "facet": "esforco por realizacao" },
+      { "id": 231, "text": "Consigo sempre manter os meus sentimentos sob controle", "facet": "impulsividade" },
+      { "id": 232, "text": "Gosto de fazer parte da multidão em acontecimentos esportivos", "facet": "busca de sensacoes" },
+      { "id": 233, "text": "Tenho uma grande variedade de interesses intelectuais", "facet": "ideias" },
+      { "id": 234, "text": "Considero que sou melhor que a maioria das pessoas", "facet": "modestia" },
+      { "id": 235, "text": "Tenho muita autodisciplina", "facet": "auto disciplina" },
+      { "id": 236, "text": "Sou bastante estável do ponto de vista emocional", "facet": "vulnerabilidade" },
+      { "id": 237, "text": "Sou propenso (a) a rir facilmente", "facet": "emocoes positivas" },
+      { "id": 238, "text": "Penso que a nova moralidade, que consiste em tudo permitir, não é moralidade nenhuma", "facet": "valores" },
+      { "id": 239, "text": "Prefiro ser conhecido (a) como uma pessoa 'compreensiva' (inclinada a perdoar) do que como uma pessoa 'justa' (inclinada ao rigor)", "facet": "sensibilidade" },
+      { "id": 240, "text": "Penso duas vezes antes de responder a uma pergunta.", "facet": "ponderacao" }
     ];
     const FACTOR_MAP = {
       "NEUROTICISMO": ["ansiedade", "depressao", "embaraco", "impulsividade", "raiva", "vulnerabilidade"],
@@ -873,33 +862,19 @@
       container.innerHTML = html;
     }
 
-    function calcularResultado(pastedAnswers = null) {
+    async function calcularResultado(pastedAnswers = null) {
       clearInterval(timerInterval); // Stop timer
 
-      // 1. Inicializar Scores Zerados
-      let scores = {};
-      // Pegamos as chaves do Map de Fatores e expandimos, ou usamos DATA_CRITERIA
-      // NEO PI-R tem muitas facetas, vamos varrer DATA_CRITERIA para garantir
-      for (let f in DATA_CRITERIA) {
-        scores[f] = 0; // NEO usa Soma ou Média? O código anterior usava Soma (scores[f] += val)
-      }
-
       let userAnswers = {};
-      let answeredCount = 0;
       let answersMap = new Map();
 
-      // 2. Coletar Respostas
+      // 1. Coletar Respostas
       if (pastedAnswers) {
-        // Import Mode
-        if (pastedAnswers.length !== DATA_QUESTIONS.length) {
-          // Warning opcional
-        }
         DATA_QUESTIONS.forEach((q, i) => {
           let val = pastedAnswers[i];
           if (val && !isNaN(val)) answersMap.set(q.id, val);
         });
       } else {
-        // DOM Mode
         DATA_QUESTIONS.forEach(q => {
           const el = document.querySelector(`input[name="q${q.id}"]:checked`);
           if (el) {
@@ -908,60 +883,41 @@
         });
       }
 
-      // 3. Processar
+      // Validação
+      if (answersMap.size < DATA_QUESTIONS.length) {
+        if (!confirm(`Respondeu apenas ${answersMap.size} de ${DATA_QUESTIONS.length}. Continuar?`)) return;
+      }
+
+      // 2. Montar payload para o backend
+      const respostasObj = {};
       DATA_QUESTIONS.forEach(q => {
         const val = answersMap.get(q.id);
-
-        if (val !== undefined && val !== null && val >= 1) {
-          answeredCount++;
-          userAnswers[q.id] = val; // Store original for report
-
-          let finalVal = val;
-          if (q.inverted) {
-            finalVal = 6 - val; // Scale 1-5 Inverted -> 6 - val
-          }
-
-          if (scores[q.facet] !== undefined) {
-            scores[q.facet] += finalVal;
-          } else {
-            // Se a faceta não estiver em DATA_CRITERIA, pode ser um errinho nos dados, mas adicionamos
-            scores[q.facet] = finalVal;
-          }
+        if (val !== undefined) {
+          respostasObj[String(q.id)] = val;
+          userAnswers[q.id] = val; // Store original for item detail display
         }
       });
 
-      // Validação
-      if (answeredCount < DATA_QUESTIONS.length) {
-        if (!confirm(`Respondeu apenas ${answeredCount} de ${DATA_QUESTIONS.length}. Continuar?`)) return;
+      const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec';
+
+      try {
+        const response = await fetch(BACKEND_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ tipo: 'neopi', respostas: respostasObj })
+        });
+        const result = await response.json();
+
+        if (!result.sucesso) {
+          alert('Erro do servidor: ' + (result.erro || 'Desconhecido'));
+          return;
+        }
+
+        renderReport(result.results, result.globalStatus, userAnswers);
+
+      } catch (err) {
+        alert('Erro ao conectar com o servidor: ' + err.message);
       }
-
-      // 4. Resultados Finais
-      let results = {};
-      let isGlobalApto = true;
-
-      for (let f in scores) {
-        const raw = scores[f];
-        // FÓRMULA ANTIGA: (Raw / 40) * 100 
-        // 40 é o max items per facet? Não. 
-        // NEO PI-R facets usually have 8 items. 8 * 5 = 40 max points.
-        // Sim, parece ser isso.
-
-        let pct = (raw / 40) * 100;
-
-        // Clamp 0-100 just in case
-        if (pct > 100) pct = 100;
-        if (pct < 0) pct = 0;
-
-        const pctFixed = parseFloat(pct.toFixed(2));
-
-        const crit = DATA_CRITERIA[f] || { min: 0, max: 100 };
-        const apto = pctFixed >= crit.min && pctFixed <= crit.max;
-        if (!apto) isGlobalApto = false;
-
-        results[f] = { raw: raw, pct: pctFixed, apto: apto, min: crit.min, max: crit.max };
-      }
-
-      renderReport(results, isGlobalApto, userAnswers);
     }
 
     function renderReport(res, globalStatus, userAnswers) {

@@ -525,10 +525,10 @@
                 class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
             </div>
             <div>
-              <label class="block text-[10px] text-slate-500 mb-1">Pasta Base (Clonagem)</label>
+              <label class="block text-[10px] text-slate-500 mb-1">Modelo Base</label>
               <select id="turma-base"
                 class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
-                <option value="Base">Base (Modelo)</option>
+                <option value="Base">Base (Modelo Padrão)</option>
                 <!-- Can be populated later -->
               </select>
             </div>
@@ -536,7 +536,7 @@
               <div class="flex gap-2">
                 <button id="btn-add-turma" onclick="addTurma()"
                   class="flex-1 bg-brand-blue hover:bg-blue-600 text-white font-bold py-2 rounded text-sm h-[38px]">
-                  <i class="fas fa-plus mr-1"></i> Criar Cards
+                  <i class="fas fa-plus mr-1"></i> Salvar Turma
                 </button>
                 <button id="btn-delete-turma-form" onclick="deleteTurmaForm()"
                   class="hidden bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-3 rounded text-sm h-[38px]"
@@ -548,8 +548,10 @@
           </div>
           <p class="text-[10px] text-slate-500 mt-2">
             <i class="fas fa-server text-brand-accent"></i>
-            O <b class="text-white">Servidor de Automação</b> criará as pastas automaticamente se estiver rodando.
-            Caso contrário, execute o script manualmente.
+            O <b class="text-white">Servidor de Automação</b> criará páginas exclusivas <span
+              class="bg-black/40 px-1 py-0.5 rounded text-white">index_TURMA.html</span> e <span
+              class="bg-black/40 px-1 py-0.5 rounded text-white">aulas_TURMA.html</span> na pasta Base se estiver
+            rodando.
           </p>
         </div>
 

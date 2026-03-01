@@ -14,7 +14,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Black+Ops+One&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Black+Ops+One&family=Outfit:wght@400;500;600;700;900&display=swap"
         rel="stylesheet" />
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
@@ -30,7 +30,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg-dark);
             color: #a0a0a0;
             user-select: none;
@@ -39,6 +39,7 @@
         /* ---- HERO (glass + grid) ---- */
         .hero-bg {
             position: relative;
+            isolation: isolate;
             background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
             background-size: cover;
             background-position: center;
@@ -57,6 +58,70 @@
                 radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
             filter: blur(40px);
             pointer-events: none;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: .35;
+            }
+
+            50% {
+                opacity: .45;
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         /* Container da Imagem */
@@ -218,6 +283,17 @@
 </head>
 
 <body class="min-h-screen flex flex-col hero-bg" x-data="tedifSim()">
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -497,58 +573,7 @@
                 config: {
                     "boxW": 4,
                     "boxH": 3.5,
-                    "items": [
-                        { "id": 1, "x": 92.51, "y": 94.11 },
-                        { "id": 2, "x": 64.4, "y": 32.8 },
-                        { "id": 3, "x": 92.51, "y": 3.97 },
-                        { "id": 4, "x": 92.17, "y": 56.72 },
-                        { "id": 5, "x": 36.62, "y": 53.91 },
-                        { "id": 6, "x": 38.54, "y": 15.43 },
-                        { "id": 7, "x": 72.19, "y": 68.32 },
-                        { "id": 8, "x": 79.19, "y": 28.36 },
-                        { "id": 9, "x": 49.72, "y": 61.08 },
-                        { "id": 10, "x": 19.68, "y": 31.55 },
-                        { "id": 11, "x": 23.41, "y": 84.06 },
-                        { "id": 12, "x": 8.28, "y": 39.03 },
-                        { "id": 13, "x": 6.7, "y": 80.09 },
-                        { "id": 14, "x": 54.01, "y": 49.63 },
-                        { "id": 15, "x": 5.91, "y": 15.58 },
-                        { "id": 16, "x": 19.23, "y": 55.39 },
-                        { "id": 17, "x": 59.88, "y": 3.66 },
-                        { "id": 18, "x": 38.09, "y": 79.07 },
-                        { "id": 19, "x": 35.15, "y": 29.21 },
-                        { "id": 20, "x": 58.75, "y": 73.7 },
-                        { "id": 21, "x": 24.2, "y": 6.78 },
-                        { "id": 22, "x": 8.28, "y": 66.69 },
-                        { "id": 23, "x": 94.21, "y": 33.11 },
-                        { "id": 24, "x": 44.98, "y": 39.65 },
-                        { "id": 25, "x": 71.29, "y": 80.17 },
-                        { "id": 26, "x": 79.42, "y": 19.79 },
-                        { "id": 27, "x": 41.02, "y": 68.4 },
-                        { "id": 28, "x": 33.12, "y": 93.95 },
-                        { "id": 29, "x": 95.68, "y": 16.83 },
-                        { "id": 30, "x": 87.32, "y": 44.48 },
-                        { "id": 31, "x": 58.75, "y": 94.81 },
-                        { "id": 32, "x": 42.72, "y": 5.61 },
-                        { "id": 33, "x": 25.1, "y": 63.65 },
-                        { "id": 34, "x": 74.67, "y": 91.07 },
-                        { "id": 35, "x": 66.32, "y": 43.55 },
-                        { "id": 36, "x": 21.38, "y": 18.62 },
-                        { "id": 37, "x": 79.87, "y": 52.82 },
-                        { "id": 38, "x": 10.76, "y": 91.85 },
-                        { "id": 39, "x": 58.3, "y": 16.98 },
-                        { "id": 40, "x": 65.53, "y": 59.83 },
-                        { "id": 41, "x": 8.28, "y": 26.18 },
-                        { "id": 42, "x": 87.55, "y": 67.23 },
-                        { "id": 43, "x": 7.15, "y": 49.47 },
-                        { "id": 44, "x": 76.82, "y": 7.48 },
-                        { "id": 45, "x": 49.83, "y": 86.09 },
-                        { "id": 46, "x": 27.81, "y": 43.78 },
-                        { "id": 47, "x": 90.26, "y": 81.33 },
-                        { "id": 48, "x": 21.15, "y": 74.4 },
-                        { "id": 49, "x": 51.98, "y": 26.96 },
-                        { "id": 50, "x": 6.36, "y": 4.21 }
-                    ]
+                    "items": [{"id":1,"x":92.51,"y":94.11},{"id":2,"x":64.4,"y":32.8},{"id":3,"x":92.51,"y":3.97},{"id":4,"x":92.17,"y":56.72},{"id":5,"x":36.62,"y":53.91},{"id":6,"x":38.54,"y":15.43},{"id":7,"x":72.19,"y":68.32},{"id":8,"x":79.19,"y":28.36},{"id":9,"x":49.72,"y":61.08},{"id":10,"x":19.68,"y":31.55},{"id":11,"x":23.41,"y":84.06},{"id":12,"x":8.28,"y":39.03},{"id":13,"x":6.7,"y":80.09},{"id":14,"x":54.01,"y":49.63},{"id":15,"x":5.91,"y":15.58},{"id":16,"x":19.23,"y":55.39},{"id":17,"x":59.88,"y":3.66},{"id":18,"x":38.09,"y":79.07},{"id":19,"x":35.15,"y":29.21},{"id":20,"x":58.75,"y":73.7},{"id":21,"x":24.2,"y":6.78},{"id":22,"x":8.28,"y":66.69},{"id":23,"x":94.21,"y":33.11},{"id":24,"x":44.98,"y":39.65},{"id":25,"x":71.29,"y":80.17},{"id":26,"x":79.42,"y":19.79},{"id":27,"x":41.02,"y":68.4},{"id":28,"x":33.12,"y":93.95},{"id":29,"x":95.68,"y":16.83},{"id":30,"x":87.32,"y":44.48},{"id":31,"x":58.75,"y":94.81},{"id":32,"x":42.72,"y":5.61},{"id":33,"x":25.1,"y":63.65},{"id":34,"x":74.67,"y":91.07},{"id":35,"x":66.32,"y":43.55},{"id":36,"x":21.38,"y":18.62},{"id":37,"x":79.87,"y":52.82},{"id":38,"x":10.76,"y":91.85},{"id":39,"x":58.3,"y":16.98},{"id":40,"x":65.53,"y":59.83},{"id":41,"x":8.28,"y":26.18},{"id":42,"x":87.55,"y":67.23},{"id":43,"x":7.15,"y":49.47},{"id":44,"x":76.82,"y":7.48},{"id":45,"x":49.83,"y":86.09},{"id":46,"x":27.81,"y":43.78},{"id":47,"x":90.26,"y":81.33},{"id":48,"x":21.15,"y":74.4},{"id":49,"x":51.98,"y":26.96},{"id":50,"x":6.36,"y":4.21}]
                 },
                 state: 'instructions',
                 time: 240,
@@ -631,67 +656,92 @@
                     }
                 },
 
-                finishTest() {
+                                async finishTest() {
                     clearInterval(this.timer);
-                    this.audio.finish.play().catch(e => console.log('Áudio erro'));
+                    this.audio = document.getElementById('time-up-audio');
+                    
+                    const btn = document.querySelector('[onclick="finishTest()"], [x-on\\:click="finishTest()"], [\\@click="finishTest()"]');
+                    if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
-                    let hits = 0;
-                    let errors = 0;
-                    let circles = 0;
+                    const markedItems = this.grid.filter(item => item.marked).map(item => item.id);
+                    const annulledItems = this.grid.filter(item => item.annulled).map(item => item.id);
 
-                    this.config.items.forEach(item => {
-                        if (item.marked) {
-                            if (!item.error) hits++;
-                            else errors++;
-                        }
-                        if (item.circled) circles++;
-                    });
-
-                    let score = hits - errors;
-                    if (score < 0) score = 0;
-
-                    this.results = { hits, errors, circles, score };
-
-                    this.state = 'results';
-                    window.scrollTo(0, 0);
-
-                    if (this.results.score >= 45) {
-                        this.triggerConfetti();
-                    } else {
-                        document.body.classList.add('shake-screen');
-                        setTimeout(() => document.body.classList.remove('shake-screen'), 500);
-                    }
-                    this.saveHistory();
-                },
-
-                triggerConfetti() {
-                    const end = Date.now() + 3000;
-                    (function frame() {
-                        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#22c55e', '#a855f7'] });
-                        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#22c55e', '#06b6d4'] });
-                        if (Date.now() < end) requestAnimationFrame(frame);
-                    }());
-                },
-
-                loadHistory() {
-                    const h = localStorage.getItem('tedif1_history');
-                    if (h) this.history = JSON.parse(h);
-                },
-
-                saveHistory() {
-                    const newItem = {
-                        date: new Date().toLocaleString('pt-BR'),
-                        score: this.results.score,
-                        passed: this.results.score >= 45
+                    const payload = {
+                        tipo: 'tedif1',
+                        marks: markedItems,
+                        annulled: annulledItems,
+                        lastSelectedIndex: this.lastSelectedIndex !== undefined ? this.lastSelectedIndex : -1
                     };
-                    this.history.unshift(newItem);
-                    localStorage.setItem('tedif1_history', JSON.stringify(this.history));
-                },
 
-                clearHistory() {
-                    if (confirm('Limpar?')) {
-                        localStorage.removeItem('tedif1_history');
-                        this.history = [];
+                    try {
+                        const API_URL = "https://script.google.com/macros/s/AKfycbzSb0NgcW6pFcVF-ZXyw0bugKWA2a28Go3-X-d5PfCgnnEnD3eV2R6Xj0RbmIk6xBrN/exec";
+                        const response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain' },
+                            body: JSON.stringify(payload)
+                        });
+                        const result = await response.json();
+
+                        if (result.sucesso) {
+                            this.results = {
+                                hits: result.hits,
+                                errors: result.errors,
+                                omissions: result.omissions,
+                                score: result.pontuacao
+                            };
+                            
+                            // Rehydrate target mapping for visual review
+                            const gabarito = result.gabarito || [];
+                            this.grid.forEach((item, index) => {
+                                item.isTarget = gabarito.includes(item.id);
+                            });
+
+                            this.state = 'results';
+                            window.scrollTo(0, 0);
+
+                            const meta = result.meta || 50; // default meta fallback
+                            if (result.status === 'APTO' || this.results.score >= meta) { 
+                                const duration = 3000;
+                                const end = Date.now() + duration;
+
+                                (function frame() {
+                                    confetti({
+                                        particleCount: 5,
+                                        angle: 60,
+                                        spread: 55,
+                                        origin: { x: 0 },
+                                        colors: ['#9f54ff', '#ff00ff', '#00c2ff']
+                                    });
+                                    confetti({
+                                        particleCount: 5,
+                                        angle: 120,
+                                        spread: 55,
+                                        origin: { x: 1 },
+                                        colors: ['#9f54ff', '#ff00ff', '#00c2ff']
+                                    });
+
+                                    if (Date.now() < end) {
+                                        requestAnimationFrame(frame);
+                                    }
+                                }());
+                            } else { 
+                                document.body.classList.add('shake-screen'); 
+                                setTimeout(() => document.body.classList.remove('shake-screen'), 500);
+                                if(this.audio) this.audio.play().catch(e => console.log('Áudio final erro'));
+                            }
+                            
+                            if (typeof this.saveHistory === 'function') {
+                                this.saveHistory(this.results);
+                            } else if (typeof this.saveHistory !== 'undefined') {
+                                this.saveHistory();
+                            }
+                        } else {
+                            alert("Erro na correção: " + result.erro);
+                            if(btn) btn.innerHTML = '<i class="fas fa-stop"></i>';
+                        }
+                    } catch (e) {
+                        alert("Erro de conexão: " + e.message);
+                        if(btn) btn.innerHTML = '<i class="fas fa-stop"></i>';
                     }
                 },
 

@@ -11,187 +11,544 @@
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
     :root {
-      --bg-dark: #100f1c;
-      --bg-card: #1c1b29;
-      --primary-purple: #9f54ff;
-      --accent-pink: #ff00ff;
-      --accent-blue: #00c2ff;
-      --text-light: #f0f0f0;
-      --text-dark: #a0a0a0
+      --primary: #8b5cf6;
+      --primary-hover: #7c3aed;
+      --secondary: #ec4899;
+      --accent-cyan: #06b6d4;
+      --bg-dark: #0f172a;
     }
 
-    body {
-      font-family: Inter, system-ui, -apple-system, sans-serif;
-      background: var(--bg-dark);
-      color: var(--text-dark)
-    }
-
-    .section-title {
-      font-weight: 900;
-      color: var(--text-light)
-    }
-
-    .section-subtitle {
-      color: var(--primary-purple)
-    }
-
-    .card {
-      background: var(--bg-card);
-      border-radius: .75rem;
-      border: 1px solid #333;
-      transition: transform .3s, box-shadow .3s
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px rgba(159, 84, 255, .3);
-      border-color: var(--primary-purple)
-    }
-
-    .cta-button {
-      transition: all .3s;
-      background: var(--accent-pink);
-      color: var(--text-light);
-      border: 2px solid var(--accent-pink);
-      box-shadow: 0 0 15px rgba(255, 0, 255, .4);
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .cta-button:hover {
-      background: transparent;
-      color: var(--accent-pink);
-      transform: scale(1.05)
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     [x-cloak] {
-      display: none !important
+      display: none !important;
     }
 
-    .input-field {
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #000000;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Gradient Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      background-color: var(--bg-dark);
-      border: 1px solid #333;
-      color: var(--text-light);
-      padding: 0.75rem;
-      border-radius: 0.375rem;
-      transition: all 0.3s;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+      animation: gradientShift 15s ease infinite;
+      z-index: 0;
     }
 
-    .input-field:focus {
+    @keyframes gradientShift {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+      }
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(139, 92, 246, 0.6);
+      border-radius: 50%;
+      animation: float 20s infinite;
+    }
+
+    .particle:nth-child(2n) {
+      background: rgba(236, 72, 153, 0.6);
+      animation-duration: 25s;
+    }
+
+    .particle:nth-child(3n) {
+      background: rgba(6, 182, 212, 0.6);
+      animation-duration: 30s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-100vh) translateX(100px) scale(1);
+        opacity: 0;
+      }
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .glass-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: 0.6s;
+    }
+
+    .glass-card:hover::before {
+      left: 100%;
+    }
+
+    .glass-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(236, 72, 153, 0.5), rgba(6, 182, 212, 0.5));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(139, 92, 246, 0.3),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+    }
+
+    .glass-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Gradient Text */
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #8b5cf6 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientFlow 8s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientFlow {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    /* CTA Button */
+    .cta-btn {
+      background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 50%, #06b6d4 100%);
+      background-size: 200% 200%;
+      color: white;
+      font-weight: 700;
+      border: none;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow:
+        0 0 20px rgba(236, 72, 153, 0.4),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+      animation: gradientShimmer 3s ease infinite;
+    }
+
+    @keyframes gradientShimmer {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .cta-btn:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .cta-btn:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 0 40px rgba(236, 72, 153, 0.6),
+        0 0 60px rgba(139, 92, 246, 0.4),
+        0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Input Fields */
+    .input-glass {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      transition: all 0.3s;
+      position: relative;
+      z-index: 10;
+    }
+
+    .input-glass:focus {
       outline: none;
-      border-color: var(--accent-pink);
-      box-shadow: 0 0 0 2px rgba(255, 0, 255, 0.2);
+      border-color: #ec4899;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow:
+        0 0 0 3px rgba(236, 72, 153, 0.2),
+        0 0 20px rgba(236, 72, 153, 0.3);
+    }
+
+    /* Avatar Glow */
+    .avatar-glow {
+      position: relative;
+    }
+
+    .avatar-glow::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899, #06b6d4);
+      opacity: 0;
+      filter: blur(10px);
+      transition: opacity 0.5s;
+      z-index: -1;
+    }
+
+    .glass-card:hover .avatar-glow::before {
+      opacity: 0.8;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+
+      50% {
+        transform: scale(1.1);
+        opacity: 1;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #8b5cf6, #ec4899);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #7c3aed, #db2777);
+    }
+
+    /* Shine Effect */
+    .shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shine::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      bottom: -50%;
+      left: -50%;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
+      transform: rotateZ(60deg) translate(-5em, 7.5em);
+      animation: shine 3s infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes shine {
+      0% {
+        transform: rotateZ(60deg) translate(-5em, 7.5em);
+      }
+
+      100% {
+        transform: rotateZ(60deg) translate(12em, -10em);
+      }
     }
   </style>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
 </head>
 
-<body x-data="memberAuth">
+<body x-data="memberAuth" class="antialiased selection:bg-pink-500 selection:text-white">
+
+  <!-- Floating Particles -->
+  <div class="particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+  </div>
 
   <!-- MODAL LOGIN -->
-  <div x-show="showLoginModal" x-transition.opacity
-    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+  <div x-show="showLoginModal" x-transition.opacity.duration.300ms
+    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-xl p-4"
     style="display: none;">
-    <div @click.outside="showLoginModal = false" class="card p-8 w-full max-w-md shadow-2xl relative">
-      <button @click="showLoginModal = false" class="absolute top-4 right-4 text-gray-500 hover:text-white">
+
+    <div @click.outside="showLoginModal = false" x-transition:enter="transition ease-out duration-300"
+      x-transition:enter-start="opacity-0 scale-90 translate-y-4"
+      x-transition:enter-end="opacity-100 scale-100 translate-y-0" x-transition:leave="transition ease-in duration-200"
+      x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+      x-transition:leave-end="opacity-0 scale-90 translate-y-4"
+      class="glass p-10 w-full max-w-md rounded-3xl relative shadow-2xl shine">
+
+      <button @click="showLoginModal = false"
+        class="absolute top-5 right-5 text-gray-400 hover:text-white transition-all hover:rotate-90 duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
 
-      <div class="text-center mb-6">
-        <h2 class="text-2xl section-title mb-2">Acesso Restrito</h2>
-        <p class="text-sm" style="color:var(--text-dark)">
-          Identifique-se para acessar: <br />
-          <span class="text-[var(--primary-purple)] font-bold" x-text="selectedTurmaName"></span>
+      <div class="text-center mb-10">
+        <div
+          class="w-20 h-20 bg-gradient-to-br from-purple-500 via-pink-500 to-cyan-500 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-2xl shadow-purple-500/50 animate-pulse">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+        <h2 class="text-3xl font-black text-white mb-3">Área Restrita</h2>
+        <p class="text-gray-400 text-sm mb-2">
+          Acesso exclusivo para:
         </p>
+        <p class="text-xl font-bold gradient-text" x-text="selectedTurmaName"></p>
       </div>
 
       <form @submit.prevent="login" class="space-y-6">
-        <div>
-          <label class="block text-xs font-bold uppercase mb-2" style="color:var(--text-dark)">E-mail</label>
-          <input x-model="email" type="email" placeholder="seu@email.com" class="input-field" autofocus>
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest ml-1">E-mail</label>
+          <input x-model="email" type="email" placeholder="seu@email.com"
+            class="input-glass w-full px-5 py-4 rounded-xl focus:ring-0 placeholder-gray-600 text-base" autofocus>
         </div>
-        <div>
-          <label class="block text-xs font-bold uppercase mb-2" style="color:var(--text-dark)">Senha / Inscrição</label>
-          <input x-model="password" type="password" placeholder="Sua senha" class="input-field">
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest ml-1">Senha / Inscrição</label>
+          <input x-model="password" type="password" placeholder="••••••••"
+            class="input-glass w-full px-5 py-4 rounded-xl focus:ring-0 placeholder-gray-600 text-base">
         </div>
 
-        <div x-show="errorMsg"
-          class="p-3 rounded bg-red-900/30 border border-red-800 text-red-300 text-sm text-center font-semibold">
+        <div x-show="errorMsg" x-transition
+          class="p-4 rounded-xl bg-red-500/20 border-2 border-red-500/50 text-red-200 text-sm text-center font-semibold backdrop-blur">
           <span x-text="errorMsg"></span>
         </div>
 
         <button type="submit" :disabled="loading"
-          class="cta-button w-full font-bold py-3 px-6 rounded-md text-lg flex items-center justify-center">
-          <span x-show="!loading">ENTRAR</span>
-          <span x-show="loading" class="animate-pulse">Verificando...</span>
+          class="cta-btn w-full py-4 rounded-xl font-black tracking-wider text-base mt-4 disabled:opacity-50 disabled:cursor-not-allowed relative z-10">
+          <span x-show="!loading" class="relative z-10">ACESSAR CONTEÚDO</span>
+          <span x-show="loading" class="flex items-center justify-center gap-3 relative z-10">
+            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            Verificando...
+          </span>
         </button>
       </form>
     </div>
   </div>
 
-  <header class="bg-[#100f1c99] backdrop-blur-sm shadow-md sticky top-0 z-50 border-b border-white/5">
-    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-      <div class="flex items-center">
-        <a href="index.html" class="flex items-center">
-          <img src="Imagens_base/logo-principal.png" alt="Logo" class="h-10 w-auto mr-3">
-          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+  <header class="glass sticky top-0 z-50 relative">
+    <nav class="container mx-auto px-6 py-5 flex justify-between items-center">
+      <div class="flex items-center group cursor-pointer">
+        <a href="index.html" class="flex items-center gap-4">
+          <div class="relative">
+            <div
+              class="absolute -inset-2 bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 rounded-full blur-lg opacity-30 group-hover:opacity-100 transition duration-500">
+            </div>
+            <img src="Imagens_base/logo-principal.png" alt="Logo" class="relative h-12 w-auto">
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-black leading-none tracking-tight text-white">APROVAÇÃO</span>
+            <span class="text-base font-black leading-none tracking-widest gradient-text">PSYCHO</span>
+          </div>
         </a>
       </div>
 
-      <div class="hidden md:flex items-center space-x-8">
-        <a href="index.html" class="hover:text-[var(--accent-pink)] transition">Início</a>
-        <div x-show="isSesionActive" class="flex items-center gap-4">
-          <div class="flex items-center gap-2">
+      <div class="hidden md:flex items-center space-x-10">
+        <a href="index.html"
+          class="text-gray-300 hover:text-white font-semibold transition-all relative group text-base">
+          Início
+          <span
+            class="absolute -bottom-1 left-0 w-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 transition-all group-hover:w-full rounded-full"></span>
+        </a>
+
+        <div x-show="isSesionActive" class="flex items-center gap-5 pl-10 border-l border-white/20"
+          style="display: none;">
+          <div class="flex items-center gap-3 glass px-5 py-2.5 rounded-full">
             <div
-              class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs"
+              class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm ring-4 ring-white/10 shadow-lg"
               x-text="getInitials()"></div>
-            <span class="text-sm font-bold text-gray-300" x-text="userName"></span>
+            <span class="text-sm font-semibold text-gray-100" x-text="userName"></span>
           </div>
           <button @click="logout"
-            class="text-red-400 hover:text-red-300 font-bold transition text-xs border border-red-500/20 px-3 py-1 rounded hover:bg-red-500/10">SAIR</button>
+            class="text-red-400 hover:text-red-300 hover:bg-red-500/20 transition-all p-2.5 rounded-xl border border-red-500/20 hover:border-red-500/50"
+            title="Sair">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+          </button>
         </div>
       </div>
     </nav>
   </header>
 
-  <main class="py-20 min-h-screen">
+  <main class="py-28 min-h-screen relative z-10">
     <div class="container mx-auto px-6">
 
-      <div class="text-center mb-16">
-        <h1 class="text-3xl md:text-5xl mb-4 section-title">Turmas Disponíveis</h1>
-        <p class="section-subtitle text-lg">Selecione sua turma para acessar o material.</p>
+      <div class="text-center mb-24">
+        <h1 class="text-5xl md:text-7xl font-black mb-8 tracking-tight">
+          <span class="gradient-text">Turmas Disponíveis</span>
+        </h1>
+        <p class="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
+          Selecione sua turma abaixo para acessar todo o material didático exclusivo,<br class="hidden md:block">
+          simulados e ferramentas de treino.
+        </p>
       </div>
 
-      <div class="max-w-4xl mx-auto space-y-8">
+      <div class="max-w-6xl mx-auto grid gap-8">
 
-        <!-- PMPR / Base (Visible only if has 'Base' permission - Admins) ->
-        <!-- PMPR / Base (Visible to all, Access Restricted) -->
+        <!-- PMPR / Base -->
         <div @click="handleCardClick('Base', 'Polícia Militar do Paraná')"
-          class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300 cursor-pointer group border border-dashed border-gray-600 bg-gray-900/50">
-          <div class="flex-shrink-0">
+          class="glass-card p-10 rounded-3xl flex flex-col md:flex-row items-center gap-10 cursor-pointer group">
+
+          <div class="flex-shrink-0 relative avatar-glow">
             <div
-              class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)] flex items-center justify-center overflow-hidden">
-              <img src="assets/default_turma.jpg" class="w-full h-full object-cover" alt="PMPR">
+              class="relative w-32 h-32 rounded-full p-1.5 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 backdrop-blur-sm border-2 border-white/20 flex items-center justify-center overflow-hidden shadow-2xl">
+              <img src="assets/default_turma.jpg" class="w-full h-full object-cover rounded-full" alt="PMPR">
             </div>
           </div>
 
-          <div class="flex-grow text-center md:text-left">
-            <h2 class="text-2xl font-bold mb-3 text-gray-300">PM-PR</h2>
-            <p class="mb-6 leading-relaxed text-gray-500">
+          <div class="flex-grow text-center md:text-left z-10">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-5">
+              <div>
+                <h2
+                  class="text-4xl md:text-5xl font-black text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:via-pink-400 group-hover:to-cyan-400 transition-all">
+                  PM-PR</h2>
+                <div
+                  class="h-1.5 w-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto md:mx-0 group-hover:w-32 transition-all duration-500">
+                </div>
+              </div>
+              <span
+                class="hidden md:inline-block px-4 py-2 glass rounded-full text-xs font-bold text-purple-300 border border-purple-500/30 mt-4 md:mt-0">Curso
+                Finalizado</span>
+            </div>
 
+            <p class="mb-8 text-gray-300 leading-relaxed font-light text-lg">
+              Curso completo focado no edital da Polícia Militar do Paraná. Inclui testes de memória, atenção e
+              personalidade.
             </p>
 
             <button
-              class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 pointer-events-none grayscale opacity-70">
+              class="cta-btn w-full md:w-auto py-4 px-10 rounded-xl inline-flex items-center justify-center gap-3 pointer-events-none text-base font-black tracking-wide">
               ACESSAR MATERIAL
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-2"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </button>
           </div>
         </div>
@@ -199,26 +556,39 @@
         <!-- Dynamic Classes Loop -->
         <template x-for="turma in otherTurmas" :key="turma.pasta">
           <div @click="handleCardClick(turma.pasta, turma.nome)"
-            class="card p-8 flex flex-col md:flex-row items-center gap-8 transform hover:scale-[1.02] transition-all duration-300 cursor-pointer group">
+            class="glass-card p-10 rounded-3xl flex flex-col md:flex-row items-center gap-10 cursor-pointer group">
 
-            <!-- Image -->
-            <div class="flex-shrink-0">
-              <img :src="turma.imagem || 'assets/default_turma.jpg'"
-                class="w-24 h-24 rounded-full object-cover border-2 border-[var(--primary-purple)] shadow-[0_0_20px_rgba(159,84,255,0.3)] group-hover:shadow-[0_0_30px_rgba(159,84,255,0.6)] transition-shadow">
+            <div class="flex-shrink-0 relative avatar-glow">
+              <div
+                class="relative w-32 h-32 rounded-full p-1.5 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-cyan-500/20 backdrop-blur-sm border-2 border-white/20 flex items-center justify-center overflow-hidden shadow-2xl">
+                <img :src="turma.imagem || 'assets/default_turma.jpg'" class="w-full h-full object-cover rounded-full">
+              </div>
             </div>
 
-            <div class="flex-grow text-center md:text-left">
-              <h2 class="text-2xl font-bold mb-3" style="color:var(--text-light)" x-text="turma.nome"></h2>
-              <p class="mb-6 leading-relaxed" style="color:var(--text-dark)">
-                Acesso exclusivo aos materiais de <span x-text="turma.nome"></span>.
+            <div class="flex-grow text-center md:text-left z-10">
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-5">
+                <div>
+                  <h2
+                    class="text-4xl md:text-5xl font-black text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:via-pink-400 group-hover:to-cyan-400 transition-all"
+                    x-text="turma.nome"></h2>
+                  <div
+                    class="h-1.5 w-16 bg-gradient-to-r from-pink-500 to-cyan-500 rounded-full mx-auto md:mx-0 group-hover:w-32 transition-all duration-500">
+                  </div>
+                </div>
+              </div>
+
+              <p class="mb-8 text-gray-300 leading-relaxed font-light text-lg">
+                Acesso exclusivo aos materiais de <span x-text="turma.nome" class="text-white font-medium"></span>.
+                Clique para entrar na área do aluno.
               </p>
 
               <button
-                class="cta-button font-bold py-3 px-8 rounded-md inline-flex items-center gap-2 pointer-events-none">
+                class="cta-btn w-full md:w-auto py-4 px-10 rounded-xl inline-flex items-center justify-center gap-3 pointer-events-none text-base font-black tracking-wide">
                 ACESSAR MATERIAL
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:translate-x-2"
+                  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                    d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </button>
             </div>
@@ -228,9 +598,11 @@
     </div>
   </main>
 
-  <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
-        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
-    </footer>
+  <footer class="border-t border-white/10 mt-auto py-12 glass relative z-10">
+    <div class="text-center text-sm text-gray-500 font-light">
+      &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    </div>
+  </footer>
 
   <script>
     document.addEventListener('alpine:init', () => {
@@ -387,26 +759,8 @@
         },
 
         redirect(turmaId) {
-          // For legacy support, we might need to check if index.html exists, but for now assuming standard:
-          // Base -> Base/index.html
-          // PMPR -> PMPR/index.html (since we copied Base->PMPR)
-          // Other classes -> [folder]/index.html (if created from new Base) OR [folder]/pmpr.html (if old)
-
-          // Since we can't easily check file existence from client JS without 404, let's assume index.html for PMPR/Base.
-          // For dynamic classes, it depends on when they were created.
-          // Let's try to detect if it's PMPR or Base.
-
-          if (turmaId === 'PMPR' || turmaId === 'Base') {
-            window.location.href = `${turmaId}/index.html`;
-          } else {
-            // For others, try index.html, but if it fails... user will get 404.
-            // Ideally, we should unify. The user said "Base servirá como modelo".
-            // So future classes will follow Base (index.html).
-            // Old classes like 'teste' might still have pmpr.html.
-            // I should probably rename `pmpr.html` to `index.html` in ALL subfolders to be safe?
-            // But for now, let's stick to index.html as the target.
-            window.location.href = `${turmaId}/index.html`;
-          }
+          // Todas as turmas acessam a mesma pasta Base unificada, mas em seu arquivo específico
+          window.location.href = 'Base/index_' + turmaId + '.html';
         },
 
         logout() {

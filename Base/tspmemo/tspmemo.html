@@ -16,7 +16,8 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <!-- Web Font for Rota C Style -->
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;600;800&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;600;800&family=Outfit:wght@400;500;600;700;900&display=swap"
         rel="stylesheet" />
 
     <script>
@@ -46,8 +47,60 @@
                 radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
                 radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
             color: #e2e8f0;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', 'Inter', sans-serif;
             overflow-x: hidden;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                background-image: radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
+            }
+
+            50% {
+                background-image: radial-gradient(circle at 85% 50%, rgba(0, 194, 255, 0.08), transparent 25%), radial-gradient(circle at 15% 30%, rgba(255, 0, 255, 0.08), transparent 25%);
+            }
+        }
+
+        .particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(159, 84, 255, 0.8), transparent);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
         }
 
         .glass-panel {
@@ -146,6 +199,17 @@
 </head>
 
 <body x-data="tspApp()" x-init="init()" class="min-h-screen flex flex-col">
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <!-- AUDIO FILES -->
     <audio id="audio-prepare" src="../../vozes/prepare.mp3"></audio>

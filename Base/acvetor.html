@@ -10,6 +10,7 @@
 
     <!-- SEGURANÇA -->
     <script src="../scripts/auth_guard.js"></script>
+    <script src="../google-runner.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -22,6 +23,8 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
         :root {
             --bg-dark: #100f1c;
             --bg-card: #1c1b29;
@@ -31,10 +34,92 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
             color: #a0a0a0;
             user-select: none;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 194, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         [x-cloak] {
@@ -192,6 +277,19 @@
 </head>
 
 <body class="flex flex-col min-h-screen hero-bg" x-data="acVetor()">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <audio id="cmd-audio" src="../vozes/prepare.mp3" preload="auto"></audio>
     <audio id="timeout-audio" src="../vozes/tempoesgotado.mp3" preload="auto"></audio>
@@ -559,12 +657,7 @@
 
                 parseGrid() {
                     this.grid = [];
-                    const targets = [
-                        { dir: 90, type: 'fill' }, // RF
-                        { dir: 180, type: 'dot' }, // DD
-                        { dir: 270, type: 'empty' } // LE
-                    ];
-
+                    // Targets removed for security. Backend handles correction.
                     const dirMap = { 'U': 0, 'R': 90, 'D': 180, 'L': 270 };
                     const typeMap = { 'F': 'fill', 'D': 'dot', 'E': 'empty' };
 
@@ -578,12 +671,11 @@
 
                             const dir = dirMap[dChar];
                             const type = typeMap[tChar];
-                            const isTarget = targets.some(t => t.dir === dir && t.type === type);
 
                             this.grid.push({
                                 dir: dir,
                                 type: type,
-                                isTarget: isTarget,
+                                isTarget: false, // Hidden until result
                                 selected: false,
                                 index: (rIndex * this.cols) + cIndex
                             });
@@ -649,48 +741,69 @@
                     }
                 },
 
-                finishTest() {
+                async finishTest() {
                     clearInterval(this.timer);
-                    this.calculateResults();
-                    this.state = 'results';
-                    window.scrollTo(0, 0);
 
-                    // Gamification Logic
-                    this.animateScore();
+                    const marks = this.grid.filter(i => i.selected).map(i => i.index);
 
-                    if (this.results.isPassed) {
-                        confetti({
-                            particleCount: 150,
-                            spread: 70,
-                            origin: { y: 0.6 },
-                            colors: ['#00c2ff', '#ffffff']
+                    // Show loading state if possible or just wait
+                    const btn = document.querySelector('[onclick="finishTest()"], [x-on\\:click="finishTest()"], [\\@click="finishTest()"]');
+                    if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                    try {
+                        const API_URL = "https://script.google.com/macros/s/AKfycbzSb0NgcW6pFcVF-ZXyw0bugKWA2a28Go3-X-d5PfCgnnEnD3eV2R6Xj0RbmIk6xBrN/exec";
+                        const response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain' },
+                            body: JSON.stringify({ tipo: 'acvetor', respostas: marks })
                         });
-                    }
-                },
+                        const result = await response.json();
 
-                calculateResults() {
-                    let hits = 0;
-                    let errors = 0;
-                    let omissions = 0;
-                    this.grid.forEach((item, index) => {
-                        if (item.selected) {
-                            if (item.isTarget) hits++;
-                            else errors++;
+                        if (result.sucesso) {
+                            this.results = {
+                                hits: result.hits,
+                                errors: result.errors,
+                                omissions: result.omissions,
+                                score: result.pontuacao,
+                                isPassed: result.status === 'APTO' || result.score >= 119
+                            };
+
+                            // Mark targets for review using gabarito from backend
+                            const gabarito = result.gabarito || [];
+                            this.grid.forEach(item => {
+                                item.isTarget = gabarito.includes(item.index);
+                            });
+
+                            this.state = 'results';
+                            window.scrollTo(0, 0);
+
+                            this.animateScore();
+
+                            if (this.results.isPassed) {
+                                confetti({
+                                    particleCount: 150,
+                                    spread: 70,
+                                    origin: { y: 0.6 },
+                                    colors: ['#00c2ff', '#ffffff']
+                                });
+                            }
+
+                            // Save History
+                            this.history.unshift({
+                                date: new Date().toLocaleString('pt-BR'),
+                                score: this.results.score,
+                                passed: this.results.isPassed
+                            });
+                            localStorage.setItem('acvetor_history', JSON.stringify(this.history));
+
                         } else {
-                            if (item.isTarget && index <= this.lastSelectedIndex) omissions++;
+                            alert("Erro na correção: " + result.erro);
+                            if (btn) btn.innerHTML = 'ENTREGAR';
                         }
-                    });
-                    const score = hits - (errors + omissions);
-                    const isPassed = score >= this.minScore;
-                    this.results = { hits, errors, omissions, score, isPassed };
-
-                    // Save History
-                    this.history.unshift({
-                        date: new Date().toLocaleString('pt-BR'),
-                        score: score,
-                        passed: isPassed
-                    });
-                    localStorage.setItem('acvetor_history', JSON.stringify(this.history));
+                    } catch (e) {
+                        alert("Erro de conexão: " + e.message);
+                        if (btn) btn.innerHTML = 'ENTREGAR';
+                    }
                 },
 
                 formatTime(s) {

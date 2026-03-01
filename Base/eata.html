@@ -15,10 +15,13 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
         :root {
             --bg-dark: #100f1c;
             --bg-card: #1c1b29;
@@ -28,9 +31,91 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            color: #a0a0a0
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
+            color: #a0a0a0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 194, 255, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         .card {
@@ -136,6 +221,19 @@
 </head>
 
 <body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -411,15 +509,7 @@
             { "id": 40, "text": "UTILIZO O NOME DE ALGUÉM PARA CONSEGUIR BENEFÍCIOS SEM SEU CONHECIMENTO" }
         ];
 
-        // Mapeamento Soma -> Percentil (PTS -> %)
-        const DATA_PERCENTILES = [
-            1, 2, 4, 7, 12, 18, 24, 30, 37, 43, 49, 54, 58, 61, 65,
-            68, 72, 75, 78, 80, 82, 83, 85, 87, 88, 89, 90, 91, 92, 92,
-            93, 93, 93, 93, 93, 93, 93, 94, 94, 94, 94, 94, 94, 94, 94,
-            94, 94, 94, 94, 94, 94, 94, 94, 94, 95, 95, 95, 96, 96, 96,
-            97, 98, 98, 99, 99, 99, 99, 99, 100, 100, 100, 100, 100, 100,
-            100, 100, 100, 100, 100, 100, 100, 100
-        ];
+        // Mapeamento Soma -> Percentil movido para o backend (segurança)
 
         /* ================= LÓGICA ================= */
 
@@ -581,26 +671,22 @@
             document.querySelector('header').scrollIntoView({ behavior: 'smooth' });
         }
 
-        function calculate(pastedAnswers = null) {
+        async function calculate(pastedAnswers = null) {
             clearInterval(timerInterval); // Parar timer
 
             let answersMap = new Map();
-            let sum = 0;
 
             if (pastedAnswers) {
                 pastedAnswers.forEach((val, idx) => {
                     const qId = idx + 1;
                     answersMap.set(qId, val);
-                    sum += val;
                 });
             } else {
                 let missing = [];
                 DATA_QUESTIONS.forEach(q => {
                     const checked = document.querySelector(`input[name="q${q.id}"]:checked`);
                     if (checked) {
-                        const val = parseInt(checked.value);
-                        answersMap.set(q.id, val);
-                        sum += val;
+                        answersMap.set(q.id, parseInt(checked.value));
                     } else {
                         missing.push(q.id);
                     }
@@ -608,34 +694,48 @@
 
                 if (missing.length > 0) {
                     alert(`Faltam ${missing.length} respostas. Por favor preencha todas.`);
-                    // Scroll to first missing
                     const firstMissing = document.getElementById(`q-card-${missing[0] - 1}`);
                     if (firstMissing) firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     return;
                 }
             }
 
-            // --- LÓGICA DE RESULTADO EATA ---
-            // APTO: Entre 7 e 12 (inclusive)
-            let passed = false;
-            let statusText = "INAPTO";
-            let statusColor = "text-red-500 border-red-500/50 bg-red-500/10";
+            // Montar payload para o backend
+            const respostasObj = {};
+            DATA_QUESTIONS.forEach(q => {
+                const val = answersMap.get(q.id);
+                if (val !== undefined) respostasObj[String(q.id)] = val;
+            });
 
-            if (sum >= 7 && sum <= 12) {
-                passed = true;
-                statusText = "APTO";
-                statusColor = "text-green-500 border-green-500/50 bg-green-500/10";
+            const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec';
+
+            try {
+                const response = await fetch(BACKEND_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ tipo: 'eata', respostas: respostasObj })
+                });
+                const result = await response.json();
+
+                if (!result.sucesso) {
+                    alert('Erro do servidor: ' + (result.erro || 'Desconhecido'));
+                    return;
+                }
+
+                renderReport(result);
+
+            } catch (err) {
+                alert('Erro ao conectar com o servidor: ' + err.message);
             }
+        }
 
-            // Percentil
-            // Se maior que 80, usa 100.
-            let percentil = 100;
-            if (sum < DATA_PERCENTILES.length) {
-                percentil = DATA_PERCENTILES[sum];
-            }
+        function renderReport(result) {
+            const soma = result.soma;
+            const percentil = result.percentil;
+            const passed = result.globalStatus;
+            const statusText = passed ? 'APTO' : 'INAPTO';
+            const statusColor = passed ? 'text-green-500 border-green-500/50 bg-green-500/10' : 'text-red-500 border-red-500/50 bg-red-500/10';
 
-            // Display Results
-            const report = document.getElementById('report-content');
             const now = new Date();
             document.getElementById('report-date').innerText = now.toLocaleString('pt-BR');
 
@@ -643,14 +743,14 @@
             badge.className = `px-8 py-3 rounded-full text-xl font-bold border ${statusColor} shadow-lg`;
             badge.innerText = statusText;
 
-            // Generate Content
+            const report = document.getElementById('report-content');
             let html = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-[#0f0e1a] p-6 rounded-xl border border-white/10">
                         <h3 class="text-xl font-bold text-white mb-4">Pontuação</h3>
                         <div class="flex justify-between items-center mb-4 py-2 border-b border-white/5">
                             <span class="text-gray-400">Total de Pontos (Soma)</span>
-                            <span class="text-2xl font-bold text-white">${sum}</span>
+                            <span class="text-2xl font-bold text-white">${soma}</span>
                         </div>
                         <div class="flex justify-between items-center mb-4 py-2 border-b border-white/5">
                             <span class="text-gray-400">Percentil</span>
@@ -658,7 +758,7 @@
                         </div>
                         <div class="mt-4 p-4 rounded-lg bg-white/5 text-sm text-gray-400">
                             <strong>Critério:</strong> Deve estar entre 7 e 12 pontos.<br>
-                            Sua pontuação: ${sum}
+                            Sua pontuação: ${soma}
                         </div>
                     </div>
                     
@@ -674,7 +774,7 @@
 
             report.innerHTML = html;
 
-            saveToHistory("EATA", sum, statusText);
+            saveToHistory("EATA", soma, statusText);
             showScreen('result');
 
             if (!passed) {

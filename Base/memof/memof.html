@@ -1,21 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>Teste Memória F | Aprovação Psycho</title>
+    <title>Teste MemÃ³ria F | AprovaÃ§Ã£o Psycho</title>
     <link rel="icon" type="image/png" href="../../favicon.png">
 
-    <!-- SEGURANÇA -->
+    <!-- SEGURANÃ‡A -->
     <script src="../../scripts/auth_guard.js"></script>
+    <script src="../../google-runner.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@400;500;600;700;900&display=swap"
         rel="stylesheet" />
 
     <style>
@@ -28,7 +30,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg-dark);
             color: #a0a0a0;
             user-select: none;
@@ -56,7 +58,71 @@
                 radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
                 radial-gradient(1000px 400px at 50% 110%, rgba(16, 185, 129, .18), transparent 60%);
             filter: blur(40px);
-            pointer-events: none
+            pointer-events: none;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: .35;
+            }
+
+            50% {
+                opacity: .45;
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(16, 185, 129, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         [x-cloak] {
@@ -72,7 +138,7 @@
             transition: all 0.3s ease;
         }
 
-        /* Container da Página */
+        /* Container da PÃ¡gina */
         .page-ratio-box {
             position: relative;
             width: 100%;
@@ -200,6 +266,17 @@
 </head>
 
 <body class="flex flex-col min-h-screen hero-bg" x-data="memoSim()">
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
 
     <audio id="cmd-audio" src="../../vozes/prepare.mp3" preload="auto"></audio>
     <audio id="time-up-audio" src="../../vozes/tempoesgotado.mp3" preload="auto"></audio>
@@ -209,14 +286,14 @@
             <div class="flex items-center gap-3">
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
-                    alt="Brasão Base"
+                    alt="BrasÃ£o Base"
                     class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÃ‡ÃƒO <span
                             style="color:var(--accent-green);text-shadow:0 0 8px var(--accent-green)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">MEMÓRIA <span
+                    <span class="text-white font-black text-lg leading-none">MEMÃ“RIA <span
                             class="text-[var(--accent-blue)]">F</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÃ“DULO EXCLUSIVO</span>
                 </div>
             </div>
 
@@ -267,26 +344,26 @@
                     class="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                 </div>
 
-                <h1 class="text-4xl font-black text-white mb-4 relative z-10">Teste de Memória F</h1>
-                <p class="text-gray-400 mb-8 text-lg relative z-10">Memorize os rostos e encontre-os nas páginas de
+                <h1 class="text-4xl font-black text-white mb-4 relative z-10">Teste de MemÃ³ria F</h1>
+                <p class="text-gray-400 mb-8 text-lg relative z-10">Memorize os rostos e encontre-os nas pÃ¡ginas de
                     resposta.</p>
 
                 <div class="grid md:grid-cols-3 gap-6 text-left mb-10 relative z-10">
                     <div class="bg-white/5 p-5 rounded-xl border border-white/10">
                         <i class="fas fa-eye text-3xl text-blue-400 mb-3"></i>
-                        <h3 class="text-white font-bold">1. Memorização</h3>
+                        <h3 class="text-white font-bold">1. MemorizaÃ§Ã£o</h3>
                         <p class="text-sm text-gray-400 mt-1"><strong>3 minutos</strong> para memorizar os rostos
                             apresentados.</p>
                     </div>
                     <div class="bg-white/5 p-5 rounded-xl border border-white/10">
                         <i class="fas fa-pen-alt text-3xl text-purple-400 mb-3"></i>
-                        <h3 class="text-white font-bold">2. Execução</h3>
+                        <h3 class="text-white font-bold">2. ExecuÃ§Ã£o</h3>
                         <p class="text-sm text-gray-400 mt-1"><strong>2 minutos</strong> para marcar. <span
                                 class="text-red-400">Clique 2x para anular erro.</span></p>
                     </div>
                     <div class="bg-white/5 p-5 rounded-xl border border-white/10">
                         <i class="fas fa-calculator text-3xl text-green-400 mb-3"></i>
-                        <h3 class="text-white font-bold">3. Pontuação</h3>
+                        <h3 class="text-white font-bold">3. PontuaÃ§Ã£o</h3>
                         <p class="text-sm text-gray-400 mt-1">Acerto: +1 | A cada <strong>2 erros</strong>: -2 pontos.
                             <strong>Meta: 22</strong>.
                         </p>
@@ -309,10 +386,10 @@
                 </div>
             </div>
 
-            <!-- HISTÓRICO -->
+            <!-- HISTÃ“RICO -->
             <div class="glass-card mt-8 p-6 overflow-hidden fade-in relative">
                 <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-2">
-                    <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
+                    <h3 class="text-lg font-bold text-white">Ãšltimos Resultados</h3>
                     <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
                         @click="clearHistory()">Limpar</button>
                 </div>
@@ -378,7 +455,7 @@
                     </div>
                     <div
                         class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none">
-                        PÁGINA A</div>
+                        PÃGINA A</div>
                 </div>
 
                 <div class="page-ratio-box">
@@ -402,7 +479,7 @@
                     </div>
                     <div
                         class="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none">
-                        PÁGINA B</div>
+                        PÃGINA B</div>
                 </div>
 
             </div>
@@ -427,7 +504,7 @@
                 <template x-if="results.totalScore < 22">
                     <div class="flex flex-col items-center">
                         <div class="loser-text">
-                            VOCÊ FICOU<br>INAPTO!
+                            VOCÃŠ FICOU<br>INAPTO!
                         </div>
                         <span
                             class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-400 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
@@ -449,9 +526,9 @@
                 </div>
                 <div
                     class="bg-gradient-to-br from-purple-900 to-blue-900 p-6 rounded-xl border border-purple-500/50 relative overflow-hidden">
-                    <div class="text-sm text-white font-bold uppercase mb-2 relative z-10">Pontuação Líquida</div>
+                    <div class="text-sm text-white font-bold uppercase mb-2 relative z-10">PontuaÃ§Ã£o LÃ­quida</div>
                     <div class="text-5xl font-black text-white relative z-10" x-text="results.totalScore"></div>
-                    <div class="text-xs text-cyan-300 mt-2 relative z-10">Meta Mínima: 22</div>
+                    <div class="text-xs text-cyan-300 mt-2 relative z-10">Meta MÃ­nima: 22</div>
                 </div>
             </div>
 
@@ -478,7 +555,7 @@
                 studentName: sessionStorage.getItem('memberName') || 'Visitante',
                 history: [],
 
-                // CONFIGURAÇÃO PÁGINA A
+                // CONFIGURAÃ‡ÃƒO PÃGINA A
                 configA: {
                     "width": 773, "height": 1077, "circleSize": 35,
                     "items": [
@@ -486,7 +563,7 @@
                     ]
                 },
 
-                // CONFIGURAÇÃO PÁGINA B
+                // CONFIGURAÃ‡ÃƒO PÃGINA B
                 configB: {
                     "width": 773, "height": 1077, "circleSize": 35,
                     "items": [
@@ -566,12 +643,63 @@
                     }
                 },
 
-                finishTest() {
+                async finishTest() {
                     clearInterval(this.timer);
+
+                    const respostas = {
+                        marksA: this.marksA,
+                        marksB: this.marksB
+                    };
+
+                    try {
+                        const API_URL = "https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec";
+                        const response = await fetch(API_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'text/plain' },
+                            body: JSON.stringify({ tipo: 'memof', respostas: respostas })
+                        });
+                        const result = await response.json();
+
+                        if (result.sucesso) {
+                            this.results = {
+                                hits: result.hits,
+                                errors: result.errors,
+                                totalScore: result.totalScore
+                            };
+
+                            const gabarito = result.gabarito || { pageA: [], pageB: [] };
+
+                            this.configA.items.forEach(item => {
+                                item.isTarget = gabarito.pageA.includes(item.id);
+                            });
+                            this.configB.items.forEach(item => {
+                                item.isTarget = gabarito.pageB.includes(item.id);
+                            });
+
+                            this.state = 'results';
+                            window.scrollTo(0, 0);
+
+                            if (result.status === 'APTO') {
+                                const duration = 3000;
+                                const end = Date.now() + duration;
+                                (function frame() {
+                                    confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#9f54ff', '#ff00ff', '#10b981'] });
+                                    confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#9f54ff', '#ff00ff', '#10b981'] });
+                                    if (Date.now() < end) requestAnimationFrame(frame);
+                                }());
+                            }
+                            this.saveHistory();
+                        } else {
+                            alert("Erro: " + result.erro);
+                        }
+                    } catch (e) {
+                        alert("Erro de conexão: " + e.message);
+                    }
+                    /* 
                     let hits = 0;
                     let errors = 0;
 
-                    // Calcula Página A
+                    // Calcula PÃ¡gina A
                     this.configA.items.forEach(item => {
                         const status = this.marksA[item.id];
                         if (status === 'marked') {
@@ -580,7 +708,7 @@
                         }
                     });
 
-                    // Calcula Página B
+                    // Calcula PÃ¡gina B
                     this.configB.items.forEach(item => {
                         const status = this.marksB[item.id];
                         if (status === 'marked') {
@@ -622,6 +750,7 @@
                         }());
                     }
                     this.saveHistory();
+                    */
                 },
 
                 reviewAnswers() {
@@ -655,7 +784,7 @@
                 },
 
                 clearHistory() {
-                    if (confirm('Limpar histórico?')) {
+                    if (confirm('Limpar histÃ³rico?')) {
                         localStorage.removeItem('memof_history');
                         this.history = [];
                     }

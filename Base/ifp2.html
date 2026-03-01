@@ -15,10 +15,13 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
         :root {
             --bg-dark: #100f1c;
             --bg-card: #1c1b29;
@@ -28,9 +31,91 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg-dark);
-            color: #a0a0a0
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
+            color: #a0a0a0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 194, 255, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
         }
 
         .card {
@@ -111,6 +196,36 @@
 </head>
 
 <body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay"
+        class="hidden fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center transition-opacity">
+        <div class="relative w-32 h-32 mb-8">
+            <div class="absolute inset-0 border-4 border-purple-500/30 rounded-full animate-[spin_3s_linear_infinite]">
+            </div>
+            <div
+                class="absolute inset-2 border-4 border-t-purple-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-[spin_2s_linear_infinite]">
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <i class="fas fa-brain text-4xl text-purple-400 animate-pulse"></i>
+            </div>
+        </div>
+        <h2 class="text-3xl font-black text-white mb-2 tracking-wider">PROCESSANDO</h2>
+        <p class="text-purple-400 font-medium animate-pulse">Analisando personalidade...</p>
+    </div>
 
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -254,29 +369,7 @@
                     </div>
 
                     <!-- FILTRO -->
-                    <div
-                        class="flex items-center gap-3 bg-[#1c1b29] px-4 py-2 rounded-lg border border-white/10 focus-within:border-purple-500 transition-colors shadow-lg shadow-black/20 w-full md:w-auto">
-                        <i class="fas fa-filter text-purple-400"></i>
-                        <select id="facet-filter" onchange="filtrarFacetas()"
-                            class="bg-transparent text-gray-300 text-sm outline-none cursor-pointer w-full font-medium">
-                            <option value="ALL" class="bg-[#151427] text-white">Todas as Facetas</option>
-                            <optgroup label="Itens IFP-II" class="bg-[#1c1b29] text-purple-300">
-                                <option value="ASSISTENCIA">Assistência</option>
-                                <option value="INTRACEPCAO">Intracepção</option>
-                                <option value="AFAGO">Afago</option>
-                                <option value="DEFERENCIA">Deferência</option>
-                                <option value="AFILIACAO">Afiliação</option>
-                                <option value="DOMINANCIA">Dominância</option>
-                                <option value="DESEMPENHO">Desempenho</option>
-                                <option value="EXIBICAO">Exibição</option>
-                                <option value="AGRESSIVIDADE">Agressividade</option>
-                                <option value="ORDEM">Ordem</option>
-                                <option value="PERSISTENCIA">Persistência</option>
-                                <option value="MUDANCA">Mudança</option>
-                                <option value="AUTONOMIA">Autonomia</option>
-                            </optgroup>
-                        </select>
-                    </div>
+                    <!-- FILTRO REMOVIDO -->
 
                     <button onclick="abrirImportacao()"
                         class="flex items-center gap-2 bg-[#1c1b29] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium h-[38px]">
@@ -856,38 +949,11 @@
                 "facet": "EXIBICAO"
             }
         ];
-        const DATA_CRITERIA = {
-            "ASSISTENCIA": { "min": 50, "max": 100 },
-            "INTRACEPCAO": { "min": 0, "max": 70 },
-            "AFAGO": { "min": 50, "max": 100 },
-            "DEFERENCIA": { "min": 30, "max": 100 },
-            "AFILIACAO": { "min": 30, "max": 70 },
-            "DOMINANCIA": { "min": 50, "max": 100 },
-            "DESEMPENHO": { "min": 50, "max": 100 },
-            "EXIBICAO": { "min": 0, "max": 50 },
-            "AGRESSIVIDADE": { "min": 20, "max": 70 },
-            "ORDEM": { "min": 50, "max": 100 },
-            "PERSISTENCIA": { "min": 50, "max": 100 },
-            "MUDANCA": { "min": 0, "max": 60 },
-            "AUTONOMIA": { "min": 40, "max": 100 }
-        };
-        const DATA_PERCENTILES = {
-            "ASSISTENCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 10 }, { "s": 37, "p": 10 }, { "s": 38, "p": 15 }, { "s": 39, "p": 20 }, { "s": 40, "p": 25 }, { "s": 41, "p": 30 }, { "s": 42, "p": 35 }, { "s": 43, "p": 45 }, { "s": 44, "p": 50 }, { "s": 45, "p": 55 }, { "s": 46, "p": 60 }, { "s": 47, "p": 70 }, { "s": 48, "p": 75 }, { "s": 49, "p": 75 }, { "s": 50, "p": 80 }, { "s": 51, "p": 85 }, { "s": 52, "p": 90 }, { "s": 53, "p": 90 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 100 }],
-            "INTRACEPCAO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 10 }, { "s": 26, "p": 10 }, { "s": 27, "p": 15 }, { "s": 28, "p": 20 }, { "s": 29, "p": 25 }, { "s": 30, "p": 25 }, { "s": 31, "p": 30 }, { "s": 32, "p": 40 }, { "s": 33, "p": 45 }, { "s": 34, "p": 50 }, { "s": 35, "p": 55 }, { "s": 36, "p": 65 }, { "s": 37, "p": 70 }, { "s": 38, "p": 75 }, { "s": 39, "p": 80 }, { "s": 40, "p": 80 }, { "s": 41, "p": 85 }, { "s": 42, "p": 90 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 95 }, { "s": 46, "p": 95 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 100 }],
-            "AFAGO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 10 }, { "s": 22, "p": 10 }, { "s": 23, "p": 15 }, { "s": 24, "p": 15 }, { "s": 25, "p": 20 }, { "s": 26, "p": 25 }, { "s": 27, "p": 30 }, { "s": 28, "p": 30 }, { "s": 29, "p": 35 }, { "s": 30, "p": 45 }, { "s": 31, "p": 50 }, { "s": 32, "p": 55 }, { "s": 33, "p": 60 }, { "s": 34, "p": 65 }, { "s": 35, "p": 70 }, { "s": 36, "p": 75 }, { "s": 37, "p": 80 }, { "s": 38, "p": 80 }, { "s": 39, "p": 85 }, { "s": 40, "p": 85 }, { "s": 41, "p": 85 }, { "s": 42, "p": 85 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 90 }, { "s": 46, "p": 90 }, { "s": 47, "p": 90 }, { "s": 48, "p": 90 }, { "s": 49, "p": 100 }],
-            "DEFERENCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 5 }, { "s": 37, "p": 5 }, { "s": 38, "p": 5 }, { "s": 39, "p": 10 }, { "s": 40, "p": 10 }, { "s": 41, "p": 15 }, { "s": 42, "p": 15 }, { "s": 43, "p": 20 }, { "s": 44, "p": 25 }, { "s": 45, "p": 30 }, { "s": 46, "p": 35 }, { "s": 47, "p": 40 }, { "s": 48, "p": 45 }, { "s": 49, "p": 50 }, { "s": 50, "p": 60 }, { "s": 51, "p": 65 }, { "s": 52, "p": 70 }, { "s": 53, "p": 75 }, { "s": 54, "p": 80 }, { "s": 55, "p": 85 }, { "s": 56, "p": 85 }, { "s": 57, "p": 90 }, { "s": 58, "p": 90 }, { "s": 59, "p": 95 }, { "s": 60, "p": 95 }, { "s": 61, "p": 95 }, { "s": 62, "p": 95 }, { "s": 63, "p": 100 }],
-            "AFILIACAO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 5 }, { "s": 37, "p": 5 }, { "s": 38, "p": 5 }, { "s": 39, "p": 5 }, { "s": 40, "p": 5 }, { "s": 41, "p": 5 }, { "s": 42, "p": 10 }, { "s": 43, "p": 10 }, { "s": 44, "p": 15 }, { "s": 45, "p": 15 }, { "s": 46, "p": 20 }, { "s": 47, "p": 25 }, { "s": 48, "p": 30 }, { "s": 49, "p": 35 }, { "s": 50, "p": 40 }, { "s": 51, "p": 45 }, { "s": 52, "p": 50 }, { "s": 53, "p": 55 }, { "s": 54, "p": 60 }, { "s": 55, "p": 65 }, { "s": 56, "p": 75 }, { "s": 57, "p": 80 }, { "s": 58, "p": 80 }, { "s": 59, "p": 85 }, { "s": 60, "p": 90 }, { "s": 61, "p": 90 }, { "s": 62, "p": 95 }, { "s": 63, "p": 100 }],
-            "DOMINANCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 10 }, { "s": 20, "p": 10 }, { "s": 21, "p": 15 }, { "s": 22, "p": 15 }, { "s": 23, "p": 20 }, { "s": 24, "p": 25 }, { "s": 25, "p": 30 }, { "s": 26, "p": 35 }, { "s": 27, "p": 40 }, { "s": 28, "p": 45 }, { "s": 29, "p": 50 }, { "s": 30, "p": 55 }, { "s": 31, "p": 60 }, { "s": 32, "p": 65 }, { "s": 33, "p": 70 }, { "s": 34, "p": 75 }, { "s": 35, "p": 80 }, { "s": 36, "p": 80 }, { "s": 37, "p": 85 }, { "s": 38, "p": 85 }, { "s": 39, "p": 90 }, { "s": 40, "p": 90 }, { "s": 41, "p": 95 }, { "s": 42, "p": 95 }, { "s": 43, "p": 95 }, { "s": 44, "p": 95 }, { "s": 45, "p": 95 }, { "s": 46, "p": 95 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 100 }],
-            "DESEMPENHO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 5 }, { "s": 36, "p": 5 }, { "s": 37, "p": 5 }, { "s": 38, "p": 5 }, { "s": 39, "p": 5 }, { "s": 40, "p": 5 }, { "s": 41, "p": 5 }, { "s": 42, "p": 10 }, { "s": 43, "p": 10 }, { "s": 44, "p": 15 }, { "s": 45, "p": 15 }, { "s": 46, "p": 20 }, { "s": 47, "p": 25 }, { "s": 48, "p": 30 }, { "s": 49, "p": 35 }, { "s": 50, "p": 40 }, { "s": 51, "p": 45 }, { "s": 52, "p": 50 }, { "s": 53, "p": 55 }, { "s": 54, "p": 65 }, { "s": 55, "p": 70 }, { "s": 56, "p": 75 }, { "s": 57, "p": 80 }, { "s": 58, "p": 85 }, { "s": 59, "p": 90 }, { "s": 60, "p": 90 }, { "s": 61, "p": 95 }, { "s": 62, "p": 95 }, { "s": 63, "p": 100 }],
-            "EXIBICAO": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 10 }, { "s": 21, "p": 10 }, { "s": 22, "p": 10 }, { "s": 23, "p": 15 }, { "s": 24, "p": 15 }, { "s": 25, "p": 20 }, { "s": 26, "p": 25 }, { "s": 27, "p": 30 }, { "s": 28, "p": 30 }, { "s": 29, "p": 35 }, { "s": 30, "p": 40 }, { "s": 31, "p": 45 }, { "s": 32, "p": 50 }, { "s": 33, "p": 55 }, { "s": 34, "p": 60 }, { "s": 35, "p": 65 }, { "s": 36, "p": 70 }, { "s": 37, "p": 70 }, { "s": 38, "p": 75 }, { "s": 39, "p": 80 }, { "s": 40, "p": 80 }, { "s": 41, "p": 85 }, { "s": 42, "p": 85 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 90 }, { "s": 46, "p": 90 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 95 }, { "s": 50, "p": 95 }, { "s": 51, "p": 95 }, { "s": 52, "p": 95 }, { "s": 53, "p": 95 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 95 }, { "s": 57, "p": 95 }, { "s": 58, "p": 95 }, { "s": 59, "p": 95 }, { "s": 60, "p": 95 }, { "s": 61, "p": 100 }, { "s": 62, "p": 100 }, { "s": 63, "p": 100 }],
-            "AGRESSIVIDADE": [{ "s": 1, "p": 15 }, { "s": 2, "p": 15 }, { "s": 3, "p": 15 }, { "s": 4, "p": 15 }, { "s": 5, "p": 15 }, { "s": 6, "p": 25 }, { "s": 7, "p": 35 }, { "s": 8, "p": 40 }, { "s": 9, "p": 50 }, { "s": 10, "p": 55 }, { "s": 11, "p": 65 }, { "s": 12, "p": 70 }, { "s": 13, "p": 75 }, { "s": 14, "p": 80 }, { "s": 15, "p": 80 }, { "s": 16, "p": 85 }, { "s": 17, "p": 90 }, { "s": 18, "p": 90 }, { "s": 19, "p": 90 }, { "s": 20, "p": 95 }, { "s": 21, "p": 95 }, { "s": 22, "p": 95 }, { "s": 23, "p": 95 }, { "s": 24, "p": 95 }, { "s": 25, "p": 95 }, { "s": 26, "p": 95 }, { "s": 27, "p": 95 }, { "s": 28, "p": 95 }, { "s": 29, "p": 95 }, { "s": 30, "p": 95 }, { "s": 31, "p": 95 }, { "s": 32, "p": 95 }, { "s": 33, "p": 95 }, { "s": 34, "p": 95 }],
-            "ORDEM": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 10 }, { "s": 30, "p": 15 }, { "s": 31, "p": 20 }, { "s": 32, "p": 25 }, { "s": 33, "p": 30 }, { "s": 34, "p": 35 }, { "s": 35, "p": 45 }, { "s": 36, "p": 50 }, { "s": 37, "p": 60 }, { "s": 38, "p": 65 }, { "s": 39, "p": 70 }, { "s": 40, "p": 80 }, { "s": 41, "p": 85 }, { "s": 42, "p": 100 }],
-            "PERSISTENCIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 5 }, { "s": 28, "p": 5 }, { "s": 29, "p": 5 }, { "s": 30, "p": 5 }, { "s": 31, "p": 5 }, { "s": 32, "p": 5 }, { "s": 33, "p": 5 }, { "s": 34, "p": 5 }, { "s": 35, "p": 10 }, { "s": 36, "p": 15 }, { "s": 37, "p": 15 }, { "s": 38, "p": 20 }, { "s": 39, "p": 25 }, { "s": 40, "p": 30 }, { "s": 41, "p": 35 }, { "s": 42, "p": 45 }, { "s": 43, "p": 50 }, { "s": 44, "p": 55 }, { "s": 45, "p": 60 }, { "s": 46, "p": 65 }, { "s": 47, "p": 70 }, { "s": 48, "p": 80 }, { "s": 49, "p": 80 }, { "s": 50, "p": 85 }, { "s": 51, "p": 90 }, { "s": 52, "p": 90 }, { "s": 53, "p": 95 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 100 }],
-            "MUDANCA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 10 }, { "s": 27, "p": 10 }, { "s": 28, "p": 15 }, { "s": 29, "p": 20 }, { "s": 30, "p": 20 }, { "s": 31, "p": 25 }, { "s": 32, "p": 30 }, { "s": 33, "p": 35 }, { "s": 34, "p": 45 }, { "s": 35, "p": 50 }, { "s": 36, "p": 55 }, { "s": 37, "p": 60 }, { "s": 38, "p": 65 }, { "s": 39, "p": 70 }, { "s": 40, "p": 75 }, { "s": 41, "p": 80 }, { "s": 42, "p": 85 }, { "s": 43, "p": 90 }, { "s": 44, "p": 90 }, { "s": 45, "p": 90 }, { "s": 46, "p": 95 }, { "s": 47, "p": 95 }, { "s": 48, "p": 95 }, { "s": 49, "p": 100 }],
-            "AUTONOMIA": [{ "s": 1, "p": 5 }, { "s": 2, "p": 5 }, { "s": 3, "p": 5 }, { "s": 4, "p": 5 }, { "s": 5, "p": 5 }, { "s": 6, "p": 5 }, { "s": 7, "p": 5 }, { "s": 8, "p": 5 }, { "s": 9, "p": 5 }, { "s": 10, "p": 5 }, { "s": 11, "p": 5 }, { "s": 12, "p": 5 }, { "s": 13, "p": 5 }, { "s": 14, "p": 5 }, { "s": 15, "p": 5 }, { "s": 16, "p": 5 }, { "s": 17, "p": 5 }, { "s": 18, "p": 5 }, { "s": 19, "p": 5 }, { "s": 20, "p": 5 }, { "s": 21, "p": 5 }, { "s": 22, "p": 5 }, { "s": 23, "p": 5 }, { "s": 24, "p": 5 }, { "s": 25, "p": 5 }, { "s": 26, "p": 5 }, { "s": 27, "p": 10 }, { "s": 28, "p": 10 }, { "s": 29, "p": 10 }, { "s": 30, "p": 15 }, { "s": 31, "p": 20 }, { "s": 32, "p": 20 }, { "s": 33, "p": 25 }, { "s": 34, "p": 30 }, { "s": 35, "p": 35 }, { "s": 36, "p": 40 }, { "s": 37, "p": 50 }, { "s": 38, "p": 55 }, { "s": 39, "p": 60 }, { "s": 40, "p": 65 }, { "s": 41, "p": 70 }, { "s": 42, "p": 75 }, { "s": 43, "p": 75 }, { "s": 44, "p": 80 }, { "s": 45, "p": 85 }, { "s": 46, "p": 85 }, { "s": 47, "p": 90 }, { "s": 48, "p": 90 }, { "s": 49, "p": 90 }, { "s": 50, "p": 95 }, { "s": 51, "p": 95 }, { "s": 52, "p": 95 }, { "s": 53, "p": 95 }, { "s": 54, "p": 95 }, { "s": 55, "p": 95 }, { "s": 56, "p": 95 }, { "s": 57, "p": 95 }, { "s": 58, "p": 95 }, { "s": 59, "p": 95 }, { "s": 60, "p": 95 }, { "s": 61, "p": 95 }, { "s": 62, "p": 100 }, { "s": 63, "p": 100 }]
-        };
+        const DATA_CRITERIA = {};
+        const DATA_PERCENTILES = {};
 
         // --- FUNCIONALIDADES EXTRAS ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec";
 
         const audioPrepare = new Audio('../vozes/prepare.mp3');
         const audioSignal = new Audio('../vozes/sinal.mp3');
@@ -948,17 +1014,7 @@
         }
 
         function filtrarFacetas() {
-            const val = document.getElementById('facet-filter').value;
-            const cards = document.querySelectorAll('.question-card');
-
-            cards.forEach(card => {
-                const facet = card.dataset.facet;
-                if (val === 'ALL' || facet === val) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
+            // Functionality removed for hardening
         }
 
         function editarRespostas() {
@@ -1079,96 +1135,80 @@
             container.innerHTML = html;
         }
 
-        function calculate() { console.warn("Use calcularResultado()"); } // Deprecated alias if any
+        async function calcularResultado(pastedAnswers = null) {
+            // Show Loading
+            const loading = document.getElementById('loading-overlay');
+            if (loading) {
+                loading.classList.remove('hidden');
+                loading.style.display = 'flex';
+            }
+            clearInterval(timerInterval);
 
-        function calcularResultado(pastedAnswers = null) {
-            let scores = {};
-            let answered = 0;
             let userAnswers = {};
-
-            // Inicializa scores
-            for (let f in DATA_CRITERIA) scores[f] = 0;
+            let answersArray = [];
 
             if (pastedAnswers) {
                 // Modo Importação
-                answered = pastedAnswers.length;
                 DATA_QUESTIONS.forEach((q, i) => {
-                    let val = pastedAnswers[i];
-                    userAnswers[q.id] = val; // Store for report
-                    if (q.inverted) val = 8 - val; // In IFP-II range is 1-7. Inverted: 8 - val.
-                    if (scores[q.facet] !== undefined) scores[q.facet] += val;
+                    let val = pastedAnswers[i] || 0;
+                    userAnswers[q.id] = val;
+                    answersArray.push(val);
                 });
             } else {
                 // Modo DOM
-                // Stop Timer
-                clearInterval(timerInterval);
-
                 for (let i = 1; i <= DATA_QUESTIONS.length; i++) {
                     const el = document.querySelector(`input[name="q${i}"]:checked`);
-                    if (el) {
-                        answered++;
-                        let val = parseInt(el.value);
-                        const q = DATA_QUESTIONS.find(x => x.id === i);
-
-                        userAnswers[i] = val;
-
-                        if (q) {
-                            if (q.inverted) val = 8 - val; // Check inversion logic for IFP-II (1-7 scale)
-                            // Note: Original code didn't check inverted property in HTML but loop logic did? 
-                            // Wait, looking at original file, there was NO inversion logic in the snippet I saw? 
-                            // Let me re-verify inversion. IFP-II usually has inversions. 
-                            // The provided DATA_QUESTIONS in previous turn didn't seem to have "inverted: true" property explicitly shown in the array snippet I generated?
-                            // User provided DATA_QUESTIONS earlier... wait, I generated them.
-                            // Actually, standard IFP-II DOES NOT usually invert in raw sum unless specified.
-                            // Let's assume standard sum for now, BUT `bfppmpr` had `8-val`.
-                            // Checking my `view_file` of `ifp2.html`:
-                            // The DATA_QUESTIONS I saw didn't have `inverted` key.
-                            // The `calcularResultado` I saw had: `if (q && q.inverted) val = 6 - val;`. (Wait, 6-val? Scale is 1-7?)
-                            // If scale is 1-7, inversion is 8-val. 
-                            // If `q.inverted` is undefined, it won't run.
-                            // I will keep the logic I saw in `neopipmpr` reference or `ifp2` reference?
-                            // In `ifp2pmpr` lines 587+: `if (q && q.inverted) val = 6 - val;` was in my memory of `neopipmpr`? 
-                            // No, in `ifp2pmpr` I need to be careful.
-                            // The `DATA_QUESTIONS` in `ifp2pmpr` DO NOT have `inverted` property in the array I injected/saw.
-                            // So just sum.
-                            if (scores[q.facet] !== undefined) scores[q.facet] += val;
-                        }
-                    }
+                    const val = el ? parseInt(el.value) : 0;
+                    userAnswers[i] = val;
                 }
+                // Construct ordered array
+                answersArray = DATA_QUESTIONS.map(q => userAnswers[q.id] || 0);
             }
 
+            // Submit to Backend
+            try {
+                const result = await submitToBackend(answersArray);
 
-
-            if (answered < DATA_QUESTIONS.length) {
-                if (!confirm(`Respondeu apenas ${answered} de ${DATA_QUESTIONS.length}. Continuar?`)) return;
-            }
-
-            let results = {};
-            let isGlobalApto = true;
-
-            for (let f in scores) {
-                const raw = scores[f];
-                let pct = 0;
-                const table = DATA_PERCENTILES[f];
-
-                if (table) {
-                    for (let i = 0; i < table.length; i++) {
-                        if (raw >= table[i].s) {
-                            pct = table[i].p;
-                        } else {
-                            break;
-                        }
-                    }
+                if (result.sucesso) {
+                    // Check format of result.results
+                    // Assuming backend returns { results: { "FACET": { raw, pct, apto, min, max } }, globalStatus: bool ... }
+                    renderReport(result.results, result.globalStatus, userAnswers);
+                } else {
+                    alert("Erro ao processar resultados: " + (result.erro || "Erro desconhecido"));
                 }
 
-                const crit = DATA_CRITERIA[f] || { min: 0, max: 100 };
-                const apto = pct >= crit.min && pct <= crit.max;
-                if (!apto) isGlobalApto = false;
-
-                results[f] = { raw, pct, apto, min: crit.min, max: crit.max };
+            } catch (e) {
+                console.error("Backend submission error:", e);
+                alert("Erro de conexão. Tente novamente.");
+            } finally {
+                if (loading) {
+                    loading.classList.add('hidden');
+                    loading.style.display = 'none';
+                }
             }
+        }
 
-            renderReport(results, isGlobalApto, userAnswers);
+        async function submitToBackend(answers) {
+            // Converter array para objeto keyed by question ID (1-indexed)
+            const respostasObj = {};
+            DATA_QUESTIONS.forEach((q, i) => {
+                respostasObj[String(q.id)] = answers[i] || 0;
+            });
+
+            const payload = {
+                tipo: "ifp2",
+                respostas: respostasObj
+            };
+
+            const response = await fetch(API_URL, {
+                method: "POST",
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error("API Error: " + response.status);
+            const result = await response.json();
+            console.log("Backend result:", result);
+            return result;
         }
 
         function renderReport(res, globalStatus, userAnswers) {
@@ -1215,11 +1255,12 @@
                     <div class="grid grid-cols-1 gap-3">
             `;
 
-            for (let facet in DATA_CRITERIA) {
+            // Loop through results instead of DATA_CRITERIA
+            for (let facet in res) {
                 const r = res[facet];
                 if (!r) continue;
 
-                const isApto = r.apto;
+                const isApto = r.status === 'ADEQUADO';
                 const statusText = isApto ? "APTO" : "INAPTO";
                 const statusColor = isApto
                     ? "text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
@@ -1227,9 +1268,14 @@
 
                 const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
 
-                const left = r.min + '%';
-                const width = (r.max - r.min) + '%';
-                const marker = Math.min(100, Math.max(0, r.pct)) + '%';
+                // Parse faixaDesejavel "25-75" into min/max
+                const faixa = (r.faixaDesejavel || '0-100').split('-');
+                const minPct = parseInt(faixa[0]) || 0;
+                const maxPct = parseInt(faixa[1]) || 100;
+                const left = minPct + '%';
+                const width = (maxPct - minPct) + '%';
+                const pct = r.percentil || 0;
+                const marker = Math.min(100, Math.max(0, pct)) + '%';
 
                 html += `
                     <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
@@ -1242,7 +1288,7 @@
                             <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
                                 <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
                                      style="left: ${left}; width: ${width};" 
-                                     title="Meta: ${r.min}-${r.max}%">
+                                     title="Meta: ${r.faixaDesejavel}">
                                 </div>
                                 <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
                                      style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
@@ -1251,8 +1297,8 @@
     
                             <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
                                 <div class="text-right">
-                                    <div class="text-xs text-gray-500">Raw: ${r.raw}</div>
-                                    <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                                    <div class="text-xs text-gray-500">Soma: ${r.soma}</div>
+                                    <div class="text-sm font-mono text-white font-bold">${pct}%</div>
                                 </div>
                                 <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
                             </div>

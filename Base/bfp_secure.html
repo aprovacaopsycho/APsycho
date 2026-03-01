@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Avaliação BFP | Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png">
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
+            color: #a0a0a0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(192, 132, 252, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(192, 132, 252, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid #333;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 10px 30px rgba(159, 84, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        [x-cloak] {
+            display: none !important
+        }
+
+        /* ---- HERO (glass + grid) ---- */
+        .hero-bg {
+            position: relative;
+            isolation: isolate;
+            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .hero-bg::before {
+            /* animated grid glow */
+            content: "";
+            position: absolute;
+            inset: -10%;
+            z-index: -1;
+            opacity: .35;
+            background:
+                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            filter: blur(40px);
+            pointer-events: none
+        }
+
+        .scale-option input:checked+div {
+            background: rgba(159, 84, 255, 0.2);
+            border-color: var(--primary-purple);
+            color: white;
+            box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--primary-purple);
+        }
+
+        /* Efeito Reprovado/Inapto */
+        @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+
+        .loser-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            color: #ef4444;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(239, 68, 68, 0.6);
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both infinite;
+            margin-bottom: 1rem;
+        }
+
+        .shake-screen {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-6px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(6px, 0, 0);
+            }
+        }
+    </style>
+
+    <!-- SEGURANÇA TITAN -->
+    <script>
+    (function(){
+        // DOMAIN LOCK
+        var allowed = ['localhost', '127.0.0.1', 'aprovacaopsycho.com.br', 'nathann.github.io']; 
+        var hostname = window.location.hostname;
+        var protocol = window.location.protocol;
+        
+        if (protocol === 'file:' || (hostname && !allowed.some(d => hostname.endsWith(d)))) {
+             console.warn("Titan Security: Execução fora do domínio oficial detectada.");
+             // document.body.innerHTML = '<div style="color:red;padding:20px;text-align:center;"><h1>Acesso Negado</h1><p>Este arquivo foi protegido e não pode ser executado localmente.</p></div>';
+             // throw new Error("Titan Security: Access Denied");
+        }
+    })();
+
+    function _titan_decode(encoded) {
+        const key = "titan_secure_key";
+        try {
+            const decodedB64 = atob(encoded);
+            const bytes = new Uint8Array(decodedB64.length);
+            for (let i = 0; i < decodedB64.length; i++) {
+                bytes[i] = decodedB64.charCodeAt(i);
+            }
+            
+            const keyBytes = new TextEncoder().encode(key);
+            const decryptedBytes = new Uint8Array(bytes.length);
+            
+            for (let i = 0; i < bytes.length; i++) {
+                decryptedBytes[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+            }
+            
+            const jsonStr = new TextDecoder().decode(decryptedBytes);
+            
+            // For BFP variables that might be arrays/objects but passed as string,
+            // or if the string is just an object literal (not strict JSON),
+            // JSON.parse is strict. If the original data was strict JSON, it works.
+            // If it was JS object literal, we might need a safer eval or ensure generator sends JSON.
+            // Our generator uses json.dumps or raw extraction.
+            // Let's try JSON.parse first, fallback to eval if syntax error (risky but functional for internal tool).
+            return JSON.parse(jsonStr);
+        } catch (e) {
+            console.error("Titan Security: Falha na decodificação.", e);
+            // Fallback for object literals if JSON.parse fails?
+            // try { return new Function('return ' + jsonStr)(); } catch(e2) { console.error(e2); }
+            return {};
+        }
+    }
+    </script>
+
+</head>
+
+<body class="flex flex-col min-h-screen hero-bg">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
+                            style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">BFP</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2026</span>
+                </div>
+                <a href="testes_personalidade.html"
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div id="screen-dashboard" class="fade-in">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-white mb-2">Painel de Controle</h2>
+                <p class="text-gray-400">Visão geral do seu desempenho na Bateria Fatorial de Personalidade.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                            <i class="fas fa-clipboard-check text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total</span>
+                    </div>
+                    <div class="text-4xl font-bold text-white mb-1" id="dash-total">0</div>
+                    <p class="text-sm text-gray-500">Testes realizados</p>
+                </div>
+
+                <div
+                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-cyan-500/30 transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div
+                            class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                            <i class="fas fa-stopwatch text-xl"></i>
+                        </div>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Último</span>
+                    </div>
+                    <div class="text-lg font-bold text-white mb-1 truncate" id="dash-last-date">-</div>
+                    <p class="text-sm text-gray-500" id="dash-last-status">Sem dados</p>
+                </div>
+
+                <div class="bg-gradient-to-br from-[#151427] to-[#1a1a35] rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+                    onclick="novoTeste()">
+                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 text-white">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3 class="text-white font-bold mb-1">Iniciar Novo Teste</h3>
+                    <p class="text-xs text-gray-400">BFP Completo</p>
+                </div>
+
+
+            </div>
+
+            <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
+                <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
+                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        onclick="limparHistorico()">Limpar Histórico</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-500 uppercase bg-[#0f0e1a]/50">
+                            <tr>
+                                <th class="px-6 py-4 font-medium">Teste</th>
+                                <th class="px-6 py-4 font-medium">Data</th>
+                                <th class="px-6 py-4 font-medium text-center">Status</th>
+                                <th class="px-6 py-4 font-medium text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5" id="history-container">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-import" class="hidden fade-in max-w-4xl mx-auto">
+            <div class="bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Importar Respostas</h2>
+                        <p class="text-gray-400 text-sm">Cole a lista de números (um por linha ou separados por espaço).
+                            Exatamente 126 respostas.</p>
+                    </div>
+                    <button onclick="showScreen('dashboard')" class="text-gray-500 hover:text-white">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <textarea id="input-answers"
+                    class="w-full h-64 bg-[#0f0e1a] border border-white/10 rounded-xl p-4 text-white font-mono text-xs focus:ring-2 focus:ring-purple-500 outline-none mb-4"
+                    placeholder="Ex: 
+4
+6
+2
+..."></textarea>
+
+                <div class="flex justify-between items-center">
+                    <span id="count-display" class="text-xs font-bold text-gray-500">0 respostas detectadas</span>
+                    <button onclick="processarInputImportado()"
+                        class="px-8 py-3 rounded-lg bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold hover:shadow-lg hover:shadow-purple-500/20 transition-all">
+                        <i class="fas fa-calculator mr-2"></i> PROCESSAR
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="screen-quiz" class="hidden fade-in max-w-5xl mx-auto">
+            <div
+                class="bg-[#151427] rounded-2xl p-6 border border-white/5 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">BFP</h2>
+                        <p class="text-sm text-gray-400">Bateria Fatorial de Personalidade</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-2xl font-bold text-cyan-400" id="progress-text">0%</span>
+                    </div>
+                </div>
+                <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ease-out"
+                        id="progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Unified Timer (Vanilla JS) -->
+            <div id="unified-timer-container"
+                class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
+                <div id="unified-timer-pill"
+                    class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md">
+                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
+                    <div id="unified-timer-display"
+                        class="font-mono text-3xl font-black text-white tabular-nums leading-none">30:00</div>
+                </div>
+            </div>
+
+            <!-- FILTRO E TIMER -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+                <div
+                    class="flex items-center gap-3 bg-[#151427] px-4 py-2 rounded-lg border border-white/10 focus-within:border-purple-500 transition-colors shadow-lg shadow-black/20">
+                    <i class="fas fa-filter text-purple-400"></i>
+                    <select id="facet-filter" onchange="filtrarFacetas()"
+                        class="bg-transparent text-gray-300 text-sm outline-none cursor-pointer w-full md:w-auto font-medium">
+                        <option value="ALL" class="bg-[#151427] text-white">Todas as Facetas</option>
+
+                        <optgroup label="Neuroticismo (N)" class="bg-[#1c1b29] text-purple-300">
+                            <option value="N">Todos de Neuroticismo</option>
+                            <option value="N1">N1 - Vulnerabilidade</option>
+                            <option value="N2">N2 - Instabilidade Emocional</option>
+                            <option value="N3">N3 - Passividade</option>
+                            <option value="N4">N4 - Depressão</option>
+                        </optgroup>
+
+                        <optgroup label="Extroversão (E)" class="bg-[#1c1b29] text-cyan-300">
+                            <option value="E">Todos de Extroversão</option>
+                            <option value="E1">E1 - Comunicação</option>
+                            <option value="E2">E2 - Altivez</option>
+                            <option value="E3">E3 - Dinamismo</option>
+                            <option value="E4">E4 - Interação Social</option>
+                        </optgroup>
+
+                        <optgroup label="Socialização (S)" class="bg-[#1c1b29] text-green-300">
+                            <option value="S">Todos de Socialização</option>
+                            <option value="S1">S1 - Amabilidade</option>
+                            <option value="S2">S2 - Pró-Sociabilidade</option>
+                            <option value="S3">S3 - Confiança</option>
+                        </optgroup>
+
+                        <optgroup label="Realização (R)" class="bg-[#1c1b29] text-yellow-300">
+                            <option value="R">Todos de Realização</option>
+                            <option value="R1">R1 - Competência</option>
+                            <option value="R2">R2 - Ponderação/Prudência</option>
+                            <option value="R3">R3 - Empenho</option>
+                        </optgroup>
+
+                        <optgroup label="Abertura (A)" class="bg-[#1c1b29] text-pink-300">
+                            <option value="A">Todos de Abertura</option>
+                            <option value="A1">A1 - Abertura a Ideias</option>
+                            <option value="A2">A2 - Liberalismo</option>
+                            <option value="A3">A3 - Busca por Novidades</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+
+                <!-- Timer Removed -->
+
+                <button onclick="abrirImportacao()"
+                    class="flex items-center gap-2 bg-[#151427] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium">
+                    <i class="fas fa-paste text-purple-400"></i>
+                    Colar Respostas
+                </button>
+            </div>
+
+            <div id="quiz-container" class="space-y-6">
+            </div>
+
+            <div class="mt-10 flex flex-col items-center gap-4 pb-20">
+                <button onclick="calcularResultado()"
+                    class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
+                    FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
+                </button>
+
+
+            </div>
+        </div>
+
+        <div id="screen-result" class="hidden fade-in">
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+                <div>
+                    <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÓRIO DE PERFIL</h2>
+                    <p class="text-gray-400 flex items-center gap-2">
+                        <i class="far fa-calendar-alt"></i> <span id="report-date">...</span>
+                    </p>
+                </div>
+                <div class="mt-6 md:mt-0 text-center">
+                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div id="final-status-badge"
+                        class="px-8 py-3 rounded-full text-xl font-bold bg-gray-800 text-gray-400 border border-gray-700">
+                        CALCULANDO...
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-3 mb-8 no-print">
+                <button onclick="editarRespostas()"
+                    class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/30 transition font-medium text-sm">
+                    <i class="fas fa-edit mr-1"></i> Editar Respostas
+                </button>
+                <button onclick="showScreen('dashboard')"
+                    class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition font-medium text-sm">
+                    <i class="fas fa-arrow-left mr-1"></i> Voltar
+                </button>
+                <button onclick="window.print()"
+                    class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/30 transition font-medium text-sm">
+                    <i class="fas fa-print mr-1"></i> Imprimir PDF
+                </button>
+            </div>
+
+            <div id="report-content" class="space-y-10">
+            </div>
+
+            <div class="mt-20 text-center border-t border-white/5 pt-10 pb-10">
+                <p class="text-gray-600 text-sm">Aprovação Psycho - Método Titan</p>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        /* ================= DADOS (PLACEHOLDERS) ================= */
+
+        // SERÁ PREENCHIDO PELO AGENTE NA PRÓXIMA ETAPA
+        const DATA_QUESTIONS = _titan_decode('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');
+        const DATA_CRITERIA = _titan_decode('D2NUQU5/U0VDVVJFf0tHN0VLTkEVfx4MDU9SVXNLCBgMU1RSXn8OSUNXPFd9UUUCVAQdD1R/Q0lDGBMdZUtWSVQUWEFMEUBHWVUJRTICC0NUWVhBAz4LX0NAQkUiR0VbOl1WW04kUwgKG0hFbl5JWRkIDFtOaENFHll4RX9LRVlUSVRBTn9TRyZEUF9/EEUUHQdOQV1vX0UOFApff1pVSVQUWEFMGkFHWVUJRTICC0NUWkRNTjISHVlVQ1VvSxhVVEsxUkxlUx5DGBsLZUtWSVhJGQAWZVNUU0VSGHNLRzxAS05BFX8eDA1PUlZvR0UUFRFOQV9vQ0UeWXhFf0tFWVRJVEFOf1NHMERQX38QRRQdB05BXW9fRQ4UCl9/U1FZCUVUQz1tUV9DDlIINgVfWUdZWEEDPgtfQ01GRSJHRVsnWlZbTiRTCAobSEVsW0lZGQgMW05nR0UeWXhFf0tFWVRJVEFOf1NHMURQX38QRRQdB05BXW9fRQ4UCl9/WlVJVBRYQUwNQUdZVQlFMgILQ1RaRE1OMhIdWVVDVW9LGFVUSyZSTGVTHkMYGwtlS1ZJWEkZABZlU1RTRVIYc2FFWVRJVEFOf1NFQ1VQJG5JX1kPSRkIAGVTVFZZUgg+E19ZRVlEQRNzeUVDVVJFf0tFWVRJVEMvbVFfQw5SCDYFX1lHWVhBAz4LX0NNR0UiR29ZVElUQU5/U0VDVVJHHlhHQ1QSVAwHMUlFUkBeRTIKHUNUUUFBE1VTRUNVUkV/Sxg=');
+
+        const DATA_PERCENTILES = _titan_decode('D2NUQU5/U0VDVVJFf0tHN0VLTkE1JFMWWVVDS29HRQlOSUVBE3NTHkMGSEVuRVBPWEkEW05uUxhPVQlFLFFFSFpcQ01OL0lFVlUPSX8QRQpOSUVPVmpfRRNPUlB/FklZD0kHW05uXV1VWVIVZUtUSVQUWEEVfwBfQ0dcVGxHRQlOSUVRTiJfRRhVAV9/WUtIQEVUEVR/QlBDCF5FJEsWQ1RbWlJcc1MVWVVDUH8WSVkPSQdbTm1dVlBZUhVlS1dJVBRYQRV/AF9DR1xQaUdFCU5JRlFOIl9FGFUBX39ZS0xDRVQRVH9BUEMIXkUkSxZDVFtaVkJ/A19DR0dFIkdFAlQaTkFccURUT1UCX39YVVkJRVQaTixJRVFbSl1zSxVDVFpEQRNzUx5DBkhFbUVdQFhJBFtObEZFHllSHn8YX1lHR0VNTi9JRVBAUhhzSx5ZB1NUUkBuQklDBUhFa1tFBFhJD0EdZVNWTUdKSX8bX1lAWVQcQn8IRRBPUlZxWVxVVBlOQVpqUxhPVQlFLFFFSlpdR01OL0lFV0BSGHNLHlkHU1RSQGtHSUMFSEVqW0UEWEkPQR1lU1ZNQERJfxtfWUFZVBxCfwhFEE9SVnFeUlVUGU5BW2pTGE9VCUUsUUVKWl5DTU4vSUVWQFIYc0seWQdTVFJAaEtJQwVIRWlbRQRYSQ9BHWVTVk1NSkl/G19ZQllUHEJ/CEUQT1JWcVNcVVQZTkFYalMYT1UJRSxRRU1aWFhBHmVTU1ZVD0l/EEUKTklAT19uX0UTT1JSb0sYVVQSVBJUf0dLUEdeRS9RRU5ESQlNTiRTFllVRktsWElZBFNUVlt/DklDDlIWZUtRV0FcWEEeZVNSVlUPSX8QRQpOSUBPW2lfRRNPUl1vSxhVVBJUElR/R0tbQF5FL1FFQURJCU1OJFMWWVVGS2ddSVkEU1RZW38OSUMOUhZlS1BXRVpYQR5lU11WVQ9JfxBFCk5JQU9fa19FE09SXG9LGFVUElQSVH9GS1VDXkUvUUVAREkJTU4kUxZZVUdLaVxJWQRTVFhbfw44T39SRX9LRVlUSVRBTn9RK1FXSEUEEEUKTklFT15zUxVZVUNFIkdFAlQaTkFfcUdcT1UCX39aRQRYSQ9BHWVTVE1AXkUvUUVMVBRYQRV/AF9DRFxdbUdFCU5JQUETc1MeQwZIRW5FXUpYSQRbTm5DRR5ZUh5/GF9ZRkdFV0J/A19DREJFIkdFAlQaTkFccUJST1UCX39aUFkJRVQaTixJRVFbQVdzSxVDVFhBQRNzUx5DBkhFbUVWSlhJBFtObUNFHllSHn8YX1lGR0BYQn8DX0NHQkUiR0UCVBpOQVxxRklDBUhFbV5FBFhJD0EdZVNXTU1ASX8bX1lGXFQcQn8IRRBPUldxU1ZVVBlOQV1vUxhPVQlFLFFFS1pQTU1OL0lFUEVSGHNLHlkHU1RSQG9fRRNPUlZqSxhVVBJUElR/QEtRQV5FL1FFSkFJCU1OJFMWWVVBS21eSVkEU1RVXn8OSUMOUhZlS1ZXR1tYQR5lU1FTVQ9JfxBFCk5JR09dbF9FE09SUWpLGFVUElQSVH9AS1dMXkUvUUVNQUkJTU4kUxZZVUFLakdFCU5JQVFOIl9FGFUBX39YS0FGRVQRVH9GVUMIXkUkSxZDVFpaWV1zUxVZVUdQfxZJWQ9JB1tObF1cWllSFWVLUExUFFhBFX8AX0NBXFVzSxVDVF9EQRNzUx5DBkhFa0VXTVhJBFtOaUNFHllSHn8YX1lAR0ZUQn8DX0NDR0UiR0UCVBpOQVpxR1xPVQJff11QWQlFVBpOLElFV1tHSX8bX1lDWVQcQn8IRRBPUlFxXVNVVBlOQVlvUxhPVQlFLFFFTVpfQ01OL0lFVEBSGHNLHlkHU1RVQGZKSUMFSEVoXkUEWEkPQR1lU1BNRV5FL1FFQURJCU1OJFMWWVVHS21fSVkEU1RZXn8OSUMOUhZlS1BXRlxYQR5lU11WVQ9JfxBFCk5JQU9YaV9FE09SXWpLGFVUElQSVH9GS1VCXkUvUUVAREkJTU4kUxZZVURLbl1JWQRTVFhefw5JQw5SFmVLU1dFXlhBHmVTXFZVDzhzYUVZVElUQU5/U0VDVVArbElfWS8SVBJUf0JLU1lSFWVLVFkJRVQaTixJRVJbRlxzSxVDVFhUHEJ/CEUQT1JUcV5JWQRTVFROIl9FGFUBX39aS0FGRVQRVH9GRR5ZUh5/GF9ZRUdMUkJ/A19DREJFIkdFAlQaTkFccUJTT1UCX39aVVkJRVQaTixJRVFbQ1JzSxVDVFhBQRNzUx5DBkhFbUVWS1hJBFtObkZFHllSHn8YX1lGR0dSQn8DX0NHQkUiR0UCVBpOQVxxR1xPVQJff1lVWQlFVBpOLElFUVtHSX8bX1lGXFQcQn8IRRBPUldxXVNVVBlOQVxqUxhPVQlFLFFFS1pfQ01OL0lFUEVSGHNLHlkHU1RTQGdBSUMFSEVsW0UEWEkPQR1lU1dNTUFJfxtfWUdcVBxCfwhFEE9SV3FSXFVUGU5BXWpTGE9VCUUsUUVKWllYQR5lU1FTVQ9JfxBFCk5JR09fZl9FE09SUW9LGFVUElQSVH9AS1FZUhVlS1FMVBRYQRV/AF9DRlxWZkdFCU5JQFROIl9FGFUBX39YS01YSQRbTmpDRR5ZUh5/GF9ZR0dBWEJ/A19DQEJFIkdFAlQaTkFdcUVJQwVIRWpeRQRYSQ9BHWVTVk1CS0l/G19ZQVxUHEJ/CEUQT1JWcVNJWQRTVFdefw5JQw5SFmVLVldNUFhBHmVTU1NVD0l/EEUKTklAT15zUxVZVURQfxZJWQ9JB1tOa11UVVlSFWVLU0xUFFhBFX8AX0NBXFRoR0UJTklDUU4iX0UYVQFff19LSkZFVBFUf0RVQwheRSRLFkNUXVpSXXNTFVlVRVB/FklZD0kHW05rXVBaWVIVZUtSTFQUWEEVfwBfQ0FcU3NLFUNUUURBE3NTHkMGSEVrRV1LWEkEW05nQ0UeWVIefxhfWUBHTFJCfwNfQ01HRSJHRQJUGk5BWnFKXE9VAl9/U1BZCUVUGk4sSUVWW0JJfxtfWU1ZVBxCfwhFEE9SUHFfXFVUGU5BV29TGE9VCUUsUUVMWlxYQR5lU1xWVQ84c2FFWVRJVEFOf1NFQ1VQK2tJX1kvElQSVH9CS1NZUhVlS1BZCUVUGk4sSUVSW0NWc0sVQ1RcVBxCfwhFEE9SVHFaUVVUGU5BX29TGE9VCUUsUUVIWltATU4vSUVSRVIYc0seWQdTVFBAbUZJQwVIRW5eRQRYSQ9BHWVTVE1GRUl/G19ZRVxUHEJ/CEUQT1JUcVhdVVQZTkFcb1MYT1UJRSxRRUhaXU1NTi9JRVFFUhhzSx5ZB1NUUEBqX0UTT1JXaksYVVQSVBJUf0JLVUdeRS9RRUtBSQlNTiRTFllVQ0tpWElZBFNUUl5/DklDDlIWZUtUV0NdWEEeZVNWU1UPSX8QRQpOSUVPWWpfRRNPUlZqSxhVVBJUElR/QktbR15FL1FFSkFJCU1OJFMWWVVDS2dYSVkEU1RVXn8OSUMOUhZlS1RXTVBYQR5lU1FTVQ9JfxBFCk5JRk9ebl9FE09SUG9LGFVUElQSVH9BS1JGXkUvUUVMREkJTU4kUxZZVUBLbl9JWQRTVFRbfw5JQw5SFmVLV1dGUVhBHmVTUFZVD0l/EEUKTklGT1xmX0UTT1JTb0sYVVQSVBJUf0FLV0xeRS9RRU9ESQlNTiRTFllVQEtqR0UJTklCVE4iX0UYVQFff1lLT0ZFVBFUf0VQQwheRSRLFkNUW1pXXXNTFVlVRVV/FklZD0kHW05tXV1UWVIVZUtSSVQUWEEVfwBfQ0dcXWdHRQlOSUNUTiJfRRhVAV9/WEtIQkVUEVR/RFBDCF5FJEsWQ1RaWlBZc1MVWVVKVX8WSVkPSQdbTmxdUVpZUhVlS11JVBRYQRV/AF9DRlxQc0sVQ1RRQUETc1MeQwZIRWxFXU5YSQRbTmdGRR5ZUh5/GF9ZR0dMWUJ/A19DTEJFIkdFAlQaTkFacUVXT1UCX39SVVkJRVQaTixJRVdbRFZzSxVDVFBBQRMCX29DVVJFf0tFWVRJVEFMGkJHWVUpHn8YX1lFR0RNTi9JRVJVD0l/EEUKTklFT1dmX0UTT1JUfxZJWQ9JB1tObV1VT1UCX39eRQRYSQ9BHWVTV01BS0l/G19ZQUkJTU4kUxZZVUBLakdFCU5JRVFOIl9FGFUBX39ZS0BNRVQRVH9CVUMIXkUkSxZDVFpaUUJ/A19DREdFIkdFAlQaTkFdcUJTT1UCX39aUFkJRVQaTixJRVBbQ1JzSxVDVFtEQRNzUx5DBkhFbEVRQFhJBFtObUNFHllSHn8YX1lHR0FNTi9JRVFAUhhzSx5ZB1NUUkBpRUlDBUhFbV5FBFhJD0EdZVNWTUNFSX8bX1lHWVQcQn8IRRBPUlZxU1dVVBlOQV1vUxhPVQlFLFFFSlpRR01OL0lFUEBSGHNLHlkHU1RSQGZKSUMFSEVsXkUEWEkPQR1lU1FNRV5FL1FFTURJCU1OJFMWWVVGS25dSVkEU1RVXn8OSUMOUhZlS1FXRV5YQR5lU1FWVQ9JfxBFCk5JQE9dbV9FE09SUWpLGFVUElQSVH9HS1BGXkUvUUVMREkJTU4kUxZZVUZLa1JJWQRTVFRefw5JQw5SFmVLUVdBRVQRVH9GUEMIXkUkSxZDVF1aV1hzUxVZVUdQfxZJWQ9JB1tOa11TVFlSFWVLU0lUFFhBFX8AX0NBXF1tR0UJTklCUU4iX0UYVQFff19LQUdFVBFUf0VQQwheRSRLFkNUXVpYV3NTFVlVRFB/FklZD0kHW05qXVVPVQJff1xVWQlFVBpOLElFVltDU3NLFUNUXkRBE3NTHkMGSEVqRVROWEkEW05oRkUeWVIefxhfWUFHR1NCfwNfQ0JHRSJHRQJUGk5BW3FAVk9VAl9/U1VZCUVUGk4sSUVWW0RTc0sVQ1RRREETc1MeQwZIRWpFU05YSQRbTmdGRR5ZUh5/GF9ZQUdNWEJ/A19DTUdFIkdFAlQaTkFYcUNJQwVIRWZbRQRYSQ9BHWVTU01GQEl/G19ZTVlUHEJ/CEUQT1JTcVhWVVQZTkFXalMYPll4RX9LRVlUSVRBTn9TRyZHUF9/MB5ZB1NUUEBvX0UTT1JUfxZJWQ9JB1tObl1cWllSFWVLVFkJRVQaTixJRVFbQkl/G19ZQUkJTU4kUxZZVUBLbVNJWQRTVFROIl9FGFUBX39ZS0tNRVQRVH9CVUMIXkUkSxZDVFtaVFhzUxVZVUNVfxZJWQ9JB1tObV1QVFlSFWVLVExUFFhBFX8AX0NHXFJzSxVDVFhBQRNzUx5DBkhFbUVSSFhJBFtObUNFHllSHn8YX1lGR0xUQn8DX0NHQkUiR0UCVBpOQVxxS1NPVQJff1lQWQlFVBpOLElFUFtCXXNLFUNUW0FBE3NTHkMGSEVsRVVAWEkEW05sQ0UeWVIefxhfWUdHRVdCfwNfQ0ZCRSJHRQJUGk5BXXFCUk9VAl9/WFBZCUVUGk4sSUVQW0FXc0sVQ1RaQUETc1MeQwZIRWxFVkpYSQRbTmtDRR5ZUh5/GF9ZR0dAU0J/A19DQUJFIkdFAlQaTkFdcUdWT1UCX39fUFkJRVQaTixJRVBbR1NzSxVDVF1BQRNzUx5DBkhFbEVQTlhJBFtOakNFHllSHn8YX1lHR0NNTi9JRVZFUhhzSx5ZB1NUUkBoQklDBUhFal5FBFhJD0EdZVNWTU1HSX8bX1lBXFQcQn8IRRBPUlZxU1NVVBlOQVhvUxhPVQlFLFFFSlpQTU1OL0lFVUVSGHNLHlkHU1RVQG9fRRNPUlNqSxhVVBJUElR/R0tSRl5FL1FFT0FJCU1OJFMWWVVGS25fSVkEU1RWXn8OSUMOUhZlS1FXQFtYQR5lU1JTVQ9JfxBFCk5JQE9abF9FE09SUmpLGFVUElQSVH9HS1ZDXkUvUUVOQUkJTU4kUxZZVUZLalxJWQRTVFlefw5JQw5SFmVLUVdMW1hBHmVTXVNVD0l/EEUKTklAT1ZsX0UTT1JdaksYVVQSVBJUf0ZLUkZeRS9RRUFBSQlNTiRTFllVR0tuX0lZBFNUWF5/DklDDlIWZUtQV0FfWEEeZVNcU1UPSX8QRQpOSUFPW2hfRRNPUlxqSxgkWGNUQU5/U0VDVVJFf0tHPEdLTkE1JFMWWVVDS29HRQlOSUVBE3NTHkMGSEVtRVxAWEkEW05uUxhPVQlFLFFFSlpZWEEeZVNQQwheRSRLFkNUWlpSV3NTFVlVR0UiR0UCVBpOQV1xR0lDBUhFbltFBFhJD0EdZVNWTUJLSX8bX1lFWVQcQn8IRRBPUlZxU0lZBFNUUFt/DklDDlIWZUtWV01QWEEeZVNUVlUPSX8QRQpOSUBPXnNTFVlVQFV/FklZD0kHW05rXVRaWVIVZUtXSVQUWEEVfwBfQ0FcV25HRQlOSUdRTiJfRRhVAV9/X0tKTUVUEVR/QFVDCF5FJEsWQ1RdWlVCfwNfQ0ZHRSJHRQJUGk5BWnFGXE9VAl9/WFBZCUVUGk4sSUVXW0RUc0sVQ1RdQUETc1MeQwZIRWtFUkBYSQRbTmtGRR5ZUh5/GF9ZQEdMTU4vSUVWRVIYc0seWQdTVFVAZkpJQwVIRWpbRQRYSQ9BHWVTUE1FQ0l/G19ZQllUHEJ/CEUQT1JQcVpcVVQZTkFYb1MYT1UJRSxRRUxaW1hBHmVTU1ZVD0l/EEUKTklBT11mX0UTT1JTaksYVVQSVBJUf0ZLV1lSFWVLUklUFFhBFX8AX0NAXFBmR0UJTklDUU4iX0UYVQFff15LT0VFVBFUf0tVQwheRSRLFkNUXFpZQn8DX0NNQkUiR0UCVBpOQVtxS1RPVQJff1NQWQlFVBpOLElFVVtDXHNLFUNUUUFBE3NTHkMGSEVpRVdVVBlOQVdvUxhPVQlFLFFFT1paTU1OL0lFWkVSGHNLHlkHU1RXQGtfRRNPUlxqSxgkWGNUQU5/U0VDVVJFf0tHPEBLTkE1JFMWWVVDS29HRQlOSUVBE3NTHkMGSEVtRV1LWEkEW05uUxhPVQlFLFFFS1pRR01OL0lFVlUPSX8QRQpOSUdPXW1fRRNPUlB/FklZD0kHW05sXVZQWVIVZUtUSVQUWEEVfwBfQ0ZcU2lHRQlOSUVRTiJfRRhVAV9/WEtPQ0VUEVR/QlBDCF5FJEsWQ1RaWllbc1MVWVVDUH8WSVkPSQdbTmxdXVVZUhVlS1dJVBRYQRV/AF9DQVxUbEdFCU5JRlFOIl9FGFUBX39fS0hARVQRVH9BUEMIXkUkSxZDVF1aU1ZzUxVZVUBQfxZJWQ9JB1tOa11XWllSFWVLVklUFFhBFX8AX0NBXFFtR0UJTklHUU4iX0UYVQFff19LTUdFVBFUf0BQQwheRSRLFkNUXVpUWHNTFVlVQVB/FklZD0kHW05rXVBUWVIVZUtRSVQUWEEVfwBfQ0FcUnNLFUNUXURBE3NTHkMGSEVrRVJIWEkEW05rRkUeWVIefxhfWUBHTFRCfwNfQ0FHRSJHRQJUGk5BWnFLU09VAl9/XlVZCUVUGk4sSUVXW0tcc0sVQ1RcREETc1MeQwZIRWpFVVVUGU5BW2pTGE9VCUUsUUVMWlhCTU4vSUVWQFIYc0seWQdTVFRAbkRJQwVIRWlbRQRYSQ9BHWVTUE1GQEl/G19ZQllUHEJ/CEUQT1JQcVhWVVQZTkFYalMYT1UJRSxRRUxaXU1NTi9JRVVAUhhzSx5ZB1NUVEBqX0UTT1JSb0sYVVQSVBJUf0ZLVUNeRS9RRU5ESQlNTiRTFllVR0tpXElZBFNUVlt/DklDDlIWZUtQV0xaWEEeZVNdU1UPSX8QRQpOSUFPV2ZfRRNPUl1vSxhVVBJUElR/RUtTWVIVZUtdTFQUWEEVfwBfQ0NcV2dHRQlOSUxUTiJfRRhVAV9/XUtLTUVUEVR/SlVDCF5FJEsWQ1RfWlRYc1MVWVVLVX8WSVkPSQdbTmldUFRZUhVlS1xMVBQpTWR/U0VDVVJFf0tFWVRLJ1BMZVM+GFUBX39aS0lYSQRbTm5TGE9VCUUsUUVKWlBFTU4vSUVSVQ9JfxBFCk5JR09XbV9FE09SUH8WSVkPSQdbTmtdUVJZUhVlS1BZCUVUGk4sSUVXW0ZXc0sVQ1RYREETc1MeQwZIRWtFUktYSQRbTm5DRR5ZUh5/GF9ZQEdDUkJ/A19DREdFIkdFAlQaTkFacUpUT1UCX39aUFkJRVQaTixJRVdbS1dzSxVDVFtEQRNzUx5DBkhFakVVQVhJBFtObUNFHllSHn8YX1lBR0RYQn8DX0NHR0UiR0UCVBpOQVtxQVFPVQJff1lQWQlFVBpOLElFVltAUHNLFUNUWkRBE3NTHkMGSEVqRVFIWEkEW05sQ0UeWVIefxhfWUFHQFNCfwNfQ0ZHRSJHRQJUGk5BW3FHXE9VAl9/WFBZCUVUGk4sSUVWW0dJfxtfWUBZVBxCfwhFEE9SUHFeUlVUGU5BWm9TGE9VCUUsUUVMWlxMTU4vSUVXQFIYc0seWQdTVFRAaEFJQwVIRWteRQRYSQ9BHWVTUE1CQUl/G19ZQVlUHEJ/CEUQT1JQcVNXVVQZTkFbb1MYT1UJRSxRRUxaUUdNTi9JRVZAUhhzSx5ZB1NUVEBmQklDBUhFal5FBFhJD0EdZVNQTUxASX8bX1lCWVQcQn8IRRBPUlNxW1JVVBlOQVhvUxhPVQlFLFFFT1pZTE1OL0lFVUBSGHNLHlkHU1RXQG5FSUMFSEVpXkUEWEkPQR1lU1NNREVJfxtfWUNZVBxCfwhFEE9SU3FZUFVUGU5BWW9TGE9VCUUsUUVPWltCTU4vSUVUQFIYc0seWQdTVFdAbEZJQwVIRWheRQRYSQ9BHWVTU01GREl/G19ZTFlUHEJ/CEUQT1JTcV9cVVQZTkFWb1MYT1UJRSxRRU9aXFhBHmVTXVZVD0l/EEUKTklCT1hsX0UTT1JdaksYVVQSVBJUf0VLVUFeRS9RRUBESQlNTiRTFllVREtnWklZBFNUWF5/DklDDlIWZUtTV0xbWEEeZVNcVlUPOHNhRVlUSVRBTn9TRUNVUDZtSV9ZLxJUElR/QktTWVIVZUtUWQlFVBpOLElFUFtFSX8bX1lFSQlNTiRTFllVQUtoWklZBFNUVE4iX0UYVQFff19LS0BFVBFUf0ZFHllSHn8YX1lAR0ZUQn8DX0NEQkUiR0UCVBpOQVpxRlNPVQJff1pVWQlFVBpOLElFV1tHUnNLFUNUWEFBE3NTHkMGSEVrRV1MWEkEW05uRkUeWVIefxhfWUBHTFdCfwNfQ0dCRSJHRQJUGk5BWnFKXE9VAl9/WVVZCUVUGk4sSUVWW0JJfxtfWUZcVBxCfwhFEE9SUHFaXVVUGU5BXGpTGE9VCUUsUUVMWlhNTU4vSUVQRVIYc0seWQdTVFRAbERJQwVIRWxbRQRYSQ9BHWVTUE1GSkl/G19ZR1xUHEJ/CEUQT1JQcV9cVVQZTkFdalMYT1UJRSxRRUxaXFhBHmVTUVNVD0l/EEUKTklBT1htX0UTT1JRb0sYVVQSVBJUf0ZLVUZeRS9RRU1BSQlNTiRTFllVR0toX0lZBFNUVVt/DklDDlIWZUtQV0NcWEEeZVNQU1UPSX8QRQpOSUFPVmhfRRNPUlBvSxhVVBJUElR/RktbTV5FL1FFTEFJCU1OJFMWWVVHS2ZSSVkEU1RUW38OSUMOUhZlS1NXREVUEVR/RVVDCF5FJEsWQ1RfWlBcc1MVWVVEVX8WSVkPSQdbTmldVFBZUhVlS1NMVBRYQRV/AF9DQ1xXa0dFCU5JQlROIl9FGFUBX39dS0tBRVQRVH9EVUMIXkUkSxZDVF9aU1ZzUxVZVUVVfxZJWQ9JB1tOaV1XWllSFWVLUkxUFFhBFX8AX0NDXFFmR0UJTklDVE4iX0UYVQFff11LTFhJBFtOZ0NFHllSHn8YX1lCR0FXQn8DX0NNQkUiR0UCVBpOQVhxRlJPVQJff1NQWQlFVBpOLElFVVtFUXNLFUNUUUFBE3NTHkMGSEVpRVJMWEkEW05mQ0UeWVIefxhfWUJHTVhCfwNfQ0xCRSJHRQJUGk5BWXFDSUMFSEVmXkUEKUV+QU5/U0VDVVJFf0tFWydaVltOBAhFEE9SVHFbSVkEU1RQTiJfRRhVAV9/WUtATUVUEVR/QkUeWVIefxhfWUdHRE1OL0lFVlUPSX8QRQpOSUdPXWhfRRNPUlB/FklZD0kHW05sXVZbWVIVZUtUSVQUWEEVfwBfQ0ZcU21HRQlOSUVRTiJfRRhVAV9/WEtPR0VUEVR/QlBDCF5FJEsWQ1RaWllZc1MVWVVDUH8WSVkPSQdbTmxdXVtZUhVlS1dJVBRYQRV/AF9DQVxUbUdFCU5JRlFOIl9FGFUBX39fS0hHRVQRVH9BUEMIXkUkSxZDVF1aU1pzUxVZVUBQfxZJWQ9JB1tOa11XVllSFWVLVklUFFhBFX8AX0NBXFZoR0UJTklHUU4iX0UYVQFff19LSkxFVBFUf0BQQwheRSRLFkNUXVpVV3NTFVlVQVB/FklZD0kHW05rXVBPVQJff19VWQlFVBpOLElFV1tEV3NLFUNUXURBE3NTHkMGSEVrRVNKWEkEW05rRkUeWVIefxhfWUBHQ1VCfwNfQ0FHRSJHRQJUGk5BWnFEUE9VAl9/XlVZCUVUGk4sSUVXW0tcc0sVQ1RcREETc1MeQwZIRWpFVVVUGU5BW2pTGE9VCUUsUUVMWlhGTU4vSUVWQFIYc0seWQdTVFRAbkdJQwVIRWleRQRYSQ9BHWVTUE1HRkl/G19ZQlxUHEJ/CEUQT1JQcVlQVVQZTkFZb1MYT1UJRSxRRUxaXU1NTi9JRVRFUhhzSx5ZB1NUVEBqX0UTT1JSaksYVVQSVBJUf0ZLVUdeRS9RRU5BSQlNTiRTFllVR0tpWElZBFNUWV5/DklDDlIWZUtQV0NdWEEeZVNdU1UPSX8QRQpOSUFPWWpfRRNPUl1qSxhVVBJUElR/RktaTF5FL1FFQUFJCU1OJFMWWVVES29HRQlOSU1RTiJfRRhVAV9/XUtLQEVUEVR/SlVDCF5FJEsWQ1RfWlNbc1MVWVVLUH8WOFV+SVRBTn9TRUNVUkV/STdIVlNUOhV/AF9DRFxVc0sVQ1RYVBxCfwhFEE9SVnFfXFVUGU5BX38OSUMOUhZlS1ZXQUVUEVR/RkUeWVIefxhfWUdHTFhCfwNfQ0BSGHNLHlkHU1RSQGZfRRNPUlRvSxhVVBJUElR/R0tSTF5FL1FFSERJCU1OJFMWWVVGS21HRQlOSUVUTiJfRRhVAV9/X0tNRkVUEVR/QlBDCF5FJEsWQ1RdWlVdc1MVWVVAVX8WSVkPSQdbTmtdUFpZUhVlS1dJVBRYQRV/AF9DQVxTc0sVQ1RbQUETc1MeQwZIRWtFUkBYSQRbTm1GRR5ZUh5/GF9ZQEdMTU4vSUVQRVIYc0seWQdTVFVAZ0pJQwVIRWxbRQRYSQ9BHWVTUU1MXkUvUUVKQUkJTU4kUxZZVUZLZlJJWQRTVFJbfw5JQw5SFmVLUFdERVQRVH9HVUMIXkUkSxZDVFxaUF1zUxVZVUZVfxZJWQ9JB1tOal1UV1lSFWVLUUxUFFhBFX8AX0NAXFdnR0UJTklAVE4iX0UYVQFff15LS01FVBFUf0ZVQwheRSRLFkNUXFpSV3NTFVlVR1V/FklZD0kHW05qXVFPVQJff15QWQlFVBpOLElFVltGXHNLFUNUXEFBE3NTHkMGSEVqRVBVVBlOQVhvUxhPVQlFLFFFTFpcTU1OL0lFVUVSGHNLHlkHU1RUQGlfRRNPUlNqSxhVVBJUElR/RktVTF5FL1FFT0FJCU1OJFMWWVVHS2hHRQlOSUNRTiJfRRhVAV9/XktBQUVUEVR/RFVDCF5FJEsWQ1RcWllYc1MVWVVFUH8WSVkPSQdbTmpdXFpZUhVlS1JMVBRYQRV/AF9DQ1xVc0sVQ1RRREETc1MeQwZIRWlFVUBYSQRbTmdDRR5ZUh5/GF9ZQkdFTU4vSUVbQFIYc0seWQdTVFdAbUtJQwVIRWdeRQRYSQ9BHWVTU01HS0l/G19ZTVlUHEJ/CEUQT1JTcV9cVVQZTkFXb1MYT1UJRSxRRU9aXFhBHmVTXFZVDzhzYUVZVElUQU5/U0VDVVA3bUlfWS8SVBJUf0JLU1lSFWVLVFkJRVQaTixJRVFbRVFzSxVDVFhUHEJ/CEUQT1JXcVxQVVQZTkFbfw5JQw5SFmVLVldGXVhBHmVTUEMIXkUkSxZDVFpaU1tzUxVZVUNVfxZJWQ9JB1tObF1SV1lSFWVLVElUFFhBFX8AX0NGXFJqR0UJTklFVE4iX0UYVQFff1hLQE1FVBFUf0JQQwheRSRLFkNUXVpRX3NTFVlVQFB/FklZD0kHW05rXVdXWVIVZUtXTFQUWEEVfwBfQ0FcV2pHRQlOSUdRTiJfRRhVAV9/X0tNTUVUEVR/QFVDCF5FJEsWQ1RdWlRCfwNfQ0ZHRSJHRQJUGk5BWnFEUU9VAl9/WFBZCUVUGk4sSUVXW0VTc0sVQ1RdQUETc1MeQwZIRWtFXEBYSQRbTmtGRR5ZUh5/GF9ZQUdETU4vSUVWRVIYc0seWQdTVFRAbUdJQwVIRWpbRQRYSQ9BHWVTUE1HREl/G19ZQllUHEJ/CEUQT1JQcV9cVVQZTkFYb1MYT1UJRSxRRUxaXEVNTi9JRVRFUhhzSx5ZB1NUVEBoR0lDBUhFaFtFBFhJD0EdZVNQTUJHSX8bX1lDXFQcQn8IRRBPUlBxUlxVVBlOQVlqUxhPVQlFLFFFT1pZWEEeZVNdU1UPSX8QRQpOSUJPXGtfRRNPUl1vSxhVVBJUElR/RUtRQF5FL1FFQUFJCU1OJFMWWVVES2tSSVkEU1RZW38OSUMOUhZlS1NXQUVUEVR/SlVDCF5FJEsWQ1RfWlZac1MVWVVLVX8WSVkPSQdbTmldUlZZUhVlS1xMVBQpTWR/U0VDVVJFf0tFWVRLJlJMZVM+GFUBX39aS0lYSQRbTm5TGE9VCUUsUUVLWlBNTU4vSUVSVQ9JfxBFCk5JR09ec1MVWVVHRSJHRQJUGk5BXXFBXU9VAl9/XkUEWEkPQR1lU1ZNR0tJfxtfWUVZVBxCfwhFEE9SVnFeU1VUGU5BX29TGE9VCUUsUUVKWlxDTU4vSUVSQFIYc0seWQdTVFJAZ0ZJQwVIRW5eRQRYSQ9BHWVTVk1NREl/G19ZRllUHEJ/CEUQT1JWcVJcVVQZTkFcb1MYT1UJRSxRRU1aWVhBHmVTV1ZVD0l/EEUKTklAT19pX0UTT1JXaksYVVQSVBJUf0dLUkJeRS9RRUpESQlNTiRTFllVRktrWUlZBFNUUl5/DklDDlIWZUtRV0BaWEEeZVNWVlUPSX8QRQpOSUBPW2lfRRNPUlZqSxhVVBJUElR/R0tWQl5FL1FFTURJCU1OJFMWWVVGS2hHRQlOSUBRTiJfRRhVAV9/X0tORUVUEVR/R1BDCF5FJEsWQ1RdWllbc1MVWVVGUH8WSVkPSQdbTmtdXVVZUhVlS1BJVBRYQRV/AF9DQVxcZkdFCU5JQVFOIl9FGFUBX39eS0lYSQRbTmpGRR5ZUh5/GF9ZQUdFUkJ/A19DQEdFIkdFAlQaTkFbcUJRT1UCX39dVVkJRVQaTixJRVZbQF1zSxVDVF9EQRNzUx5DBkhFakVXQFhJBFtOaUZFHllSHn8YX1lBR0BTQn8DX0NDR0UiR0UCVBpOQVtxR1ZPVQJff1xVWQlFVBpOLElFVltHU3NLFUNUXkRBE3NTHkMGSEVqRVBOWEkEW05oRkUeWVIefxhfWUFHQ01OL0lFVEBSGHNLHlkHU1RUQGhCSUMFSEVnW0UEWEkPQR1lU1BNTUdJfxtfWUxZVBxCfwhFEE9SUHFTU1VUGU5BVmpTGE9VCUUsUUVPWlhHTU4vSUVbQFIYc0seWQdTVFdAbkdJQwVIRWZbRQRYSQ9BHWVTU01BQEl/G19ZTVlUHEJ/CEUQT1JTcV9WVVQZTkFXalMYPll4RX9LRVlUSVRBTn9TRyJEUF9/MB5ZB1NUUEBvX0UTT1JUfxZJWQ9JB1tObV1dWllSFWVLVFkJRVQaTixJRVFbS0l/G19ZQUkJTU4kUxZZVUFLbVJJWQRTVFROIl9FGFUBX39YS0pYSQRbTm5DRR5ZUh5/GF9ZR0dAWEJ/A19DREJFIkdFAlQaTkFdcUZJQwVIRW5eRQRYSQ9BHWVTVk1DS0l/G19ZRVxUHEJ/CEUQT1JWcVxJWQRTVFNefw5JQw5SFmVLVldMUFhBHmVTV1NVD0l/EEUKTklHT1dzUxVZVUBQfxZJWQ9JB1tObF1cWllSFWVLV0xUFFhBFX8AX0NBXFVzSxVDVFpEQRNzUx5DBkhFa0VVQFhJBFtObENFHllSHn8YX1lAR0VNTi9JRVBAUhhzSx5ZB1NUVUBtSklDBUhFbF5FBFhJD0EdZVNRTUZeRS9RRU1ESQlNTiRTFllVRktsUklZBFNUVV5/DklDDlIWZUtRV0BFVBFUf0dQQwheRSRLFkNUXVpUV3NTFVlVRlB/FklZD0kHW05rXVNPVQJff15VWQlFVBpOLElFV1tEXHNLFUNUXERBE3NTHkMGSEVrRVJVVBlOQVtqUxhPVQlFLFFFTVpeTU1OL0lFVkBSGHNLHlkHU1RVQGdfRRNPUlNvSxhVVBJUElR/R0taTF5FL1FFT0RJCU1OJFMWWVVHS29HRQlOSUJUTiJfRRhVAV9/XktJTUVUEVR/RVBDCF5FJEsWQ1RcWlBCfwNfQ0JCRSJHRQJUGk5BW3FBXE9VAl9/XFVZCUVUGk4sSUVWW0FJfxtfWUNcVBxCfwhFEE9SUHFfXFVUGU5BWWpTGE9VCUUsUUVMWlxYQR5lU11TVQ9JfxBFCk5JQU9YZl9FE09SXW9LGFVUElQSVH9GS1RZUhVlS11MVBRYQRV/AF9DQFxcZkdFCU5JTFROIl9FGFUBX39dS0lYSQRbTmZDRR5ZUh5/GF9ZQkdGWEJ/A19DTEJFIkdFAlQaTkFYcUBJQwVIRWZeRQQpRX5BTn9TRUNVUkV/S0VbNVtWW04ECEUQT1JUcVtJWQRTVFBOIl9FGFUBX39YS0hHRVQRVH9CRR5ZUh5/GF9ZR0dFVUJ/A19DQFIYc0seWQdTVFJAakVJQwVIRWpLGFVUElQSVH9AS1ZCXkUvUUVIREkJTU4kUxZZVUFLaEdFCU5JRVFOIl9FGFUBX39YS05FRVQRVH9CUEMIXkUkSxZDVFpaWFdzUxVZVUNQfxZJWQ9JB1tOa11VT1UCX39ZVVkJRVQaTixJRVdbQ1ZzSxVDVFtEQRNzUx5DBkhFa0VUTVhJBFtObUZFHllSHn8YX1lAR0ZZQn8DX0NHR0UiR0UCVBpOQVpxQVxPVQJff1hVWQlFVBpOLElFV1tGV3NLFUNUWkRBE3NTHkMGSEVrRVFKWEkEW05sRkUeWVIefxhfWUBHQVdCfwNfQ0ZHRSJHRQJUGk5BWnFGUk9VAl9/X1VZCUVUGk4sSUVXW0VJfxtfWUBZVBxCfwhFEE9SUXFcVFVUGU5BWmpTGE9VCUUsUUVNWlFBTU4vSUVXQFIYc0seWQdTVFVAZ0VJQwVIRWpbRQRYSQ9BHWVTUU1MS0l/G19ZQVlUHEJ/CEUQT1JQcVtJWQRTVFRbfw5JQw5SFmVLUFdFWlhBHmVTUFZVD0l/EEUKTklBT19rX0UTT1JTb0sYVVQSVBJUf0ZLUU1eRS9RRU9ESQlNTiRTFllVR0ttUklZBFNUV1t/DklDDlIWZUtQV0BbWEEeZVNTVlUPSX8QRQpOSUFPWmxfRRNPUlJvSxhVVBJUElR/RktWQ15FL1FFTkRJCU1OJFMWWVVHS2pcSVkEU1RWW38OSUMOUhZlS1BXQ0VUEVR/RFBDCF5FJEsWQ1RcWlZfc1MVWVVKVX8WSVkPSQdbTmpdXFpZUhVlS11JVBRYQRV/AF9DQ1xVc0sVQ1RRQUETc1MeQwZIRWlFVEpYSQRbTmdGRR5ZUh5/GF9ZQkdFVUJ/A19DTEJFIkdFAlQaTkFYcUdXT1UCX39SVVkJRVQaTixJRVVbRlZzSxVDVFBBQRMCX29DVVJFf0tFWVRJVEFMHkBHWVUpHn8YX1lFR0RNTi9JRVJVD0l/EEUKTklGT1ZtX0UTT1JUfxZJWQ9JB1tObV1dUFlSFWVLUFkJRVQaTixJRVBbQVdzSxVDVFxUHEJ/CEUQT1JWcVhWVVQZTkFfb1MYT1UJRSxRRUpaXU1NTi9JRVJFUhhzSx5ZB1NUUkBqX0UTT1JUaksYVVQSVBJUf0BLVEFeRS9RRUhBSQlNTiRTFllVQUtoXklZBFNUU15/DklDDlIWZUtWV01QWEEeZVNXU1UPSX8QRQpOSUBPXm5fRRNPUlZvSxhVVBJUElR/R0tRR15FL1FFSkRJCU1OJFMWWVVGS21YSVkEU1RSW38OSUMOUhZlS1FXR1tYQR5lU1ZWVQ9JfxBFCk5JQE9dbF9FE09SUW9LGFVUElQSVH9HS1dMXkUvUUVNREkJTU4kUxZZVUZLakdFCU5JQFROIl9FGFUBX39fS09CRVQRVH9HUEMIXkUkSxZDVF1aV1lzUxVZVUdVfxZJWQ9JB1tOa11dUVlSFWVLUElUFFhBFX8AX0NBXF1sR0UJTklBVE4iX0UYVQFff19LQE1FVBFUf0ZQQwheRSRLFkNUXFpRX3NTFVlVRFB/FklZD0kHW05qXVRVWVIVZUtTTFQUWEEVfwBfQ0BcVGhHRQlOSUNRTiJfRRhVAV9/XktKRkVUEVR/RFVDCF5FJEsWQ1RcWlJdc1MVWVVFUH8WSVkPSQdbTmpdUVpZUhVlS1JMVBRYQRV/AF9DQFxQc0sVQ1RRREETc1MeQwZIRWpFU09YSQRbTmdDRR5ZUh5/GF9ZQUdCVkJ/A19DTUdFIkdFAlQaTkFbcUpcT1UCX39TUFkJRVQaTixJRVVbQkl/G19ZTVlUHEJ/CEUQT1JTcVpTVVQZTkFXb1MYT1UJRSxRRU9aWENNTi9JRVpAUhgCYUVZVElUQU5/Dg==');
+
+        const NAMES = {
+            "N1": "Vulnerabilidade", "N2": "Instabilidade Emocional", "N3": "Passividade", "N4": "Depressão",
+            "E1": "Comunicação", "E2": "Altivez", "E3": "Dinamismo", "E4": "Interação Social",
+            "S1": "Amabilidade", "S2": "Pró-Sociabilidade", "S3": "Confiança",
+            "R1": "Competência", "R2": "Ponderação/Prudência", "R3": "Empenho",
+            "A1": "Abertura a Ideias", "A2": "Liberalismo", "A3": "Busca por Novidades"
+        };
+
+        const FACTOR_MAP = {
+            "NEUROTICISMO": ["N1", "N2", "N3", "N4"],
+            "EXTROVERSÃO": ["E1", "E2", "E3", "E4"],
+            "SOCIALIZAÇÃO": ["S1", "S2", "S3"],
+            "REALIZAÇÃO": ["R1", "R2", "R3"],
+            "ABERTURA": ["A1", "A2", "A3"]
+        };
+
+        /* ================= LÓGICA ================= */
+
+        function showScreen(id) {
+            document.getElementById('screen-dashboard').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-import').classList.add('hidden');
+
+            document.getElementById('screen-' + id).classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            if (id === 'dashboard') loadDashboard();
+        }
+
+        function novoTeste() {
+            if (confirm("Iniciar novo teste?")) {
+                document.querySelectorAll('input').forEach(i => i.checked = false);
+                updateProgress();
+                showScreen('quiz');
+
+                // Audio sequencia: Prepare -> Signal -> Start Timer
+                audioPrepare.play().then(() => {
+                    audioPrepare.onended = () => {
+                        audioSignal.play().then(() => {
+                            startTimer();
+                        }).catch(e => {
+                            console.error("Erro sinal:", e);
+                            startTimer(); // Fallback
+                        });
+                    };
+                }).catch(e => {
+                    console.error("Erro prepare:", e);
+                    // Fallback se autoplay bloquear ou erro
+                    startTimer();
+                });
+            }
+        }
+
+        function abrirImportacao() {
+            document.getElementById('input-answers').value = '';
+            document.getElementById('count-display').innerText = '0 respostas detectadas';
+            showScreen('import');
+        }
+
+        // Monitor de digitação para importação
+        document.getElementById('input-answers').addEventListener('input', function () {
+            const raw = this.value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+            document.getElementById('count-display').innerText = `${answers.length} respostas detectadas`;
+
+            if (answers.length === 126) {
+                document.getElementById('count-display').className = "text-xs font-bold text-green-400";
+            } else {
+                document.getElementById('count-display').className = "text-xs font-bold text-red-400";
+            }
+        });
+
+        function processarInputImportado() {
+            const raw = document.getElementById('input-answers').value;
+            const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
+
+            if (answers.length !== DATA_QUESTIONS.length) {
+                alert(`Erro: Você forneceu ${answers.length} respostas, mas o teste requer exatamente ${DATA_QUESTIONS.length}.`);
+                return;
+            }
+
+            const invalid = answers.some(n => isNaN(n) || n < 1 || n > 7);
+            if (invalid) {
+                if (!confirm("Alguns valores parecem inválidos (fora de 1-7). Continuar mesmo assim?")) return;
+            }
+
+            calculate(answers);
+        }
+
+        function updateProgress() {
+            const total = DATA_QUESTIONS.length;
+            const done = document.querySelectorAll('input:checked').length;
+            const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-text').innerText = pct + '%';
+        }
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (DATA_QUESTIONS.length === 0) {
+                container.innerHTML = '<div class="text-white">Carregando dados... por favor recarregue a página se não aparecer.</div>';
+                return;
+            }
+
+            let html = '';
+            DATA_QUESTIONS.forEach((q, index) => {
+                const facetaBase = q.facet.charAt(0); // N, E, S, R, A
+                html += `
+    <div id="q-card-${index}" class="question-card bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all scroll-mt-32" data-facet-base="${facetaBase}" data-facet-full="${q.facet}">
+        <div class="flex gap-3 mb-4 pl-2">
+            <span class="text-purple-400 font-bold font-mono">#${q.id}</span>
+            <p class="text-gray-200 font-medium">${q.text}</p>
+        </div>
+        <div class="grid grid-cols-9 gap-1 items-center">
+            <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Discordo</span>
+            ${[1, 2, 3, 4, 5, 6, 7].map(v => `
+                <label class="scale-option cursor-pointer relative group/opt">
+                    <input type="radio" name="q${q.id}" value="${v}" class="peer sr-only" onchange="updateProgress()">
+                    <div class="h-10 w-full bg-[#0f0e1a] border border-white/10 rounded-md flex items-center justify-center text-gray-400 font-bold transition-all peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 hover:bg-white/5 hover:border-white/20">
+                        ${v}
+                    </div>
+                </label>
+            `).join('')}
+            <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Concordo</span>
+        </div>
+    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // --- FUNCIONALIDADES EXTRAS ---
+
+        const audioPrepare = new Audio('../vozes/prepare.mp3');
+        const audioSignal = new Audio('../vozes/sinal.mp3');
+        const audioOneMin = new Audio('../vozes/resta1minuto.mp3');
+        const audioTimeUp = new Audio('../vozes/tempoesgotado.mp3');
+
+        let timerInterval;
+        let timeRemaining = 30 * 60; // 30 minutos
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeRemaining = 30 * 60;
+            updateTimerDisplay();
+
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+
+                if (timeRemaining === 60) {
+                    audioOneMin.play().catch(e => console.log("Erro audio:", e));
+                }
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    audioTimeUp.play().catch(e => console.log("Erro audio:", e));
+                    alert("Tempo esgotado! Tente finalizar o teste.");
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timeRemaining / 60);
+            const s = timeRemaining % 60;
+            const text = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+
+            const display = document.getElementById('unified-timer-display');
+            const pill = document.getElementById('unified-timer-pill');
+
+            if (display) display.innerText = text;
+
+            if (timeRemaining < 300) { // 5 min
+                if (display) display.className = "font-mono text-3xl font-black text-red-400 animate-pulse tabular-nums leading-none";
+                if (pill) pill.className = "glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-red-500 bg-red-900/40 backdrop-blur-md";
+            } else {
+                if (display) display.className = "font-mono text-3xl font-black text-white tabular-nums leading-none";
+                if (pill) pill.className = "glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md";
+            }
+        }
+
+        function filtrarFacetas() {
+            const val = document.getElementById('facet-filter').value;
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const base = card.dataset.facetBase;
+                const full = card.dataset.facetFull;
+
+                let show = false;
+                if (val === 'ALL') {
+                    show = true;
+                } else if (val.length === 1) {
+                    if (base === val) show = true;
+                } else {
+                    if (full === val) show = true;
+                }
+
+                if (show) card.classList.remove('hidden');
+                else card.classList.add('hidden');
+            });
+        }
+
+        function editarRespostas() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.querySelector('header').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function calculate(pastedAnswers = null) {
+            clearInterval(timerInterval); // Parar timer ao finalizar
+
+            // 1. Inicializar estrutura de scores vazia para todas as facetas conhecidas
+            let scores = {};
+            // Garantir que todas as facetas do CRITERIA existam como array vazio
+            for (let f in DATA_CRITERIA) {
+                scores[f] = [];
+            }
+
+            let userAnswers = {}; // Para o relatório visual
+            let answeredCount = 0;
+
+            // 2. Coletar respostas (Map ID -> Valor)
+            // Independente se veio de colar ou do DOM, vamos normalizar para um mapa por ID
+            let answersMap = new Map();
+
+            if (pastedAnswers) {
+                // Modo Importação
+                // Assumimos que pastedAnswers[i] corresponde a DATA_QUESTIONS[i]
+                // Validar tamanho
+                if (pastedAnswers.length !== DATA_QUESTIONS.length) {
+                    // Se tamanho for incorreto, tentamos mapear até onde der, mas o ideal é o user garantir
+                }
+
+                DATA_QUESTIONS.forEach((q, index) => {
+                    let val = pastedAnswers[index];
+                    if (val !== undefined && val !== null) {
+                        answersMap.set(q.id, val);
+                    }
+                });
+            } else {
+                // Modo DOM
+                DATA_QUESTIONS.forEach(q => {
+                    const el = document.querySelector(`input[name="q${q.id}"]:checked`);
+                    if (el) {
+                        answersMap.set(q.id, parseInt(el.value));
+                    }
+                });
+            }
+
+            // 3. Processar Cálculos (Iterando DATA_QUESTIONS -> Faceta Específica)
+            // Isso garante que a Questão X só pontue na Faceta Y definida nela.
+            DATA_QUESTIONS.forEach(q => {
+                const val = answersMap.get(q.id);
+
+                // Se não respondeu, ignoramos neste cálculo de média (ou tratamos como 0 se a regra for essa)
+                // Geralmente em testes de média, ignora-se ou avisa. Vamos ignorar nulls no array de scores.
+                if (val !== undefined && val !== null && !isNaN(val) && val > 0) {
+
+                    userAnswers[q.id] = val; // Store for report
+                    answeredCount++;
+
+                    let finalVal = val;
+                    if (q.inverted) {
+                        finalVal = 8 - val; // Inversão BFP (Escala 1-7) -> 8 - val
+                    }
+
+                    // BLINDAGEM: Só adiciona se a faceta existir no mapa de scores
+                    if (scores[q.facet]) {
+                        scores[q.facet].push(finalVal);
+                    } else {
+                        console.warn(`Faceta desconhecida na questão ${q.id}: ${q.facet}`);
+                    }
+                }
+            });
+
+            // Validação de preenchimento
+            if (answeredCount < DATA_QUESTIONS.length) {
+                if (!confirm(`Respondeu apenas ${answeredCount} de ${DATA_QUESTIONS.length}. Continuar mesmo assim? Resultados podem estar incorretos.`)) return;
+            }
+
+            // 4. Calcular Médias e Percentis
+            let results = {};
+            let isGlobalApto = true;
+
+            for (let f in scores) {
+                const values = scores[f];
+                let raw = 0;
+
+                if (values.length > 0) {
+                    const sum = values.reduce((a, b) => a + b, 0);
+                    raw = sum / values.length; // BFP usa Média
+                }
+
+                // Busca Percentil (Tabela)
+                let pct = 50; // default
+                const table = DATA_PERCENTILES[f];
+
+                if (table) {
+                    let closest = table[0];
+                    let minDiff = Infinity;
+                    // Encontrar o valor de correlação mais próximo na tabela normativa
+                    table.forEach(row => {
+                        const diff = Math.abs(row.s - raw);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closest = row;
+                        }
+                    });
+                    pct = closest.p;
+                }
+
+                // Ajuste solicitado: R2 Ponderação +5 pontos no percentil para scores específicos (Mantido da lógica anterior)
+                if (f === 'R2') {
+                    const roundedAvg = Number(raw.toFixed(2));
+                    // Nota: Comparar float exato é perigoso, mas mantendo lógica original do user
+                    if ([5.5, 5.25, 4.75, 4].includes(roundedAvg)) {
+                        pct += 5;
+                    }
+                }
+
+                const crit = DATA_CRITERIA[f] || { min: 0, max: 100 };
+                const apto = pct >= crit.min && pct <= crit.max;
+                if (!apto) isGlobalApto = false;
+
+                results[f] = {
+                    raw: raw.toFixed(2),
+                    pct: pct,
+                    apto: apto,
+                    min: crit.min,
+                    max: crit.max
+                };
+            }
+
+            renderReport(results, isGlobalApto, userAnswers);
+        }
+
+        function renderReport(res, globalStatus, userAnswers) {
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+            window.scrollTo(0, 0);
+
+            document.getElementById('report-date').innerText = new Date().toLocaleString();
+            document.getElementById('report-date').innerText = new Date().toLocaleString();
+
+            const badge = document.getElementById('final-status-badge');
+            // CHANGE: Update parent container content for Inapto message
+            const statusContainer = badge.parentElement;
+
+            if (globalStatus) {
+                statusContainer.innerHTML = `
+                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div id="final-status-badge" class="px-8 py-3 rounded-full text-xl font-bold bg-green-500/10 text-green-400 border border-green-500/30">
+                        APTO
+                    </div>
+                `;
+            } else {
+                statusContainer.innerHTML = `
+                    <div class="flex flex-col items-center">
+                        <div class="loser-text">
+                            VOCÊ FICOU<br>INAPTO!
+                        </div>
+                        <span class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-400 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                            <i class="fas fa-times-circle mr-2"></i> REPROVADO
+                        </span>
+                    </div>
+                `;
+                // Optional: add shake class to a container if desired
+                // document.getElementById('screen-result').classList.add('shake-screen');
+            }
+
+            const container = document.getElementById('report-content');
+            let html = '';
+
+            for (let factor in FACTOR_MAP) {
+                html += `
+                <div class="mb-8 break-inside-avoid">
+                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <i class="fas fa-layer-group text-purple-500" style="text-shadow: 0 0 10px var(--primary-purple);"></i> 
+                        <span class="neon-text">${factor}</span>
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+            `;
+
+                FACTOR_MAP[factor].forEach(code => {
+                    const r = res[code];
+                    if (!r) return;
+
+                    const name = NAMES[code] || code;
+                    const isApto = r.apto;
+                    const statusText = isApto ? "APTO" : "INAPTO";
+
+                    const statusColor = isApto
+                        ? "text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                        : "text-red-400 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
+
+                    const left = r.min + '%';
+                    const width = (r.max - r.min) + '%';
+                    const marker = Math.min(100, Math.max(0, r.pct)) + '%';
+                    const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
+
+                    html += `
+                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
+                        <div class="flex flex-col md:flex-row items-center gap-4">
+                            <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                                <div>
+                                    <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-1 rounded mr-1">${code}</span>
+                                    ${name}
+                                </div>
+                            </div>
+                            
+                            <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                                <!-- Faixa Ideal -->
+                                <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                                     style="left: ${left}; width: ${width};" 
+                                     title="Meta: ${r.min}-${r.max}%">
+                                </div>
+                                
+                                <!-- Marcador -->
+                                <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
+                                     style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
+                                </div>
+                            </div>
+                            
+                            <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
+                                <div class="text-right">
+                                    <div class="text-xs text-gray-500">Média: ${r.raw}</div>
+                                    <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                                </div>
+                                <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
+                            </div>
+                        </div>`;
+
+                    // DETALHAMENTO DE ITENS REPROVADOS
+                    if (!isApto) {
+                        const facetQuestions = DATA_QUESTIONS.filter(q => q.facet === code);
+                        html += `
+                            <div class="mt-2 pt-3 border-t border-white/5 animate-fade-in">
+                                <p class="text-xs font-bold text-red-400 mb-2 uppercase flex items-center gap-2">
+                                    <i class="fas fa-exclamation-triangle"></i> Detalhamento dos Itens (Critério Reprovado)
+                                </p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            `;
+
+                        facetQuestions.forEach(q => {
+                            const val = userAnswers[q.id] || 0;
+                            html += `
+                                    <div class="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5">
+                                        <span class="text-[10px] text-gray-400 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
+                                        <span class="text-xs font-mono font-bold ${val >= 5 ? 'text-yellow-400' : 'text-gray-500'}">Resp: ${val}</span>
+                                    </div>
+                                `;
+                        });
+
+                        html += `   </div>
+                                </div>
+                            `;
+                    }
+
+                    html += `</div>`;
+                });
+                html += `</div></div>`;
+            }
+            container.innerHTML = html;
+
+            // Histórico
+            const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
+            h.unshift({ date: new Date().toLocaleString(), status: globalStatus ? 'APTO' : 'INAPTO' });
+            localStorage.setItem('bfp_history', JSON.stringify(h));
+
+            // Tocar audio fim se timer > 0 (manual finish) - Opcional, o usuário pediu "quando terminar"
+            // Se foi pelo timer, já tocou. Se foi clique manual, toca agora?
+            // "o quando terminar (pasta voz)" -> tempoesgotado.mp3
+            // Evitar tocar duas vezes se o timer acionou calculate
+            // Mas calculate é chamado pelo timer? Não, timer dá alert.
+            // Vou assumir que deve tocar sempre que o relatório é gerado.
+            audioTimeUp.play().catch(e => console.log(e));
+        }
+
+        // Funções de Histórico
+        function loadDashboard() {
+            const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
+            document.getElementById('dash-total').innerText = h.length;
+            if (h.length) {
+                document.getElementById('dash-last-date').innerText = h[0].date;
+                document.getElementById('dash-last-status').innerText = h[0].status;
+                document.getElementById('dash-last-status').className = h[0].status == 'APTO' ? 'text-green-400 font-bold text-sm' : 'text-red-400 font-bold text-sm';
+            }
+
+            const dashboardContainer = document.getElementById('history-container');
+            if (h.length === 0) {
+                dashboardContainer.innerHTML = '<tr><td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum teste detectado.</td></tr>';
+                return;
+            }
+
+            dashboardContainer.innerHTML = h.map(i => `
+             <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
+                <td class="px-6 py-4 font-medium text-white">BFP Completo</td>
+                <td class="px-6 py-4 text-gray-400">${i.date}</td>
+                <td class="px-6 py-4 text-center font-bold ${i.status == 'APTO' ? 'text-green-400' : 'text-red-400'}">${i.status}</td>
+                <td class="px-6 py-4 text-right">
+                     <span class="text-xs text-gray-500">Salvo</span>
+                </td>
+            </tr>
+        `).join('');
+        }
+
+        function limparHistorico() {
+            if (confirm("Apagar todo o histórico?")) {
+                localStorage.removeItem('bfp_history');
+                location.reload();
+            }
+        }
+
+        // Inicialização
+        function calcularResultado() { return window.calculate(); }
+        window.calculate = calculate;
+        window.onload = function () {
+            renderQuiz();
+            loadDashboard();
+        };
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const studentName = sessionStorage.getItem('memberName');
+            if (studentName) {
+                const nameEl = document.getElementById('header-student-name');
+                if (nameEl) nameEl.textContent = studentName;
+            }
+        });
+    </script>
+</body>
+
+</html>

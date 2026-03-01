@@ -1,0 +1,27 @@
+=== DIAGNÓSTICO DOS TESTES DE ATENÇÃO ===
+
+tecon/tecon1.html              ✓ OK
+tecon/tecon2.html              ✓ OK
+tecon/tecon3.html              ✓ OK
+bpa/bpa_aa.html                ✓ OK
+bpa/bpa_ac.html                ✓ OK
+bpa/bpa_ad.html                ✓ OK
+cta/cta_aa.html                ✓ OK
+cta/ctaac.html                 ✓ OK
+cta/ctaad.html                 ✓ OK
+bda/bda_aa.html                ✓ OK
+bda/bda_ac.html                ✓ OK
+bda/bda_ad.html                ✓ OK
+teaco/teaco.html               ✓ OK
+teadi/teadi.html               ✓ OK
+tealt/tealt.html               ✓ OK
+tedif/tedif1.html              ✓ OK
+tedif/tedif2.html              ✓ OK
+rotas/rotaa.html               ✓ OK
+rotas/rotac.html               ✓ OK
+rotas/rotad.html               ✓ OK
+tadim/tadim1.html              ✓ OK
+tem-r/tem_r_2.html             ✓ OK
+acvetor.html                   ✓ OK
+tspdimensoes/tsp3.html         ✗ PROBLEMAS
+                                 → SEM fetch() E SEM GoogleRunner
