@@ -265,11 +265,11 @@
   "FGV": [
     {
       "ano": 2024,
-      "concurso": "PM-ERJ",
+      "concurso": "PME RJ",
       "testes": [
-        "CTA CONCENTRADO",
-        "CTA DIVIDIDO",
-        "CTA ALTERNADO",
+        "CTA-AC",
+        "CTA-AD",
+        "CTA-AA",
         "PALOGRÁFICO",
         "MEMÓRIA DE FACES",
         "ESAVI A",
@@ -301,7 +301,7 @@
       ]
     },
     {
-      "ano": 2022,
+      "ano": 2021,
       "concurso": "PM-PB",
       "testes": [
         "AC VETOR",
