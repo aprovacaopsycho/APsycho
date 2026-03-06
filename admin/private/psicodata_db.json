@@ -264,6 +264,18 @@
   ],
   "FGV": [
     {
+      "ano": 2026,
+      "concurso": "PMTO",
+      "testes": [
+        "BDA-C",
+        "BDA-D",
+        "G-38",
+        "Memória F",
+        "Palográfico",
+        "Entrevista Escrita"
+      ]
+    },
+    {
       "ano": 2024,
       "concurso": "PME RJ",
       "testes": [
@@ -279,11 +291,11 @@
     },
     {
       "ano": 2024,
-      "concurso": "PM-ESP",
+      "concurso": "PME-SP",
       "testes": [
         "BFP",
         "AC VETOR",
-        "G38",
+        "G-38",
         "PALOGRÁFICO",
         "PMK",
         "TECON",
