@@ -10,7 +10,6 @@
 
     <!-- SEGURANÇA -->
     <script src="../scripts/auth_guard.js"></script>
-    <script src="../google-runner.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -657,7 +656,12 @@
 
                 parseGrid() {
                     this.grid = [];
-                    // Targets removed for security. Backend handles correction.
+                    const targets = [
+                        { dir: 90, type: 'fill' }, // RF
+                        { dir: 180, type: 'dot' }, // DD
+                        { dir: 270, type: 'empty' } // LE
+                    ];
+
                     const dirMap = { 'U': 0, 'R': 90, 'D': 180, 'L': 270 };
                     const typeMap = { 'F': 'fill', 'D': 'dot', 'E': 'empty' };
 
@@ -671,11 +675,12 @@
 
                             const dir = dirMap[dChar];
                             const type = typeMap[tChar];
+                            const isTarget = targets.some(t => t.dir === dir && t.type === type);
 
                             this.grid.push({
                                 dir: dir,
                                 type: type,
-                                isTarget: false, // Hidden until result
+                                isTarget: isTarget,
                                 selected: false,
                                 index: (rIndex * this.cols) + cIndex
                             });
@@ -741,69 +746,48 @@
                     }
                 },
 
-                async finishTest() {
+                finishTest() {
                     clearInterval(this.timer);
+                    this.calculateResults();
+                    this.state = 'results';
+                    window.scrollTo(0, 0);
 
-                    const marks = this.grid.filter(i => i.selected).map(i => i.index);
+                    // Gamification Logic
+                    this.animateScore();
 
-                    // Show loading state if possible or just wait
-                    const btn = document.querySelector('[onclick="finishTest()"], [x-on\\:click="finishTest()"], [\\@click="finishTest()"]');
-                    if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-
-                    try {
-                        const API_URL = "https://script.google.com/macros/s/AKfycbzSb0NgcW6pFcVF-ZXyw0bugKWA2a28Go3-X-d5PfCgnnEnD3eV2R6Xj0RbmIk6xBrN/exec";
-                        const response = await fetch(API_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'text/plain' },
-                            body: JSON.stringify({ tipo: 'acvetor', respostas: marks })
+                    if (this.results.isPassed) {
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 },
+                            colors: ['#00c2ff', '#ffffff']
                         });
-                        const result = await response.json();
-
-                        if (result.sucesso) {
-                            this.results = {
-                                hits: result.hits,
-                                errors: result.errors,
-                                omissions: result.omissions,
-                                score: result.pontuacao,
-                                isPassed: result.status === 'APTO' || result.score >= 119
-                            };
-
-                            // Mark targets for review using gabarito from backend
-                            const gabarito = result.gabarito || [];
-                            this.grid.forEach(item => {
-                                item.isTarget = gabarito.includes(item.index);
-                            });
-
-                            this.state = 'results';
-                            window.scrollTo(0, 0);
-
-                            this.animateScore();
-
-                            if (this.results.isPassed) {
-                                confetti({
-                                    particleCount: 150,
-                                    spread: 70,
-                                    origin: { y: 0.6 },
-                                    colors: ['#00c2ff', '#ffffff']
-                                });
-                            }
-
-                            // Save History
-                            this.history.unshift({
-                                date: new Date().toLocaleString('pt-BR'),
-                                score: this.results.score,
-                                passed: this.results.isPassed
-                            });
-                            localStorage.setItem('acvetor_history', JSON.stringify(this.history));
-
-                        } else {
-                            alert("Erro na correção: " + result.erro);
-                            if (btn) btn.innerHTML = 'ENTREGAR';
-                        }
-                    } catch (e) {
-                        alert("Erro de conexão: " + e.message);
-                        if (btn) btn.innerHTML = 'ENTREGAR';
                     }
+                },
+
+                calculateResults() {
+                    let hits = 0;
+                    let errors = 0;
+                    let omissions = 0;
+                    this.grid.forEach((item, index) => {
+                        if (item.selected) {
+                            if (item.isTarget) hits++;
+                            else errors++;
+                        } else {
+                            if (item.isTarget && index <= this.lastSelectedIndex) omissions++;
+                        }
+                    });
+                    const score = hits - (errors + omissions);
+                    const isPassed = score >= this.minScore;
+                    this.results = { hits, errors, omissions, score, isPassed };
+
+                    // Save History
+                    this.history.unshift({
+                        date: new Date().toLocaleString('pt-BR'),
+                        score: score,
+                        passed: isPassed
+                    });
+                    localStorage.setItem('acvetor_history', JSON.stringify(this.history));
                 },
 
                 formatTime(s) {

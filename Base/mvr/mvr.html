@@ -245,24 +245,6 @@
         <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
     </div>
 
-    <!-- UI de Carregamento (Calculando) -->
-    <div x-show="calculating" style="display: none;"
-        class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex flex-col items-center justify-center transition-opacity"
-        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-
-        <div class="relative">
-            <div class="w-20 h-20 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <i class="fas fa-brain text-purple-400 animate-pulse"></i>
-            </div>
-        </div>
-
-        <h2 class="text-2xl font-bold text-white mt-6 animate-pulse">Processando Resultados</h2>
-        <p class="text-purple-300 text-sm mt-2">Conectando ao sistema neural...</p>
-    </div>
-
     <!-- AUDIO FILES -->
     <audio id="audio-prepare" src="../../vozes/prepare.mp3"></audio>
     <audio id="audio-timeout" src="../../vozes/tempoesgotado.mp3"></audio>
@@ -729,12 +711,12 @@
                                                 class="w-12 h-12 relative flex items-center justify-center rounded-full transition-all hover:bg-white/5"
                                                 :class="getOptionClass(ex, opt)">
 
-                                                <!-- Correct Answer Hint REMOVED -->
-                                                <!--
+                                                <!-- Correct Answer Hint (Green Ring) -->
                                                 <template x-if="correctAnswers[ex] === opt">
-                                                    <div class="absolute inset-0 ..."></div>
+                                                    <div
+                                                        class="absolute inset-0 rounded-full border-2 border-green-500/30 shadow-[0_0_10px_rgba(34,197,94,0.2)]">
+                                                    </div>
                                                 </template>
-                                                -->
 
                                                 <!-- Base Circle -->
                                                 <div class="w-8 h-8 rounded-full border-2 transition-all relative z-10"
@@ -856,11 +838,33 @@
                     </a>
                 </div>
 
-                <!-- Expanded Gabarito REMOVED (SECURITY) -->
-                <div class="mt-8 pt-8 border-t border-white/10 text-center">
-                    <p class="text-gray-400">
-                        Resultados validados detalhadamente pelo servidor central.
-                    </p>
+                <!-- Expanded Gabarito -->
+                <div class="mt-8 pt-8 border-t border-white/10 text-left">
+                    <h4 class="text-sm font-bold text-gray-400 uppercase mb-4">Detalhamento das Respostas</h4>
+
+                    <!-- Examples in Results -->
+                    <div class="mb-4 p-4 bg-white/5 rounded border border-white/5">
+                        <h5 class="text-xs text-gray-500 uppercase font-bold mb-2">Exemplos</h5>
+                        <div class="flex gap-4">
+                            <div class="text-xs text-gray-400">E1: <span class="font-bold text-white">D</span></div>
+                            <div class="text-xs text-gray-400">E2: <span class="font-bold text-white">C</span></div>
+                            <div class="text-xs text-gray-400">E3: <span class="font-bold text-white">B</span></div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2">
+                        <template x-for="q in 20" :key="q">
+                            <div class="p-2 rounded border text-xs text-center border-white/5 transition hover:scale-105 cursor-default"
+                                :class="getGabaritoClass(q)">
+                                <strong class="block mb-1">Q<span x-text="q"></span></strong>
+                                <div class="flex justify-center items-center gap-1">
+                                    <span class="font-mono" x-text="getFinalAnswer(q) || '-'"></span>
+                                    <i class="fas fa-arrow-right text-[10px] opacity-50"></i>
+                                    <span class="font-mono font-bold" x-text="correctAnswers[q]"></span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
 
             </div>
@@ -869,8 +873,6 @@
     </main>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec";
-
         function mvrApp() {
             return {
                 step: 1, // 1:Intro, 2:Memo, 3:Test, 4:Result
@@ -878,7 +880,6 @@
                 timeRemaining: 0,
                 timerInterval: null,
                 zoom: 1.0,
-                calculating: false,
 
                 // DATA STRUCTURE: answers[q] = { selected: 'A', annulled: ['B'] }
                 answers: {},
@@ -890,10 +891,11 @@
                 studentName: sessionStorage.getItem('memberName') || 'Visitante',
                 observer: null,
 
-                // GABARITO REMOVIDO PARA SEGURANÇA
-                // MVR usa fórmula: Acertos - (Erros / 3)
-                // O backend retorna acertos e erros brutos. A fórmula é aplicada no frontend com dados confiáveis.
-                // correctAnswers: {},
+                correctAnswers: {
+                    'E1': 'D', 'E2': 'C', 'E3': 'B',
+                    1: 'C', 2: 'D', 3: 'C', 4: 'C', 5: 'B', 6: 'B', 7: 'B', 8: 'A', 9: 'D', 10: 'B',
+                    11: 'D', 12: 'D', 13: 'A', 14: 'C', 15: 'A', 16: 'C', 17: 'B', 18: 'C', 19: 'D', 20: 'B'
+                },
 
                 init() {
                     document.getElementById('header-student-name').textContent = sessionStorage.getItem('memberName') || 'Visitante';
@@ -1009,59 +1011,13 @@
                     if (this.zoom > 0.6) this.zoom -= 0.2;
                 },
 
-                async finishTest() {
-                    this.calculating = true;
+                finishTest() {
                     this.stopTimer();
-
-                    try {
-                        await this.submitToBackend();
-                    } catch (e) {
-                        console.error("Erro no backend:", e);
-                        alert("Erro ao conectar com o servidor. Tente novamente.");
-                        this.calculating = false;
-                        return;
-                    }
-
+                    this.calculateScore();
                     this.step = 4;
                     window.scrollTo(0, 0);
                     if (this.passed) {
                         confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#22c55e', '#a855f7'] });
-                    }
-                    this.calculating = false;
-                },
-
-                async submitToBackend() {
-                    const finalAnswers = {};
-                    for (let i = 1; i <= 20; i++) {
-                        finalAnswers[i] = this.answers[i].selected;
-                    }
-
-                    const payload = {
-                        teste: "mvr",
-                        dadosUsuario: {
-                            respostas: finalAnswers
-                        }
-                    };
-
-                    const response = await fetch(API_URL, {
-                        method: "POST",
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) throw new Error("Falha na requisição: " + response.status);
-
-                    const result = await response.json();
-
-                    if (result.sucesso) {
-                        // BACKEND RETURNS RAW COUNTS
-                        this.hits = result.pontuacao; // In backend logic, pontuacao is just hits count
-                        this.errors = result.erros;
-
-                        // APPLY FORMULA LOCALLY WITH TRUSTED DATA
-                        this.score = this.hits - (this.errors / 3);
-                        this.passed = this.score >= 13;
-                    } else {
-                        throw new Error("Erro na API: " + JSON.stringify(result));
                     }
                 },
 
@@ -1069,9 +1025,35 @@
                     return this.answers[q].selected;
                 },
 
-                // getGabaritoClass REMOVED
+                getGabaritoClass(q) {
+                    let ans = this.getFinalAnswer(q);
+                    let correct = this.correctAnswers[q];
+                    if (!ans) return 'bg-white/5 text-gray-500'; // Blank
+                    if (ans === correct) return 'bg-green-500/10 border-green-500/30 text-green-300';
+                    return 'bg-red-500/10 border-red-500/30 text-red-300';
+                },
 
-                // calculateLocalScore REMOVED
+                calculateScore() {
+                    this.score = 0;
+                    this.hits = 0;
+                    this.errors = 0;
+
+                    for (let i = 1; i <= 20; i++) {
+                        const userAns = this.getFinalAnswer(i);
+
+                        // We count non-annulled final answers
+                        if (userAns) {
+                            if (userAns === this.correctAnswers[i]) {
+                                this.hits++;
+                            } else {
+                                this.errors++;
+                            }
+                        }
+                    }
+
+                    this.score = this.hits - (this.errors / 3);
+                    this.passed = this.score >= 13;
+                }
             }
         }
     </script>

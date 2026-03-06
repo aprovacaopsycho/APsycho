@@ -229,24 +229,6 @@
         <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
     </div>
 
-    <!-- UI de Carregamento (Calculando) -->
-    <div x-show="calculating" style="display: none;"
-        class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex flex-col items-center justify-center transition-opacity"
-        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-
-        <div class="relative">
-            <div class="w-20 h-20 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <i class="fas fa-brain text-purple-400 animate-pulse"></i>
-            </div>
-        </div>
-
-        <h2 class="text-2xl font-bold text-white mt-6 animate-pulse">Processando Resultados</h2>
-        <p class="text-purple-300 text-sm mt-2">Conectando ao sistema neural...</p>
-    </div>
-
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
@@ -264,8 +246,11 @@
 
             <div class="flex items-center gap-6">
                 <!-- Streak Counter (Mini) -->
-                <!-- Streak Counter Removed (Security Hardening) -->
-                <!-- <div x-show="streak > 1" ... > -->
+                <div x-show="streak > 1"
+                    class="hidden md:flex items-center gap-2 text-orange-400 font-bold animate-pulse-fast">
+                    <i class="fas fa-fire"></i>
+                    <span x-text="streak + 'x'"></span>
+                </div>
 
                 <div class="hidden md:flex flex-col text-right">
                     <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
@@ -447,8 +432,11 @@
                         class="text-gray-500 text-lg">/25</span></h2>
 
                 <!-- Streak Badge -->
-                <!-- Streak Badge Removed (Security Hardening) -->
-                <!-- <div x-show="streak > 1" ... > -->
+                <div x-show="streak > 1"
+                    class="flex items-center gap-2 bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full border border-orange-500/30 animate-bounce">
+                    <i class="fas fa-fire"></i>
+                    <span class="font-bold" x-text="`COMBO ${streak}x`"></span>
+                </div>
             </div>
 
             <div class="glass-panel p-6 rounded-2xl flex flex-col items-center" :class="{'animate-shake': shake}">
@@ -466,7 +454,8 @@
                             class="option-btn text-left px-6 py-4 rounded-lg font-bold text-lg border border-white/20 relative overflow-hidden group flex items-center justify-between"
                             :class="{
                                 'bg-white/5 text-gray-300': !userAnswers[currentQuestion],
-                                'bg-purple-500/20 border-purple-500 text-white shadow-[0_0_20px_rgba(159,84,255,0.4)]': userAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion],
+                                'bg-gradient-to-r from-green-500 to-green-600 text-white border-green-400 shadow-[0_0_20px_rgba(34,197,94,0.6)]': userAnswers[currentQuestion] && opt.key === correctAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion],
+                                'bg-gradient-to-r from-red-500 to-red-600 text-white border-red-400': userAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion] && opt.key !== correctAnswers[currentQuestion],
                                 'opacity-40': userAnswers[currentQuestion] && opt.key !== userAnswers[currentQuestion]
                             }">
 
@@ -482,9 +471,11 @@
                                 class="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
                             </div>
 
-                            <!-- Feedback Icon Removed -->
-                            <i x-show="userAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion]"
-                                class="fas fa-check-circle text-white"></i>
+                            <!-- Feedback Icon -->
+                            <i x-show="userAnswers[currentQuestion] && opt.key === correctAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion]"
+                                class="fas fa-check text-white"></i>
+                            <i x-show="userAnswers[currentQuestion] && opt.key === userAnswers[currentQuestion] && opt.key !== correctAnswers[currentQuestion]"
+                                class="fas fa-times text-white"></i>
                         </button>
                     </template>
                 </div>
@@ -563,53 +554,70 @@
                         <span class="text-2xl font-bold text-white" x-text="Math.round((score/25)*100) + '%'"></span>
                     </div>
 
-                    <class="bg-black /20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center
-                        hover:bg-white/5 transition">
-                        <i class="fas fa-server text-blue-400 text-2xl mb-2"></i>
-                        <span class="text-gray-400 text-sm">Validado</span>
-                        <span class="text-2xl font-bold text-white"><i class="fas fa-check"></i></span>
-                </div>
+                    <div
+                        class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition">
+                        <i class="fas fa-fire text-orange-400 text-2xl mb-2"></i>
+                        <span class="text-gray-400 text-sm">Maior Combo</span>
+                        <span class="text-2xl font-bold text-white" x-text="maxStreak + 'x'"></span>
+                    </div>
 
-                <div
-                    class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition col-span-2">
-                    <div class="text-sm text-gray-400 mb-1">Status Final</div>
-                    <div class="text-white font-bold" x-text="rankMsg"></div>
+                    <div
+                        class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition col-span-2">
+                        <div class="text-sm text-gray-400 mb-1">Status Final</div>
+                        <div class="text-white font-bold" x-text="rankMsg"></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- GABARITO VISUAL REMOVED (SECURITY) -->
-        <div class="bg-black/20 p-6 rounded-xl border border-white/5 text-center">
-            <p class="text-gray-400 text-sm">
-                As respostas foram enviadas e processadas pelo sistema central.
-                Para rever suas respostas, inicie um novo teste.
-            </p>
-        </div>
+            <!-- GABARITO VISUAL -->
+            <div>
+                <h3 class="text-white font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                    <i class="fas fa-list-ul text-primary"></i> Análise de Performance
+                </h3>
+                <div class="grid grid-cols-5 gap-2">
+                    <template x-for="(ans, index) in correctAnswers" :key="index">
+                        <div x-show="index > 0"
+                            class="p-2 rounded-lg text-center border text-xs flex flex-col gap-1 relative overflow-hidden group transition-all hover:scale-105"
+                            :class="userAnswers[index] === ans ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
 
-        <div class="mt-10 flex justify-center gap-4">
-            <a href="testes_inteligencia.html"
-                class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition group">
-                <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i> Voltar
-            </a>
-            <button @click="location.reload()"
-                class="px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-[0_0_20px_rgba(159,84,255,0.4)] transition transform hover:scale-105">
-                <i class="fas fa-redo-alt mr-2"></i> Tentar Novamente
-            </button>
-        </div>
+                            <span class="font-bold text-gray-500 absolute top-0.5 left-1 text-[8px]"
+                                x-text="'Q'+index"></span>
+
+                            <div class="mt-3 text-lg font-black"
+                                :class="userAnswers[index] === ans ? 'text-green-400' : 'text-red-400'">
+                                <span x-text="userAnswers[index] || '-'"></span>
+                            </div>
+
+                            <div x-show="userAnswers[index] !== ans"
+                                class="text-[10px] text-gray-400 border-t border-white/5 pt-1 mt-1">
+                                Era: <span x-text="ans" class="text-white font-bold"></span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="testes_inteligencia.html"
+                    class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition group">
+                    <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i> Voltar
+                </a>
+                <button @click="location.reload()"
+                    class="px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-[0_0_20px_rgba(159,84,255,0.4)] transition transform hover:scale-105">
+                    <i class="fas fa-redo-alt mr-2"></i> Tentar Novamente
+                </button>
+            </div>
         </div>
 
     </main>
 
     <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec";
-
         function bpr5rvApp() {
             return {
                 currentQuestion: 0,
                 timeRemaining: 10 * 60, // 10 min
                 timerInterval: null,
                 finished: false,
-                calculating: false,
                 score: 0,
                 streak: 0,
                 maxStreak: 0,
@@ -618,9 +626,12 @@
                 history: [],
 
                 // DATA
-                // GABARITO REMOVIDO PARA SEGURANÇA
-                // Processamento via Google Apps Script backend.
-                // correctAnswers: [],
+                correctAnswers: [
+                    null,
+                    'C', 'E', 'D', 'A', 'B', 'D', 'C', 'B', 'A', 'B', // 1-10
+                    'E', 'C', 'A', 'D', 'A', 'E', 'C', 'E', 'B', 'E', // 11-20
+                    'A', 'C', 'D', 'B', 'D'                             // 21-25
+                ],
 
                 questions: [
                     { id: 1, text: "**Tapete** está para **Chão** como **Quadro** está para...", options: [{ key: 'A', value: 'Muro' }, { key: 'B', value: 'Museu' }, { key: 'C', value: 'Parede' }, { key: 'D', value: 'Sala' }, { key: 'E', value: 'Frente' }] },
@@ -671,11 +682,22 @@
                     if (this.userAnswers[this.currentQuestion]) return;
 
                     this.userAnswers[this.currentQuestion] = optionKey;
+                    const isCorrect = optionKey === this.correctAnswers[this.currentQuestion];
 
-                    // Visual XP Animation only (no correctness check)
-                    if (event) {
-                        const rect = event.currentTarget.getBoundingClientRect();
-                        this.spawnXP(rect.left + rect.width / 2, rect.top);
+                    if (isCorrect) {
+                        this.score++;
+                        this.streak++;
+                        if (this.streak > this.maxStreak) this.maxStreak = this.streak;
+
+                        // XP Float Animation
+                        if (event) {
+                            const rect = event.currentTarget.getBoundingClientRect();
+                            this.spawnXP(rect.left + rect.width / 2, rect.top);
+                        }
+                    } else {
+                        this.streak = 0;
+                        this.shake = true;
+                        setTimeout(() => this.shake = false, 500);
                     }
                 },
 
@@ -699,68 +721,15 @@
                     this.currentQuestion = 1;
                 },
 
-                async finishTest() {
-                    this.calculating = true;
+                finishTest() {
+                    this.finished = true;
                     clearInterval(this.timerInterval);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                    try {
-                        await this.submitToBackend();
-                    } catch (e) {
-                        console.error("Erro no backend:", e);
-                        alert("Erro ao conectar com o servidor. Tente novamente.");
-                        this.calculating = false;
-                        return;
-                    }
 
                     if (this.score >= 19) {
                         this.launchConfetti();
                     }
                     this.saveHistory();
-
-                    this.calculating = false;
-                    this.finished = true;
-                },
-
-                async submitToBackend() {
-                    const payload = {
-                        teste: "bpr5rv",
-                        dadosUsuario: {
-                            respostas: this.userAnswers
-                        }
-                    };
-
-                    const response = await fetch(API_URL, {
-                        method: "POST",
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) throw new Error("Falha na requisição: " + response.status);
-
-                    const result = await response.json();
-
-                    if (result.sucesso) {
-                        this.score = result.pontuacao;
-                    } else {
-                        throw new Error("Erro na API: " + JSON.stringify(result));
-                    }
-                },
-
-                // calculateLocalScore REMOVED
-
-                calculateStreaksOnly() {
-                    this.maxStreak = 0;
-                    let currentStreak = 0;
-                    for (let i = 1; i <= 25; i++) {
-                        if (this.userAnswers[i] && this.userAnswers[i] === this.correctAnswers[i]) {
-                            currentStreak++;
-                            if (currentStreak > this.maxStreak) {
-                                this.maxStreak = currentStreak;
-                            }
-                        } else {
-                            currentStreak = 0;
-                        }
-                    }
                 },
 
                 loadHistory() {

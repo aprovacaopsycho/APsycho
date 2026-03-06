@@ -192,23 +192,6 @@
         <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loading-overlay"
-        class="hidden fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center transition-opacity">
-        <div class="relative w-32 h-32 mb-8">
-            <div class="absolute inset-0 border-4 border-purple-500/30 rounded-full animate-[spin_3s_linear_infinite]">
-            </div>
-            <div
-                class="absolute inset-2 border-4 border-t-purple-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-[spin_2s_linear_infinite]">
-            </div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <i class="fas fa-brain text-4xl text-purple-400 animate-pulse"></i>
-            </div>
-        </div>
-        <h2 class="text-3xl font-black text-white mb-2 tracking-wider">PROCESSANDO</h2>
-        <p class="text-purple-400 font-medium animate-pulse">Analisando memória...</p>
-    </div>
-
     <audio id="cmd-audio" src="../../vozes/prepare.mp3" preload="auto"></audio>
     <audio id="timeout-audio" src="../../vozes/tempoesgotado.mp3" preload="auto"></audio>
 
@@ -443,7 +426,6 @@
 
     <script>
         // --- CONFIGURAÇÕES ---
-        const API_URL = "https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec";
         const TIME_MEMO = 60;   // 1 minuto
         const TIME_RECALL = 120; // 2 minutos
         const PASSING_SCORE = 17;
@@ -456,7 +438,88 @@
         // Para itens compostos que valem mais pontos, definimos explicitamente.
         // O sistema irá buscar a melhor pontuação possível para cada "id" único.
 
-        // ANSWER KEY REMOVED
+        const TEPIC_ITEMS = [
+            { id: 'agua', terms: ['agua'], points: 1 },
+            { id: 'arcoiris', terms: ['arco-iris', 'arco iris'], points: 1 },
+            { id: 'arvore', terms: ['arvore'], points: 1 },
+            { id: 'aviao', terms: ['aviao'], points: 1 },
+            { id: 'balanco', terms: ['balanco'], points: 1 },
+            { id: 'balao', terms: ['balao'], points: 1 },
+            { id: 'balde', terms: ['balde'], points: 1 },
+            { id: 'barco', terms: ['barco', 'navio'], points: 1 },
+            { id: 'barraca', terms: ['barraca', 'barraquinha de camping', 'barraquinha'], points: 1 },
+            { id: 'bola', terms: ['bola'], points: 1 },
+            { id: 'cadeira', terms: ['cadeira'], points: 1 },
+            { id: 'caminho', terms: ['caminho'], points: 1 },
+            { id: 'carro', terms: ['carro', 'fusca'], points: 1 },
+            { id: 'casa', terms: ['casa'], points: 1 },
+            { id: 'cesta', terms: ['cesta de basquete', 'cesta'], points: 1 },
+            { id: 'ceu', terms: ['ceu'], points: 1 },
+            { id: 'chamine', terms: ['chamine'], points: 1 },
+            { id: 'crianca', terms: ['crianca'], points: 1 },
+            { id: 'deck', terms: ['deck', 'ponte', 'cruzamento'], points: 1 },
+            { id: 'escorregador', terms: ['escorregador'], points: 1 },
+            { id: 'fogueira', terms: ['fogueira'], points: 1 },
+            { id: 'foguete', terms: ['foguete'], points: 1 },
+            { id: 'fumaca', terms: ['fumaca'], points: 1 },
+            { id: 'gangorra', terms: ['gangorra'], points: 1 },
+            { id: 'grama', terms: ['grama'], points: 1 },
+            { id: 'helicoptero', terms: ['helicoptero'], points: 1 },
+            { id: 'janela', terms: ['janela'], points: 1 },
+            { id: 'jetski', terms: ['jet-ski', 'jet ski', 'moto d\'agua', 'moto dagua'], points: 1 },
+            { id: 'lancha', terms: ['lancha', 'carro d\'agua', 'carro dagua'], points: 1 },
+            { id: 'linhapipa', terms: ['linha da pipa'], points: 1 },
+            { id: 'linhavara', terms: ['linha da vara'], points: 1 },
+            { id: 'mesa', terms: ['mesa'], points: 1 },
+            { id: 'nuvem', terms: ['nuvem'], points: 1 },
+            { id: 'onda', terms: ['onda'], points: 1 },
+
+            // Paraquedas e Pessoas (Lógica Complexa)
+            // Se escrever apenas "paraquedas" = 1 ponto (ID: paraquedas)
+            // Se escrever "pessoa em paraquedas" = 2 pontos. (Isso conta como ID: pessoa_paraquedas)
+            // Precisamos garantir que não conte os dois se for a mesma figura.
+            // A solução simplificada aqui é tratar como IDs distintos e somar, MAS a instrução diz:
+            // "Quando o indivíduo escreve pessoa em paraquedas são pontuados a pessoa e o paraquedas (2 pontos)."
+            // Isso sugere que ele ganha o ponto da pessoa E do paraquedas.
+            // Vamos modelar como itens atômicos que podem ser acionados por frases.
+
+            { id: 'paraquedas', terms: ['paraquedas'], points: 1 },
+            { id: 'paraquedista', terms: ['paraquedista'], points: 1 }, // Vale 1 ponto segundo instruções
+
+            { id: 'parque', terms: ['parque'], points: 1 },
+            { id: 'passaro', terms: ['passaro', 'gaivota', 'falcao'], points: 1 },
+            { id: 'pato', terms: ['pato'], points: 1 },
+            { id: 'peixe', terms: ['peixe', 'tubarao'], points: 1 },
+
+            { id: 'pescador', terms: ['pescador', 'homem pescando'], points: 1 }, // "não é subentendido que a vara... foram percebidas" -> só 1 ponto
+
+            // Itens Compostos (Valem 2 pontos se escritos juntos, ou 1 se separados? A instrução diz "pontuam-se o trampolim e a pessoa")
+            // Vou usar uma lógica de correspondência direta de frases para pontos extras.
+            { id: 'pessoa_balao', terms: ['pessoa em balao', 'pessoa no balao'], points: 2 },
+            { id: 'pessoa_paraquedas', terms: ['pessoa em paraquedas', 'pessoa no paraquedas'], points: 2 },
+            { id: 'pessoa_trampolim', terms: ['pessoa em trampolim', 'pessoa no trampolim'], points: 2 },
+            { id: 'pessoa_escada', terms: ['pessoa em escada de pular', 'pessoa na escada de pular'], points: 2 },
+
+            { id: 'pipa', terms: ['pipa', 'papagaio'], points: 1 },
+            { id: 'poco', terms: ['poco', 'churrasqueira', 'forno a lenha'], points: 1 },
+            { id: 'porta', terms: ['porta'], points: 1 },
+            { id: 'prancha', terms: ['prancha'], points: 1 },
+            { id: 'rabiola', terms: ['rabiola'], points: 1 },
+            { id: 'sol', terms: ['sol'], points: 1 },
+            { id: 'surfista', terms: ['surfista'], points: 1 },
+            { id: 'terra', terms: ['terra'], points: 1 },
+            { id: 'trampolim', terms: ['trampolim', 'escada de pular', 'toboagua'], points: 1 },
+            { id: 'vara', terms: ['vara', 'vara de pesca'], points: 1 },
+            { id: 'vela', terms: ['vela'], points: 1 }
+        ];
+
+        function normalizeText(text) {
+            return text
+                .toLowerCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Remove acentos
+                .replace(/[^a-z0-9 ]/g, "") // Remove especiais
+                .trim();
+        }
 
         // --- ESTADO ---
         let userWords = [];
@@ -485,7 +548,6 @@
             return `${m}:${s}`;
         }
 
-        // Helper functions removed (normalizeText, animateValue)
         function animateValue(id, start, end, duration) {
             if (start === end) return;
             const range = end - start;
@@ -645,74 +707,128 @@
             countDisplay.innerText = userWords.length;
         }
 
-        // Helper matching functions REMOVED
+        // Levenshtein for fuzzy matching
+        function levenshtein(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
 
-        // --- FINALIZAÇÃO E ENVIO ---
-        async function finishTest() {
+            const matrix = [];
+
+            // increment along the first column of each row
+            for (let i = 0; i <= b.length; i++) {
+                matrix[i] = [i];
+            }
+
+            // increment each column in the first row
+            for (let j = 0; j <= a.length; j++) {
+                matrix[0][j] = j;
+            }
+
+            // Fill in the rest of the matrix
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1, // substitution
+                            Math.min(
+                                matrix[i][j - 1] + 1, // insertion
+                                matrix[i - 1][j] + 1  // deletion
+                            )
+                        );
+                    }
+                }
+            }
+
+            return matrix[b.length][a.length];
+        }
+
+        // Check compatibility with tolerance
+        function isMatch(userTerm, dbTerm) {
+            const u = normalizeText(userTerm);
+            const d = normalizeText(dbTerm);
+
+            // 1. Exact match
+            if (u === d) return true;
+
+            // 2. Contains match (if user typed extra words, but the core term is there?) 
+            // Risky, maybe strict is better. Let's stick to Distance for now.
+
+            // 3. Levenshtein Distance (Tolerance: 1 for short words, 2 for longer)
+            const dist = levenshtein(u, d);
+            const tolerance = d.length > 5 ? 2 : 1;
+
+            return dist <= tolerance;
+        }
+
+        // --- FINALIZAÇÃO E CORREÇÃO (LOGICA AVANCADA) ---
+        function finishTest() {
             console.log("Starting finishTest...");
-
-            // Show Loading
-            const loading = document.getElementById('loading-overlay');
-            if (loading) loading.classList.remove('hidden');
-
             try {
                 clearInterval(intervalId);
                 const timerEl = document.getElementById('unified-timer-container');
                 if (timerEl) timerEl.classList.add('hidden');
                 if (timerEl) timerEl.style.display = 'none';
 
-                let finalScore = 0;
+                let score = 0;
                 let correctList = [];
                 let wrongList = [];
 
-                // Submit to Backend
-                try {
-                    const result = await submitToBackend(userWords);
+                let matchedIds = new Set();
+                let usedInputs = new Set(); // Indicar quais inputs do usuário foram validados
 
-                    // If backend returns a score (legacy or updated), use it. 
-                    // Otherwise, we default to 0/Pending and don't show specific correct/wrong unless backend provides it.
-                    if (result && result.pontuacao !== undefined) {
-                        finalScore = result.pontuacao;
+                console.log("Sorting DB...");
+                // 1. Verificar itens compostos/valiosos primeiro
+                const sortedDB = [...TEPIC_ITEMS].sort((a, b) => b.points - a.points);
+
+                console.log("Traversing items...");
+                // Iterar sobre a base de dados (dos itens mais valiosos para os menos)
+                sortedDB.forEach(dbItem => {
+                    let found = false;
+                    let bestMatchIndex = -1;
+
+                    for (let i = 0; i < userWords.length; i++) {
+                        if (usedInputs.has(i)) continue;
+
+                        // Check against all terms for this DB item
+                        if (dbItem.terms.some(term => isMatch(userWords[i], term))) {
+                            found = true;
+                            bestMatchIndex = i;
+                            break;
+                        }
                     }
-                } catch (e) {
-                    console.error("Backend submission failed", e);
-                    alert("Erro ao enviar dados. Verifique sua conexão.");
-                    if (loading) loading.classList.add('hidden');
-                    return;
-                } finally {
-                    if (loading) loading.classList.add('hidden');
-                }
 
-                displayResults(finalScore, correctList, wrongList);
+                    if (found && bestMatchIndex !== -1) {
+                        // Double check uniqueness constraint if needed, but prioritizing high points usually solves it.
+                        if (!matchedIds.has(dbItem.id)) {
+                            usedInputs.add(bestMatchIndex);
+                            correctList.push(userWords[bestMatchIndex] + (dbItem.points > 1 ? ` (+${dbItem.points})` : ''));
+
+                            score += dbItem.points;
+                            matchedIds.add(dbItem.id);
+
+                            // Lógica de exclusão mútua (Ad hoc)
+                            if (dbItem.id === 'pessoa_balao') matchedIds.add('balao');
+                            if (dbItem.id === 'pessoa_paraquedas') { matchedIds.add('paraquedas'); matchedIds.add('parque'); }
+                            if (dbItem.id === 'pessoa_trampolim') matchedIds.add('trampolim');
+                        }
+                    }
+                });
+
+                console.log("Checking errors...");
+                // 2. O que sobrou na lista do usuário e não foi "usedInputs" é erro
+                userWords.forEach((w, i) => {
+                    if (!usedInputs.has(i)) {
+                        wrongList.push(w);
+                    }
+                });
+
+                console.log("Displaying results...", { score, correctList, wrongList });
+                displayResults(score, correctList, wrongList);
             } catch (e) {
                 console.error("Critical Error in finishTest:", e);
                 alert("Erro ao finalizar teste: " + e.message);
-                const loading = document.getElementById('loading-overlay');
-                if (loading) loading.classList.add('hidden');
-            }
-        }
-
-        async function submitToBackend(words) {
-            try {
-                const payload = {
-                    teste: "tepic_m",
-                    dadosUsuario: {
-                        respostas: words
-                    }
-                };
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) throw new Error("API Error");
-                const result = await response.json();
-
-                // Return full result object if needed, or just score
-                // We return the whole result so finishTest can decide what to use
-                return result;
-            } catch (e) {
-                console.error(e);
-                throw e; // Propagate error
             }
         }
 

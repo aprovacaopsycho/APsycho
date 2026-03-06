@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mapeador Final - Import/Export</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+        .workspace {
+            width: calc(100% - 350px);
+            height: 100vh;
+            overflow: auto;
+            background-image: radial-gradient(#333 1px, transparent 1px);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+        }
+
+        .canvas-container {
+            position: relative;
+            background: #222;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transform-origin: top center;
+        }
+
+        /* A Bolinha */
+        .marker {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 194, 255, 0.5);
+            background-color: rgba(0, 194, 255, 0.1);
+            cursor: move;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: bold;
+            z-index: 50;
+            user-select: none;
+        }
+
+        .marker:hover {
+            background-color: rgba(0, 194, 255, 0.4);
+            border-color: #fff;
+            z-index: 60;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        /* Alvo Correto */
+        .marker.is-correct {
+            background-color: rgba(0, 255, 0, 0.6);
+            border-color: #00ff00;
+            box-shadow: 0 0 8px #00ff00;
+        }
+
+        /* Sendo arrastado */
+        .marker.is-dragging {
+            border-color: white;
+            scale: 1.1;
+            cursor: grabbing;
+        }
+
+        .bg-image {
+            display: block;
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body x-data="mapperFinal()" class="flex" @mousemove="onDrag" @mouseup="stopDrag">
+
+    <aside
+        class="w-[350px] h-screen bg-gray-900 border-l border-gray-700 flex flex-col shadow-2xl z-50 fixed right-0 top-0 overflow-y-auto text-xs">
+        <div class="p-4 space-y-5">
+            <h2 class="text-lg font-bold text-blue-400 border-b border-gray-700 pb-2">Editor Visual (JSON)</h2>
+
+            <div class="bg-gray-800 p-3 rounded">
+                <label class="block uppercase text-gray-400 mb-2 font-bold">1. Imagem de Fundo</label>
+                <input type="file" @change="loadImage" accept="image/*" class="w-full text-gray-300">
+                <div class="flex justify-between items-center mt-3">
+                    <span>Zoom: <span x-text="zoom + '%'"></span></span>
+                    <input type="range" x-model="zoom" min="20" max="200" class="w-24 accent-blue-500">
+                </div>
+            </div>
+
+            <div class="bg-gray-800 p-3 rounded border-l-2 border-yellow-500">
+                <h3 class="font-bold text-yellow-400 uppercase mb-2">2. Colar Configuração Atual</h3>
+                <p class="text-[10px] text-gray-400 mb-2">Cole o código (objeto JSON ou a var const PAGE_CONFIG) aqui
+                    para editar os pontos:</p>
+                <textarea x-model="inputCode"
+                    class="w-full h-32 bg-black text-gray-300 p-2 rounded border border-gray-600 font-mono text-[10px] focus:border-yellow-500 outline-none"
+                    placeholder='Cole aqui: config: { ... }'></textarea>
+                <button @click="loadFromCode()"
+                    class="w-full mt-2 py-2 bg-yellow-600 hover:bg-yellow-500 text-black font-bold rounded">
+                    CARREGAR PONTOS NA TELA
+                </button>
+            </div>
+
+            <div class="bg-black/30 p-2 rounded text-gray-400 italic">
+                <ul class="list-disc pl-4 space-y-1">
+                    <li>Arraste as bolinhas para corrigir a posição.</li>
+                    <li>Clique rápido para marcar como <strong>Correto (Verde)</strong>.</li>
+                    <li>Use os sliders abaixo para ajuste global se necessário.</li>
+                </ul>
+            </div>
+
+            <div class="bg-gray-800 p-3 rounded space-y-2">
+                <div class="flex justify-between">
+                    <span>Tamanho Bolinha</span>
+                    <span x-text="config.circleSize"></span>
+                </div>
+                <input type="range" x-model="config.circleSize" min="10" max="100" class="w-full accent-gray-500">
+            </div>
+
+            <div class="pt-2 pb-10">
+                <h3 class="font-bold text-green-400 uppercase mb-2">3. Código Final</h3>
+                <button @click="generateOutput()"
+                    class="w-full py-3 bg-gradient-to-r from-green-600 to-green-500 text-white font-bold rounded shadow-lg">
+                    GERAR CÓDIGO CORRIGIDO
+                </button>
+                <textarea x-model="outputCode" readonly
+                    class="w-full h-32 bg-black text-green-400 text-[10px] p-2 rounded border border-gray-700 font-mono mt-2 focus:outline-none"></textarea>
+            </div>
+        </div>
+    </aside>
+
+    <main class="workspace">
+        <div class="canvas-container"
+            :style="`width: ${config.width}px; height: ${config.height}px; transform: scale(${zoom/100});`">
+
+            <img :src="imgSrc" x-show="imgSrc" class="bg-image" :style="`width: 100%; height: 100%;`">
+
+            <div x-show="!imgSrc"
+                class="absolute inset-0 flex items-center justify-center text-gray-500 pointer-events-none">
+                <p class="text-xl font-bold border-2 border-dashed border-gray-700 p-10 rounded-xl">1. Carregue a Imagem
+                </p>
+            </div>
+
+            <template x-for="item in config.items" :key="item.id">
+                <div class="marker" :class="{
+                        'is-correct': item.isTarget, 
+                        'is-dragging': draggingId === item.id
+                     }" @mousedown.prevent="startDrag($event, item.id)" :style="`
+                        left: ${item.x}px; 
+                        top: ${item.y}px; 
+                        width: ${config.circleSize}px; 
+                        height: ${config.circleSize}px;
+                     `">
+                    <span x-text="item.id" style="pointer-events: none;"></span>
+                </div>
+            </template>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('mapperFinal', () => ({
+                imgSrc: '',
+                zoom: 100,
+
+                // Dados Principais
+                config: {
+                    width: 800,
+                    height: 1000,
+                    circleSize: 35,
+                    items: []
+                },
+
+                // Inputs
+                inputCode: '',
+                outputCode: '',
+
+                // Dragging Logic
+                draggingId: null,
+                startX: 0,
+                startY: 0,
+                initialItemX: 0,
+                initialItemY: 0,
+                isClick: false,
+
+                loadImage(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        this.imgSrc = evt.target.result;
+                        // Tenta pegar tamanho real se a config não estiver carregada
+                        const img = new Image();
+                        img.onload = () => {
+                            if (this.config.items.length === 0) {
+                                this.config.width = img.width;
+                                this.config.height = img.height;
+                            }
+                        }
+                        img.src = evt.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                },
+
+                loadFromCode() {
+                    try {
+                        // Limpeza básica para pegar só o JSON se vier com "const = ..."
+                        let cleanStr = this.inputCode;
+                        if (cleanStr.includes('=')) {
+                            cleanStr = cleanStr.substring(cleanStr.indexOf('=') + 1).trim();
+                        }
+                        if (cleanStr.endsWith(';')) {
+                            cleanStr = cleanStr.slice(0, -1);
+                        }
+
+                        // O JSON fornecido pode não ter aspas nas chaves, vamos usar eval (com cuidado local) 
+                        // ou JSON.parse se estiver formatado estritamente.
+                        // Para garantir flexibilidade, usamos Function return
+                        const parsed = new Function("return " + cleanStr)();
+
+                        if (parsed.items && Array.isArray(parsed.items)) {
+                            this.config = parsed;
+                            // Garante inteiros
+                            this.config.circleSize = parseInt(this.config.circleSize);
+                            alert(`Carregados ${this.config.items.length} pontos! Agora você pode ajustar.`);
+                        } else {
+                            alert("Formato inválido. O objeto deve ter a propriedade 'items'.");
+                        }
+                    } catch (e) {
+                        alert("Erro ao ler código: " + e.message);
+                    }
+                },
+
+                startDrag(e, id) {
+                    this.draggingId = id;
+                    this.isClick = true;
+                    this.startX = e.clientX;
+                    this.startY = e.clientY;
+
+                    const item = this.config.items.find(i => i.id === id);
+                    this.initialItemX = item.x;
+                    this.initialItemY = item.y;
+                },
+
+                onDrag(e) {
+                    if (this.draggingId === null) return;
+
+                    const dx = e.clientX - this.startX;
+                    const dy = e.clientY - this.startY;
+
+                    if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+                        this.isClick = false;
+                    }
+
+                    const scale = this.zoom / 100;
+                    const item = this.config.items.find(i => i.id === this.draggingId);
+
+                    item.x = Math.round(this.initialItemX + (dx / scale));
+                    item.y = Math.round(this.initialItemY + (dy / scale));
+                },
+
+                stopDrag() {
+                    if (this.draggingId !== null) {
+                        if (this.isClick) {
+                            const item = this.config.items.find(i => i.id === this.draggingId);
+                            item.isTarget = !item.isTarget;
+                        }
+                        this.draggingId = null;
+                    }
+                },
+
+                generateOutput() {
+                    // Ordena por ID para manter consistência
+                    this.config.items.sort((a, b) => a.id - b.id);
+
+                    const jsonStr = JSON.stringify(this.config, null, 4);
+                    this.outputCode = `/* CONFIG ATUALIZADA */\nconst PAGE_CONFIG = ${jsonStr};`;
+                    navigator.clipboard.writeText(this.outputCode);
+                    alert("Código corrigido copiado!");
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>

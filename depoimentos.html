@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depoimentos - Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: { DEFAULT: '#0B0A14', secondary: '#12111F' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -> Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* Global & Variables */
+        :root {
+            --color-primary: #9F54FF;
+            --color-secondary: #FF00FF;
+            --color-accent: #0015FF;
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            background-color: #0B0A14;
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Enhanced Glassmorphism */
+        .glass-nav {
+            background: rgba(11, 10, 20, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .glass-card {
+            background: linear-gradient(180deg, rgba(24, 23, 40, 0.7) 0%, rgba(18, 17, 31, 0.4) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            background: linear-gradient(180deg, rgba(30, 29, 50, 0.8) 0%, rgba(24, 23, 40, 0.5) 100%);
+            border-color: rgba(159, 84, 255, 0.3);
+            box-shadow: 0 0 25px rgba(159, 84, 255, 0.15);
+            transform: translateY(-4px);
+        }
+
+        /* Base Buttons */
+        .btn-glow {
+            position: relative;
+            background: linear-gradient(90deg, #FF00FF, #0015FF);
+            color: white;
+            font-weight: 700;
+            border-radius: 99px;
+            padding: 0.8rem 2rem;
+            transition: all 0.3s ease;
+            z-index: 1;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            overflow: hidden;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-glow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Nav specific */
+        .nav-btn-member {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            color: #fff;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+        }
+
+        .nav-btn-member:hover {
+            background: rgba(255, 0, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+
+        /* Image modal */
+        .modal-overlay {
+            backdrop-filter: blur(8px);
+        }
+
+        /* Carousel Styles */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-purple-500 selection:text-white" x-data="depoimentosApp()">
+
+    <!-- ===== Header ===== -->
+    <header class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <nav class="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="index.html" class="flex items-center gap-3 group" aria-label="Home">
+                <div class="relative">
+                    <div
+                        class="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-20 blur transition duration-500 group-hover:opacity-60">
+                    </div>
+                    <img src="Imagens_base/logo-principal.png" alt="Aprovação Psycho" class="relative h-10 w-auto" />
+                </div>
+                <span class="text-xl font-black text-white tracking-tight">
+                    APROVAÇÃO <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">PSYCHO</span>
+                </span>
+            </a>
+
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="index.html" class="text-gray-300 hover:text-white transition-colors">O Curso</a>
+                <a href="turmas.html" class="text-gray-300 hover:text-white transition-colors">Turmas</a>
+                <a href="depoimentos.html" class="text-white transition-colors font-bold">Depoimentos</a>
+                <a href="simuladores.html" class="text-gray-300 hover:text-white transition-colors">Simuladores</a>
+                <a href="galeria.html" class="text-gray-300 hover:text-white transition-colors">Galeria</a>
+                <a href="equipe.html" class="text-gray-300 hover:text-white transition-colors">Equipe</a>
+                <a href="dicas.html" class="text-gray-300 hover:text-white transition-colors">Dicas</a>
+                <a href="membros.html" class="nav-btn-member flex items-center gap-2">
+                    <svg class="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                    Área de Membros
+                </a>
+            </div>
+
+            <!-- Mobile Button -->
+            <button id="menu-btn"
+                class="md:hidden p-2 text-gray-300 hover:text-white rounded-lg border border-white/10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="md:hidden hidden bg-black/90 backdrop-blur-xl border-b border-white/10 absolute w-full left-0 top-full">
+            <div class="p-6 flex flex-col gap-4 text-center">
+                <a href="index.html" class="text-gray-300 py-2">O Curso</a>
+                <a href="turmas.html" class="text-gray-300 py-2">Turmas Abertas</a>
+                <a href="depoimentos.html" class="text-purple-400 py-2 font-bold">Depoimentos</a>
+                <a href="simuladores.html" class="text-gray-300 py-2">Simuladores</a>
+                <a href="galeria.html" class="text-gray-300 py-2">Galeria</a>
+                <a href="equipe.html" class="text-gray-300 py-2">Equipe</a>
+                <a href="dicas.html" class="text-gray-300 py-2">Dicas</a>
+                <a href="membros.html"
+                    class="text-white font-bold bg-white/10 py-3 rounded-lg border border-purple-500/30">Área de
+                    Membros</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== Main Content ===== -->
+    <main class="pt-32 pb-20 px-6 min-h-screen">
+        <div class="mx-auto max-w-[1400px]">
+            <!-- Header Section -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span
+                    class="inline-block py-1 px-3 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-bold uppercase tracking-wider mb-4">MURAL
+                    DE SUCESSO</span>
+                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">Histórias de <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Aprovação</span>
+                </h1>
+                <p class="text-gray-400 text-lg">Eles confiaram no método e garantiram a aprovação no exame
+                    psicotécnico. O próximo será você.</p>
+            </div>
+
+            <!-- Testimonials Carousel -->
+            <div class="relative w-full max-w-6xl mx-auto px-4 md:px-12 group">
+                <button @click="scrollLeft"
+                    class="absolute left-0 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white backdrop-blur-md transition-colors z-20 hidden md:block">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                </button>
+
+                <div x-ref="carousel" class="flex overflow-x-auto gap-6 snap-x snap-mandatory scrollbar-hide py-4"
+                    style="scroll-behavior: smooth;">
+                    <template x-for="(imgSrc, index) in images" :key="index">
+                        <div class="min-w-[280px] md:min-w-[320px] lg:min-w-[360px] max-w-[400px] snap-center shrink-0 glass-card p-2 cursor-pointer relative group/item rounded-xl"
+                            @click="openModal(imgSrc)">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity duration-300 rounded-xl z-10 flex items-end justify-center pb-6">
+                                <span
+                                    class="text-white font-bold tracking-widest text-sm uppercase flex items-center gap-2"><svg
+                                        class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7">
+                                        </path>
+                                    </svg> Ampliar</span>
+                            </div>
+                            <img :src="'Imagens_base/depoimentos/' + imgSrc" loading="lazy"
+                                class="w-full h-[500px] object-cover object-top rounded-lg transition-transform duration-500 group-hover/item:scale-[1.02]"
+                                alt="Depoimento">
+                        </div>
+                    </template>
+                </div>
+
+                <button @click="scrollRight"
+                    class="absolute right-0 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 p-3 rounded-full text-white backdrop-blur-md transition-colors z-20 hidden md:block">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- CTA -->
+            <div class="mt-20 text-center">
+                <div class="inline-block p-[2px] rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
+                    <div class="px-8 py-3 bg-[#0B0A14] rounded-full text-white font-bold">
+                        Quer ver seu nome aqui? <a href="turmas.html"
+                            class="text-purple-400 hover:text-white transition-colors">Conheça as turmas abertas.</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Fullscreen Image Modal -->
+    <div x-show="modalOpen" style="display: none;"
+        class="fixed inset-0 z-[100] modal-overlay bg-black/90 flex flex-col items-center justify-center p-4 transition-opacity duration-300"
+        x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @keydown.escape.window="closeModal()">
+
+        <!-- Toolbar Modal -->
+        <div class="absolute top-4 right-4 flex gap-4 z-50">
+            <button @click="closeModal()"
+                class="bg-white/10 hover:bg-white/20 p-3 rounded-full text-white backdrop-blur-md transition-colors"
+                title="Fechar">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <img @click.outside="closeModal()" :src="selectedImage"
+            class="max-h-[90vh] max-w-full object-contain rounded-lg shadow-2xl border border-white/10"
+            alt="Depoimento Ampliado" x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95">
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-[#08070F] py-10 mt-auto">
+        <div class="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3 opacity-80 hover:opacity-100 transition">
+                <img src="Imagens_base/logo-principal.png" alt="Logo" class="h-8 w-auto grayscale">
+                <span class="font-bold text-gray-500 text-sm">© <span x-data
+                        x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos
+                    reservados.</span>
+            </div>
+            <div class="flex gap-6 text-sm text-gray-500">
+                <a href="#" class="hover:text-purple-400 transition">Termos</a>
+                <a href="#" class="hover:text-purple-400 transition">Privacidade</a>
+                <a href="https://wa.me/5585991982168" class="hover:text-green-400 transition">Contato</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn?.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Alpine Logic for Images
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('depoimentosApp', () => ({
+                images: [
+                    'dep1.jpeg',
+                    'dep2.jpeg',
+                    'dep3.jpeg',
+                    'dep4.jpeg',
+                    'dep5.jpeg',
+                    'dep6.jpeg',
+                    'dep7.jpeg',
+                    'dep8.jpeg',
+                    'dep9.jpeg',
+                    'dep10.jpeg',
+                    'dep11.jpeg',
+                    'dep13.jpeg'
+                ],
+                modalOpen: false,
+                selectedImage: '',
+
+                openModal(imgSrc) {
+                    this.selectedImage = 'Imagens_base/depoimentos/' + imgSrc;
+                    this.modalOpen = true;
+                    document.body.style.overflow = 'hidden';
+                },
+
+                closeModal() {
+                    this.modalOpen = false;
+                    document.body.style.overflow = '';
+                    setTimeout(() => { this.selectedImage = ''; }, 300); // Clear after animation
+                },
+
+                scrollLeft() {
+                    this.$refs.carousel.scrollBy({ left: -360, behavior: 'smooth' });
+                },
+
+                scrollRight() {
+                    this.$refs.carousel.scrollBy({ left: 360, behavior: 'smooth' });
+                }
+            }))
+        })
+    </script>
+</body>
+
+</html>

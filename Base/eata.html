@@ -509,7 +509,15 @@
             { "id": 40, "text": "UTILIZO O NOME DE ALGUÉM PARA CONSEGUIR BENEFÍCIOS SEM SEU CONHECIMENTO" }
         ];
 
-        // Mapeamento Soma -> Percentil movido para o backend (segurança)
+        // Mapeamento Soma -> Percentil (PTS -> %)
+        const DATA_PERCENTILES = [
+            1, 2, 4, 7, 12, 18, 24, 30, 37, 43, 49, 54, 58, 61, 65,
+            68, 72, 75, 78, 80, 82, 83, 85, 87, 88, 89, 90, 91, 92, 92,
+            93, 93, 93, 93, 93, 93, 93, 94, 94, 94, 94, 94, 94, 94, 94,
+            94, 94, 94, 94, 94, 94, 94, 94, 94, 95, 95, 95, 96, 96, 96,
+            97, 98, 98, 99, 99, 99, 99, 99, 100, 100, 100, 100, 100, 100,
+            100, 100, 100, 100, 100, 100, 100, 100
+        ];
 
         /* ================= LÓGICA ================= */
 
@@ -671,22 +679,26 @@
             document.querySelector('header').scrollIntoView({ behavior: 'smooth' });
         }
 
-        async function calculate(pastedAnswers = null) {
+        function calculate(pastedAnswers = null) {
             clearInterval(timerInterval); // Parar timer
 
             let answersMap = new Map();
+            let sum = 0;
 
             if (pastedAnswers) {
                 pastedAnswers.forEach((val, idx) => {
                     const qId = idx + 1;
                     answersMap.set(qId, val);
+                    sum += val;
                 });
             } else {
                 let missing = [];
                 DATA_QUESTIONS.forEach(q => {
                     const checked = document.querySelector(`input[name="q${q.id}"]:checked`);
                     if (checked) {
-                        answersMap.set(q.id, parseInt(checked.value));
+                        const val = parseInt(checked.value);
+                        answersMap.set(q.id, val);
+                        sum += val;
                     } else {
                         missing.push(q.id);
                     }
@@ -694,48 +706,34 @@
 
                 if (missing.length > 0) {
                     alert(`Faltam ${missing.length} respostas. Por favor preencha todas.`);
+                    // Scroll to first missing
                     const firstMissing = document.getElementById(`q-card-${missing[0] - 1}`);
                     if (firstMissing) firstMissing.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     return;
                 }
             }
 
-            // Montar payload para o backend
-            const respostasObj = {};
-            DATA_QUESTIONS.forEach(q => {
-                const val = answersMap.get(q.id);
-                if (val !== undefined) respostasObj[String(q.id)] = val;
-            });
+            // --- LÓGICA DE RESULTADO EATA ---
+            // APTO: Entre 7 e 12 (inclusive)
+            let passed = false;
+            let statusText = "INAPTO";
+            let statusColor = "text-red-500 border-red-500/50 bg-red-500/10";
 
-            const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec';
-
-            try {
-                const response = await fetch(BACKEND_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({ tipo: 'eata', respostas: respostasObj })
-                });
-                const result = await response.json();
-
-                if (!result.sucesso) {
-                    alert('Erro do servidor: ' + (result.erro || 'Desconhecido'));
-                    return;
-                }
-
-                renderReport(result);
-
-            } catch (err) {
-                alert('Erro ao conectar com o servidor: ' + err.message);
+            if (sum >= 7 && sum <= 12) {
+                passed = true;
+                statusText = "APTO";
+                statusColor = "text-green-500 border-green-500/50 bg-green-500/10";
             }
-        }
 
-        function renderReport(result) {
-            const soma = result.soma;
-            const percentil = result.percentil;
-            const passed = result.globalStatus;
-            const statusText = passed ? 'APTO' : 'INAPTO';
-            const statusColor = passed ? 'text-green-500 border-green-500/50 bg-green-500/10' : 'text-red-500 border-red-500/50 bg-red-500/10';
+            // Percentil
+            // Se maior que 80, usa 100.
+            let percentil = 100;
+            if (sum < DATA_PERCENTILES.length) {
+                percentil = DATA_PERCENTILES[sum];
+            }
 
+            // Display Results
+            const report = document.getElementById('report-content');
             const now = new Date();
             document.getElementById('report-date').innerText = now.toLocaleString('pt-BR');
 
@@ -743,14 +741,14 @@
             badge.className = `px-8 py-3 rounded-full text-xl font-bold border ${statusColor} shadow-lg`;
             badge.innerText = statusText;
 
-            const report = document.getElementById('report-content');
+            // Generate Content
             let html = `
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-[#0f0e1a] p-6 rounded-xl border border-white/10">
                         <h3 class="text-xl font-bold text-white mb-4">Pontuação</h3>
                         <div class="flex justify-between items-center mb-4 py-2 border-b border-white/5">
                             <span class="text-gray-400">Total de Pontos (Soma)</span>
-                            <span class="text-2xl font-bold text-white">${soma}</span>
+                            <span class="text-2xl font-bold text-white">${sum}</span>
                         </div>
                         <div class="flex justify-between items-center mb-4 py-2 border-b border-white/5">
                             <span class="text-gray-400">Percentil</span>
@@ -758,7 +756,7 @@
                         </div>
                         <div class="mt-4 p-4 rounded-lg bg-white/5 text-sm text-gray-400">
                             <strong>Critério:</strong> Deve estar entre 7 e 12 pontos.<br>
-                            Sua pontuação: ${soma}
+                            Sua pontuação: ${sum}
                         </div>
                     </div>
                     
@@ -774,7 +772,7 @@
 
             report.innerHTML = html;
 
-            saveToHistory("EATA", soma, statusText);
+            saveToHistory("EATA", sum, statusText);
             showScreen('result');
 
             if (!passed) {

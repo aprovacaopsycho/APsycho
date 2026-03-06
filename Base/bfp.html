@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>AvaliaÃ§Ã£o BFP | AprovaÃ§Ã£o Psycho</title>
+    <title>Avaliação BFP | Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="../favicon.png">
 
-    <!-- SEGURANÃ‡A -->
+    <!-- SEGURANÇA -->
     <script src="../scripts/auth_guard.js"></script>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -235,33 +235,16 @@
         <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div id="loading-overlay"
-        class="hidden fixed inset-0 z-[9999] bg-black/90 backdrop-blur-sm flex flex-col items-center justify-center transition-opacity">
-        <div class="relative w-32 h-32 mb-8">
-            <div class="absolute inset-0 border-4 border-purple-500/30 rounded-full animate-[spin_3s_linear_infinite]">
-            </div>
-            <div
-                class="absolute inset-2 border-4 border-t-purple-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-[spin_2s_linear_infinite]">
-            </div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <i class="fas fa-brain text-4xl text-purple-400 animate-pulse"></i>
-            </div>
-        </div>
-        <h2 class="text-3xl font-black text-white mb-2 tracking-wider">PROCESSANDO</h2>
-        <p class="text-purple-400 font-medium animate-pulse">Analisando personalidade...</p>
-    </div>
-
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
-                    alt="BrasÃ£o Base"
+                    alt="Brasão Base"
                     class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black text-gray-200">APROVAÃ‡ÃƒO <span class="text-[var(--accent-pink)]"
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
                             style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
                     <span class="text-white font-black text-lg leading-none">BFP</span>
                 </div>
@@ -286,7 +269,7 @@
         <div id="screen-dashboard" class="fade-in">
             <div class="mb-10">
                 <h2 class="text-3xl font-bold text-white mb-2">Painel de Controle</h2>
-                <p class="text-gray-400">VisÃ£o geral do seu desempenho na Bateria Fatorial de Personalidade.</p>
+                <p class="text-gray-400">Visão geral do seu desempenho na Bateria Fatorial de Personalidade.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
@@ -310,7 +293,7 @@
                             class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
                             <i class="fas fa-stopwatch text-xl"></i>
                         </div>
-                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Ãšltimo</span>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Último</span>
                     </div>
                     <div class="text-lg font-bold text-white mb-1 truncate" id="dash-last-date">-</div>
                     <p class="text-sm text-gray-500" id="dash-last-status">Sem dados</p>
@@ -330,9 +313,9 @@
 
             <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
                 <div class="p-6 border-b border-white/5 flex justify-between items-center">
-                    <h3 class="text-lg font-bold text-white">HistÃ³rico de Atividades</h3>
+                    <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
                     <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
-                        onclick="limparHistorico()">Limpar HistÃ³rico</button>
+                        onclick="limparHistorico()">Limpar Histórico</button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
@@ -341,7 +324,7 @@
                                 <th class="px-6 py-4 font-medium">Teste</th>
                                 <th class="px-6 py-4 font-medium">Data</th>
                                 <th class="px-6 py-4 font-medium text-center">Status</th>
-                                <th class="px-6 py-4 font-medium text-right">AÃ§Ã£o</th>
+                                <th class="px-6 py-4 font-medium text-right">Ação</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white/5" id="history-container">
@@ -356,7 +339,7 @@
                 <div class="flex justify-between items-start mb-6">
                     <div>
                         <h2 class="text-2xl font-bold text-white mb-2">Importar Respostas</h2>
-                        <p class="text-gray-400 text-sm">Cole a lista de nÃºmeros (um por linha ou separados por espaÃ§o).
+                        <p class="text-gray-400 text-sm">Cole a lista de números (um por linha ou separados por espaço).
                             Exatamente 126 respostas.</p>
                     </div>
                     <button onclick="showScreen('dashboard')" class="text-gray-500 hover:text-white">
@@ -412,29 +395,74 @@
             </div>
 
             <!-- FILTRO E TIMER -->
-            <!-- FILTRO REMOVIDO -->
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+                <div
+                    class="flex items-center gap-3 bg-[#151427] px-4 py-2 rounded-lg border border-white/10 focus-within:border-purple-500 transition-colors shadow-lg shadow-black/20">
+                    <i class="fas fa-filter text-purple-400"></i>
+                    <select id="facet-filter" onchange="filtrarFacetas()"
+                        class="bg-transparent text-gray-300 text-sm outline-none cursor-pointer w-full md:w-auto font-medium">
+                        <option value="ALL" class="bg-[#151427] text-white">Todas as Facetas</option>
+
+                        <optgroup label="Neuroticismo (N)" class="bg-[#1c1b29] text-purple-300">
+                            <option value="N">Todos de Neuroticismo</option>
+                            <option value="N1">N1 - Vulnerabilidade</option>
+                            <option value="N2">N2 - Instabilidade Emocional</option>
+                            <option value="N3">N3 - Passividade</option>
+                            <option value="N4">N4 - Depressão</option>
+                        </optgroup>
+
+                        <optgroup label="Extroversão (E)" class="bg-[#1c1b29] text-cyan-300">
+                            <option value="E">Todos de Extroversão</option>
+                            <option value="E1">E1 - Comunicação</option>
+                            <option value="E2">E2 - Altivez</option>
+                            <option value="E3">E3 - Dinamismo</option>
+                            <option value="E4">E4 - Interação Social</option>
+                        </optgroup>
+
+                        <optgroup label="Socialização (S)" class="bg-[#1c1b29] text-green-300">
+                            <option value="S">Todos de Socialização</option>
+                            <option value="S1">S1 - Amabilidade</option>
+                            <option value="S2">S2 - Pró-Sociabilidade</option>
+                            <option value="S3">S3 - Confiança</option>
+                        </optgroup>
+
+                        <optgroup label="Realização (R)" class="bg-[#1c1b29] text-yellow-300">
+                            <option value="R">Todos de Realização</option>
+                            <option value="R1">R1 - Competência</option>
+                            <option value="R2">R2 - Ponderação/Prudência</option>
+                            <option value="R3">R3 - Empenho</option>
+                        </optgroup>
+
+                        <optgroup label="Abertura (A)" class="bg-[#1c1b29] text-pink-300">
+                            <option value="A">Todos de Abertura</option>
+                            <option value="A1">A1 - Abertura a Ideias</option>
+                            <option value="A2">A2 - Liberalismo</option>
+                            <option value="A3">A3 - Busca por Novidades</option>
+                        </optgroup>
+                    </select>
+                </div>
 
 
-            <!-- Timer Removed -->
+                <!-- Timer Removed -->
 
-            <button onclick="abrirImportacao()"
-                class="flex items-center gap-2 bg-[#151427] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium">
-                <i class="fas fa-paste text-purple-400"></i>
-                Colar Respostas
-            </button>
-        </div>
+                <button onclick="abrirImportacao()"
+                    class="flex items-center gap-2 bg-[#151427] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium">
+                    <i class="fas fa-paste text-purple-400"></i>
+                    Colar Respostas
+                </button>
+            </div>
 
-        <div id="quiz-container" class="space-y-6">
-        </div>
+            <div id="quiz-container" class="space-y-6">
+            </div>
 
-        <div class="mt-10 flex flex-col items-center gap-4 pb-20">
-            <button onclick="calcularResultado()"
-                class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
-                FINALIZAR AVALIAÃ‡ÃƒO <i class="fas fa-check-circle ml-2"></i>
-            </button>
+            <div class="mt-10 flex flex-col items-center gap-4 pb-20">
+                <button onclick="calcularResultado()"
+                    class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
+                    FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
+                </button>
 
 
-        </div>
+            </div>
         </div>
 
         <div id="screen-result" class="hidden fade-in">
@@ -442,7 +470,7 @@
             <div
                 class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
                 <div>
-                    <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÃ“RIO DE PERFIL</h2>
+                    <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÓRIO DE PERFIL</h2>
                     <p class="text-gray-400 flex items-center gap-2">
                         <i class="far fa-calendar-alt"></i> <span id="report-date">...</span>
                     </p>
@@ -475,7 +503,7 @@
             </div>
 
             <div class="mt-20 text-center border-t border-white/5 pt-10 pb-10">
-                <p class="text-gray-600 text-sm">AprovaÃ§Ã£o Psycho - MÃ©todo Titan</p>
+                <p class="text-gray-600 text-sm">Aprovação Psycho - Método Titan</p>
             </div>
         </div>
 
@@ -484,144 +512,182 @@
     <script>
         /* ================= DADOS (PLACEHOLDERS) ================= */
 
-        // SERÃ PREENCHIDO PELO AGENTE NA PRÃ“XIMA ETAPA
+        // SERÁ PREENCHIDO PELO AGENTE NA PRÓXIMA ETAPA
         const DATA_QUESTIONS = [
-            { "id": 1, "text": "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÃ-LAS", "facet": "A2", "inverted": true },
+            { "id": 1, "text": "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÁ-LAS", "facet": "A2", "inverted": true },
             { "id": 2, "text": "TENTO FAZER COM QUE AS PESSOAS SE SINTAM BEM", "facet": "S1", "inverted": false },
             { "id": 3, "text": "GOSTO DE FALAR SOBRE MIM", "facet": "E2", "inverted": false },
-            { "id": 4, "text": "TENHO UM CORAÃ‡ÃƒO MOLE", "facet": "S1", "inverted": false },
+            { "id": 4, "text": "TENHO UM CORAÇÃO MOLE", "facet": "S1", "inverted": false },
             { "id": 5, "text": "FALO TUDO QUE PENSO", "facet": "E2", "inverted": false },
             { "id": 6, "text": "GOSTO DE FAZER COISAS QUE NUNCA FIZ ANTES", "facet": "A3", "inverted": false },
-            { "id": 7, "text": "ACREDITO QUE AS PESSOAS TÃŠM BOAS INTENÃ‡Ã•ES", "facet": "S3", "inverted": false },
+            { "id": 7, "text": "ACREDITO QUE AS PESSOAS TÊM BOAS INTENÇÕES", "facet": "S3", "inverted": false },
             { "id": 8, "text": "SOU DIVERTIDO", "facet": "E4", "inverted": false },
             { "id": 9, "text": "TOMO CUIDADO COM O QUE FALO", "facet": "R2", "inverted": false },
             { "id": 10, "text": "DIFICILMENTE PERDOO", "facet": "S3", "inverted": true },
             { "id": 11, "text": "DIVIRTO ME QUANDO ESTOU ENTRE VARIAS PESSOAS", "facet": "E4", "inverted": false },
             { "id": 12, "text": "RESPEITO OS SENTIMENTOS ALHEIOS", "facet": "S1", "inverted": false },
-            { "id": 13, "text": "MESMO QUANDO PRECISO RESOLVER ALGUMA COISA PARA MIM, COSTUMO ADIAR ATÃ‰ O ÃšLTIMO MOMENTO", "facet": "N3", "inverted": false },
+            { "id": 13, "text": "MESMO QUANDO PRECISO RESOLVER ALGUMA COISA PARA MIM, COSTUMO ADIAR ATÉ O ÚLTIMO MOMENTO", "facet": "N3", "inverted": false },
             { "id": 14, "text": "TENTO INFLUENCIAR OS OUTROS", "facet": "E2", "inverted": false },
             { "id": 15, "text": "SOU GENEROSO", "facet": "S1", "inverted": false },
             { "id": 16, "text": "ESTOU SATISFEITO COMIGO MESMO", "facet": "N4", "inverted": true },
-            { "id": 17, "text": "NÃƒO FALO MUITO", "facet": "E1", "inverted": true },
+            { "id": 17, "text": "NÃO FALO MUITO", "facet": "E1", "inverted": true },
             { "id": 18, "text": "POSSO AGREDIR FISICAMENTE AS PESSOAS QUANDO FICO MUITO IRRITADO", "facet": "S2", "inverted": true },
             { "id": 19, "text": "RESOLVO MEUS PROBLEMAS SEM PENSAR MUITO", "facet": "R2", "inverted": true },
             { "id": 20, "text": "PREOCUPO-ME COM TODOS", "facet": "S1", "inverted": false },
             { "id": 21, "text": "GERALMENTE ME SINTO FELIZ", "facet": "E3", "inverted": false },
-            { "id": 22, "text": "PRECISO DE ESTÃMULOS PARA COMEÃ‡AR A FAZER AS COISAS", "facet": "N3", "inverted": false },
-            { "id": 23, "text": "TENHO POUCO INTERESSE POR EXPOSIÃ‡Ã•ES DE ARTE", "facet": "A1", "inverted": true },
+            { "id": 22, "text": "PRECISO DE ESTÍMULOS PARA COMEÇAR A FAZER AS COISAS", "facet": "N3", "inverted": false },
+            { "id": 23, "text": "TENHO POUCO INTERESSE POR EXPOSIÇÕES DE ARTE", "facet": "A1", "inverted": true },
             { "id": 24, "text": "DIVIRTO-ME CONTRARIANDO AS PESSOAS", "facet": "S2", "inverted": true },
-            { "id": 25, "text": "COM FREQUÃŠNCIA TOMO DECISÃ•ES PRECIPITADAS", "facet": "N2", "inverted": false },
-            { "id": 26, "text": "FACILMENTE COLOCO AS MINHAS IDEIAS EM PRÃTICA", "facet": "E3", "inverted": false },
+            { "id": 25, "text": "COM FREQUÊNCIA TOMO DECISÕES PRECIPITADAS", "facet": "N2", "inverted": false },
+            { "id": 26, "text": "FACILMENTE COLOCO AS MINHAS IDEIAS EM PRÁTICA", "facet": "E3", "inverted": false },
             { "id": 27, "text": "USO AS PESSOAS PARA CONSEGUIR O QUE DESEJO", "facet": "S2", "inverted": true },
             { "id": 28, "text": "POSSO LIDAR COM MUITAS TAREFAS AO MESMO TEMPO", "facet": "R1", "inverted": false },
             { "id": 29, "text": "QUASE SEMPRE ME SINTO DESANIMADO", "facet": "N4", "inverted": false },
-            { "id": 30, "text": "SUSPEITO DAS INTENÃ‡Ã•ES DAS PESSOAS", "facet": "S3", "inverted": true },
+            { "id": 30, "text": "SUSPEITO DAS INTENÇÕES DAS PESSOAS", "facet": "S3", "inverted": true },
             { "id": 31, "text": "ATUALMENTE, DEFENDO IDEIAS DIFERENTES DAQUELAS QUE DEFENDIA ANTIGAMENTE", "facet": "A2", "inverted": false },
             { "id": 32, "text": "CONSIGO O QUE EU QUERO", "facet": "E3", "inverted": false },
             { "id": 33, "text": "TENHO POUCA CURIOSIDADE PARA CONHECER NOVOS ESTILOS MUSICAIS", "facet": "A1", "inverted": true },
             { "id": 34, "text": "DEDICO-ME MUITO PARA FAZER BEM AS COISAS", "facet": "R3", "inverted": false },
-            { "id": 35, "text": "ESPERO PELA DECISÃƒO DOS OUTROS", "facet": "N3", "inverted": false },
+            { "id": 35, "text": "ESPERO PELA DECISÃO DOS OUTROS", "facet": "N3", "inverted": false },
             { "id": 36, "text": "INTERESSO-ME POR TEORIAS QUE TENTAM EXPLICAR O UNIVERSO", "facet": "A1", "inverted": false },
-            { "id": 37, "text": "TENHO POUCA PACIÃŠNCIA PARA TERMINAR TAREFAS MUITO LONGAS OU DIFÃCEIS", "facet": "N3", "inverted": false },
-            { "id": 38, "text": "SOU UMA PESSOA TÃMIDA", "facet": "E1", "inverted": true },
+            { "id": 37, "text": "TENHO POUCA PACIÊNCIA PARA TERMINAR TAREFAS MUITO LONGAS OU DIFÍCEIS", "facet": "N3", "inverted": false },
+            { "id": 38, "text": "SOU UMA PESSOA TÍMIDA", "facet": "E1", "inverted": true },
             { "id": 39, "text": "TENHO ALGUNS INIMIGOS", "facet": "S3", "inverted": true },
-            { "id": 40, "text": "ACHO QUE A MINHA VIDA Ã‰ VAZIA E SEM EMOÃ‡ÃƒO", "facet": "N4", "inverted": false },
-            { "id": 41, "text": "COMEÃ‡O RAPIDAMENTE AS TAREFAS QUE TENHO PARA FAZER", "facet": "R1", "inverted": false },
-            { "id": 42, "text": "ACHO POUCO INTERESSANTES EXPOSIÃ‡Ã•ES FOTOGRÃFICAS", "facet": "A1", "inverted": true },
+            { "id": 40, "text": "ACHO QUE A MINHA VIDA É VAZIA E SEM EMOÇÃO", "facet": "N4", "inverted": false },
+            { "id": 41, "text": "COMEÇO RAPIDAMENTE AS TAREFAS QUE TENHO PARA FAZER", "facet": "R1", "inverted": false },
+            { "id": 42, "text": "ACHO POUCO INTERESSANTES EXPOSIÇÕES FOTOGRÁFICAS", "facet": "A1", "inverted": true },
             { "id": 43, "text": "RESPEITO O PONTO DE VISTA DOS OUTROS", "facet": "S1", "inverted": false },
             { "id": 44, "text": "TENHO DIFICULDADE PARA ME ADAPTAR A TRABALHOS QUE ENVOLVAM UMA ROTINA FIXA", "facet": "A3", "inverted": true },
             { "id": 45, "text": "ANTES DE AGIR, PENSO NO QUE PODE ME ACONTECER", "facet": "R2", "inverted": false },
-            { "id": 46, "text": "SINTO-ME MAL SE NÃƒO CUMPRO ALGO QUE PROMETI", "facet": "S1", "inverted": false },
+            { "id": 46, "text": "SINTO-ME MAL SE NÃO CUMPRO ALGO QUE PROMETI", "facet": "S1", "inverted": false },
             { "id": 47, "text": "ADORO ATIVIDADES EM GRUPO", "facet": "E4", "inverted": false },
-            { "id": 48, "text": "TUDO O QUE POSSO VER A MINHA FRENTE Ã‰ MAIS DESPRAZER DO QUE PRAZER", "facet": "N4", "inverted": false },
-            { "id": 49, "text": "GOSTO E IR A LUGARES QUE NÃƒO CONHEÃ‡O", "facet": "A3", "inverted": false },
+            { "id": 48, "text": "TUDO O QUE POSSO VER A MINHA FRENTE É MAIS DESPRAZER DO QUE PRAZER", "facet": "N4", "inverted": false },
+            { "id": 49, "text": "GOSTO E IR A LUGARES QUE NÃO CONHEÇO", "facet": "A3", "inverted": false },
             { "id": 50, "text": "CONVERSO COM MUITAS PESSOAS DIFERENTES QUANDO VOU A FESTAS", "facet": "E4", "inverted": false },
-            { "id": 51, "text": "AJO IMPULSIVAMENTE QUANDO ALGUMA COISA ESTÃ ME ABORRECENDO", "facet": "N2", "inverted": false },
+            { "id": 51, "text": "AJO IMPULSIVAMENTE QUANDO ALGUMA COISA ESTÁ ME ABORRECENDO", "facet": "N2", "inverted": false },
             { "id": 52, "text": "GOSTO DE TER UMA VIDA SOCIAL AGITADA", "facet": "E4", "inverted": false },
             { "id": 53, "text": "PARTICIPAR DE ATIVIDADES QUE ENVOLVAM CRIATIVIDADE E/OU FANTASIA ME EMPOLGA", "facet": "A1", "inverted": false },
-            { "id": 54, "text": "ME ESFORÃ‡O PARA TER DESTAQUE NA ESCOLA OU NO TRABALHO", "facet": "R3", "inverted": false },
-            { "id": 55, "text": "GERALMENTE FAÃ‡O O QUE MEUS AMIGOS E PARENTES QUEREM,EMBORA NÃƒO CONCORDE COM ELES, COM MEDO DE QUE SE AFASTEM DE MIM", "facet": "N1", "inverted": false },
+            { "id": 54, "text": "ME ESFORÇO PARA TER DESTAQUE NA ESCOLA OU NO TRABALHO", "facet": "R3", "inverted": false },
+            { "id": 55, "text": "GERALMENTE FAÇO O QUE MEUS AMIGOS E PARENTES QUEREM,EMBORA NÃO CONCORDE COM ELES, COM MEDO DE QUE SE AFASTEM DE MIM", "facet": "N1", "inverted": false },
             { "id": 56, "text": "TENHO POUCO INTERESSE POR IDEIAS ABSTRATAS", "facet": "A1", "inverted": true },
             { "id": 57, "text": "ACHO QUE OS OUTROS ZOMBAM DE MIM", "facet": "S3", "inverted": true },
-            { "id": 58, "text": "COSTUMO FAZER SACRIFÃCIOS PARA CONSEGUIR O QUE QUERO", "facet": "R1", "inverted": false },
+            { "id": 58, "text": "COSTUMO FAZER SACRIFÍCIOS PARA CONSEGUIR O QUE QUERO", "facet": "R1", "inverted": false },
             { "id": 59, "text": "ACHO NATURAL QUE OS VALORES MORAIS MUDEM AO LONGO DO TEMPO", "facet": "A2", "inverted": false },
             { "id": 60, "text": "TENHO MUITO MEDO DE QUE MEUS AMIGOS DEIXEM DE GOSTAR DE MIM", "facet": "N1", "inverted": false },
             { "id": 61, "text": "TENTO INCENTIVAR AS PESSOAS", "facet": "S1", "inverted": false },
-            { "id": 62, "text": "SOU UMA PESSOA COM POUCA IMAGINAÃ‡ÃƒO", "facet": "A1", "inverted": true },
-            { "id": 63, "text": "FAÃ‡O COISAS CONSIDERADAS PERIGOSAS", "facet": "S2", "inverted": true },
-            { "id": 64, "text": "PENSO SOBRE O QUE PRECISO FAZER PARA ALCANÃ‡AR MEUS OBJETIVOS", "facet": "R1", "inverted": false },
+            { "id": 62, "text": "SOU UMA PESSOA COM POUCA IMAGINAÇÃO", "facet": "A1", "inverted": true },
+            { "id": 63, "text": "FAÇO COISAS CONSIDERADAS PERIGOSAS", "facet": "S2", "inverted": true },
+            { "id": 64, "text": "PENSO SOBRE O QUE PRECISO FAZER PARA ALCANÇAR MEUS OBJETIVOS", "facet": "R1", "inverted": false },
             { "id": 65, "text": "SOU UMA PESSOA NERVOSA", "facet": "N2", "inverted": false },
             { "id": 66, "text": "COSTUMO FICAR CALADO QUANDO ESTOU ENTRE ESTRANHOS", "facet": "E1", "inverted": true },
             { "id": 67, "text": "RESOLVO MEUS PROBLEMAS COM RAPIDEZ", "facet": "R1", "inverted": false },
             { "id": 68, "text": "CONFIO NO QUE AS PESSOAS DIZEM", "facet": "S3", "inverted": false },
-            { "id": 69, "text": "ACHO QUE NÃƒO EXISTE UMA VERDADE ABSOLUTA", "facet": "A2", "inverted": false },
-            { "id": 70, "text": "POR MAIS QUE ME ESFORCE, SEI QUE NÃƒO SOU CAPAZ DE SUPERAR OS OBSTÃCULOS QUE TENHO QUE ENFRENTAR NO DIA A DIA", "facet": "N4", "inverted": false },
+            { "id": 69, "text": "ACHO QUE NÃO EXISTE UMA VERDADE ABSOLUTA", "facet": "A2", "inverted": false },
+            { "id": 70, "text": "POR MAIS QUE ME ESFORCE, SEI QUE NÃO SOU CAPAZ DE SUPERAR OS OBSTÁCULOS QUE TENHO QUE ENFRENTAR NO DIA A DIA", "facet": "N4", "inverted": false },
             { "id": 71, "text": "ENVOLVO-ME RAPIDAMENTE COM OS OUTROS", "facet": "E4", "inverted": false },
-            { "id": 72, "text": "GOSTO DE PENSAR SOBRE SOLUÃ‡Ã•ES DIFERENTES PARA PROBLEMAS COMPLEXOS", "facet": "R1", "inverted": false },
+            { "id": 72, "text": "GOSTO DE PENSAR SOBRE SOLUÇÕES DIFERENTES PARA PROBLEMAS COMPLEXOS", "facet": "R1", "inverted": false },
             { "id": 73, "text": "DEIXO DE FAZER AS COISAS QUE DESEJO POR MEDO DE SER CRITICADO PELOS OUTROS", "facet": "N1", "inverted": false },
-            { "id": 74, "text": "ACREDITO QUE A MAIORIA DOS VALORES MORAIS SÃƒO DEPENDENTES DA Ã‰POCA E DO LUGAR", "facet": "A2", "inverted": false },
-            { "id": 75, "text": "FICO MUITO TÃMIDO QUANDO ESTOU ENTRE DESCONHECIDOS", "facet": "N1", "inverted": false },
+            { "id": 74, "text": "ACREDITO QUE A MAIORIA DOS VALORES MORAIS SÃO DEPENDENTES DA ÉPOCA E DO LUGAR", "facet": "A2", "inverted": false },
+            { "id": 75, "text": "FICO MUITO TÍMIDO QUANDO ESTOU ENTRE DESCONHECIDOS", "facet": "N1", "inverted": false },
             { "id": 76, "text": "PREOCUPO-ME EM AGIR SEGUNDO AS LEIS", "facet": "S2", "inverted": false },
             { "id": 77, "text": "MEU HUMOR VARIA CONSTANTEMENTE", "facet": "N2", "inverted": false },
-            { "id": 78, "text": "NECESSITO ESTAR NO CENTRO DAS ATENÃ‡Ã•ES", "facet": "E2", "inverted": false },
+            { "id": 78, "text": "NECESSITO ESTAR NO CENTRO DAS ATENÇÕES", "facet": "E2", "inverted": false },
             { "id": 79, "text": "SINTO-ME MUITO INSEGURO QUANDO TENHO QUE FAZER COISAS QUE NUNCA FIZ ANTES", "facet": "N1", "inverted": false },
             { "id": 80, "text": "AS PESSOAS DIZEM QUE SOU MUITO DETALHISTA", "facet": "R3", "inverted": false },
-            { "id": 81, "text": "EVITO DISCUSSÃ•ES FILOSÃ“FICAS", "facet": "A1", "inverted": true },
-            { "id": 82, "text": "NÃƒO GOSTO DE EXPRESSAR MINHAS IDEIAS, POIS TENHO MEDO DE SER RIDICULARIZADO", "facet": "N1", "inverted": false },
+            { "id": 81, "text": "EVITO DISCUSSÕES FILOSÓFICAS", "facet": "A1", "inverted": true },
+            { "id": 82, "text": "NÃO GOSTO DE EXPRESSAR MINHAS IDEIAS, POIS TENHO MEDO DE SER RIDICULARIZADO", "facet": "N1", "inverted": false },
             { "id": 83, "text": "SOU  CAPAZ DE ASSUMIR TAREFAS IMPORTANTES", "facet": "R1", "inverted": false },
             { "id": 84, "text": "GOSTO DE MANTER A ROTINA", "facet": "A3", "inverted": true },
-            { "id": 85, "text": "ACHO QUE FAÃ‡O BEM AS COISAS", "facet": "R1", "inverted": false },
-            { "id": 86, "text": "SOU UMA PESSOA IRRITÃVEL", "facet": "N2", "inverted": false },
+            { "id": 85, "text": "ACHO QUE FAÇO BEM AS COISAS", "facet": "R1", "inverted": false },
+            { "id": 86, "text": "SOU UMA PESSOA IRRITÁVEL", "facet": "N2", "inverted": false },
             { "id": 87, "text": "COSTUMO ENGANAR AS PESSOAS", "facet": "S2", "inverted": true },
-            { "id": 88, "text": "GOSTO DE TRABALHOS ARTÃSTICOS QUE SÃƒO CONSIDERADOS ESTRANHOS", "facet": "A1", "inverted": false },
-            { "id": 89, "text": "TENHO MUITA DIFICULDADE DE TOMAR DECISÃ•ES EM MINHA VIDA", "facet": "N1", "inverted": false },
-            { "id": 90, "text": "VIVO MINHAS EMOÃ‡Ã•ES INTENSAMENTE", "facet": "E4", "inverted": false },
+            { "id": 88, "text": "GOSTO DE TRABALHOS ARTÍSTICOS QUE SÃO CONSIDERADOS ESTRANHOS", "facet": "A1", "inverted": false },
+            { "id": 89, "text": "TENHO MUITA DIFICULDADE DE TOMAR DECISÕES EM MINHA VIDA", "facet": "N1", "inverted": false },
+            { "id": 90, "text": "VIVO MINHAS EMOÇÕES INTENSAMENTE", "facet": "E4", "inverted": false },
             { "id": 91, "text": "GOSTO DE FAZER COISAS QUE EXIGEM MUITO DE MIM", "facet": "R1", "inverted": false },
-            { "id": 92, "text": "SOFRO QUANDO ENCONTRO ALGUÃ‰M QUE ESTÃ COM DIFICULDADE", "facet": "S1", "inverted": false },
-            { "id": 93, "text": "Ã‰ COMUM TEREM INVEJA DE MIM", "facet": "E2", "inverted": false },
-            { "id": 94, "text": "SEMPRE QUE POSSO, MUDO OS TRAJETOS NOS MEUS PERCURSOS DIÃRIOS", "facet": "A3", "inverted": false },
+            { "id": 92, "text": "SOFRO QUANDO ENCONTRO ALGUÉM QUE ESTÁ COM DIFICULDADE", "facet": "S1", "inverted": false },
+            { "id": 93, "text": "É COMUM TEREM INVEJA DE MIM", "facet": "E2", "inverted": false },
+            { "id": 94, "text": "SEMPRE QUE POSSO, MUDO OS TRAJETOS NOS MEUS PERCURSOS DIÁRIOS", "facet": "A3", "inverted": false },
             { "id": 95, "text": "TENHO DIFICULDADE PARA TERMINAR AS TAREFAS, POIS DISTRAIO COM OUTRAS COISAS", "facet": "N3", "inverted": false },
-            { "id": 96, "text": "PREOCUPO-ME COM AQUELES QUE ESTÃƒO NUMA SITUAÃ‡ÃƒO PIOR QUE A MINHA", "facet": "S1", "inverted": false },
+            { "id": 96, "text": "PREOCUPO-ME COM AQUELES QUE ESTÃO NUMA SITUAÇÃO PIOR QUE A MINHA", "facet": "S1", "inverted": false },
             { "id": 97, "text": "SOU COMUNICATIVO", "facet": "E1", "inverted": false },
             { "id": 98, "text": "ACHO QUE OS OUTROS PODEM TENTAR ME PREJUDICAR", "facet": "S3", "inverted": true },
-            { "id": 99, "text": "SINTO UMA INCONTROLÃVEL VONTADE DE FALAR, MESMO QUE SEJA COM QUEM NÃƒO CONHEÃ‡O", "facet": "E2", "inverted": false },
-            { "id": 100, "text": "EU PARO DE FAZER AS COISAS QUANDO ELAS FICAM DIFÃCEIS", "facet": "N3", "inverted": false },
+            { "id": 99, "text": "SINTO UMA INCONTROLÁVEL VONTADE DE FALAR, MESMO QUE SEJA COM QUEM NÃO CONHEÇO", "facet": "E2", "inverted": false },
+            { "id": 100, "text": "EU PARO DE FAZER AS COISAS QUANDO ELAS FICAM DIFÍCEIS", "facet": "N3", "inverted": false },
             { "id": 101, "text": "ESCOLHO AS PALAVRAS COM CUIDADO", "facet": "R2", "inverted": false },
-            { "id": 102, "text": "COM FREQUÃŠNCIA, PASSO POR PERÃODOS EM QUE FICO EXTREMAMENTE IRRITÃVEL, INCOMODANDO-ME COM QUALQUER COISA", "facet": "N2", "inverted": false },
-            { "id": 103, "text": "RARAMENTE MOSTRO UM TRABALHO A OUTRAS PESSOAS ANTES DE REVISÃ-LO CUIDADOSAMENTE", "facet": "R3", "inverted": false },
+            { "id": 102, "text": "COM FREQUÊNCIA, PASSO POR PERÍODOS EM QUE FICO EXTREMAMENTE IRRITÁVEL, INCOMODANDO-ME COM QUALQUER COISA", "facet": "N2", "inverted": false },
+            { "id": 103, "text": "RARAMENTE MOSTRO UM TRABALHO A OUTRAS PESSOAS ANTES DE REVISÁ-LO CUIDADOSAMENTE", "facet": "R3", "inverted": false },
             { "id": 104, "text": "IMPORTO-ME COM OS SENTIMENTOS DOS OUTROS", "facet": "S1", "inverted": false },
-            { "id": 105, "text": "FAÃ‡O MUITAS COISAS DURANTE MINHAS HORAS DE FOLGA", "facet": "E1", "inverted": false },
+            { "id": 105, "text": "FAÇO MUITAS COISAS DURANTE MINHAS HORAS DE FOLGA", "facet": "E1", "inverted": false },
             { "id": 106, "text": "ESTOU CANSADO DE VIVER", "facet": "N4", "inverted": false },
             { "id": 107, "text": "GOSTO DE QUEBRAR REGRAS", "facet": "S2", "inverted": true },
             { "id": 108, "text": "COSTUMO TOMAR A INICIATIVA E CONVERSAR COM OS OUTROS", "facet": "E3", "inverted": false },
             { "id": 109, "text": "RESPEITO AUTORIDADES", "facet": "S2", "inverted": false },
             { "id": 110, "text": "SOU UMA PESSOA INSEGURA", "facet": "N1", "inverted": false },
-            { "id": 111, "text": "QUANDO ESTOU ENTRE UM GRUPO, GOSTO QUE ME DEEM ATENÃ‡ÃƒO", "facet": "E2", "inverted": false },
+            { "id": 111, "text": "QUANDO ESTOU ENTRE UM GRUPO, GOSTO QUE ME DEEM ATENÇÃO", "facet": "E2", "inverted": false },
             { "id": 112, "text": "MEUS AMIGOS DIZEM QUE EU TRABALHO/ESTUDO DEMAIS", "facet": "R3", "inverted": false },
             { "id": 113, "text": "SINTO-ME ENTENDIADO QUANDO TENHO QUE FAZER AS MESMAS COISAS", "facet": "A3", "inverted": false },
             { "id": 114, "text": "EXIJO MUITO DE MIM MESMO", "facet": "R3", "inverted": false },
-            { "id": 115, "text": "TENHO DIFICULDADE DE PARTICIPAR DE ATIVIDADES QUE EXIJAM IMAGINAÃ‡ÃƒO OU FANTASIA", "facet": "A1", "inverted": true },
+            { "id": 115, "text": "TENHO DIFICULDADE DE PARTICIPAR DE ATIVIDADES QUE EXIJAM IMAGINAÇÃO OU FANTASIA", "facet": "A1", "inverted": true },
             { "id": 116, "text": "GOSTO DE PROGRAMAR DETALHADAMENTE AS COISAS QUE TENHO PARA FAZER", "facet": "R3", "inverted": false },
-            { "id": 117, "text": "USUALMENTE, TOMO A INCIATIVA NAS SITUAÃ‡Ã•ES", "facet": "E3", "inverted": false },
-            { "id": 118, "text": "SINTO-ME MUITO MAL QUANDO RECEBO ALGUMA CRÃTICA", "facet": "N1", "inverted": false },
-            { "id": 119, "text": "ACREDITO QUE AS PESSOAS TÃŠM UMA NATUREZA RUIM", "facet": "S3", "inverted": true },
+            { "id": 117, "text": "USUALMENTE, TOMO A INCIATIVA NAS SITUAÇÕES", "facet": "E3", "inverted": false },
+            { "id": 118, "text": "SINTO-ME MUITO MAL QUANDO RECEBO ALGUMA CRÍTICA", "facet": "N1", "inverted": false },
+            { "id": 119, "text": "ACREDITO QUE AS PESSOAS TÊM UMA NATUREZA RUIM", "facet": "S3", "inverted": true },
             { "id": 120, "text": "DIFICILMENTE FICO SEM JEITO", "facet": "E1", "inverted": false },
-            { "id": 121, "text": "SÃ“ ME APROXIMO DE UMA PESSOA QUANDO ESTOU CERTO DE QUE ELA CONCORDA COM AS MINHAS OPINIÃ•ES E ATITUDES, PARA EVITAR CRÃTICAS OU DESAPROVAÃ‡ÃƒO", "facet": "N3", "inverted": false },
+            { "id": 121, "text": "SÓ ME APROXIMO DE UMA PESSOA QUANDO ESTOU CERTO DE QUE ELA CONCORDA COM AS MINHAS OPINIÕES E ATITUDES, PARA EVITAR CRÍTICAS OU DESAPROVAÇÃO", "facet": "N3", "inverted": false },
             { "id": 122, "text": "SEI O QUE QUERO PARA MINHA VIDA", "facet": "R1", "inverted": false },
             { "id": 123, "text": "FREQUENTEMENTE QUESTIONO REGRAS E COSTUMES SOCIAIS", "facet": "A2", "inverted": false },
             { "id": 124, "text": "TENHO UMA GRANDE DIFICULDADE EM DORMIR", "facet": "N4", "inverted": false },
             { "id": 125, "text": "PREOCUPO-ME EM AGRADAR AS PESSOAS", "facet": "S1", "inverted": false },
             { "id": 126, "text": "SOU DISPOSTO A REVER MEUS POSICIONAMENTOS SOBRE DIFERENTES ASSUNTOS", "facet": "A2", "inverted": false }
         ];
-        const DATA_CRITERIA = {};
+        const DATA_CRITERIA = {
+            "N1": { min: 0, max: 30 }, "N2": { min: 0, max: 30 }, "N3": { min: 0, max: 50 }, "N4": { min: 15, max: 70 },
+            "E1": { min: 30, max: 100 }, "E2": { min: 30, max: 100 }, "E3": { min: 30, max: 100 }, "E4": { min: 30, max: 100 },
+            "S1": { min: 30, max: 84 }, "S2": { min: 30, max: 84 }, "S3": { min: 30, max: 84 },
+            "R1": { min: 30, max: 100 }, "R2": { min: 30, max: 100 }, "R3": { min: 30, max: 100 },
+            "A1": { min: 15, max: 100 },
+            "A2": { min: 30, max: 85 },
+            "A3": { min: 15, max: 85 }
+        };
 
-        const DATA_PERCENTILES = {};
+        const DATA_PERCENTILES = {
+            "N1": [{ s: 1.0, p: 1 }, { s: 1.56, p: 1 }, { s: 1.57, p: 5 }, { s: 1.85, p: 5 }, { s: 1.86, p: 10 }, { s: 2.13, p: 10 }, { s: 2.14, p: 15 }, { s: 2.32, p: 15 }, { s: 2.33, p: 20 }, { s: 2.56, p: 20 }, { s: 2.57, p: 25 }, { s: 2.7, p: 25 }, { s: 2.71, p: 30 }, { s: 2.88, p: 30 }, { s: 2.89, p: 35 }, { s: 3.1, p: 35 }, { s: 3.11, p: 40 }, { s: 3.28, p: 40 }, { s: 3.29, p: 45 }, { s: 3.43, p: 45 }, { s: 3.44, p: 50 }, { s: 3.56, p: 50 }, { s: 3.57, p: 55 }, { s: 3.77, p: 55 }, { s: 3.78, p: 60 }, { s: 3.88, p: 60 }, { s: 3.89, p: 65 }, { s: 4.1, p: 65 }, { s: 4.11, p: 70 }, { s: 4.32, p: 70 }, { s: 4.33, p: 75 }, { s: 4.55, p: 75 }, { s: 4.56, p: 80 }, { s: 4.85, p: 80 }, { s: 4.86, p: 85 }, { s: 5.13, p: 85 }, { s: 5.14, p: 90 }, { s: 5.66, p: 90 }, { s: 5.67, p: 95 }],
+            "N2": [{ s: 1.0, p: 1 }, { s: 1.49, p: 1 }, { s: 1.5, p: 5 }, { s: 1.82, p: 5 }, { s: 1.83, p: 10 }, { s: 2.16, p: 10 }, { s: 2.17, p: 15 }, { s: 2.32, p: 15 }, { s: 2.33, p: 20 }, { s: 2.49, p: 20 }, { s: 2.5, p: 25 }, { s: 2.82, p: 25 }, { s: 2.83, p: 30 }, { s: 2.99, p: 30 }, { s: 3.0, p: 35 }, { s: 3.24, p: 35 }, { s: 3.25, p: 40 }, { s: 3.32, p: 40 }, { s: 3.33, p: 45 }, { s: 3.49, p: 45 }, { s: 3.5, p: 50 }, { s: 3.82, p: 50 }, { s: 3.83, p: 55 }, { s: 3.99, p: 55 }, { s: 4.0, p: 60 }, { s: 4.24, p: 60 }, { s: 4.25, p: 65 }, { s: 4.49, p: 65 }, { s: 4.5, p: 70 }, { s: 4.66, p: 70 }, { s: 4.67, p: 75 }, { s: 4.99, p: 75 }, { s: 5.0, p: 80 }, { s: 5.24, p: 80 }, { s: 5.25, p: 85 }, { s: 5.66, p: 85 }, { s: 5.67, p: 90 }, { s: 6.16, p: 90 }, { s: 6.17, p: 95 }],
+            "N3": [{ s: 1.0, p: 1 }, { s: 1.49, p: 1 }, { s: 1.5, p: 5 }, { s: 1.82, p: 5 }, { s: 1.83, p: 10 }, { s: 2.16, p: 10 }, { s: 2.17, p: 15 }, { s: 2.32, p: 15 }, { s: 2.33, p: 20 }, { s: 2.49, p: 20 }, { s: 2.5, p: 25 }, { s: 2.66, p: 25 }, { s: 2.67, p: 30 }, { s: 2.82, p: 30 }, { s: 2.83, p: 35 }, { s: 2.99, p: 35 }, { s: 3.0, p: 40 }, { s: 3.19, p: 40 }, { s: 3.2, p: 45 }, { s: 3.39, p: 45 }, { s: 3.4, p: 50 }, { s: 3.59, p: 50 }, { s: 3.6, p: 55 }, { s: 3.79, p: 55 }, { s: 3.8, p: 60 }, { s: 3.99, p: 60 }, { s: 4.0, p: 65 }, { s: 4.16, p: 65 }, { s: 4.17, p: 70 }, { s: 4.32, p: 70 }, { s: 4.33, p: 75 }, { s: 4.59, p: 75 }, { s: 4.6, p: 80 }, { s: 4.82, p: 80 }, { s: 4.83, p: 85 }, { s: 4.99, p: 85 }, { s: 5.0, p: 90 }, { s: 5.49, p: 90 }, { s: 5.5, p: 95 }],
+            "N4": [{ s: 1.0, p: 5 }, { s: 1.13, p: 5 }, { s: 1.14, p: 10 }, { s: 1.24, p: 10 }, { s: 1.25, p: 15 }, { s: 1.37, p: 15 }, { s: 1.38, p: 20 }, { s: 1.49, p: 20 }, { s: 1.5, p: 25 }, { s: 1.62, p: 25 }, { s: 1.63, p: 30 }, { s: 1.74, p: 30 }, { s: 1.75, p: 35 }, { s: 1.82, p: 35 }, { s: 1.83, p: 40 }, { s: 1.99, p: 40 }, { s: 2.01, p: 50 }, { s: 2.13, p: 50 }, { s: 2.14, p: 55 }, { s: 2.28, p: 55 }, { s: 2.29, p: 60 }, { s: 2.49, p: 60 }, { s: 2.5, p: 65 }, { s: 2.62, p: 65 }, { s: 2.63, p: 70 }, { s: 2.87, p: 70 }, { s: 2.88, p: 75 }, { s: 3.16, p: 75 }, { s: 3.17, p: 80 }, { s: 3.49, p: 80 }, { s: 3.5, p: 85 }, { s: 3.87, p: 85 }, { s: 3.88, p: 90 }, { s: 4.62, p: 90 }, { s: 4.63, p: 95 }],
+            "E1": [{ s: 1.0, p: 1 }, { s: 1.99, p: 1 }, { s: 2.0, p: 5 }, { s: 2.49, p: 5 }, { s: 2.5, p: 10 }, { s: 2.99, p: 10 }, { s: 3.0, p: 15 }, { s: 3.16, p: 15 }, { s: 3.17, p: 20 }, { s: 3.49, p: 20 }, { s: 3.5, p: 25 }, { s: 3.66, p: 25 }, { s: 3.67, p: 30 }, { s: 3.82, p: 30 }, { s: 3.83, p: 35 }, { s: 3.99, p: 35 }, { s: 4.0, p: 40 }, { s: 4.16, p: 40 }, { s: 4.17, p: 45 }, { s: 4.32, p: 45 }, { s: 4.33, p: 50 }, { s: 4.49, p: 50 }, { s: 4.5, p: 55 }, { s: 4.66, p: 55 }, { s: 4.67, p: 60 }, { s: 4.82, p: 60 }, { s: 4.83, p: 65 }, { s: 4.99, p: 65 }, { s: 5.0, p: 70 }, { s: 5.16, p: 70 }, { s: 5.17, p: 75 }, { s: 5.32, p: 75 }, { s: 5.33, p: 80 }, { s: 5.66, p: 80 }, { s: 5.67, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.32, p: 90 }, { s: 6.33, p: 95 }],
+            "E2": [{ s: 1.0, p: 1 }, { s: 1.99, p: 1 }, { s: 2.0, p: 5 }, { s: 2.28, p: 5 }, { s: 2.29, p: 10 }, { s: 2.56, p: 10 }, { s: 2.57, p: 15 }, { s: 2.7, p: 15 }, { s: 2.71, p: 20 }, { s: 2.85, p: 20 }, { s: 2.86, p: 25 }, { s: 3.08, p: 25 }, { s: 3.09, p: 30 }, { s: 3.16, p: 30 }, { s: 3.17, p: 35 }, { s: 3.32, p: 35 }, { s: 3.33, p: 40 }, { s: 3.42, p: 40 }, { s: 3.43, p: 45 }, { s: 3.56, p: 45 }, { s: 3.57, p: 50 }, { s: 3.7, p: 50 }, { s: 3.71, p: 55 }, { s: 3.85, p: 55 }, { s: 3.86, p: 60 }, { s: 3.99, p: 60 }, { s: 4.0, p: 65 }, { s: 4.13, p: 65 }, { s: 4.14, p: 70 }, { s: 4.42, p: 70 }, { s: 4.43, p: 75 }, { s: 4.56, p: 75 }, { s: 4.57, p: 80 }, { s: 4.82, p: 80 }, { s: 4.83, p: 85 }, { s: 5.13, p: 85 }, { s: 5.14, p: 90 }, { s: 5.56, p: 90 }, { s: 5.57, p: 95 }],
+            "E3": [{ s: 1.0, p: 1 }, { s: 2.99, p: 1 }, { s: 3.0, p: 5 }, { s: 3.39, p: 5 }, { s: 3.4, p: 10 }, { s: 3.79, p: 10 }, { s: 3.8, p: 15 }, { s: 3.99, p: 15 }, { s: 4.0, p: 20 }, { s: 4.19, p: 20 }, { s: 4.21, p: 30 }, { s: 4.39, p: 30 }, { s: 4.4, p: 35 }, { s: 4.59, p: 35 }, { s: 4.61, p: 45 }, { s: 4.79, p: 45 }, { s: 4.8, p: 50 }, { s: 4.99, p: 50 }, { s: 5.01, p: 60 }, { s: 5.19, p: 60 }, { s: 5.2, p: 65 }, { s: 5.39, p: 65 }, { s: 5.4, p: 70 }, { s: 5.59, p: 70 }, { s: 5.61, p: 80 }, { s: 5.8, p: 80 }, { s: 5.81, p: 85 }, { s: 6.19, p: 85 }, { s: 6.2, p: 90 }, { s: 6.39, p: 90 }, { s: 6.4, p: 95 }],
+            "E4": [{ s: 1.0, p: 1 }, { s: 2.82, p: 1 }, { s: 2.83, p: 5 }, { s: 3.32, p: 5 }, { s: 3.33, p: 10 }, { s: 3.66, p: 10 }, { s: 3.67, p: 15 }, { s: 3.85, p: 15 }, { s: 3.86, p: 20 }, { s: 4.13, p: 20 }, { s: 4.14, p: 25 }, { s: 4.28, p: 25 }, { s: 4.29, p: 30 }, { s: 4.42, p: 30 }, { s: 4.43, p: 35 }, { s: 4.56, p: 35 }, { s: 4.57, p: 40 }, { s: 4.7, p: 40 }, { s: 4.71, p: 45 }, { s: 4.85, p: 45 }, { s: 4.86, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.16, p: 55 }, { s: 5.17, p: 60 }, { s: 5.32, p: 60 }, { s: 5.33, p: 65 }, { s: 5.49, p: 65 }, { s: 5.5, p: 70 }, { s: 5.66, p: 70 }, { s: 5.67, p: 75 }, { s: 5.83, p: 80 }, { s: 5.99, p: 80 }, { s: 6.0, p: 85 }, { s: 6.28, p: 85 }, { s: 6.29, p: 90 }, { s: 6.56, p: 90 }, { s: 6.57, p: 95 }],
+            "S1": [{ s: 1.0, p: 1 }, { s: 3.91, p: 1 }, { s: 3.92, p: 5 }, { s: 4.41, p: 5 }, { s: 4.42, p: 10 }, { s: 4.72, p: 10 }, { s: 4.73, p: 15 }, { s: 4.91, p: 15 }, { s: 4.92, p: 20 }, { s: 5.08, p: 20 }, { s: 5.09, p: 25 }, { s: 5.24, p: 25 }, { s: 5.25, p: 30 }, { s: 5.41, p: 30 }, { s: 5.42, p: 35 }, { s: 5.49, p: 35 }, { s: 5.5, p: 40 }, { s: 5.57, p: 40 }, { s: 5.58, p: 45 }, { s: 5.72, p: 45 }, { s: 5.73, p: 50 }, { s: 5.82, p: 50 }, { s: 5.83, p: 55 }, { s: 5.91, p: 55 }, { s: 5.92, p: 60 }, { s: 6.07, p: 60 }, { s: 6.08, p: 65 }, { s: 6.16, p: 65 }, { s: 6.17, p: 70 }, { s: 6.25, p: 70 }, { s: 6.26, p: 75 }, { s: 6.35, p: 75 }, { s: 6.36, p: 80 }, { s: 6.49, p: 80 }, { s: 6.5, p: 85 }, { s: 6.63, p: 85 }, { s: 6.64, p: 90 }, { s: 6.81, p: 90 }, { s: 6.82, p: 95 }],
+            "S2": [{ s: 1.0, p: 1 }, { s: 3.7, p: 1 }, { s: 3.71, p: 5 }, { s: 4.24, p: 5 }, { s: 4.25, p: 10 }, { s: 4.56, p: 10 }, { s: 4.57, p: 15 }, { s: 4.85, p: 15 }, { s: 4.86, p: 20 }, { s: 4.99, p: 20 }, { s: 5.0, p: 25 }, { s: 5.18, p: 25 }, { s: 5.19, p: 30 }, { s: 5.37, p: 30 }, { s: 5.38, p: 35 }, { s: 5.49, p: 35 }, { s: 5.5, p: 40 }, { s: 5.62, p: 40 }, { s: 5.63, p: 45 }, { s: 5.74, p: 45 }, { s: 5.75, p: 50 }, { s: 5.87, p: 50 }, { s: 5.88, p: 55 }, { s: 5.99, p: 55 }, { s: 6.0, p: 60 }, { s: 6.12, p: 60 }, { s: 6.13, p: 65 }, { s: 6.24, p: 65 }, { s: 6.25, p: 70 }, { s: 6.28, p: 70 }, { s: 6.29, p: 75 }, { s: 6.49, p: 75 }, { s: 6.5, p: 80 }, { s: 6.56, p: 80 }, { s: 6.57, p: 85 }, { s: 6.74, p: 85 }, { s: 6.75, p: 90 }, { s: 6.99, p: 90 }, { s: 7.0, p: 95 }],
+            "S3": [{ s: 1.0, p: 1 }, { s: 2.99, p: 1 }, { s: 3.0, p: 5 }, { s: 3.37, p: 5 }, { s: 3.38, p: 10 }, { s: 3.62, p: 10 }, { s: 3.63, p: 15 }, { s: 3.87, p: 15 }, { s: 3.88, p: 20 }, { s: 4.12, p: 20 }, { s: 4.13, p: 25 }, { s: 4.24, p: 25 }, { s: 4.25, p: 30 }, { s: 4.37, p: 30 }, { s: 4.38, p: 35 }, { s: 4.49, p: 35 }, { s: 4.5, p: 40 }, { s: 4.62, p: 40 }, { s: 4.63, p: 45 }, { s: 4.74, p: 45 }, { s: 4.75, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.12, p: 55 }, { s: 5.14, p: 65 }, { s: 5.24, p: 65 }, { s: 5.25, p: 70 }, { s: 5.49, p: 70 }, { s: 5.5, p: 75 }, { s: 5.62, p: 75 }, { s: 5.63, p: 80 }, { s: 5.74, p: 80 }, { s: 5.75, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.24, p: 90 }, { s: 6.25, p: 95 }],
+            "R1": [{ s: 1.0, p: 1 }, { s: 3.49, p: 1 }, { s: 3.5, p: 5 }, { s: 3.89, p: 5 }, { s: 3.9, p: 10 }, { s: 4.19, p: 10 }, { s: 4.2, p: 15 }, { s: 4.42, p: 15 }, { s: 4.43, p: 20 }, { s: 4.59, p: 20 }, { s: 4.6, p: 25 }, { s: 4.79, p: 25 }, { s: 4.8, p: 30 }, { s: 4.89, p: 30 }, { s: 4.9, p: 35 }, { s: 4.99, p: 35 }, { s: 5.0, p: 40 }, { s: 5.13, p: 40 }, { s: 5.14, p: 45 }, { s: 5.28, p: 45 }, { s: 5.29, p: 50 }, { s: 5.39, p: 50 }, { s: 5.4, p: 55 }, { s: 5.49, p: 55 }, { s: 5.5, p: 60 }, { s: 5.59, p: 60 }, { s: 5.6, p: 65 }, { s: 5.69, p: 65 }, { s: 5.7, p: 70 }, { s: 5.85, p: 70 }, { s: 5.86, p: 75 }, { s: 5.99, p: 75 }, { s: 6.0, p: 80 }, { s: 6.09, p: 80 }, { s: 6.1, p: 85 }, { s: 6.28, p: 85 }, { s: 6.29, p: 90 }, { s: 6.49, p: 90 }, { s: 6.5, p: 95 }],
+            "R2": [{ s: 1.0, p: 1 }, { s: 2.74, p: 1 }, { s: 2.75, p: 5 }, { s: 3.24, p: 5 }, { s: 3.25, p: 10 }, { s: 3.74, p: 10 }, { s: 3.75, p: 15 }, { s: 3.99, p: 15 }, { s: 4.01, p: 25 }, { s: 4.24, p: 25 }, { s: 4.25, p: 30 }, { s: 4.49, p: 30 }, { s: 4.5, p: 35 }, { s: 4.74, p: 35 }, { s: 4.76, p: 45 }, { s: 4.99, p: 45 }, { s: 5.0, p: 50 }, { s: 5.24, p: 50 }, { s: 5.26, p: 60 }, { s: 5.49, p: 60 }, { s: 5.51, p: 70 }, { s: 5.74, p: 70 }, { s: 5.75, p: 75 }, { s: 5.99, p: 75 }, { s: 6.0, p: 80 }, { s: 6.24, p: 80 }, { s: 6.25, p: 85 }, { s: 6.49, p: 85 }, { s: 6.5, p: 90 }, { s: 6.74, p: 90 }, { s: 6.75, p: 95 }],
+            "R3": [{ s: 1.0, p: 1 }, { s: 2.99, p: 1 }, { s: 3.0, p: 5 }, { s: 3.28, p: 5 }, { s: 3.29, p: 10 }, { s: 3.56, p: 10 }, { s: 3.57, p: 15 }, { s: 3.85, p: 15 }, { s: 3.86, p: 20 }, { s: 3.99, p: 20 }, { s: 4.0, p: 25 }, { s: 4.16, p: 25 }, { s: 4.17, p: 30 }, { s: 4.42, p: 30 }, { s: 4.43, p: 35 }, { s: 4.56, p: 35 }, { s: 4.57, p: 40 }, { s: 4.7, p: 40 }, { s: 4.71, p: 45 }, { s: 4.85, p: 45 }, { s: 4.86, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.13, p: 55 }, { s: 5.14, p: 60 }, { s: 5.28, p: 60 }, { s: 5.29, p: 65 }, { s: 5.42, p: 65 }, { s: 5.43, p: 70 }, { s: 5.56, p: 70 }, { s: 5.57, p: 75 }, { s: 5.7, p: 75 }, { s: 5.71, p: 80 }, { s: 5.85, p: 80 }, { s: 5.86, p: 85 }, { s: 6.13, p: 85 }, { s: 6.14, p: 90 }, { s: 6.42, p: 90 }, { s: 6.43, p: 95 }],
+            "A1": [{ s: 1.0, p: 1 }, { s: 2.89, p: 1 }, { s: 2.9, p: 5 }, { s: 3.29, p: 5 }, { s: 3.3, p: 10 }, { s: 3.49, p: 10 }, { s: 3.5, p: 15 }, { s: 3.69, p: 15 }, { s: 3.7, p: 20 }, { s: 3.89, p: 20 }, { s: 3.9, p: 25 }, { s: 3.99, p: 25 }, { s: 4.0, p: 30 }, { s: 4.09, p: 30 }, { s: 4.1, p: 35 }, { s: 4.29, p: 35 }, { s: 4.3, p: 40 }, { s: 4.39, p: 40 }, { s: 4.4, p: 45 }, { s: 4.59, p: 45 }, { s: 4.6, p: 50 }, { s: 4.69, p: 50 }, { s: 4.7, p: 55 }, { s: 4.79, p: 55 }, { s: 4.8, p: 60 }, { s: 4.99, p: 60 }, { s: 5.0, p: 65 }, { s: 5.09, p: 65 }, { s: 5.1, p: 70 }, { s: 5.29, p: 70 }, { s: 5.3, p: 75 }, { s: 5.49, p: 75 }, { s: 5.5, p: 80 }, { s: 5.69, p: 80 }, { s: 5.7, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.29, p: 90 }, { s: 6.3, p: 95 }],
+            "A2": [{ s: 1.0, p: 1 }, { s: 3.13, p: 1 }, { s: 3.14, p: 5 }, { s: 3.56, p: 5 }, { s: 3.57, p: 10 }, { s: 3.7, p: 10 }, { s: 3.71, p: 15 }, { s: 3.99, p: 15 }, { s: 4.0, p: 20 }, { s: 4.13, p: 20 }, { s: 4.14, p: 25 }, { s: 4.28, p: 25 }, { s: 4.29, p: 30 }, { s: 4.42, p: 30 }, { s: 4.43, p: 35 }, { s: 4.56, p: 35 }, { s: 4.57, p: 40 }, { s: 4.7, p: 40 }, { s: 4.71, p: 45 }, { s: 4.85, p: 45 }, { s: 4.86, p: 50 }, { s: 4.99, p: 50 }, { s: 5.0, p: 55 }, { s: 5.13, p: 55 }, { s: 5.14, p: 60 }, { s: 5.28, p: 60 }, { s: 5.29, p: 65 }, { s: 5.42, p: 65 }, { s: 5.43, p: 70 }, { s: 5.56, p: 70 }, { s: 5.57, p: 75 }, { s: 5.7, p: 75 }, { s: 5.71, p: 80 }, { s: 5.99, p: 80 }, { s: 6.0, p: 85 }, { s: 6.13, p: 85 }, { s: 6.14, p: 90 }, { s: 6.42, p: 90 }, { s: 6.43, p: 95 }],
+            "A3": [{ s: 1.0, p: 1 }, { s: 2.82, p: 1 }, { s: 2.83, p: 5 }, { s: 3.32, p: 5 }, { s: 3.33, p: 10 }, { s: 3.49, p: 10 }, { s: 3.5, p: 15 }, { s: 3.74, p: 15 }, { s: 3.75, p: 20 }, { s: 3.99, p: 20 }, { s: 4.01, p: 30 }, { s: 4.22, p: 30 }, { s: 4.23, p: 35 }, { s: 4.32, p: 35 }, { s: 4.33, p: 40 }, { s: 4.49, p: 40 }, { s: 4.5, p: 45 }, { s: 4.66, p: 45 }, { s: 4.67, p: 50 }, { s: 4.82, p: 50 }, { s: 4.83, p: 55 }, { s: 4.99, p: 55 }, { s: 5.01, p: 65 }, { s: 5.16, p: 65 }, { s: 5.17, p: 70 }, { s: 5.32, p: 70 }, { s: 5.33, p: 75 }, { s: 5.49, p: 75 }, { s: 5.5, p: 80 }, { s: 5.66, p: 80 }, { s: 5.67, p: 85 }, { s: 5.99, p: 85 }, { s: 6.0, p: 90 }, { s: 6.16, p: 90 }, { s: 6.17, p: 95 }]
+        };
 
-        const NAMES = {};
+        const NAMES = {
+            "N1": "Vulnerabilidade", "N2": "Instabilidade Emocional", "N3": "Passividade", "N4": "Depressão",
+            "E1": "Comunicação", "E2": "Altivez", "E3": "Dinamismo", "E4": "Interação Social",
+            "S1": "Amabilidade", "S2": "Pró-Sociabilidade", "S3": "Confiança",
+            "R1": "Competência", "R2": "Ponderação/Prudência", "R3": "Empenho",
+            "A1": "Abertura a Ideias", "A2": "Liberalismo", "A3": "Busca por Novidades"
+        };
 
-        const FACTOR_MAP = {};
+        const FACTOR_MAP = {
+            "NEUROTICISMO": ["N1", "N2", "N3", "N4"],
+            "EXTROVERSÃO": ["E1", "E2", "E3", "E4"],
+            "SOCIALIZAÇÃO": ["S1", "S2", "S3"],
+            "REALIZAÇÃO": ["R1", "R2", "R3"],
+            "ABERTURA": ["A1", "A2", "A3"]
+        };
 
-        /* ================= LÃ“GICA ================= */
+        /* ================= LÓGICA ================= */
 
         function showScreen(id) {
             document.getElementById('screen-dashboard').classList.add('hidden');
@@ -665,7 +731,7 @@
             showScreen('import');
         }
 
-        // Monitor de digitaÃ§Ã£o para importaÃ§Ã£o
+        // Monitor de digitação para importação
         document.getElementById('input-answers').addEventListener('input', function () {
             const raw = this.value;
             const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
@@ -683,13 +749,13 @@
             const answers = raw.split(/[\n, ]+/).filter(v => v.trim() !== "").map(Number);
 
             if (answers.length !== DATA_QUESTIONS.length) {
-                alert(`Erro: VocÃª forneceu ${answers.length} respostas, mas o teste requer exatamente ${DATA_QUESTIONS.length}.`);
+                alert(`Erro: Você forneceu ${answers.length} respostas, mas o teste requer exatamente ${DATA_QUESTIONS.length}.`);
                 return;
             }
 
             const invalid = answers.some(n => isNaN(n) || n < 1 || n > 7);
             if (invalid) {
-                if (!confirm("Alguns valores parecem invÃ¡lidos (fora de 1-7). Continuar mesmo assim?")) return;
+                if (!confirm("Alguns valores parecem inválidos (fora de 1-7). Continuar mesmo assim?")) return;
             }
 
             calculate(answers);
@@ -706,7 +772,7 @@
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
             if (DATA_QUESTIONS.length === 0) {
-                container.innerHTML = '<div class="text-white">Carregando dados... por favor recarregue a pÃ¡gina se nÃ£o aparecer.</div>';
+                container.innerHTML = '<div class="text-white">Carregando dados... por favor recarregue a página se não aparecer.</div>';
                 return;
             }
 
@@ -737,7 +803,6 @@
         }
 
         // --- FUNCIONALIDADES EXTRAS ---
-        const API_URL = "https://script.google.com/macros/s/AKfycbwv_7pDuo521IyFsknbLWTH-idXaZCw0XN2nlq9pHGKjNDs8kklgaF8avm6tqLbaQkR1w/exec";
 
         const audioPrepare = new Audio('../vozes/prepare.mp3');
         const audioSignal = new Audio('../vozes/sinal.mp3');
@@ -788,7 +853,25 @@
         }
 
         function filtrarFacetas() {
-            // REMOVIDO
+            const val = document.getElementById('facet-filter').value;
+            const cards = document.querySelectorAll('.question-card');
+
+            cards.forEach(card => {
+                const base = card.dataset.facetBase;
+                const full = card.dataset.facetFull;
+
+                let show = false;
+                if (val === 'ALL') {
+                    show = true;
+                } else if (val.length === 1) {
+                    if (base === val) show = true;
+                } else {
+                    if (full === val) show = true;
+                }
+
+                if (show) card.classList.remove('hidden');
+                else card.classList.add('hidden');
+            });
         }
 
         function editarRespostas() {
@@ -797,76 +880,132 @@
             document.querySelector('header').scrollIntoView({ behavior: 'smooth' });
         }
 
-        async function calcularResultado(pastedAnswers = null) {
-            // Show Loading
-            const loading = document.getElementById('loading-overlay');
-            if (loading) {
-                loading.classList.remove('hidden');
-                loading.style.display = 'flex';
-            }
-            clearInterval(timerInterval);
+        function calculate(pastedAnswers = null) {
+            clearInterval(timerInterval); // Parar timer ao finalizar
 
-            let userAnswers = {};
-            let answersArray = [];
+            // 1. Inicializar estrutura de scores vazia para todas as facetas conhecidas
+            let scores = {};
+            // Garantir que todas as facetas do CRITERIA existam como array vazio
+            for (let f in DATA_CRITERIA) {
+                scores[f] = [];
+            }
+
+            let userAnswers = {}; // Para o relatório visual
+            let answeredCount = 0;
+
+            // 2. Coletar respostas (Map ID -> Valor)
+            // Independente se veio de colar ou do DOM, vamos normalizar para um mapa por ID
+            let answersMap = new Map();
 
             if (pastedAnswers) {
+                // Modo Importação
+                // Assumimos que pastedAnswers[i] corresponde a DATA_QUESTIONS[i]
+                // Validar tamanho
+                if (pastedAnswers.length !== DATA_QUESTIONS.length) {
+                    // Se tamanho for incorreto, tentamos mapear até onde der, mas o ideal é o user garantir
+                }
+
                 DATA_QUESTIONS.forEach((q, index) => {
-                    let val = pastedAnswers[index] || 0;
-                    userAnswers[q.id] = val;
-                    answersArray.push(val);
+                    let val = pastedAnswers[index];
+                    if (val !== undefined && val !== null) {
+                        answersMap.set(q.id, val);
+                    }
                 });
             } else {
+                // Modo DOM
                 DATA_QUESTIONS.forEach(q => {
                     const el = document.querySelector(`input[name="q${q.id}"]:checked`);
-                    const val = el ? parseInt(el.value) : 0;
-                    userAnswers[q.id] = val; // Store for report
-                    answersArray.push(val);
+                    if (el) {
+                        answersMap.set(q.id, parseInt(el.value));
+                    }
                 });
             }
 
-            // Submit to Backend
-            try {
-                // BFP has DATA_QUESTIONS
-                // Map to ID 1..126
-                // array is already ordered by push in forEach order of DATA_QUESTIONS which is sorted by id
+            // 3. Processar Cálculos (Iterando DATA_QUESTIONS -> Faceta Específica)
+            // Isso garante que a Questão X só pontue na Faceta Y definida nela.
+            DATA_QUESTIONS.forEach(q => {
+                const val = answersMap.get(q.id);
 
-                const result = await submitToBackend(answersArray);
-                if (result.sucesso) {
-                    renderReport(result.results, result.globalStatus, userAnswers);
-                } else {
-                    alert("Erro ao processar: " + (result.erro || "Erro desconhecido"));
+                // Se não respondeu, ignoramos neste cálculo de média (ou tratamos como 0 se a regra for essa)
+                // Geralmente em testes de média, ignora-se ou avisa. Vamos ignorar nulls no array de scores.
+                if (val !== undefined && val !== null && !isNaN(val) && val > 0) {
+
+                    userAnswers[q.id] = val; // Store for report
+                    answeredCount++;
+
+                    let finalVal = val;
+                    if (q.inverted) {
+                        finalVal = 8 - val; // Inversão BFP (Escala 1-7) -> 8 - val
+                    }
+
+                    // BLINDAGEM: Só adiciona se a faceta existir no mapa de scores
+                    if (scores[q.facet]) {
+                        scores[q.facet].push(finalVal);
+                    } else {
+                        console.warn(`Faceta desconhecida na questão ${q.id}: ${q.facet}`);
+                    }
                 }
-            } catch (e) {
-                console.error("Backend submission error:", e);
-                alert("Erro de conexÃ£o. Tente novamente.");
-            } finally {
-                if (loading) {
-                    loading.classList.add('hidden');
-                    loading.style.display = 'none';
-                }
+            });
+
+            // Validação de preenchimento
+            if (answeredCount < DATA_QUESTIONS.length) {
+                if (!confirm(`Respondeu apenas ${answeredCount} de ${DATA_QUESTIONS.length}. Continuar mesmo assim? Resultados podem estar incorretos.`)) return;
             }
-        }
 
-        async function submitToBackend(answers) {
-            // Converter array para objeto keyed by question ID
-            const respostasObj = {};
-            DATA_QUESTIONS.forEach((q, i) => {
-                respostasObj[String(q.id)] = answers[i] || 0;
-            });
+            // 4. Calcular Médias e Percentis
+            let results = {};
+            let isGlobalApto = true;
 
-            const payload = {
-                tipo: "bfp",
-                respostas: respostasObj
-            };
+            for (let f in scores) {
+                const values = scores[f];
+                let raw = 0;
 
-            const response = await fetch(API_URL, {
-                method: "POST",
-                body: JSON.stringify(payload)
-            });
+                if (values.length > 0) {
+                    const sum = values.reduce((a, b) => a + b, 0);
+                    raw = sum / values.length; // BFP usa Média
+                }
 
-            if (!response.ok) throw new Error("API Error: " + response.status);
-            const result = await response.json();
-            return result;
+                // Busca Percentil (Tabela)
+                let pct = 50; // default
+                const table = DATA_PERCENTILES[f];
+
+                if (table) {
+                    let closest = table[0];
+                    let minDiff = Infinity;
+                    // Encontrar o valor de correlação mais próximo na tabela normativa
+                    table.forEach(row => {
+                        const diff = Math.abs(row.s - raw);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closest = row;
+                        }
+                    });
+                    pct = closest.p;
+                }
+
+                // Ajuste solicitado: R2 Ponderação +5 pontos no percentil para scores específicos (Mantido da lógica anterior)
+                if (f === 'R2') {
+                    const roundedAvg = Number(raw.toFixed(2));
+                    // Nota: Comparar float exato é perigoso, mas mantendo lógica original do user
+                    if ([5.5, 5.25, 4.75, 4].includes(roundedAvg)) {
+                        pct += 5;
+                    }
+                }
+
+                const crit = DATA_CRITERIA[f] || { min: 0, max: 100 };
+                const apto = pct >= crit.min && pct <= crit.max;
+                if (!apto) isGlobalApto = false;
+
+                results[f] = {
+                    raw: raw.toFixed(2),
+                    pct: pct,
+                    apto: apto,
+                    min: crit.min,
+                    max: crit.max
+                };
+            }
+
+            renderReport(results, isGlobalApto, userAnswers);
         }
 
         function renderReport(res, globalStatus, userAnswers) {
@@ -892,7 +1031,7 @@
                 statusContainer.innerHTML = `
                     <div class="flex flex-col items-center">
                         <div class="loser-text">
-                            VOCÃŠ FICOU<br>INAPTO!
+                            VOCÊ FICOU<br>INAPTO!
                         </div>
                         <span class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-400 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
                             <i class="fas fa-times-circle mr-2"></i> REPROVADO
@@ -906,117 +1045,113 @@
             const container = document.getElementById('report-content');
             let html = '';
 
-            // Agrupar facetas por fator
-            const FACTOR_NAMES = {
-                'N': 'NEUROTICISMO',
-                'E': 'EXTROVERSÃƒO',
-                'S': 'SOCIALIZAÃ‡ÃƒO',
-                'R': 'REALIZAÃ‡ÃƒO',
-                'A': 'ABERTURA'
-            };
-
-            // Agrupar as facetas por letra inicial
-            const groups = {};
-            for (const code in res) {
-                const factorKey = code.charAt(0);
-                if (!groups[factorKey]) groups[factorKey] = [];
-                groups[factorKey].push(code);
-            }
-
-            for (const factorKey in FACTOR_NAMES) {
-                if (!groups[factorKey]) continue;
-                const factorName = FACTOR_NAMES[factorKey];
-
+            for (let factor in FACTOR_MAP) {
                 html += `
                 <div class="mb-8 break-inside-avoid">
                     <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
-                        <i class="fas fa-layer-group text-purple-500" style="text-shadow: 0 0 10px var(--primary-purple);"></i>
-                        <span class="neon-text">${factorName}</span>
+                        <i class="fas fa-layer-group text-purple-500" style="text-shadow: 0 0 10px var(--primary-purple);"></i> 
+                        <span class="neon-text">${factor}</span>
                     </h3>
                     <div class="grid grid-cols-1 gap-3">
-                `;
+            `;
 
-                groups[factorKey].forEach(code => {
+                FACTOR_MAP[factor].forEach(code => {
                     const r = res[code];
                     if (!r) return;
 
+                    const name = NAMES[code] || code;
                     const isApto = r.apto;
-                    const statusText = isApto ? 'APTO' : 'INAPTO';
-                    const statusColor = isApto
-                        ? 'text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]'
-                        : 'text-red-400 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]';
+                    const statusText = isApto ? "APTO" : "INAPTO";
 
-                    const pct = r.percentil || 0;
-                    const marker = Math.min(100, Math.max(0, pct)) + '%';
+                    const statusColor = isApto
+                        ? "text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                        : "text-red-400 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
+
+                    const left = r.min + '%';
+                    const width = (r.max - r.min) + '%';
+                    const marker = Math.min(100, Math.max(0, r.pct)) + '%';
                     const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
 
                     html += `
-                        <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
-                            <div class="flex flex-col md:flex-row items-center gap-4">
-                                <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
-                                    <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
+                        <div class="flex flex-col md:flex-row items-center gap-4">
+                            <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                                <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
+                                <div>
                                     <span class="text-xs font-bold text-purple-400 bg-purple-500/10 px-1 rounded mr-1">${code}</span>
-                                    <span class="text-xs text-gray-400">${r.descricao || ''}</span>
+                                    ${name}
                                 </div>
-                                <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
-                                    <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10"
-                                         style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
-                                    </div>
+                            </div>
+                            
+                            <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                                <!-- Faixa Ideal -->
+                                <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
+                                     style="left: ${left}; width: ${width};" 
+                                     title="Meta: ${r.min}-${r.max}%">
                                 </div>
-                                <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
-                                    <div class="text-right">
-                                        <div class="text-xs text-gray-500">MÃ©dia: ${r.raw}</div>
-                                        <div class="text-sm font-mono text-white font-bold">${pct}%</div>
-                                    </div>
-                                    <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
+                                
+                                <!-- Marcador -->
+                                <div class="absolute top-0 bottom-0 w-1.5 ${markerColor} z-10" 
+                                     style="left: ${marker}; transition: left 1s cubic-bezier(0.4, 0, 0.2, 1);">
                                 </div>
-                            </div>`;
+                            </div>
+                            
+                            <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
+                                <div class="text-right">
+                                    <div class="text-xs text-gray-500">Média: ${r.raw}</div>
+                                    <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                                </div>
+                                <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
+                            </div>
+                        </div>`;
 
-                    // Detalhamento de itens reprovados
+                    // DETALHAMENTO DE ITENS REPROVADOS
                     if (!isApto) {
                         const facetQuestions = DATA_QUESTIONS.filter(q => q.facet === code);
                         html += `
                             <div class="mt-2 pt-3 border-t border-white/5 animate-fade-in">
                                 <p class="text-xs font-bold text-red-400 mb-2 uppercase flex items-center gap-2">
-                                    <i class="fas fa-exclamation-triangle"></i> Detalhamento dos Itens (CritÃ©rio Reprovado)
+                                    <i class="fas fa-exclamation-triangle"></i> Detalhamento dos Itens (Critério Reprovado)
                                 </p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                        `;
+                            `;
+
                         facetQuestions.forEach(q => {
                             const val = userAnswers[q.id] || 0;
                             html += `
-                                <div class="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5">
-                                    <span class="text-[10px] text-gray-400 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
-                                    <span class="text-xs font-mono font-bold ${val >= 5 ? 'text-yellow-400' : 'text-gray-500'}">Resp: ${val}</span>
+                                    <div class="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5">
+                                        <span class="text-[10px] text-gray-400 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
+                                        <span class="text-xs font-mono font-bold ${val >= 5 ? 'text-yellow-400' : 'text-gray-500'}">Resp: ${val}</span>
+                                    </div>
+                                `;
+                        });
+
+                        html += `   </div>
                                 </div>
                             `;
-                        });
-                        html += `</div></div>`;
                     }
 
                     html += `</div>`;
                 });
-
                 html += `</div></div>`;
             }
-
             container.innerHTML = html;
 
-            // HistÃ³rico
+            // Histórico
             const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
             h.unshift({ date: new Date().toLocaleString(), status: globalStatus ? 'APTO' : 'INAPTO' });
             localStorage.setItem('bfp_history', JSON.stringify(h));
 
-            // Tocar audio fim se timer > 0 (manual finish) - Opcional, o usuÃ¡rio pediu "quando terminar"
-            // Se foi pelo timer, jÃ¡ tocou. Se foi clique manual, toca agora?
+            // Tocar audio fim se timer > 0 (manual finish) - Opcional, o usuário pediu "quando terminar"
+            // Se foi pelo timer, já tocou. Se foi clique manual, toca agora?
             // "o quando terminar (pasta voz)" -> tempoesgotado.mp3
             // Evitar tocar duas vezes se o timer acionou calculate
-            // Mas calculate Ã© chamado pelo timer? NÃ£o, timer dÃ¡ alert.
-            // Vou assumir que deve tocar sempre que o relatÃ³rio Ã© gerado.
+            // Mas calculate é chamado pelo timer? Não, timer dá alert.
+            // Vou assumir que deve tocar sempre que o relatório é gerado.
             audioTimeUp.play().catch(e => console.log(e));
         }
 
-        // FunÃ§Ãµes de HistÃ³rico
+        // Funções de Histórico
         function loadDashboard() {
             const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
             document.getElementById('dash-total').innerText = h.length;
@@ -1045,141 +1180,17 @@
         }
 
         function limparHistorico() {
-            if (confirm("Apagar todo o histÃ³rico?")) {
+            if (confirm("Apagar todo o histórico?")) {
                 localStorage.removeItem('bfp_history');
                 location.reload();
             }
         }
 
-        // InicializaÃ§Ã£o
-        // function calcularResultado() { return window.calculate(); } // Removed wrapper
-        // window.calculate = calculate; // Removed alias
+        // Inicialização
+        function calcularResultado() { return window.calculate(); }
+        window.calculate = calculate;
         window.onload = function () {
             renderQuiz();
-            loadDashboard();
-        };
-
-
-        // --- RESTORED LOGIC ---
-        function renderReport(res, globalStatus, userAnswers) {
-            document.getElementById('screen-quiz').classList.add('hidden');
-            document.getElementById('screen-result').classList.remove('hidden');
-            window.scrollTo(0, 0);
-
-            document.getElementById('report-date').innerText = new Date().toLocaleString();
-
-            const badge = document.getElementById('final-status-badge');
-            const statusContainer = badge.parentElement;
-
-            if (globalStatus) {
-                statusContainer.innerHTML = `
-                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
-                    <div id="final-status-badge" class="px-8 py-3 rounded-full text-xl font-bold bg-green-500/10 text-green-400 border border-green-500/30">
-                        APTO
-                    </div>
-                `;
-            } else {
-                statusContainer.innerHTML = `
-                    <div class="flex flex-col items-center">
-                        <div class="loser-text">
-                            VOCÃŠ FICOU<br>INAPTO!
-                        </div>
-                        <span class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-400 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
-                            <i class="fas fa-times-circle mr-2"></i> REPROVADO
-                        </span>
-                    </div>
-                `;
-            }
-
-            const container = document.getElementById('report-content');
-            let html = '';
-
-            // Render Results Flat List (Hardened)
-            html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">`;
-
-            for (let code in res) {
-                const r = res[code];
-                const isApto = r.apto;
-                const statusText = isApto ? "APTO" : "INAPTO";
-                const statusColor = isApto
-                    ? "text-green-400 bg-green-500/10 border-green-500/50"
-                    : "text-red-400 bg-red-500/10 border-red-500/50";
-
-                html += `
-                <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 hover:border-purple-500/30 transition-all flex flex-col gap-2">
-                    <div class="flex justify-between items-center">
-                        <div class="font-bold text-white text-lg">${code}</div>
-                        <span class="text-xs font-bold px-2 py-1 rounded-full border ${statusColor}">${statusText}</span>
-                    </div>
-                    <div class="text-sm text-gray-400">
-                        Percentil: <span class="text-white font-mono font-bold">${r.pct}</span>
-                    </div>
-                    <div class="w-full bg-gray-700 h-1.5 rounded-full overflow-hidden mt-2">
-                        <div class="bg-purple-500 h-full" style="width: ${Math.min(100, r.pct)}%"></div>
-                    </div>
-                    <div class="text-xs text-gray-500 mt-1 flex justify-between">
-                        <span>Meta dev: ${r.min}-${r.max}</span>
-                        <span>Raw: ${r.raw}</span>
-                    </div>
-                </div>`;
-            }
-            html += `</div>`;
-
-            container.innerHTML = html;
-
-            const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
-            h.unshift({ date: new Date().toLocaleString(), status: globalStatus ? 'APTO' : 'INAPTO' });
-            localStorage.setItem('bfp_history', JSON.stringify(h));
-
-            if (typeof audioTimeUp !== 'undefined') audioTimeUp.play().catch(e => console.log(e));
-        }
-
-        // FunÃ§Ãµes de HistÃ³rico
-        function loadDashboard() {
-            const h = JSON.parse(localStorage.getItem('bfp_history') || '[]');
-            const totalEl = document.getElementById('dash-total');
-            if (totalEl) totalEl.innerText = h.length;
-
-            if (h.length) {
-                const lastDate = document.getElementById('dash-last-date');
-                if (lastDate) lastDate.innerText = h[0].date;
-
-                const lastStatus = document.getElementById('dash-last-status');
-                if (lastStatus) {
-                    lastStatus.innerText = h[0].status;
-                    lastStatus.className = h[0].status == 'APTO' ? 'text-green-400 font-bold text-sm' : 'text-red-400 font-bold text-sm';
-                }
-            }
-
-            const dashboardContainer = document.getElementById('history-container');
-            if (!dashboardContainer) return;
-
-            if (h.length === 0) {
-                dashboardContainer.innerHTML = '<tr><td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum teste detectado.</td></tr>';
-                return;
-            }
-
-            dashboardContainer.innerHTML = h.map(i => `
-             <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
-                <td class="px-6 py-4 font-medium text-white">BFP Completo</td>
-                <td class="px-6 py-4 text-gray-400">${i.date}</td>
-                <td class="px-6 py-4 text-center font-bold ${i.status == 'APTO' ? 'text-green-400' : 'text-red-400'}">${i.status}</td>
-                <td class="px-6 py-4 text-right">
-                     <span class="text-xs text-gray-500">Salvo</span>
-                </td>
-            </tr>
-        `).join('');
-        }
-
-        function limparHistorico() {
-            if (confirm("Apagar todo o histÃ³rico?")) {
-                localStorage.removeItem('bfp_history');
-                location.reload();
-            }
-        }
-
-        window.onload = function () {
-            if (typeof renderQuiz === 'function') renderQuiz();
             loadDashboard();
         };
 
