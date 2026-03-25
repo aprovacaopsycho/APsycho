@@ -48,13 +48,23 @@
     },
     {
       "ano": 2024,
-      "concurso": "PM-DF",
+      "concurso": "PM-DF (CHOSC/QOPMS)",
       "testes": [
         "NEO-PI",
+        "IFP2",
         "TEACO",
-        "TSP",
-        "BFP",
-        "WMT-2"
+        "R1",
+        "TEPIC"
+      ]
+    },
+    {
+      "ano": 2024,
+      "concurso": "PP-DF",
+      "testes": [
+        "BPR5-RV",
+        "AC VETOR",
+        "NEO PI",
+        "TEPIC"
       ]
     },
     {
@@ -87,6 +97,71 @@
         "CTA",
         "BFP",
         "IFP 2"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PP-DF",
+      "testes": [
+        "NEO-PI",
+        "BPA",
+        "CTA",
+        "BFP",
+        "IFP2"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "PM-GO",
+      "testes": [
+        "BPA",
+        "PALOGRÁFICO",
+        "NEO-PI",
+        "TECON 2"
+      ]
+    },
+    {
+      "ano": 2023,
+      "concurso": "Polícia Científica PR",
+      "testes": [
+        "NEO-PI",
+        "AC-VETOR",
+        "TEPIC",
+        "BPR5-RV",
+        "R1"
+      ]
+    },
+    {
+      "ano": 2020,
+      "concurso": "PC-ES",
+      "testes": [
+        "BFP",
+        "TSP FLUÊNCIA",
+        "TSP JULGAMENTO",
+        "TEACO",
+        "TSP MEMÓRIA"
+      ]
+    },
+    {
+      "ano": 2019,
+      "concurso": "PM-ES (Oficial)",
+      "testes": [
+        "IFP2",
+        "BETA 3 MATRICIAL",
+        "TSP FLUÊNCIA",
+        "AC VETOR",
+        "TEPIC"
+      ]
+    },
+    {
+      "ano": 2018,
+      "concurso": "PM-ES (soldado)",
+      "testes": [
+        "BFP",
+        "TSP JULGAMENTO",
+        "TSP FLUÊNCIA",
+        "TSP MEMÓRIA",
+        "TEACO"
       ]
     }
   ],
