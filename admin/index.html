@@ -238,6 +238,11 @@
               class="bg-brand-panel border border-brand-border hover:bg-slate-700 text-slate-300 hover:text-white px-4 py-2 rounded-lg font-medium shadow-lg flex items-center gap-2 transition-all">
               <i class="fas fa-download"></i> Exportar
             </button>
+            <button id="btn-generate-credentials" onclick="generateCredentialsList()"
+              class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all"
+              title="Gerar lista de credenciais para enviar por email">
+              <i class="fas fa-envelope"></i> Credenciais
+            </button>
             <button id="btn-download-hashes"
               class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all">
               <i class="fas fa-key"></i> Baixar Hashes
@@ -709,6 +714,64 @@
           class="px-4 py-2 text-slate-300 hover:text-white text-sm font-medium">Cancelar</button>
         <button onclick="saveTest()"
           class="bg-brand-blue hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium shadow-lg text-sm">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CREDENTIALS LIST -->
+  <div id="credentials-modal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div
+      class="bg-brand-panel border border-slate-600 rounded-xl w-full max-w-4xl shadow-2xl transform transition-all scale-100 max-h-[90vh] overflow-hidden flex flex-col">
+      <div class="p-6 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
+        <h3 class="text-xl font-bold text-white">
+          <i class="fas fa-envelope mr-2 text-orange-400"></i> Credenciais
+        </h3>
+        <button onclick="closeCredentialsModal()" class="text-slate-400 hover:text-white">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+      </div>
+
+      <div class="p-4 border-b border-slate-700 bg-slate-800/50 flex flex-wrap gap-3 items-center">
+        <select id="cred-filter-turma" onchange="renderCredentialsTable()"
+          class="bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
+          <option value="all">Todas as Turmas</option>
+          <option value="PMPR">PMPR (Antigo)</option>
+          <option value="Base">Base (Modelo)</option>
+        </select>
+
+        <button onclick="copyAllCredentials()"
+          class="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2">
+          <i class="fas fa-copy"></i> Copiar Tudo
+        </button>
+
+        <button onclick="downloadCredentialsTxt()"
+          class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-2">
+          <i class="fas fa-file-download"></i> Baixar TXT
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-auto p-4">
+        <table class="w-full text-sm text-left text-slate-300">
+          <thead class="text-xs text-slate-400 uppercase bg-slate-900 sticky top-0">
+            <tr>
+              <th class="px-4 py-3">Nome</th>
+              <th class="px-4 py-3">E-mail</th>
+              <th class="px-4 py-3">Senha</th>
+              <th class="px-4 py-3">Validade</th>
+              <th class="px-4 py-3 text-right">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="credentials-table-body" class="divide-y divide-slate-700">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="p-4 border-t border-slate-700 bg-slate-800/30 flex justify-between items-center flex-shrink-0">
+        <span class="text-xs text-slate-400" id="cred-count">0 alunos</span>
+        <button onclick="closeCredentialsModal()"
+          class="px-4 py-2 text-slate-300 hover:text-white text-sm font-medium">Fechar</button>
       </div>
     </div>
   </div>

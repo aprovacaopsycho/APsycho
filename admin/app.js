@@ -1573,5 +1573,157 @@ qs('#file-turmas').onchange = async (e) => {
 }
 
 window.downloadSyncScript = function () {
-  alert("Para ativar a automação:\n\n1. Abra o terminal na pasta do projeto.\n2. Execute: python admin/sync_turmas.py\n\nIsso iniciará o SEVIDOR LOCAL (Porta 5000).\nMantenha o terminal aberto enquanto adiciona turmas.");
+  alert("Para ativar a automação:\n\n1. Abra o terminal na pasta do projeto.\n2. Execute: python admin/sync_turmas.py\n\nIsso，届时 o SEVIDOR LOCAL (Porta 5000).\nMantenha o terminal aberto enquanto adiciona turmas.");
 }
+
+// ===== CREDENTIALS LIST (EMAIL) =====
+
+window.generateCredentialsList = function () {
+  // First populate turmas in filter
+  const filter = qs('#cred-filter-turma');
+  filter.innerHTML = '<option value="all">Todas as Turmas</option>';
+  filter.innerHTML += '<option value="PMPR">PMPR (Antigo)</option>';
+  filter.innerHTML += '<option value="Base">Base (Modelo)</option>';
+
+  // Add dynamic turmas
+  turmasDB.forEach(t => {
+    filter.innerHTML += `<option value="${t.pasta}">${t.nome}</option>`;
+  });
+
+  // Show modal
+  qs('#credentials-modal').classList.remove('hidden');
+  qs('#credentials-modal').classList.add('flex');
+
+  // Render table
+  renderCredentialsTable();
+};
+
+window.closeCredentialsModal = function () {
+  qs('#credentials-modal').classList.add('hidden');
+  qs('#credentials-modal').classList.remove('flex');
+};
+
+window.renderCredentialsTable = function () {
+  const tbody = qs('#credentials-table-body');
+  const filter = qs('#cred-filter-turma').value;
+
+  tbody.innerHTML = '';
+
+  let filtered = studentsDB;
+  if (filter !== 'all') {
+    filtered = studentsDB.filter(s => {
+      const perms = s.permissions || [];
+      return perms.includes(filter);
+    });
+  }
+
+  filtered.forEach((s, i) => {
+    const validity = s.validade
+      ? new Date(s.validade).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' })
+      : '<span class="text-green-400">Ilimitado</span>';
+
+    const tr = document.createElement('tr');
+    tr.className = "hover:bg-slate-800/50 transition-colors";
+    tr.innerHTML = `
+      <td class="px-4 py-3 font-medium text-white">${s.nome || '-'}</td>
+      <td class="px-4 py-3 text-orange-300">${s.email}</td>
+      <td class="px-4 py-3 font-mono text-brand-blue">${s.inscricao}</td>
+      <td class="px-4 py-3 text-xs">${validity}</td>
+      <td class="px-4 py-3 text-right">
+        <button onclick="copyCredential('${s.email}', '${s.inscricao}', '${s.nome || 'Aluno'}')" 
+          class="text-xs bg-slate-700 hover:bg-brand-blue text-white px-2 py-1 rounded transition">
+          <i class="fas fa-copy"></i>
+        </button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  qs('#cred-count').textContent = `${filtered.length} alunos`;
+};
+
+window.copyCredential = function (email, senha, nome) {
+  const text = `Prezado(a) ${nome},
+
+Segue seus dados de acesso ao portal Aprovação Psycho:
+
+🔐 Login: ${email}
+🔑 Senha: ${senha}
+
+Acesse: https://aprovacaopsycho.net
+
+Obs: Sua senha é sua inscrição (use as iniciais do nome + CPF).`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    notify("Credenciais copiadas!", "ok");
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    notify("Credenciais copiadas!", "ok");
+  });
+};
+
+window.copyAllCredentials = function () {
+  const filter = qs('#cred-filter-turma').value;
+  let filtered = studentsDB;
+  if (filter !== 'all') {
+    filtered = studentsDB.filter(s => {
+      const perms = s.permissions || [];
+      return perms.includes(filter);
+    });
+  }
+
+  const allText = filtered.map(s => {
+    const validity = s.validade
+      ? new Date(s.validade).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' })
+      : 'Ilimitado';
+    return `${s.nome} | ${s.email} | ${s.inscricao} | Validade: ${validity}`;
+  }).join('\n');
+
+  navigator.clipboard.writeText(allText).then(() => {
+    notify(`${filtered.length} registros copiados!`, "ok");
+  }).catch(() => {
+    notify("Erro ao copiar. Tente selecionar manualmente.", "bad");
+  });
+};
+
+window.downloadCredentialsTxt = function () {
+  const filter = qs('#cred-filter-turma').value;
+  let filtered = studentsDB;
+  if (filter !== 'all') {
+    filtered = studentsDB.filter(s => {
+      const perms = s.permissions || [];
+      return perms.includes(filter);
+    });
+  }
+
+  let content = "CREDENCIAIS DE ACESSO - APROVAÇÃO PSYCHO\n";
+  content += "=========================================\n\n";
+
+  filtered.forEach(s => {
+    const validity = s.validade
+      ? new Date(s.validade).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })
+      : 'Ilimitado';
+    content += `Nome: ${s.nome}\n`;
+    content += `Email: ${s.email}\n`;
+    content += `Senha: ${s.inscricao}\n`;
+    content += `Validade: ${validity}\n`;
+    content += `Permissões: ${(s.permissions || []).join(', ')}\n`;
+    content += "-----------------------------------\n";
+  });
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `credenciais_${new Date().toISOString().slice(0, 10)}.txt`;
+  a.click();
+  notify("Arquivo TXT baixado!", "ok");
+};
+
+// ===== END CREDENTIALS =====
