@@ -13,8 +13,9 @@
         function adminApp() {
             return {
                 // --- STATE ---
-                classesData: {}, // { "PMPR": [...lessons], "OUTRA": [...] }
-                currentClass: 'PMPR',
+                classesData: {}, // { "PPMG_2026": [...lessons], "PC-PI_2026": [...] }
+                turmasList: [], // Lista de turmas do turmas_db.json
+                currentClass: '',
                 lessons: [], // Current view
 
                 statusMessage: '',
@@ -25,9 +26,37 @@
                 apiUrl: localStorage.getItem('psycho_api_url') || 'https://aprovacaopsycho.net/admin/api/put-hashes',
                 showSettings: false,
                 uploading: false,
+                loading: false,
 
-                init() {
-                    this.statusMessage = 'Importe o arquivo "aulas_db.json" para começar ou crie do zero.';
+                async init() {
+                    // 1. Load turmas from turmas_db.json
+                    try {
+                        const res = await fetch('../assets/data/turmas_db.json?v=' + new Date().getTime());
+                        if (res.ok) {
+                            const turmas = await res.json();
+                            this.turmasList = turmas;
+                        }
+                    } catch (e) {
+                        console.warn("Não foi possível carregar turmas:", e);
+                    }
+
+                    // 2. Load existing aulas from cloud
+                    await this.fetchFromCloud();
+
+                    // 3. If no turmas loaded, create default based on aulas_db
+                    if (this.turmasList.length === 0) {
+                        const keys = Object.keys(this.classesData);
+                        if (keys.length > 0) {
+                            this.statusMessage = 'Nenhuma turma encontrada. Use as turmas do arquivo de aulas.';
+                        }
+                    }
+
+                    // Auto-select first available class
+                    if (this.turmasList.length > 0 && this.classesData[this.turmasList[0].pasta]) {
+                        this.selectClass(this.turmasList[0].pasta);
+                    } else if (Object.keys(this.classesData).length > 0) {
+                        this.selectClass(Object.keys(this.classesData)[0]);
+                    }
                 },
 
                 // --- CLASS MANAGEMENT ---
@@ -36,28 +65,8 @@
                     this.lessons = this.classesData[className] || [];
                 },
 
-                addClass() {
-                    const name = prompt("Nome da Nova Turma (ex: PMPR_2026):");
-                    if (name && !this.classesData[name]) {
-                        this.classesData[name] = [];
-                        this.selectClass(name);
-                    } else if (this.classesData[name]) {
-                        alert("Turma já existe!");
-                    }
-                },
-
-                deleteClass() {
-                    if (confirm(`Tem certeza que deseja apagar a turma ${this.currentClass} e todas as suas aulas?`)) {
-                        delete this.classesData[this.currentClass];
-                        const keys = Object.keys(this.classesData);
-                        if (keys.length > 0) {
-                            this.selectClass(keys[0]);
-                        } else {
-                            this.currentClass = '';
-                            this.lessons = [];
-                        }
-                    }
-                },
+                // Removido: addClass() - turmas vêm do admin principal
+                // Removido: deleteClass() - turmas vêm do admin principal
 
                 // --- FILE OPERATIONS ---
 
@@ -302,26 +311,31 @@
                 <h1 class="text-3xl font-bold text-white">Gerenciador de Aulas</h1>
                 <p class="text-gray-400 text-sm">Edite e baixe o arquivo <code>aulas_db.json</code></p>
 
-                <!-- Class Selector UI -->
-                <div class="mt-4 flex gap-2 items-center" x-show="Object.keys(classesData).length > 0">
+                <!-- Class Selector UI - Uses turmas from turmas_db.json -->
+                <div class="mt-4 flex gap-2 items-center flex-wrap"
+                    x-show="turmasList.length > 0 || Object.keys(classesData).length > 0">
+                    <!-- Primeiro: turmas do turmas_db.json que existem em classesData -->
+                    <template x-for="turma in turmasList" :key="turma.pasta">
+                        <button @click="selectClass(turma.pasta)" class="px-3 py-1 rounded text-xs font-bold transition"
+                            :class="currentClass === turma.pasta ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'"
+                            :title="turma.nome">
+                            <span x-text="turma.nome || turma.pasta"></span>
+                        </button>
+                    </template>
+                    <!-- Segundo: turmas que existem em classesData mas não estão no turmas_db.json -->
                     <template x-for="cls in Object.keys(classesData)" :key="cls">
-                        <button @click="selectClass(cls)"
+                        <button x-show="!turmasList.some(t => t.pasta === cls)" @click="selectClass(cls)"
                             class="px-3 py-1 rounded text-xs font-bold transition uppercase"
                             :class="currentClass === cls ? 'bg-purple-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'">
                             <span x-text="cls"></span>
                         </button>
                     </template>
-                    <div class="h-4 w-px bg-gray-700 mx-2"></div>
-                    <button @click="addClass()"
-                        class="text-xs text-green-400 hover:text-green-300 font-bold uppercase flex items-center gap-1">
-                        <i class="fas fa-plus"></i> Nova Turma
-                    </button>
-                    <button @click="deleteClass()" x-show="currentClass"
-                        class="ml-2 text-xs text-red-500 hover:text-red-400 font-bold uppercase"
-                        title="Apagar Turma Atual">
-                        <i class="fas fa-trash"></i>
-                    </button>
                 </div>
+
+                <!-- Info about turmas -->
+                <p x-show="turmasList.length > 0" class="text-xs text-gray-500 mt-2">
+                    <i class="fas fa-info-circle"></i> Turmas carregadas de <code>turmas_db.json</code>
+                </p>
             </div>
 
             <div class="flex flex-wrap items-center gap-2 bg-gray-800 p-3 rounded-lg border border-gray-700">

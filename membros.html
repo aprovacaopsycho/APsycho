@@ -414,15 +414,15 @@
         <p class="text-xl font-bold gradient-text" x-text="selectedTurmaName"></p>
       </div>
 
-      <form @submit.prevent="login" class="space-y-6">
+      <form @submit.prevent="login" novalidate class="space-y-6">
         <div class="space-y-2">
           <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest ml-1">E-mail</label>
-          <input x-model="email" type="email" placeholder="seu@email.com"
+          <input x-model.trim="email" type="email" placeholder="seu@email.com"
             class="input-glass w-full px-5 py-4 rounded-xl focus:ring-0 placeholder-gray-600 text-base" autofocus>
         </div>
         <div class="space-y-2">
           <label class="block text-xs font-bold text-gray-300 uppercase tracking-widest ml-1">Senha / Inscrição</label>
-          <input x-model="password" type="password" placeholder="••••••••"
+          <input x-model.trim="password" type="password" placeholder="••••••••"
             class="input-glass w-full px-5 py-4 rounded-xl focus:ring-0 placeholder-gray-600 text-base">
         </div>
 

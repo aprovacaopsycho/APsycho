@@ -278,7 +278,9 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
     // const now = new Date(); // Client-side check now
 
     for (const s of studentsDB) {
-      const hash = await sha256Hex(s.email + s.inscricao);
+      const cleanEmail = (s.email || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim().toLowerCase();
+      const cleanInscri = (s.inscricao || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+      const hash = await sha256Hex(cleanEmail + cleanInscri);
       // Store object with validity & permissions
       publicHashes[hash] = {
         validity: s.validade || null,
@@ -327,7 +329,9 @@ qs('#btn-save-cloud').addEventListener('click', async () => {
 qs('#btn-download-hashes').addEventListener('click', async () => {
   const publicHashes = {};
   for (const s of studentsDB) {
-    const hash = await sha256Hex(s.email + s.inscricao);
+    const cleanEmail = (s.email || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim().toLowerCase();
+    const cleanInscri = (s.inscricao || '').replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+    const hash = await sha256Hex(cleanEmail + cleanInscri);
     publicHashes[hash] = s.validade || null;
   }
   const blob = new Blob([JSON.stringify(publicHashes, null, 2)], { type: 'application/json' });
