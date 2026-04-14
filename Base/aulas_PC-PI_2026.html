@@ -423,27 +423,30 @@
 
                 async init() {
                     try {
-                        // 1. Fetch Data
+                        // 1. Extract class name from filename (e.g., "aulas_PC-PI_2026.html" -> "PC-PI_2026")
+                        const className = window.location.pathname.match(/aulas_(.+)\.html/)?.[1] || 'Base';
+
+                        // 2. Fetch Data
                         const res = await fetch('../admin/private/aulas_db.json?v=' + new Date().getTime());
                         if (!res.ok) throw new Error("Erro ao carregar aulas");
                         const data = await res.json();
 
-                        // 2. Load Progress from LocalStorage
-                        const savedProgress = JSON.parse(localStorage.getItem('pmpr_aulas_progress') || '{}');
+                        // 3. Load Progress from LocalStorage (use class-specific key)
+                        const progressKey = className.toLowerCase() + '_aulas_progress';
+                        const savedProgress = JSON.parse(localStorage.getItem(progressKey) || '{}');
 
-                        // 3. Handle Data Structure (Array vs Object)
+                        // 4. Handle Data Structure (Array vs Object)
                         let lessonsList = [];
                         if (Array.isArray(data)) {
-                            lessonsList = data; // Legacy
+                            lessonsList = data; // Legacy (array format)
                         } else {
-                            // Default to Base for now, or could parse from URL if multiple classes needed later
-                            lessonsList = data['Base'] || [];
+                            // Use the className from the filename to get the correct lessons
+                            lessonsList = data[className] || [];
                         }
 
-                        // 4. Merge Data (Server Lesson + Local Status)
+                        // 5. Merge Data (Server Lesson + Local Status)
                         this.lessons = lessonsList.map(l => ({
                             ...l,
-                            // Use ID to track progress, fallback to index is risky if order changes
                             studied: savedProgress[l.id] || false,
                             isOpen: l.isOpen // Default open state from DB
                         }));
@@ -456,11 +459,15 @@
                 },
 
                 saveProgress() {
+                    // Extract class name from filename for the key
+                    const className = window.location.pathname.match(/aulas_(.+)\.html/)?.[1] || 'Base';
+                    const progressKey = className.toLowerCase() + '_aulas_progress';
+
                     const progressMap = {};
                     this.lessons.forEach(l => {
                         if (l.studied) progressMap[l.id] = true;
                     });
-                    localStorage.setItem('pmpr_aulas_progress', JSON.stringify(progressMap));
+                    localStorage.setItem(progressKey, JSON.stringify(progressMap));
                 }
             }
         }

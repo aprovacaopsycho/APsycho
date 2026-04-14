@@ -116,5 +116,24 @@
         }
       ]
     }
+  ],
+  "PPMG_2026": [
+    {
+      "id": "aula-e98ueowjb",
+      "title": "Nova Aula",
+      "subtitle": "Descrição da aula",
+      "isOpen": true,
+      "topics": [
+        {
+          "text": "Introdução aos testes de personalidade",
+          "type": "item"
+        },
+        {
+          "text": "Teste BFP",
+          "type": "item"
+        }
+      ],
+      "videos": []
+    }
   ]
 }
