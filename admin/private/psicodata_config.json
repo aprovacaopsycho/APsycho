@@ -102,7 +102,13 @@
     "CTA AC/AD/AA": "Atenção",
     "CTA-AA": "Atenção",
     "CTA AD": "Atenção",
-    "NEO FII-R": "Personalidade"
+    "NEO FII-R": "Personalidade",
+    "BPA AC": "Atenção",
+    "G-36": "Raciocínio",
+    "TSP FLUÊNCIA": "Raciocínio",
+    "TSP JULGAMENTO": "Raciocínio",
+    "BPR5-RV": "Personalidade",
+    "V-47": "Raciocínio"
   },
   "aliases": {
     "NEO-PI": "NEO PI-R",
