@@ -212,15 +212,6 @@
               class="hidden bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all animate-fade-in">
               <i class="fas fa-trash"></i> Excluir Seleção
             </button>
-            <button id="btn-batch-edit" onclick="openBatchEditModal()"
-              class="hidden bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all animate-fade-in">
-              <i class="fas fa-edit"></i> Editar em Lote
-            </button>
-            <button id="btn-batch-password" onclick="regenerateBatchPasswords()"
-              class="hidden bg-cyan-600 hover:bg-cyan-500 text-white px-4 py-2 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all animate-fade-in"
-              title="Gerar senhas: Iniciais + 6 dígitos do CPF">
-              <i class="fas fa-key"></i> Gerar Senhas
-            </button>
 
             <div class="h-8 w-px bg-slate-700 mx-2 hidden md:block"></div>
 
@@ -572,95 +563,6 @@
 
     </main>
   </div>
-
-  <!-- MODAL BATCH EDIT STUDENTS -->
-  <div id="batch-edit-modal"
-    class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-    <div
-      class="bg-brand-panel border border-slate-600 rounded-xl w-full max-w-lg shadow-2xl transform transition-all scale-100 max-h-[90vh] overflow-y-auto">
-      <div class="p-6 border-b border-slate-700 flex justify-between items-center sticky top-0 bg-brand-panel">
-        <h3 id="batch-modal-title" class="text-xl font-bold text-white">
-          <i class="fas fa-users-cog mr-2 text-purple-400"></i> Editar Alunos
-        </h3>
-        <button onclick="closeBatchEditModal()" class="text-slate-400 hover:text-white">
-          <i class="fas fa-times text-xl"></i>
-        </button>
-      </div>
-      <div class="p-6 space-y-6">
-
-        <!-- PERMISSIONS SECTION -->
-        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-          <h4 class="text-sm font-bold text-purple-400 mb-3 flex items-center gap-2">
-            <i class="fas fa-shield-alt"></i> Permissões de Acesso
-          </h4>
-
-          <!-- Mode Selection -->
-          <div class="mb-3">
-            <label class="block text-xs text-slate-400 mb-2">Modo de alteração:</label>
-            <select id="batch-perm-mode"
-              class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
-              <option value="keep">Manter permissões atuais</option>
-              <option value="replace">Substituir todas</option>
-              <option value="add">Adicionar às existentes</option>
-              <option value="remove">Remover das existentes</option>
-            </select>
-          </div>
-
-          <!-- Checkboxes -->
-          <div id="batch-permissions-container"
-            class="flex flex-wrap gap-3 p-3 bg-slate-900/50 rounded border border-slate-700/50">
-            <!-- Populated by JS -->
-          </div>
-        </div>
-
-        <!-- VALIDITY SECTION -->
-        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-          <h4 class="text-sm font-bold text-green-400 mb-3 flex items-center gap-2">
-            <i class="fas fa-calendar-check"></i> Validade de Acesso
-          </h4>
-
-          <!-- Mode Selection -->
-          <div class="mb-3">
-            <label class="block text-xs text-slate-400 mb-2">Ação de validade:</label>
-            <select id="batch-validity-mode"
-              class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
-              <option value="keep">Manter vigência atual</option>
-              <option value="set">Definir nova data</option>
-              <option value="clear">Remover validade (ilimitado)</option>
-            </select>
-          </div>
-
-          <!-- Date Picker -->
-          <div id="batch-validity-date-container" class="hidden">
-            <label class="block text-xs text-slate-400 mb-1">Nova data de validade:</label>
-            <input id="batch-new-validity" type="datetime-local"
-              class="w-full bg-brand-input border border-brand-border rounded px-3 py-2 text-sm text-white outline-none focus:ring-1 focus:ring-brand-blue">
-          </div>
-        </div>
-
-      </div>
-      <div class="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end gap-3 rounded-b-xl sticky bottom-0">
-        <button onclick="closeBatchEditModal()"
-          class="px-4 py-2 text-slate-300 hover:text-white text-sm font-medium">Cancelar</button>
-        <button onclick="applyBatchEdit()"
-          class="bg-purple-600 hover:bg-purple-500 text-white px-6 py-2 rounded-lg font-medium shadow-lg text-sm flex items-center gap-2">
-          <i class="fas fa-check"></i> Aplicar Alterações
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Script to toggle validity date picker -->
-  <script>
-    document.getElementById('batch-validity-mode').addEventListener('change', function () {
-      const dateContainer = document.getElementById('batch-validity-date-container');
-      if (this.value === 'set') {
-        dateContainer.classList.remove('hidden');
-      } else {
-        dateContainer.classList.add('hidden');
-      }
-    });
-  </script>
 
   <!-- MODAL EDIT CONCURSO -->
   <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">

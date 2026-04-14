@@ -398,6 +398,145 @@ qs('#file-backup-local').onchange = async (e) => {
 // ===== 3. GESTÃO DE ALUNOS =====
 
 let selectedStudents = new Set();
+
+// ===== BATCH EDIT =====
+window.openBatchEditModal = function () {
+  const count = selectedStudents.size;
+  if (count < 2) {
+    notify("Selecione pelo menos 2 alunos para edição em lote.", "brand-blue");
+    return;
+  }
+
+  // Update modal title
+  qs('#batch-modal-title').textContent = `Editar ${count} Alunos Selecionados`;
+
+  // Reset form
+  qs('#batch-perm-mode').value = 'keep';
+  qs('#batch-validity-mode').value = 'keep';
+  qs('#batch-new-validity').value = '';
+
+  // Clear and rebuild permission checkboxes
+  renderBatchPermissionOptions();
+
+  // Show modal
+  qs('#batch-edit-modal').classList.remove('hidden');
+  qs('#batch-edit-modal').classList.add('flex');
+};
+
+function renderBatchPermissionOptions() {
+  const container = qs('#batch-permissions-container');
+  container.innerHTML = '';
+
+  // 1. Padrão PMPR
+  const lblPMPR = document.createElement('label');
+  lblPMPR.className = "flex items-center gap-2 text-xs text-slate-300 select-none cursor-pointer";
+  lblPMPR.innerHTML = `<input type="checkbox" value="PMPR" class="batch-perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> PMPR (Antigo)`;
+  container.appendChild(lblPMPR);
+
+  // 1.b Base (Modelo Admin)
+  const lblBase = document.createElement('label');
+  lblBase.className = "flex items-center gap-2 text-xs text-yellow-500 font-bold select-none cursor-pointer";
+  lblBase.innerHTML = `<input type="checkbox" value="Base" class="batch-perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> Base (Modelo)`;
+  container.appendChild(lblBase);
+
+  // 2. Turmas Dinâmicas
+  turmasDB.forEach(t => {
+    const lbl = document.createElement('label');
+    lbl.className = "flex items-center gap-2 text-xs text-slate-300 select-none cursor-pointer";
+    lbl.innerHTML = `<input type="checkbox" value="${t.pasta}" class="batch-perm-check w-4 h-4 rounded border-slate-600 bg-slate-700 text-brand-blue focus:ring-brand-blue"> ${t.nome}`;
+    container.appendChild(lbl);
+  });
+}
+
+window.closeBatchEditModal = function () {
+  qs('#batch-edit-modal').classList.add('hidden');
+  qs('#batch-edit-modal').classList.remove('flex');
+};
+
+window.applyBatchEdit = function () {
+  const permMode = qs('#batch-perm-mode').value;
+  const validityMode = qs('#batch-validity-mode').value;
+  const newValidity = qs('#batch-new-validity').value;
+  const selectedPerms = Array.from(document.querySelectorAll('.batch-perm-check:checked')).map(c => c.value);
+
+  let updatedCount = 0;
+
+  selectedStudents.forEach(index => {
+    const s = studentsDB[index];
+    if (!s) return;
+
+    // Process Permissions
+    if (permMode === 'replace') {
+      s.permissions = [...selectedPerms];
+      updatedCount++;
+    } else if (permMode === 'add') {
+      const currentPerms = s.permissions || [];
+      // Add new permissions that don't already exist
+      selectedPerms.forEach(p => {
+        if (!currentPerms.includes(p)) currentPerms.push(p);
+      });
+      s.permissions = currentPerms;
+      updatedCount++;
+    } else if (permMode === 'remove') {
+      const currentPerms = s.permissions || [];
+      s.permissions = currentPerms.filter(p => !selectedPerms.includes(p));
+      updatedCount++;
+    }
+
+    // Process Validity
+    if (validityMode === 'set') {
+      s.validade = newValidity || null;
+      updatedCount++;
+    } else if (validityMode === 'clear') {
+      s.validade = null;
+      updatedCount++;
+    }
+  });
+
+  // Regenerate hashes for updated students (required for login)
+  // This is handled by the cloud save function, but we notify the user
+  if (updatedCount > 0) {
+    renderStudentTable();
+    selectedStudents.clear();
+    closeBatchEditModal();
+    notify(`${updatedCount} alunos atualizados! Lembre-se de publicar.`, "ok");
+  } else {
+    notify("Nenhuma alteração foi feita.", "brand-blue");
+  }
+};
+
+// Helper to regenerate all passwords based on name + CPF
+window.regenerateBatchPasswords = function () {
+  if (selectedStudents.size === 0) {
+    notify("Selecione alunos primeiro.", "brand-blue");
+    return;
+  }
+
+  let count = 0;
+  selectedStudents.forEach(index => {
+    const s = studentsDB[index];
+    if (!s || !s.nome || !s.cpf) return;
+
+    const cpfRaw = String(s.cpf).replace(/\D/g, '');
+    if (cpfRaw.length < 6) return;
+
+    const initials = s.nome.split(/\s+/).map(w => w[0].toUpperCase()).join('');
+    const cpf6 = cpfRaw.substring(0, 6);
+
+    s.inscricao = `${initials}${cpf6}`;
+    count++;
+  });
+
+  if (count > 0) {
+    renderStudentTable();
+    notify(`${count} senhas geradas (Iniciais + 6 dígitos CPF)!`, "ok");
+  } else {
+    notify("Nenhuma senha gerada. Verifique Nome e CPF.", "brand-blue");
+  }
+};
+
+// ===== END BATCH EDIT =====
+
 // New Helper: Render Permissions Checkboxes
 function renderPermissionOptions() {
   const container = qs('#permissions-container');
@@ -506,13 +645,30 @@ function renderStudentTable() {
 
 function updateBulkUI() {
   const count = selectedStudents.size;
-  const btn = qs('#btn-delete-bulk');
+  const btnDelete = qs('#btn-delete-bulk');
+  const btnBatchEdit = qs('#btn-batch-edit');
+  const btnBatchPassword = qs('#btn-batch-password');
 
   if (count > 0) {
-    btn.classList.remove('hidden');
-    btn.innerHTML = `<i class="fas fa-trash mr-2"></i> Excluir (${count})`;
+    // Show delete button
+    btnDelete.classList.remove('hidden');
+    btnDelete.innerHTML = `<i class="fas fa-trash mr-2"></i> Excluir (${count})`;
+
+    // Show batch edit button (only when 2+ selected)
+    if (count >= 2) {
+      btnBatchEdit.classList.remove('hidden');
+      btnBatchEdit.innerHTML = `<i class="fas fa-edit mr-2"></i> Editar em Lote`;
+    } else {
+      btnBatchEdit.classList.add('hidden');
+    }
+
+    // Show batch password button
+    btnBatchPassword.classList.remove('hidden');
+    btnBatchPassword.innerHTML = `<i class="fas fa-key mr-2"></i> Gerar Senhas (${count})`;
   } else {
-    btn.classList.add('hidden');
+    btnDelete.classList.add('hidden');
+    btnBatchEdit.classList.add('hidden');
+    btnBatchPassword.classList.add('hidden');
   }
 
   // Update Header Checkbox
@@ -618,15 +774,15 @@ function generatePassword() {
   const nome = qs('#new-name').value.trim();
   const cpfRaw = qs('#new-cpf').value.replace(/\D/g, '');
 
-  if (!nome || cpfRaw.length < 4) return;
+  if (!nome || cpfRaw.length < 6) return;
 
   // Initials: First letter of each word
   const initials = nome.split(/\s+/).map(w => w[0].toUpperCase()).join('');
-  // CPF: First 4 digits
-  const cpf4 = cpfRaw.substring(0, 4);
+  // CPF: First 6 digits
+  const cpf6 = cpfRaw.substring(0, 6);
 
   // Set Password
-  qs('#new-key').value = `${initials}${cpf4}`;
+  qs('#new-key').value = `${initials}${cpf6}`;
 }
 
 // Validation Helpers
