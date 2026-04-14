@@ -92,7 +92,17 @@
     "ROTA A": "Atenção",
     "TECON": "Atenção",
     "TIV": "Raciocínio",
-    "TSP DIMENSÕES": "Raciocínio"
+    "TSP DIMENSÕES": "Raciocínio",
+    "G-38": "Raciocínio",
+    "BDA-C": "Atenção",
+    "BDA-D": "Atenção",
+    "ENTREVISTA": "Personalidade",
+    "ENTREVISTA ESCRITA": "Personalidade",
+    "CTA AC": "Atenção",
+    "CTA AC/AD/AA": "Atenção",
+    "CTA-AA": "Atenção",
+    "CTA AD": "Atenção",
+    "NEO FII-R": "Personalidade"
   },
   "aliases": {
     "NEO-PI": "NEO PI-R",
@@ -117,13 +127,12 @@
     "BPA AC/AD/AA": "BPA AC",
     "BRD RV": "BRD-RV",
     "BETA III CÓDIGOS": "BETA-III CÓDIGOS",
-    "CTA": "CTA AC",
     "CTA ALTERNADO": "CTA AA",
     "CTA CONCENTRADO": "CTA AC",
     "CTA DIVIDIDO": "CTA AD",
-    "CTA COMPLETO": "CTA AC/AD/AA",
-    "CTA-AC": "CTA AC",
-    "CTA-AD": "CTA AD",
+    "CTA COMPLETO": "CTA",
+    "CTA-AC": "CTA",
+    "CTA-AD": "CTA",
     "ESAVI": "ESAVI B",
     "ESAVI-B": "ESAVI B",
     "FACES": "MEMÓRIA F",
@@ -137,6 +146,10 @@
     "MEMÓRIA FACES": "MEMÓRIA F",
     "NEO PI R": "NEO PI-R",
     "TEACO-FF": "TEACO",
-    "TSP(MEMO)": "TSP MEMÓRIA"
+    "TSP(MEMO)": "TSP MEMÓRIA",
+    "ENTREVISTA ESCRITA": "ENTREVISTA",
+    "BDA-C": "BDA",
+    "BDA-D": "BDA",
+    "CTA-AA": "CTA"
   }
 }
