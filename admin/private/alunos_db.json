@@ -26,11 +26,11 @@
   {
     "nome": "LUANNA SOUZA MENDES",
     "email": "luannasm016@gmail.com",
-    "inscricao": "LSM130491",
     "cpf": "130.491.696-05",
+    "inscricao": "LSM130491",
     "validade": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ]
   },
   {
@@ -86,21 +86,21 @@
   {
     "nome": "GRACE KELLY RIBEIRO DE NOVAES NASCIMENTO",
     "email": "gracekellyjfjf@gmail.com",
-    "inscricao": "KRDNN109395",
     "cpf": "109.395.376-48",
+    "inscricao": "KRDNN109395",
     "validade": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ]
   },
   {
     "nome": "DOUGLAS EDUARDO DE OLIVEIRA SILVA",
     "email": "douglas.oliveira269226@gmail.com",
-    "inscricao": "EDOS120239",
     "cpf": "120.239.346-21",
+    "inscricao": "EDOS120239",
     "validade": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ]
   },
   {
@@ -116,11 +116,11 @@
   {
     "nome": "LUCAS ANDREW DE SOUZA",
     "email": "lucas.bodybuilder@gmail.com",
-    "inscricao": "ADS814305",
     "cpf": "814.305.822-00",
+    "inscricao": "ADS814305",
     "validade": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ]
   },
   {
@@ -136,11 +136,11 @@
   {
     "nome": "EMILLY DO CARMO LAURENTINO",
     "email": "emillymilly741@gmail.com",
-    "inscricao": "DCL130057",
     "cpf": "130.057.766-54",
+    "inscricao": "DCL130057",
     "validade": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ]
   },
   {
@@ -160,7 +160,7 @@
     "inscricao": "RC064818",
     "validade": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ]
   },
   {
