@@ -409,6 +409,27 @@
             </template>
         </div>
 
+        <!-- Estado de erro -->
+        <div x-show="loadError && !loading" class="text-center py-20">
+            <div class="inline-flex flex-col items-center gap-6 bg-white/5 border border-red-500/20 rounded-2xl p-10 max-w-md mx-auto">
+                <i class="fas fa-exclamation-circle text-5xl text-red-400"></i>
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-1">Não foi possível carregar as aulas</h3>
+                    <p class="text-sm text-gray-400 mb-1" x-text="loadError"></p>
+                    <p class="text-xs text-gray-600">Verifique sua conexão e tente novamente.</p>
+                </div>
+                <button @click="retry()" class="px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition flex items-center gap-2">
+                    <i class="fas fa-redo"></i> Tentar Novamente
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div x-show="loading" class="text-center py-20 text-gray-500">
+            <i class="fas fa-spinner fa-spin text-3xl mb-3"></i>
+            <p class="text-sm">Carregando aulas...</p>
+        </div>
+
     </main>
 
     <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
@@ -420,42 +441,55 @@
             return {
                 lessons: [],
                 loading: true,
+                loadError: null,
+
+                async fetchWithRetry(url, retries = 2) {
+                    for (let i = 0; i < retries; i++) {
+                        try {
+                            const res = await fetch(url);
+                            if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+                            return await res.json();
+                        } catch (e) {
+                            if (i === retries - 1) throw e;
+                            await new Promise(r => setTimeout(r, 1500)); // wait 1.5s before retry
+                        }
+                    }
+                },
 
                 async init() {
+                    this.loading = true;
+                    this.loadError = null;
                     try {
-                        // 1. Extract class name from filename (e.g., "aulas_PPMG_2026.html" -> "PPMG_2026")
                         const className = window.location.pathname.match(/aulas_(.+)\.html/)?.[1] || 'Base';
+                        const url = '../admin/private/aulas_db.json?v=' + new Date().getTime();
 
-                        // 2. Fetch Data
-                        const res = await fetch('../admin/private/aulas_db.json?v=' + new Date().getTime());
-                        if (!res.ok) throw new Error("Erro ao carregar aulas");
-                        const data = await res.json();
+                        const data = await this.fetchWithRetry(url);
 
-                        // 3. Load Progress from LocalStorage (use class-specific key)
                         const progressKey = className.toLowerCase() + '_aulas_progress';
                         const savedProgress = JSON.parse(localStorage.getItem(progressKey) || '{}');
 
-                        // 4. Handle Data Structure (Array vs Object)
                         let lessonsList = [];
                         if (Array.isArray(data)) {
-                            lessonsList = data; // Legacy (array format)
+                            lessonsList = data;
                         } else {
-                            // Use the className from the filename to get the correct lessons
                             lessonsList = data[className] || [];
                         }
 
-                        // 5. Merge Data (Server Lesson + Local Status)
                         this.lessons = lessonsList.map(l => ({
                             ...l,
                             studied: savedProgress[l.id] || false,
-                            isOpen: l.isOpen // Default open state from DB
+                            isOpen: l.isOpen
                         }));
                     } catch (e) {
-                        console.error(e);
-                        alert("Erro ao carregar conteúdo das aulas.");
+                        console.error('Erro ao carregar aulas:', e);
+                        this.loadError = e.message || 'Falha de conexão. Verifique sua internet e tente novamente.';
                     } finally {
                         this.loading = false;
                     }
+                },
+
+                async retry() {
+                    await this.init();
                 },
 
                 saveProgress() {
