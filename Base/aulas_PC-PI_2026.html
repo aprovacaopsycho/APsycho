@@ -482,7 +482,11 @@
                         }));
                     } catch (e) {
                         console.error('Erro ao carregar aulas:', e);
-                        this.loadError = e.message || 'Falha de conexão. Verifique sua internet e tente novamente.';
+                        if (window.location.protocol === 'file:') {
+                            this.loadError = 'Para rodar localmente sem dar erro de "Failed to fetch" (CORS), utilize o script "run_local.bat" presente na raiz do seu projeto ou a extensao Live Server do VSCode.';
+                        } else {
+                            this.loadError = e.message || 'Falha de conexão. Verifique sua internet e tente novamente.';
+                        }
                     } finally {
                         this.loading = false;
                     }

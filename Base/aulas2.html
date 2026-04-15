@@ -433,8 +433,12 @@
                             isOpen: l.isOpen // Default open state from DB
                         }));
                     } catch (e) {
-                        console.error(e);
-                        alert("Erro ao carregar conteúdo das aulas.");
+                        console.error('Erro ao carregar aulas:', e);
+                        if (window.location.protocol === 'file:') {
+                            alert("Erro: Para rodar localmente sem erro de CORS (Failed to fetch), utilize o script 'run_local.bat' ou a extensao Live Server.");
+                        } else {
+                            alert("Erro ao carregar conteúdo das aulas.");
+                        }
                     } finally {
                         this.loading = false;
                     }
