@@ -162,5 +162,15 @@
     "permissions": [
       "PC-PI_2026"
     ]
+  },
+  {
+    "nome": "Guilherme Lopes de Freitas",
+    "email": "guilhermelopesestd@gmail.com",
+    "cpf": "02290356638",
+    "inscricao": "GLDF022903",
+    "validade": "2026-04-29T01:01",
+    "permissions": [
+      "PPMG_2026"
+    ]
   }
 ]
