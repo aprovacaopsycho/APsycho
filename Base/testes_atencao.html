@@ -195,7 +195,7 @@
                 <div class="flex flex-col">
                     <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
                             style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">Base <span
+                    <span class="text-white font-black text-lg leading-none"><span
                             class="text-[var(--accent-pink)]">2026</span></span>
                     <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
@@ -274,6 +274,16 @@
                         <div class="relative bg-[#151427] rounded-xl p-6 h-full border border-white/5 transition-colors"
                             :class="test.border">
 
+                            <!-- Badges bottom-right -->
+                            <div class="absolute bottom-3 right-3 flex gap-1 z-10">
+                                <span x-show="test.aocp" class="bg-red-500/20 text-red-400 px-2 py-0.5 rounded border border-red-500/40 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                                    <i class="fas fa-fire text-[9px]"></i> AOCP
+                                </span>
+                                <span x-show="test.fgv" class="bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/40 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                                    <i class="fas fa-fire text-[9px]"></i> FGV
+                                </span>
+                            </div>
+
                             <div class="flex justify-between items-start mb-6">
                                 <div class="w-12 h-12 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
                                     :class="test.badge + ' ' + test.color">
@@ -337,6 +347,8 @@
                     {
                         id: 'acvetor',
                         name: 'AC VETOR',
+                        aocp: true,
+                        fgv: true,
                         type: 'AC',
                         typeLabel: 'Atenção Concentrada',
                         desc: 'Teste de atenção concentrada com figuras vetoriais. Identifique padrões com rapidez e precisão.',
@@ -350,6 +362,8 @@
                     {
                         id: 'bpa_ac',
                         name: 'BPA-AC',
+                        aocp: true,
+                        fgv: false,
                         type: 'AC',
                         typeLabel: 'Atenção Concentrada',
                         desc: 'Teste de Atenção Concentrada. Localize as figuras alvo em meio aos distratores.',
@@ -363,6 +377,8 @@
                     {
                         id: 'bpa_ad',
                         name: 'BPA-AD',
+                        aocp: true,
+                        fgv: false,
                         type: 'AD',
                         typeLabel: 'Atenção Dividida',
                         desc: 'Teste de Atenção Dividida. Identifique as figuras alvo necessárias simultaneamente.',
@@ -376,6 +392,8 @@
                     {
                         id: 'bpa_aa',
                         name: 'BPA-AA',
+                        aocp: true,
+                        fgv: false,
                         type: 'AA',
                         typeLabel: 'Atenção Alternada',
                         desc: 'Teste de Atenção Alternada. Alterne sua atenção entre diferentes estímulos.',
@@ -389,6 +407,8 @@
                     {
                         id: 'bda_ac',
                         name: 'BDA-AC',
+                        aocp: false,
+                        fgv: true,
                         type: 'AC',
                         typeLabel: 'Atenção Concentrada',
                         desc: 'Bateria Diferencial de Atenção Concentrada. Foco total nos itens específicos.',
@@ -402,6 +422,8 @@
                     {
                         id: 'bda_ad',
                         name: 'BDA-AD',
+                        aocp: false,
+                        fgv: true,
                         type: 'AD',
                         typeLabel: 'Atenção Dividida',
                         desc: 'Bateria Diferencial de Atenção Dividida. Mantenha o foco em múltiplos alvos.',
@@ -415,6 +437,8 @@
                     {
                         id: 'bda_aa',
                         name: 'BDA-AA',
+                        aocp: false,
+                        fgv: true,
                         type: 'AA',
                         typeLabel: 'Atenção Alternada',
                         desc: 'Bateria Diferencial de Atenção Alternada. Alterne o foco rapidamente.',
@@ -428,6 +452,8 @@
                     {
                         id: 'ctaac',
                         name: 'CTA-AC',
+                        aocp: true,
+                        fgv: true,
                         type: 'AC',
                         typeLabel: 'Atenção Concentrada',
                         desc: 'Teste de Atenção Concentrada. Localize as figuras alvo em meio aos distratores.',
@@ -441,6 +467,8 @@
                     {
                         id: 'ctaad',
                         name: 'CTA-AD',
+                        aocp: true,
+                        fgv: true,
                         type: 'AD',
                         typeLabel: 'Atenção Dividida',
                         desc: 'Teste de Atenção Dividida. Preste atenção em múltiplos estímulos simultaneamente.',
@@ -454,6 +482,8 @@
                     {
                         id: 'ctaaa',
                         name: 'CTA-AA',
+                        aocp: true,
+                        fgv: true,
                         type: 'AA',
                         typeLabel: 'Atenção Alternada',
                         desc: 'Teste de Atenção Alternada. Alternância de foco entre diferentes padrões.',
@@ -506,6 +536,8 @@
                     {
                         id: 'teaco',
                         name: 'TEACO-FF',
+                        aocp: true,
+                        fgv: false,
                         type: 'AC',
                         typeLabel: 'Atenção Concentrada',
                         desc: 'Teste de Atenção Concentrada. Identifique as figuras alvo com precisão.',
