@@ -166,9 +166,19 @@
   {
     "nome": "Guilherme Lopes de Freitas",
     "email": "guilhermelopesestd@gmail.com",
-    "cpf": "02290356638",
+    "cpf": "022.903.566-38",
     "inscricao": "GLDF022903",
     "validade": "2026-04-29T01:01",
+    "permissions": [
+      "PPMG_2026"
+    ]
+  },
+  {
+    "nome": "Giovani Batista Xavier",
+    "email": "giovanixavier51@gmail.com",
+    "cpf": "953.763.481-72",
+    "inscricao": "GBX953763",
+    "validade": "",
     "permissions": [
       "PPMG_2026"
     ]
