@@ -120,8 +120,8 @@
   "PPMG_2026": [
     {
       "id": "aula-e98ueowjb",
-      "title": "Nova Aula",
-      "subtitle": "Descrição da aula",
+      "title": "Aula 1",
+      "subtitle": "Personalidade Parte 1",
       "isOpen": true,
       "topics": [
         {
@@ -130,6 +130,157 @@
         },
         {
           "text": "Teste BFP",
+          "type": "item"
+        }
+      ],
+      "videos": []
+    },
+    {
+      "id": "aula-r3uoy2izn",
+      "title": "Aula 2",
+      "subtitle": "Personalidade 2",
+      "isOpen": true,
+      "topics": [
+        {
+          "text": "IFP2",
+          "type": "item"
+        },
+        {
+          "text": "NEO",
+          "type": "item"
+        },
+        {
+          "text": "Palográfico",
+          "type": "item"
+        }
+      ],
+      "videos": []
+    },
+    {
+      "id": "aula-g18gcb08e",
+      "title": "Aula 3",
+      "subtitle": "Atenção e Memória",
+      "isOpen": true,
+      "topics": [
+        {
+          "text": "CTA (AD - AC - AA)",
+          "type": "item"
+        },
+        {
+          "text": "TEACO",
+          "type": "item"
+        },
+        {
+          "text": "TEADI",
+          "type": "item"
+        },
+        {
+          "text": "BPA (AC - AD - AA)",
+          "type": "item"
+        },
+        {
+          "text": "AC-VETOR",
+          "type": "item"
+        },
+        {
+          "text": "Novo Tópico",
+          "type": "break"
+        },
+        {
+          "text": "TEPIC",
+          "type": "item"
+        },
+        {
+          "text": "Memória F",
+          "type": "item"
+        },
+        {
+          "text": "TSP MEMÓRIA",
+          "type": "item"
+        }
+      ],
+      "videos": []
+    }
+  ],
+  "PC-PI_2026": [
+    {
+      "id": "aula-e98ueowjb",
+      "title": "Aula 1",
+      "subtitle": "Personalidade Parte 1",
+      "isOpen": true,
+      "topics": [
+        {
+          "text": "Introdução aos testes de personalidade",
+          "type": "item"
+        },
+        {
+          "text": "Teste BFP",
+          "type": "item"
+        }
+      ],
+      "videos": []
+    },
+    {
+      "id": "aula-r3uoy2izn",
+      "title": "Aula 2",
+      "subtitle": "Personalidade 2",
+      "isOpen": true,
+      "topics": [
+        {
+          "text": "IFP2",
+          "type": "item"
+        },
+        {
+          "text": "NEO",
+          "type": "item"
+        },
+        {
+          "text": "Palográfico",
+          "type": "item"
+        }
+      ],
+      "videos": []
+    },
+    {
+      "id": "aula-g18gcb08e",
+      "title": "Aula 3",
+      "subtitle": "Atenção e Memória",
+      "isOpen": true,
+      "topics": [
+        {
+          "text": "CTA (AD - AC - AA)",
+          "type": "item"
+        },
+        {
+          "text": "TEACO",
+          "type": "item"
+        },
+        {
+          "text": "TEADI",
+          "type": "item"
+        },
+        {
+          "text": "BPA (AC - AD - AA)",
+          "type": "item"
+        },
+        {
+          "text": "AC-VETOR",
+          "type": "item"
+        },
+        {
+          "text": "Novo Tópico",
+          "type": "break"
+        },
+        {
+          "text": "TEPIC",
+          "type": "item"
+        },
+        {
+          "text": "Memória F",
+          "type": "item"
+        },
+        {
+          "text": "TSP MEMÓRIA",
           "type": "item"
         }
       ],

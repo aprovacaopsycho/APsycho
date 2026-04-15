@@ -20,7 +20,7 @@
   "f60edc1d0eecd004d84b5e733c6b9c0485f08ff78d673fabe2ec4839812db80f": {
     "validity": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ],
     "name": "LUANNA SOUZA MENDES"
   },
@@ -30,13 +30,6 @@
       "PC-PI_2026"
     ],
     "name": "MAURO RICARDO DE FRANCA FONTELES FILHO"
-  },
-  "6aeb49719ee83d5f11112b0a13e26023b1511131437c8eab1e96e9eb3229fca7": {
-    "validity": "2026-04-29T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
-    "name": "GIOVANI BATISTA XAVIER"
   },
   "61cd01f6c62ab55acbeb0515fbc416b39ced53b23f8772a78468b19e39a14b65": {
     "validity": "2026-04-29T01:01",
@@ -69,7 +62,7 @@
   "815254951183e8dbfd303afa6b94d410929107d6c07382b385ee510f15800483": {
     "validity": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ],
     "name": "DOUGLAS EDUARDO DE OLIVEIRA SILVA"
   },
@@ -83,7 +76,7 @@
   "7583d506eae7548d0a4882b9f7569b36bd76b60a72637878dbbe37f1e69df1f5": {
     "validity": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ],
     "name": "LUCAS ANDREW DE SOUZA"
   },
@@ -97,7 +90,7 @@
   "115ef573605ff3da4120986724b4217bc664a775a8a0904cd6e4389918728e1f": {
     "validity": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ],
     "name": "EMILLY DO CARMO LAURENTINO"
   },
@@ -111,16 +104,9 @@
   "4859f525306ff01a9cccdf4d3f33c18620e885c6a2306fa60d50f512e727a73d": {
     "validity": "2026-04-29T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PPMG_2026"
     ],
     "name": "DANRLEI RODRIGUES CARVALHO"
-  },
-  "0fdf1d9300abe9e2cf276d58ed10f552d354372000d2a1d5effe816785e49e4b": {
-    "validity": "2026-04-29T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
-    "name": "GUILHERME LOPES DE FREITAS"
   },
   "72e6d238e2274b86940960ea1d99fcbbe6f26a034d43afeb8f41f1fb1017f346": {
     "validity": "2026-04-29T01:01",
@@ -128,5 +114,12 @@
       "PC-PI_2026"
     ],
     "name": "IVANKSWELL DE FRANCA FERREIRA"
+  },
+  "afcc21424296660b2f18b0650b8970b070704540a09b7bb25f110b1f864285cc": {
+    "validity": "2026-04-29T01:01",
+    "permissions": [
+      "PPMG_2026"
+    ],
+    "name": "Guilherme Lopes de Freitas"
   }
 }
