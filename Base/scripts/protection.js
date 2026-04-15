@@ -68,6 +68,11 @@
             }
         }
         
+        /* Fix para overlays cobrindo links */
+        body::before, #protection-overlay {
+            pointer-events: none !important;
+        }
+
         /* SCREENSHOT MITIGATION CLASS */
         .screenshot-mode {
             filter: blur(20px) !important;
@@ -79,6 +84,7 @@
     // 2. Create Overlay Element
     const overlay = document.createElement('div');
     overlay.id = 'protection-overlay';
+    // Overlay initially hidden but keep pointer-events none
     overlay.innerHTML = '<i class="fas fa-shield-alt text-6xl mb-4"></i><h2 class="text-2xl font-bold">Conteúdo Protegido</h2><p>A cópia ou impressão deste material não é permitida.</p>';
     document.body.appendChild(overlay);
 
@@ -128,6 +134,10 @@
     // 6. Prevent Clipboard Events
     ['copy', 'cut', 'paste', 'dragstart', 'drop'].forEach(action => {
         document.addEventListener(action, event => {
+            // Permitir dragstart em links para não quebrar cliques caso o mouse mova 1px
+            if (action === 'dragstart' && event.target.closest && event.target.closest('a')) {
+                return true;
+            }
             event.preventDefault();
             return false;
         });
