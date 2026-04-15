@@ -26,8 +26,8 @@
   {
     "nome": "LUANNA SOUZA MENDES",
     "email": "luannasm016@gmail.com",
-    "cpf": "130.491.696-05",
     "inscricao": "LSM130491",
+    "cpf": "130.491.696-05",
     "validade": "2026-04-29T01:01",
     "permissions": [
       "PPMG_2026"
@@ -38,16 +38,6 @@
     "email": "micxaela@gmail.com",
     "inscricao": "RDFFF608234",
     "cpf": "608.234.513-48",
-    "validade": "2026-04-29T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
-  },
-  {
-    "nome": "GIOVANI BATISTA XAVIER",
-    "email": "giovanixavier51@gmail.com",
-    "inscricao": "BX963763",
-    "cpf": "963.763.481-72",
     "validade": "2026-04-29T01:01",
     "permissions": [
       "PC-PI_2026"
@@ -86,18 +76,18 @@
   {
     "nome": "GRACE KELLY RIBEIRO DE NOVAES NASCIMENTO",
     "email": "gracekellyjfjf@gmail.com",
-    "cpf": "109.395.376-48",
     "inscricao": "KRDNN109395",
+    "cpf": "109.395.376-48",
     "validade": "2026-04-29T01:01",
     "permissions": [
-      "PPMG_2026"
+      "PC-PI_2026"
     ]
   },
   {
     "nome": "DOUGLAS EDUARDO DE OLIVEIRA SILVA",
     "email": "douglas.oliveira269226@gmail.com",
-    "cpf": "120.239.346-21",
     "inscricao": "EDOS120239",
+    "cpf": "120.239.346-21",
     "validade": "2026-04-29T01:01",
     "permissions": [
       "PPMG_2026"
@@ -116,8 +106,8 @@
   {
     "nome": "LUCAS ANDREW DE SOUZA",
     "email": "lucas.bodybuilder@gmail.com",
-    "cpf": "814.305.822-00",
     "inscricao": "ADS814305",
+    "cpf": "814.305.822-00",
     "validade": "2026-04-29T01:01",
     "permissions": [
       "PPMG_2026"
@@ -136,8 +126,8 @@
   {
     "nome": "EMILLY DO CARMO LAURENTINO",
     "email": "emillymilly741@gmail.com",
-    "cpf": "130.057.766-54",
     "inscricao": "DCL130057",
+    "cpf": "130.057.766-54",
     "validade": "2026-04-29T01:01",
     "permissions": [
       "PPMG_2026"
@@ -161,16 +151,6 @@
     "validade": "2026-04-29T01:01",
     "permissions": [
       "PPMG_2026"
-    ]
-  },
-  {
-    "nome": "GUILHERME LOPES DE FREITAS",
-    "email": "guilhermelopesestd@gmail.com",
-    "inscricao": "LDF022903",
-    "cpf": "022.903.556-38",
-    "validade": "2026-04-29T01:01",
-    "permissions": [
-      "PC-PI_2026"
     ]
   },
   {
