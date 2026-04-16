@@ -81,7 +81,11 @@
                     const reader = new FileReader();
                     reader.onload = (e) => {
                         try {
-                            const json = JSON.parse(e.target.result);
+                            let text = e.target.result;
+                            if (text.includes('window.AULAS_DB')) {
+                                text = text.replace(/window\.AULAS_DB\s*=\s*/, '').trim().replace(/;$/, '');
+                            }
+                            const json = JSON.parse(text);
 
                             // MIGRATION: If array, wrap in PMPR
                             if (Array.isArray(json)) {
@@ -109,18 +113,19 @@
                         this.classesData[this.currentClass] = this.lessons;
                     }
 
-                    const dataStr = JSON.stringify(this.classesData, null, 2);
-                    const blob = new Blob([dataStr], { type: 'application/json' });
+                    const jsonStr = JSON.stringify(this.classesData, null, 2);
+                    const dataStr = 'window.AULAS_DB = ' + jsonStr + ';';
+                    const blob = new Blob([dataStr], { type: 'application/javascript' });
                     const url = URL.createObjectURL(blob);
 
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'aulas_db.json';
+                    a.download = 'aulas_db.js';
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
 
-                    this.statusMessage = 'Arquivo baixado! Substitua o "aulas_db.json" na pasta admin/private.';
+                    this.statusMessage = 'Arquivo baixado! Substitua o "aulas_db.js" na pasta admin/private.';
                     this.statusType = 'success';
                 },
 
@@ -139,10 +144,14 @@
                     this.statusMessage = 'Baixando da nuvem...';
                     this.statusType = 'info';
                     try {
-                        const res = await fetch('private/aulas_db.json?v=' + new Date().getTime());
+                        const res = await fetch('private/aulas_db.js?v=' + new Date().getTime());
                         if (!res.ok) throw new Error("Arquivo não encontrado na nuvem.");
 
-                        const json = await res.json();
+                        let text = await res.text();
+                        if (text.includes('window.AULAS_DB')) {
+                            text = text.replace(/window\.AULAS_DB\s*=\s*/, '').trim().replace(/;$/, '');
+                        }
+                        const json = JSON.parse(text);
 
                         // MIGRATION CHECK
                         if (Array.isArray(json)) {
@@ -191,10 +200,11 @@
                         }
 
                         const content = JSON.stringify(this.classesData, null, 2);
+                        const jsContent = 'window.AULAS_DB = ' + content + ';';
 
                         const payload = {
                             files: [
-                                { path: 'admin/private/aulas_db.json', content: content }
+                                { path: 'admin/private/aulas_db.js', content: jsContent }
                             ]
                         };
 
@@ -309,7 +319,7 @@
         <header class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-gray-700 pb-6">
             <div>
                 <h1 class="text-3xl font-bold text-white">Gerenciador de Aulas</h1>
-                <p class="text-gray-400 text-sm">Edite e baixe o arquivo <code>aulas_db.json</code></p>
+                <p class="text-gray-400 text-sm">Edite e baixe o arquivo <code>aulas_db.js</code></p>
 
                 <!-- Class Selector UI - Uses turmas from turmas_db.json -->
                 <div class="mt-4 flex gap-2 items-center flex-wrap"
@@ -341,7 +351,7 @@
             <div class="flex flex-wrap items-center gap-2 bg-gray-800 p-3 rounded-lg border border-gray-700">
 
                 <!-- Import -->
-                <input type="file" id="file-upload" class="hidden" accept=".json" @change="handleFileUpload">
+                <input type="file" id="file-upload" class="hidden" accept=".json,.js" @change="handleFileUpload">
                 <button @click="triggerUpload()"
                     class="bg-blue-600/20 hover:bg-blue-600 border border-blue-600/50 text-blue-100 hover:text-white px-3 py-2 rounded font-bold transition flex items-center gap-2 text-sm">
                     <i class="fas fa-upload"></i> Importar

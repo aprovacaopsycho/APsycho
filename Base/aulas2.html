@@ -408,10 +408,16 @@
 
                 async init() {
                     try {
-                        // 1. Fetch Data
-                        const res = await fetch('../admin/private/aulas_db.json?v=' + new Date().getTime());
-                        if (!res.ok) throw new Error("Erro ao carregar aulas");
-                        const data = await res.json();
+                        const url = '../admin/private/aulas_db.js?v=' + new Date().getTime();
+                        const data = await new Promise((resolve, reject) => {
+                            const script = document.createElement('script');
+                            script.src = url;
+                            script.onload = () => resolve(window.AULAS_DB);
+                            script.onerror = () => reject(new Error("Falha ao carregar aulas_db"));
+                            document.head.appendChild(script);
+                        });
+
+                        if(!data) throw new Error("AULAS_DB não encontrado");
 
                         // 2. Load Progress from LocalStorage
                         const savedProgress = JSON.parse(localStorage.getItem('pmpr_aulas_progress') || '{}');
@@ -434,11 +440,7 @@
                         }));
                     } catch (e) {
                         console.error('Erro ao carregar aulas:', e);
-                        if (window.location.protocol === 'file:') {
-                            alert("Erro: Para rodar localmente sem erro de CORS (Failed to fetch), utilize o script 'run_local.bat' ou a extensao Live Server.");
-                        } else {
-                            alert("Erro ao carregar conteúdo das aulas.");
-                        }
+                        alert("Erro ao carregar conteúdo das aulas: " + e.message);
                     } finally {
                         this.loading = false;
                     }

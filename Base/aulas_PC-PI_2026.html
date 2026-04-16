@@ -461,9 +461,17 @@
                     this.loadError = null;
                     try {
                         const className = window.location.pathname.match(/aulas_(.+)\.html/)?.[1] || 'Base';
-                        const url = '../admin/private/aulas_db.json?v=' + new Date().getTime();
+                        const url = '../admin/private/aulas_db.js?v=' + new Date().getTime();
 
-                        const data = await this.fetchWithRetry(url);
+                        const data = await new Promise((resolve, reject) => {
+                            const script = document.createElement('script');
+                            script.src = url;
+                            script.onload = () => resolve(window.AULAS_DB);
+                            script.onerror = () => reject(new Error("Falha ao carregar aulas localmente (CORS/Path erro)."));
+                            document.head.appendChild(script);
+                        });
+
+                        if (!data) throw new Error("Banco de aulas não encontrado no arquivo.");
 
                         const progressKey = className.toLowerCase() + '_aulas_progress';
                         const savedProgress = JSON.parse(localStorage.getItem(progressKey) || '{}');

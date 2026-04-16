@@ -1,4 +1,4 @@
-{
+window.AULAS_DB = {
   "PMPR": [
     {
       "id": "aula-01",
@@ -295,4 +295,4 @@
       "videos": []
     }
   ]
-}
+};
