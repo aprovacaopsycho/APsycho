@@ -5,7 +5,8 @@
       "PMPR",
       "Base",
       "PPMG_2026",
-      "PC-PI_2026"
+      "PC-PI_2026",
+      "PMCE_2026"
     ],
     "name": "Titan da Silva Pinto"
   },
@@ -13,7 +14,8 @@
     "validity": null,
     "permissions": [
       "PPMG_2026",
-      "PC-PI_2026"
+      "PC-PI_2026",
+      "PMCE_2026"
     ],
     "name": "APROVACAO PSYCHO"
   },

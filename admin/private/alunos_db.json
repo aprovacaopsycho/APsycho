@@ -9,7 +9,8 @@
       "PMPR",
       "Base",
       "PPMG_2026",
-      "PC-PI_2026"
+      "PC-PI_2026",
+      "PMCE_2026"
     ]
   },
   {
@@ -20,7 +21,8 @@
     "validade": "",
     "permissions": [
       "PPMG_2026",
-      "PC-PI_2026"
+      "PC-PI_2026",
+      "PMCE_2026"
     ]
   },
   {
