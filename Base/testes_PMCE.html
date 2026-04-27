@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Central de Testes — Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <!-- SEGURANÇA COM PROTEÇÃO DE ERRO -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <!-- CONFIGURAÇÃO TAILWIND & ESTILOS CUSTOMIZADOS -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0a0a0f',
+                        card: 'rgba(23, 22, 35, 0.7)',
+                        primary: '#9f54ff',
+                        accent: '#ff00ff',
+                        cyan: '#00c2ff',
+                        success: '#10b981',
+                        warning: '#f59e0b',
+                        red: '#ef4444'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+        /* Fundo e Estrutura */
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(139, 92, 246, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(236, 72, 153, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(6, 182, 212, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #8b5cf6, #ec4899);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #7c3aed, #db2777);
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Cards Interativos */
+        .hover-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .hover-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: 0.6s;
+        }
+
+        .hover-card:hover::before {
+            left: 100%;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.3);
+        }
+
+        .hover-card:hover .icon-glow {
+            filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6));
+            transform: scale(1.15);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #8b5cf6 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientFlow 8s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientFlow {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Animações */
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .fade-enter {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+</head>
+
+<body x-data="{}" class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="glass-panel sticky top-0 z-50 border-b-0 relative">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none"><span
+                            class="text-[var(--accent-pink)]">2026</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                </div>
+            </div>
+
+            <!-- Navegação do Topo -->
+            <div class="flex items-center gap-4">
+                <!-- Botão Voltar -->
+                <a href="index.html" class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Voltar ao Módulo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10 max-w-7xl flex-grow relative z-10">
+
+        <section class="fade-enter">
+
+            <!-- Hero Text -->
+            <div class="text-center mb-16 relative">
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-purple-600/20 blur-[100px] -z-10 rounded-full pointer-events-none">
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight">
+                    <span class="gradient-text">Bateria de Testes</span>
+                </h1>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">
+                    Selecione a categoria de testes que deseja praticar para o concurso da <span
+                        class="text-blue-400 font-semibold">Base</span>.
+                </p>
+            </div>
+
+            <!-- Grid de Cards -->
+            <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+
+                <!-- CARD 1: PERSONALIDADE -->
+                <a href="em_breve.html"
+                    class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[220px] flex flex-col">
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-accent/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-accent/20 transition-all duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col h-full relative z-10">
+                        <div class="flex justify-between items-start mb-6">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent/20 to-pink-600/10 flex items-center justify-center border border-accent/20 group-hover:border-accent/50 transition-colors">
+                                <i
+                                    class="fas fa-fingerprint text-2xl text-accent icon-glow transition-transform duration-500"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-accent transition-colors">Testes
+                            de Personalidade</h2>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                            NEO PI-R, Palográfico, BFP e IFP-II.
+                        </p>
+                        <div class="flex items-center text-accent text-sm font-bold tracking-wide mt-auto">
+                            ACESSAR
+                            <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CARD 2: ATENÇÃO -->
+                <a href="testes_atencao.html"
+                    class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[220px] flex flex-col">
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-cyan/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-cyan/20 transition-all duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col h-full relative z-10">
+                        <div class="flex justify-between items-start mb-6">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan/20 to-blue-600/10 flex items-center justify-center border border-cyan/20 group-hover:border-cyan/50 transition-colors">
+                                <i
+                                    class="fas fa-eye text-2xl text-cyan icon-glow transition-transform duration-500"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-cyan transition-colors">Testes de
+                            Atenção</h2>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                            Atenção Concentrada, Difusa e Discriminativa.
+                        </p>
+                        <div class="flex items-center text-cyan text-sm font-bold tracking-wide mt-auto">
+                            ACESSAR
+                            <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CARD 3: MEMÓRIA -->
+                <a href="testes_memoria.html"
+                    class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[220px] flex flex-col">
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-success/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-success/20 transition-all duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col h-full relative z-10">
+                        <div class="flex justify-between items-start mb-6">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-success/20 to-green-600/10 flex items-center justify-center border border-success/20 group-hover:border-success/50 transition-colors">
+                                <i
+                                    class="fas fa-brain text-2xl text-success icon-glow transition-transform duration-500"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-success transition-colors">Testes
+                            de Memória</h2>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                            Memória Visual, Auditiva e de Faces.
+                        </p>
+                        <div class="flex items-center text-success text-sm font-bold tracking-wide mt-auto">
+                            ACESSAR
+                            <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- CARD 4: INTELIGÊNCIA -->
+                <a href="testes_inteligencia.html"
+                    class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[220px] flex flex-col">
+                    <div
+                        class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-purple-500/20 transition-all duration-700">
+                    </div>
+                    <div class="p-8 flex flex-col h-full relative z-10">
+                        <div class="flex justify-between items-start mb-6">
+                            <div
+                                class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-600/10 flex items-center justify-center border border-purple-500/20 group-hover:border-purple-500/50 transition-colors">
+                                <i
+                                    class="fas fa-lightbulb text-2xl text-purple-400 icon-glow transition-transform duration-500"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                            Inteligência e Raciocínio</h2>
+                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                            Teste R1 e outros testes de raciocínio.
+                        </p>
+                        <div class="flex items-center text-purple-400 text-sm font-bold tracking-wide mt-auto">
+                            ACESSAR
+                            <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                        </div>
+                    </div>
+                </a>
+
+
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    </footer>
+
+</body>
+
+</html>
