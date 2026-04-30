@@ -235,98 +235,128 @@
         </div>
     </header>
 
+    <main class="py-12 md:py-20">
+        <div class="container mx-auto px-6 max-w-4xl">
 
-    <section class="mt-6">
-        <h2 class="text-2xl font-extrabold text-text-light mb-3">Calculadora de NOR</h2>
-        <p class="text-text-dark mb-6">Insira a quantidade de palos observados nos 5 intervalos🎯.</p>
-
-        <div x-data="norCalculator()" class="p-6 rounded-lg shadow-lg bg-bg-card text-text-light">
-
-            <!-- Gamified result banner -->
-            <div x-show="totalPalos > 0" class="mb-4 p-4 rounded-md" :class="bannerClass">
-                <div class="flex items-center justify-between gap-4">
-                    <div>
-                        <div class="text-sm text-text-dark">Seu resultado</div>
-                        <div class="flex items-center gap-3">
-                            <div class="text-4xl font-extrabold" x-text="(nor).toFixed(2)">0.00</div>
-                            <div class="text-lg font-semibold" x-text="friendlyMessage"></div>
-                        </div>
-                        <div class="text-sm text-text-dark mt-1">Total de palos: <span class="font-bold text-text-light"
-                                x-text="totalPalos"></span> • Soma diffs:
-                            <span class="font-bold text-text-light" x-text="sumDiffs"></span>
-                        </div>
+            <div class="max-w-4xl mx-auto mb-10 px-4 lg:px-0">
+                <div class="block p-8 card featured-card text-center hover:shadow-lg relative">
+                    <div class="pulse-ring" aria-hidden="true"></div>
+                    <span class="badge-external">Externo</span>
+                    <div class="flex items-center justify-center mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-accent-blue" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8L3 20l1.2-3.8A7.72 7.72 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                        </svg>
                     </div>
-                    <div class="w-48">
-                        <div class="h-3 w-full bg-white/10 rounded-full overflow-hidden">
-                            <div class="h-3 rounded-full" :style="`width: ${Math.min(nor,20)/20*100}%`"
-                                :class="progressClass"></div>
-                        </div>
-                        <div class="text-xs text-text-dark mt-2">Pontuação: <span class="font-bold text-text-light"
-                                x-text="score"></span> • <span x-text="badge"></span></div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-2 text-text-light">Corretor de Palográficos</h3>
+                    <p class="text-text-dark mb-6">Abra o assistente que corrige palográficos. Escolha a versão que
+                        prefere: GPT ou Gemini. Nesta página também está a Calculadora de NOR.</p>
+                    <div class="flex items-center justify-center gap-4 mt-4">
+                        <a href="https://chatgpt.com/g/g-68fd18c2fd3481918ea01c8e28b6cec1-corretor-de-palografico-aprovacao-psycho-2-0"
+                            target="_blank" rel="noopener noreferrer"
+                            class="inline-block featured-cta font-semibold py-3 px-6 rounded-md">Abrir no GPT</a>
+                        <a href="https://gemini.google.com/gem/1cwzI-0H_VSOc_5TDDvtUsS9AiI39LOS7?usp=sharing"
+                            target="_blank" rel="noopener noreferrer"
+                            class="inline-block border-2 border-white/10 bg-gradient-to-r from-[#00C2FF] to-[#9F54FF] text-white font-semibold py-3 px-6 rounded-md">Abrir
+                            no Gemini</a>
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 mb-4">
-                <template x-for="(val, idx) in intervals" :key="idx">
-                    <div>
-                        <label class="block text-sm text-text-dark mb-1">Intervalo <span x-text="idx+1"></span></label>
-                        <input type="number" min="0" step="1"
-                            class="w-full p-2 rounded-md bg-[#111] border border-[#333] text-text-light"
-                            x-model.number="intervals[idx]" @input="compute()" />
+            <section class="mt-6">
+                <h2 class="text-2xl font-extrabold text-text-light mb-3">Calculadora de NOR</h2>
+                <p class="text-text-dark mb-6">Insira a quantidade de palos observados nos 5 intervalos🎯.</p>
+
+                <div x-data="norCalculator()" class="p-6 rounded-lg shadow-lg bg-bg-card text-text-light">
+
+                    <!-- Gamified result banner -->
+                    <div x-show="totalPalos > 0" class="mb-4 p-4 rounded-md" :class="bannerClass">
+                        <div class="flex items-center justify-between gap-4">
+                            <div>
+                                <div class="text-sm text-text-dark">Seu resultado</div>
+                                <div class="flex items-center gap-3">
+                                    <div class="text-4xl font-extrabold" x-text="(nor).toFixed(2)">0.00</div>
+                                    <div class="text-lg font-semibold" x-text="friendlyMessage"></div>
+                                </div>
+                                <div class="text-sm text-text-dark mt-1">Total de palos: <span
+                                        class="font-bold text-text-light" x-text="totalPalos"></span> • Soma diffs:
+                                    <span class="font-bold text-text-light" x-text="sumDiffs"></span>
+                                </div>
+                            </div>
+                            <div class="w-48">
+                                <div class="h-3 w-full bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-3 rounded-full" :style="`width: ${Math.min(nor,20)/20*100}%`"
+                                        :class="progressClass"></div>
+                                </div>
+                                <div class="text-xs text-text-dark mt-2">Pontuação: <span
+                                        class="font-bold text-text-light" x-text="score"></span> • <span
+                                        x-text="badge"></span></div>
+                            </div>
+                        </div>
                     </div>
-                </template>
-            </div>
 
-            <div class="flex gap-3 mb-4">
-                <button @click="compute()" class="px-4 py-2 featured-cta rounded-md font-semibold">Calcular
-                    NOR</button>
-                <button @click="reset()" class="px-4 py-2 bg-[#333] rounded-md">Limpar</button>
-            </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 mb-4">
+                        <template x-for="(val, idx) in intervals" :key="idx">
+                            <div>
+                                <label class="block text-sm text-text-dark mb-1">Intervalo <span
+                                        x-text="idx+1"></span></label>
+                                <input type="number" min="0" step="1"
+                                    class="w-full p-2 rounded-md bg-[#111] border border-[#333] text-text-light"
+                                    x-model.number="intervals[idx]" @input="compute()" />
+                            </div>
+                        </template>
+                    </div>
 
-            <div x-show="error" class="mb-4 p-3 bg-red-500/10 text-red-400 rounded-md" x-text="error"></div>
+                    <div class="flex gap-3 mb-4">
+                        <button @click="compute()" class="px-4 py-2 featured-cta rounded-md font-semibold">Calcular
+                            NOR</button>
+                        <button @click="reset()" class="px-4 py-2 bg-[#333] rounded-md">Limpar</button>
+                    </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-4 card">
-                    <p class="text-sm text-text-dark">Total de Palos</p>
-                    <p class="text-3xl font-bold text-text-light" x-text="totalPalos"></p>
+                    <div x-show="error" class="mb-4 p-3 bg-red-500/10 text-red-400 rounded-md" x-text="error"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="p-4 card">
+                            <p class="text-sm text-text-dark">Total de Palos</p>
+                            <p class="text-3xl font-bold text-text-light" x-text="totalPalos"></p>
+                        </div>
+                        <div class="p-4 card">
+                            <p class="text-sm text-text-dark">NOR (pontos)</p>
+                            <p class="text-3xl font-bold text-text-light" x-text="(nor).toFixed(2)"></p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 card">
+                        <p class="text-sm text-text-dark mb-2">Soma das diferenças entre intervalos</p>
+                        <p class="font-bold text-text-light mb-2" x-text="sumDiffs"></p>
+                        <p class="text-sm text-text-dark mb-2">Diferenças entre intervalos (adjacentes)</p>
+                        <div class="flex gap-2 flex-wrap">
+                            <template x-for="(d, i) in diffs" :key="i">
+                                <span class="px-3 py-1 bg-[#111] border border-[#333] rounded-md text-text-light">D<span
+                                        x-text="i+1"></span>: <span x-text="d"></span></span>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 card">
+                        <p class="text-sm text-text-dark">Classificação</p>
+                        <p class="text-lg font-semibold text-text-light mt-1" x-text="classification"></p>
+                        <p class="text-sm text-text-dark mt-2">Legenda:</p>
+                        <ul class="text-sm text-text-dark ml-4 list-disc mt-1">
+                            <li>Muito baixo (NOR entre 0 e 2,1 pontos): alta regularidade; tendência à rigidez.</li>
+                            <li>Baixo (NOR entre 2,2 e 4,1 pontos): estabilidade no ritmo de produção.</li>
+                            <li>Médio (NOR entre 4,2 e 8,6 pontos): instabilidade moderada; aceitável, porém não ideal.
+                            </li>
+                            <li>Alto (NOR entre 8,7 e 13,1 pontos): flutuações e instabilidade no desempenho.</li>
+                            <li>Muito alto (NOR ≥ 13,2 pontos): grandes variações de rendimento.</li>
+                        </ul>
+                        <p class="text-sm text-text-dark mt-2"><strong>Observação:</strong> o ideal é um NOR baixo. Um
+                            NOR médio ainda é aceitável, porém não ideal.</p>
+                    </div>
                 </div>
-                <div class="p-4 card">
-                    <p class="text-sm text-text-dark">NOR (pontos)</p>
-                    <p class="text-3xl font-bold text-text-light" x-text="(nor).toFixed(2)"></p>
-                </div>
-            </div>
-
-            <div class="mt-4 p-4 card">
-                <p class="text-sm text-text-dark mb-2">Soma das diferenças entre intervalos</p>
-                <p class="font-bold text-text-light mb-2" x-text="sumDiffs"></p>
-                <p class="text-sm text-text-dark mb-2">Diferenças entre intervalos (adjacentes)</p>
-                <div class="flex gap-2 flex-wrap">
-                    <template x-for="(d, i) in diffs" :key="i">
-                        <span class="px-3 py-1 bg-[#111] border border-[#333] rounded-md text-text-light">D<span
-                                x-text="i+1"></span>: <span x-text="d"></span></span>
-                    </template>
-                </div>
-            </div>
-
-            <div class="mt-4 p-4 card">
-                <p class="text-sm text-text-dark">Classificação</p>
-                <p class="text-lg font-semibold text-text-light mt-1" x-text="classification"></p>
-                <p class="text-sm text-text-dark mt-2">Legenda:</p>
-                <ul class="text-sm text-text-dark ml-4 list-disc mt-1">
-                    <li>Muito baixo (NOR entre 0 e 2,1 pontos): alta regularidade; tendência à rigidez.</li>
-                    <li>Baixo (NOR entre 2,2 e 4,1 pontos): estabilidade no ritmo de produção.</li>
-                    <li>Médio (NOR entre 4,2 e 8,6 pontos): instabilidade moderada; aceitável, porém não ideal.
-                    </li>
-                    <li>Alto (NOR entre 8,7 e 13,1 pontos): flutuações e instabilidade no desempenho.</li>
-                    <li>Muito alto (NOR ≥ 13,2 pontos): grandes variações de rendimento.</li>
-                </ul>
-                <p class="text-sm text-text-dark mt-2"><strong>Observação:</strong> o ideal é um NOR baixo. Um
-                    NOR médio ainda é aceitável, porém não ideal.</p>
-            </div>
+            </section>
         </div>
-    </section>
-    </div>
     </main>
 
     <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
