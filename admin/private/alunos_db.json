@@ -464,5 +464,75 @@
     "permissions": [
       "PMCE_2026"
     ]
+  },
+  {
+    "nome": "PEDRO RUDSON CARVALHO ALVES",
+    "email": "pedrorudson008@gmail.com",
+    "cpf": "629.285.943-61",
+    "inscricao": "PRCA629285",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ERNANDES AGUIAR PIMENTA",
+    "email": "ernandesaguiar23@gmail.com",
+    "cpf": "082.765.863-09",
+    "inscricao": "EAP082765",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "RAFAELA RODRIGUES BALDUINO",
+    "email": "rafinha.123517@gmail.com",
+    "cpf": "058.953.023-27",
+    "inscricao": "RRB058953",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ANTONIO CARLOS MARQUES DE SOUSA FILHO",
+    "email": "carlosfilho6986@gmail.com",
+    "cpf": "070.551.803-50",
+    "inscricao": "ACMDSF070551",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "LUCIVANDO NOGUEIRA",
+    "email": "lucivandonogueirap@gmail.com",
+    "cpf": "078.815.603-98",
+    "inscricao": "LN078815",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "FRANCISCO WILLIAM ALVES DE SOUSA",
+    "email": "franciscowilliamalvesdesousa@gmail.com",
+    "cpf": "053.095.043-03",
+    "inscricao": "FWADS053095",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "RAMON DE FREITAS SOUZA",
+    "email": "ramonfreitas032@gmail.com",
+    "cpf": "016.790.794-84",
+    "inscricao": "RDFS016790",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   }
 ]
