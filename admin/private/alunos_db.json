@@ -534,5 +534,15 @@
     "permissions": [
       "PMCE_2026"
     ]
+  },
+  {
+    "nome": "José Amauri Silva Júnior",
+    "email": "amaurijuniorips@gmail.com",
+    "cpf": "083.899.953-01",
+    "inscricao": "JASJ083899",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   }
 ]
