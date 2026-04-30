@@ -544,5 +544,36 @@
     "permissions": [
       "PMCE_2026"
     ]
+  },
+  {
+    "nome": "JOSÉ AMAURI SILVA JÚNIOR",
+    "email": "amaurijuniorips@gmail.com",
+    "cpf": "083.899.953-01",
+    "inscricao": "JASJ083899",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MARILSON MARINHO VIEIRA",
+    "email": "marilsonm416@gmail.com",
+    "cpf": "078.004.663-37",
+    "inscricao": "MMV078004",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "AGUINALDO ALEXANDRE FERREIRA",
+    "email": "tahkat34@gmail.com",
+    "cpf": "050.166.459-90",
+    "inscricao": "AAF050166",
+    "validade": "",
+    "permissions": [
+      "PMPR",
+      "PMCE_2026"
+    ]
   }
 ]

@@ -381,6 +381,21 @@
     "permissions": [
       "PMCE_2026"
     ],
-    "name": "José Amauri Silva Júnior"
+    "name": "JOSÉ AMAURI SILVA JÚNIOR"
+  },
+  "12902fcaa91bdab3b5a9369703e710c91b44677761f2a3890138fe7ada9eea86": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "MARILSON MARINHO VIEIRA"
+  },
+  "b69af69ba6f197eef618b3ff2c51a08bf2ab7ad352d404c92f54e85ce7b7ba8b": {
+    "validity": null,
+    "permissions": [
+      "PMPR",
+      "PMCE_2026"
+    ],
+    "name": "AGUINALDO ALEXANDRE FERREIRA"
   }
 }
