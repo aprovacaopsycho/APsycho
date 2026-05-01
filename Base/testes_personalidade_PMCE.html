@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testes de Personalidade — Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <!-- SEGURANÇA COM PROTEÇÃO DE ERRO -->
+    <!-- SEGURANÇA COM PROTEÇÃO DE ERRO -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+
+    <!-- ESTILOS -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
+            color: #a0a0a0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(0, 194, 255, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(255, 0, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary-purple);
+            box-shadow: 0 10px 30px rgba(159, 84, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .btn-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            height: 100%;
+            justify-content: center;
+        }
+
+        [x-cloak] {
+            display: none !important;
+        }
+
+        /* Hero */
+        .hero-bg {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #9f54ff, #ff00ff);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #8b40ff, #e600e6);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+</head>
+
+<body x-data="{}" class="hero-bg">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none"><span
+                            class="text-[var(--accent-pink)]">2026</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO - PMCE</span>
+                </div>
+            </div>
+
+            <!-- Navegação do Topo -->
+            <div class="flex items-center gap-4">
+                <a href="testes_.html"
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-6xl min-h-[85vh]">
+
+        <section>
+            <div class="text-center mb-12 mt-8">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4">Testes de Personalidade</h1>
+                <p class="text-xl text-gray-400">Treine os principais testes psicológicos e descubra seu perfil.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+                <!-- CARD 1: NEO PI-R -->
+                <a href="neopi.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <svg class="w-32 h-32 text-[var(--accent-blue)]" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                        </svg>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-blue)]/10 flex items-center justify-center mb-6 text-[var(--accent-blue)] group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">NEO PI-R</h2>
+                        <p class="text-gray-400 text-sm mb-6">Teste de personalidade completo baseado nos 5 Grandes
+                            Fatores (Big Five).</p>
+                        <span
+                            class="text-[var(--accent-blue)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD 2: PALOGRÁFICO -->
+                <a href="palografico.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-60 group-hover:opacity-80 transition">
+                        <svg class="w-24 h-24 text-[var(--accent-purple)]" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                    </div>
+                    <div class="absolute bottom-3 right-3 flex gap-1 z-10">
+                        <span
+                            class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/40 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                            <i class="fas fa-fire text-[9px]"></i> UECE
+                        </span>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-pink)]/10 flex items-center justify-center mb-6 text-[var(--accent-pink)] group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Palográfico</h2>
+                        <p class="text-gray-400 text-sm mb-6">Teste de produtividade e agressividade. Inclui corretor e
+                            calculadora de NOR.</p>
+                        <span
+                            class="text-[var(--accent-pink)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD 3: BFP -->
+                <a href="bfp_PMCE.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-60 group-hover:opacity-80 transition">
+                        <svg class="w-24 h-24 text-[var(--accent-purple)]" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <div class="absolute bottom-3 right-3 flex gap-1 z-10">
+                        <span
+                            class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/40 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                            <i class="fas fa-fire text-[9px]"></i> UECE
+                        </span>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-pink)]/10 flex items-center justify-center mb-6 text-[var(--accent-pink)] group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">BFP</h2>
+                        <p class="text-gray-400 text-sm mb-6">Bateria Fatorial de Personalidade. Avalie traços
+                            específicos.</p>
+                        <span
+                            class="text-[var(--accent-pink)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD 4: IFP-II -->
+                <a href="em_breve.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <svg class="w-32 h-32 text-[var(--accent-blue)]" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+                        </svg>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-[var(--accent-blue)]/10 flex items-center justify-center mb-6 text-[var(--accent-blue)] group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">IFP-II</h2>
+                        <p class="text-gray-400 text-sm mb-6">Inventário Fatorial de Personalidade. Avaliação detalhada
+                            de traços.</p>
+                        <span
+                            class="text-[var(--accent-blue)] font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD 5: EATA -->
+                <a href="eata.html" class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <svg class="w-32 h-32 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm1-6h-2V7h2v4z" />
+                        </svg>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6 text-red-500 group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">EATA</h2>
+                        <p class="text-gray-400 text-sm mb-6">Escala para Avaliação de Tendência à Agressividade.</p>
+                        <span class="text-red-500 font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD 6: ESAVI B -->
+                <a href="esavi_b.html"
+                    class="card cursor-pointer group hover:bg-[#1f1e33] relative overflow-hidden block">
+                    <div class="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition">
+                        <svg class="w-32 h-32 text-purple-500" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M13 3h-2v10h2V3zm4.83 2.17l-1.42 1.42C17.99 7.86 19 9.81 19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7c0-2.19 1.01-4.14 2.58-5.42L6.17 5.17C4.23 6.82 3 9.26 3 12c0 4.97 4.03 9 9 9s9-4.03 9-9c0-2.74-1.23-5.18-3.17-6.83z" />
+                        </svg>
+                    </div>
+                    <div class="btn-menu">
+                        <div
+                            class="w-20 h-20 rounded-full bg-purple-500/10 flex items-center justify-center mb-6 text-purple-500 group-hover:scale-110 transition">
+                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">ESAVI-B</h2>
+                        <p class="text-gray-400 text-sm mb-6">Escala de Avaliação de Impulsividade. Identifique fatores
+                            de risco.</p>
+                        <span class="text-purple-500 font-bold text-sm flex items-center gap-1 group-hover:underline">
+                            ACESSAR TESTE <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- CARD 5: R1 REMOVED -->
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    </footer>
+
+</body>
+
+</html>

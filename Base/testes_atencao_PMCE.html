@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testes de Atenção — Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ESTILOS -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-dark: #100f1c;
+            --bg-card: #1c1b29;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-blue: #00c2ff;
+            --text-light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #000000;
+            color: #a0a0a0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 194, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(159, 84, 255, 0.6);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(0, 194, 255, 0.6);
+            animation-duration: 25s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(6, 182, 212, 0.6);
+            animation-duration: 30s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 10px 30px rgba(0, 194, 255, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .btn-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            height: 100%;
+            justify-content: center;
+        }
+
+        /* Hero */
+        .hero-bg {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00c2ff, #9f54ff);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #00aae6, #8b40ff);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+</head>
+
+<body class="hero-bg">
+
+    <!-- Particles -->
+    <div class="particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
+                    alt="Brasão Base"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none"><span
+                            class="text-[var(--accent-pink)]">2026</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO - PMCE</span>
+                </div>
+            </div>
+
+            <!-- Navegação -->
+            <div class="flex items-center gap-4">
+                <a href="testes_.html"
+                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Voltar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 max-w-6xl flex-grow flex flex-col" x-data="testsData()">
+
+        <section class="max-w-6xl mx-auto w-full">
+            <div class="mb-12 text-center">
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-4">Testes de Atenção</h1>
+                <p class="text-xl text-gray-400">Avaliação da capacidade de concentração e foco.</p>
+            </div>
+
+            <!-- CONTROLS: SEARCH & FILTERS -->
+            <div
+                class="mb-10 flex flex-col md:flex-row gap-6 justify-between items-center bg-[#151427]/50 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
+                <!-- Search -->
+                <div class="relative w-full md:w-96">
+                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" x-model="search" placeholder="Buscar teste..."
+                        class="w-full bg-black/40 border border-white/10 rounded-xl py-3 pl-12 pr-4 text-white placeholder-gray-600 focus:outline-none focus:border-[var(--accent-blue)] transition text-sm">
+                </div>
+
+                <!-- Filters -->
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <button @click="filter = 'all'"
+                        :class="filter === 'all' ? 'bg-[var(--accent-blue)] text-black font-bold' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                        class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition">
+                        Todos
+                    </button>
+                    <button @click="filter = 'AC'"
+                        :class="filter === 'AC' ? 'bg-blue-500 text-white font-bold' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                        class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition">
+                        Concentrada
+                    </button>
+                    <button @click="filter = 'AD'"
+                        :class="filter === 'AD' ? 'bg-cyan-500 text-white font-bold' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                        class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition">
+                        Dividida
+                    </button>
+                    <button @click="filter = 'AS'"
+                        :class="filter === 'AS' ? 'bg-orange-500 text-white font-bold' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                        class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition">
+                        Difusa
+                    </button>
+                    <button @click="filter = 'AA'"
+                        :class="filter === 'AA' ? 'bg-pink-500 text-white font-bold' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                        class="px-4 py-2 rounded-lg text-xs uppercase tracking-wider transition">
+                        Alternada
+                    </button>
+                </div>
+            </div>
+
+            <!-- CARDS GRID -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <template x-for="test in filteredTests" :key="test.id">
+                    <a :href="test.link" class="card group relative overflow-hidden p-1 block animate-fade-in">
+                        <div class="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                            :class="test.bg"></div>
+
+                        <div class="relative bg-[#151427] rounded-xl p-6 h-full border border-white/5 transition-colors"
+                            :class="test.border">
+
+                            <!-- Badges bottom-right -->
+                            <div class="absolute bottom-3 right-3 flex gap-1 z-10">
+                                <span x-show="test.uece"
+                                    class="bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/40 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide">
+                                    <i class="fas fa-fire text-[9px]"></i> UECE
+                                </span>
+                            </div>
+
+                            <div class="flex justify-between items-start mb-6">
+                                <div class="w-12 h-12 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
+                                    :class="test.badge + ' ' + test.color">
+                                    <i :class="test.icon + ' text-2xl'"></i>
+                                </div>
+                                <span
+                                    class="text-[10px] font-bold text-gray-500 bg-white/5 px-2 py-1 rounded uppercase tracking-wider"
+                                    x-text="test.typeLabel"></span>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-white mb-2 transition-colors group-hover:text-white"
+                                :class="'group-hover:' + test.color" x-text="test.name"></h3>
+
+                            <p class="text-sm text-gray-400 leading-relaxed mb-6" x-text="test.desc"></p>
+
+                            <div class="flex items-center text-sm font-bold transition-colors group-hover:brightness-125"
+                                :class="test.color">
+                                ACESSAR AGORA <i
+                                    class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                            </div>
+                        </div>
+                    </a>
+                </template>
+
+                <!-- Em Breve Placeholder (Static) -->
+                <div class="card p-6 flex flex-col items-center justify-center text-center opacity-75 border-dashed border-white/10 min-h-[300px]"
+                    x-show="filter === 'all' || filter === 'AC'">
+                    <div class="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center mb-4 text-gray-500">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-400">Em Breve</h3>
+                    <p class="text-xs text-gray-600 mt-1">Novos testes em desenvolvimento.</p>
+                </div>
+
+            </div>
+
+            <!-- No Results -->
+            <div x-show="filteredTests.length === 0" class="text-center py-20">
+                <i class="fas fa-search text-gray-700 text-6xl mb-4"></i>
+                <p class="text-gray-500">Nenhum teste encontrado para sua busca.</p>
+                <button @click="filter = 'all'; search = ''"
+                    class="mt-4 text-[var(--accent-blue)] underline text-sm hover:text-white">
+                    Limpar filtros
+                </button>
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    </footer>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('testsData', () => ({
+                search: '',
+                filter: 'all',
+                tests: [
+                    {
+                        id: 'acvetor',
+                        name: 'AC VETOR',
+                        aocp: true,
+                        fgv: true,
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de atenção concentrada com figuras vetoriais. Identifique padrões com rapidez e precisão.',
+                        link: './acvetor.html',
+                        icon: 'fas fa-bullseye',
+                        color: 'text-blue-400',
+                        border: 'group-hover:border-blue-500/50',
+                        bg: 'from-blue-600/20 to-cyan-400/20',
+                        badge: 'bg-blue-500/10'
+                    },
+                    {
+                        id: 'bpa_ac',
+                        name: 'BPA-AC',
+                        aocp: true,
+                        fgv: false,
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de Atenção Concentrada. Localize as figuras alvo em meio aos distratores.',
+                        link: 'bpa/bpa_ac.html',
+                        icon: 'fas fa-star',
+                        color: 'text-purple-400',
+                        border: 'group-hover:border-purple-500/50',
+                        bg: 'from-purple-600/20 to-pink-400/20',
+                        badge: 'bg-purple-500/10'
+                    },
+                    {
+                        id: 'bpa_ad',
+                        name: 'BPA-AD',
+                        aocp: true,
+                        fgv: false,
+                        type: 'AD',
+                        typeLabel: 'Atenção Dividida',
+                        desc: 'Teste de Atenção Dividida. Identifique as figuras alvo necessárias simultaneamente.',
+                        link: 'bpa/bpa_ad.html',
+                        icon: 'fas fa-layer-group',
+                        color: 'text-cyan-400',
+                        border: 'group-hover:border-cyan-500/50',
+                        bg: 'from-cyan-600/20 to-blue-400/20',
+                        badge: 'bg-cyan-500/10'
+                    },
+                    {
+                        id: 'bpa_aa',
+                        name: 'BPA-AA',
+                        aocp: true,
+                        fgv: false,
+                        type: 'AA',
+                        typeLabel: 'Atenção Alternada',
+                        desc: 'Teste de Atenção Alternada. Alterne sua atenção entre diferentes estímulos.',
+                        link: 'bpa/bpa_aa.html',
+                        icon: 'fas fa-random',
+                        color: 'text-pink-400',
+                        border: 'group-hover:border-pink-500/50',
+                        bg: 'from-pink-600/20 to-purple-500/20',
+                        badge: 'bg-pink-500/10'
+                    },
+                    {
+                        id: 'bda_ac',
+                        name: 'BDA-AC',
+                        aocp: false,
+                        fgv: true,
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Bateria Diferencial de Atenção Concentrada. Foco total nos itens específicos.',
+                        link: 'bda/bda_ac.html',
+                        icon: 'fas fa-crosshairs',
+                        color: 'text-purple-400',
+                        border: 'group-hover:border-purple-500/50',
+                        bg: 'from-purple-600/20 to-indigo-400/20',
+                        badge: 'bg-purple-500/10'
+                    },
+                    {
+                        id: 'bda_ad',
+                        name: 'BDA-AD',
+                        aocp: false,
+                        fgv: true,
+                        type: 'AD',
+                        typeLabel: 'Atenção Dividida',
+                        desc: 'Bateria Diferencial de Atenção Dividida. Mantenha o foco em múltiplos alvos.',
+                        link: 'bda/bda_ad.html',
+                        icon: 'fas fa-columns',
+                        color: 'text-cyan-400',
+                        border: 'group-hover:border-cyan-500/50',
+                        bg: 'from-cyan-600/20 to-teal-400/20',
+                        badge: 'bg-cyan-500/10'
+                    },
+                    {
+                        id: 'bda_aa',
+                        name: 'BDA-AA',
+                        aocp: false,
+                        fgv: true,
+                        type: 'AA',
+                        typeLabel: 'Atenção Alternada',
+                        desc: 'Bateria Diferencial de Atenção Alternada. Alterne o foco rapidamente.',
+                        link: 'bda/bda_aa.html',
+                        icon: 'fas fa-sync-alt',
+                        color: 'text-pink-400',
+                        border: 'group-hover:border-pink-500/50',
+                        bg: 'from-pink-600/20 to-rose-400/20',
+                        badge: 'bg-pink-500/10'
+                    },
+                    {
+                        id: 'ctaac',
+                        name: 'CTA-AC',
+                        aocp: true,
+                        fgv: true,
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de Atenção Concentrada. Localize as figuras alvo em meio aos distratores.',
+                        link: 'cta/ctaac.html',
+                        icon: 'fas fa-star',
+                        color: 'text-purple-400',
+                        border: 'group-hover:border-purple-500/50',
+                        bg: 'from-purple-600/20 to-pink-400/20',
+                        badge: 'bg-purple-500/10'
+                    },
+                    {
+                        id: 'ctaad',
+                        name: 'CTA-AD',
+                        aocp: true,
+                        fgv: true,
+                        type: 'AD',
+                        typeLabel: 'Atenção Dividida',
+                        desc: 'Teste de Atenção Dividida. Preste atenção em múltiplos estímulos simultaneamente.',
+                        link: 'cta/ctaad.html',
+                        icon: 'fas fa-layer-group',
+                        color: 'text-cyan-400',
+                        border: 'group-hover:border-cyan-500/50',
+                        bg: 'from-cyan-600/20 to-blue-400/20',
+                        badge: 'bg-cyan-500/10'
+                    },
+                    {
+                        id: 'ctaaa',
+                        name: 'CTA-AA',
+                        aocp: true,
+                        fgv: true,
+                        type: 'AA',
+                        typeLabel: 'Atenção Alternada',
+                        desc: 'Teste de Atenção Alternada. Alternância de foco entre diferentes padrões.',
+                        link: 'cta/cta_aa.html',
+                        icon: 'fas fa-random',
+                        color: 'text-pink-400',
+                        border: 'group-hover:border-pink-500/50',
+                        bg: 'from-pink-600/20 to-purple-500/20',
+                        badge: 'bg-pink-500/10'
+                    },
+                    {
+                        id: 'rotaa',
+                        name: 'ROTA A',
+                        uece: true,
+                        type: 'AA',
+                        typeLabel: 'Atenção Alternada',
+                        desc: 'Teste de Atenção Alternada. Siga as instruções e alterne o foco conforme o modelo.',
+                        link: 'rotas/rotaa.html',
+                        icon: 'fas fa-random',
+                        color: 'text-pink-400',
+                        border: 'group-hover:border-pink-500/50',
+                        bg: 'from-pink-600/20 to-purple-500/20',
+                        badge: 'bg-pink-500/10'
+                    },
+                    {
+                        id: 'rotac',
+                        name: 'ROTA C',
+                        uece: true,
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de Atenção Concentrada. Siga as rotas e identifique os padrões corretos.',
+                        link: 'rotas/rotac.html',
+                        icon: 'fas fa-route',
+                        color: 'text-green-400',
+                        border: 'group-hover:border-green-400/50',
+                        bg: 'from-green-600/20 to-lime-400/20',
+                        badge: 'bg-green-500/10'
+                    },
+                    {
+                        id: 'rotad',
+                        name: 'ROTA D',
+                        uece: true,
+                        type: 'AD',
+                        typeLabel: 'Atenção Dividida',
+                        desc: 'Teste de Atenção Dividida. Divida sua atenção para identificar os padrões corretos.',
+                        link: 'rotas/rotad.html',
+                        icon: 'fas fa-layer-group',
+                        color: 'text-cyan-400',
+                        border: 'group-hover:border-cyan-500/50',
+                        bg: 'from-cyan-600/20 to-blue-400/20',
+                        badge: 'bg-cyan-500/10'
+                    },
+                    {
+                        id: 'teaco',
+                        name: 'TEACO-FF',
+                        aocp: true,
+                        fgv: false,
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de Atenção Concentrada. Identifique as figuras alvo com precisão.',
+                        link: 'teaco/teaco.html',
+                        icon: 'fas fa-crosshairs',
+                        color: 'text-purple-400',
+                        border: 'group-hover:border-purple-500/50',
+                        bg: 'from-purple-600/20 to-indigo-400/20',
+                        badge: 'bg-purple-500/10'
+                    },
+                    {
+                        id: 'teadi',
+                        name: 'TEADI',
+                        type: 'AD',
+                        typeLabel: 'Atenção Dividida',
+                        desc: 'Teste de Atenção Dividida. Identifique as figuras alvo com precisão e rapidez.',
+                        link: 'teadi/teadi.html',
+                        icon: 'fas fa-columns',
+                        color: 'text-indigo-400',
+                        border: 'group-hover:border-indigo-400/50',
+                        bg: 'from-indigo-600/20 to-purple-400/20',
+                        badge: 'bg-indigo-500/10'
+                    },
+                    {
+                        id: 'tealt',
+                        name: 'TEALT',
+                        type: 'AA',
+                        typeLabel: 'Atenção Alternada',
+                        desc: 'Teste de Atenção Alternada. Alterne o foco entre múltiplos estímulos.',
+                        link: 'tealt/tealt.html',
+                        icon: 'fas fa-exchange-alt',
+                        color: 'text-pink-400',
+                        border: 'group-hover:border-pink-500/50',
+                        bg: 'from-pink-600/20 to-rose-400/20',
+                        badge: 'bg-pink-500/10'
+                    },
+                    {
+                        id: 'tadim1',
+                        name: 'TADIM-1',
+                        type: 'AS',
+                        typeLabel: 'Atenção Difusa',
+                        desc: 'Teste de Atenção Difusa. Marque os números em sequência correta.',
+                        link: 'tadim/tadim1.html',
+                        icon: 'fas fa-list-ol',
+                        color: 'text-yellow-400',
+                        border: 'group-hover:border-yellow-400/50',
+                        bg: 'from-yellow-600/20 to-orange-400/20',
+                        badge: 'bg-yellow-500/10'
+                    },
+                    {
+                        id: 'tedif1',
+                        name: 'TEDIF-1',
+                        type: 'AS',
+                        typeLabel: 'Atenção Difusa',
+                        desc: 'Teste de Atenção Difusa com Sinais Sonoros. Mantenha o foco e reaja aos estímulos.',
+                        link: 'tedif/tedif1.html',
+                        icon: 'fas fa-exclamation-circle',
+                        color: 'text-orange-400',
+                        border: 'group-hover:border-orange-400/50',
+                        bg: 'from-orange-600/20 to-red-400/20',
+                        badge: 'bg-orange-500/10'
+                    },
+                    {
+                        id: 'tedif2',
+                        name: 'TEDIF-2',
+                        type: 'AS',
+                        typeLabel: 'Atenção Difusa',
+                        desc: 'Teste de atenção difusa nível 2. Maior complexidade e estímulos variados.',
+                        link: 'tedif/tedif2.html',
+                        icon: 'fas fa-fire',
+                        color: 'text-orange-500',
+                        border: 'group-hover:border-orange-500/50',
+                        bg: 'from-red-600/20 to-orange-500/20',
+                        badge: 'bg-orange-600/10'
+                    },
+                    {
+                        id: 'tedif3',
+                        name: 'TEDIF-3',
+                        type: 'AS',
+                        typeLabel: 'Atenção Difusa',
+                        desc: 'Teste de atenção difusa nível 3. Desafio avançado de foco e reação.',
+                        link: 'tedif/tedif3.html',
+                        icon: 'fas fa-bolt',
+                        color: 'text-red-500',
+                        border: 'group-hover:border-red-500/50',
+                        bg: 'from-red-700/20 to-orange-600/20',
+                        badge: 'bg-red-600/10'
+                    },
+                    {
+                        id: 'tecon1',
+                        name: 'TECON-1',
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de Atenção Concentrada Complexa 1. Foco em estímulos específicos.',
+                        link: 'tecon/tecon1.html',
+                        icon: 'fas fa-vector-square',
+                        color: 'text-fuchsia-400',
+                        border: 'group-hover:border-fuchsia-500/50',
+                        bg: 'from-fuchsia-600/20 to-purple-400/20',
+                        badge: 'bg-fuchsia-500/10'
+                    },
+                    {
+                        id: 'tecon2',
+                        name: 'TECON-2',
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de Atenção Concentrada Complexa 2. Identifique os padrões.',
+                        link: 'tecon/tecon2.html',
+                        icon: 'fas fa-vector-square',
+                        color: 'text-fuchsia-400',
+                        border: 'group-hover:border-fuchsia-500/50',
+                        bg: 'from-fuchsia-600/20 to-purple-400/20',
+                        badge: 'bg-fuchsia-500/10'
+                    },
+                    {
+                        id: 'tecon3',
+                        name: 'TECON-3',
+                        type: 'AC',
+                        typeLabel: 'Atenção Concentrada',
+                        desc: 'Teste de Atenção Concentrada Complexa 3. Desafio visual.',
+                        link: 'tecon/tecon3.html',
+                        icon: 'fas fa-vector-square',
+                        color: 'text-fuchsia-400',
+                        border: 'group-hover:border-fuchsia-500/50',
+                        bg: 'from-fuchsia-600/20 to-purple-400/20',
+                        badge: 'bg-fuchsia-500/10'
+                    },
+                ],
+
+                get filteredTests() {
+                    return this.tests.filter(test => {
+                        const matchesSearch = test.name.toLowerCase().includes(this.search.toLowerCase()) ||
+                            test.desc.toLowerCase().includes(this.search.toLowerCase());
+                        const matchesFilter = this.filter === 'all' || test.type === this.filter;
+                        return matchesSearch && matchesFilter;
+                    });
+                }
+            }));
+        });
+    </script>
+</body>
+
+</html>
