@@ -20,105 +20,105 @@
     "name": "APROVACAO PSYCHO"
   },
   "f60edc1d0eecd004d84b5e733c6b9c0485f08ff78d673fabe2ec4839812db80f": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PPMG_2026"
     ],
     "name": "LUANNA SOUZA MENDES"
   },
   "1079921bdd718d2d4ecadcd9b69060e53470fb57a97fd089a1565094ba9c9d1d": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PC-PI_2026"
     ],
     "name": "MAURO RICARDO DE FRANCA FONTELES FILHO"
   },
   "edc601e62557211ce19a1241782e9d04387cf3ccdb17a087cf945abd8977557b": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PC-PI_2026"
     ],
     "name": "CALEBE DE SOUSA RODRIGUES"
   },
   "af6d316eddbafb0a90ff8b64f1decb8970559cfbd085f943efaa3bb663466b0d": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PC-PI_2026"
     ],
     "name": "MATEUS HENRIQUE DE ALMEIDA CORDEIRO"
   },
   "1a46117baab159b707e4e613c6a0120440a8ea7aed8483988f616d4507e1f50a": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PC-PI_2026"
     ],
     "name": "MARCOS ANTONIO SOLANO VIDAL FILHO"
   },
   "675cdcfdc3459e0614f882aaaaab9a653b350b67689d9b32e40440217eb0f53b": {
-    "validity": "2026-05-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PPMG_2026"
     ],
     "name": "GRACE KELLY RIBEIRO DE NOVAES NASCIMENTO"
   },
   "0167bc14020ed7f557636154b95dcb1323ed8f0e549e5e996f954da275308102": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PPMG_2026"
     ],
     "name": "DOUGLAS EDUARDO DE OLIVEIRA SILVA"
   },
   "a90f9acbdcc06fd0fc3a9e2e4966052a7fed38865a951ed8853edcaae5d51998": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PC-PI_2026"
     ],
     "name": "DAVI PORTO FERREIRA"
   },
   "4f45b49973a675c7a73ad50fbd090e8ae0a8423f022892e9baab125d4ec2a250": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PPMG_2026"
     ],
     "name": "LUCAS ANDREW DE SOUZA"
   },
   "182997283ca240a51e84fb5629891c139aa8ae39f79505812ce2d1fe14c6ab53": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PC-PI_2026"
     ],
     "name": "LUIZA CAVALCANTE RIBEIRO"
   },
   "edf88a61821971ae151b88dd1414e586a2ebd7f5459ddf18fd1b8d6ff375c331": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PPMG_2026"
     ],
     "name": "EMILLY DO CARMO LAURENTINO"
   },
   "5a36186e68d210917622e3fc64d3ca57aeec102fb7909c7b20825b4dfbd9221a": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PC-PI_2026"
     ],
     "name": "MARINA COELHO SOUSA"
   },
   "b391c8c5813c31f55ad2dd71b2e02bbe28ba69dfb3c7ff37091fc4d1c9e27532": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PPMG_2026"
     ],
     "name": "DANRLEI RODRIGUES CARVALHO"
   },
   "b9877a6dfa82040c05443e7ff538b79a91ce28e09b3771a3962ceac1684ae6e0": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
-      "PPMG_2026"
+      "PC-PI_2026"
     ],
     "name": "IVANKSWELL DE FRANCA FERREIRA"
   },
   "afcc21424296660b2f18b0650b8970b070704540a09b7bb25f110b1f864285cc": {
-    "validity": "2026-04-29T01:01",
+    "validity": "2026-07-31T01:01",
     "permissions": [
       "PPMG_2026"
     ],
@@ -326,5 +326,76 @@
       "PMCE_2026"
     ],
     "name": "MARCOS DOUGLAS SANTOS BRIOSO"
+  },
+  "6197ee4cf5248036db06d27d78344f1c7c21ba9dddef24afcc3ec2e60463b398": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "PEDRO RUDSON CARVALHO ALVES"
+  },
+  "0481ddfd1a26e973fbb7af74ee23cb3d79bfe87402c2a09ab2a8ef841cbf4b54": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "ERNANDES AGUIAR PIMENTA"
+  },
+  "a26304c39eaea32007ad9c0d57fe706c90940eae38c33248461ff2907d5e9ae1": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "RAFAELA RODRIGUES BALDUINO"
+  },
+  "386be8d6aaa1f1acfad52a4813d9eec3bd9e1706a4ef4e03f20c586d1b47b021": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "ANTONIO CARLOS MARQUES DE SOUSA FILHO"
+  },
+  "bee4c052361154f0c537410fef26f920d5c2ead977c1ca86a2e1a5186770fed8": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "LUCIVANDO NOGUEIRA"
+  },
+  "116cdbae65a75c6108147acde6a52a7870a752024d3d3a719fffd1f8b28f3634": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "FRANCISCO WILLIAM ALVES DE SOUSA"
+  },
+  "88d8f96b2da723fc87358dae497223b919d3775d02492efdda639a8ba4900fab": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "RAMON DE FREITAS SOUZA"
+  },
+  "f50f0d3fe1224c9c0db6052e6b2e16d893a99e3ab08ec1fbbed8eb9592f6c474": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "JOSÉ AMAURI SILVA JÚNIOR"
+  },
+  "12902fcaa91bdab3b5a9369703e710c91b44677761f2a3890138fe7ada9eea86": {
+    "validity": null,
+    "permissions": [
+      "PMCE_2026"
+    ],
+    "name": "MARILSON MARINHO VIEIRA"
+  },
+  "b69af69ba6f197eef618b3ff2c51a08bf2ab7ad352d404c92f54e85ce7b7ba8b": {
+    "validity": null,
+    "permissions": [
+      "PMPR",
+      "PMCE_2026"
+    ],
+    "name": "AGUINALDO ALEXANDRE FERREIRA"
   }
 }
