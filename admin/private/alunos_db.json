@@ -925,5 +925,15 @@
     "permissions": [
       "PMCE_2026"
     ]
+  },
+  {
+    "nome": "THALES DE SOUSA MARTINS",
+    "email": "thalessousam0922@gmail.com",
+    "cpf": "089.123.133-12",
+    "inscricao": "TDSM089123",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   }
 ]
