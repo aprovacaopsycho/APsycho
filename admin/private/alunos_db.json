@@ -945,5 +945,15 @@
     "permissions": [
       "PMCE_2026"
     ]
+  },
+  {
+    "nome": "Matheus Felipe Maia da Silva",
+    "email": "felipemaiadsilva@gmail.com",
+    "cpf": "04970078351",
+    "inscricao": "MFMDS049700",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   }
 ]
