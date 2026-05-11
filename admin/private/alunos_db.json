@@ -546,16 +546,6 @@
     ]
   },
   {
-    "nome": "JOSÉ AMAURI SILVA JÚNIOR",
-    "email": "amaurijuniorips@gmail.com",
-    "cpf": "083.899.953-01",
-    "inscricao": "JASJ083899",
-    "validade": "",
-    "permissions": [
-      "PMCE_2026"
-    ]
-  },
-  {
     "nome": "MARILSON MARINHO VIEIRA",
     "email": "marilsonm416@gmail.com",
     "cpf": "078.004.663-37",
@@ -573,6 +563,546 @@
     "validade": "",
     "permissions": [
       "PMPR",
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "CARLOS KAUAN RODRIGUES DA SILVA",
+    "email": "carlosk.rodrigues@gmail.com",
+    "cpf": "063.766.443-41",
+    "inscricao": "CKRDS063766",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "TALITA DA S. BRAGA NOBRE",
+    "email": "talita.braga02@gmail.com",
+    "cpf": "063.761.073-38",
+    "inscricao": "TDSBN063761",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DANIELLE SAMILLE SARAIVA PEDROZA",
+    "email": "daniellesamille0@gmail.com",
+    "cpf": "066.898.543-70",
+    "inscricao": "DSSP066898",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MATEUS DE OLIVEIRA MACIEL",
+    "email": "mateusmaciel130208@gmail.com",
+    "cpf": "082.793.753-92",
+    "inscricao": "MDOM082793",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "CARLOS GUSTAVO RODRIGUES TARGINO",
+    "email": "carlos.gustavo.rt@gmail.com",
+    "cpf": "056.289.643-01",
+    "inscricao": "CGRT056289",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DIOGO SILVA CARDOSO",
+    "email": "diogoknd@hotmail.com",
+    "cpf": "052.670.315-69",
+    "inscricao": "DSC052670",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MATHEUS DE OLIVEIRA FERNANDES",
+    "email": "matheusfernandeswolverine@gmail.com",
+    "cpf": "078.517.923-20",
+    "inscricao": "MDOF078517",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ANTONIO SAMUEL RIBEIRO DE SOUSA",
+    "email": "samuel98ribeiro@gmail.com",
+    "cpf": "072.205.913-22",
+    "inscricao": "ASRDS072205",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "PEDRO HENRIQUE AIRES DA SILVA",
+    "email": "pedroaires177@gmail.com",
+    "cpf": "082.367.253-08",
+    "inscricao": "PHADS082367",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "LUIZA JUDITE DE FREITAS PATRIOTA PINHEIRO",
+    "email": "luizapatriota00@gmail.com",
+    "cpf": "070.991.443-16",
+    "inscricao": "LJDFPP070991",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DULCE ALBERTHYNA BARRETO DA SILVA",
+    "email": "alberthynad@gmail.com",
+    "cpf": "622.260.743-84",
+    "inscricao": "DABDS622260",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MOISÉS DA SILVA CALADO",
+    "email": "moisessmith1999@gmail.com",
+    "cpf": "710.443.414-32",
+    "inscricao": "MDSC710443",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "RAMON SOUZA DO NASCIMENTO",
+    "email": "sousaramon94@gmail.com",
+    "cpf": "070.478.763-67",
+    "inscricao": "RSDN070478",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "THIAGO OLIVEIRA DA SILVA",
+    "email": "oliverthiago567@gmail.com",
+    "cpf": "073.360.955-42",
+    "inscricao": "TODS073360",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ELDAVI QUEVI TAVARES DE ARAÚJO",
+    "email": "davitavarestavares44@gmail.com",
+    "cpf": "084.419.623-16",
+    "inscricao": "EQTDA084419",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "LUIZ LUCAS MAIA DE OLIVEIRA",
+    "email": "luiz_lucas16@hotmail.com",
+    "cpf": "117.812.934-90",
+    "inscricao": "LLMDO117812",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "FRANCISCO ARAÚJO PASSOS FILHO",
+    "email": "franciscoaraujooficial@hotmail.com",
+    "cpf": "607.240.283-66",
+    "inscricao": "FAPF607240",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "CAIO MATHEUS PEREIRA DA COSTA",
+    "email": "caiomatheus.costa190401@gmail.com",
+    "cpf": "007.955.552-70",
+    "inscricao": "CMPDC007955",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ALAN MIRANDA DOS SANTOS",
+    "email": "alan72727eh@gmail.com",
+    "cpf": "080.193.503-22",
+    "inscricao": "AMDS080193",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "JOSÉ JEFFERSON FERNANDES PAIVA",
+    "email": "jeffersonpaiva1104@gmail.com",
+    "cpf": "061.073.573-00",
+    "inscricao": "JJFP061073",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "JOÃO VITOR COSTA DE SOUSA",
+    "email": "vitimcsousa@gmail.com",
+    "cpf": "603.247.853-05",
+    "inscricao": "JVCDS603247",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MATEUS SIQUEIRA BARROSO",
+    "email": "siqueiramateus13@gmail.com",
+    "cpf": "105.509.383-46",
+    "inscricao": "MSB105509",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "GUILHERME DA SILVA FARIAS",
+    "email": "guilhermefarias2701@gmail.com",
+    "cpf": "610.247.623-94",
+    "inscricao": "GDSF610247",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "FRANCISCO BRENDON DA SILVA MELO",
+    "email": "brendonmelo1001@gmail.com",
+    "cpf": "322.030.958-57",
+    "inscricao": "FBDSM322030",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "FRANCISCO CARLOS DE OLIVEIRA JÚNIOR",
+    "email": "carlosjunior.job@gmail.com",
+    "cpf": "610.666.463-33",
+    "inscricao": "FCDOJ610666",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DANIELLI CASSIANE SILVESTRE",
+    "email": "daniellimoreno0@gmail.com",
+    "cpf": "078.652.273-96",
+    "inscricao": "DCS078652",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "VICTOR BANDEIRA DE BRITO",
+    "email": "victor15bbrito@gmail.com",
+    "cpf": "076.580.213-93",
+    "inscricao": "VBDB076580",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "SLLAYTHON COELHO BARRETO",
+    "email": "sllaythoncoelho2015@gmail.com",
+    "cpf": "027.409.863-60",
+    "inscricao": "SCB027409",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DEYVID PAULO WANDERLEY DA SILVA",
+    "email": "deyvidpaulowanderley@gmail.com",
+    "cpf": "155.673.764-56",
+    "inscricao": "DPWDS155673",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "FRANCISCO ADOLFO DA SILVA AZEVEDO",
+    "email": "adolfoazevedo39@gmail.com",
+    "cpf": "070.359.353-63",
+    "inscricao": "FADSA070359",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DAVI MICAEL TORRES DA SILVA",
+    "email": "davitorres835@gmail.com",
+    "cpf": "621.818.533-80",
+    "inscricao": "DMTDS621818",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "FELIPE LUSTOSA DE SOUSA",
+    "email": "fellipelustosa97@gmail.com",
+    "cpf": "059.509.993-98",
+    "inscricao": "FLDS059509",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ÁLVARO GUILHERME SILVA DO NASCIMENTO",
+    "email": "alvarogui350@gmail.com",
+    "cpf": "092.799.063-64",
+    "inscricao": "ÁGSDN092799",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DANIEL ALVES DE NORÕES MILFONT",
+    "email": "danielmilfontnoroes@gmail.com",
+    "cpf": "048.459.663-28",
+    "inscricao": "DADNM048459",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "JOSE VICTOR FERREIRA PIMENTEL",
+    "email": "victor2004contato@gmail.com",
+    "cpf": "624.434.763-32",
+    "inscricao": "JVFP624434",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "JOSE RICARDO ALENCAR DE SOUSA FILHO",
+    "email": "ricardoale00@gmail.com",
+    "cpf": "076.713.723-07",
+    "inscricao": "JRADSF076713",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "THALES DE SOUSA MARTINS",
+    "email": "thalessousam0922@gmail.com",
+    "cpf": "089.123.133-12",
+    "inscricao": "TDSM089123",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ROBSON DE MOURA ALBUQUERQUE",
+    "email": "robsonalbuquerque1056@gmail.com",
+    "cpf": "108.236.164-01",
+    "inscricao": "RDMA108236",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "Matheus Felipe Maia da Silva",
+    "email": "felipemaiadsilva@gmail.com",
+    "cpf": "04970078351",
+    "inscricao": "MFMDS049700",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ANTONIA GLAIS DO NASCIMENTO FERNANDES",
+    "email": "glaisfern@gmail.com",
+    "cpf": "603.391.623-92",
+    "inscricao": "AGDNF603391",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "LUCAS DA SILVA SOUSA",
+    "email": "lucasppepadrao@gmail.com",
+    "cpf": "066.644.463-32",
+    "inscricao": "LDSS066644",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "WANDERSON JOHNATAN RAMOS FONSECA",
+    "email": "vanvanfonseca.0123@gmail.com",
+    "cpf": "627.829.703-56",
+    "inscricao": "WJRF627829",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DANILO VINICIUS LOURENÇO DE OLIVEIRA",
+    "email": "danilovinicius20110@gmail.com",
+    "cpf": "126.674.904-79",
+    "inscricao": "DVLDO126674",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "JOÃO PAULO MACIEL OLIVEIRA FILHO",
+    "email": "jpfilho200318@gmail.com",
+    "cpf": "102.233.503-03",
+    "inscricao": "JPMOF102233",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "CINARA CINTIA ALVES DE MORAIS",
+    "email": "cinthialves70@hotmail.com",
+    "cpf": "701.142.684-10",
+    "inscricao": "CCADM701142",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MÁRCIO LUCAS ALVES DO NASCIMENTO",
+    "email": "lucasmarciolucas9@gmail.com",
+    "cpf": "631.764.033-56",
+    "inscricao": "MLADN631764",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ANDERSON DA COSTA FRANÇA",
+    "email": "andersoncosta402@gmail.com",
+    "cpf": "607.953.973-05",
+    "inscricao": "ADCF607953",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "FRANCISCA VALÉRIA ALVES BARROS",
+    "email": "valeriabiologia2015@gmail.com",
+    "cpf": "062.433.933-56",
+    "inscricao": "FVAB062433",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "JESSUIR HUGO DE LIMA AZEVEDO",
+    "email": "limajh031196@gmail.com",
+    "cpf": "017.278.094-24",
+    "inscricao": "JHDLA017278",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "PEDRO LUCAS RODRIGUES DA SILVA",
+    "email": "pedrolucasrodriguesdasilva@gmail.com",
+    "cpf": "077.700.463-19",
+    "inscricao": "PLRDS077700",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "ANTÔNIO VITOR QUIDUTE DA SILVA",
+    "email": "vitorquidute1234@gmail.com",
+    "cpf": "130.891.654-06",
+    "inscricao": "AVQDS130891",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MATHEUS VINICIUS LIMA DE FRANÇA",
+    "email": "lima25746@gmail.com",
+    "cpf": "633.723.413-84",
+    "inscricao": "MVLDF633723",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "DENISE HELENA BANDEIRA OLIVEIRA",
+    "email": "deniseh.adv@gmail.com",
+    "cpf": "076.044.213-42",
+    "inscricao": "DHBO076044",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "MÔNICA PONTES RODRIGUES",
+    "email": "monicapr2305@gmail.com",
+    "cpf": "06314948398",
+    "inscricao": "MPR063149",
+    "validade": "",
+    "permissions": [
       "PMCE_2026"
     ]
   }
