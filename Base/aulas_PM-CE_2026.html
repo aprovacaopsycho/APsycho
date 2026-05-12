@@ -8,6 +8,9 @@
     <title>Aulas - Módulo Exclusivo | Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="../favicon.png">
 
+    <!-- PROTEÇÃO: redireciona para login se não autenticado -->
+    <script src="../scripts/auth_guard.js"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -25,6 +28,7 @@
             --accent-blue: #00c2ff;
             --border-color: rgba(255, 255, 255, 0.1);
             --header-hover: #2a2938;
+            --text-light: #a0a0a0;
         }
 
         body {
@@ -304,8 +308,8 @@
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Bras%C3%A3o_da_Pol%C3%ADcia_Militar_do_Cear%C3%A1.png/150px-Bras%C3%A3o_da_Pol%C3%ADcia_Militar_do_Cear%C3%A1.png"
-                    alt="Brasão PM-CE"
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG4kk_B-5aCSWc8T6qM8NNclK0v3Xi3UAxTQ&s"
+                    alt="Brasão PM-CE" referrerpolicy="no-referrer"
                     class="h-10 w-10 rounded-full border border-[#9f54ff] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)] bg-white p-1">
                 <div class="flex flex-col">
                     <span class="text-xl font-black" style="color:#a0a0a0">APROVAÇÃO <span
@@ -315,10 +319,22 @@
                     <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
-            <a href="index_PMCE_2026.html"
-                class="text-sm font-bold text-cyan-400 hover:text-white transition flex items-center gap-2">
-                <i class="fas fa-arrow-left"></i> Voltar
-            </a>
+            <div class="flex items-center gap-4">
+                <!-- User Profile -->
+                <div class="flex items-center gap-2 border-r border-white/10 pr-4 hidden md:flex">
+                    <div
+                        class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs"
+                        x-text="getInitials()"></div>
+                    <div class="flex flex-col text-right">
+                        <span class="text-xs font-bold text-white leading-none" x-text="userName"></span>
+                        <span class="text-[10px] text-gray-400">Aluno</span>
+                    </div>
+                </div>
+                <a href="index_PMCE_2026.html"
+                    class="text-sm font-bold text-cyan-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </a>
+            </div>
         </div>
     </header>
 
@@ -388,9 +404,9 @@
                                 <ul class="space-y-2">
                                     <template x-for="(link, lIndex) in lesson.links" :key="lIndex">
                                         <li>
-                                            <a :href="link.url" target="_blank" rel="noopener"
+                                            <a :href="link.url"
                                                 class="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 hover:underline transition group">
-                                                <i class="fas fa-external-link-alt text-xs opacity-50 group-hover:opacity-100"></i>
+                                                <i class="fas fa-link text-xs opacity-50 group-hover:opacity-100"></i>
                                                 <span x-text="link.label || link.url"></span>
                                             </a>
                                         </li>
@@ -545,6 +561,14 @@
                 lessons: [],
                 loading: false,
                 loadError: null,
+                userName: sessionStorage.getItem('memberName') || 'Aluno',
+
+                getInitials() {
+                    if (!this.userName) return 'A';
+                    const parts = this.userName.split(' ');
+                    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+                    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+                },
 
                 init() {
                     const m = window.location.pathname.match(/aulas_(.+)\.html/);

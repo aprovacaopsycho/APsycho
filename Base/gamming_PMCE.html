@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gamificação PM-CE — Aprovação Psycho</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+
+  <!-- SEGURANÇA -->
+  <script src="../scripts/auth_guard.js"></script>
+
+  <!-- LIBS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- ESTILOS -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+    :root {
+      --bg-dark: #100f1c;
+      --primary-purple: #9f54ff;
+      --accent-pink: #ff00ff;
+      --text-light: #e2e8f0;
+      --fuchsia: #d946ef;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #000000;
+      color: #a0a0a0;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(217, 70, 239, 0.1) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    /* ===================== PARTICLES ===================== */
+    .particles {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 1; overflow: hidden;
+    }
+    .particle {
+      position: absolute; width: 4px; height: 4px;
+      background: rgba(255, 255, 255, 0.3); border-radius: 50%;
+      animation: floatUp 15s infinite linear;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100px) scale(1); opacity: 0; }
+    }
+
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hover-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(217, 70, 239, 0.3);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(217, 70, 239, 0.1);
+    }
+    .hover-card:hover .icon-glow {
+      text-shadow: 0 0 15px currentColor;
+    }
+  </style>
+</head>
+
+<body class="relative">
+
+  <div class="particles">
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 5s;"></div>
+    <div class="particle" style="left: 90%; animation-delay: 1s;"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="glass-panel sticky top-0 z-50 border-b-0 relative">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG4kk_B-5aCSWc8T6qM8NNclK0v3Xi3UAxTQ&s"
+          alt="Brasão PM-CE" referrerpolicy="no-referrer"
+          class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+        <div class="flex flex-col">
+          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+          <span class="text-white font-black text-lg leading-none">PM-CE <span
+              class="text-fuchsia-400">GAMING</span></span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <a href="index_PMCE_2026.html" class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition font-bold">
+          <i class="fas fa-arrow-left"></i> Voltar ao Menu
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 max-w-5xl flex-grow relative z-10">
+
+    <div class="text-center mb-12 relative">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[150px] bg-fuchsia-600/20 blur-[80px] -z-10 rounded-full pointer-events-none"></div>
+      <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tight text-white">
+        Central de <span class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-purple-500">Gamificação</span>
+      </h1>
+      <p class="text-gray-400 max-w-2xl mx-auto font-light">
+        Aprenda e fixe o gabarito dos testes psicológicos jogando. Ganhe pontos, bata recordes e chegue pronto para a avaliação.
+      </p>
+    </div>
+
+    <!-- GRID JOGOS -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- CARD: BFP -->
+      <a href="bfp_PMCE_Gamming.html"
+        class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden flex flex-col">
+        
+        <div class="absolute top-0 right-0 w-48 h-48 bg-fuchsia-500/10 blur-[40px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-fuchsia-500/20 transition-all duration-700"></div>
+
+        <div class="p-6 flex flex-col h-full relative z-10">
+          <div class="flex justify-between items-start mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-500/20 to-purple-600/10 flex items-center justify-center border border-fuchsia-500/20 group-hover:border-fuchsia-500/50 transition-colors">
+              <i class="fas fa-brain text-2xl text-fuchsia-400 icon-glow transition-transform duration-500"></i>
+            </div>
+            <span class="px-2 py-1 rounded-full bg-fuchsia-500/10 text-fuchsia-400 text-[10px] font-bold border border-fuchsia-500/20 uppercase tracking-wide">Personalidade</span>
+          </div>
+
+          <h2 class="text-xl font-bold text-white mb-2 group-hover:text-fuchsia-400 transition-colors">BFP Gaming</h2>
+          <p class="text-gray-400 text-xs mb-6 flex-grow leading-relaxed">
+            Memorize o gabarito oficial dos 126 itens da Bateria Fatorial de Personalidade através de treinamento de reflexo.
+          </p>
+
+          <div class="flex items-center text-fuchsia-400 text-xs font-bold tracking-wide mt-auto">
+            JOGAR AGORA
+            <i class="fas fa-play ml-2 text-[10px] group-hover:translate-x-1 transition-transform"></i>
+          </div>
+        </div>
+      </a>
+
+      <!-- ESPAÇOS FUTUROS (Exemplo visual) -->
+      <div class="glass-panel rounded-2xl p-6 relative overflow-hidden flex flex-col opacity-50 border-dashed border-white/20 items-center justify-center text-center min-h-[220px]">
+        <i class="fas fa-lock text-3xl text-gray-600 mb-3"></i>
+        <h2 class="text-lg font-bold text-gray-500 mb-1">Em Breve</h2>
+        <p class="text-gray-600 text-xs">Novos jogos sendo desenvolvidos para Inteligência e Memória.</p>
+      </div>
+
+    </div>
+
+  </main>
+
+</body>
+</html>

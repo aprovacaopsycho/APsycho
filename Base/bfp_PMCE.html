@@ -240,8 +240,8 @@
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
-                <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
-                    alt="Brasão Base"
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG4kk_B-5aCSWc8T6qM8NNclK0v3Xi3UAxTQ&s"
+                    alt="Brasão PM-CE" referrerpolicy="no-referrer"
                     class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
                 <div class="flex flex-col">
                     <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
@@ -256,7 +256,7 @@
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
-                <a href="testes_personalidade.html"
+                <a href="testes_personalidade_PMCE.html"
                     class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
@@ -485,6 +485,10 @@
             </div>
 
             <div class="flex justify-end gap-3 mb-8 no-print">
+                <button onclick="abrirGabarito()"
+                    class="px-4 py-2 rounded-lg bg-yellow-500/10 text-yellow-400 hover:bg-yellow-500/20 border border-yellow-500/30 transition font-medium text-sm">
+                    <i class="fas fa-key mr-1"></i> Ver Gabarito
+                </button>
                 <button onclick="editarRespostas()"
                     class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/30 transition font-medium text-sm">
                     <i class="fas fa-edit mr-1"></i> Editar Respostas
@@ -1202,6 +1206,251 @@
             }
         });
     </script>
+    <!-- MODAL GABARITO -->
+    <div id="modal-gabarito" class="fixed inset-0 z-[200] hidden" role="dialog" aria-modal="true" aria-labelledby="gabarito-title">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="fecharGabarito()"></div>
+        <!-- Panel -->
+        <div class="absolute inset-4 md:inset-12 bg-[#100f1c] border border-white/10 rounded-2xl flex flex-col shadow-2xl shadow-black/60 overflow-hidden">
+            <!-- Header do modal -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#151427] shrink-0">
+                <div>
+                    <h2 id="gabarito-title" class="text-xl font-black text-white">Gabarito — Padrão de Resposta BFP</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Respostas esperadas para cada item. Pontuação: 1 a 7.</p>
+                </div>
+                <button onclick="fecharGabarito()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- Legenda -->
+            <div class="px-6 py-3 bg-[#0f0e1a]/60 border-b border-white/5 shrink-0 flex flex-wrap gap-4 text-xs text-gray-400">
+                <span><span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-1"></span>6 ou 7 = resposta desejável</span>
+                <span><span class="inline-block w-2 h-2 rounded-full bg-red-500 mr-1"></span>1 ou 2 = resposta indesejável</span>
+                <span><span class="inline-block w-2 h-2 rounded-full bg-gray-500 mr-1"></span>4 = neutro / ponto médio</span>
+            </div>
+            <!-- Tabela rolável -->
+            <div class="overflow-y-auto flex-grow px-2 py-2">
+                <table class="w-full text-sm border-collapse">
+                    <thead class="sticky top-0 bg-[#151427] z-10">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-12">#</th>
+                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Afirmativa</th>
+                            <th class="px-4 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-20">Gabarito</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gabarito-tbody" class="divide-y divide-white/5"></tbody>
+                </table>
+            </div>
+            <!-- Footer -->
+            <div class="px-6 py-3 border-t border-white/10 bg-[#151427] shrink-0 flex justify-between items-center">
+                <button id="btn-copiar-gabarito" onclick="copiarGabarito()" class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white font-bold text-sm transition flex items-center gap-2">
+                    <i class="fas fa-copy"></i> Copiar Gabarito
+                </button>
+                <button onclick="fecharGabarito()" class="px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition">
+                    Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* ===== GABARITO BFP ===== */
+        const GABARITO_BFP = [
+            [1,6],[2,6],[3,4],[4,6],[5,4],[6,6],[7,6],[8,6],[9,6],[10,2],
+            [11,6],[12,6],[13,2],[14,4],[15,6],[16,6],[17,2],[18,2],[19,2],[20,6],
+            [21,6],[22,2],[23,4],[24,2],[25,2],[26,6],[27,2],[28,6],[29,2],[30,2],
+            [31,6],[32,6],[33,4],[34,6],[35,2],[36,4],[37,2],[38,2],[39,2],[40,1],
+            [41,6],[42,4],[43,6],[44,4],[45,6],[46,6],[47,6],[48,1],[49,4],[50,6],
+            [51,2],[52,6],[53,4],[54,6],[55,2],[56,4],[57,2],[58,6],[59,6],[60,2],
+            [61,6],[62,2],[63,2],[64,6],[65,2],[66,2],[67,6],[68,6],[69,4],[70,2],
+            [71,6],[72,6],[73,2],[74,6],[75,2],[76,7],[77,2],[78,4],[79,2],[80,6],
+            [81,4],[82,2],[83,6],[84,4],[85,6],[86,2],[87,2],[88,4],[89,2],[90,6],
+            [91,6],[92,6],[93,4],[94,4],[95,2],[96,6],[97,6],[98,2],[99,4],[100,2],
+            [101,6],[102,2],[103,6],[104,6],[105,6],[106,1],[107,2],[108,6],[109,7],[110,2],
+            [111,4],[112,6],[113,4],[114,6],[115,4],[116,6],[117,6],[118,2],[119,4],[120,6],
+            [121,2],[122,6],[123,2],[124,2],[125,6],[126,6]
+        ];
+
+        const GABARITO_TEXTOS = [
+            "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÁ-LAS",
+            "TENTO FAZER COM QUE AS PESSOAS SE SINTAM BEM",
+            "GOSTO DE FALAR SOBRE MIM",
+            "TENHO UM CORAÇÃO MOLE",
+            "FALO TUDO QUE PENSO",
+            "GOSTO DE FAZER COISAS QUE NUNCA FIZ ANTES",
+            "ACREDITO QUE AS PESSOAS TÊM BOAS INTENÇÕES",
+            "SOU DIVERTIDO",
+            "TOMO CUIDADO COM O QUE FALO",
+            "DIFICILMENTE PERDOO",
+            "DIVIRTO ME QUANDO ESTOU ENTRE VARIAS PESSOAS",
+            "RESPEITO OS SENTIMENTOS ALHEIOS",
+            "MESMO QUANDO PRECISO RESOLVER ALGUMA COISA PARA MIM, COSTUMO ADIAR ATÉ O ÚLTIMO MOMENTO",
+            "TENTO INFLUENCIAR OS OUTROS",
+            "SOU GENEROSO",
+            "ESTOU SATISFEITO COMIGO MESMO",
+            "NÃO FALO MUITO",
+            "POSSO AGREDIR FISICAMENTE AS PESSOAS QUANDO FICO MUITO IRRITADO",
+            "RESOLVO MEUS PROBLEMAS SEM PENSAR MUITO",
+            "PREOCUPO-ME COM TODOS",
+            "GERALMENTE ME SINTO FELIZ",
+            "PRECISO DE ESTÍMULOS PARA COMEÇAR A FAZER AS COISAS",
+            "TENHO POUCO INTERESSE POR EXPOSIÇÕES DE ARTE",
+            "DIVIRTO-ME CONTRARIANDO AS PESSOAS",
+            "COM FREQUÊNCIA TOMO DECISÕES PRECIPITADAS",
+            "FACILMENTE COLOCO AS MINHAS IDEIAS EM PRÁTICA",
+            "USO AS PESSOAS PARA CONSEGUIR O QUE DESEJO",
+            "POSSO LIDAR COM MUITAS TAREFAS AO MESMO TEMPO",
+            "QUASE SEMPRE ME SINTO DESANIMADO",
+            "SUSPEITO DAS INTENÇÕES DAS PESSOAS",
+            "ATUALMENTE, DEFENDO IDEIAS DIFERENTES DAQUELAS QUE DEFENDIA ANTIGAMENTE",
+            "CONSIGO O QUE EU QUERO",
+            "TENHO POUCA CURIOSIDADE PARA CONHECER NOVOS ESTILOS MUSICAIS",
+            "DEDICO-ME MUITO PARA FAZER BEM AS COISAS",
+            "ESPERO PELA DECISÃO DOS OUTROS",
+            "INTERESSO-ME POR TEORIAS QUE TENTAM EXPLICAR O UNIVERSO",
+            "TENHO POUCA PACIÊNCIA PARA TERMINAR TAREFAS MUITO LONGAS OU DIFÍCEIS",
+            "SOU UMA PESSOA TÍMIDA",
+            "TENHO ALGUNS INIMIGOS",
+            "ACHO QUE A MINHA VIDA É VAZIA E SEM EMOÇÃO",
+            "COMEÇO RAPIDAMENTE AS TAREFAS QUE TENHO PARA FAZER",
+            "ACHO POUCO INTERESSANTES EXPOSIÇÕES FOTOGRÁFICAS",
+            "RESPEITO O PONTO DE VISTA DOS OUTROS",
+            "TENHO DIFICULDADE PARA ME ADAPTAR A TRABALHOS QUE ENVOLVAM UMA ROTINA FIXA",
+            "ANTES DE AGIR, PENSO NO QUE PODE ME ACONTECER",
+            "SINTO-ME MAL SE NÃO CUMPRO ALGO QUE PROMETI",
+            "ADORO ATIVIDADES EM GRUPO",
+            "TUDO O QUE POSSO VER A MINHA FRENTE É MAIS DESPRAZER DO QUE PRAZER",
+            "GOSTO E IR A LUGARES QUE NÃO CONHEÇO",
+            "CONVERSO COM MUITAS PESSOAS DIFERENTES QUANDO VOU A FESTAS",
+            "AJO IMPULSIVAMENTE QUANDO ALGUMA COISA ESTÁ ME ABORRECENDO",
+            "GOSTO DE TER UMA VIDA SOCIAL AGITADA",
+            "PARTICIPAR DE ATIVIDADES QUE ENVOLVAM CRIATIVIDADE E/OU FANTASIA ME EMPOLGA",
+            "ME ESFORÇO PARA TER DESTAQUE NA ESCOLA OU NO TRABALHO",
+            "GERALMENTE FAÇO O QUE MEUS AMIGOS E PARENTES QUEREM,EMBORA NÃO CONCORDE COM ELES, COM MEDO DE QUE SE AFASTEM DE MIM",
+            "TENHO POUCO INTERESSE POR IDEIAS ABSTRATAS",
+            "ACHO QUE OS OUTROS ZOMBAM DE MIM",
+            "COSTUMO FAZER SACRIFÍCIOS PARA CONSEGUIR O QUE QUERO",
+            "ACHO NATURAL QUE OS VALORES MORAIS MUDEM AO LONGO DO TEMPO",
+            "TENHO MUITO MEDO DE QUE MEUS AMIGOS DEIXEM DE GOSTAR DE MIM",
+            "TENTO INCENTIVAR AS PESSOAS",
+            "SOU UMA PESSOA COM POUCA IMAGINAÇÃO",
+            "FAÇO COISAS CONSIDERADAS PERIGOSAS",
+            "PENSO SOBRE O QUE PRECISO FAZER PARA ALCANÇAR MEUS OBJETIVOS",
+            "SOU UMA PESSOA NERVOSA",
+            "COSTUMO FICAR CALADO QUANDO ESTOU ENTRE ESTRANHOS",
+            "RESOLVO MEUS PROBLEMAS COM RAPIDEZ",
+            "CONFIO NO QUE AS PESSOAS DIZEM",
+            "ACHO QUE NÃO EXISTE UMA VERDADE ABSOLUTA",
+            "POR MAIS QUE ME ESFORCE, SEI QUE NÃO SOU CAPAZ DE SUPERAR OS OBSTÁCULOS QUE TENHO QUE ENFRENTAR NO DIA A DIA",
+            "ENVOLVO-ME RAPIDAMENTE COM OS OUTROS",
+            "GOSTO DE PENSAR SOBRE SOLUÇÕES DIFERENTES PARA PROBLEMAS COMPLEXOS",
+            "DEIXO DE FAZER AS COISAS QUE DESEJO POR MEDO DE SER CRITICADO PELOS OUTROS",
+            "ACREDITO QUE A MAIORIA DOS VALORES MORAIS SÃO DEPENDENTES DA ÉPOCA E DO LUGAR",
+            "FICO MUITO TÍMIDO QUANDO ESTOU ENTRE DESCONHECIDOS",
+            "PREOCUPO-ME EM AGIR SEGUNDO AS LEIS",
+            "MEU HUMOR VARIA CONSTANTEMENTE",
+            "NECESSITO ESTAR NO CENTRO DAS ATENÇÕES",
+            "SINTO-ME MUITO INSEGURO QUANDO TENHO QUE FAZER COISAS QUE NUNCA FIZ ANTES",
+            "AS PESSOAS DIZEM QUE SOU MUITO DETALHISTA",
+            "EVITO DISCUSSÕES FILOSÓFICAS",
+            "NÃO GOSTO DE EXPRESSAR MINHAS IDEIAS, POIS TENHO MEDO DE SER RIDICULARIZADO",
+            "SOU  CAPAZ DE ASSUMIR TAREFAS IMPORTANTES",
+            "GOSTO DE MANTER A ROTINA",
+            "ACHO QUE FAÇO BEM AS COISAS",
+            "SOU UMA PESSOA IRRITÁVEL",
+            "COSTUMO ENGANAR AS PESSOAS",
+            "GOSTO DE TRABALHOS ARTÍSTICOS QUE SÃO CONSIDERADOS ESTRANHOS",
+            "TENHO MUITA DIFICULDADE DE TOMAR DECISÕES EM MINHA VIDA",
+            "VIVO MINHAS EMOÇÕES INTENSAMENTE",
+            "GOSTO DE FAZER COISAS QUE EXIGEM MUITO DE MIM",
+            "SOFRO QUANDO ENCONTRO ALGUÉM QUE ESTÁ COM DIFICULDADE",
+            "É COMUM TEREM INVEJA DE MIM",
+            "SEMPRE QUE POSSO, MUDO OS TRAJETOS NOS MEUS PERCURSOS DIÁRIOS",
+            "TENHO DIFICULDADE PARA TERMINAR AS TAREFAS, POIS DISTRAIO COM OUTRAS COISAS",
+            "PREOCUPO-ME COM AQUELES QUE ESTÃO NUMA SITUAÇÃO PIOR QUE A MINHA",
+            "SOU COMUNICATIVO",
+            "ACHO QUE OS OUTROS PODEM TENTAR ME PREJUDICAR",
+            "SINTO UMA INCONTROLÁVEL VONTADE DE FALAR, MESMO QUE SEJA COM QUEM NÃO CONHEÇO",
+            "EU PARO DE FAZER AS COISAS QUANDO ELAS FICAM DIFÍCEIS",
+            "ESCOLHO AS PALAVRAS COM CUIDADO",
+            "COM FREQUÊNCIA, PASSO POR PERÍODOS EM QUE FICO EXTREMAMENTE IRRITÁVEL, INCOMODANDO-ME COM QUALQUER COISA",
+            "RARAMENTE MOSTRO UM TRABALHO A OUTRAS PESSOAS ANTES DE REVISÁ-LO CUIDADOSAMENTE",
+            "IMPORTO-ME COM OS SENTIMENTOS DOS OUTROS",
+            "FAÇO MUITAS COISAS DURANTE MINHAS HORAS DE FOLGA",
+            "ESTOU CANSADO DE VIVER",
+            "GOSTO DE QUEBRAR REGRAS",
+            "COSTUMO TOMAR A INICIATIVA E CONVERSAR COM OS OUTROS",
+            "RESPEITO AUTORIDADES",
+            "SOU UMA PESSOA INSEGURA",
+            "QUANDO ESTOU ENTRE UM GRUPO, GOSTO QUE ME DEEM ATENÇÃO",
+            "MEUS AMIGOS DIZEM QUE EU TRABALHO/ESTUDO DEMAIS",
+            "SINTO-ME ENTENDIADO QUANDO TENHO QUE FAZER AS MESMAS COISAS",
+            "EXIJO MUITO DE MIM MESMO",
+            "TENHO DIFICULDADE DE PARTICIPAR DE ATIVIDADES QUE EXIJAM IMAGINAÇÃO OU FANTASIA",
+            "GOSTO DE PROGRAMAR DETALHADAMENTE AS COISAS QUE TENHO PARA FAZER",
+            "USUALMENTE, TOMO A INCIATIVA NAS SITUAÇÕES",
+            "SINTO-ME MUITO MAL QUANDO RECEBO ALGUMA CRÍTICA",
+            "ACREDITO QUE AS PESSOAS TÊM UMA NATUREZA RUIM",
+            "DIFICILMENTE FICO SEM JEITO",
+            "SÓ ME APROXIMO DE UMA PESSOA QUANDO ESTOU CERTO DE QUE ELA CONCORDA COM AS MINHAS OPINIÕES E ATITUDES, PARA EVITAR CRÍTICAS OU DESAPROVAÇÃO",
+            "SEI O QUE QUERO PARA MINHA VIDA",
+            "FREQUENTEMENTE QUESTIONO REGRAS E COSTUMES SOCIAIS",
+            "TENHO UMA GRANDE DIFICULDADE EM DORMIR",
+            "PREOCUPO-ME EM AGRADAR AS PESSOAS",
+            "SOU DISPOSTO A REVER MEUS POSICIONAMENTOS SOBRE DIFERENTES ASSUNTOS"
+        ];
+
+        function abrirGabarito() {
+            const tbody = document.getElementById('gabarito-tbody');
+            if (!tbody.innerHTML) {
+                tbody.innerHTML = GABARITO_BFP.map(([num, gab]) => {
+                    let colorClass, bgClass;
+                    if (gab >= 6)      { colorClass = 'text-green-400 font-black'; bgClass = 'bg-green-500/10'; }
+                    else if (gab <= 2) { colorClass = 'text-red-400 font-black';   bgClass = 'bg-red-500/10'; }
+                    else               { colorClass = 'text-gray-400 font-bold';   bgClass = ''; }
+                    return `<tr class="hover:bg-white/5 transition ${bgClass}">
+                        <td class="px-4 py-2.5 text-gray-500 text-xs font-mono">${num}</td>
+                        <td class="px-4 py-2.5 text-gray-300 text-xs leading-relaxed">${GABARITO_TEXTOS[num-1]}</td>
+                        <td class="px-4 py-2.5 text-center">
+                            <span class="inline-block w-8 h-8 rounded-full flex items-center justify-center text-sm ${colorClass} bg-black/20 border border-white/10">${gab}</span>
+                        </td>
+                    </tr>`;
+                }).join('');
+            }
+            const modal = document.getElementById('modal-gabarito');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function fecharGabarito() {
+            document.getElementById('modal-gabarito').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function copiarGabarito() {
+            const linhas = GABARITO_BFP.map(([num, gab]) => `${num}\t${gab}\t${GABARITO_TEXTOS[num-1]}`);
+            const texto = 'Nº\tGAB\tAFIRMATIVA\n' + linhas.join('\n');
+            navigator.clipboard.writeText(texto).then(() => {
+                const btn = document.getElementById('btn-copiar-gabarito');
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                btn.classList.add('bg-green-600', 'text-white');
+                btn.classList.remove('bg-gray-700', 'text-gray-300');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('bg-green-600', 'text-white');
+                    btn.classList.add('bg-gray-700', 'text-gray-300');
+                }, 2000);
+            }).catch(() => {
+                alert('Não foi possível copiar. Por favor, copie manualmente.');
+            });
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') fecharGabarito();
+        });
+    </script>
+
 </body>
 
 </html>

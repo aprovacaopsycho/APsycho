@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BFP Gamming — Aprovação Psycho</title>
+    <link rel="icon" type="image/png" href="../favicon.png" />
+
+    <!-- SEGURANÇA -->
+    <script src="../scripts/auth_guard.js"></script>
+
+    <!-- LIBS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- ESTILOS -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-dark: #100f1c;
+            --primary-purple: #9f54ff;
+            --accent-pink: #ff00ff;
+            --accent-green: #10b981;
+            --text-light: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #000000;
+            color: #a0a0a0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+        }
+
+        .btn-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.2s ease;
+        }
+        .btn-option:hover:not(:disabled) {
+            background: rgba(159, 84, 255, 0.3);
+            border-color: rgba(159, 84, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(159, 84, 255, 0.3);
+        }
+        .btn-option.correct {
+            background: rgba(16, 185, 129, 0.8) !important;
+            border-color: #10b981 !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+            transform: scale(1.05);
+        }
+        .btn-option.wrong {
+            background: rgba(239, 68, 68, 0.8) !important;
+            border-color: #ef4444 !important;
+            animation: shake 0.4s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        .flash-green { animation: flashGreen 0.5s; }
+        .flash-red { animation: flashRed 0.5s; }
+
+        @keyframes flashGreen {
+            0% { box-shadow: inset 0 0 50px rgba(16, 185, 129, 0.8); }
+            100% { box-shadow: inset 0 0 0 transparent; }
+        }
+        @keyframes flashRed {
+            0% { box-shadow: inset 0 0 50px rgba(239, 68, 68, 0.8); }
+            100% { box-shadow: inset 0 0 0 transparent; }
+        }
+
+        .combo-text {
+            background: -webkit-linear-gradient(45deg, #ff00ff, #9f54ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .combo-pop {
+            animation: pop 0.3s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+
+<body class="relative">
+
+    <!-- HEADER -->
+    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG4kk_B-5aCSWc8T6qM8NNclK0v3Xi3UAxTQ&s"
+                    alt="Brasão PM-CE" referrerpolicy="no-referrer"
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                <div class="flex flex-col">
+                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
+                            style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+                    <span class="text-white font-black text-lg leading-none">BFP <span class="text-yellow-400">GAMING</span></span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col text-right">
+                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
+                        2026</span>
+                </div>
+                <a href="bfp_PMCE.html" class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Teste
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10 flex flex-col items-center justify-center" id="main-container">
+        
+        <!-- START SCREEN -->
+        <div id="start-screen" class="text-center game-card p-10 w-full max-w-2xl">
+            <div class="text-6xl mb-6 text-purple-500"><i class="fas fa-gamepad"></i></div>
+            <h1 class="text-4xl font-black text-white mb-4">Treinamento BFP</h1>
+            <p class="text-gray-400 mb-8 text-lg">Teste sua memória e reflexo no gabarito oficial do BFP. Acertar exatamente a pontuação esperada para cada item.</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <div class="text-2xl font-bold text-white mb-1">126</div>
+                    <div class="text-xs text-gray-500 uppercase">Itens Totais</div>
+                </div>
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                    <div class="text-2xl font-bold text-white mb-1">Modo Sequencial</div>
+                    <div class="text-xs text-gray-500 uppercase">Ordem Oficial</div>
+                </div>
+            </div>
+
+            <button onclick="startGame()" class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-black text-xl hover:scale-105 transition-transform shadow-[0_0_20px_rgba(159,84,255,0.4)]">
+                INICIAR TREINAMENTO <i class="fas fa-play ml-2"></i>
+            </button>
+        </div>
+
+        <!-- GAME SCREEN -->
+        <div id="game-screen" class="w-full hidden">
+            <!-- HUD -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="bg-[#151427] border border-white/10 rounded-lg px-4 py-2 flex flex-col items-center min-w-[100px]">
+                        <span class="text-xs text-gray-500 uppercase font-bold">Acertos</span>
+                        <span class="text-2xl font-black text-green-400" id="score-correct">0</span>
+                    </div>
+                    <div class="bg-[#151427] border border-white/10 rounded-lg px-4 py-2 flex flex-col items-center min-w-[100px]">
+                        <span class="text-xs text-gray-500 uppercase font-bold">Erros</span>
+                        <span class="text-2xl font-black text-red-400" id="score-wrong">0</span>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <div class="text-sm text-gray-400 font-bold mb-1">COMBO</div>
+                    <div class="text-4xl combo-text" id="combo-counter">x0</div>
+                </div>
+                
+                <div class="bg-[#151427] border border-white/10 rounded-lg px-4 py-2 flex flex-col items-center min-w-[120px]">
+                    <span class="text-xs text-gray-500 uppercase font-bold">Progresso</span>
+                    <span class="text-2xl font-black text-cyan-400"><span id="progress-current">1</span>/<span id="progress-total">126</span></span>
+                </div>
+            </div>
+
+            <!-- QUESTION CARD -->
+            <div class="game-card p-8 mb-8 relative overflow-hidden text-center min-h-[250px] flex flex-col justify-center">
+                <div class="absolute top-4 left-4 text-xs font-bold text-gray-500 bg-white/5 px-2 py-1 rounded">Item <span id="q-number">--</span></div>
+                
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-8 mt-6" id="q-text">Carregando...</h2>
+                
+                <!-- Feedback overlay -->
+                <div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center bg-black/80 hidden z-20 backdrop-blur-sm">
+                    <div class="text-center">
+                        <div id="feedback-icon" class="text-6xl mb-4"></div>
+                        <h3 id="feedback-title" class="text-3xl font-black text-white mb-2"></h3>
+                        <p id="feedback-desc" class="text-gray-300 text-lg"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BUTTONS -->
+            <div class="grid grid-cols-7 gap-2 md:gap-4 max-w-4xl mx-auto">
+                <button class="btn-option py-4 md:py-6 rounded-xl font-black text-2xl" onclick="answer(1)" id="btn-1">1</button>
+                <button class="btn-option py-4 md:py-6 rounded-xl font-black text-2xl" onclick="answer(2)" id="btn-2">2</button>
+                <button class="btn-option py-4 md:py-6 rounded-xl font-black text-2xl" onclick="answer(3)" id="btn-3">3</button>
+                <button class="btn-option py-4 md:py-6 rounded-xl font-black text-2xl" onclick="answer(4)" id="btn-4">4</button>
+                <button class="btn-option py-4 md:py-6 rounded-xl font-black text-2xl" onclick="answer(5)" id="btn-5">5</button>
+                <button class="btn-option py-4 md:py-6 rounded-xl font-black text-2xl" onclick="answer(6)" id="btn-6">6</button>
+                <button class="btn-option py-4 md:py-6 rounded-xl font-black text-2xl" onclick="answer(7)" id="btn-7">7</button>
+            </div>
+            
+            <div class="flex justify-between mt-4 max-w-4xl mx-auto px-2 text-xs text-gray-500 font-bold uppercase">
+                <span>Nada a ver comigo</span>
+                <span>Tudo a ver comigo</span>
+            </div>
+        </div>
+
+        <!-- END SCREEN -->
+        <div id="end-screen" class="hidden text-center game-card p-10 w-full max-w-2xl">
+            <div class="text-6xl mb-6 text-yellow-400"><i class="fas fa-trophy"></i></div>
+            <h1 class="text-4xl font-black text-white mb-2">Treinamento Concluído!</h1>
+            <p class="text-gray-400 mb-8">Veja como foi seu desempenho.</p>
+            
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-white/5 p-6 rounded-xl border border-white/10">
+                    <div class="text-4xl font-black text-green-400 mb-1" id="final-correct">0</div>
+                    <div class="text-sm text-gray-500 uppercase font-bold">Acertos</div>
+                </div>
+                <div class="bg-white/5 p-6 rounded-xl border border-white/10">
+                    <div class="text-4xl font-black text-purple-400 mb-1" id="final-combo">0</div>
+                    <div class="text-sm text-gray-500 uppercase font-bold">Maior Combo</div>
+                </div>
+            </div>
+            
+            <div class="bg-[#151427] border border-white/5 rounded-xl p-6 mb-8 text-left">
+                <h3 class="text-white font-bold mb-4 border-b border-white/10 pb-2">Desempenho:</h3>
+                <div class="w-full bg-gray-800 rounded-full h-4 mb-2 overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-cyan-500 h-4 rounded-full" id="final-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="flex justify-between text-sm font-bold">
+                    <span class="text-gray-400">Precisão:</span>
+                    <span class="text-cyan-400" id="final-accuracy">0%</span>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="window.location.reload()" class="flex-1 py-4 rounded-xl bg-white/10 text-white font-bold hover:bg-white/20 transition-colors">
+                    <i class="fas fa-redo mr-2"></i> JOGAR NOVAMENTE
+                </button>
+                <a href="bfp_PMCE.html" class="flex-1 py-4 rounded-xl bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors">
+                    IR PARA O TESTE <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const studentName = sessionStorage.getItem('memberName');
+        if (studentName) {
+            document.getElementById('header-student-name').textContent = studentName;
+        }
+
+        const GABARITO_BFP = [
+            [1,6],[2,6],[3,4],[4,6],[5,4],[6,6],[7,6],[8,6],[9,6],[10,2],
+            [11,6],[12,6],[13,2],[14,4],[15,6],[16,6],[17,2],[18,2],[19,2],[20,6],
+            [21,6],[22,2],[23,4],[24,2],[25,2],[26,6],[27,2],[28,6],[29,2],[30,2],
+            [31,6],[32,6],[33,4],[34,6],[35,2],[36,4],[37,2],[38,2],[39,2],[40,1],
+            [41,6],[42,4],[43,6],[44,4],[45,6],[46,6],[47,6],[48,1],[49,4],[50,6],
+            [51,2],[52,6],[53,4],[54,6],[55,2],[56,4],[57,2],[58,6],[59,6],[60,2],
+            [61,6],[62,2],[63,2],[64,6],[65,2],[66,2],[67,6],[68,6],[69,4],[70,2],
+            [71,6],[72,6],[73,2],[74,6],[75,2],[76,7],[77,2],[78,4],[79,2],[80,6],
+            [81,4],[82,2],[83,6],[84,4],[85,6],[86,2],[87,2],[88,4],[89,2],[90,6],
+            [91,6],[92,6],[93,4],[94,4],[95,2],[96,6],[97,6],[98,2],[99,4],[100,2],
+            [101,6],[102,2],[103,6],[104,6],[105,6],[106,1],[107,2],[108,6],[109,7],[110,2],
+            [111,4],[112,6],[113,4],[114,6],[115,4],[116,6],[117,6],[118,2],[119,4],[120,6],
+            [121,2],[122,6],[123,2],[124,2],[125,6],[126,6]
+        ];
+
+        const GABARITO_TEXTOS = [
+            "PROCURO SEGUIR AS REGRAS SOCIAIS SEM QUESTIONÁ-LAS",
+            "TENTO FAZER COM QUE AS PESSOAS SE SINTAM BEM",
+            "GOSTO DE FALAR SOBRE MIM",
+            "TENHO UM CORAÇÃO MOLE",
+            "FALO TUDO QUE PENSO",
+            "GOSTO DE FAZER COISAS QUE NUNCA FIZ ANTES",
+            "ACREDITO QUE AS PESSOAS TÊM BOAS INTENÇÕES",
+            "SOU DIVERTIDO",
+            "TOMO CUIDADO COM O QUE FALO",
+            "DIFICILMENTE PERDOO",
+            "DIVIRTO ME QUANDO ESTOU ENTRE VARIAS PESSOAS",
+            "RESPEITO OS SENTIMENTOS ALHEIOS",
+            "MESMO QUANDO PRECISO RESOLVER ALGUMA COISA PARA MIM, COSTUMO ADIAR ATÉ O ÚLTIMO MOMENTO",
+            "TENTO INFLUENCIAR OS OUTROS",
+            "SOU GENEROSO",
+            "ESTOU SATISFEITO COMIGO MESMO",
+            "NÃO FALO MUITO",
+            "POSSO AGREDIR FISICAMENTE AS PESSOAS QUANDO FICO MUITO IRRITADO",
+            "RESOLVO MEUS PROBLEMAS SEM PENSAR MUITO",
+            "PREOCUPO-ME COM TODOS",
+            "GERALMENTE ME SINTO FELIZ",
+            "PRECISO DE ESTÍMULOS PARA COMEÇAR A FAZER AS COISAS",
+            "TENHO POUCO INTERESSE POR EXPOSIÇÕES DE ARTE",
+            "DIVIRTO-ME CONTRARIANDO AS PESSOAS",
+            "COM FREQUÊNCIA TOMO DECISÕES PRECIPITADAS",
+            "FACILMENTE COLOCO AS MINHAS IDEIAS EM PRÁTICA",
+            "USO AS PESSOAS PARA CONSEGUIR O QUE DESEJO",
+            "POSSO LIDAR COM MUITAS TAREFAS AO MESMO TEMPO",
+            "QUASE SEMPRE ME SINTO DESANIMADO",
+            "SUSPEITO DAS INTENÇÕES DAS PESSOAS",
+            "ATUALMENTE, DEFENDO IDEIAS DIFERENTES DAQUELAS QUE DEFENDIA ANTIGAMENTE",
+            "CONSIGO O QUE EU QUERO",
+            "TENHO POUCA CURIOSIDADE PARA CONHECER NOVOS ESTILOS MUSICAIS",
+            "DEDICO-ME MUITO PARA FAZER BEM AS COISAS",
+            "ESPERO PELA DECISÃO DOS OUTROS",
+            "INTERESSO-ME POR TEORIAS QUE TENTAM EXPLICAR O UNIVERSO",
+            "TENHO POUCA PACIÊNCIA PARA TERMINAR TAREFAS MUITO LONGAS OU DIFÍCEIS",
+            "SOU UMA PESSOA TÍMIDA",
+            "TENHO ALGUNS INIMIGOS",
+            "ACHO QUE A MINHA VIDA É VAZIA E SEM EMOÇÃO",
+            "COMEÇO RAPIDAMENTE AS TAREFAS QUE TENHO PARA FAZER",
+            "ACHO POUCO INTERESSANTES EXPOSIÇÕES FOTOGRÁFICAS",
+            "RESPEITO O PONTO DE VISTA DOS OUTROS",
+            "TENHO DIFICULDADE PARA ME ADAPTAR A TRABALHOS QUE ENVOLVAM UMA ROTINA FIXA",
+            "ANTES DE AGIR, PENSO NO QUE PODE ME ACONTECER",
+            "SINTO-ME MAL SE NÃO CUMPRO ALGO QUE PROMETI",
+            "ADORO ATIVIDADES EM GRUPO",
+            "TUDO O QUE POSSO VER A MINHA FRENTE É MAIS DESPRAZER DO QUE PRAZER",
+            "GOSTO E IR A LUGARES QUE NÃO CONHEÇO",
+            "CONVERSO COM MUITAS PESSOAS DIFERENTES QUANDO VOU A FESTAS",
+            "AJO IMPULSIVAMENTE QUANDO ALGUMA COISA ESTÁ ME ABORRECENDO",
+            "GOSTO DE TER UMA VIDA SOCIAL AGITADA",
+            "PARTICIPAR DE ATIVIDADES QUE ENVOLVAM CRIATIVIDADE E/OU FANTASIA ME EMPOLGA",
+            "ME ESFORÇO PARA TER DESTAQUE NA ESCOLA OU NO TRABALHO",
+            "GERALMENTE FAÇO O QUE MEUS AMIGOS E PARENTES QUEREM,EMBORA NÃO CONCORDE COM ELES, COM MEDO DE QUE SE AFASTEM DE MIM",
+            "TENHO POUCO INTERESSE POR IDEIAS ABSTRATAS",
+            "ACHO QUE OS OUTROS ZOMBAM DE MIM",
+            "COSTUMO FAZER SACRIFÍCIOS PARA CONSEGUIR O QUE QUERO",
+            "ACHO NATURAL QUE OS VALORES MORAIS MUDEM AO LONGO DO TEMPO",
+            "TENHO MUITO MEDO DE QUE MEUS AMIGOS DEIXEM DE GOSTAR DE MIM",
+            "TENTO INCENTIVAR AS PESSOAS",
+            "SOU UMA PESSOA COM POUCA IMAGINAÇÃO",
+            "FAÇO COISAS CONSIDERADAS PERIGOSAS",
+            "PENSO SOBRE O QUE PRECISO FAZER PARA ALCANÇAR MEUS OBJETIVOS",
+            "SOU UMA PESSOA NERVOSA",
+            "COSTUMO FICAR CALADO QUANDO ESTOU ENTRE ESTRANHOS",
+            "RESOLVO MEUS PROBLEMAS COM RAPIDEZ",
+            "CONFIO NO QUE AS PESSOAS DIZEM",
+            "ACHO QUE NÃO EXISTE UMA VERDADE ABSOLUTA",
+            "POR MAIS QUE ME ESFORCE, SEI QUE NÃO SOU CAPAZ DE SUPERAR OS OBSTÁCULOS QUE TENHO QUE ENFRENTAR NO DIA A DIA",
+            "ENVOLVO-ME RAPIDAMENTE COM OS OUTROS",
+            "GOSTO DE PENSAR SOBRE SOLUÇÕES DIFERENTES PARA PROBLEMAS COMPLEXOS",
+            "DEIXO DE FAZER AS COISAS QUE DESEJO POR MEDO DE SER CRITICADO PELOS OUTROS",
+            "ACREDITO QUE A MAIORIA DOS VALORES MORAIS SÃO DEPENDENTES DA ÉPOCA E DO LUGAR",
+            "FICO MUITO TÍMIDO QUANDO ESTOU ENTRE DESCONHECIDOS",
+            "PREOCUPO-ME EM AGIR SEGUNDO AS LEIS",
+            "MEU HUMOR VARIA CONSTANTEMENTE",
+            "NECESSITO ESTAR NO CENTRO DAS ATENÇÕES",
+            "SINTO-ME MUITO INSEGURO QUANDO TENHO QUE FAZER COISAS QUE NUNCA FIZ ANTES",
+            "AS PESSOAS DIZEM QUE SOU MUITO DETALHISTA",
+            "EVITO DISCUSSÕES FILOSÓFICAS",
+            "NÃO GOSTO DE EXPRESSAR MINHAS IDEIAS, POIS TENHO MEDO DE SER RIDICULARIZADO",
+            "SOU  CAPAZ DE ASSUMIR TAREFAS IMPORTANTES",
+            "GOSTO DE MANTER A ROTINA",
+            "ACHO QUE FAÇO BEM AS COISAS",
+            "SOU UMA PESSOA IRRITÁVEL",
+            "COSTUMO ENGANAR AS PESSOAS",
+            "GOSTO DE TRABALHOS ARTÍSTICOS QUE SÃO CONSIDERADOS ESTRANHOS",
+            "TENHO MUITA DIFICULDADE DE TOMAR DECISÕES EM MINHA VIDA",
+            "VIVO MINHAS EMOÇÕES INTENSAMENTE",
+            "GOSTO DE FAZER COISAS QUE EXIGEM MUITO DE MIM",
+            "SOFRO QUANDO ENCONTRO ALGUÉM QUE ESTÁ COM DIFICULDADE",
+            "É COMUM TEREM INVEJA DE MIM",
+            "SEMPRE QUE POSSO, MUDO OS TRAJETOS NOS MEUS PERCURSOS DIÁRIOS",
+            "TENHO DIFICULDADE PARA TERMINAR AS TAREFAS, POIS DISTRAIO COM OUTRAS COISAS",
+            "PREOCUPO-ME COM AQUELES QUE ESTÃO NUMA SITUAÇÃO PIOR QUE A MINHA",
+            "SOU COMUNICATIVO",
+            "ACHO QUE OS OUTROS PODEM TENTAR ME PREJUDICAR",
+            "SINTO UMA INCONTROLÁVEL VONTADE DE FALAR, MESMO QUE SEJA COM QUEM NÃO CONHEÇO",
+            "EU PARO DE FAZER AS COISAS QUANDO ELAS FICAM DIFÍCEIS",
+            "ESCOLHO AS PALAVRAS COM CUIDADO",
+            "COM FREQUÊNCIA, PASSO POR PERÍODOS EM QUE FICO EXTREMAMENTE IRRITÁVEL, INCOMODANDO-ME COM QUALQUER COISA",
+            "RARAMENTE MOSTRO UM TRABALHO A OUTRAS PESSOAS ANTES DE REVISÁ-LO CUIDADOSAMENTE",
+            "IMPORTO-ME COM OS SENTIMENTOS DOS OUTROS",
+            "FAÇO MUITAS COISAS DURANTE MINHAS HORAS DE FOLGA",
+            "ESTOU CANSADO DE VIVER",
+            "GOSTO DE QUEBRAR REGRAS",
+            "COSTUMO TOMAR A INICIATIVA E CONVERSAR COM OS OUTROS",
+            "RESPEITO AUTORIDADES",
+            "SOU UMA PESSOA INSEGURA",
+            "QUANDO ESTOU ENTRE UM GRUPO, GOSTO QUE ME DEEM ATENÇÃO",
+            "MEUS AMIGOS DIZEM QUE EU TRABALHO/ESTUDO DEMAIS",
+            "SINTO-ME ENTENDIADO QUANDO TENHO QUE FAZER AS MESMAS COISAS",
+            "EXIJO MUITO DE MIM MESMO",
+            "TENHO DIFICULDADE DE PARTICIPAR DE ATIVIDADES QUE EXIJAM IMAGINAÇÃO OU FANTASIA",
+            "GOSTO DE PROGRAMAR DETALHADAMENTE AS COISAS QUE TENHO PARA FAZER",
+            "USUALMENTE, TOMO A INCIATIVA NAS SITUAÇÕES",
+            "SINTO-ME MUITO MAL QUANDO RECEBO ALGUMA CRÍTICA",
+            "ACREDITO QUE AS PESSOAS TÊM UMA NATUREZA RUIM",
+            "DIFICILMENTE FICO SEM JEITO",
+            "SÓ ME APROXIMO DE UMA PESSOA QUANDO ESTOU CERTO DE QUE ELA CONCORDA COM AS MINHAS OPINIÕES E ATITUDES, PARA EVITAR CRÍTICAS OU DESAPROVAÇÃO",
+            "SEI O QUE QUERO PARA MINHA VIDA",
+            "FREQUENTEMENTE QUESTIONO REGRAS E COSTUMES SOCIAIS",
+            "TENHO UMA GRANDE DIFICULDADE EM DORMIR",
+            "PREOCUPO-ME EM AGRADAR AS PESSOAS",
+            "SOU DISPOSTO A REVER MEUS POSICIONAMENTOS SOBRE DIFERENTES ASSUNTOS"
+        ];
+
+        let questions = [];
+        let currentIndex = 0;
+        let score = 0;
+        let wrong = 0;
+        let combo = 0;
+        let maxCombo = 0;
+        let isAnswering = false;
+
+        const mainContainer = document.getElementById('main-container');
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const endScreen = document.getElementById('end-screen');
+        const qNumber = document.getElementById('q-number');
+        const qText = document.getElementById('q-text');
+        const overlay = document.getElementById('feedback-overlay');
+        const overlayIcon = document.getElementById('feedback-icon');
+        const overlayTitle = document.getElementById('feedback-title');
+        const overlayDesc = document.getElementById('feedback-desc');
+
+        function startGame() {
+            // Preparar perguntas em ordem sequencial
+            questions = GABARITO_BFP.map(([id, answer]) => ({
+                id,
+                text: GABARITO_TEXTOS[id - 1],
+                answer
+            }));
+
+            currentIndex = 0;
+            score = 0;
+            wrong = 0;
+            combo = 0;
+            maxCombo = 0;
+
+            updateHUD();
+            document.getElementById('progress-total').innerText = questions.length;
+            
+            startScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentIndex >= questions.length) {
+                endGame();
+                return;
+            }
+
+            const q = questions[currentIndex];
+            qNumber.innerText = q.id;
+            qText.innerText = q.text;
+            
+            document.getElementById('progress-current').innerText = currentIndex + 1;
+            
+            // Reset botões
+            for(let i=1; i<=7; i++) {
+                const btn = document.getElementById('btn-'+i);
+                btn.className = "btn-option py-4 md:py-6 rounded-xl font-black text-2xl";
+                btn.disabled = false;
+            }
+            
+            isAnswering = false;
+        }
+
+        function answer(value) {
+            if (isAnswering) return;
+            isAnswering = true;
+            
+            const q = questions[currentIndex];
+            const btn = document.getElementById('btn-'+value);
+            const correctBtn = document.getElementById('btn-'+q.answer);
+            
+            // Desabilitar botões
+            for(let i=1; i<=7; i++) {
+                document.getElementById('btn-'+i).disabled = true;
+            }
+
+            if (value === q.answer) {
+                // Acerto
+                score++;
+                combo++;
+                if (combo > maxCombo) maxCombo = combo;
+                
+                btn.classList.add('correct');
+                mainContainer.classList.add('flash-green');
+                setTimeout(() => mainContainer.classList.remove('flash-green'), 500);
+                
+                const comboEl = document.getElementById('combo-counter');
+                comboEl.classList.remove('combo-pop');
+                void comboEl.offsetWidth; // trigger reflow
+                comboEl.classList.add('combo-pop');
+
+                updateHUD();
+                
+                setTimeout(() => {
+                    currentIndex++;
+                    loadQuestion();
+                }, 800);
+                
+            } else {
+                // Erro
+                wrong++;
+                combo = 0;
+                
+                btn.classList.add('wrong');
+                correctBtn.classList.add('correct');
+                mainContainer.classList.add('flash-red');
+                setTimeout(() => mainContainer.classList.remove('flash-red'), 500);
+                
+                updateHUD();
+                
+                // Mostrar overlay com a resposta certa
+                showFeedback(`Gabarito: ${q.answer}`, `A resposta correta para o item ${q.id} é ${q.answer}.`);
+            }
+        }
+
+        function showFeedback(title, desc) {
+            overlayIcon.innerHTML = '<i class="fas fa-times-circle text-red-500"></i>';
+            overlayTitle.innerText = title;
+            overlayTitle.className = "text-3xl font-black text-red-400 mb-2";
+            overlayDesc.innerText = desc;
+            
+            overlay.classList.remove('hidden');
+            
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                currentIndex++;
+                loadQuestion();
+            }, 2500);
+        }
+
+        function updateHUD() {
+            document.getElementById('score-correct').innerText = score;
+            document.getElementById('score-wrong').innerText = wrong;
+            document.getElementById('combo-counter').innerText = 'x' + combo;
+        }
+
+        function endGame() {
+            gameScreen.classList.add('hidden');
+            endScreen.classList.remove('hidden');
+            
+            document.getElementById('final-correct').innerText = score;
+            document.getElementById('final-combo').innerText = maxCombo;
+            
+            const total = questions.length;
+            const acc = Math.round((score / total) * 100) || 0;
+            
+            document.getElementById('final-accuracy').innerText = acc + '%';
+            
+            setTimeout(() => {
+                document.getElementById('final-progress-bar').style.width = acc + '%';
+            }, 100);
+        }
+
+    </script>
+</body>
+</html>
