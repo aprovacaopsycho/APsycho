@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cronograma de Estudo — PM-CE</title>
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#9f54ff',
+            accent: '#ff00ff',
+            cyan: '#00c2ff',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+    body {
+      font-family: 'Outfit', 'Inter', sans-serif;
+      background: #000000;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+      animation: gradientShift 15s ease infinite;
+      z-index: 0;
+    }
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    .day-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .day-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(139,92,246,0.2);
+      border-color: rgba(139,92,246,0.4);
+    }
+    .test-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.8rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin: 0.25rem;
+      transition: all 0.3s ease;
+    }
+    .test-badge.daily {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .test-badge.priority {
+      background: rgba(139, 92, 246, 0.15);
+      color: #c4b5fd;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+    .test-badge.secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: #9ca3af;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .test-badge:hover {
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+  </style>
+</head>
+<body class="relative">
+  <!-- HEADER -->
+  <header class="glass-panel sticky top-0 z-50 border-b-0 relative">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG4kk_B-5aCSWc8T6qM8NNclK0v3Xi3UAxTQ&s"
+          alt="Brasão" referrerpolicy="no-referrer"
+          class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+        <div class="flex flex-col">
+          <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
+              style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
+          <span class="text-white font-black text-lg leading-none">PM-CE <span
+              class="text-[var(--accent-pink)]">2026</span></span>
+          <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+        </div>
+      </div>
+
+      <!-- Navegação do Topo -->
+      <div class="flex items-center gap-4">
+        <!-- Botão Voltar -->
+        <a href="index_PMCE_2026.html"
+          class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Voltar ao Módulo
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-10 max-w-6xl relative z-10">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-5xl font-black mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-cyan">Plano de Ação Semanal</h1>
+      <p class="text-gray-400 max-w-2xl mx-auto">Organize sua preparação diária. Os testes foram distribuídos estrategicamente para maximizar sua retenção e desempenho.</p>
+    </div>
+
+    <!-- DIAS DA SEMANA -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- SEGUNDA -->
+      <div class="glass-panel day-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+          <div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+            <i class="fas fa-calendar-day text-lg"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">Segunda-feira</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Todo Dia</h3>
+            <span class="test-badge daily"><i class="fas fa-check-circle mr-2"></i>Palográfico</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Prioritários</h3>
+            <span class="test-badge priority">BFP</span>
+            <span class="test-badge priority">Rota C</span>
+            <span class="test-badge priority">Memória F</span>
+            <span class="test-badge priority">CTA</span>
+            <span class="test-badge priority">TEADI</span>
+            <span class="test-badge priority">TEACO</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Secundários</h3>
+            <span class="test-badge secondary">BPA</span>
+            <span class="test-badge secondary">EATA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TERÇA -->
+      <div class="glass-panel day-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+          <div class="w-10 h-10 rounded-xl bg-cyan/20 flex items-center justify-center text-cyan">
+            <i class="fas fa-calendar-day text-lg"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">Terça-feira</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Todo Dia</h3>
+            <span class="test-badge daily"><i class="fas fa-check-circle mr-2"></i>Palográfico</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Prioritários</h3>
+            <span class="test-badge priority">Rota D</span>
+            <span class="test-badge priority">G36</span>
+            <span class="test-badge priority">MIG</span>
+            <span class="test-badge priority">TSP Memória</span>
+            <span class="test-badge priority">TRI</span>
+            <span class="test-badge priority">AC-VETOR</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Secundários</h3>
+            <span class="test-badge secondary">IFP2</span>
+            <span class="test-badge secondary">TSP DIMENSÕES</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUARTA -->
+      <div class="glass-panel day-card rounded-2xl p-6">
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+          <div class="w-10 h-10 rounded-xl bg-accent/20 flex items-center justify-center text-accent">
+            <i class="fas fa-calendar-day text-lg"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">Quarta-feira</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Todo Dia</h3>
+            <span class="test-badge daily"><i class="fas fa-check-circle mr-2"></i>Palográfico</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Prioritários</h3>
+            <span class="test-badge priority">BFP</span>
+            <span class="test-badge priority">Rota C</span>
+            <span class="test-badge priority">G36</span>
+            <span class="test-badge priority">MIG</span>
+            <span class="test-badge priority">CTA</span>
+            <span class="test-badge priority">TEPIC</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Secundários</h3>
+            <span class="test-badge secondary">BETA 3 CÓDIGOS</span>
+            <span class="test-badge secondary">ESAVI</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUINTA -->
+      <div class="glass-panel day-card rounded-2xl p-6 lg:col-start-1 lg:col-span-1 md:col-span-2 md:max-w-md md:mx-auto lg:max-w-none lg:mx-0">
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+          <div class="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400">
+            <i class="fas fa-calendar-day text-lg"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">Quinta-feira</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Todo Dia</h3>
+            <span class="test-badge daily"><i class="fas fa-check-circle mr-2"></i>Palográfico</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Prioritários</h3>
+            <span class="test-badge priority">Rota D</span>
+            <span class="test-badge priority">Memória F</span>
+            <span class="test-badge priority">TEADI</span>
+            <span class="test-badge priority">TSP Memória</span>
+            <span class="test-badge priority">TRI</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Secundários</h3>
+            <span class="test-badge secondary">NEO PI</span>
+            <span class="test-badge secondary">BDA</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEXTA -->
+      <div class="glass-panel day-card rounded-2xl p-6 lg:col-span-1 md:col-span-2 md:max-w-md md:mx-auto lg:max-w-none lg:mx-0">
+        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
+          <div class="w-10 h-10 rounded-xl bg-pink-500/20 flex items-center justify-center text-pink-400">
+            <i class="fas fa-calendar-day text-lg"></i>
+          </div>
+          <h2 class="text-xl font-bold text-white">Sexta-feira</h2>
+        </div>
+        
+        <div class="space-y-4">
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Todo Dia</h3>
+            <span class="test-badge daily"><i class="fas fa-check-circle mr-2"></i>Palográfico</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Prioritários</h3>
+            <span class="test-badge priority">BFP</span>
+            <span class="test-badge priority">Rota C</span>
+            <span class="test-badge priority">Rota D</span>
+            <span class="test-badge priority">Memória F</span>
+            <span class="test-badge priority">G36</span>
+            <span class="test-badge priority">MIG</span>
+          </div>
+          <div>
+            <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Secundários</h3>
+            <span class="test-badge secondary">TRL</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>

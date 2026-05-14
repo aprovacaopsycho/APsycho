@@ -722,6 +722,35 @@
       <!-- Grid Principal -->
       <div class="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
 
+        <!-- NOVO CARD: CRONOGRAMA DE ESTUDO -->
+        <a href="cronograma_estudo_PMCE.html"
+          class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[280px] flex flex-col">
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/20 transition-all duration-700">
+          </div>
+
+          <div class="p-8 flex flex-col h-full relative z-10">
+            <div class="flex justify-between items-start mb-6">
+              <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-purple-600/10 flex items-center justify-center border border-primary/20 group-hover:border-primary/50 transition-colors">
+                <i class="fas fa-calendar-alt text-3xl text-primary icon-glow transition-transform duration-500"></i>
+              </div>
+              <span
+                class="px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30">NOVO</span>
+            </div>
+
+            <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-primary transition-colors">Cronograma de Estudo</h2>
+            <p class="text-gray-400 text-sm mb-6 flex-grow leading-relaxed">
+              Agenda semanal com os testes prioritários e secundários que devem ser estudados diariamente.
+            </p>
+
+            <div class="flex items-center text-primary text-sm font-bold tracking-wide mt-auto">
+              ACESSAR CRONOGRAMA
+              <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+          </div>
+        </a>
+
         <!-- CARD 1: ANÁLISE ESTRATÉGICA (Destaque) -->
         <div @click="view = 'analysis'"
           class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[280px] flex flex-col">
