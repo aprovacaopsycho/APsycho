@@ -273,7 +273,7 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="../testes_inteligencia_PMCE.html"
+                    <a href="testes_inteligencia_PMCE.html"
                         class="text-sm text-accent hover:text-white flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -492,6 +492,28 @@
                                 :class="imageLoading ? 'opacity-0' : 'opacity-100'">
                         </div>
 
+
+                        <!-- BOTÕES DE RESPOSTA MOBILE (dentro do card, só em mobile) -->
+                        <div class="lg:hidden w-full mt-4 mb-2">
+                            <div class="mb-2 flex items-center justify-between">
+                                <span class="text-xs text-gray-400 uppercase tracking-wider font-bold">Sua resposta — Questão <span x-text="currentQuestion"></span></span>
+                                <span class="text-xs text-gray-500" x-text="userAnswers[currentQuestion] ? 'Marcada: ' + userAnswers[currentQuestion] : 'Não marcada'"></span>
+                            </div>
+                            <div class="grid grid-cols-4 gap-2">
+                                <template x-for="opt in options" :key="opt">
+                                    <button @click="selectAnswer(currentQuestion, opt, $event)"
+                                        class="py-2 rounded-lg text-sm font-black border flex items-center justify-center transition-all active:scale-95"
+                                        :class="{
+                                            'bg-purple-500 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.5)]': userAnswers[currentQuestion] === opt,
+                                            'border-white/20 text-gray-300 bg-white/5 hover:bg-white/10 hover:border-purple-400': userAnswers[currentQuestion] !== opt && !userAnswers[currentQuestion],
+                                            'border-white/5 text-gray-600 opacity-50': userAnswers[currentQuestion] && userAnswers[currentQuestion] !== opt
+                                        }">
+                                        <span x-text="opt"></span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+
                         <!-- Botão Navigation -->
                         <div class="mt-4 h-12 flex justify-between w-full max-w-3xl px-4">
                             <!-- Prev Button inside card -->
@@ -621,7 +643,7 @@
                     </div>
 
                     <div class="mt-10 flex justify-center gap-4">
-                        <a href="../testes_inteligencia_PMCE.html"
+                        <a href="testes_inteligencia_PMCE.html"
                             class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition group">
                             <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
                             Voltar

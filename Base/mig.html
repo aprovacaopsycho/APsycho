@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -507,7 +507,26 @@
                                 :class="imageLoading ? 'opacity-0' : 'opacity-100'">
                         </div>
 
-                        <!-- Removed Bottom Options as per request -->
+                        <!-- BOTÕES DE RESPOSTA MOBILE (dentro do card, só em mobile) -->
+                        <div class="lg:hidden w-full mt-4 mb-2">
+                            <div class="mb-2 flex items-center justify-between">
+                                <span class="text-xs text-gray-400 uppercase tracking-wider font-bold">Sua resposta — Questão <span x-text="currentQuestion"></span></span>
+                                <span class="text-xs text-gray-500" x-text="userAnswers[currentQuestion] ? 'Marcada: ' + userAnswers[currentQuestion] : 'Não marcada'"></span>
+                            </div>
+                            <div class="grid grid-cols-6 gap-2">
+                                <template x-for="opt in options" :key="opt">
+                                    <button @click="selectAnswer(currentQuestion, opt, $event)"
+                                        class="py-2 rounded-lg text-sm font-black border flex items-center justify-center transition-all active:scale-95"
+                                        :class="{
+                                            'bg-purple-500 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.5)]': userAnswers[currentQuestion] === opt,
+                                            'border-white/20 text-gray-300 bg-white/5 hover:bg-white/10 hover:border-purple-400': userAnswers[currentQuestion] !== opt && !userAnswers[currentQuestion],
+                                            'border-white/5 text-gray-600 bg-white/2 opacity-50': userAnswers[currentQuestion] && userAnswers[currentQuestion] !== opt
+                                        }">
+                                        <span x-text="opt"></span>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
 
                         <!-- Botão Próximo (só aparece se respondeu) -->
                         <div class="mt-4 h-12 flex justify-between w-full max-w-3xl px-4">
@@ -525,7 +544,9 @@
                         </div>
 
                     </div>
+
                 </div>
+                <!-- fim AREA DO TESTE -->
 
                 <!-- TELA DE RESULTADOS -->
                 <div x-show="finished" class="glass-panel p-8 rounded-2xl w-full fade-enter" x-cloak>

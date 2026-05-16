@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste dos Cubos | Aprovação Psycho</title>
+    <title>Teste G36 | Aprovação Psycho</title>
     <link rel="icon" type="image/png" href="../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -27,7 +27,7 @@
                         card: 'rgba(28, 27, 41, 0.95)',
                         primary: '#9f54ff', // Roxo Principal Base
                         secondary: '#c084fc', // Roxo Claro R1
-                        accent: '#ff00ff', // Magenta
+                        accent: '#ff00ff',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -55,100 +55,18 @@
     </script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
-
         :root {
             --primary: #9f54ff;
             --accent: #ff00ff;
         }
 
         body {
-            font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
+            background-color: #050508;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(159, 84, 255, 0.08), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(0, 194, 255, 0.08), transparent 25%);
             color: #e2e8f0;
-            overflow-x: hidden;
             transition: background-color 1s ease;
-        }
-
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 194, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(192, 132, 252, 0.1) 0%, transparent 50%);
-            animation: gradientShift 15s ease infinite;
-            z-index: 0;
-        }
-
-        @keyframes gradientShift {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.8;
-                transform: scale(1.1);
-            }
-        }
-
-        /* Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(159, 84, 255, 0.6);
-            border-radius: 50%;
-            animation: float 20s infinite;
-        }
-
-        .particle:nth-child(2n) {
-            background: rgba(0, 194, 255, 0.6);
-            animation-duration: 25s;
-        }
-
-        .particle:nth-child(3n) {
-            background: rgba(192, 132, 252, 0.6);
-            animation-duration: 30s;
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) translateX(0) scale(0);
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(-100vh) translateX(100px) scale(1);
-                opacity: 0;
-            }
         }
 
         /* RED BACKGROUND ALERT */
@@ -190,20 +108,20 @@
 
         /* Scrollbar */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #0f0e1a;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #00c2ff, #9f54ff);
-            border-radius: 5px;
+            background: #333;
+            border-radius: 3px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #00aae6, #8b40ff);
+            background: #c084fc;
         }
 
         [x-cloak] {
@@ -228,21 +146,8 @@
     </style>
 </head>
 
-<body x-data="cubosApp()" x-init="loadHistory()" class="min-h-screen flex flex-col font-sans overflow-x-hidden"
+<body x-data="g36App()" x-init="loadHistory()" class="min-h-screen flex flex-col font-sans overflow-x-hidden"
     :class="{'alert-mode': timeRemaining <= 60 && !finished && currentQuestion > 0}">
-
-    <!-- Particles -->
-    <div class="particles">
-        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
-        <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
-        <div class="particle" style="left: 40%; animation-delay: 1s;"></div>
-        <div class="particle" style="left: 50%; animation-delay: 3s;"></div>
-        <div class="particle" style="left: 60%; animation-delay: 5s;"></div>
-        <div class="particle" style="left: 70%; animation-delay: 2.5s;"></div>
-        <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
-        <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
-    </div>
 
     <!-- HEADER -->
     <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
@@ -258,8 +163,8 @@
                     <span class="text-xl font-black text-white">APROVAÇÃO <span class="text-accent"
                             style="text-shadow:0 0 8px var(--accent)">PSYCHO</span></span>
                     <span class="text-white font-black text-lg leading-none">TESTE <span
-                            class="text-[var(--primary)]">DOS CUBOS</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">RACIOCÍNIO ESPACIAL</span>
+                            class="text-[var(--primary)]">G36</span></span>
+                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
 
@@ -273,7 +178,7 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="testes_inteligencia_PMCE.html"
+                    <a href="../testes_inteligencia.html"
                         class="text-sm text-accent hover:text-white flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -307,96 +212,74 @@
                 <!-- INTRO / INSTRUÇÕES (Só aparece se currentQuestion === 0) -->
                 <div x-show="currentQuestion === 0 && !finished"
                     class="glass-panel p-8 rounded-2xl text-center mx-auto my-auto w-full">
-                    <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste dos Cubos</h1>
-                    <p class="text-gray-300 mb-6 text-lg leading-relaxed text-justify">
-                        O teste dos cubos avalia o raciocínio visuoespacial, simulando rotações de um cubo.
-                        Você deve manipular mentalmente as imagens, prevendo as rotações das faces.
-                        Cada questão mostra um cubo inicial e opções após rotações (horário ou anti-horário).
-                        Identifique a configuração correta após os giros indicados.
+                    <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste G36</h1>
+                    <p class="text-gray-300 mb-6 text-lg leading-relaxed">
+                        Este teste avalia sua capacidade de raciocínio lógico através de matrizes de figuras.
+                        Identifique a lei de formação e escolha a opção que completa a lacuna.
                     </p>
 
-                    <!-- Exemplos -->
-                    <!-- Interactive Example Section -->
-                    <div x-data="{ 
-                        selectedObj: null, 
-                        showFeedback: false,
-                        check(opt) {
-                            if (this.showFeedback) return;
-                            this.selectedObj = opt;
-                            this.showFeedback = true;
-                        }
-                    }" class="mb-8 p-6 bg-black/20 rounded-xl border border-white/5">
-
-                        <h3 class="text-primary font-bold mb-4 flex items-center gap-2">
-                            <i class="fas fa-flask"></i> Exemplo Interativo
+                    <div class="mb-8 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
+                        x-data="{ answered: false, correct: false, selected: null, answer: '6' }">
+                        <h3
+                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo Prático
                         </h3>
 
-                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="flex flex-col items-center gap-6">
+                            <img src="../Imagens_base/g36/g36_2.png" alt="Exemplo G36"
+                                class="w-full max-w-[700px] rounded-lg border border-white/10 shadow-lg mx-auto">
 
-                            <!-- Image Container -->
-                            <div class="bg-white/5 rounded-lg p-2 border border-white/10">
-                                <img src="../Imagens_base/cubos/EXEMPLO 1.jpg" alt="Exemplo Cubos"
-                                    class="w-full h-auto rounded shadow-lg">
-                            </div>
-
-                            <!-- Interaction Side -->
-                            <div>
-                                <p class="text-gray-300 text-sm mb-4">
-                                    Observe os cubos girando. Para o exemplo acima, qual é a alternativa correta?
-                                </p>
-
-                                <div class="grid grid-cols-5 gap-2 mb-4">
-                                    <template x-for="opt in ['A','B','C','D','E']">
-                                        <button @click="check(opt)"
-                                            class="h-10 rounded-lg font-bold border transition-all transform active:scale-95"
-                                            :class="{
-                                                'bg-white/10 border-white/20 hover:bg-white/20 text-white': !showFeedback,
-                                                'bg-green-500 text-white border-green-400 shadow-[0_0_10px_rgba(34,197,94,0.5)]': showFeedback && opt === 'C',
-                                                'bg-red-500/50 text-white border-red-500 opacity-50': showFeedback && opt !== 'C' && selectedObj === opt,
-                                                'opacity-30': showFeedback && opt !== 'C' && selectedObj !== opt
-                                            }">
-                                            <span x-text="opt"></span>
+                            <!-- Opções Interativas -->
+                            <div class="w-full max-w-lg" x-show="!answered">
+                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
+                                <div class="grid grid-cols-6 gap-2">
+                                    <template x-for="opt in ['1','2','3','4','5','6']">
+                                        <button @click="selected = opt; answered = true; correct = (opt === answer)"
+                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
+                                            <span x-text="opt"
+                                                class="group-hover:text-primary transition-colors"></span>
                                         </button>
                                     </template>
                                 </div>
+                            </div>
 
-                                <!-- Feedback Area -->
-                                <div x-show="showFeedback" x-transition.opacity
-                                    class="bg-black/40 rounded-lg p-4 border"
-                                    :class="selectedObj === 'C' ? 'border-green-500/30' : 'border-red-500/30'">
+                            <!-- Feedback -->
+                            <div x-show="answered" x-transition
+                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
+                                :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
 
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <i class="fas"
-                                            :class="selectedObj === 'C' ? 'fa-check-circle text-green-400' : 'fa-times-circle text-red-400'"></i>
-                                        <span class="font-bold text-sm"
-                                            :class="selectedObj === 'C' ? 'text-green-400' : 'text-red-400'"
-                                            x-text="selectedObj === 'C' ? 'Correto!' : 'Incorreto'"></span>
-                                    </div>
-
-                                    <p class="text-xs text-gray-400 leading-relaxed">
-                                        A terceira camada horizontal faz uma rotação no sentido anti-horário.
-                                        <strong class="text-white">Gabarito: C</strong>
-                                    </p>
+                                <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
+                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
+                                    <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
 
-                                <div x-show="!showFeedback"
-                                    class="text-xs text-gray-500 mt-2 text-center animate-pulse">
-                                    Clique na opção correta para testar
+                                <div class="text-gray-300 text-sm leading-relaxed text-left">
+                                    <p class="mb-2"><strong class="text-purple-400">Explicação:</strong></p>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>Na coluna 1 temos figuras planas (duas dimensões - quadrado e triângulo);
+                                        </li>
+                                        <li>Na coluna 2 há figuras em três dimensões. Da mesma forma que o quadrado
+                                            corresponde ao cubo, o triângulo corresponde à pirâmide.</li>
+                                        <li>Portanto, o gabarito é o <strong>número 6</strong>.</li>
+                                    </ul>
                                 </div>
+
+                                <button @click="answered = false; selected = null"
+                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
+                                    <i class="fas fa-redo"></i> Tentar novamente
+                                </button>
                             </div>
                         </div>
                     </div>
 
                     <ul
                         class="text-left text-gray-400 text-sm space-y-3 mb-8 bg-black/20 p-6 rounded-xl border border-white/5">
-                        <li><i class="fas fa-bolt text-yellow-400 mr-2"></i> Ganhe <strong>XP</strong> acertando
-                            questões!</li>
-                        <li><i class="fas fa-cube text-purple-400 mr-2"></i> Teste sua <strong>Inteligência
-                                Espacial</strong>.</li>
-                        <li><i class="fas fa-crosshairs text-red-500 mr-2"></i> Meta mínima: <strong>11
+                        <li><i class="fas fa-bolt text-yellow-400 mr-2"></i> O teste contém <strong>36 itens</strong>.
+                        </li>
+                        <li><i class="fas fa-bullseye text-green-400 mr-2"></i> A meta de aprovação é <strong>28
                                 acertos</strong>.</li>
-                        <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>30 minutos</strong> para 15
-                            questões.</li>
+                        <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>30 minutos</strong>.</li>
                     </ul>
 
                     <button @click="startTest()" :disabled="preparing"
@@ -442,12 +325,12 @@
                                     <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
                                         <td class="px-6 py-4 text-gray-300" x-text="item.date"></td>
                                         <td class="px-6 py-4 text-center font-bold text-white"
-                                            x-text="item.score + '/15'"></td>
+                                            x-text="item.score + '/36'"></td>
                                         <td class="px-6 py-4 text-center font-bold text-[10px] uppercase tracking-wider"
                                             :class="item.rankColor" x-text="item.rank"></td>
                                         <td class="px-6 py-4 text-center font-bold"
-                                            :class="item.score >= 11 ? 'text-green-400' : 'text-red-400'"
-                                            x-text="item.score >= 11 ? 'APTO' : 'INAPTO'"></td>
+                                            :class="item.score >= 28 ? 'text-green-400' : 'text-red-400'"
+                                            x-text="item.score >= 28 ? 'APTO' : 'INAPTO'"></td>
                                     </tr>
                                 </template>
                             </tbody>
@@ -461,7 +344,7 @@
                     <!-- Barra de Progresso Mobile -->
                     <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden lg:hidden">
                         <div class="bg-primary h-full transition-all duration-500 relative"
-                            :style="`width: ${(currentQuestion / 15) * 100}%`">
+                            :style="`width: ${(currentQuestion / 36) * 100}%`">
                             <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
                         </div>
                     </div>
@@ -469,7 +352,7 @@
                     <!-- Cabeçalho da Questão -->
                     <div class="flex justify-between items-end px-2">
                         <h2 class="text-2xl font-bold text-white">Questão <span x-text="currentQuestion"></span><span
-                                class="text-gray-500 text-lg">/15</span></h2>
+                                class="text-gray-500 text-lg">/36</span></h2>
 
                         <!-- Streak Badge -->
                         <div x-show="streak > 1"
@@ -485,11 +368,11 @@
 
                         <!-- Timer centralizado na imagem -->
                         <div class="mb-4 flex items-center gap-3 bg-black/40 px-5 py-2 rounded-full border border-white/10"
-                            :class="{'border-red-500/50 bg-red-900/20': timeRemaining <= 60}">
+                            :class="{'border-red-500/50 bg-red-900/20': timeRemaining <= 300}">
                             <i class="fas fa-clock text-gray-400"
-                                :class="{'text-red-400 animate-pulse': timeRemaining <= 60}"></i>
+                                :class="{'text-red-400 animate-pulse': timeRemaining <= 300}"></i>
                             <div class="font-mono text-xl font-bold text-white tabular-nums leading-none"
-                                :class="{'text-red-400 animate-pulse': timeRemaining <= 60}"
+                                :class="{'text-red-400 animate-pulse': timeRemaining <= 300}"
                                 x-text="formatTime(timeRemaining)">
                             </div>
                         </div>
@@ -508,32 +391,10 @@
                                 </div>
                             </div>
 
-                            <img :src="`../Imagens_base/cubos/TAREFA ${currentQuestion}.jpg`"
-                                @load="imageLoading = false" @error="imageLoading = false" alt="Questão Cubos"
+                            <img :src="`../Imagens_base/g36/g36_${currentQuestion}.png`" @load="imageLoading = false"
+                                @error="imageLoading = false" alt="Questão G36"
                                 class="w-full h-auto object-contain max-h-[500px] transition-opacity duration-300"
                                 :class="imageLoading ? 'opacity-0' : 'opacity-100'">
-                        </div>
-
-
-                        <!-- BOTÕES DE RESPOSTA MOBILE (dentro do card, só em mobile) -->
-                        <div class="lg:hidden w-full mt-4 mb-2">
-                            <div class="mb-2 flex items-center justify-between">
-                                <span class="text-xs text-gray-400 uppercase tracking-wider font-bold">Sua resposta — Questão <span x-text="currentQuestion"></span></span>
-                                <span class="text-xs text-gray-500" x-text="userAnswers[currentQuestion] ? 'Marcada: ' + userAnswers[currentQuestion] : 'Não marcada'"></span>
-                            </div>
-                            <div class="grid grid-cols-5 gap-2">
-                                <template x-for="opt in options" :key="opt">
-                                    <button @click="selectAnswer(currentQuestion, opt, $event)"
-                                        class="py-2 rounded-lg text-sm font-black border flex items-center justify-center transition-all active:scale-95"
-                                        :class="{
-                                            'bg-purple-500 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.5)]': userAnswers[currentQuestion] === opt,
-                                            'border-white/20 text-gray-300 bg-white/5 hover:bg-white/10 hover:border-purple-400': userAnswers[currentQuestion] !== opt && !userAnswers[currentQuestion],
-                                            'border-white/5 text-gray-600 opacity-50': userAnswers[currentQuestion] && userAnswers[currentQuestion] !== opt
-                                        }">
-                                        <span x-text="opt"></span>
-                                    </button>
-                                </template>
-                            </div>
                         </div>
 
                         <!-- Botão Navigation -->
@@ -546,12 +407,13 @@
                             <button x-show="userAnswers[currentQuestion]" @click="nextQuestion()"
                                 class="ml-auto flex items-center gap-2 text-primary hover:text-white font-bold tracking-wide transition transform hover:scale-105">
                                 <span
-                                    x-text="currentQuestion === 15 ? 'VER RESULTADO FINAL' : 'PRÓXIMA QUESTÃO'"></span>
+                                    x-text="currentQuestion === 36 ? 'VER RESULTADO FINAL' : 'PRÓXIMA QUESTÃO'"></span>
                                 <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
                 </div>
+
                 <!-- TELA DE RESULTADOS -->
                 <div x-show="finished" class="glass-panel p-8 rounded-2xl w-full fade-enter" x-cloak>
 
@@ -583,19 +445,19 @@
                             </div>
 
                             <div class="text-6xl font-black mb-2 relative z-10"
-                                :class="score >= 11 ? 'text-green-400' : 'text-red-500'">
-                                <span x-text="score"></span><span class="text-2xl text-gray-500">/15</span>
+                                :class="score >= 28 ? 'text-green-400' : 'text-red-500'">
+                                <span x-text="score"></span><span class="text-2xl text-gray-500">/36</span>
                             </div>
 
                             <!-- CONDITIONAL STATUS -->
                             <div class="relative z-10 w-full text-center">
-                                <template x-if="score >= 11">
+                                <template x-if="score >= 28">
                                     <div
                                         class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border bg-green-500/10 text-green-400 border-green-500/20 inline-block">
                                         APROVADO
                                     </div>
                                 </template>
-                                <template x-if="score < 11">
+                                <template x-if="score < 28">
                                     <div>
                                         <div class="loser-text text-2xl md:text-3xl lg:text-4xl mt-2">
                                             VOCÊ FICOU<br>INAPTO!
@@ -616,7 +478,7 @@
                                 <i class="fas fa-bullseye text-green-400 text-2xl mb-2"></i>
                                 <span class="text-gray-400 text-sm">Precisão</span>
                                 <span class="text-2xl font-bold text-white"
-                                    x-text="Math.round((score/15)*100) + '%'"></span>
+                                    x-text="Math.round((score/36)*100) + '%'"></span>
                             </div>
 
                             <div
@@ -639,7 +501,7 @@
                         <h3 class="text-white font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
                             <i class="fas fa-list-ul text-primary"></i> Análise de Performance
                         </h3>
-                        <div class="grid grid-cols-5 sm:grid-cols-8 gap-2">
+                        <div class="grid grid-cols-5 sm:grid-cols-9 gap-2">
                             <template x-for="(ans, index) in correctAnswers" :key="index">
                                 <div x-show="index > 0"
                                     class="p-2 rounded-lg text-center border text-xs flex flex-col gap-1 relative overflow-hidden group transition-all hover:scale-105"
@@ -664,7 +526,7 @@
                     </div>
 
                     <div class="mt-10 flex justify-center gap-4">
-                        <a href="testes_inteligencia_PMCE.html"
+                        <a href="../testes_inteligencia.html"
                             class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition group">
                             <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
                             Voltar
@@ -686,7 +548,7 @@
                     </h3>
 
                     <div class="flex flex-col gap-2 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
-                        <template x-for="q in 15" :key="q">
+                        <template x-for="q in 36" :key="q">
                             <div class="p-3 rounded-lg border transition-all"
                                 :class="currentQuestion === q ? 'bg-white/10 border-purple-500/50' : 'bg-black/20 border-white/5 hover:bg-white/5'">
 
@@ -700,7 +562,7 @@
                                     </template>
                                 </div>
 
-                                <div class="grid grid-cols-5 gap-1">
+                                <div class="grid grid-cols-3 gap-1">
                                     <template x-for="opt in options" :key="opt">
                                         <button @click="selectAnswer(q, opt)" :disabled="userAnswers[q]"
                                             class="h-6 rounded text-[10px] font-bold transition-all border flex items-center justify-center transform hover:scale-105"
@@ -721,11 +583,11 @@
                     <div class="mt-6 pt-4 border-t border-white/10">
                         <div class="flex justify-between text-xs text-gray-400 mb-2">
                             <span>Progresso</span>
-                            <span x-text="Object.keys(userAnswers).length + '/15'"></span>
+                            <span x-text="Object.keys(userAnswers).length + '/36'"></span>
                         </div>
                         <div class="w-full bg-black/40 h-1.5 rounded-full overflow-hidden">
                             <div class="bg-green-500 h-full transition-all duration-500"
-                                :style="`width: ${(Object.keys(userAnswers).length / 15) * 100}%`"></div>
+                                :style="`width: ${(Object.keys(userAnswers).length / 36) * 100}%`"></div>
                         </div>
                     </div>
                 </div>
@@ -734,7 +596,7 @@
     </main>
 
     <script>
-        function cubosApp() {
+        function g36App() {
             return {
                 currentQuestion: 0, // 0 = Intro
                 timeRemaining: 30 * 60, // 30 min
@@ -748,14 +610,15 @@
                 shake: false,
                 xpFloats: [],
                 history: [],
-                options: ['A', 'B', 'C', 'D', 'E'],
+                options: [1, 2, 3, 4, 5, 6],
 
-                // GABARITO (Index 1-15)
+                // GABARITO Correct
                 correctAnswers: [
                     null,
-                    'C', 'B', 'A', 'B', 'B', // 1-5
-                    'A', 'C', 'A', 'C', 'B', // 6-10
-                    'B', 'A', 'D', 'A', 'C'  // 11-15
+                    2, 6, 2, 4, 5, 2, 3, 4, 2, 3, // 1-10
+                    4, 6, 3, 2, 3, 4, 6, 5, 4, 5, // 11-20
+                    2, 4, 4, 2, 4, 6, 6, 3, 2, 1, // 21-30
+                    1, 6, 2, 1, 5, 1              // 31-36
                 ],
 
                 userAnswers: {},
@@ -811,7 +674,7 @@
 
                 nextQuestion() {
                     const nextQ = this.currentQuestion + 1;
-                    if (nextQ <= 15) {
+                    if (nextQ <= 36) {
                         this.currentQuestion = nextQ;
                         this.imageLoading = true;
                         this.preloadNextImages();
@@ -847,17 +710,16 @@
                         console.log("Audio play error, starting immediately:", e);
                         this.preparing = false;
                         this.currentQuestion = 1;
-                        this.startTimer(); // Ensure timer starts if audio fails
+                        this.startTimer();
                     });
                 },
 
                 preloadNextImages() {
-                    // Preload das próximas 3 imagens
                     for (let i = 1; i <= 3; i++) {
                         const targetQ = this.currentQuestion + i;
-                        if (targetQ <= 15) {
+                        if (targetQ <= 36) {
                             const img = new Image();
-                            img.src = `../Imagens_base/cubos/TAREFA ${targetQ}.jpg`;
+                            img.src = `../Imagens_base/g36/g36_${targetQ}.png`;
                         }
                     }
                 },
@@ -872,7 +734,7 @@
                     this.maxStreak = 0;
                     let currentStreak = 0;
 
-                    for (let i = 1; i <= 15; i++) {
+                    for (let i = 1; i <= 36; i++) {
                         if (this.userAnswers[i] && this.userAnswers[i] === this.correctAnswers[i]) {
                             this.score++;
                             currentStreak++;
@@ -888,14 +750,14 @@
                         this.playAudio('tempoesgotado');
                     }
 
-                    if (this.score >= 11) {
+                    if (this.score >= 28) {
                         this.launchConfetti();
                     }
                     this.saveHistory();
                 },
 
                 loadHistory() {
-                    const h = localStorage.getItem('cubos_history');
+                    const h = localStorage.getItem('g36_history');
                     if (h) this.history = JSON.parse(h);
                 },
 
@@ -907,12 +769,12 @@
                         rankColor: this.rankColor // Save color
                     };
                     this.history.unshift(newItem);
-                    localStorage.setItem('cubos_history', JSON.stringify(this.history));
+                    localStorage.setItem('g36_history', JSON.stringify(this.history));
                 },
 
                 clearHistory() {
                     if (confirm("Limpar histórico?")) {
-                        localStorage.removeItem('cubos_history');
+                        localStorage.removeItem('g36_history');
                         this.history = [];
                     }
                 },
@@ -949,28 +811,28 @@
                     return `${m}:${s}`;
                 },
 
-                // Rank Getters for 15 Questions
+                // Rank based on performance (roughly)
                 get rankName() {
-                    if (this.score <= 4) return "FERRO";
-                    if (this.score <= 8) return "BRONZE";
-                    if (this.score <= 11) return "PRATA";
-                    if (this.score <= 13) return "OURO";
+                    if (this.score <= 15) return "FERRO";
+                    if (this.score <= 20) return "BRONZE";
+                    if (this.score <= 27) return "PRATA";
+                    if (this.score <= 32) return "OURO";
                     return "DIAMANTE";
                 },
 
                 get rankColor() {
-                    if (this.score <= 4) return "from-gray-500 to-gray-700";
-                    if (this.score <= 8) return "from-orange-700 to-yellow-800";
-                    if (this.score <= 11) return "from-gray-300 to-gray-500";
-                    if (this.score <= 13) return "from-yellow-300 to-yellow-600";
+                    if (this.score <= 15) return "from-gray-500 to-gray-700";
+                    if (this.score <= 20) return "from-orange-700 to-yellow-800";
+                    if (this.score <= 27) return "from-gray-300 to-gray-500";
+                    if (this.score <= 32) return "from-yellow-300 to-yellow-600";
                     return "from-cyan-300 to-blue-500 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]";
                 },
 
                 get rankMsg() {
-                    if (this.score <= 8) return "Continue treinando para subir de patente!";
-                    if (this.score <= 11) return "Muito bom! Você está perto da elite.";
-                    if (this.score <= 13) return "Excelente! Ótima capacidade espacial.";
-                    return "LENDÁRIO! Visão espacial perfeita.";
+                    if (this.score < 28) return "Pratique mais! Você consegue.";
+                    if (this.score <= 30) return "Apto! Bom trabalho.";
+                    if (this.score <= 34) return "Excelente! Alta performance.";
+                    return "GÊNIO! Raciocínio nível máximo.";
                 }
             }
         }
