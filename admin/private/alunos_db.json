@@ -918,7 +918,7 @@
   },
   {
     "nome": "JOSE RICARDO ALENCAR DE SOUSA FILHO",
-    "email": "ricardoale00@gmail.com",
+    "email": "alencarffilho09@gmail.com",
     "cpf": "076.713.723-07",
     "inscricao": "JRADSF076713",
     "validade": "",
@@ -1121,6 +1121,16 @@
     "email": "eliabepedro212@gmail.com",
     "cpf": "115.385.864-95",
     "inscricao": "EPDS115385",
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
+  },
+  {
+    "nome": "KAUAN ALEXANDRE DA SILVA MOREIRA",
+    "email": "kauanalexandre075@gmail.com",
+    "cpf": "10086350307",
+    "inscricao": "KADSM100863",
     "validade": "",
     "permissions": [
       "PMCE_2026"
