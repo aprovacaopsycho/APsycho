@@ -41,9 +41,10 @@
     "name": "CALEBE DE SOUSA RODRIGUES"
   },
   "af6d316eddbafb0a90ff8b64f1decb8970559cfbd085f943efaa3bb663466b0d": {
-    "validity": "2026-07-31T01:01",
+    "validity": "2026-11-30T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PC-PI_2026",
+      "PMCE_2026"
     ],
     "name": "MATEUS HENRIQUE DE ALMEIDA CORDEIRO"
   },

@@ -60,9 +60,10 @@
     "email": "mateus2021pmpi@gmail.com",
     "cpf": "701.077.434-00",
     "inscricao": "MHDAC701077",
-    "validade": "2026-07-31T01:01",
+    "validade": "2026-11-30T01:01",
     "permissions": [
-      "PC-PI_2026"
+      "PC-PI_2026",
+      "PMCE_2026"
     ]
   },
   {
