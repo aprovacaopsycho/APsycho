@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teste R1 | Aprovação Psycho</title>
+    <title>Teste R1 | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -58,14 +58,20 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --text-light: #1E293B;
             --primary: #9f54ff;
             --accent: #ff00ff;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
-            color: #e2e8f0;
+            background: var(--bg-dark);
+            color: #334155;
             overflow-x: hidden;
             transition: background-color 1s ease;
         }
@@ -79,7 +85,7 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(192, 132, 252, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 40% 20%, rgba(0, 194, 255, 0.1) 0%, transparent 50%);
             animation: gradientShift 15s ease infinite;
@@ -153,16 +159,16 @@
 
         /* RED BACKGROUND ALERT */
         body.alert-mode {
-            background-color: #3f0909;
-            background-image: radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.2), transparent 70%);
+            background-color: #FEF2F2;
+            background-image: radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.1), transparent 70%);
         }
 
         /* Glassmorphism */
         .glass-panel {
-            background: rgba(28, 27, 41, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
         }
 
         .option-btn {
@@ -182,7 +188,7 @@
 
         /* Rank Badges */
         .rank-badge {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0));
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.18);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
@@ -194,7 +200,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #f1f5f9;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -245,7 +251,7 @@
     </div>
 
     <!-- HEADER -->
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-slate-50 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
 
             <!-- Logo area -->
@@ -253,13 +259,13 @@
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black text-white">APROVAÇÃO <span class="text-accent"
-                            style="text-shadow:0 0 8px var(--accent)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">TESTE <span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span class="text-accent"
+                            style="text-shadow:0 0 8px var(--accent)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">TESTE <span
                             class="text-[var(--primary)]">R1</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
 
@@ -267,14 +273,14 @@
             <div class="flex items-center gap-6">
                 <!-- User Info -->
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-accent uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
 
                 <div class="flex items-center gap-4">
                     <a href="testes_inteligencia_PMCE.html"
-                        class="text-sm text-accent hover:text-white flex items-center gap-2 font-bold transition">
+                        class="text-sm text-accent hover:text-slate-800 flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -291,7 +297,7 @@
         <!-- XP Floating Text Container -->
         <div class="fixed inset-0 pointer-events-none z-50 overflow-hidden">
             <template x-for="xp in xpFloats" :key="xp.id">
-                <div class="absolute text-yellow-400 font-black text-2xl animate-float-up"
+                <div class="absolute text-yellow-700 font-black text-2xl animate-float-up"
                     :style="`left: ${xp.x}px; top: ${xp.y}px; text-shadow: 0 0 10px gold;`">
                     +XP
                 </div>
@@ -307,30 +313,30 @@
                 <!-- INTRO / INSTRUÇÕES (Só aparece se currentQuestion === 0) -->
                 <div x-show="currentQuestion === 0 && !finished"
                     class="glass-panel p-8 rounded-2xl text-center mx-auto my-auto w-full">
-                    <h1 class="text-3xl font-bold text-white mb-4">Instruções do Teste R1</h1>
-                    <p class="text-gray-300 mb-6 text-lg leading-relaxed">
+                    <h1 class="text-3xl font-bold text-slate-800 mb-4">Instruções do Teste R1</h1>
+                    <p class="text-slate-600 mb-6 text-lg leading-relaxed">
                         Este teste avalia sua capacidade de raciocínio lógico abstrato.
                         Identifique qual das opções completa o raciocínio.
                     </p>
 
-                    <div class="mb-8 p-6 bg-black/40 rounded-xl border border-white/10 text-center"
+                    <div class="mb-8 p-6 bg-slate-50 rounded-xl border border-slate-200 text-center"
                         x-data="{ answered: false, correct: false, selected: null, answer: 'C' }">
                         <h3
-                            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                            <i class="fas fa-lightbulb text-yellow-400"></i> Exemplo Prático
+                            class="text-slate-800 font-bold mb-4 text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                            <i class="fas fa-lightbulb text-yellow-700"></i> Exemplo Prático
                         </h3>
 
                         <div class="flex flex-col items-center gap-6">
                             <img src="../Imagens_base/r1/r1_exemplo.jpg" alt="Exemplo R1"
-                                class="w-full max-w-[400px] rounded-lg border border-white/10 shadow-lg mx-auto">
+                                class="w-full max-w-[400px] rounded-lg border border-slate-200 shadow-lg mx-auto">
 
                             <!-- Opções Interativas -->
                             <div class="w-full max-w-lg" x-show="!answered">
-                                <p class="text-gray-300 text-sm mb-4">Qual a resposta correta?</p>
+                                <p class="text-slate-600 text-sm mb-4">Qual a resposta correta?</p>
                                 <div class="grid grid-cols-6 gap-2">
                                     <template x-for="opt in ['A','B','C','D','E','F']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="aspect-square rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
+                                            class="aspect-square rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-800 shadow-sm font-bold transition flex items-center justify-center hover:scale-105 active:scale-95 group">
                                             <span x-text="opt"
                                                 class="group-hover:text-primary transition-colors"></span>
                                         </button>
@@ -340,24 +346,24 @@
 
                             <!-- Feedback -->
                             <div x-show="answered" x-transition
-                                class="w-full max-w-lg p-4 rounded-xl border bg-black/20"
+                                class="w-full max-w-lg p-4 rounded-xl border bg-slate-50"
                                 :class="correct ? 'border-green-500/30' : 'border-red-500/30'">
 
                                 <div class="flex items-center justify-center gap-2 mb-3 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-700' : 'text-red-700'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
 
-                                <p class="text-gray-300 text-sm leading-relaxed text-left">
+                                <p class="text-slate-600 text-sm leading-relaxed text-left">
                                     Perceba que uma parte da figura está faltando. Logo temos que encontrar a parte que
                                     completa.
-                                    Desta forma o gabarito correto é a <strong class="text-green-400">letra C</strong>,
+                                    Desta forma o gabarito correto é a <strong class="text-green-700">letra C</strong>,
                                     pois ela completa a figura correta do cavalo.
                                 </p>
 
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-500 hover:text-white underline flex items-center justify-center gap-1 mx-auto">
+                                    class="mt-4 text-xs text-slate-600 hover:text-slate-800 underline flex items-center justify-center gap-1 mx-auto">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -365,20 +371,20 @@
                     </div>
 
                     <ul
-                        class="text-left text-gray-400 text-sm space-y-3 mb-8 bg-black/20 p-6 rounded-xl border border-white/5">
-                        <li><i class="fas fa-bolt text-yellow-400 mr-2"></i> Ganhe <strong>XP</strong> acertando
+                        class="text-left text-slate-500 text-sm space-y-3 mb-8 bg-slate-50 p-6 rounded-xl border border-slate-100">
+                        <li><i class="fas fa-bolt text-yellow-700 mr-2"></i> Ganhe <strong>XP</strong> acertando
                             questões!</li>
                         <li><i class="fas fa-fire text-orange-500 mr-2"></i> Mantenha o <strong>Combo (Streak)</strong>
                             para
                             pontuar mais alto.</li>
                         <li><i class="fas fa-clock text-primary mr-2"></i> Você terá <strong>30 minutos</strong> para 40
                             questões.</li>
-                        <li><i class="fas fa-trophy text-purple-400 mr-2"></i> Alcance o rank <strong>DIAMANTE</strong>!
+                        <li><i class="fas fa-trophy text-blue-600 mr-2"></i> Alcance o rank <strong>DIAMANTE</strong>!
                         </li>
                     </ul>
 
                     <button @click="startTest()" :disabled="preparing"
-                        class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-green-500/30 transition transform hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-wait">
+                        class="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-slate-800 font-bold py-4 rounded-xl shadow-lg hover:shadow-green-500/30 transition transform hover:-translate-y-1 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-wait">
                         <template x-if="!preparing">
                             <span class="flex items-center gap-2">COMEÇAR O TESTE <i
                                     class="fas fa-arrow-right"></i></span>
@@ -392,15 +398,15 @@
 
                 <!-- HISTÓRICO (Somente na Intro) -->
                 <div x-show="currentQuestion === 0 && !finished"
-                    class="glass-panel rounded-2xl border border-white/5 overflow-hidden fade-in mt-8 w-full">
-                    <div class="p-6 border-b border-white/5 flex justify-between items-center bg-black/20">
-                        <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
-                        <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                    class="glass-panel rounded-2xl border border-slate-100 overflow-hidden fade-in mt-8 w-full">
+                    <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                        <h3 class="text-lg font-bold text-slate-800">Últimos Resultados</h3>
+                        <button class="text-xs text-blue-600 hover:text-blue-500 font-medium"
                             @click="clearHistory()">Limpar</button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm text-left">
-                            <thead class="text-xs text-gray-500 uppercase bg-black/40">
+                            <thead class="text-xs text-slate-600 uppercase bg-slate-50">
                                 <tr>
                                     <th class="px-6 py-4 font-medium">Data</th>
                                     <th class="px-6 py-4 font-medium text-center">Score</th>
@@ -408,23 +414,23 @@
                                     <th class="px-6 py-4 font-medium text-center">Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-white/5">
+                            <tbody class="divide-y divide-slate-200">
                                 <template x-if="history.length === 0">
                                     <tr>
-                                        <td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum registro
+                                        <td colspan="4" class="px-6 py-10 text-center text-slate-600">Nenhum registro
                                             encontrado.
                                         </td>
                                     </tr>
                                 </template>
                                 <template x-for="(item, index) in history" :key="index">
-                                    <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
-                                        <td class="px-6 py-4 text-gray-300" x-text="item.date"></td>
-                                        <td class="px-6 py-4 text-center font-bold text-white"
+                                    <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-100 transition">
+                                        <td class="px-6 py-4 text-slate-600" x-text="item.date"></td>
+                                        <td class="px-6 py-4 text-center font-bold text-slate-800"
                                             x-text="item.score + '/40'"></td>
                                         <td class="px-6 py-4 text-center font-bold text-[10px] uppercase tracking-wider"
                                             :class="item.rankColor" x-text="item.rank"></td>
                                         <td class="px-6 py-4 text-center font-bold"
-                                            :class="item.score >= 31 ? 'text-green-400' : 'text-red-400'"
+                                            :class="item.score >= 31 ? 'text-green-700' : 'text-red-700'"
                                             x-text="item.score >= 31 ? 'APTO' : 'INAPTO'"></td>
                                     </tr>
                                 </template>
@@ -437,7 +443,7 @@
                 <div x-show="currentQuestion > 0 && !finished" class="flex flex-col gap-6" x-transition>
 
                     <!-- Barra de Progresso Mobile -->
-                    <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden lg:hidden">
+                    <div class="w-full bg-slate-50 h-2 rounded-full overflow-hidden lg:hidden">
                         <div class="bg-primary h-full transition-all duration-500 relative"
                             :style="`width: ${(currentQuestion / 40) * 100}%`">
                             <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
@@ -446,12 +452,12 @@
 
                     <!-- Cabeçalho da Questão -->
                     <div class="flex justify-between items-end px-2">
-                        <h2 class="text-2xl font-bold text-white">Questão <span x-text="currentQuestion"></span><span
-                                class="text-gray-500 text-lg">/40</span></h2>
+                        <h2 class="text-2xl font-bold text-slate-800">Questão <span x-text="currentQuestion"></span><span
+                                class="text-slate-600 text-lg">/40</span></h2>
 
                         <!-- Streak Badge -->
                         <div x-show="streak > 1"
-                            class="flex items-center gap-2 bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full border border-orange-500/30 animate-bounce">
+                            class="flex items-center gap-2 bg-orange-500/20 text-orange-700 px-3 py-1 rounded-full border border-orange-500/30 animate-bounce">
                             <i class="fas fa-fire"></i>
                             <span class="font-bold" x-text="`COMBO ${streak}x`"></span>
                         </div>
@@ -462,12 +468,12 @@
                         :class="{'animate-shake': shake}">
 
                         <!-- Timer centralizado na imagem -->
-                        <div class="mb-4 flex items-center gap-3 bg-black/40 px-5 py-2 rounded-full border border-white/10"
-                            :class="{'border-red-500/50 bg-red-900/20': timeRemaining <= 60}">
-                            <i class="fas fa-clock text-gray-400"
-                                :class="{'text-red-400 animate-pulse': timeRemaining <= 60}"></i>
-                            <div class="font-mono text-xl font-bold text-white tabular-nums leading-none"
-                                :class="{'text-red-400 animate-pulse': timeRemaining <= 60}"
+                        <div class="mb-4 flex items-center gap-3 bg-slate-50 px-5 py-2 rounded-full border border-slate-200"
+                            :class="{'border-red-500 bg-red-50': timeRemaining <= 60}">
+                            <i class="fas fa-clock text-slate-500"
+                                :class="{'text-red-700 animate-pulse': timeRemaining <= 60}"></i>
+                            <div class="font-mono text-xl font-bold text-slate-800 tabular-nums leading-none"
+                                :class="{'text-red-700 animate-pulse': timeRemaining <= 60}"
                                 x-text="formatTime(timeRemaining)">
                             </div>
                         </div>
@@ -481,7 +487,7 @@
                                 class="absolute inset-0 flex items-center justify-center bg-gray-50 z-10">
                                 <div class="flex flex-col items-center gap-3">
                                     <i class="fas fa-circle-notch fa-spin text-4xl text-primary"></i>
-                                    <span class="text-gray-400 text-sm font-medium animate-pulse">Carregando
+                                    <span class="text-slate-500 text-sm font-medium animate-pulse">Carregando
                                         imagem...</span>
                                 </div>
                             </div>
@@ -496,8 +502,8 @@
                         <!-- BOTÕES DE RESPOSTA MOBILE (dentro do card, só em mobile) -->
                         <div class="lg:hidden w-full mt-4 mb-2">
                             <div class="mb-2 flex items-center justify-between">
-                                <span class="text-xs text-gray-400 uppercase tracking-wider font-bold">Sua resposta — Questão <span x-text="currentQuestion"></span></span>
-                                <span class="text-xs text-gray-500" x-text="userAnswers[currentQuestion] ? 'Marcada: ' + userAnswers[currentQuestion] : 'Não marcada'"></span>
+                                <span class="text-xs text-slate-500 uppercase tracking-wider font-bold">Sua resposta — Questão <span x-text="currentQuestion"></span></span>
+                                <span class="text-xs text-slate-600" x-text="userAnswers[currentQuestion] ? 'Marcada: ' + userAnswers[currentQuestion] : 'Não marcada'"></span>
                             </div>
                             <div class="grid grid-cols-4 gap-2">
                                 <template x-for="opt in options" :key="opt">
@@ -505,8 +511,8 @@
                                         class="py-2 rounded-lg text-sm font-black border flex items-center justify-center transition-all active:scale-95"
                                         :class="{
                                             'bg-purple-500 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.5)]': userAnswers[currentQuestion] === opt,
-                                            'border-white/20 text-gray-300 bg-white/5 hover:bg-white/10 hover:border-purple-400': userAnswers[currentQuestion] !== opt && !userAnswers[currentQuestion],
-                                            'border-white/5 text-gray-600 opacity-50': userAnswers[currentQuestion] && userAnswers[currentQuestion] !== opt
+                                            'border-slate-200 text-slate-600 bg-white hover:bg-slate-50 hover:border-purple-400': userAnswers[currentQuestion] !== opt && !userAnswers[currentQuestion],
+                                            'border-slate-100 text-gray-600 opacity-50': userAnswers[currentQuestion] && userAnswers[currentQuestion] !== opt
                                         }">
                                         <span x-text="opt"></span>
                                     </button>
@@ -518,11 +524,11 @@
                         <div class="mt-4 h-12 flex justify-between w-full max-w-3xl px-4">
                             <!-- Prev Button inside card -->
                             <button x-show="currentQuestion > 1" @click="prevQuestion()"
-                                class="text-gray-400 hover:text-white font-medium flex items-center gap-2 transition">
+                                class="text-slate-500 hover:text-slate-800 font-medium flex items-center gap-2 transition">
                                 <i class="fas fa-arrow-left"></i> Anterior
                             </button>
                             <button x-show="userAnswers[currentQuestion]" @click="nextQuestion()"
-                                class="ml-auto flex items-center gap-2 text-primary hover:text-white font-bold tracking-wide transition transform hover:scale-105">
+                                class="ml-auto flex items-center gap-2 text-primary hover:text-slate-800 font-bold tracking-wide transition transform hover:scale-105">
                                 <span
                                     x-text="currentQuestion === 40 ? 'VER RESULTADO FINAL' : 'PRÓXIMA QUESTÃO'"></span>
                                 <i class="fas fa-arrow-right"></i>
@@ -536,15 +542,15 @@
 
                     <div class="text-center mb-10">
                         <div
-                            class="inline-block p-4 mb-4 rounded-full bg-white/5 border border-white/10 shadow-[0_0_30px_rgba(159,84,255,0.2)]">
+                            class="inline-block p-4 mb-4 rounded-full bg-white border border-slate-200 shadow-md">
                             <i
-                                class="fas fa-trophy text-4xl text-yellow-400 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]"></i>
+                                class="fas fa-trophy text-4xl text-yellow-700 drop-shadow-[0_0_10px_rgba(250,204,21,0.5)]"></i>
                         </div>
-                        <h2 class="text-4xl font-black text-white mb-2">RESULTADO DO DESAFIO</h2>
+                        <h2 class="text-4xl font-black text-slate-800 mb-2">RESULTADO DO DESAFIO</h2>
 
                         <!-- Rank Display -->
                         <div class="mt-6">
-                            <span class="text-sm text-gray-400 uppercase tracking-widest font-bold">Patente
+                            <span class="text-sm text-slate-500 uppercase tracking-widest font-bold">Patente
                                 Conquistada</span>
                             <div class="text-5xl md:text-6xl font-black mt-2 bg-clip-text text-transparent bg-gradient-to-r"
                                 :class="rankColor">
@@ -556,21 +562,21 @@
                     <div class="grid md:grid-cols-3 gap-8 mb-10">
                         <!-- Score Card -->
                         <div
-                            class="md:col-span-1 flex flex-col items-center justify-center p-6 bg-black/20 rounded-xl border border-white/5 relative overflow-hidden group hover:border-white/20 transition">
+                            class="md:col-span-1 flex flex-col items-center justify-center p-6 bg-slate-50 rounded-xl border border-slate-100 relative overflow-hidden group hover:border-slate-200 transition">
                             <div
                                 class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition">
                             </div>
 
                             <div class="text-6xl font-black mb-2 relative z-10"
-                                :class="score >= 31 ? 'text-green-400' : 'text-red-500'">
-                                <span x-text="score"></span><span class="text-2xl text-gray-500">/40</span>
+                                :class="score >= 31 ? 'text-green-700' : 'text-red-500'">
+                                <span x-text="score"></span><span class="text-2xl text-slate-600">/40</span>
                             </div>
 
                             <!-- CONDITIONAL STATUS -->
                             <div class="relative z-10 w-full text-center">
                                 <template x-if="score >= 31">
                                     <div
-                                        class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border bg-green-500/10 text-green-400 border-green-500/20 inline-block">
+                                        class="text-xl font-bold uppercase tracking-widest px-4 py-1 rounded-full border bg-green-500/10 text-green-700 border-green-500/20 inline-block">
                                         APROVADO
                                     </div>
                                 </template>
@@ -580,7 +586,7 @@
                                             VOCÊ FICOU<br>INAPTO!
                                         </div>
                                         <div
-                                            class="text-xs text-red-400 font-bold uppercase tracking-widest border border-red-500/20 bg-red-500/10 rounded-full px-3 py-1 inline-block">
+                                            class="text-xs text-red-700 font-bold uppercase tracking-widest border border-red-500/20 bg-red-500/10 rounded-full px-3 py-1 inline-block">
                                             REPROVADO
                                         </div>
                                     </div>
@@ -591,31 +597,31 @@
                         <!-- Stats Grid -->
                         <div class="md:col-span-2 grid grid-cols-2 gap-4">
                             <div
-                                class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition">
-                                <i class="fas fa-bullseye text-green-400 text-2xl mb-2"></i>
-                                <span class="text-gray-400 text-sm">Precisão</span>
-                                <span class="text-2xl font-bold text-white"
+                                class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex flex-col items-center justify-center hover:bg-slate-100 transition">
+                                <i class="fas fa-bullseye text-green-700 text-2xl mb-2"></i>
+                                <span class="text-slate-500 text-sm">Precisão</span>
+                                <span class="text-2xl font-bold text-slate-800"
                                     x-text="Math.round((score/40)*100) + '%'"></span>
                             </div>
 
                             <div
-                                class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition">
-                                <i class="fas fa-fire text-orange-400 text-2xl mb-2"></i>
-                                <span class="text-gray-400 text-sm">Maior Combo</span>
-                                <span class="text-2xl font-bold text-white" x-text="maxStreak + 'x'"></span>
+                                class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex flex-col items-center justify-center hover:bg-slate-100 transition">
+                                <i class="fas fa-fire text-orange-700 text-2xl mb-2"></i>
+                                <span class="text-slate-500 text-sm">Maior Combo</span>
+                                <span class="text-2xl font-bold text-slate-800" x-text="maxStreak + 'x'"></span>
                             </div>
 
                             <div
-                                class="bg-black/20 p-4 rounded-xl border border-white/5 flex flex-col items-center justify-center hover:bg-white/5 transition col-span-2">
-                                <div class="text-sm text-gray-400 mb-1">Status Final</div>
-                                <div class="text-white font-bold" x-text="rankMsg"></div>
+                                class="bg-slate-50 p-4 rounded-xl border border-slate-100 flex flex-col items-center justify-center hover:bg-slate-100 transition col-span-2">
+                                <div class="text-sm text-slate-500 mb-1">Status Final</div>
+                                <div class="text-slate-800 font-bold" x-text="rankMsg"></div>
                             </div>
                         </div>
                     </div>
 
                     <!-- GABARITO DETALHADO -->
                     <div>
-                        <h3 class="text-white font-bold mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                        <h3 class="text-slate-800 font-bold mb-4 flex items-center gap-2 border-b border-slate-200 pb-2">
                             <i class="fas fa-list-ul text-primary"></i> Análise de Performance
                         </h3>
                         <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
@@ -624,18 +630,18 @@
                                     class="p-2 rounded-lg text-center border text-xs flex flex-col gap-1 relative overflow-hidden group transition-all hover:scale-105"
                                     :class="userAnswers[index] === ans ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
 
-                                    <span class="font-bold text-gray-500 absolute top-0.5 left-1 text-[8px]"
+                                    <span class="font-bold text-slate-600 absolute top-0.5 left-1 text-[8px]"
                                         x-text="index"></span>
 
                                     <div class="mt-2 text-sm font-black"
-                                        :class="userAnswers[index] === ans ? 'text-green-400' : 'text-red-400'">
+                                        :class="userAnswers[index] === ans ? 'text-green-700' : 'text-red-700'">
                                         <span x-text="userAnswers[index] || '-'"></span>
                                     </div>
 
                                     <!-- Mostra a correta se errou -->
                                     <div x-show="userAnswers[index] !== ans"
-                                        class="text-[10px] text-gray-400 border-t border-white/5 pt-0.5 mt-1">
-                                        Era: <span x-text="ans" class="text-white font-bold"></span>
+                                        class="text-[10px] text-slate-500 border-t border-slate-100 pt-0.5 mt-1">
+                                        Era: <span x-text="ans" class="text-slate-800 font-bold"></span>
                                     </div>
                                 </div>
                             </template>
@@ -644,12 +650,12 @@
 
                     <div class="mt-10 flex justify-center gap-4">
                         <a href="testes_inteligencia_PMCE.html"
-                            class="px-6 py-3 rounded-xl border border-white/10 text-gray-300 hover:bg-white/5 transition group">
+                            class="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 transition group">
                             <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i>
                             Voltar
                         </a>
                         <button @click="location.reload()"
-                            class="px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold hover:shadow-[0_0_20px_rgba(159,84,255,0.4)] transition transform hover:scale-105">
+                            class="px-8 py-3 rounded-xl bg-gradient-to-r from-primary to-secondary text-slate-800 font-bold hover:shadow-[0_0_20px_rgba(159,84,255,0.4)] transition transform hover:scale-105">
                             <i class="fas fa-redo-alt mr-2"></i> Tentar Novamente
                         </button>
                     </div>
@@ -659,18 +665,18 @@
 
             <!-- COLUNA DIREITA: Navegação / Gabarito -->
             <aside class="hidden lg:block sticky top-24" x-show="currentQuestion > 0 && !finished">
-                <div class="glass-panel p-6 rounded-xl border border-white/10 shadow-xl w-full">
-                    <h3 class="text-white font-bold mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
-                        <i class="fas fa-th text-purple-400"></i> Gabarito
+                <div class="glass-panel p-6 rounded-xl border border-slate-200 shadow-xl w-full">
+                    <h3 class="text-slate-800 font-bold mb-4 flex items-center gap-2 text-sm uppercase tracking-wider">
+                        <i class="fas fa-th text-blue-600"></i> Gabarito
                     </h3>
 
                     <div class="flex flex-col gap-2 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
                         <template x-for="q in 40" :key="q">
                             <div class="p-3 rounded-lg border transition-all"
-                                :class="currentQuestion === q ? 'bg-white/10 border-purple-500/50' : 'bg-black/20 border-white/5 hover:bg-white/5'">
+                                :class="currentQuestion === q ? 'bg-slate-50 border-purple-500/50' : 'bg-slate-50 border-slate-100 hover:bg-slate-100'">
 
                                 <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs font-bold text-gray-400 cursor-pointer hover:text-white"
+                                    <span class="text-xs font-bold text-slate-500 cursor-pointer hover:text-slate-800"
                                         @click="jumpToQuestion(q)" x-text="'QUESTÃO ' + q"></span>
 
                                     <!-- Status icon -->
@@ -684,9 +690,9 @@
                                         <button @click="selectAnswer(q, opt)" :disabled="userAnswers[q]"
                                             class="h-6 rounded text-[10px] font-bold transition-all border flex items-center justify-center transform hover:scale-105"
                                             :class="{
-                                                'bg-white/10 text-gray-400 border-white/10 hover:bg-white/20': !userAnswers[q],
+                                                'bg-slate-50 text-slate-500 border-slate-200 hover:bg-white/20': !userAnswers[q],
                                                 'bg-purple-600 text-white border-purple-500 shadow-[0_0_5px_rgba(168,85,247,0.5)]': userAnswers[q] === opt,
-                                                'bg-black/40 text-gray-600 border-transparent': userAnswers[q] && userAnswers[q] !== opt
+                                                'bg-slate-50 text-gray-600 border-transparent': userAnswers[q] && userAnswers[q] !== opt
                                             }">
                                             <span x-text="opt"></span>
                                         </button>
@@ -697,12 +703,12 @@
                     </div>
 
                     <!-- Mini Stats Footer -->
-                    <div class="mt-6 pt-4 border-t border-white/10">
-                        <div class="flex justify-between text-xs text-gray-400 mb-2">
+                    <div class="mt-6 pt-4 border-t border-slate-200">
+                        <div class="flex justify-between text-xs text-slate-500 mb-2">
                             <span>Progresso</span>
                             <span x-text="Object.keys(userAnswers).length + '/40'"></span>
                         </div>
-                        <div class="w-full bg-black/40 h-1.5 rounded-full overflow-hidden">
+                        <div class="w-full bg-slate-50 h-1.5 rounded-full overflow-hidden">
                             <div class="bg-green-500 h-full transition-all duration-500"
                                 :style="`width: ${(Object.keys(userAnswers).length / 40) * 100}%`"></div>
                         </div>

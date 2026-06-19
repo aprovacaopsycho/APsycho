@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>TEADI (Simulador) | Aprovação Psycho</title>
+    <meta name="color-scheme" content="light" />
+    <title>TEADI (Simulador) | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -22,24 +22,24 @@
 
     <style>
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
         }
 
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg-dark);
-            color: #a0a0a0;
+            color: #334155;
             user-select: none;
         }
 
         /* ---- HERO (glass + grid) ---- */
         .hero-bg {
             position: relative;
-            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-image: linear-gradient(180deg, rgba(248, 250, 252, .85), rgba(248, 250, 252, .95)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -52,9 +52,9 @@
             inset: -10%;
             z-index: -1;
             opacity: .35;
-            background: radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
-                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
-                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            background: radial-gradient(600px 200px at 10% 0%, rgba(37, 99, 235, .05), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(14, 165, 233, .05), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             filter: blur(40px);
             pointer-events: none;
         }
@@ -82,7 +82,7 @@
         }
 
         .hit-zone:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.04);
             border-radius: 4px;
         }
 
@@ -120,7 +120,7 @@
         .glass-panel {
             background: rgba(28, 27, 41, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
@@ -222,25 +222,25 @@
 
 <body class="min-h-screen flex flex-col hero-bg" x-data="teadiSim()">
 
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:white">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">TESTE <span
+                    <span class="text-xl font-black" style="color:white">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">TESTE <span
                             class="text-[var(--accent-blue)]">TEADI</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
                 <a href="../testes_atencao_PMCE.html"
-                    class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                    class="text-sm text-[var(--accent-blue)] hover:text-slate-800 flex items-center gap-2 font-bold transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -254,13 +254,13 @@
     <main class="flex-grow pt-24 pb-12 px-4 flex flex-col items-center justify-center relative w-full">
         <!-- Control Panel -->
         <div class="fixed top-24 left-4 z-50 glass-panel p-4 rounded-lg flex flex-col gap-4">
-            <h3 class="text-white font-bold text-lg">Debug Menu</h3>
-            <div class="text-xs text-gray-400">
+            <h3 class="text-slate-800 font-bold text-lg">Debug Menu</h3>
+            <div class="text-xs text-slate-500">
                 <p>Targets (1): <span x-text="config.items.filter(i => i.t === 1).length"
-                        class="text-green-400 font-bold"></span></p>
+                        class="text-green-700 font-bold"></span></p>
                 <p>Distractors (0): <span x-text="config.items.filter(i => i.t === 0).length"
-                        class="text-red-400 font-bold"></span></p>
-                <p>Total: <span x-text="config.items.length" class="text-blue-400 font-bold"></span></p>
+                        class="text-red-700 font-bold"></span></p>
+                <p>Total: <span x-text="config.items.length" class="text-blue-600 font-bold"></span></p>
             </div>
             <button @click="exportJSON()"
                 class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded font-bold transition text-sm">
@@ -268,14 +268,14 @@
             </button>
 
             <!-- Movimentação -->
-            <div class="border-t border-white/10 pt-4 mt-2">
-                <h4 class="text-xs font-bold text-gray-300 mb-3 uppercase flex items-center gap-2">
+            <div class="border-t border-slate-200 pt-4 mt-2">
+                <h4 class="text-xs font-bold text-slate-600 mb-3 uppercase flex items-center gap-2">
                     <i class="fas fa-arrows-alt"></i> Movimentação
                 </h4>
 
                 <!-- Global -->
                 <div class="mb-3 bg-white/5 p-2 rounded">
-                    <div class="text-[10px] text-gray-400 font-bold mb-1 uppercase">Global (Todos)</div>
+                    <div class="text-[10px] text-slate-500 font-bold mb-1 uppercase">Global (Todos)</div>
                     <div class="flex gap-1 justify-center">
                         <button @click="moveGlobal(0, -1)"
                             class="p-1.5 bg-gray-700/50 rounded hover:bg-purple-600 transition"><i
@@ -295,9 +295,9 @@
                 <!-- Linha -->
                 <div class="mb-3 bg-white/5 p-2 rounded" :class="{'ring-1 ring-yellow-500': activeMode === 'row'}">
                     <div class="flex justify-between items-center mb-1">
-                        <label class="text-[10px] text-gray-400 font-bold uppercase">Linha (0-29)</label>
+                        <label class="text-[10px] text-slate-500 font-bold uppercase">Linha (0-29)</label>
                         <input type="number" x-model="selectedRow" @focus="activeMode = 'row'" min="0" max="29"
-                            class="w-12 bg-black/50 border border-white/10 rounded px-1 text-xs text-center text-yellow-400 font-bold">
+                            class="w-12 bg-white/80 border border-slate-200 rounded px-1 text-xs text-center text-yellow-700 font-bold">
                     </div>
                     <div class="flex gap-1 justify-center">
                         <button @click="moveRow(selectedRow, 0, -1); activeMode = 'row'"
@@ -318,9 +318,9 @@
                 <!-- Coluna -->
                 <div class="mb-1 bg-white/5 p-2 rounded" :class="{'ring-1 ring-cyan-500': activeMode === 'col'}">
                     <div class="flex justify-between items-center mb-1">
-                        <label class="text-[10px] text-gray-400 font-bold uppercase">Coluna (0-14)</label>
+                        <label class="text-[10px] text-slate-500 font-bold uppercase">Coluna (0-14)</label>
                         <input type="number" x-model="selectedCol" @focus="activeMode = 'col'" min="0" max="14"
-                            class="w-12 bg-black/50 border border-white/10 rounded px-1 text-xs text-center text-cyan-400 font-bold">
+                            class="w-12 bg-white/80 border border-slate-200 rounded px-1 text-xs text-center text-blue-500 font-bold">
                     </div>
                     <div class="flex gap-1 justify-center">
                         <button @click="moveCol(selectedCol, 0, -1); activeMode = 'col'"

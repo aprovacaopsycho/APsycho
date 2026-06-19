@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>CTA-AC (Simulador Final) | Aprovação Psycho</title>
+    <meta name="color-scheme" content="light" />
+    <title>CTA-AC (Simulador Final) | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -23,17 +23,17 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg-dark);
-            color: #a0a0a0;
+            color: #334155;
         }
 
         /* Particles */
@@ -91,7 +91,7 @@
         .hero-bg {
             position: relative;
             isolation: isolate;
-            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-image: linear-gradient(180deg, rgba(248, 250, 252, .85), rgba(248, 250, 252, .95)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -106,9 +106,9 @@
             z-index: -1;
             opacity: .35;
             background:
-                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
-                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
-                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+                radial-gradient(600px 200px at 10% 0%, rgba(37, 99, 235, .05), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(14, 165, 233, .05), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             filter: blur(40px);
             pointer-events: none
         }
@@ -151,7 +151,7 @@
         }
 
         .hit-zone:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.04);
         }
 
         /* Marcação (Traço Azul) */
@@ -259,33 +259,33 @@
         <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
     </div>
 
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">CTA-AC <span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">CTA-AC <span
                             class="text-[var(--accent-pink)]">SIMULADOR</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-6">
                 <!-- User Info -->
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
 
                 <div class="flex items-center gap-4">
                     <a href="../testes_atencao_PMCE.html"
-                        class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                        class="text-sm text-[var(--accent-blue)] hover:text-slate-800 flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -303,15 +303,15 @@
     <main class="flex-grow w-full mx-auto px-4 py-8">
 
         <div x-show="state === 'instructions'" class="max-w-4xl mx-auto fade-in mt-10">
-            <div class="bg-[#151427] rounded-2xl p-8 border border-white/5 text-center shadow-2xl backdrop-blur-sm">
-                <h1 class="text-3xl font-black text-white mb-4">CTA-AC - Atenção Concentrada</h1>
-                <p class="text-gray-400 mb-8 text-lg">Faça um traço (clique) em todas as figuras iguais ao modelo. Para
+            <div class="bg-white rounded-2xl p-8 border border-slate-100 text-center shadow-2xl backdrop-blur-sm">
+                <h1 class="text-3xl font-black text-slate-800 mb-4">CTA-AC - Atenção Concentrada</h1>
+                <p class="text-slate-500 mb-8 text-lg">Faça um traço (clique) em todas as figuras iguais ao modelo. Para
                     anular o erro circule (clique duplo).</p>
 
                 <div class="flex justify-center mb-8">
                     <div class="flex flex-col items-center gap-3">
                         <div
-                            class="p-4 bg-white/5 rounded-lg flex items-center justify-center shadow-[0_0_25px_rgba(255,255,255,0.05)] border border-white/10">
+                            class="p-4 bg-white rounded-lg flex items-center justify-center shadow-lg border border-slate-200">
                             <img src="../../Imagens_base/cta/modelo_cta.png" alt="Modelo Alvo"
                                 class="h-24 w-auto object-contain">
                         </div>
@@ -321,59 +321,59 @@
                 </div>
 
                 <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left bg-black/20 p-6 rounded-xl max-w-xl mx-auto mb-8 border border-white/5">
-                    <p class="text-gray-300 flex items-center"><i class="fas fa-clock text-cyan-400 w-6"></i> Tempo:
+                    class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left bg-slate-50 p-6 rounded-xl max-w-xl mx-auto mb-8 border border-slate-200">
+                    <p class="text-slate-600 flex items-center"><i class="fas fa-clock text-blue-500 w-6"></i> Tempo:
                         <strong>1 Minuto</strong>.
                     </p>
-                    <p class="text-gray-300 flex items-center"><i class="fas fa-trophy text-yellow-400 w-6"></i> Meta:
+                    <p class="text-slate-600 flex items-center"><i class="fas fa-trophy text-yellow-700 w-6"></i> Meta:
                         <strong>32 Pontos</strong>.
                     </p>
-                    <p class="text-gray-300 flex items-center"><i class="fas fa-calculator text-green-400 w-6"></i>
+                    <p class="text-slate-600 flex items-center"><i class="fas fa-calculator text-green-700 w-6"></i>
                         Pontos = Acertos - (Erros + Omissões).</p>
-                    <p class="text-gray-300 flex items-center"><i class="fas fa-lock text-red-400 w-6"></i>
+                    <p class="text-slate-600 flex items-center"><i class="fas fa-lock text-red-700 w-6"></i>
                         <strong>Atenção:</strong> Seleção definitiva.
                     </p>
                 </div>
 
                 <button @click="startVoiceCommand()" x-show="!preparing"
-                    class="px-12 py-4 rounded-xl text-xl font-bold text-white bg-gradient-to-r from-purple-600 to-blue-500 shadow-lg hover:scale-105 transition transform hover:shadow-purple-500/50">
+                    class="px-12 py-4 rounded-xl text-xl font-bold text-slate-800 bg-gradient-to-r from-purple-600 to-blue-500 shadow-lg hover:scale-105 transition transform hover:shadow-purple-500/50">
                     INICIAR TESTE
                 </button>
 
                 <div x-show="preparing" class="text-center animate-pulse">
-                    <p class="text-xl text-purple-400 font-bold mb-2">Ouvindo comando de voz...</p>
-                    <p class="text-gray-400 text-sm">"Preparar... Começar!"</p>
+                    <p class="text-xl text-blue-600 font-bold mb-2">Ouvindo comando de voz...</p>
+                    <p class="text-slate-500 text-sm">"Preparar... Começar!"</p>
                 </div>
 
                 <!-- HISTÓRICO -->
-                <div class="mt-8 border-t border-white/5 pt-6 text-left">
+                <div class="mt-8 border-t border-slate-100 pt-6 text-left">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
-                        <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                        <h3 class="text-lg font-bold text-slate-800">Últimos Resultados</h3>
+                        <button class="text-xs text-blue-600 hover:text-blue-500 font-medium"
                             @click="clearHistory()">Limpar</button>
                     </div>
                     <div class="overflow-x-auto max-h-40">
                         <table class="w-full text-sm text-left">
-                            <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                            <thead class="text-xs text-slate-500 uppercase bg-slate-100">
                                 <tr>
-                                    <th class="px-4 py-2 text-gray-400">Data</th>
-                                    <th class="px-4 py-2 text-center text-gray-400">Score</th>
-                                    <th class="px-4 py-2 text-center text-gray-400">Status</th>
+                                    <th class="px-4 py-2 text-slate-500">Data</th>
+                                    <th class="px-4 py-2 text-center text-slate-500">Score</th>
+                                    <th class="px-4 py-2 text-center text-slate-500">Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-white/5">
+                            <tbody class="divide-y divide-slate-200">
                                 <template x-if="history.length === 0">
                                     <tr>
-                                        <td colspan="3" class="px-4 py-4 text-center text-gray-500">Nenhum registro.
+                                        <td colspan="3" class="px-4 py-4 text-center text-slate-600">Nenhum registro.
                                         </td>
                                     </tr>
                                 </template>
                                 <template x-for="(item, index) in history" :key="index">
-                                    <tr class="hover:bg-white/5 transition">
-                                        <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
-                                        <td class="px-4 py-2 text-center font-bold text-white" x-text="item.score"></td>
+                                    <tr class="hover:bg-slate-100 transition">
+                                        <td class="px-4 py-2 text-slate-600 text-xs" x-text="item.date"></td>
+                                        <td class="px-4 py-2 text-center font-bold text-slate-800" x-text="item.score"></td>
                                         <td class="px-4 py-2 text-center font-bold text-xs"
-                                            :class="item.passed ? 'text-green-400' : 'text-red-400'"
+                                            :class="item.passed ? 'text-green-700' : 'text-red-700'"
                                             x-text="item.passed ? 'APTO' : 'INAPTO'"></td>
                                     </tr>
                                 </template>
@@ -388,20 +388,20 @@
 
             <!-- Unified Fixed Timer -->
             <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
-                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
-                    :class="{'border-red-500 bg-red-900/40': time <= 10}">
-                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
-                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
-                        :class="{'text-red-400 animate-pulse': time <= 10}" x-text="formatTime(time)"></div>
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-slate-200 bg-white/90 backdrop-blur-md"
+                    :class="{'border-red-500 bg-red-50/90': time <= 10}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Restante</div>
+                    <div class="font-mono text-3xl font-black text-slate-800 tabular-nums leading-none"
+                        :class="{'text-red-700 animate-pulse': time <= 10}" x-text="formatTime(time)"></div>
                 </div>
             </div>
 
             <div
-                class="sticky top-0 z-[100] bg-[#100f1c]/90 backdrop-blur-md border-b border-white/10 shadow-2xl p-3 mb-6">
+                class="sticky top-0 z-[100] bg-slate-50/90 backdrop-blur-md border-b border-slate-200 shadow-2xl p-3 mb-6">
                 <div class="max-w-5xl mx-auto flex justify-between items-center">
 
-                    <div class="flex items-center  gap-4 bg-black/40 px-4 py-2 rounded-lg border border-white/10">
-                        <span class="text-xs font-bold text-gray-400 uppercase hidden sm:inline">ALVO:</span>
+                    <div class="flex items-center  gap-4 bg-white/80 px-4 py-2 rounded-lg border border-slate-200">
+                        <span class="text-xs font-bold text-slate-500 uppercase hidden sm:inline">ALVO:</span>
                         <div
                             class="h-14 w-14 bg-white/10 rounded flex items-center justify-center overflow-hidden border border-white/20">
                             <img src="../../Imagens_base/cta/modelo_cta.png" class="h-full w-full object-contain p-1">
@@ -412,7 +412,7 @@
                         <!-- Timer Removed from here -->
 
                         <button @click="finishTest()"
-                            class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/50 px-6 py-3 rounded-lg font-bold text-sm transition hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                            class="bg-red-500/10 hover:bg-red-500/20 text-red-700 border border-red-500/50 px-6 py-3 rounded-lg font-bold text-sm transition hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]">
                             FINALIZAR
                         </button>
                     </div>
@@ -442,14 +442,14 @@
         </div>
 
         <div x-show="state === 'results'" x-cloak class="max-w-5xl mx-auto mt-10 pb-20 fade-in">
-            <div class="bg-[#1a1a2e]/90 backdrop-blur-md rounded-2xl p-8 border border-white/5 text-center shadow-2xl">
-                <h2 class="text-3xl font-black text-white mb-6">SEU DESEMPENHO</h2>
+            <div class="bg-white/90 backdrop-blur-md rounded-2xl p-8 border border-slate-100 text-center shadow-2xl">
+                <h2 class="text-3xl font-black text-slate-800 mb-6">SEU DESEMPENHO</h2>
 
                 <div class="flex flex-col items-center justify-center mb-8">
                     <!-- APROVADO -->
                     <template x-if="results.score >= 32">
                         <span
-                            class="px-8 py-3 rounded-full text-2xl font-bold border flex items-center gap-3 transition-all bg-green-500/10 text-green-400 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
+                            class="px-8 py-3 rounded-full text-2xl font-bold border flex items-center gap-3 transition-all bg-green-500/10 text-green-700 border-green-500/50 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
                             <i class="fas fa-check-circle"></i>
                             <span>APTO</span>
                         </span>
@@ -462,7 +462,7 @@
                                 VOCÊ FICOU<br>INAPTO!
                             </div>
                             <span
-                                class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/10 text-red-400 border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                                class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/10 text-red-700 border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
                                 <i class="fas fa-times-circle mr-2"></i> REPROVADO
                             </span>
                         </div>
@@ -471,36 +471,36 @@
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <div
-                        class="bg-[#151427] p-4 rounded-xl border border-white/5 hover:border-purple-500/30 transition-all">
-                        <div class="text-sm text-gray-500 font-bold uppercase">Acertos</div>
-                        <div class="text-3xl font-bold text-green-400" x-text="results.hits"></div>
+                        class="bg-white p-4 rounded-xl border border-slate-100 hover:border-blue-200 transition-all">
+                        <div class="text-sm text-slate-600 font-bold uppercase">Acertos</div>
+                        <div class="text-3xl font-bold text-green-700" x-text="results.hits"></div>
                     </div>
                     <div
-                        class="bg-[#151427] p-4 rounded-xl border border-white/5 hover:border-purple-500/30 transition-all">
-                        <div class="text-sm text-gray-500 font-bold uppercase">Erros</div>
-                        <div class="text-3xl font-bold text-red-400" x-text="results.errors"></div>
+                        class="bg-white p-4 rounded-xl border border-slate-100 hover:border-blue-200 transition-all">
+                        <div class="text-sm text-slate-600 font-bold uppercase">Erros</div>
+                        <div class="text-3xl font-bold text-red-700" x-text="results.errors"></div>
                     </div>
                     <div
-                        class="bg-[#151427] p-4 rounded-xl border border-white/5 hover:border-purple-500/30 transition-all">
-                        <div class="text-sm text-gray-500 font-bold uppercase">Omissões</div>
-                        <div class="text-3xl font-bold text-yellow-400" x-text="results.omissions"></div>
+                        class="bg-white p-4 rounded-xl border border-slate-100 hover:border-blue-200 transition-all">
+                        <div class="text-sm text-slate-600 font-bold uppercase">Omissões</div>
+                        <div class="text-3xl font-bold text-yellow-700" x-text="results.omissions"></div>
                         <div class="text-[10px] text-gray-600 mt-1">Até o último clique</div>
                     </div>
                     <div
-                        class="bg-gradient-to-br from-purple-900/50 to-blue-900/50 p-4 rounded-xl border border-purple-500/30 relative overflow-hidden">
-                        <div class="text-sm text-white font-bold uppercase relative z-10">Pontuação</div>
-                        <div class="text-4xl font-black text-white relative z-10" x-text="results.score"></div>
-                        <div class="text-[10px] text-cyan-300 mt-1 relative z-10">Meta: 32</div>
+                        class="bg-gradient-to-br from-purple-50 to-blue-50 p-4 rounded-xl border border-blue-200 relative overflow-hidden">
+                        <div class="text-sm text-slate-800 font-bold uppercase relative z-10">Pontuação</div>
+                        <div class="text-4xl font-black text-slate-800 relative z-10" x-text="results.score"></div>
+                        <div class="text-[10px] text-blue-600 mt-1 relative z-10">Meta: 32</div>
                         <div class="absolute inset-0 bg-white/5 blur-xl"></div>
                     </div>
                 </div>
 
-                <button @click="showVisualReview()" class="mb-8 text-blue-400 underline hover:text-white transition">
+                <button @click="showVisualReview()" class="mb-8 text-blue-600 underline hover:text-slate-800 transition">
                     <i class="fas fa-eye mr-2"></i> Ver Correção na Imagem
                 </button>
 
                 <div x-show="reviewMode"
-                    class="flex justify-center overflow-auto border-t border-white/10 pt-8 animate-fade-in-up">
+                    class="flex justify-center overflow-auto border-t border-slate-200 pt-8 animate-fade-in-up">
                     <div class="test-paper-container relative">
                         <div class="absolute inset-0 bg-black/20"></div>
                         <div class="items-layer">
@@ -526,7 +526,7 @@
 
                 <div class="mt-8 flex justify-center gap-4">
                     <button onclick="location.reload()"
-                        class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-bold rounded-lg transition">
+                        class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-slate-800 font-bold rounded-lg transition">
                         Tentar Novamente
                     </button>
                 </div>

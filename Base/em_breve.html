@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Em Breve | Aprovação Psycho</title>
+    <title>Em Breve | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
+            background: var(--bg-dark);
             color: white;
             overflow-x: hidden;
         }
@@ -103,7 +103,7 @@
         .glass-card {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
         }
     </style>
@@ -128,20 +128,20 @@
     <div class="glass-card p-10 rounded-2xl max-w-md w-full relative overflow-hidden z-10">
         <!-- Glow effect -->
         <div
-            class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 shadow-[0_0_20px_rgba(168,85,247,0.5)]">
         </div>
 
         <div class="mb-6 flex justify-center">
-            <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
-                <i class="fas fa-clock text-3xl text-purple-400"></i>
+            <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center border border-slate-200">
+                <i class="fas fa-clock text-3xl text-blue-600"></i>
             </div>
         </div>
 
-        <h1 class="text-3xl font-bold mb-2 text-white">Em Manutenção</h1>
-        <p class="text-gray-400 mb-8">Este módulo está passando por ajustes finais e estará disponível em breve.</p>
+        <h1 class="text-3xl font-bold mb-2 text-slate-800">Em Manutenção</h1>
+        <p class="text-slate-500 mb-8">Este módulo está passando por ajustes finais e estará disponível em breve.</p>
 
         <a href="testes_personalidade_PMCE.html"
-            class="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-purple-300 transition">
+            class="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-500 transition">
             <i class="fas fa-arrow-left"></i>
             VOLTAR PARA O MENU
         </a>

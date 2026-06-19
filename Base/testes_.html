@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Central de Testes — Aprovação Psycho</title>
+    <title>Central de Testes — Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../favicon.png" />
 
     <!-- SEGURANÇA COM PROTEÇÃO DE ERRO -->
@@ -41,10 +41,19 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         /* Fundo e Estrutura */
+        :root {
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --text-light: #1E293B;
+        }
+
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
-            color: #e2e8f0;
+            background: var(--bg-dark);
+            color: #334155;
             overflow-x: hidden;
         }
 
@@ -135,7 +144,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #f1f5f9;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -151,7 +160,7 @@
         .glass-panel {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
@@ -170,7 +179,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.04), transparent);
             transition: 0.6s;
         }
 
@@ -255,20 +264,20 @@
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none"><span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none"><span
                             class="text-[var(--accent-pink)]">2026</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
 
             <!-- Navegação do Topo -->
             <div class="flex items-center gap-4">
                 <!-- Botão Voltar -->
-                <a href="index.html" class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                <a href="index.html" class="text-sm text-slate-500 hover:text-slate-800 flex items-center gap-2 transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -291,9 +300,9 @@
                 <h1 class="text-5xl md:text-7xl font-black mb-6 tracking-tight">
                     <span class="gradient-text">Bateria de Testes</span>
                 </h1>
-                <p class="text-xl text-gray-400 max-w-2xl mx-auto font-light">
+                <p class="text-xl text-slate-500 max-w-2xl mx-auto font-light">
                     Selecione a categoria de testes que deseja praticar para o concurso da <span
-                        class="text-blue-400 font-semibold">Base</span>.
+                        class="text-blue-600 font-semibold">Base</span>.
                 </p>
             </div>
 
@@ -316,7 +325,7 @@
                         </div>
                         <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-accent transition-colors">Testes
                             de Personalidade</h2>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                        <p class="text-slate-500 text-sm mb-4 flex-grow leading-relaxed">
                             NEO PI-R, Palográfico, BFP e IFP-II.
                         </p>
                         <div class="flex items-center text-accent text-sm font-bold tracking-wide mt-auto">
@@ -342,7 +351,7 @@
                         </div>
                         <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-cyan transition-colors">Testes de
                             Atenção</h2>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                        <p class="text-slate-500 text-sm mb-4 flex-grow leading-relaxed">
                             Atenção Concentrada, Difusa e Discriminativa.
                         </p>
                         <div class="flex items-center text-cyan text-sm font-bold tracking-wide mt-auto">
@@ -368,7 +377,7 @@
                         </div>
                         <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-success transition-colors">Testes
                             de Memória</h2>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                        <p class="text-slate-500 text-sm mb-4 flex-grow leading-relaxed">
                             Memória Visual, Auditiva e de Faces.
                         </p>
                         <div class="flex items-center text-success text-sm font-bold tracking-wide mt-auto">
@@ -382,22 +391,22 @@
                 <a href="testes_inteligencia_PMCE.html"
                     class="glass-panel hover-card rounded-2xl p-1 cursor-pointer group relative overflow-hidden min-h-[220px] flex flex-col">
                     <div
-                        class="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-purple-500/20 transition-all duration-700">
+                        class="absolute top-0 right-0 w-64 h-64 bg-blue-50 blur-[60px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-purple-500/20 transition-all duration-700">
                     </div>
                     <div class="p-8 flex flex-col h-full relative z-10">
                         <div class="flex justify-between items-start mb-6">
                             <div
                                 class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-600/10 flex items-center justify-center border border-purple-500/20 group-hover:border-purple-500/50 transition-colors">
                                 <i
-                                    class="fas fa-lightbulb text-2xl text-purple-400 icon-glow transition-transform duration-500"></i>
+                                    class="fas fa-lightbulb text-2xl text-blue-600 icon-glow transition-transform duration-500"></i>
                             </div>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">
+                        <h2 class="text-2xl font-bold text-white mb-2 group-hover:text-blue-600 transition-colors">
                             Inteligência e Raciocínio</h2>
-                        <p class="text-gray-400 text-sm mb-4 flex-grow leading-relaxed">
+                        <p class="text-slate-500 text-sm mb-4 flex-grow leading-relaxed">
                             Teste R1 e outros testes de raciocínio.
                         </p>
-                        <div class="flex items-center text-purple-400 text-sm font-bold tracking-wide mt-auto">
+                        <div class="flex items-center text-blue-600 text-sm font-bold tracking-wide mt-auto">
                             ACESSAR
                             <i class="fas fa-chevron-right ml-2 group-hover:translate-x-1 transition-transform"></i>
                         </div>
@@ -411,8 +420,8 @@
 
     </main>
 
-    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
-        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    <footer class="border-t border-slate-200 mt-auto py-8 bg-slate-50 text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico. Todos direitos reservados.
     </footer>
 
 </body>

@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>Aulas - Módulo Base | Aprovação Psycho</title>
+    <meta name="color-scheme" content="light" />
+    <title>Aulas - Módulo Base | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../favicon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,19 +19,19 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --header-hover: #2a2938;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --border-color: rgba(0, 0, 0, 0.04);
+            --header-hover: #F1F5F9;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
-            color: #a0a0a0;
+            background: var(--bg-dark);
+            color: #334155;
             overflow-x: hidden;
         }
 
@@ -159,7 +159,7 @@
         }
 
         .lesson-info h3 {
-            color: white;
+            color: #1e293b;
             font-weight: 700;
             font-size: 1.125rem;
             margin-bottom: 0.25rem;
@@ -213,7 +213,7 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.02);
         }
 
         .collapse-container.active .collapse-body {
@@ -227,7 +227,7 @@
 
         /* Video Placeholders */
         .video-wrapper {
-            background: #000;
+            background: var(--bg-dark);
             border-radius: 8px;
             overflow: hidden;
             position: relative;
@@ -284,23 +284,23 @@
     </div>
 
     <!-- HEADER -->
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[#9f54ff] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-slate-200 object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:#a0a0a0">APROVAÇÃO <span
-                            style="color:#ff00ff;text-shadow:0 0 8px #ff00ff">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none"><span
-                            class="text-[#ff00ff]">2026</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-xl font-black" style="color:#1e293b">GRUPO DE ESTUDOS <span
+                            style="color:#2563eb">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none"><span
+                            class="text-[#2563eb]">2026</span></span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
             <a href="index.html"
-                class="text-sm font-bold text-cyan-400 hover:text-white transition flex items-center gap-2">
+                class="text-sm font-bold text-blue-500 hover:text-slate-800 transition flex items-center gap-2">
                 <i class="fas fa-arrow-left"></i> Voltar ao Base
             </a>
         </div>
@@ -309,10 +309,10 @@
     <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
 
         <div class="text-center mb-10">
-            <h1 class="text-3xl sm:text-4xl font-black text-white mb-2">Aulas <span
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-800 mb-2">Aulas <span
                     class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Ao Vivo</span>
             </h1>
-            <p class="text-gray-400">Marque as aulas concluídas para acompanhar seu progresso.</p>
+            <p class="text-slate-500">Marque as aulas concluídas para acompanhar seu progresso.</p>
         </div>
 
         <div class="space-y-4">
@@ -344,14 +344,14 @@
                             <!-- TOPICS -->
                             <div class="mb-6">
                                 <h4
-                                    class="text-xs font-bold text-gray-500 uppercase mb-3 border-b border-gray-800 pb-1">
+                                    class="text-xs font-bold text-slate-600 uppercase mb-3 border-b border-gray-800 pb-1">
                                     Tópicos da Aula</h4>
-                                <ul class="space-y-2 text-sm text-gray-300">
+                                <ul class="space-y-2 text-sm text-slate-600">
                                     <template x-for="topic in lesson.topics">
                                         <li class="flex items-start gap-2">
                                             <template x-if="topic.type === 'break'">
                                                 <span
-                                                    class="w-full text-center text-xs italic text-gray-500 py-1 bg-white/5 rounded my-1 border border-white/5">
+                                                    class="w-full text-center text-xs italic text-slate-600 py-1 bg-white/5 rounded my-1 border border-slate-100">
                                                     <i class="fas fa-coffee mr-1"></i> Intervalo
                                                 </span>
                                             </template>
@@ -396,8 +396,8 @@
 
     </main>
 
-    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
-        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    <footer class="border-t border-slate-200 mt-auto py-8 bg-slate-50 text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico. Todos direitos reservados.
     </footer>
 
     <script>

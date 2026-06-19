@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DEBUG BFP | Aprovação Psycho</title>
+    <title>DEBUG BFP | Grupo de Estudos para Psicotécnico</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
         .glass-panel {
             background: rgba(21, 20, 39, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.02);
         }
 
         .text-gradient {
@@ -113,12 +113,12 @@
             <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
                 <div
                     class="w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center shadow-lg shadow-red-500/20">
-                    <i class="fas fa-bug text-white text-lg"></i>
+                    <i class="fas fa-bug text-slate-900 text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-xl text-white tracking-wide">APROVAÇÃO <span
+                    <h1 class="font-bold text-xl text-slate-800 tracking-wide">APROVAÇÃO <span
                             class="text-red-500">DEBUG</span></h1>
-                    <p class="text-[10px] text-gray-500 font-bold tracking-widest uppercase">Testador de Lógica BFP</p>
+                    <p class="text-[10px] text-slate-600 font-bold tracking-widest uppercase">Testador de Lógica BFP</p>
                 </div>
             </div>
         </div>
@@ -127,13 +127,13 @@
     <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-10">
 
         <div id="screen-input" class="fade-in">
-            <div class="bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8 w-full max-w-4xl mx-auto">
-                <h2 class="text-2xl font-bold text-white mb-4">Entrada de Dados (Respostas)</h2>
-                <p class="text-gray-400 mb-4 text-sm">Cole abaixo a lista de números (um por linha ou separados por
+            <div class="bg-white p-8 rounded-2xl border border-slate-100 mb-8 w-full max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold text-slate-800 mb-4">Entrada de Dados (Respostas)</h2>
+                <p class="text-slate-500 mb-4 text-sm">Cole abaixo a lista de números (um por linha ou separados por
                     espaço/vírgula). A lógica espera exatamente 126 respostas.</p>
 
                 <textarea id="input-answers"
-                    class="w-full h-64 bg-[#0f0e1a] border border-white/10 rounded-xl p-4 text-white font-mono text-xs focus:ring-2 focus:ring-purple-500 outline-none"
+                    class="w-full h-64 bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-800 font-mono text-xs focus:ring-2 focus:ring-purple-500 outline-none"
                     placeholder="Ex: 
 4
 6
@@ -141,7 +141,7 @@
 ..."></textarea>
 
                 <div class="flex justify-between items-center mt-4">
-                    <span id="count-display" class="text-xs font-bold text-gray-500">0 respostas detectadas</span>
+                    <span id="count-display" class="text-xs font-bold text-slate-600">0 respostas detectadas</span>
                     <button onclick="processarInput()" class="btn-neon px-8 py-3 rounded-lg flex items-center gap-2">
                         <i class="fas fa-calculator"></i> CALCULAR RESULTADO
                     </button>
@@ -151,11 +151,11 @@
 
         <div id="screen-result" class="hidden">
             <div
-                class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8 shadow-2xl relative overflow-hidden">
-                <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-purple-500 to-cyan-500"></div>
+                class="flex flex-col md:flex-row justify-between items-center bg-white p-8 rounded-2xl border border-slate-100 mb-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-600 to-blue-400"></div>
                 <div class="z-10">
-                    <h2 class="text-3xl font-black text-white mb-1">RELATÓRIO DE DEBUG</h2>
-                    <p class="text-gray-400 text-sm flex items-center gap-2"><i class="far fa-calendar-alt"></i> <span
+                    <h2 class="text-3xl font-black text-slate-800 mb-1">RELATÓRIO DE DEBUG</h2>
+                    <p class="text-slate-500 text-sm flex items-center gap-2"><i class="far fa-calendar-alt"></i> <span
                             id="report-date">...</span></p>
                 </div>
                 <div class="mt-4 md:mt-0 flex gap-3 no-print z-10">
@@ -361,9 +361,9 @@
             document.getElementById('count-display').innerText = `${answers.length} respostas detectadas`;
 
             if (answers.length === 126) {
-                document.getElementById('count-display').className = "text-xs font-bold text-green-400";
+                document.getElementById('count-display').className = "text-xs font-bold text-green-700";
             } else {
-                document.getElementById('count-display').className = "text-xs font-bold text-red-400";
+                document.getElementById('count-display').className = "text-xs font-bold text-red-700";
             }
         });
 
@@ -447,14 +447,14 @@
             let html = '';
 
             for (let factor in FACTOR_MAP) {
-                html += `<div class="break-inside-avoid mb-8"><h3 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">${factor}</h3><div class="grid grid-cols-1 gap-4">`;
+                html += `<div class="break-inside-avoid mb-8"><h3 class="text-xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-2">${factor}</h3><div class="grid grid-cols-1 gap-4">`;
 
                 FACTOR_MAP[factor].forEach(code => {
                     const r = res[code];
                     if (!r) return;
 
                     const name = NAMES[code] || code;
-                    const statusColor = r.apto ? "text-green-400 bg-green-500/10 border-green-500/20" : "text-red-400 bg-red-500/10 border-red-500/20";
+                    const statusColor = r.apto ? "text-green-700 bg-green-500/10 border-green-500/20" : "text-red-700 bg-red-500/10 border-red-500/20";
 
                     const left = r.min + '%';
                     const width = (r.max - r.min) + '%';
@@ -464,15 +464,15 @@
                     html += `
             <div class="glass p-4 rounded-xl flex flex-col md:flex-row items-center gap-4">
                 <div class="w-40">
-                    <div class="flex items-center gap-2"><span class="text-xs font-bold text-purple-300 bg-purple-500/10 px-1.5 rounded">${code}</span><span class="font-bold text-gray-200 text-sm">${name}</span></div>
-                    <div class="text-[10px] text-gray-500 font-mono mt-1">Média: ${r.raw}</div>
+                    <div class="flex items-center gap-2"><span class="text-xs font-bold text-blue-500 bg-blue-50 px-1.5 rounded">${code}</span><span class="font-bold text-slate-800 text-sm">${name}</span></div>
+                    <div class="text-[10px] text-slate-600 font-mono mt-1">Média: ${r.raw}</div>
                 </div>
-                <div class="flex-1 w-full h-6 bg-black/40 rounded-lg relative overflow-hidden border border-white/10">
-                    <div class="absolute top-0 bottom-0 bg-white/5 border-x border-white/10" style="left:${left}; width:${width}" title="Meta"></div>
+                <div class="flex-1 w-full h-6 bg-white/80 rounded-lg relative overflow-hidden border border-slate-200">
+                    <div class="absolute top-0 bottom-0 bg-white/5 border-x border-slate-200" style="left:${left}; width:${width}" title="Meta"></div>
                     <div class="absolute top-0 bottom-0 w-1 ${markerColor} shadow-[0_0_8px_currentColor]" style="left:${marker}"></div>
                 </div>
                 <div class="w-32 flex justify-end gap-3 items-center text-xs">
-                    <span class="text-white font-bold text-lg">${r.pct}%</span>
+                    <span class="text-slate-800 font-bold text-lg">${r.pct}%</span>
                     <span class="px-2 py-1 rounded font-bold border ${statusColor}">${r.apto ? 'APTO' : 'INAPTO'}</span>
                 </div>
             </div>`;

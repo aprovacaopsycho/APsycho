@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Apostila: Inteligência — Aprovação Psycho</title>
+    <title>Apostila: Inteligência — Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -39,18 +39,18 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
-            --text-light: #e2e8f0;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --text-light: #1E293B;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
-            color: #e2e8f0;
+            background: var(--bg-dark);
+            color: #334155;
             overflow-x: hidden;
         }
 
@@ -63,8 +63,8 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 50%, rgba(0, 194, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(14, 165, 233, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.04) 0%, transparent 50%),
                 radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
             animation: gradientShift 15s ease infinite;
             z-index: -1;
@@ -137,10 +137,10 @@
         }
 
         .glass-panel {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 100%);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.02);
         }
 
         .gradient-text {
@@ -156,7 +156,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #f1f5f9;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -211,26 +211,26 @@
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">APOSTILA <span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">APOSTILA <span
                             class="text-[var(--accent-pink)]">INTELIGÊNCIA</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
             <div class="flex items-center gap-6">
                 <!-- User Info -->
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
 
                 <div class="flex items-center gap-4">
                     <a href="index.html"
-                        class="text-sm text-[var(--accent-pink)] hover:text-white flex items-center gap-2 font-bold transition">
+                        class="text-sm text-[var(--accent-pink)] hover:text-slate-800 flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -251,50 +251,50 @@
             x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-4">
             <div class="glass-panel rounded-2xl p-4 sticky top-28 space-y-2">
-                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 px-2">Conteúdo</h3>
+                <h3 class="text-sm font-bold text-slate-600 uppercase tracking-widest mb-4 px-2">Conteúdo</h3>
 
                 <button
                     @click="section = 'intro'; document.getElementById('intro').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'intro' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'intro' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     1. Introdução <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'intro'"></i>
                 </button>
 
                 <button
                     @click="section = 'cubos'; document.getElementById('cubos').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'cubos' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'cubos' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     2. Teste dos Cubos <i class="fas fa-chevron-right text-xs opacity-50"
                         x-show="section === 'cubos'"></i>
                 </button>
 
                 <button @click="section = 'wmt2'; document.getElementById('wmt2').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'wmt2' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'wmt2' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     3. WMT-2 <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'wmt2'"></i>
                 </button>
 
                 <button @click="section = 'g36'; document.getElementById('g36').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'g36' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'g36' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     4. G36 <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'g36'"></i>
                 </button>
 
                 <button @click="section = 'mig'; document.getElementById('mig').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'mig' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'mig' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     5. MIG <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'mig'"></i>
                 </button>
 
                 <button @click="section = 'r1'; document.getElementById('r1').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'r1' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'r1' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     6. R-1 <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'r1'"></i>
                 </button>
 
                 <button
                     @click="section = 'beta3m'; document.getElementById('beta3m').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'beta3m' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'beta3m' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     7. Beta 3 Matricial <i class="fas fa-chevron-right text-xs opacity-50"
                         x-show="section === 'beta3m'"></i>
@@ -302,27 +302,27 @@
 
                 <button
                     @click="section = 'beta3c'; document.getElementById('beta3c').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'beta3c' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'beta3c' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     8. Beta 3 Códigos <i class="fas fa-chevron-right text-xs opacity-50"
                         x-show="section === 'beta3c'"></i>
                 </button>
 
                 <button @click="section = 'tri'; document.getElementById('tri').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'tri' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'tri' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     9. TRI <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'tri'"></i>
                 </button>
 
                 <button @click="section = 'trl'; document.getElementById('trl').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'trl' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'trl' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     10. TRL <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'trl'"></i>
                 </button>
 
                 <button
                     @click="section = 'tig-nv'; document.getElementById('tig-nv').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'tig-nv' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'tig-nv' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     11. TIG-NV <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'tig-nv'"></i>
                 </button>
@@ -334,18 +334,18 @@
 
             <!-- BARRA DE FERRAMENTAS (Menu + Fonte) -->
             <div
-                class="glass-panel p-2 rounded-xl flex gap-3 justify-end items-center sticky top-24 z-40 mb-4 bg-black/90 backdrop-blur-xl border border-white/10 w-fit ml-auto shadow-2xl">
+                class="glass-panel p-2 rounded-xl flex gap-3 justify-end items-center sticky top-24 z-40 mb-4 bg-white/90 backdrop-blur-xl border border-slate-200 shadow-lg w-fit ml-auto shadow-2xl">
 
                 <!-- Controle de Fonte -->
-                <div class="flex items-center gap-1 bg-white/5 rounded-lg p-1 border border-white/5">
+                <div class="flex items-center gap-1 bg-slate-100 rounded-lg p-1 border border-slate-200">
                     <button @click="fontSize = Math.max(12, fontSize - 2)"
-                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition"
                         title="Diminuir Fonte">
                         <i class="fas fa-minus text-xs"></i>
                     </button>
-                    <span class="w-8 text-center text-sm font-bold text-white select-none" x-text="fontSize"></span>
+                    <span class="w-8 text-center text-sm font-bold text-slate-800 select-none" x-text="fontSize"></span>
                     <button @click="fontSize = Math.min(24, fontSize + 2)"
-                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition"
                         title="Aumentar Fonte">
                         <i class="fas fa-plus text-xs"></i>
                     </button>
@@ -354,7 +354,7 @@
                 <!-- Botão Fullscreen -->
                 <button @click="toggleFS()"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all border"
-                    :class="isFullscreen ? 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]' : 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10'"
+                    :class="isFullscreen ? 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'"
                     title="Tela Cheia">
                     <i class="fas" :class="isFullscreen ? 'fa-compress' : 'fa-expand-arrows-alt'"></i>
                 </button>
@@ -362,7 +362,7 @@
                 <!-- Botão Menu Lateral -->
                 <button @click="sidebarOpen = !sidebarOpen"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all border"
-                    :class="sidebarOpen ? 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10' : 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]'"
+                    :class="sidebarOpen ? 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100' : 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]'"
                     title="Alternar Menu">
                     <span x-text="sidebarOpen ? 'Ocultar' : 'Expandir'"></span>
                     <i class="fas" :class="sidebarOpen ? 'fa-columns' : 'fa-expand'"></i>
@@ -375,11 +375,11 @@
                 <!-- 1. INTRODUÇÃO -->
                 <section id="intro" class="scroll-mt-28">
                     <div class="pl-6 border-l-4 border-l-primary py-2">
-                        <h1 class="text-4xl font-black text-white mb-2">Testes de Inteligência</h1>
-                        <p class="text-xl text-primary font-medium mb-6">Aprovação Psycho – Descomplicando o
+                        <h1 class="text-4xl font-black text-slate-800 mb-2">Testes de Inteligência</h1>
+                        <p class="text-xl text-primary font-medium mb-6">Grupo de Estudos para Psicotécnico – Descomplicando o
                             Psicotécnico
                         </p>
-                        <div class="space-y-4 text-lg text-gray-300 leading-relaxed text-justify">
+                        <div class="space-y-4 text-lg text-slate-600 leading-relaxed text-justify">
                             <p>Os <strong>testes de inteligência</strong> avaliam a capacidade de raciocínio lógico,
                                 espacial e abstrato.</p>
                         </div>
@@ -388,16 +388,16 @@
 
                 <!-- 2. TESTE DOS CUBOS -->
                 <section id="cubos" class="scroll-mt-28">
-                    <div class="mb-8 border-b border-white/10 pb-4">
-                        <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <div class="mb-8 border-b border-slate-200 pb-4">
+                        <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                             <span
                                 class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">2</span>
                             Teste dos Cubos
                         </h2>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                        <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                        <p class="text-slate-600 text-lg leading-relaxed text-justify">
                             O teste dos cubos psicotécnico avalia o raciocínio visuoespacial, simulando rotações de um
                             cubo como o de Rubik.
                             Esse teste mede a capacidade de manipular mentalmente imagens espaciais, formando
@@ -405,7 +405,7 @@
                             desenhos de cubos em diferentes posições, exige identificar a configuração correta após
                             giros indicados.
                         </p>
-                        <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                        <p class="text-slate-600 text-lg leading-relaxed text-justify">
                             Cada questão mostra um cubo inicial e opções após rotações (horário ou anti-horário) de uma
                             ou mais faces, com limite de 30 minutos para aplicação individual ou coletiva.
                         </p>
@@ -414,68 +414,68 @@
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Time -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">30 min</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <span class="text-xl font-bold text-slate-800">30 min</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Items -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">15</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                                <span class="text-xl font-bold text-slate-800">15</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                             </div>
                             <!-- Meta -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">11</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">11</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                             </div>
                         </div>
 
                         <!-- SIMULATOR & DOWNLOAD BTNS -->
                         <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <a href="../cubos.html"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                         <i class="fas fa-play"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Simulador Cubos</h4>
-                                        <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                        <h4 class="font-bold text-slate-800">Simulador Cubos</h4>
+                                        <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <a href="https://drive.google.com/file/d/1ionSFnEo93AvyVti9PBXIMddPBsrC_q3/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                         <i class="fas fa-cloud-download-alt"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Baixar Teste dos Cubos</h4>
-                                        <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                        <h4 class="font-bold text-slate-800">Baixar Teste dos Cubos</h4>
+                                        <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
 
                         <div class="space-y-8">
                             <!-- Exemplo 1 -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: 'C' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo 1</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 1</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <img src="../../Imagens_base/cubos/EXEMPLO 1.jpg" alt="Exemplo 1 Cubos"
                                         class="max-w-full h-auto rounded mx-auto">
                                 </div>
@@ -484,7 +484,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['A','B','C','D','E']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -492,20 +492,20 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <p class="text-gray-300">
-                                        <strong class="text-purple-400">Resposta:</strong> a terceira camada horizontal
+                                    <p class="text-slate-600">
+                                        <strong class="text-blue-600">Resposta:</strong> a terceira camada horizontal
                                         faz
-                                        uma rotação no sentido anti-horário. <strong class="text-green-400">Gabarito
+                                        uma rotação no sentido anti-horário. <strong class="text-green-800">Gabarito
                                             C</strong>
                                     </p>
                                     <button @click="answered = false; selected = null"
-                                        class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                        class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                         <i class="fas fa-redo"></i> Tentar novamente
                                     </button>
                                 </div>
@@ -513,8 +513,8 @@
 
                             <!-- Exemplo 2 -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: 'B' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo 2</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 2</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <img src="../../Imagens_base/cubos/EXEMPLO 2.jpg" alt="Exemplo 2 Cubos"
                                         class="max-w-full h-auto rounded mx-auto">
                                 </div>
@@ -523,7 +523,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['A','B','C','D','E']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -531,19 +531,19 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <p class="text-gray-300">
-                                        <strong class="text-purple-400">Resposta:</strong> a camada da parte de trás
+                                    <p class="text-slate-600">
+                                        <strong class="text-blue-600">Resposta:</strong> a camada da parte de trás
                                         vertical faz uma rotação no sentido anti-horário. <strong
-                                            class="text-green-400">Gabarito B</strong>
+                                            class="text-green-800">Gabarito B</strong>
                                     </p>
                                     <button @click="answered = false; selected = null"
-                                        class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                        class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                         <i class="fas fa-redo"></i> Tentar novamente
                                     </button>
                                 </div>
@@ -551,22 +551,22 @@
 
                             <!-- Bizu -->
                             <div class="bg-yellow-900/20 p-6 rounded-xl border border-yellow-500/20">
-                                <h4 class="text-yellow-400 font-bold mb-2 flex items-center gap-2">
+                                <h4 class="text-yellow-800 font-bold mb-2 flex items-center gap-2">
                                     <i class="fas fa-lightbulb"></i> BIZU
                                 </h4>
-                                <p class="text-xl font-black text-white text-center tracking-widest leading-loose">
+                                <p class="text-xl font-black text-slate-800 text-center tracking-widest leading-loose">
                                     CADA BB 👶 CACA 💩 BB 👶 ABC 🔤 <br>
-                                    <span class="text-sm font-normal text-gray-400">(de trás para frente ⬅️)</span>
+                                    <span class="text-sm font-normal text-slate-500">(de trás para frente ⬅️)</span>
                                 </p>
                             </div>
 
                             <!-- Gabarito -->
                             <div>
-                                <h3 class="text-xl font-bold text-white mb-4">Gabarito Completo</h3>
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Gabarito Completo</h3>
                                 <div class="overflow-x-auto">
                                     <table class="w-full text-center text-sm">
                                         <thead>
-                                            <tr class="text-gray-400 border-b border-white/10">
+                                            <tr class="text-slate-500 border-b border-slate-200">
                                                 <th class="py-2 px-4">1</th>
                                                 <th class="py-2 px-4">2</th>
                                                 <th class="py-2 px-4">3</th>
@@ -577,7 +577,7 @@
                                                 <th class="py-2 px-4">8</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="text-white font-bold">
+                                        <tbody class="text-slate-800 font-bold">
                                             <tr class="bg-white/5">
                                                 <td class="py-2 px-4">C</td>
                                                 <td class="py-2 px-4">B</td>
@@ -590,7 +590,7 @@
                                             </tr>
                                         </tbody>
                                         <thead>
-                                            <tr class="text-gray-400 border-b border-white/10">
+                                            <tr class="text-slate-500 border-b border-slate-200">
                                                 <th class="py-2 px-4">9</th>
                                                 <th class="py-2 px-4">10</th>
                                                 <th class="py-2 px-4">11</th>
@@ -601,7 +601,7 @@
                                                 <th class="py-2 px-4"></th>
                                             </tr>
                                         </thead>
-                                        <tbody class="text-white font-bold">
+                                        <tbody class="text-slate-800 font-bold">
                                             <tr class="bg-white/5">
                                                 <td class="py-2 px-4">C</td>
                                                 <td class="py-2 px-4">B</td>
@@ -623,16 +623,16 @@
 
                 <!-- 3. WMT-2 -->
                 <section id="wmt2" class="scroll-mt-28">
-                    <div class="mb-8 border-b border-white/10 pb-4">
-                        <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <div class="mb-8 border-b border-slate-200 pb-4">
+                        <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                             <span
                                 class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">3</span>
                             WMT-2 (Matrizes de Viena)
                         </h2>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                        <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                        <p class="text-slate-600 text-lg leading-relaxed text-justify">
                             O WMT-2, ou Teste de Matrizes de Viena, é um instrumento psicométrico não verbal para
                             avaliar
                             inteligência geral por meio de raciocínio matricial. Ele consiste em 18 problemas lógicos,
@@ -643,68 +643,68 @@
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Time -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">30 min</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <span class="text-xl font-bold text-slate-800">30 min</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Items -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">18</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                                <span class="text-xl font-bold text-slate-800">18</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                             </div>
                             <!-- Meta -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">15</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">15</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                             </div>
                         </div>
 
                         <!-- SIMULATOR & DOWNLOAD BTNS -->
                         <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <a href="../wmt2.html"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                         <i class="fas fa-play"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Simulador WMT-2</h4>
-                                        <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                        <h4 class="font-bold text-slate-800">Simulador WMT-2</h4>
+                                        <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <a href="https://drive.google.com/file/d/1lWSeo19yGsbXYhdioJr9v6avjf7B4A-R/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                         <i class="fas fa-cloud-download-alt"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Baixar WMT-2</h4>
-                                        <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                        <h4 class="font-bold text-slate-800">Baixar WMT-2</h4>
+                                        <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
 
                         <div class="space-y-8">
                             <!-- Exemplo A -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: 'E' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo A</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo A</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <img src="../../Imagens_base/wmt2/wmt2_exemplo_a.jpg" alt="Exemplo WMT2 A"
                                         class="max-w-full h-auto rounded mx-auto">
                                 </div>
@@ -713,7 +713,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['A','B','C','D','E','F','G','H']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -721,13 +721,13 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <div class="text-gray-300">
+                                    <div class="text-slate-600">
                                         <p class="mb-2">Nesse exemplo há três figuras diferentes em cada linha ou
                                             coluna:
                                         </p>
@@ -740,7 +740,7 @@
                                         </ul>
                                     </div>
                                     <button @click="answered = false; selected = null"
-                                        class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                        class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                         <i class="fas fa-redo"></i> Tentar novamente
                                     </button>
                                 </div>
@@ -748,8 +748,8 @@
 
                             <!-- Exemplo B -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: 'E' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo B</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo B</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <img src="../../Imagens_base/wmt2/wmt2_exemplo_b.jpg" alt="Exemplo WMT2 B"
                                         class="max-w-full h-auto rounded mx-auto">
                                 </div>
@@ -758,7 +758,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['A','B','C','D','E','F','G','H']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -766,20 +766,20 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <p class="text-gray-300">
+                                    <p class="text-slate-600">
                                         Em cada linha as setas se movem no sentido horário. Na linha 3 a seta parte da
                                         horizontal, diagonal para baixo, a última deve estar totalmente para baixo. Logo
                                         o
                                         gabarito é <strong>E</strong>.
                                     </p>
                                     <button @click="answered = false; selected = null"
-                                        class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                        class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                         <i class="fas fa-redo"></i> Tentar novamente
                                     </button>
                                 </div>
@@ -787,8 +787,8 @@
 
                             <!-- Exemplo C -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: 'G' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo C</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo C</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <img src="../../Imagens_base/wmt2/wmt2_exemplo_c.jpg" alt="Exemplo WMT2 C"
                                         class="max-w-full h-auto rounded mx-auto">
                                 </div>
@@ -797,7 +797,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['A','B','C','D','E','F','G','H']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -805,13 +805,13 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <div class="text-gray-300">
+                                    <div class="text-slate-600">
                                         <p class="mb-2">Em cada linha a última figura é a soma das outras duas:</p>
                                         <ul class="list-disc pl-5 space-y-1 text-sm">
                                             <li>Linha 1: 2+2 = 4</li>
@@ -820,7 +820,7 @@
                                         </ul>
                                     </div>
                                     <button @click="answered = false; selected = null"
-                                        class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                        class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                         <i class="fas fa-redo"></i> Tentar novamente
                                     </button>
                                 </div>
@@ -828,36 +828,36 @@
 
                             <!-- Bizu -->
                             <div class="bg-blue-900/20 p-6 rounded-xl border border-blue-500/20">
-                                <h4 class="text-blue-400 font-bold mb-4 flex items-center gap-2">
+                                <h4 class="text-blue-600 font-bold mb-4 flex items-center gap-2">
                                     <i class="fas fa-lightbulb"></i> BIZU
                                 </h4>
-                                <div class="space-y-4 text-lg font-bold text-white text-center leading-relaxed">
+                                <div class="space-y-4 text-lg font-bold text-slate-800 text-center leading-relaxed">
                                     <p>
-                                        🚶 <span class="text-blue-400">F</span>ui <span class="text-blue-400">D</span>ar
-                                        <span class="text-blue-400">C</span>urso 📚 <span
-                                            class="text-blue-400">H</span>oje
+                                        🚶 <span class="text-blue-600">F</span>ui <span class="text-blue-600">D</span>ar
+                                        <span class="text-blue-600">C</span>urso 📚 <span
+                                            class="text-blue-600">H</span>oje
                                         📅
                                     </p>
                                     <p>
-                                        👉 <span class="text-blue-400">E</span> <span
-                                            class="text-blue-400">E</span>scolhi
-                                        <span class="text-blue-400">A</span>dvocacia ⚖️
+                                        👉 <span class="text-blue-600">E</span> <span
+                                            class="text-blue-600">E</span>scolhi
+                                        <span class="text-blue-600">A</span>dvocacia ⚖️
                                     </p>
                                     <p>
-                                        👨 <span class="text-blue-400">H</span>omem <span
-                                            class="text-blue-400">H</span>abilidoso 🛠️
-                                        <span class="text-blue-400">E</span>studa 📖 <span
-                                            class="text-blue-400">A</span>
-                                        <span class="text-blue-400">D</span>istância 💻
+                                        👨 <span class="text-blue-600">H</span>omem <span
+                                            class="text-blue-600">H</span>abilidoso 🛠️
+                                        <span class="text-blue-600">E</span>studa 📖 <span
+                                            class="text-blue-600">A</span>
+                                        <span class="text-blue-600">D</span>istância 💻
                                     </p>
                                     <p>
-                                        📅 <span class="text-blue-400">H</span>oje <span
-                                            class="text-blue-400">B</span>ebi
+                                        📅 <span class="text-blue-600">H</span>oje <span
+                                            class="text-blue-600">B</span>ebi
                                         🥤
-                                        <span class="text-blue-400">F</span>anta <span
-                                            class="text-blue-400">F</span>resca
+                                        <span class="text-blue-600">F</span>anta <span
+                                            class="text-blue-600">F</span>resca
                                         ❄️
-                                        <span class="text-blue-400">C</span>om <span class="text-blue-400">A</span>mor
+                                        <span class="text-blue-600">C</span>om <span class="text-blue-600">A</span>mor
                                         ❤️
                                     </p>
                                 </div>
@@ -865,11 +865,11 @@
 
                             <!-- Gabarito -->
                             <div>
-                                <h3 class="text-xl font-bold text-white mb-4">Gabarito Completo</h3>
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Gabarito Completo</h3>
                                 <div class="overflow-x-auto">
                                     <table class="w-full text-center text-sm">
                                         <thead>
-                                            <tr class="text-gray-400 border-b border-white/10">
+                                            <tr class="text-slate-500 border-b border-slate-200">
                                                 <th class="py-2 px-4">1</th>
                                                 <th class="py-2 px-4">2</th>
                                                 <th class="py-2 px-4">3</th>
@@ -881,7 +881,7 @@
                                                 <th class="py-2 px-4">9</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="text-white font-bold">
+                                        <tbody class="text-slate-800 font-bold">
                                             <tr class="bg-white/5">
                                                 <td class="py-2 px-4">F</td>
                                                 <td class="py-2 px-4">D</td>
@@ -895,7 +895,7 @@
                                             </tr>
                                         </tbody>
                                         <thead>
-                                            <tr class="text-gray-400 border-b border-white/10">
+                                            <tr class="text-slate-500 border-b border-slate-200">
                                                 <th class="py-2 px-4">10</th>
                                                 <th class="py-2 px-4">11</th>
                                                 <th class="py-2 px-4">12</th>
@@ -907,7 +907,7 @@
                                                 <th class="py-2 px-4">18</th>
                                             </tr>
                                         </thead>
-                                        <tbody class="text-white font-bold">
+                                        <tbody class="text-slate-800 font-bold">
                                             <tr class="bg-white/5">
                                                 <td class="py-2 px-4">E</td>
                                                 <td class="py-2 px-4">A</td>
@@ -932,16 +932,16 @@
 
                 <!-- 4. G36 -->
                 <section id="g36" class="scroll-mt-28">
-                    <div class="mb-8 border-b border-white/10 pb-4">
-                        <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <div class="mb-8 border-b border-slate-200 pb-4">
+                        <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                             <span
                                 class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">4</span>
                             G36
                         </h2>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                        <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                        <p class="text-slate-600 text-lg leading-relaxed text-justify">
                             O teste de raciocínio G36 é um instrumento psicométrico utilizado para avaliar a
                             inteligência
                             geral,
@@ -955,68 +955,68 @@
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Time -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">30 min</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <span class="text-xl font-bold text-slate-800">30 min</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Items -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">36</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                                <span class="text-xl font-bold text-slate-800">36</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                             </div>
                             <!-- Meta -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">28</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">28</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                             </div>
                         </div>
 
                         <!-- SIMULATOR & DOWNLOAD BTNS -->
                         <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <a href="../g36.html"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                         <i class="fas fa-play"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Simulador G36</h4>
-                                        <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                        <h4 class="font-bold text-slate-800">Simulador G36</h4>
+                                        <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <a href="https://drive.google.com/file/d/1cPn4UgD6cKQfrCNfysE0tKwfhojEby0A/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                         <i class="fas fa-cloud-download-alt"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Baixar G36</h4>
-                                        <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                        <h4 class="font-bold text-slate-800">Baixar G36</h4>
+                                        <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
 
                         <div class="space-y-8">
                             <!-- Exemplo 1 -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: '6' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo 1</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 1</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <img src="../../Imagens_base/g36/g36_2.png" alt="Exemplo G36 1"
                                         class="max-w-full h-auto rounded mx-auto">
                                 </div>
@@ -1025,7 +1025,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['1','2','3','4','5','6']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -1033,21 +1033,21 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <p class="text-gray-300">
-                                        <strong class="text-purple-400">Explicação:</strong> Perceba que na linha 1 há
+                                    <p class="text-slate-600">
+                                        <strong class="text-blue-600">Explicação:</strong> Perceba que na linha 1 há
                                         duas
                                         figuras iguais, logo a linha 2 deve manter esse mesmo padrão, portanto o
                                         gabarito é
                                         o 6.
                                     </p>
                                     <button @click="answered = false; selected = null"
-                                        class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                        class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                         <i class="fas fa-redo"></i> Tentar novamente
                                     </button>
                                 </div>
@@ -1055,8 +1055,8 @@
 
                             <!-- Exemplo 2 -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: '6' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo 2</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 2</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <img src="../../Imagens_base/g36/g36_12.png" alt="Exemplo G36 2"
                                         class="max-w-full h-auto rounded mx-auto">
                                 </div>
@@ -1065,7 +1065,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['1','2','3','4','5','6']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -1073,14 +1073,14 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <div class="text-gray-300">
-                                        <p class="mb-2"><strong class="text-purple-400">Explicação:</strong></p>
+                                    <div class="text-slate-600">
+                                        <p class="mb-2"><strong class="text-blue-600">Explicação:</strong></p>
                                         <ul class="list-disc pl-5 space-y-1 text-sm">
                                             <li>Na coluna 1 temos figuras planas (duas dimensões - quadrado e
                                                 triângulo);
@@ -1093,7 +1093,7 @@
                                         </ul>
                                     </div>
                                     <button @click="answered = false; selected = null"
-                                        class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                        class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                         <i class="fas fa-redo"></i> Tentar novamente
                                     </button>
                                 </div>
@@ -1107,16 +1107,16 @@
 
                 <!-- 5. MIG -->
                 <section id="mig" class="scroll-mt-28">
-                    <div class="mb-8 border-b border-white/10 pb-4">
-                        <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <div class="mb-8 border-b border-slate-200 pb-4">
+                        <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                             <span
                                 class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">5</span>
                             MIG (Matrizes de Inteligência Geral)
                         </h2>
                     </div>
 
-                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                        <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                    <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                        <p class="text-slate-600 text-lg leading-relaxed text-justify">
                             O MIG – Matrizes de Inteligência Geral Não Verbal é um teste psicológico que mede a
                             inteligência
                             geral,
@@ -1133,75 +1133,75 @@
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Time -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">6 min</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <span class="text-xl font-bold text-slate-800">6 min</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Items -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                                 <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                                <span class="text-xl font-bold text-white">28</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                                <span class="text-xl font-bold text-slate-800">28</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                             </div>
                             <!-- Meta -->
                             <div
-                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">20</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                                class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">20</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                             </div>
                         </div>
 
                         <!-- SIMULATOR & DOWNLOAD BTNS -->
                         <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <a href="../mig.html"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                        class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                         <i class="fas fa-play"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Simulador MIG</h4>
-                                        <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                        <h4 class="font-bold text-slate-800">Simulador MIG</h4>
+                                        <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <a href="#" target="_blank"
-                                class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                                class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                        class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                         <i class="fas fa-cloud-download-alt"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white">Baixar MIG</h4>
-                                        <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                        <h4 class="font-bold text-slate-800">Baixar MIG</h4>
+                                        <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
 
                         <div class="space-y-8">
                             <!-- Exemplo -->
                             <div x-data="{ answered: false, correct: false, selected: null, answer: 'C' }">
-                                <h3 class="text-xl font-bold text-white mb-4">Exemplo</h3>
-                                <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                                <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo</h3>
+                                <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                                         <div class="flex items-center justify-center h-full">
                                             <img src="../../Imagens_base/mig/Exemplo.png" alt="Exemplo MIG"
                                                 class="h-48 w-full object-contain rounded">
                                         </div>
                                         <div
-                                            class="border-t md:border-t-0 md:border-l border-white/10 pt-4 md:pt-0 md:pl-4 flex flex-col items-center justify-center h-full">
-                                            <p class="text-sm text-gray-400 mb-2 text-center w-full">Alternativas:</p>
+                                            class="border-t md:border-t-0 md:border-l border-slate-200 pt-4 md:pt-0 md:pl-4 flex flex-col items-center justify-center h-full">
+                                            <p class="text-sm text-slate-500 mb-2 text-center w-full">Alternativas:</p>
                                             <img src="../../Imagens_base/mig/resposta.png" alt="Opções de Resposta MIG"
                                                 class="h-48 w-full object-contain rounded">
                                         </div>
@@ -1212,7 +1212,7 @@
                                 <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                     <template x-for="opt in ['A','B','C','D','E','F']">
                                         <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                            class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                            class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                             <span x-text="opt"></span>
                                         </button>
                                     </template>
@@ -1220,13 +1220,13 @@
 
                                 <!-- Feedback/Explanation -->
                                 <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                    :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                    :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                     <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                        :class="correct ? 'text-green-400' : 'text-red-400'">
+                                        :class="correct ? 'text-green-800' : 'text-red-800'">
                                         <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                         <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                     </div>
-                                    <p class="text-gray-300 mb-4">
+                                    <p class="text-slate-600 mb-4">
                                         Perceba que na primeira coluna as figuras são iguais (setas azuis para
                                         esquerda).
                                         Logo,
@@ -1239,7 +1239,7 @@
                                     </p>
                                 </div>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1253,8 +1253,8 @@
 
             <!-- 6. R-1 -->
             <section id="r1" class="scroll-mt-28">
-                <div class="mb-8 border-b border-white/10 pb-4">
-                    <h2 class="text-3xl font-bold text-white flex items-center gap-3 w-full flex-wrap">
+                <div class="mb-8 border-b border-slate-200 pb-4">
+                    <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3 w-full flex-wrap">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">6</span>
                         R-1 (Teste Não Verbal de Inteligência)
                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/30 text-red-500 text-xs font-bold uppercase tracking-wider ml-auto lg:ml-3 shadow-[0_0_10px_rgba(239,68,68,0.2)]">
@@ -1263,8 +1263,8 @@
                     </h2>
                 </div>
 
-                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                    <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
                         O teste R-1 avalia a inteligência de adultos (a partir de 18 anos) com escolaridade mínima
                         de
                         ensino fundamental incompleto.
@@ -1279,67 +1279,67 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <!-- Time -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">30 min</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                            <span class="text-xl font-bold text-slate-800">30 min</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                         </div>
                         <!-- Items -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">40</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                            <span class="text-xl font-bold text-slate-800">40</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                         </div>
                         <!-- Meta -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                            <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                            <span class="text-xl font-bold text-white">31</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                            <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                            <span class="text-xl font-bold text-slate-800">31</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                         </div>
                     </div>
 
                     <!-- SIMULATOR & DOWNLOAD BTNS -->
                     <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <a href="../r1.html"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                     <i class="fas fa-play"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Simulador R-1</h4>
-                                    <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                    <h4 class="font-bold text-slate-800">Simulador R-1</h4>
+                                    <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            <i class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
 
                         <a href="https://drive.google.com/file/d/1pUbIJpD_NHNPHnIfq7s5WohUyXXXHRBI/view?usp=sharing"
                             target="_blank"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                     <i class="fas fa-cloud-download-alt"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Baixar R-1</h4>
-                                    <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                    <h4 class="font-bold text-slate-800">Baixar R-1</h4>
+                                    <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                 </div>
                             </div>
                             <i
-                                class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
                     </div>
 
                     <div class="space-y-8">
                         <!-- Exemplo -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: 'C' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/r1/r1_exemplo.jpg" alt="Exemplo R1"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1348,7 +1348,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['A','B','C','D','E','F']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -1356,22 +1356,22 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     Perceba que uma parte da figura está faltando. Logo temos que encontrar a parte
                                     que
                                     completa.
-                                    Desta forma o gabarito correto é a <strong class="text-purple-400">letra
+                                    Desta forma o gabarito correto é a <strong class="text-blue-600">letra
                                         C</strong>,
                                     pois ela completa a figura correta do cavalo.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1385,15 +1385,15 @@
 
             <!-- 7. Beta 3 Matricial -->
             <section id="beta3m" class="scroll-mt-28">
-                <div class="mb-8 border-b border-white/10 pb-4">
-                    <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                <div class="mb-8 border-b border-slate-200 pb-4">
+                    <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">7</span>
                         Beta 3 Matricial (Raciocínio Matricial)
                     </h2>
                 </div>
 
-                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                    <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
                         O BETA III Matricial é um teste psicológico não verbal que avalia o raciocínio lógico e a
                         inteligência geral através de padrões visuais (matrizes), medindo a capacidade de
                         identificar
@@ -1407,67 +1407,67 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <!-- Time -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">5 min</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                            <span class="text-xl font-bold text-slate-800">5 min</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                         </div>
                         <!-- Items -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">25</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                            <span class="text-xl font-bold text-slate-800">25</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                         </div>
                         <!-- Meta -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                            <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                            <span class="text-xl font-bold text-white">16</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                            <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                            <span class="text-xl font-bold text-slate-800">16</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                         </div>
                     </div>
 
                     <!-- SIMULATOR & DOWNLOAD BTNS -->
                     <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <a href="../beta3m.html"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                     <i class="fas fa-play"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Simulador Beta 3 Matricial</h4>
-                                    <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                    <h4 class="font-bold text-slate-800">Simulador Beta 3 Matricial</h4>
+                                    <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            <i class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
 
                         <a href="https://drive.google.com/file/d/1mla6V7ww7iRbnzuEkGFBE9BzFtFc9jEP/view?usp=sharing"
                             target="_blank"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                     <i class="fas fa-cloud-download-alt"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Baixar Beta 3 Matricial</h4>
-                                    <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                    <h4 class="font-bold text-slate-800">Baixar Beta 3 Matricial</h4>
+                                    <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                 </div>
                             </div>
                             <i
-                                class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
                     </div>
 
                     <div class="space-y-8">
                         <!-- Exemplo A -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: '5' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo A</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo A</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/beta3m/b3m_ex1.png" alt="Exemplo Beta 3 Matricial A"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1476,7 +1476,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['1','2','3','4','5']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -1484,20 +1484,20 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     Para o problema A, você deveria ter respondido o número 5, porque é a figura
                                     igual
                                     às
                                     três figuras do quadrado acima.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1505,8 +1505,8 @@
 
                         <!-- Exemplo B -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: '3' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo B</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo B</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/beta3m/b3m_ex2.png" alt="Exemplo Beta 3 Matricial B"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1515,7 +1515,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['1','2','3','4','5']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -1523,13 +1523,13 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     No Problema B, a resposta correta é o número 3 porque nos dois quadrados
                                     superiores
                                     há
@@ -1539,7 +1539,7 @@
                                     interrogação.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1547,8 +1547,8 @@
 
                         <!-- Exemplo C -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: '2' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo C</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo C</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/beta3m/b3m_ex3.png" alt="Exemplo Beta 3 Matricial C"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1557,7 +1557,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['1','2','3','4','5']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -1565,13 +1565,13 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     A resposta correta para o problema C é o número 2. Neste problema, há três jogos
                                     iguais de quadrados que se sobrepõem, assim os quadrados que se sobrepõem no
                                     número
@@ -1579,7 +1579,7 @@
                                     substituem o ponto de interrogação.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1587,8 +1587,8 @@
 
                         <!-- Exemplo D -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: '4' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo D</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo D</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/beta3m/b3m_ex4.png" alt="Exemplo Beta 3 Matricial D"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1597,7 +1597,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['1','2','3','4','5']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -1605,13 +1605,13 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     No problema D, há dois quadrados em branco, idênticos, na parte inferior e uma
                                     cruz
                                     sombreada na parte superior. A cruz que está sombreada é idêntica à resposta do
@@ -1619,7 +1619,7 @@
                                     e deveria substituir o ponto de interrogação.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1631,15 +1631,15 @@
 
             <!-- 8. Beta 3 Códigos -->
             <section id="beta3c" class="scroll-mt-28">
-                <div class="mb-8 border-b border-white/10 pb-4">
-                    <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                <div class="mb-8 border-b border-slate-200 pb-4">
+                    <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">8</span>
                         Beta 3 Códigos
                     </h2>
                 </div>
 
-                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                    <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
                         <strong>BETA III Códigos</strong> refere-se ao subteste "Códigos" do BETA-III, um teste
                         psicológico não verbal para avaliar inteligência geral e velocidade de processamento em
                         adolescentes e adultos, onde se associam números a símbolos visuais em um tempo limitado.
@@ -1647,8 +1647,8 @@
                         (figuras) em um tempo definido, buscando completar o maior número de itens corretamente.
                     </p>
                     <div>
-                        <h3 class="text-xl font-bold text-white mb-4">Código</h3>
-                        <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">Código</h3>
+                        <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                             <img src="../../Imagens_base/beta3codigo/beta3codigo_exemplo1.png"
                                 alt="Exemplo Beta 3 Códigos Key" class="max-w-full h-auto rounded mx-auto">
                         </div>
@@ -1658,67 +1658,67 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <!-- Time -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">2 min</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                            <span class="text-xl font-bold text-slate-800">2 min</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                         </div>
                         <!-- Items -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">140</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                            <span class="text-xl font-bold text-slate-800">140</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                         </div>
                         <!-- Meta -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                            <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                            <span class="text-xl font-bold text-white">70</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                            <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                            <span class="text-xl font-bold text-slate-800">70</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                         </div>
                     </div>
 
                     <!-- SIMULATOR & DOWNLOAD BTNS -->
                     <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <a href="../beta3codigo/beta3codigo.html"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                     <i class="fas fa-play"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Simulador Beta 3 Códigos</h4>
-                                    <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                    <h4 class="font-bold text-slate-800">Simulador Beta 3 Códigos</h4>
+                                    <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            <i class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
 
                         <a href="https://drive.google.com/file/d/1sebOXeGijWZIwVBUnj5GrL08LAr77tz5/view?usp=sharing"
                             target="_blank"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                     <i class="fas fa-cloud-download-alt"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Baixar Beta 3 Códigos</h4>
-                                    <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                    <h4 class="font-bold text-slate-800">Baixar Beta 3 Códigos</h4>
+                                    <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                 </div>
                             </div>
                             <i
-                                class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
                     </div>
 
                     <div class="space-y-8">
                         <!-- Exemplo Pratico -->
                         <div>
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo Prático</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo Prático</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/beta3codigo/beta3codigo_exemplo.png"
                                     alt="Exemplo Beta 3 Códigos Praticar" class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1730,21 +1730,21 @@
 
             <!-- 9. TRI -->
             <section id="tri" class="scroll-mt-28">
-                <div class="mb-8 border-b border-white/10 pb-4">
-                    <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                <div class="mb-8 border-b border-slate-200 pb-4">
+                    <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">9</span>
                         TRI - Teste Rápido de Inteligência
                     </h2>
                 </div>
 
-                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                    <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
                         O Teste Rápido de Inteligência (TRI) é um teste psicotécnico moderno e ágil, usado por
                         psicólogos para avaliar a inteligência geral através de matrizes visuais.
                         Mede a capacidade de compreender, resolver problemas e aprender, usando figuras geométricas para
                         completar sequências (matrizes).
                     </p>
-                    <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
                         A sua tarefa é identificar qual das quatro opções abaixo (a, b, c ou d) completa o raciocínio.
                     </p>
 
@@ -1752,82 +1752,82 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <!-- Time -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">4 min</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                            <span class="text-xl font-bold text-slate-800">4 min</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                         </div>
                         <!-- Items -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">15</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                            <span class="text-xl font-bold text-slate-800">15</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                         </div>
                         <!-- Meta -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                            <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                            <span class="text-xl font-bold text-white">9</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                            <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                            <span class="text-xl font-bold text-slate-800">9</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                         </div>
                     </div>
 
                     <!-- SIMULATOR & DOWNLOAD BTNS -->
                     <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <a href="../tri.html"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                     <i class="fas fa-play"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Simulador TRI</h4>
-                                    <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                    <h4 class="font-bold text-slate-800">Simulador TRI</h4>
+                                    <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            <i class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
 
                         <a href="#" onclick="alert('Download indisponivel no momento'); return false;"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group opacity-50 cursor-not-allowed hidden">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group opacity-50 cursor-not-allowed hidden">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                     <i class="fas fa-cloud-download-alt"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Baixar TRI</h4>
-                                    <p class="text-xs text-gray-300">Indisponível</p>
+                                    <h4 class="font-bold text-slate-800">Baixar TRI</h4>
+                                    <p class="text-xs text-slate-600">Indisponível</p>
                                 </div>
                             </div>
-                            <i class="fas fa-lock text-gray-500"></i>
+                            <i class="fas fa-lock text-slate-600"></i>
                         </a>
 
                         <a href="https://drive.google.com/file/d/1RvagF-NSOQKdRzJUbOVlR79I0U6ZuSQS/view?usp=sharing"
                             target="_blank"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                     <i class="fas fa-cloud-download-alt"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Baixar TRI</h4>
-                                    <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                    <h4 class="font-bold text-slate-800">Baixar TRI</h4>
+                                    <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                 </div>
                             </div>
                             <i
-                                class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
                     </div>
 
                     <div class="space-y-8">
                         <!-- Exemplo 1 -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: 'A' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo 1</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 1</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/tri/tri_exemplo1.png" alt="Exemplo TRI 1"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1836,7 +1836,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['A','B','C','D']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -1844,22 +1844,22 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     No Exemplo 1, temos um círculo, um triângulo e um quadrado na primeira linha, ao
                                     passo que, na linha de baixo, temos um quadrado, um círculo e precisamos identificar
                                     qual é a figura que está faltando. Neste caso, a resposta que completa o raciocínio
-                                    é a <strong class="text-green-400">letra "a"</strong>, com o triângulo. Pois as
+                                    é a <strong class="text-green-800">letra "a"</strong>, com o triângulo. Pois as
                                     figuras de baixo são as mesmas da primeira linha, mudando apenas a ordem que
                                     aparecem.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1867,8 +1867,8 @@
 
                         <!-- Exemplo 2 -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: 'C' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo 2</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 2</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/tri/tri_exemplo2.png" alt="Exemplo TRI 2"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1877,7 +1877,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['A','B','C','D']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -1885,21 +1885,21 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     Repare que, no Exemplo 2, na linha de cima, temos um quadrado, em seguida, um
                                     quadrado com outro dentro e, por fim, um quadrado com mais dois quadrados dentro. Na
                                     linha de baixo, temos um círculo, em seguida um círculo dentro do outro. Assim, a
-                                    figura que completa a lógica é a <strong class="text-green-400">letra "c"</strong>,
+                                    figura que completa a lógica é a <strong class="text-green-800">letra "c"</strong>,
                                     com um círculo e mais dois círculos dentro.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -1911,15 +1911,15 @@
 
             <!-- 10. TRL -->
             <section id="trl" class="scroll-mt-28">
-                <div class="mb-8 border-b border-white/10 pb-4">
-                    <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                <div class="mb-8 border-b border-slate-200 pb-4">
+                    <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">10</span>
                         TRL - Teste de Raciocínio Lógico
                     </h2>
                 </div>
 
-                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                    <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
                         O TRL (Teste de Raciocínio Lógico) é um teste psicológico que avalia a inteligência por meio do
                         raciocínio lógico indutivo, usando tarefas de sequências de figuras para identificar padrões.
                         Mede a capacidade de identificar padrões e completar sequências lógicas de figuras abstratas,
@@ -1930,67 +1930,67 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <!-- Time -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">10 min</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                            <span class="text-xl font-bold text-slate-800">10 min</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                         </div>
                         <!-- Items -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">15</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                            <span class="text-xl font-bold text-slate-800">15</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                         </div>
                         <!-- Meta -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                            <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                            <span class="text-xl font-bold text-white">10</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Meta (Acertos)</span>
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                            <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                            <span class="text-xl font-bold text-slate-800">10</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Meta (Acertos)</span>
                         </div>
                     </div>
 
                     <!-- SIMULATOR & DOWNLOAD BTNS -->
                     <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <a href="../trl.html"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                     <i class="fas fa-play"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Simulador TRL</h4>
-                                    <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                    <h4 class="font-bold text-slate-800">Simulador TRL</h4>
+                                    <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            <i class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
 
                         <a href="https://drive.google.com/file/d/19ncaEKwK7s19nhEH4jcWQRYWH2P2Hsuc/view?usp=sharing"
                             target="_blank"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                     <i class="fas fa-cloud-download-alt"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Baixar TRL</h4>
-                                    <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                    <h4 class="font-bold text-slate-800">Baixar TRL</h4>
+                                    <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                 </div>
                             </div>
                             <i
-                                class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
                     </div>
 
                     <div class="space-y-8">
                         <!-- Exemplo -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: 'E' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/trl/trl_exemplo.png" alt="Exemplo TRL"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -1999,7 +1999,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['A','B','C','D','E','F']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -2007,19 +2007,19 @@
 
                             <!-- Feedback/Explanation -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300">
+                                <p class="text-slate-600">
                                     Observe que nas duas primeiras linhas há 3 figuras iguais (3 estrelas, 3 setas),
                                     portanto a última linha deve ser 3 figuras iguais. Como já existem 2 losangos, a
-                                    figura que faalto é um losango, <strong class="text-green-400">letra E</strong>.
+                                    figura que faalto é um losango, <strong class="text-green-800">letra E</strong>.
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -2027,17 +2027,17 @@
 
                         <!-- Bizu -->
                         <div class="bg-yellow-900/20 p-6 rounded-xl border border-yellow-500/20">
-                            <h4 class="text-yellow-400 font-bold mb-2 flex items-center gap-2">
+                            <h4 class="text-yellow-800 font-bold mb-2 flex items-center gap-2">
                                 <i class="fas fa-lightbulb"></i> BIZU
                             </h4>
-                            <p class="text-lg font-bold text-white text-center leading-relaxed">
-                                <span class="text-yellow-400">A</span>na <span class="text-yellow-400">FEDE</span> a
-                                <span class="text-yellow-400">B</span>ife <span class="text-yellow-400">F</span>rito
-                                <span class="text-yellow-400">B</span>arato no <span class="text-yellow-400">CCAA</span>
-                                <span class="text-yellow-400">E</span> <span class="text-yellow-400">C</span>ome <span
-                                    class="text-yellow-400">F</span>rango
+                            <p class="text-lg font-bold text-slate-800 text-center leading-relaxed">
+                                <span class="text-yellow-800">A</span>na <span class="text-yellow-800">FEDE</span> a
+                                <span class="text-yellow-800">B</span>ife <span class="text-yellow-800">F</span>rito
+                                <span class="text-yellow-800">B</span>arato no <span class="text-yellow-800">CCAA</span>
+                                <span class="text-yellow-800">E</span> <span class="text-yellow-800">C</span>ome <span
+                                    class="text-yellow-800">F</span>rango
                             </p>
-                            <p class="text-sm text-gray-400 text-center mt-2">
+                            <p class="text-sm text-slate-500 text-center mt-2">
                                 (A F E D E B F B C C A A E C F)
                             </p>
                         </div>
@@ -2048,15 +2048,15 @@
 
             <!-- 11. TIG-NV -->
             <section id="tig-nv" class="scroll-mt-28">
-                <div class="mb-8 border-b border-white/10 pb-4">
-                    <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                <div class="mb-8 border-b border-slate-200 pb-4">
+                    <h2 class="text-3xl font-bold text-slate-800 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">11</span>
                         TIG-NV - Teste de Inteligência Geral Não-Verbal
                     </h2>
                 </div>
 
-                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-white/5 space-y-6">
-                    <p class="text-gray-300 text-lg leading-relaxed text-justify">
+                <div class="glass-panel p-6 rounded-xl bg-black/20 border border-slate-100 space-y-6">
+                    <p class="text-slate-600 text-lg leading-relaxed text-justify">
                         O Teste de Inteligência Geral Não-Verbal – TIG-NV é um teste que avalia, por meio de diferentes
                         tipos de raciocínios, aspectos da inteligência não verbal tais como atenção, concentração,
                         aprendizagem, conhecimento formal, orientação espacial, comportamento viso motor, memória de
@@ -2067,59 +2067,59 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                         <!-- Time -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-stopwatch mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">30 a 40 min</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                            <span class="text-xl font-bold text-slate-800">30 a 40 min</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                         </div>
                         <!-- Items -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
                             <i class="fas fa-list-ol mb-2 text-primary text-xl"></i>
-                            <span class="text-xl font-bold text-white">30</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                            <span class="text-xl font-bold text-slate-800">30</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                         </div>
                         <!-- Meta -->
                         <div
-                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                            <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                            <span class="text-xl font-bold text-white">25 acertos</span>
-                            <span class="text-[10px] text-gray-400 uppercase font-bold">Meta</span>
+                            class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center hover:bg-slate-100 transition-colors group">
+                            <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                            <span class="text-xl font-bold text-slate-800">25 acertos</span>
+                            <span class="text-[10px] text-slate-500 uppercase font-bold">Meta</span>
                         </div>
                     </div>
 
                     <!-- SIMULATOR & DOWNLOAD BTNS -->
                     <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <a href="../tig_nv.html"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400">
+                                    class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800">
                                     <i class="fas fa-play"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Simulador TIG-NV</h4>
-                                    <p class="text-xs text-gray-400">Pratique agora com tempo real</p>
+                                    <h4 class="font-bold text-slate-800">Simulador TIG-NV</h4>
+                                    <p class="text-xs text-slate-500">Pratique agora com tempo real</p>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                            <i class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
 
                         <a href="https://drive.google.com/file/d/14cDmmx1sdA9GpxB07ct9EM_rheyxHZpa/view?usp=sharing"
                             target="_blank"
-                            class="w-full flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all group">
+                            class="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 transition-all group">
                             <div class="flex items-center gap-4">
                                 <div
-                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                    class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600">
                                     <i class="fas fa-cloud-download-alt"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-white">Baixar TIG-NV</h4>
-                                    <p class="text-xs text-gray-400">Download do Kit (PDF)</p>
+                                    <h4 class="font-bold text-slate-800">Baixar TIG-NV</h4>
+                                    <p class="text-xs text-slate-500">Download do Kit (PDF)</p>
                                 </div>
                             </div>
                             <i
-                                class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                         </a>
                     </div>
 
@@ -2127,8 +2127,8 @@
                     <div class="space-y-8">
                         <!-- Exemplo 1 -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: 'D' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo 1</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 1</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/tig/tig_exemplo1.png" alt="Exemplo TIG-NV 1"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -2137,7 +2137,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['A','B','C','D','E','F']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -2145,14 +2145,14 @@
 
                             <!-- Feedback -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
 
-                                <p class="text-gray-300 text-lg leading-relaxed text-justify mb-4">
+                                <p class="text-slate-600 text-lg leading-relaxed text-justify mb-4">
                                     Os desenhos mostram um tipo de raciocínio.
                                     Se você somar as figuras 1 e 2, vai obter a figura 3.
                                     O mesmo acontece com as outras linhas e colunas. Se você somar as figuras 3 e 6 ou 7
@@ -2163,7 +2163,7 @@
                                 </p>
 
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -2171,8 +2171,8 @@
 
                         <!-- Exemplo 2 -->
                         <div x-data="{ answered: false, correct: false, selected: null, answer: 'A' }">
-                            <h3 class="text-xl font-bold text-white mb-4">Exemplo 2</h3>
-                            <div class="bg-black/40 p-4 rounded-lg border border-white/10 mb-4">
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Exemplo 2</h3>
+                            <div class="bg-white/80 p-4 rounded-lg border border-slate-200 mb-4">
                                 <img src="../../Imagens_base/tig/tig_exemplo2.png" alt="Exemplo TIG-NV 2"
                                     class="max-w-full h-auto rounded mx-auto">
                             </div>
@@ -2181,7 +2181,7 @@
                             <div class="flex flex-wrap justify-center gap-2 mb-4" x-show="!answered">
                                 <template x-for="opt in ['A','B','C','D','E','F']">
                                     <button @click="selected = opt; answered = true; correct = (opt === answer)"
-                                        class="w-14 h-14 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
+                                        class="w-14 h-14 rounded-lg border border-slate-200 bg-white/5 hover:bg-white/10 text-slate-800 font-bold transition flex items-center justify-center hover:scale-105 active:scale-95">
                                         <span x-text="opt"></span>
                                     </button>
                                 </template>
@@ -2189,23 +2189,23 @@
 
                             <!-- Feedback -->
                             <div x-show="answered" x-transition class="p-4 rounded-xl border"
-                                :class="correct ? 'bg-green-500/10 border-green-500/30' : 'bg-red-500/10 border-red-500/30'">
+                                :class="correct ? 'bg-green-50 border border-green-200/60 border-green-500/30' : 'bg-red-50 border border-red-200/60 border-red-500/30'">
                                 <div class="flex items-center gap-2 mb-2 font-bold uppercase tracking-wider text-sm"
-                                    :class="correct ? 'text-green-400' : 'text-red-400'">
+                                    :class="correct ? 'text-green-800' : 'text-red-800'">
                                     <i class="fas" :class="correct ? 'fa-check' : 'fa-times'"></i>
                                     <span x-text="correct ? 'Correto!' : 'Incorreto'"></span>
                                 </div>
-                                <p class="text-gray-300 text-lg leading-relaxed text-justify mb-4">
+                                <p class="text-slate-600 text-lg leading-relaxed text-justify mb-4">
                                     Neste tipo de raciocínio temos canetas, lápis e blocos de várias cores e em posições
                                     diferentes ( 2 voltados para baixo e I para cima ).
                                     Você deverá descobrir qual dos objetos deverá ter o número 9.
                                     Temos lápis branco, cinza e vermelho, blocos branco, cinza e vermelho e canetas
                                     cinza e vermelha.
                                     Portanto, a figura que deverá ter o número 9 será a caneta branca com a ponta para
-                                    cima (<strong class="text-green-400">Letra A</strong>).
+                                    cima (<strong class="text-green-800">Letra A</strong>).
                                 </p>
                                 <button @click="answered = false; selected = null"
-                                    class="mt-4 text-xs text-gray-400 hover:text-white underline flex items-center gap-1">
+                                    class="mt-4 text-xs text-slate-500 hover:text-slate-800 underline flex items-center gap-1">
                                     <i class="fas fa-redo"></i> Tentar novamente
                                 </button>
                             </div>
@@ -2213,19 +2213,19 @@
 
                         <!-- Dica -->
                         <div class="bg-yellow-900/20 p-6 rounded-xl border border-yellow-500/20">
-                            <h4 class="text-yellow-400 font-bold mb-2 flex items-center gap-2">
+                            <h4 class="text-yellow-800 font-bold mb-2 flex items-center gap-2">
                                 <i class="fas fa-lightbulb"></i> DICA: Questões 21 a 30
                             </h4>
-                            <p class="text-lg font-bold text-white text-center leading-relaxed">
-                                <span class="text-yellow-400">DEAFC</span>: <span class="text-yellow-400">D</span>epois
-                                do <span class="text-yellow-400">E</span>xame, <span class="text-yellow-400">A</span>na
-                                <span class="text-yellow-400">F</span>oi ao <span class="text-yellow-400">C</span>inema.
+                            <p class="text-lg font-bold text-slate-800 text-center leading-relaxed">
+                                <span class="text-yellow-800">DEAFC</span>: <span class="text-yellow-800">D</span>epois
+                                do <span class="text-yellow-800">E</span>xame, <span class="text-yellow-800">A</span>na
+                                <span class="text-yellow-800">F</span>oi ao <span class="text-yellow-800">C</span>inema.
                             </p>
-                            <p class="text-lg font-bold text-white text-center leading-relaxed mt-2">
-                                <span class="text-yellow-400">ABCFD</span>: <span class="text-yellow-400">A</span>ntes
-                                de <span class="text-yellow-400">B</span>eijar, <span
-                                    class="text-yellow-400">C</span>arol <span class="text-yellow-400">F</span>ez <span
-                                    class="text-yellow-400">D</span>oideiras
+                            <p class="text-lg font-bold text-slate-800 text-center leading-relaxed mt-2">
+                                <span class="text-yellow-800">ABCFD</span>: <span class="text-yellow-800">A</span>ntes
+                                de <span class="text-yellow-800">B</span>eijar, <span
+                                    class="text-yellow-800">C</span>arol <span class="text-yellow-800">F</span>ez <span
+                                    class="text-yellow-800">D</span>oideiras
                             </p>
                         </div>
 
@@ -2237,8 +2237,8 @@
         </article>
     </main>
 
-    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
-        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    <footer class="border-t border-slate-200 mt-auto py-8 bg-slate-50 text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico. Todos direitos reservados.
     </footer>
 
 </body>

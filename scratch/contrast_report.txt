@@ -1,0 +1,149 @@
+Scan complete. Checked 111 files. Found 147 potential issues.
+
+[CSS COLOR] aulas.html:212 -> color: white;
+[HTML CLASS] aulas.html:286 -> <body class="flex flex-col min-h-screen selection:bg-pink-500 selection:text-white" x-data="lessonsApp()">
+[CSS COLOR] aulas2.html:197 -> color: white;
+[CSS COLOR] aulas_PC-PI_2026.html:212 -> color: white;
+[HTML CLASS] aulas_PC-PI_2026.html:286 -> <body class="flex flex-col min-h-screen selection:bg-pink-500 selection:text-white" x-data="lessonsApp()">
+[CSS COLOR] aulas_PM-CE_2026.html:216 -> color: white;
+[HTML CLASS] aulas_PM-CE_2026.html:290 -> <body class="flex flex-col min-h-screen selection:bg-pink-500 selection:text-white" x-data="lessonsApp()">
+[CSS COLOR] aulas_PPMG_2026 copy.html:212 -> color: white;
+[HTML CLASS] aulas_PPMG_2026 copy.html:286 -> <body class="flex flex-col min-h-screen selection:bg-pink-500 selection:text-white" x-data="lessonsApp()">
+[CSS COLOR] aulas_PPMG_2026.html:212 -> color: white;
+[HTML CLASS] aulas_PPMG_2026.html:286 -> <body class="flex flex-col min-h-screen selection:bg-pink-500 selection:text-white" x-data="lessonsApp()">
+[CSS COLOR] banco_testes.html:148 -> color: white;
+[CSS COLOR] bfp copy.html:167 -> color: white;
+[CSS COLOR] bfp.html:167 -> color: white;
+[CSS COLOR] bfp_debug.html:56 -> color: white;
+[CSS COLOR] bfp_PMCE.html:167 -> color: white;
+[CSS COLOR] bfp_PMCE_Gamming.html:81 -> color: white !important;
+[CSS COLOR] bfp_PMCE_Gamming.html:88 -> color: white !important;
+[CSS COLOR] bfp_secure.html:167 -> color: white;
+[CSS COLOR] eata.html:167 -> color: white;
+[CSS COLOR] editor_aulas.html:12 -> body { background-color: #0f0e1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+[CSS COLOR] editor_aulas.html:14 -> input, select, textarea { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 4px; padding: 8px 12px; width: 100%; }
+[CSS COLOR] editor_aulas.html:17 -> .btn-primary { background: #9f54ff; color: white; }
+[CSS COLOR] editor_aulas.html:19 -> .btn-secondary { background: rgba(255,255,255,0.1); color: white; }
+[HTML CLASS] editor_aulas.html:265 -> <div class="fixed bottom-4 right-4 bg-red-900 border border-red-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 z-50"
+[HTML CLASS] editor_aulas.html:271 -> <div class="fixed bottom-4 right-4 bg-green-900 border border-green-500 text-white px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 transition-all duration-300 z-50"
+[CSS COLOR] editor_aulas.html:487 -> .lesson-info h3 { color:white; font-weight:700; font-size:1.125rem; margin-bottom:0.25rem; }
+[CSS COLOR] editor_aulas.html:491 -> .check-container input:checked ~ .check-box-custom { background:#10b981; border-color:#10b981; color:white; }
+[CSS COLOR] editor_universal.html:21 -> color: #e2e8f0;
+[CSS COLOR] editor_universal.html:113 -> color: white;
+[CSS COLOR] editor_universal.html:146 -> color: white;
+[CSS COLOR] editor_universal.html:152 -> color: white;
+[CSS COLOR] editor_universal.html:192 -> border-color: white !important;
+[CSS COLOR] editor_universal.html:219 -> color: white;
+[HTML CLASS] editor_universal.html:550 -> <button @click="generateGrid" class="btn w-full bg-slate-700 text-white mt-2 mb-3">
+[CSS COLOR] em_breve.html:17 -> color: white;
+[HTML CLASS] em_breve.html:113 -> class="flex items-center justify-center min-h-screen flex-col text-center p-4 selection:bg-pink-500 selection:text-white">
+[CSS COLOR] esavi_b.html:167 -> color: white;
+[CSS COLOR] ifp2.html:167 -> color: white;
+[CSS COLOR] ifp2_debug.html:56 -> color: white;
+[CSS COLOR] ifp2_pmce.html:167 -> color: white;
+[CSS COLOR] ifp2_PMCE_Gamming.html:95 -> color: white !important;
+[CSS COLOR] ifp2_PMCE_Gamming.html:103 -> color: white !important;
+[HTML CLASS] index.html:293 -> class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white">
+[HTML CLASS] index.html:555 -> <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Painel</h2>
+[HTML CLASS] index.html:723 -> <i class="fas fa-chart-bar text-slate-400"></i>
+[HTML CLASS] index.html:896 -> <p class="text-xs uppercase tracking-wider font-bold mb-6 text-slate-400">
+[HTML CLASS] index_PC-PI_2026.html:293 -> class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white">
+[HTML CLASS] index_PC-PI_2026.html:555 -> <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-1">Painel</h2>
+[HTML CLASS] index_PC-PI_2026.html:724 -> <i class="fas fa-chart-bar text-slate-400"></i>
+[HTML CLASS] index_PC-PI_2026.html:892 -> <p class="text-xs uppercase tracking-wider font-bold mb-6 text-slate-400">
+[CSS COLOR] index_PMCE_2026.html:470 -> color: #fff;
+[HTML CLASS] index_PMCE_2026.html:647 -> class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white">
+[HTML CLASS] index_PMCE_2026.html:977 -> <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Painel</span>
+[HTML CLASS] index_PMCE_2026.html:1086 -> <i class="fas fa-chart-bar text-slate-400"></i>
+[HTML CLASS] index_PMCE_2026.html:1096 -> <i class="fas fa-chart-pie text-slate-400"></i>
+[HTML CLASS] index_PMCE_2026.html:1108 -> <i class="fas fa-list-ol text-slate-400"></i> Testes Mais Cobrados
+[CSS COLOR] index_PPMG_2026.html:358 -> font-weight: 900; font-size: 0.78rem; color: #fff;
+[HTML CLASS] index_PPMG_2026.html:461 -> class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white">
+[HTML CLASS] index_PPMG_2026.html:730 -> <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Painel</span>
+[HTML CLASS] index_PPMG_2026.html:855 -> <p class="text-[10px] text-slate-400 mt-0.5">13 dimensões do perfil exigido · PP-MG 2026</p>
+[HTML CLASS] index_PPMG_2026.html:893 -> <p class="text-[11px] text-slate-400 leading-relaxed">Foco sustentado e bloqueio de interferências externas.</p>
+[HTML CLASS] index_PPMG_2026.html:897 -> <p class="text-[11px] text-slate-400 leading-relaxed">Monitorar múltiplos estímulos simultaneamente.</p>
+[HTML CLASS] index_PPMG_2026.html:901 -> <p class="text-[11px] text-slate-400 leading-relaxed">Capacidade intelectual, destreza e raciocínio para aprendizado.</p>
+[HTML CLASS] index_PPMG_2026.html:905 -> <p class="text-[11px] text-slate-400 leading-relaxed">Armazena e recupera informações, dados, fatos e fisionomias.</p>
+[HTML CLASS] index_PPMG_2026.html:935 -> <p class="text-[11px] text-slate-400 leading-relaxed">Coloca-se no lugar do outro, compreendendo sentimentos e crenças.</p>
+[HTML CLASS] index_PPMG_2026.html:939 -> <p class="text-[11px] text-slate-400 leading-relaxed">Sociável, interage positivamente e age com tato no relacionamento.</p>
+[HTML CLASS] index_PPMG_2026.html:943 -> <p class="text-[11px] text-slate-400 leading-relaxed">Interage, coopera e participa ativamente para atingir metas coletivas.</p>
+[HTML CLASS] index_PPMG_2026.html:947 -> <p class="text-[11px] text-slate-400 leading-relaxed">Cumpre ordens; respeita a norma, hierarquia militar e superiores.</p>
+[HTML CLASS] index_PPMG_2026.html:958 -> <p class="text-[11px] text-slate-400 leading-relaxed">Ativo, ágil e envolve-se em várias atividades com vitalidade.</p>
+[HTML CLASS] index_PPMG_2026.html:962 -> <p class="text-[11px] text-slate-400 leading-relaxed">Ação espontânea e imediata diante de situações, respondendo com proatividade.</p>
+[HTML CLASS] index_PPMG_2026.html:980 -> <i class="fas fa-chart-bar text-slate-400"></i>
+[HTML CLASS] index_PPMG_2026.html:990 -> <i class="fas fa-chart-pie text-slate-400"></i>
+[HTML CLASS] index_PPMG_2026.html:1002 -> <i class="fas fa-list-ol text-slate-400"></i> Testes Mais Cobrados
+[HTML CLASS] modelo.html:233 -> class="min-h-screen flex flex-col font-sans antialiased selection:bg-purple-500 selection:text-white">
+[HTML CLASS] modelo.html:255 -> <i class="fas fa-brain text-white text-lg"></i>
+[HTML CLASS] modelo.html:633 -> <i class="fas fa-chart-bar text-slate-400"></i>
+[CSS COLOR] neopi.html:167 -> color: white;
+[CSS COLOR] palografico copy.html:136 -> color: #fff;
+[CSS COLOR] palografico.html:136 -> color: #fff;
+[CSS COLOR] tempo_metas_bizus.html:189 -> color: #ccc;
+[CSS COLOR] tempo_metas_bizus.html:194 -> color: white;
+[CSS COLOR] tempo_metas_bizus.html:199 -> color: white;
+[CSS COLOR] tempo_metas_bizus.html:214 -> color: white;
+[CSS COLOR] tempo_metas_bizus.html:275 -> background-color: white;
+[HTML CLASS] tempo_metas_bizus.html:281 -> <body class="flex flex-col min-h-screen selection:bg-pink-500 selection:text-white">
+[HTML CLASS] tempo_metas_bizus.html:831 -> <button onclick="checkScore(${id}, ${item.meta}, ${item.isRange || false}, ${item.metaMax || 0})" class="bg-gray-700 hover:bg-gray-600 text-white rounded px-3 text-xs font-bold transition">OK</button>
+[HTML CLASS] testes_.html:245 -> <body x-data="{}" class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white">
+[HTML CLASS] testes_atencao_PMCE.html:250 -> :class="filter === 'AD' ? 'bg-cyan-600 text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+[HTML CLASS] testes_atencao_PMCE.html:255 -> :class="filter === 'AS' ? 'bg-orange-600 text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+[HTML CLASS] testes_atencao_PMCE.html:260 -> :class="filter === 'AA' ? 'bg-pink-600 text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'"
+[HTML CLASS] testes_PMCE.html:245 -> <body x-data="{}" class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white">
+[HTML CLASS] apostila\apostila_atencao.html:174 -> <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white"
+[HTML CLASS] apostila\apostila_inteligencia.html:174 -> <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white"
+[HTML CLASS] apostila\apostila_memoria.html:174 -> <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white"
+[HTML CLASS] apostila\apostila_personalidade.html:195 -> <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white"
+[HTML CLASS] apostila\apostila_personalidade.html:1437 -> class="px-4 py-2 rounded-lg bg-orange-50 border border-orange-200/60 text-orange-800 text-sm font-bold border border-orange-500/50 shadow-[0_0_10px_rgba(249,115,22,0.2)] hover:bg-orange-500 hover:text-white flex items-center gap-2 transition-colors">
+[HTML CLASS] apostila\apostila_personalidade.html:1463 -> class="px-4 py-2 rounded-lg bg-purple-500/20 text-blue-500 text-sm font-bold border border-blue-500/30 hover:bg-purple-500 hover:text-white flex items-center gap-2 transition-colors">
+[HTML CLASS] apostila\apostila_personalidade.html:1468 -> class="px-4 py-2 rounded-lg bg-blue-50 text-blue-500 text-sm font-bold border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.2)] hover:bg-cyan-500 hover:text-white flex items-center gap-2 transition-colors">
+[HTML CLASS] apostila\index.html:215 -> <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-pink-500 selection:text-white" x-data
+[HTML CLASS] apostila\index.html:257 -> class="text-sm text-[var(--accent-pink)] hover:text-white flex items-center gap-2 font-bold transition">
+[CSS COLOR] apostila\slides_atencao.html:37 -> background-color: #F8FAFC;
+[HTML CLASS] apostila\slides_atencao.html:160 -> <i class="fas fa-brain text-[12rem] text-slate-200/50"></i>
+[HTML CLASS] apostila\slides_atencao.html:504 -> class="block w-full py-5 text-center bg-pink-600 text-white font-bold text-2xl rounded-xl hover:scale-105 transition shadow-lg shadow-pink-500/30">
+[HTML CLASS] apostila\slides_atencao.html:579 -> class="block w-full py-5 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-700 transition shadow-lg shadow-pink-600/30">
+[HTML CLASS] apostila\slides_atencao.html:657 -> class="block w-full py-4 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-700 transition shadow-lg shadow-pink-600/30">
+[HTML CLASS] apostila\slides_atencao.html:984 -> class="block w-full py-5 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-700 transition shadow-lg shadow-pink-600/30">
+[CSS COLOR] beta3codigo\beta3codigo.html:169 -> color: white;
+[CSS COLOR] beta3codigo\beta3codigomapear.html:12 -> color: white;
+[CSS COLOR] bpa\bpa_aa_debug.html:23 -> color: white;
+[CSS COLOR] bpa\bpa_aa_debug.html:84 -> color: white;
+[CSS COLOR] bpa\bpa_aa_debug.html:106 -> color: white;
+[HTML CLASS] bpa\bpa_aa_debug.html:311 -> class="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-[10px] font-bold transition">
+[CSS COLOR] bpa\bpa_debug.html:23 -> color: white;
+[CSS COLOR] bpa\bpa_debug.html:84 -> color: white;
+[CSS COLOR] bpa\bpa_debug.html:106 -> color: white;
+[HTML CLASS] bpa\bpa_debug.html:310 -> class="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-[10px] font-bold transition">
+[HTML CLASS] cta\cta_aa.html:380 -> <thead class="text-xs text-slate-400 uppercase bg-slate-50">
+[CSS COLOR] cta\debug_cta_aa.html:30 -> color: white;
+[CSS COLOR] cta\debug_cta_aa.html:56 -> color: white;
+[CSS COLOR] cta\debug_cta_aa.html:86 -> border-color: white;
+[CSS COLOR] cta\mapeadorcta.html:23 -> color: white;
+[CSS COLOR] cta\mapeadorcta.html:79 -> color: white;
+[CSS COLOR] memof\mapeadormemof.html:12 -> color: white;
+[CSS COLOR] memof\mapeadormemof.html:56 -> border-color: #fff;
+[CSS COLOR] memof\mapeadormemof.html:70 -> border-color: white;
+[CSS COLOR] rotas\editor_rotas_unificado copy.html:23 -> color: white;
+[CSS COLOR] rotas\editor_rotas_unificado copy.html:84 -> color: white;
+[CSS COLOR] rotas\editor_rotas_unificado copy.html:106 -> color: white;
+[HTML CLASS] rotas\editor_rotas_unificado copy.html:310 -> class="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-[10px] font-bold transition">
+[CSS COLOR] rotas\rotaa_debug.html:223 -> color: white;
+[HTML CLASS] rotas\rotaa_debug.html:295 -> class="absolute bottom-2 right-2 bg-gray-700 hover:bg-gray-600 text-white rounded px-2 py-1 text-[10px] transition">
+[CSS COLOR] rotas\rotac_debug.html:223 -> color: white;
+[HTML CLASS] rotas\rotac_debug.html:294 -> class="absolute bottom-2 right-2 bg-gray-700 hover:bg-gray-600 text-white rounded px-2 py-1 text-[10px] transition">
+[CSS COLOR] tadim\debug_tadim1.html:19 -> color: white;
+[HTML CLASS] tealt\tealt.html:330 -> class="bg-blue-500 text-white px-2 py-1 rounded w-full">Log to Console</button>
+[CSS COLOR] tedif\debug_tedif1.html:19 -> color: white;
+[CSS COLOR] tem-r\mapeador_tem_r.html:23 -> color: white;
+[CSS COLOR] tem-r\mapeador_tem_r.html:84 -> color: white;
+[CSS COLOR] tem-r\mapeador_tem_r.html:106 -> color: white;
+[HTML CLASS] tem-r\mapeador_tem_r.html:315 -> class="w-full py-2 bg-gray-700 hover:bg-gray-600 text-white rounded text-[10px] font-bold transition">
+[CSS COLOR] tepic\tepic.html:137 -> color: white;
+[CSS COLOR] tspdimensoes\mapear_tspdimensoes.html:23 -> color: white;
+[CSS COLOR] tspdimensoes\mapear_tspdimensoes.html:79 -> color: white;
+[CSS COLOR] tspdimensoes\tsp3.html:116 -> color: white;
+[CSS COLOR] tspdimensoes\tspdimensoes.html:125 -> background-color: #fff;
+[HTML CLASS] tspdimensoes\tspdimensoes.html:538 -> class="bg-gray-700 text-white px-3 py-1 rounded text-sm w-full">Close</button>

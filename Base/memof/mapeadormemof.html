@@ -85,11 +85,11 @@
     <aside
         class="w-[350px] h-screen bg-gray-900 border-l border-gray-700 flex flex-col shadow-2xl z-50 fixed right-0 top-0 overflow-y-auto text-xs">
         <div class="p-4 space-y-5">
-            <h2 class="text-lg font-bold text-blue-400 border-b border-gray-700 pb-2">Editor Visual (JSON)</h2>
+            <h2 class="text-lg font-bold text-blue-600 border-b border-gray-700 pb-2">Editor Visual (JSON)</h2>
 
             <div class="bg-gray-800 p-3 rounded">
-                <label class="block uppercase text-gray-400 mb-2 font-bold">1. Imagem de Fundo</label>
-                <input type="file" @change="loadImage" accept="image/*" class="w-full text-gray-300">
+                <label class="block uppercase text-slate-500 mb-2 font-bold">1. Imagem de Fundo</label>
+                <input type="file" @change="loadImage" accept="image/*" class="w-full text-slate-600">
                 <div class="flex justify-between items-center mt-3">
                     <span>Zoom: <span x-text="zoom + '%'"></span></span>
                     <input type="range" x-model="zoom" min="20" max="200" class="w-24 accent-blue-500">
@@ -97,11 +97,11 @@
             </div>
 
             <div class="bg-gray-800 p-3 rounded border-l-2 border-yellow-500">
-                <h3 class="font-bold text-yellow-400 uppercase mb-2">2. Colar Configuração Atual</h3>
-                <p class="text-[10px] text-gray-400 mb-2">Cole o código (objeto JSON ou a var const PAGE_CONFIG) aqui
+                <h3 class="font-bold text-yellow-700 uppercase mb-2">2. Colar Configuração Atual</h3>
+                <p class="text-[10px] text-slate-500 mb-2">Cole o código (objeto JSON ou a var const PAGE_CONFIG) aqui
                     para editar os pontos:</p>
                 <textarea x-model="inputCode"
-                    class="w-full h-32 bg-black text-gray-300 p-2 rounded border border-gray-600 font-mono text-[10px] focus:border-yellow-500 outline-none"
+                    class="w-full h-32 bg-black text-slate-600 p-2 rounded border border-gray-600 font-mono text-[10px] focus:border-yellow-500 outline-none"
                     placeholder='Cole aqui: config: { ... }'></textarea>
                 <button @click="loadFromCode()"
                     class="w-full mt-2 py-2 bg-yellow-600 hover:bg-yellow-500 text-black font-bold rounded">
@@ -109,7 +109,7 @@
                 </button>
             </div>
 
-            <div class="bg-black/30 p-2 rounded text-gray-400 italic">
+            <div class="bg-white/80 p-2 rounded text-slate-500 italic">
                 <ul class="list-disc pl-4 space-y-1">
                     <li>Arraste as bolinhas para corrigir a posição.</li>
                     <li>Clique rápido para marcar como <strong>Correto (Verde)</strong>.</li>
@@ -126,13 +126,13 @@
             </div>
 
             <div class="pt-2 pb-10">
-                <h3 class="font-bold text-green-400 uppercase mb-2">3. Código Final</h3>
+                <h3 class="font-bold text-green-700 uppercase mb-2">3. Código Final</h3>
                 <button @click="generateOutput()"
-                    class="w-full py-3 bg-gradient-to-r from-green-600 to-green-500 text-white font-bold rounded shadow-lg">
+                    class="w-full py-3 bg-gradient-to-r from-green-600 to-green-500 text-slate-800 font-bold rounded shadow-lg">
                     GERAR CÓDIGO CORRIGIDO
                 </button>
                 <textarea x-model="outputCode" readonly
-                    class="w-full h-32 bg-black text-green-400 text-[10px] p-2 rounded border border-gray-700 font-mono mt-2 focus:outline-none"></textarea>
+                    class="w-full h-32 bg-black text-green-700 text-[10px] p-2 rounded border border-gray-700 font-mono mt-2 focus:outline-none"></textarea>
             </div>
         </div>
     </aside>
@@ -144,7 +144,7 @@
             <img :src="imgSrc" x-show="imgSrc" class="bg-image" :style="`width: 100%; height: 100%;`">
 
             <div x-show="!imgSrc"
-                class="absolute inset-0 flex items-center justify-center text-gray-500 pointer-events-none">
+                class="absolute inset-0 flex items-center justify-center text-slate-600 pointer-events-none">
                 <p class="text-xl font-bold border-2 border-dashed border-gray-700 p-10 rounded-xl">1. Carregue a Imagem
                 </p>
             </div>

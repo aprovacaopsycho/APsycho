@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Editor Universal (APsycho)</title>
+    <title>Editor Universal | Grupo de Estudos para Psicotécnico</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
@@ -11,9 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0f172a;
+            --bg-dark: #F8FAFC;
             --glass: rgba(30, 41, 59, 0.95);
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(0, 0, 0, 0.04);
         }
 
         body {
@@ -65,7 +65,7 @@
 
         /* --- CONTROLS --- */
         .panel {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.02);
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 12px;
@@ -77,7 +77,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 800;
-            color: #94a3b8;
+            color: #475569;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -126,7 +126,7 @@
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.02);
             border: 1px solid var(--border);
             border-radius: 6px;
             padding: 6px 12px;
@@ -142,7 +142,7 @@
         }
 
         .btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.04);
             color: white;
         }
 
@@ -304,7 +304,7 @@
 
                 <!-- Empty State -->
                 <div x-show="!imgSrc"
-                    class="absolute inset-0 flex flex-col items-center justify-center text-gray-500 pointer-events-none">
+                    class="absolute inset-0 flex flex-col items-center justify-center text-slate-600 pointer-events-none">
                     <i class="fas fa-image text-6xl mb-4 opacity-20"></i>
                     <p class="text-xs uppercase tracking-widest font-bold opacity-50">Carregue uma Imagem</p>
                 </div>
@@ -329,7 +329,7 @@
 
                         <!-- Show ID if enabled or Debug -->
                         <span x-show="showIds" x-text="item.id"
-                            class="relative z-10 text-[8px] bg-black/50 px-1 rounded"></span>
+                            class="relative z-10 text-[8px] bg-white/80 px-1 rounded"></span>
 
                         <!-- Show Value number if not Cross style -->
                         <span x-show="!showIds && getStyle(item.v) !== 'cross' && item.v > 0" x-text="item.v"
@@ -342,11 +342,11 @@
 
         <!-- SIDEBAR -->
         <div class="sidebar">
-            <div class="p-4 border-b border-white/10 flex justify-between items-center bg-black/30">
-                <h1 class="font-bold text-white tracking-widest text-xs flex items-center gap-2">
-                    <i class="fas fa-cube text-purple-400"></i> EDITOR UNIVERSAL V3
+            <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-white/80">
+                <h1 class="font-bold text-slate-800 tracking-widest text-xs flex items-center gap-2">
+                    <i class="fas fa-cube text-blue-600"></i> EDITOR UNIVERSAL V3
                 </h1>
-                <div class="text-[9px] text-gray-500">APSYCHO</div>
+                <div class="text-[9px] text-slate-600">GRUPO DE ESTUDOS</div>
             </div>
 
             <div class="sidebar-content">
@@ -359,14 +359,14 @@
                             class="ctrl-input text-[9px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-purple-600 file:text-white">
                     </div>
                     <div class="ctrl-row">
-                        <i class="fas fa-search text-gray-500 text-xs"></i>
+                        <i class="fas fa-search text-slate-600 text-xs"></i>
                         <input type="range" x-model.number="zoom" min="10" max="200"
                             class="w-full accent-purple-500 h-1 bg-gray-700 rounded cursor-pointer">
                         <span class="text-[9px] w-8 text-right" x-text="zoom + '%'"></span>
                     </div>
 
                     <!-- Background Image Adjustment -->
-                    <div class="mt-3 pt-2 border-t border-white/10">
+                    <div class="mt-3 pt-2 border-t border-slate-200">
                         <div class="input-label mb-2">AJUSTE FINO DA IMAGEM</div>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="input-group">
@@ -391,7 +391,7 @@
 
                 <!-- 2. CONFIGURAÇÃO DE ITENS -->
                 <div class="panel border-l-2 border-l-purple-500">
-                    <div class="panel-title text-purple-400"><i class="fas fa-shapes"></i> Estilo e Formato</div>
+                    <div class="panel-title text-blue-600"><i class="fas fa-shapes"></i> Estilo e Formato</div>
 
                     <!-- Formato Global -->
                     <div class="input-label mb-2">FORMATO GLOBAL</div>
@@ -417,11 +417,11 @@
                     </div>
 
                     <!-- Configuração por Valor -->
-                    <div class="mt-4 pt-3 border-t border-white/10">
+                    <div class="mt-4 pt-3 border-t border-slate-200">
                         <div class="flex justify-between items-end mb-2">
                             <div class="input-label">ESTILOS POR VALOR</div>
                             <div class="input-group w-20">
-                                <label class="text-[8px] text-gray-500">Max Val</label>
+                                <label class="text-[8px] text-slate-600">Max Val</label>
                                 <input type="number" x-model.number="maxVal" min="1" max="5"
                                     class="ctrl-input py-0 px-1 text-center h-5">
                             </div>
@@ -456,7 +456,7 @@
 
                 <!-- 3. COMPORTAMENTO -->
                 <div class="panel border-l-2 border-l-blue-500">
-                    <div class="panel-title text-blue-400"><i class="fas fa-mouse"></i> Comportamento</div>
+                    <div class="panel-title text-blue-600"><i class="fas fa-mouse"></i> Comportamento</div>
 
                     <div class="input-group mb-3">
                         <label class="input-label">AÇÃO CLIQUE DUPLO</label>
@@ -478,7 +478,7 @@
                     </div>
 
                     <!-- Drag Mode -->
-                    <div class="mt-3 pt-2 border-t border-white/10">
+                    <div class="mt-3 pt-2 border-t border-slate-200">
                         <div class="input-label mb-2">MODO DE ARRASTE</div>
                         <div class="grid grid-cols-4 gap-1">
                             <button @click="dragMode = 'single'" :class="{'active': dragMode === 'single'}" class="btn"
@@ -501,11 +501,11 @@
                     </div>
 
                     <div class="flex flex-col gap-1 mt-3">
-                        <label class="flex items-center gap-2 text-[10px] text-gray-400">
+                        <label class="flex items-center gap-2 text-[10px] text-slate-500">
                             <input type="checkbox" x-model="showIds" class="accent-purple-500"> Mostrar IDs
                         </label>
                         <div class="flex items-center gap-2">
-                            <label class="flex items-center gap-2 text-[10px] text-gray-400">
+                            <label class="flex items-center gap-2 text-[10px] text-slate-500">
                                 <input type="checkbox" x-model="showGrid" class="accent-purple-500"> Mostrar Grade
                             </label>
                             <input type="range" x-model="gridOpacity" min="0" max="1" step="0.1"
@@ -554,7 +554,7 @@
                         <!-- Row/Col Managment -->
                         <div class="grid grid-cols-2 gap-2 mb-3">
                             <div class="flex flex-col gap-1">
-                                <span class="text-[8px] text-gray-400 font-bold text-center">LINHAS</span>
+                                <span class="text-[8px] text-slate-500 font-bold text-center">LINHAS</span>
                                 <div class="flex gap-1">
                                     <button @click="addRow" class="btn flex-1 py-1 text-[10px]"
                                         title="Adicionar Linha"><i class="fas fa-plus"></i></button>
@@ -563,7 +563,7 @@
                                 </div>
                             </div>
                             <div class="flex flex-col gap-1">
-                                <span class="text-[8px] text-gray-400 font-bold text-center">COLUNAS</span>
+                                <span class="text-[8px] text-slate-500 font-bold text-center">COLUNAS</span>
                                 <div class="flex gap-1">
                                     <button @click="addCol" class="btn flex-1 py-1 text-[10px]"
                                         title="Adicionar Coluna"><i class="fas fa-plus"></i></button>
@@ -603,14 +603,14 @@
                 <div class="panel border-l-2 border-l-pink-500">
                     <div class="panel-title text-pink-400"><i class="fas fa-file-code"></i> Dados JSON</div>
 
-                    <div class="flex gap-1 mb-2 bg-black/30 p-1 rounded">
+                    <div class="flex gap-1 mb-2 bg-white/80 p-1 rounded">
                         <button @click="exportMode = 'rotas'" :class="{'bg-purple-600': exportMode==='rotas'}"
                             class="flex-1 py-1 rounded text-[9px] transition">ROTAS (t)</button>
                         <button @click="exportMode = 'value'" :class="{'bg-blue-600': exportMode==='value'}"
                             class="flex-1 py-1 rounded text-[9px] transition">VALOR (v)</button>
                     </div>
 
-                    <textarea x-model="jsonIO" class="ctrl-input h-16 font-mono text-[9px] text-green-400 mb-2"
+                    <textarea x-model="jsonIO" class="ctrl-input h-16 font-mono text-[9px] text-green-700 mb-2"
                         placeholder="JSON aqui..."></textarea>
 
                     <div class="grid grid-cols-2 gap-2">

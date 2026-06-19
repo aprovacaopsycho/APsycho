@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>TSP Dimensões | Aprovação Psycho</title>
+    <meta name="color-scheme" content="light" />
+    <title>TSP Dimensões | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -22,24 +22,24 @@
 
     <style>
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg-dark);
-            color: #a0a0a0;
+            color: #334155;
             user-select: none;
         }
 
         /* ---- HERO (glass + grid) ---- */
         .hero-bg {
             position: relative;
-            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-image: linear-gradient(180deg, rgba(248, 250, 252, .85), rgba(248, 250, 252, .95)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -52,9 +52,9 @@
             inset: -10%;
             z-index: -1;
             opacity: .35;
-            background: radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
-                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
-                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            background: radial-gradient(600px 200px at 10% 0%, rgba(37, 99, 235, .05), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(14, 165, 233, .05), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             filter: blur(40px);
             pointer-events: none;
             animation: gradientShift 15s ease infinite;
@@ -64,11 +64,11 @@
 
             0%,
             100% {
-                background: radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%), radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%), radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+                background: radial-gradient(600px 200px at 10% 0%, rgba(37, 99, 235, .05), transparent 60%), radial-gradient(600px 200px at 90% 20%, rgba(14, 165, 233, .05), transparent 60%), radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             }
 
             50% {
-                background: radial-gradient(600px 200px at 90% 0%, rgba(0, 194, 255, .18), transparent 60%), radial-gradient(600px 200px at 10% 20%, rgba(255, 0, 255, .18), transparent 60%), radial-gradient(1000px 400px at 50% 110%, rgba(159, 84, 255, .18), transparent 60%);
+                background: radial-gradient(600px 200px at 90% 0%, rgba(14, 165, 233, .05), transparent 60%), radial-gradient(600px 200px at 10% 20%, rgba(37, 99, 235, .05), transparent 60%), radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             }
         }
 
@@ -202,7 +202,7 @@
         .glass-panel {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
@@ -288,36 +288,36 @@
     </div>
 
     <!-- HEADER -->
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">TSP <span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">TSP <span
                             class="text-[var(--primary-purple)]">DIMENSÕES</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-6">
                 <!-- User Info -->
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <div x-show="step === 1" class="text-sm font-bold text-gray-400" x-cloak>
+                    <div x-show="step === 1" class="text-sm font-bold text-slate-500" x-cloak>
                         Página <span x-text="currentPageIndex + 1"></span>/2
                     </div>
                     <a href="../testes_inteligencia_PMCE.html"
-                        class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                        class="text-sm text-[var(--accent-blue)] hover:text-slate-800 flex items-center gap-2 font-bold transition">
                         <i class="fas fa-arrow-left"></i> Voltar
                     </a>
                 </div>
@@ -340,11 +340,11 @@
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500">
             </div>
 
-            <h2 class="text-3xl font-black text-white mb-6">Instruções do Teste</h2>
+            <h2 class="text-3xl font-black text-slate-800 mb-6">Instruções do Teste</h2>
 
-            <div class="text-left text-gray-300 space-y-4 mb-8 bg-black/20 p-6 rounded-xl border border-white/5">
+            <div class="text-left text-slate-600 space-y-4 mb-8 bg-slate-50 p-6 rounded-xl border border-slate-200">
                 <p>Este teste verifica sua aptidão para percepção espacial.</p>
-                <p class="font-bold text-white text-lg">DEVE-SE MARCAR UMA DAS QUATRO FIGURAS QUE ESTÁ INVERTIDA EM
+                <p class="font-bold text-slate-900 text-lg">DEVE-SE MARCAR UMA DAS QUATRO FIGURAS QUE ESTÁ INVERTIDA EM
                     RELAÇÃO À DA ESQUERDA.</p>
                 <p>Você terá 48 problemas para resolver em 5 minutos.</p>
             </div>
@@ -358,11 +358,11 @@
                     this.selectedIdx = idx;
                     this.showFeedback = true;
                 }
-            }" class="mb-8 p-6 bg-black/20 rounded-xl border border-white/5 relative overflow-hidden">
+            }" class="mb-8 p-6 bg-slate-50 rounded-xl border border-slate-200 relative overflow-hidden">
 
                 <h3
-                    class="text-white font-bold mb-4 flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
-                    <i class="fas fa-mouse-pointer text-purple-400"></i> Clique na figura INVERTIDA
+                    class="text-slate-800 font-bold mb-4 flex items-center justify-center gap-2 text-sm uppercase tracking-wider">
+                    <i class="fas fa-mouse-pointer text-blue-600"></i> Clique na figura INVERTIDA
                 </h3>
 
                 <!-- Icon Row -->
@@ -399,70 +399,70 @@
 
                 <!-- Feedback Area -->
                 <div x-show="showFeedback" x-transition
-                    class="bg-black/40 p-4 rounded-lg border border-white/10 text-center max-w-md mx-auto">
+                    class="bg-white/80 p-4 rounded-lg border border-slate-200 text-center max-w-md mx-auto">
                     <template x-if="selectedIdx === 2">
                         <div>
-                            <p class="text-green-400 font-bold mb-1"><i class="fas fa-check-circle"></i> Correto!</p>
-                            <p class="text-gray-300 text-sm">Esta figura está espelhada (invertida) em relação às
+                            <p class="text-green-700 font-bold mb-1"><i class="fas fa-check-circle"></i> Correto!</p>
+                            <p class="text-slate-600 text-sm">Esta figura está espelhada (invertida) em relação às
                                 outras.</p>
                         </div>
                     </template>
                     <template x-if="selectedIdx !== 2">
                         <div>
-                            <p class="text-red-400 font-bold mb-1"><i class="fas fa-times-circle"></i> Incorreto</p>
-                            <p class="text-gray-300 text-sm">Observe que a 3ª figura está virada ao contrário
+                            <p class="text-red-700 font-bold mb-1"><i class="fas fa-times-circle"></i> Incorreto</p>
+                            <p class="text-slate-600 text-sm">Observe que a 3ª figura está virada ao contrário
                                 (espelhada).</p>
                         </div>
                     </template>
                 </div>
 
                 <div x-show="!showFeedback"
-                    class="text-xs text-gray-500 mt-4 animate-pulse uppercase tracking-widest font-bold">
+                    class="text-xs text-slate-600 mt-4 animate-pulse uppercase tracking-widest font-bold">
                     Tente identificar o intruso
                 </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
-                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-100">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-stopwatch"></i></div>
-                        <span class="font-bold text-white">Tempo Limite</span>
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-600"><i class="fas fa-stopwatch"></i></div>
+                        <span class="font-bold text-slate-800">Tempo Limite</span>
                     </div>
-                    <p class="text-sm text-gray-400 pl-11"><strong>5 minutos</strong></p>
+                    <p class="text-sm text-slate-500 pl-11"><strong>5 minutos</strong></p>
                 </div>
-                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-100">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-bullseye"></i></div>
-                        <span class="font-bold text-white">Meta</span>
+                        <div class="p-2 bg-green-500/20 rounded-lg text-green-700"><i class="fas fa-bullseye"></i></div>
+                        <span class="font-bold text-slate-800">Meta</span>
                     </div>
-                    <p class="text-sm text-gray-400 pl-11">Mínimo de <strong>31 Acertos</strong>.</p>
+                    <p class="text-sm text-slate-500 pl-11">Mínimo de <strong>31 Acertos</strong>.</p>
                 </div>
             </div>
 
             <button @click="startTest()"
-                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-white text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
+                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-slate-900 text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
                 <span class="relative z-10 flex items-center justify-center gap-2">
                     INICIAR AGORA <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                 </span>
             </button>
 
             <!-- Histórico -->
-            <div class="mt-8 pt-8 border-t border-white/10">
+            <div class="mt-8 pt-8 border-t border-slate-200">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-sm font-bold text-gray-500 uppercase">Histórico Recente</h3>
-                    <button class="text-xs text-purple-400 hover:text-white" @click="clearHistory()">Limpar</button>
+                    <h3 class="text-sm font-bold text-slate-600 uppercase">Histórico Recente</h3>
+                    <button class="text-xs text-blue-600 hover:text-slate-800" @click="clearHistory()">Limpar</button>
                 </div>
 
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
-                        <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-100">
                             <tr>
                                 <th class="px-4 py-2">Data</th>
                                 <th class="px-4 py-2 text-center">Acertos</th>
                                 <th class="px-4 py-2 text-center">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/5">
+                        <tbody class="divide-y divide-slate-200">
                             <template x-if="history.length === 0">
                                 <tr>
                                     <td colspan="3" class="px-4 py-4 text-center text-gray-600">Nenhum teste realizado.
@@ -470,12 +470,12 @@
                                 </tr>
                             </template>
                             <template x-for="h in history.slice(0,5)" :key="h.date">
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="px-4 py-2 text-gray-400" x-text="h.date"></td>
-                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="h.score + '/48'">
+                                <tr class="hover:bg-slate-100 transition">
+                                    <td class="px-4 py-2 text-slate-500" x-text="h.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-slate-800" x-text="h.score + '/48'">
                                     </td>
                                     <td class="px-4 py-2 text-center font-bold"
-                                        :class="h.status === 'APTO' ? 'text-green-400' : 'text-red-400'"
+                                        :class="h.status === 'APTO' ? 'text-green-700' : 'text-red-700'"
                                         x-text="h.status"></td>
                                 </tr>
                             </template>
@@ -490,11 +490,11 @@
 
             <!-- Timer Header -->
             <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-4" x-show="!reviewMode">
-                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90"
-                    :class="{'border-red-500 bg-red-900/40': timeRemaining <= 30}">
-                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Tempo</div>
-                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
-                        :class="{'text-red-400 animate-pulse': timeRemaining <= 30}" x-text="formatTime(timeRemaining)">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-slate-200 bg-white/90"
+                    :class="{'border-red-500 bg-red-50/90': timeRemaining <= 30}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Tempo</div>
+                    <div class="font-mono text-3xl font-black text-slate-800 tabular-nums leading-none"
+                        :class="{'text-red-700 animate-pulse': timeRemaining <= 30}" x-text="formatTime(timeRemaining)">
                     </div>
                 </div>
             </div>
@@ -517,7 +517,7 @@
             <!-- XP Floats -->
             <div class="fixed inset-0 pointer-events-none z-50">
                 <template x-for="xp in xpFloats" :key="xp.id">
-                    <div class="absolute text-yellow-400 font-black text-2xl animate-float-up"
+                    <div class="absolute text-yellow-700 font-black text-2xl animate-float-up"
                         :style="`left: ${xp.x}px; top: ${xp.y}px; text-shadow: 0 0 10px gold;`">
                         +XP
                     </div>
@@ -529,7 +529,7 @@
                 <div x-show="debugMode"
                     class="fixed top-20 right-4 bg-black bg-opacity-90 p-4 rounded z-50 text-white shadow-xl border border-yellow-500">
                     <h3 class="font-bold text-yellow-500 mb-2"><i class="fas fa-wrench"></i> FIXER MODE</h3>
-                    <p class="text-xs mb-2 text-gray-300">Click correct answers to set them.</p>
+                    <p class="text-xs mb-2 text-slate-600">Click correct answers to set them.</p>
                     <button @click="exportCorrectedConfig"
                         class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-sm w-full mb-2">
                         <i class="fas fa-copy"></i> Copy JSON
@@ -582,7 +582,7 @@
             <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex gap-4" x-show="!reviewMode">
                 <!-- Previous -->
                 <button @click="prevPage()" x-show="currentPageIndex > 0"
-                    class="px-6 py-3 rounded-xl bg-gray-800 text-white font-bold shadow-lg hover:bg-gray-700 transition">
+                    class="px-6 py-3 rounded-xl bg-gray-800 text-slate-800 font-bold shadow-lg hover:bg-gray-700 transition">
                     <i class="fas fa-arrow-left mr-2"></i> Anterior
                 </button>
 
@@ -599,16 +599,16 @@
             <!-- REVIEW CONTROLS -->
             <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex gap-4" x-show="reviewMode">
                 <button @click="prevPage()" x-show="currentPageIndex > 0"
-                    class="px-6 py-3 rounded-xl bg-gray-800 text-white font-bold shadow-lg hover:bg-gray-700 transition">
+                    class="px-6 py-3 rounded-xl bg-gray-800 text-slate-800 font-bold shadow-lg hover:bg-gray-700 transition">
                     <i class="fas fa-arrow-left"></i>
                 </button>
 
                 <div class="bg-black/80 text-white px-4 py-3 rounded-xl font-bold flex items-center">
-                    Página <span x-text="currentPageIndex + 1" class="mx-1 text-purple-400"></span> / 2
+                    Página <span x-text="currentPageIndex + 1" class="mx-1 text-blue-600"></span> / 2
                 </div>
 
                 <button @click="nextPage()" x-show="currentPageIndex < maxPages - 1"
-                    class="px-6 py-3 rounded-xl bg-gray-800 text-white font-bold shadow-lg hover:bg-gray-700 transition">
+                    class="px-6 py-3 rounded-xl bg-gray-800 text-slate-800 font-bold shadow-lg hover:bg-gray-700 transition">
                     <i class="fas fa-arrow-right"></i>
                 </button>
 
@@ -627,8 +627,8 @@
                 <div class="absolute inset-0 opacity-20 pointer-events-none"
                     :class="finalScore >= 31 ? 'bg-green-600' : 'bg-red-900'"></div>
 
-                <h2 class="text-4xl font-black text-white mb-2 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
-                <div class="text-gray-400 text-sm mb-8 uppercase tracking-widest font-bold">TSP Dimensões</div>
+                <h2 class="text-4xl font-black text-slate-800 mb-2 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
+                <div class="text-slate-500 text-sm mb-8 uppercase tracking-widest font-bold">TSP Dimensões</div>
 
                 <div class="flex justify-center mb-10 relative">
                     <div x-show="finalScore >= 31" class="flex flex-col items-center animate-bounce-in">
@@ -636,7 +636,7 @@
                             class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(34,197,94,0.6)] mb-4">
                             <i class="fas fa-check"></i>
                         </div>
-                        <h3 class="text-4xl font-black text-green-400 tracking-tighter">APTO</h3>
+                        <h3 class="text-4xl font-black text-green-700 tracking-tighter">APTO</h3>
                         <p class="text-green-200/60 text-sm mt-1">Aptidão Espacial Confirmada.</p>
                     </div>
 
@@ -649,34 +649,34 @@
                 </div>
 
                 <div class="flex gap-4 justify-center mb-8">
-                    <div class="bg-slate-900/50 p-6 rounded-xl border border-white/5 min-w-[150px]">
-                        <div class="text-xs font-bold text-gray-500 uppercase mb-2">Pontuação Final</div>
-                        <div class="text-5xl font-black text-white" x-text="finalScore"></div>
-                        <div class="text-xs text-gray-500 mt-2">de 48 possíveis</div>
+                    <div class="bg-slate-900/50 p-6 rounded-xl border border-slate-100 min-w-[150px]">
+                        <div class="text-xs font-bold text-slate-600 uppercase mb-2">Pontuação Final</div>
+                        <div class="text-5xl font-black text-slate-800" x-text="finalScore"></div>
+                        <div class="text-xs text-slate-600 mt-2">de 48 possíveis</div>
                     </div>
 
                     <div class="flex flex-col gap-2">
                         <div
-                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-white/5 flex items-center justify-between gap-4">
-                            <span class="text-xs text-green-400 font-bold uppercase">Acertos</span>
-                            <span class="font-bold text-white" x-text="finalScore"></span>
+                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-slate-100 flex items-center justify-between gap-4">
+                            <span class="text-xs text-green-700 font-bold uppercase">Acertos</span>
+                            <span class="font-bold text-slate-800" x-text="finalScore"></span>
                         </div>
                         <div
-                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-white/5 flex items-center justify-between gap-4">
-                            <span class="text-xs text-red-400 font-bold uppercase">Erros</span>
-                            <span class="font-bold text-white" x-text="totalErrors"></span>
+                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-slate-100 flex items-center justify-between gap-4">
+                            <span class="text-xs text-red-700 font-bold uppercase">Erros</span>
+                            <span class="font-bold text-slate-800" x-text="totalErrors"></span>
                         </div>
                         <div
-                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-white/5 flex items-center justify-between gap-4">
-                            <span class="text-xs text-yellow-400 font-bold uppercase">Omissões</span>
-                            <span class="font-bold text-white" x-text="48 - (finalScore + totalErrors)"></span>
+                            class="bg-slate-900/50 px-4 py-2 rounded-lg border border-slate-100 flex items-center justify-between gap-4">
+                            <span class="text-xs text-yellow-700 font-bold uppercase">Omissões</span>
+                            <span class="font-bold text-slate-800" x-text="48 - (finalScore + totalErrors)"></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
                     <button @click="startReview()"
-                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2">
+                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-slate-800 font-semibold transition flex items-center justify-center gap-2">
                         <i class="fas fa-eye"></i> Revisar Prova
                     </button>
                     <button onclick="location.reload()"
@@ -685,15 +685,15 @@
                     </button>
                 </div>
 
-                <div class="mt-12 text-left bg-black/40 rounded-2xl p-6 border border-white/10"
+                <div class="mt-12 text-left bg-white/80 rounded-2xl p-6 border border-slate-200"
                     x-show="finalScore > 0 || totalErrors > 0">
-                    <div class="flex flex-wrap gap-2 mb-6 border-b border-white/10 pb-4">
+                    <div class="flex flex-wrap gap-2 mb-6 border-b border-slate-200 pb-4">
                         <button @click="resultView = 'list'"
-                            :class="resultView === 'list' ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                            :class="resultView === 'list' ? 'bg-purple-600 text-white' : 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 shadow-sm'"
                             class="px-4 py-2 rounded-lg text-sm font-bold transition"><i class="fas fa-list mr-2"></i>
                             Lista Comparativa</button>
                         <button @click="resultView = 'accordion'"
-                            :class="resultView === 'accordion' ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-400 hover:bg-white/10'"
+                            :class="resultView === 'accordion' ? 'bg-purple-600 text-white' : 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 shadow-sm'"
                             class="px-4 py-2 rounded-lg text-sm font-bold transition"><i class="fas fa-stream mr-2"></i>
                             Detalhes Visuais</button>
                     </div>
@@ -701,7 +701,7 @@
                     <!-- LIST VIEW -->
                     <div x-show="resultView === 'list'" class="overflow-x-auto animate-fade-in">
                         <table class="w-full text-sm">
-                            <thead class="bg-white/5 text-gray-400 uppercase text-xs">
+                            <thead class="bg-slate-100 text-slate-600 uppercase text-xs">
                                 <tr>
                                     <th class="px-4 py-3 text-left">Questão</th>
                                     <th class="px-4 py-3 text-center">Sua Resposta</th>
@@ -711,18 +711,18 @@
                             </thead>
                             <tbody class="divide-y divide-white/10">
                                 <template x-for="(item, index) in resultData" :key="index">
-                                    <tr class="hover:bg-white/5 transition"
+                                    <tr class="hover:bg-slate-100 transition"
                                         :class="{'bg-red-500/10': item.status === 'error'}">
-                                        <td class="px-4 py-3 font-bold text-gray-300">#<span x-text="index + 1"></span>
+                                        <td class="px-4 py-3 font-bold text-slate-600">#<span x-text="index + 1"></span>
                                         </td>
-                                        <td class="px-4 py-3 text-center text-gray-400" x-text="item.userLabel"></td>
-                                        <td class="px-4 py-3 text-center text-green-400 font-bold"
+                                        <td class="px-4 py-3 text-center text-slate-500" x-text="item.userLabel"></td>
+                                        <td class="px-4 py-3 text-center text-green-700 font-bold"
                                             x-text="item.correctLabel"></td>
                                         <td class="px-4 py-3 text-center font-bold">
                                             <span class="px-2 py-1 rounded text-xs" :class="{
-                                                    'bg-green-500/20 text-green-400': item.status === 'correct',
-                                                    'bg-red-500/20 text-red-400': item.status === 'error',
-                                                    'bg-yellow-500/20 text-yellow-400': item.status === 'omission'
+                                                    'bg-green-500/20 text-green-700': item.status === 'correct',
+                                                    'bg-red-500/20 text-red-700': item.status === 'error',
+                                                    'bg-yellow-500/20 text-yellow-700': item.status === 'omission'
                                                 }"
                                                 x-text="item.status === 'correct' ? 'ACERTO' : (item.status === 'error' ? 'ERRO' : 'OMISSÃO')">
                                             </span>
@@ -736,10 +736,10 @@
                     <!-- ACCORDION VIEW -->
                     <div x-show="resultView === 'accordion'" class="space-y-2 animate-fade-in">
                         <template x-for="(item, index) in resultData" :key="index">
-                            <div class="bg-white/5 rounded-lg border border-white/5 overflow-hidden"
+                            <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm"
                                 x-data="{ expanded: false }">
                                 <div @click="expanded = !expanded"
-                                    class="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
+                                    class="px-4 py-3 flex items-center justify-between cursor-pointer hover:bg-slate-100 transition">
                                     <div class="flex items-center gap-4">
                                         <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm"
                                             :class="{
@@ -747,20 +747,20 @@
                                                 'bg-red-500 text-white': item.status === 'error',
                                                 'bg-yellow-500 text-black': item.status === 'omission'
                                             }" x-text="index + 1"></div>
-                                        <div class="text-sm text-gray-300">
+                                        <div class="text-sm text-slate-600">
                                             <span x-show="item.status === 'correct'">Você acertou!</span>
                                             <span x-show="item.status === 'error'">Você errou. Marcou <span
-                                                    class="font-bold text-red-400"
+                                                    class="font-bold text-red-700"
                                                     x-text="item.userLabel"></span></span>
                                             <span x-show="item.status === 'omission'">Você não respondeu.</span>
                                         </div>
                                     </div>
-                                    <i class="fas fa-chevron-down text-gray-500 transition-transform"
+                                    <i class="fas fa-chevron-down text-slate-600 transition-transform"
                                         :class="{'rotate-180': expanded}"></i>
                                 </div>
-                                <div x-show="expanded" x-collapse class="bg-black/40 border-t border-white/5 p-4">
+                                <div x-show="expanded" x-collapse class="bg-white/80 border-t border-slate-100 p-4">
                                     <div
-                                        class="w-full h-24 relative rounded overflow-hidden border border-white/10 bg-white">
+                                        class="w-full h-24 relative rounded overflow-hidden border border-slate-200 bg-white">
                                         <!-- Image Crop trick -->
                                         <div class="absolute inset-0 bg-no-repeat" :style="`
                                                 background-image: url('${item.pageIndex === 0 ? 'tsp_dimensoes_debug_1.png' : 'tsp_dimensoes_debug_2.png'}');
@@ -779,7 +779,7 @@
                                             </div>
                                         </template>
                                     </div>
-                                    <div class="text-xs text-gray-500 mt-2 text-center">Visualização da linha da questão
+                                    <div class="text-xs text-slate-600 mt-2 text-center">Visualização da linha da questão
                                         (Resposta correta em Verde)</div>
                                 </div>
                             </div>

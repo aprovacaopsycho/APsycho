@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Apresentação: Testes de Atenção — Aprovação Psycho</title>
+    <title>Apresentação: Testes de Atenção — Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
 
     <!-- LIBS -->
@@ -34,19 +34,19 @@
     </script>
     <style>
         body {
-            background-color: #050508;
+            background-color: #F8FAFC;
             background-image:
-                radial-gradient(circle at 15% 50%, rgba(0, 194, 255, 0.08), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(159, 84, 255, 0.08), transparent 25%);
-            color: #e2e8f0;
+                radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.04), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(37, 99, 235, 0.04), transparent 25%);
+            color: #334155;
             overflow: hidden;
         }
 
         .glass-panel {
-            background: rgba(20, 20, 30, 0.6);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
         }
 
         .slide-enter {
@@ -87,26 +87,26 @@
 
     <!-- HEADER -->
     <header
-        class="bg-black/40 backdrop-blur-md border-b border-white/10 px-8 py-4 flex justify-between items-center z-50 fixed top-0 w-full">
+        class="bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-4 flex justify-between items-center z-50 fixed top-0 w-full">
         <div class="flex items-center gap-3">
-            <span class="text-white font-black text-xl leading-none tracking-wider">APRESENTAÇÃO <span
+            <span class="text-slate-900 font-black text-xl leading-none tracking-wider">APRESENTAÇÃO <span
                     class="text-[var(--accent-pink)]">ATENÇÃO</span></span>
         </div>
         <div class="flex items-center gap-6 text-base font-bold">
-            <span class="text-gray-500">Slide <span x-text="current + 1"></span>/<span x-text="total + 1"></span></span>
+            <span class="text-slate-600">Slide <span x-text="current + 1"></span>/<span x-text="total + 1"></span></span>
             <div class="flex gap-2">
                 <button @click="prev()"
-                    class="w-10 h-10 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition"
+                    class="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200/60 hover:bg-white/20 text-slate-800 flex items-center justify-center transition"
                     :disabled="current === 0">
                     <i class="fas fa-chevron-left text-lg"></i>
                 </button>
                 <button @click="next()"
-                    class="w-10 h-10 rounded-lg bg-primary/20 hover:bg-primary/30 text-primary flex items-center justify-center transition"
+                    class="w-10 h-10 rounded-lg bg-blue-50 border border-blue-200/60 hover:bg-primary/30 text-blue-600 flex items-center justify-center transition"
                     :disabled="current === total">
                     <i class="fas fa-chevron-right text-lg"></i>
                 </button>
             </div>
-            <a href="apostila_atencao.html" class="ml-4 text-gray-400 hover:text-white transition"><i
+            <a href="apostila_atencao.html" class="ml-4 text-slate-500 hover:text-slate-800 transition"><i
                     class="fas fa-times text-xl"></i></a>
         </div>
     </header>
@@ -127,12 +127,12 @@
                     alt="Brasão"
                     class="h-48 w-48 rounded-full border-4 border-primary/50 relative z-10 shadow-2xl mx-auto">
             </div>
-            <h1 class="text-8xl font-black text-white mb-6 tracking-tight drop-shadow-lg">Testes de <span
+            <h1 class="text-8xl font-black text-slate-800 mb-6 tracking-tight drop-shadow-lg">Testes de <span
                     class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-500">Atenção</span>
             </h1>
-            <p class="text-4xl text-gray-400 font-light mb-16 tracking-wide">Classificação, Estratégia e Prática</p>
+            <p class="text-4xl text-slate-500 font-light mb-16 tracking-wide">Classificação, Estratégia e Prática</p>
             <button @click="next()"
-                class="px-12 py-5 bg-primary text-black font-black text-xl rounded-full hover:bg-white transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(0,194,255,0.4)]">
+                class="px-12 py-5 bg-blue-600 text-white font-black text-xl rounded-full hover:bg-blue-700 transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(0,194,255,0.4)]">
                 INICIAR <i class="fas fa-arrow-right ml-3"></i>
             </button>
         </div>
@@ -141,12 +141,12 @@
         <div x-show="current === 1" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="grid md:grid-cols-2 gap-16 items-center w-full">
                 <div class="space-y-10">
-                    <h2 class="text-6xl font-bold text-white leading-tight">Introdução aos <br><span
-                            class="text-primary">Testes de Atenção</span></h2>
-                    <div class="space-y-8 text-2xl text-gray-300 leading-relaxed text-justify">
+                    <h2 class="text-6xl font-bold text-slate-800 leading-tight">Introdução aos <br><span
+                            class="text-blue-600">Testes de Atenção</span></h2>
+                    <div class="space-y-8 text-2xl text-slate-600 leading-relaxed text-justify">
                         <p>Avaliações psicológicas projetadas para medir a capacidade de <strong
-                                class="text-white">concentração</strong>, <strong class="text-white">foco
-                                seletivo</strong> e <strong class="text-white">detecção de estímulos</strong> em tarefas
+                                class="text-slate-800">concentração</strong>, <strong class="text-slate-800">foco
+                                seletivo</strong> e <strong class="text-slate-800">detecção de estímulos</strong> em tarefas
                             cronometradas.</p>
                         <p class="border-l-8 border-primary pl-8 py-2 bg-primary/5 rounded-r-xl">
                             Consistem em identificar símbolos específicos em meio a distratores sob pressão de tempo.
@@ -157,9 +157,9 @@
                     <div
                         class="w-full aspect-square max-w-lg glass-panel rounded-3xl flex items-center justify-center relative">
                         <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-purple/20 rounded-3xl"></div>
-                        <i class="fas fa-brain text-[12rem] text-white/10"></i>
+                        <i class="fas fa-brain text-[12rem] text-slate-200/50"></i>
                         <i
-                            class="fas fa-search absolute text-8xl text-primary animate-pulse drop-shadow-[0_0_15px_rgba(0,194,255,0.8)]"></i>
+                            class="fas fa-search absolute text-8xl text-blue-600 animate-pulse drop-shadow-[0_0_15px_rgba(0,194,255,0.8)]"></i>
                     </div>
                 </div>
             </div>
@@ -167,54 +167,54 @@
 
         <!-- SLIDE 2: CLASSIFICAÇÃO -->
         <div x-show="current === 2" class="slide-container max-w-[90rem] px-8 slide-enter" style="display: none;">
-            <h2 class="text-5xl font-bold text-white mb-12 text-center w-full">Tipos de Atenção</h2>
+            <h2 class="text-5xl font-bold text-slate-800 mb-12 text-center w-full">Tipos de Atenção</h2>
             <div class="grid grid-cols-3 gap-8 w-full">
                 <!-- Concentrada -->
                 <div
                     class="glass-panel p-8 rounded-2xl border-t-8 border-t-primary hover:-translate-y-2 transition-transform duration-300">
-                    <i class="fas fa-bullseye text-4xl text-primary mb-4"></i>
-                    <h3 class="text-3xl font-bold text-white mb-3">Concentrada</h3>
-                    <p class="text-lg text-gray-400 mb-4 leading-relaxed">Foco único e contínuo. Ignora distratores
+                    <i class="fas fa-bullseye text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="text-3xl font-bold text-slate-800 mb-3">Concentrada</h3>
+                    <p class="text-lg text-slate-500 mb-4 leading-relaxed">Foco único e contínuo. Ignora distratores
                         externos.</p>
                     <div class="flex gap-2">
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">TEACO</span>
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">ROTA C</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">TEACO</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">ROTA C</span>
                     </div>
                 </div>
                 <!-- Dividida -->
                 <div
                     class="glass-panel p-8 rounded-2xl border-t-8 border-t-pink-500 hover:-translate-y-2 transition-transform duration-300">
                     <i class="fas fa-columns text-4xl text-pink-500 mb-4"></i>
-                    <h3 class="text-3xl font-bold text-white mb-3">Dividida</h3>
-                    <p class="text-lg text-gray-400 mb-4 leading-relaxed">Processamento simultâneo de múltiplos
+                    <h3 class="text-3xl font-bold text-slate-800 mb-3">Dividida</h3>
+                    <p class="text-lg text-slate-500 mb-4 leading-relaxed">Processamento simultâneo de múltiplos
                         estímulos.</p>
                     <div class="flex gap-2">
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">TEADI</span>
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">ROTA D</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">TEADI</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">ROTA D</span>
                     </div>
                 </div>
                 <!-- Alternada -->
                 <div
                     class="glass-panel p-8 rounded-2xl border-t-8 border-t-yellow-500 hover:-translate-y-2 transition-transform duration-300">
                     <i class="fas fa-sync-alt text-4xl text-yellow-500 mb-4"></i>
-                    <h3 class="text-3xl font-bold text-white mb-3">Alternada</h3>
-                    <p class="text-lg text-gray-400 mb-4 leading-relaxed">Flexibilidade para mudar o foco entre tarefas.
+                    <h3 class="text-3xl font-bold text-slate-800 mb-3">Alternada</h3>
+                    <p class="text-lg text-slate-500 mb-4 leading-relaxed">Flexibilidade para mudar o foco entre tarefas.
                     </p>
                     <div class="flex gap-2">
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">TEALT</span>
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">ROTA A</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">TEALT</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">ROTA A</span>
                     </div>
                 </div>
                 <!-- Difusa -->
                 <div
                     class="glass-panel p-8 rounded-2xl border-t-8 border-t-green-500 hover:-translate-y-2 transition-transform duration-300 col-span-1">
                     <i class="fas fa-globe text-4xl text-green-500 mb-4"></i>
-                    <h3 class="text-3xl font-bold text-white mb-3">Difusa</h3>
-                    <p class="text-lg text-gray-400 mb-4 leading-relaxed">Captação rápida de informações dispersas
+                    <h3 class="text-3xl font-bold text-slate-800 mb-3">Difusa</h3>
+                    <p class="text-lg text-slate-500 mb-4 leading-relaxed">Captação rápida de informações dispersas
                         espacialmente.</p>
                     <div class="flex gap-2">
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">TEDIF</span>
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded">TADIM</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">TEDIF</span>
+                        <span class="text-sm font-bold bg-slate-100 border border-slate-200/60 px-3 py-1 rounded">TADIM</span>
                     </div>
                 </div>
                 <!-- Complexa -->
@@ -223,19 +223,19 @@
                     <div class="flex items-start gap-6">
                         <div>
                             <i class="fas fa-layer-group text-4xl text-purple-500 mb-4"></i>
-                            <h3 class="text-3xl font-bold text-white mb-3">Concentrada Complexa</h3>
-                            <p class="text-lg text-gray-400 leading-relaxed">Alto nível de exigência. Distratores muito
+                            <h3 class="text-3xl font-bold text-slate-800 mb-3">Concentrada Complexa</h3>
+                            <p class="text-lg text-slate-500 leading-relaxed">Alto nível de exigência. Distratores muito
                                 semelhantes ao alvo, padrões lógicos e simetria.</p>
                         </div>
                         <div class="flex flex-col gap-2 min-w-[120px]">
                             <span
-                                class="text-center text-sm font-bold bg-purple-500/20 text-purple-300 px-3 py-2 rounded">TECON
+                                class="text-center text-sm font-bold bg-purple-50 border border-purple-200/60 text-blue-500 px-3 py-2 rounded">TECON
                                 1</span>
                             <span
-                                class="text-center text-sm font-bold bg-purple-500/20 text-purple-300 px-3 py-2 rounded">TECON
+                                class="text-center text-sm font-bold bg-purple-50 border border-purple-200/60 text-blue-500 px-3 py-2 rounded">TECON
                                 2</span>
                             <span
-                                class="text-center text-sm font-bold bg-purple-500/20 text-purple-300 px-3 py-2 rounded">TECON
+                                class="text-center text-sm font-bold bg-purple-50 border border-purple-200/60 text-blue-500 px-3 py-2 rounded">TECON
                                 3</span>
                         </div>
                     </div>
@@ -247,41 +247,41 @@
         <div x-show="current === 3" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TADIM-1</h2>
-                    <p class="text-2xl text-primary font-bold">Atenção Difusa com Números</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TADIM-1</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Atenção Difusa com Números</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">4 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Total</span>
+                    <span class="block text-5xl font-black text-slate-800">4 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Total</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/tadimtedif/tadim1.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl">
-                        <i class="fas fa-list-ol text-5xl text-primary mb-4"></i>
-                        <h3 class="text-2xl font-bold text-white mb-2">Mecânica</h3>
-                        <p class="text-xl text-gray-300">Marcar números de <strong class="text-white">1 a 50</strong> em
+                        <i class="fas fa-list-ol text-5xl text-blue-600 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-2">Mecânica</h3>
+                        <p class="text-xl text-slate-600">Marcar números de <strong class="text-slate-800">1 a 50</strong> em
                             ordem crescente. Ao final, circular o último marcado.</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="glass-panel p-4 rounded-xl text-center">
-                            <span class="block text-3xl font-black text-white">4 min</span>
-                            <span class="text-xs text-gray-500 uppercase font-bold">Tempo</span>
+                            <span class="block text-3xl font-black text-slate-800">4 min</span>
+                            <span class="text-xs text-slate-600 uppercase font-bold">Tempo</span>
                         </div>
                         <div class="glass-panel p-4 rounded-xl text-center border border-green-500/30">
-                            <span class="block text-3xl font-black text-green-400">45</span>
+                            <span class="block text-3xl font-black text-green-800">45</span>
                             <span class="text-xs text-green-500/70 uppercase font-bold">Meta</span>
                         </div>
                     </div>
 
                     <a href="../tadim/tadim1.html"
-                        class="block w-full py-5 text-center bg-primary text-black font-black text-2xl rounded-xl hover:bg-white hover:scale-[1.02] transition shadow-lg shadow-primary/30">
+                        class="block w-full py-5 text-center bg-blue-600 text-white font-black text-2xl rounded-xl hover:bg-blue-700 hover:scale-[1.02] transition shadow-lg shadow-primary/30">
                         <i class="fas fa-play mr-2"></i> Iniciar Prática
                     </a>
                 </div>
@@ -293,18 +293,18 @@
         <div x-show="current === 4" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TEDIF-1</h2>
-                    <p class="text-2xl text-primary font-bold">Atenção Difusa com Formas (Geométricas)</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TEDIF-1</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Atenção Difusa com Formas (Geométricas)</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">4 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Total</span>
+                    <span class="block text-5xl font-black text-slate-800">4 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Total</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center relative">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center relative">
                     <img src="../../Imagens_base/tadimtedif/tedif1.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                     <div
                         class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-yellow-500/90 text-black px-6 py-2 rounded-full font-bold shadow-lg flex items-center gap-2 whitespace-nowrap animate-pulse">
@@ -314,18 +314,18 @@
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">45</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">45</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
 
-                    <div class="p-6 bg-yellow-500/10 border-l-4 border-yellow-500 rounded text-yellow-100 text-lg">
+                    <div class="p-6 bg-amber-50 border border-amber-200/60 border-l-4 border-yellow-500 rounded text-slate-800 text-lg">
                         <i class="fas fa-volume-up mr-2"></i>
                         A cada <strong>1 minuto</strong>, ao ouvir o comando <strong>"SINAL"</strong>, você deve
                         circular a última figura que marcou.
                     </div>
 
                     <a href="../tedif/tedif1.html"
-                        class="block w-full py-5 text-center bg-primary text-black font-black text-2xl rounded-xl hover:bg-white hover:scale-[1.02] transition shadow-lg shadow-primary/30">
+                        class="block w-full py-5 text-center bg-blue-600 text-white font-black text-2xl rounded-xl hover:bg-blue-700 hover:scale-[1.02] transition shadow-lg shadow-primary/30">
                         <i class="fas fa-play mr-2"></i> INICIAR TEDIF-1
                     </a>
                 </div>
@@ -336,18 +336,18 @@
         <div x-show="current === 5" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TEDIF-2</h2>
-                    <p class="text-2xl text-blue-400 font-bold">Cores e Formas</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TEDIF-2</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Cores e Formas</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">4 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Total</span>
+                    <span class="block text-5xl font-black text-slate-800">4 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Total</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center relative">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center relative">
                     <img src="../../Imagens_base/tadimtedif/tedif2.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                     <div
                         class="absolute bottom-4 left-4 bg-black/60 px-4 py-2 rounded text-xs text-blue-200 backdrop-blur">
@@ -356,17 +356,17 @@
                 </div>
                 <div class="flex-1 space-y-6">
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">45</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">45</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
 
-                    <div class="p-6 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg">
-                        <h4 class="text-blue-400 font-bold mb-2 text-xl"><i class="fas fa-info-circle mr-2"></i>Bizu de
+                    <div class="p-6 border-l-4 border-blue-500 bg-blue-50 border border-blue-200/60 rounded-r-lg">
+                        <h4 class="text-blue-600 font-bold mb-2 text-xl"><i class="fas fa-info-circle mr-2"></i>Bizu de
                             Cores</h4>
-                        <ul class="list-disc pl-5 text-gray-200 text-lg space-y-2">
+                        <ul class="list-disc pl-5 text-slate-800 text-lg space-y-2">
                             <li><strong>Ceará Vs Bahia</strong> (Preto/Branco vs Azul/Vermelho/Branco)</li>
                             <li>Os números seguem a sequência:
-                                <ul class="list-none pl-4 mt-1 text-gray-400 border-l border-white/20">
+                                <ul class="list-none pl-4 mt-1 text-slate-500 border-l border-white/20">
                                     <li>• Verde e amarelo</li>
                                     <li>• Vermelho e azul</li>
                                 </ul>
@@ -375,7 +375,7 @@
                     </div>
 
                     <a href="../tedif/tedif2.html"
-                        class="block w-full py-5 text-center bg-primary text-black font-black text-2xl rounded-xl hover:bg-white hover:scale-[1.02] transition shadow-lg shadow-primary/30">
+                        class="block w-full py-5 text-center bg-blue-600 text-white font-black text-2xl rounded-xl hover:bg-blue-700 hover:scale-[1.02] transition shadow-lg shadow-primary/30">
                         <i class="fas fa-play mr-2"></i> INICIAR TEDIF-2
                     </a>
                 </div>
@@ -386,38 +386,38 @@
         <div x-show="current === 6" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TEDIF-3</h2>
-                    <p class="text-2xl text-purple-400 font-bold">Padrões de Cores e Formas</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TEDIF-3</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Padrões de Cores e Formas</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">4 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Total</span>
+                    <span class="block text-5xl font-black text-slate-800">4 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Total</span>
                 </div>
             </div>
 
             <div
-                class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center flex-col gap-4">
+                class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center flex-col gap-4">
                 <img src="../../Imagens_base/tadimtedif/tedif3.png" class="max-h-[25vh] rounded-lg shadow-lg">
                 <img src="../../Imagens_base/tadimtedif/tadim4.png"
                     class="max-h-[20vh] rounded-lg shadow-lg opacity-80">
             </div>
             <div class="flex-1 space-y-4">
                 <div class="glass-panel p-4 rounded-xl text-center">
-                    <span class="block text-5xl font-black text-white mb-1">45</span>
-                    <span class="text-green-400 font-bold uppercase tracking-widest text-sm">Meta</span>
+                    <span class="block text-5xl font-black text-slate-800 mb-1">45</span>
+                    <span class="text-green-800 font-bold uppercase tracking-widest text-sm">Meta</span>
                 </div>
 
                 <div class="grid grid-cols-1 gap-4">
-                    <div class="p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg">
-                        <h4 class="text-blue-400 font-bold mb-1"><i class="fas fa-palette mr-2"></i>Bizu de Cores</h4>
-                        <p class="text-sm text-gray-300">Israel + Semáforo:</p>
-                        <ul class="list-disc pl-5 text-gray-200 text-sm">
+                    <div class="p-4 border-l-4 border-blue-500 bg-blue-50 border border-blue-200/60 rounded-r-lg">
+                        <h4 class="text-blue-600 font-bold mb-1"><i class="fas fa-palette mr-2"></i>Bizu de Cores</h4>
+                        <p class="text-sm text-slate-600">Israel + Semáforo:</p>
+                        <ul class="list-disc pl-5 text-slate-800 text-sm">
                             <li>Branco, Azul, Vermelho, Amarelo, Verde</li>
                         </ul>
                     </div>
-                    <div class="p-4 border-l-4 border-purple-500 bg-purple-500/10 rounded-r-lg">
-                        <h4 class="text-purple-400 font-bold mb-1"><i class="fas fa-shapes mr-2"></i>Bizu de Formas</h4>
-                        <div class="grid grid-cols-2 text-xs text-gray-300">
+                    <div class="p-4 border-l-4 border-purple-500 bg-blue-50 rounded-r-lg">
+                        <h4 class="text-blue-600 font-bold mb-1"><i class="fas fa-shapes mr-2"></i>Bizu de Formas</h4>
+                        <div class="grid grid-cols-2 text-xs text-slate-600">
                             <span>Triângulo (1-10)</span>
                             <span>Quadrado (11-20)</span>
                             <span>Pentágono (21-30)</span>
@@ -438,33 +438,33 @@
         <div x-show="current === 7" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">CTA-AC</h2>
-                    <p class="text-2xl text-primary font-bold">Atenção Concentrada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">CTA-AC</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Atenção Concentrada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">1 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">1 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/apostila/CTA/cta_ac.PNG" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-6">
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">32</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">32</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
-                    <div class="p-6 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg">
-                        <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Dica
+                    <div class="p-6 border-l-4 border-yellow-500 bg-amber-50 border border-amber-200/60 rounded-r-lg">
+                        <h4 class="text-yellow-800 font-bold mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Dica
                             Importante</h4>
-                        <p class="text-gray-200 text-lg">Caso perceba que errou, <strong>circule a figura
+                        <p class="text-slate-800 text-lg">Caso perceba que errou, <strong>circule a figura
                                 errada</strong> que ela não será descontada.</p>
                     </div>
                     <a href="../cta/ctaac.html"
-                        class="block w-full py-5 text-center bg-primary text-black font-black text-2xl rounded-xl hover:bg-white hover:scale-[1.02] transition shadow-lg shadow-primary/30">
+                        class="block w-full py-5 text-center bg-blue-600 text-white font-black text-2xl rounded-xl hover:bg-blue-700 hover:scale-[1.02] transition shadow-lg shadow-primary/30">
                         <i class="fas fa-play mr-2"></i> INICIAR CTA-AC
                     </a>
                 </div>
@@ -475,33 +475,33 @@
         <div x-show="current === 8" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">CTA-AD</h2>
-                    <p class="text-2xl text-pink-400 font-bold">Atenção Dividida</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">CTA-AD</h2>
+                    <p class="text-2xl text-pink-800 font-bold">Atenção Dividida</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">1:45</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">1:45</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/cta/modelo_ctaad.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">32</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">32</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
 
-                    <div class="p-6 bg-pink-500/10 border-l-4 border-pink-500 rounded text-pink-100 text-lg">
+                    <div class="p-6 bg-pink-50 border border-pink-200/60 border-l-4 border-pink-500 rounded text-slate-800 text-lg">
                         <i class="fas fa-columns mr-2"></i>
                         Encontrar figuras iguais a <strong>um dos 3 alvos</strong>.
                     </div>
 
                     <a href="../cta/ctaad.html"
-                        class="block w-full py-5 text-center bg-pink-500 text-white font-bold text-2xl rounded-xl hover:scale-105 transition shadow-lg shadow-pink-500/30">
+                        class="block w-full py-5 text-center bg-pink-600 text-white font-bold text-2xl rounded-xl hover:scale-105 transition shadow-lg shadow-pink-500/30">
                         <i class="fas fa-play mr-2"></i> SIMULAR
                     </a>
                 </div>
@@ -512,34 +512,34 @@
         <div x-show="current === 9" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">CTA-AA</h2>
-                    <p class="text-2xl text-yellow-400 font-bold">Atenção Alternada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">CTA-AA</h2>
+                    <p class="text-2xl text-yellow-800 font-bold">Atenção Alternada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">1:15</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">1:15</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/cta/cta_aa.PNG"
                         class="max-h-[50vh] rounded-lg shadow-2xl object-contain">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">32</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">32</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
 
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <p class="text-white text-lg">Alterne o foco entre diferentes estímulos conforme as linhas da
+                        <p class="text-slate-900 text-lg">Alterne o foco entre diferentes estímulos conforme as linhas da
                             grade.</p>
                     </div>
 
                     <a href="../cta/cta_aa.html"
-                        class="block w-full py-5 text-center bg-yellow-500 text-black font-black text-2xl rounded-xl hover:scale-105 transition shadow-lg shadow-yellow-500/30">
+                        class="block w-full py-5 text-center bg-yellow-600 text-white font-black text-2xl rounded-xl hover:scale-105 transition shadow-lg shadow-yellow-500/30">
                         <i class="fas fa-play mr-2"></i> SIMULAR
                     </a>
                 </div>
@@ -550,33 +550,33 @@
         <div x-show="current === 10" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">ROTA A</h2>
-                    <p class="text-2xl text-pink-400 font-bold">Atenção Alternada • Zigue-Zague</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">ROTA A</h2>
+                    <p class="text-2xl text-pink-800 font-bold">Atenção Alternada • Zigue-Zague</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">2 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">2 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/apostila/rotas/rotaa_exemplo.png"
                         class="max-h-[50vh] rounded-lg shadow-2xl object-contain">
                 </div>
                 <div class="flex-1 space-y-6">
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">176</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta (22 Linhas)</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">176</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta (22 Linhas)</span>
                     </div>
-                    <div class="p-6 bg-blue-500/10 border-l-4 border-blue-500 rounded text-blue-100 text-lg">
+                    <div class="p-6 bg-blue-50 border border-blue-200/60 border-l-4 border-blue-500 rounded text-slate-800 text-lg">
                         <h4 class="font-bold mb-2"><i class="fas fa-info-circle mr-2"></i>Dica de Ouro</h4>
                         <p>Existem sempre <strong>8 figuras</strong> por linha.</p>
                         <p class="mt-2 text-sm opacity-80">Siga o percurso em <strong>Zigue-Zague</strong>.</p>
                     </div>
                     <a href="../rotas/rotaa.html"
-                        class="block w-full py-5 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-500 transition shadow-lg shadow-pink-600/30">
+                        class="block w-full py-5 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-700 transition shadow-lg shadow-pink-600/30">
                         <i class="fas fa-play mr-2"></i> SIMULAR
                     </a>
                 </div>
@@ -587,27 +587,27 @@
         <div x-show="current === 11" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">BPA-AC</h2>
-                    <p class="text-2xl text-blue-400 font-bold">Atenção Concentrada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">BPA-AC</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Atenção Concentrada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">2 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">2 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/bpa/BPA AC1.jpg" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-6">
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">96</span>
-                        <span class="text-white/50 text-sm mb-1">(Total: 120)</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta (16 Linhas)</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">96</span>
+                        <span class="text-slate-800/50 text-sm mb-1">(Total: 120)</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta (16 Linhas)</span>
                     </div>
-                    <div class="p-6 bg-yellow-500/10 border-l-4 border-yellow-500 rounded text-yellow-100 text-lg">
+                    <div class="p-6 bg-amber-50 border border-amber-200/60 border-l-4 border-yellow-500 rounded text-slate-800 text-lg">
                         <h4 class="font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Bizu - Padrão 75</h4>
                         <ul class="list-disc pl-5">
                             <li><strong>7 figuras</strong> corretas na primeira linha</li>
@@ -615,7 +615,7 @@
                         </ul>
                     </div>
                     <a href="../bpa/bpa_ac.html"
-                        class="block w-full py-5 text-center bg-blue-600 text-white font-black text-2xl rounded-xl hover:bg-blue-500 transition shadow-lg shadow-blue-600/30">
+                        class="block w-full py-5 text-center bg-blue-600 text-white font-black text-2xl rounded-xl hover:bg-blue-700 transition shadow-lg shadow-blue-600/30">
                         <i class="fas fa-play mr-2"></i> PRATICAR BPA-AC
                     </a>
                 </div>
@@ -626,35 +626,35 @@
         <div x-show="current === 12" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">BPA-AD</h2>
-                    <p class="text-2xl text-pink-400 font-bold">Atenção Dividida</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">BPA-AD</h2>
+                    <p class="text-2xl text-pink-800 font-bold">Atenção Dividida</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">4 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">4 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/bpa/BPA AD1.jpg" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-4">
                     <div class="glass-panel p-4 rounded-xl text-center">
-                        <span class="block text-5xl font-black text-white mb-1">72</span>
-                        <span class="text-white/50 text-xs">(Total: 120)</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest text-sm">Meta (12 Linhas)</span>
+                        <span class="block text-5xl font-black text-slate-800 mb-1">72</span>
+                        <span class="text-slate-800/50 text-xs">(Total: 120)</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest text-sm">Meta (12 Linhas)</span>
                     </div>
-                    <div class="p-4 bg-yellow-500/10 border-l-4 border-yellow-500 rounded text-yellow-100 text-sm">
+                    <div class="p-4 bg-amber-50 border border-amber-200/60 border-l-4 border-yellow-500 rounded text-slate-800 text-sm">
                         <h4 class="font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Bizu de Ordem</h4>
                         <p class="mb-2"><strong>6 figuras</strong> corretas por linha (2 de cada tipo).</p>
                         <p class="mb-2">Procure nesta ordem:</p>
                         <img src="../../Imagens_base/bpa/image_25.png"
-                            class="h-12 rounded border border-white/20 bg-black/50">
+                            class="h-12 rounded border border-white/20 bg-white/80">
                     </div>
                     <a href="../bpa/bpa_ad.html"
-                        class="block w-full py-4 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-500 transition shadow-lg shadow-pink-600/30">
+                        class="block w-full py-4 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-700 transition shadow-lg shadow-pink-600/30">
                         <i class="fas fa-play mr-2"></i> PRATICAR BPA-AD
                     </a>
                 </div>
@@ -665,27 +665,27 @@
         <div x-show="current === 13" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">BPA-AA</h2>
-                    <p class="text-2xl text-yellow-400 font-bold">Atenção Alternada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">BPA-AA</h2>
+                    <p class="text-2xl text-yellow-800 font-bold">Atenção Alternada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">2.5 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">2.5 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/bpa/BPA AA1.jpg" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-6">
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">96</span>
-                        <span class="text-white/50 text-sm mb-1">(Total: 120)</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta (16 Linhas)</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">96</span>
+                        <span class="text-slate-800/50 text-sm mb-1">(Total: 120)</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta (16 Linhas)</span>
                     </div>
-                    <div class="p-6 bg-yellow-500/10 border-l-4 border-yellow-500 rounded text-yellow-100 text-lg">
+                    <div class="p-6 bg-amber-50 border border-amber-200/60 border-l-4 border-yellow-500 rounded text-slate-800 text-lg">
                         <h4 class="font-bold mb-2"><i class="fas fa-lightbulb mr-2"></i>Bizu - Padrão 57</h4>
                         <ul class="list-disc pl-5">
                             <li><strong>5 figuras</strong> corretas na primeira linha</li>
@@ -693,7 +693,7 @@
                         </ul>
                     </div>
                     <a href="../bpa/bpa_aa.html"
-                        class="block w-full py-5 text-center bg-yellow-600 text-white font-black text-2xl rounded-xl hover:bg-yellow-500 transition shadow-lg shadow-yellow-600/30">
+                        class="block w-full py-5 text-center bg-yellow-600 text-white font-black text-2xl rounded-xl hover:bg-yellow-700 transition shadow-lg shadow-yellow-600/30">
                         <i class="fas fa-play mr-2"></i> PRATICAR BPA-AA
                     </a>
                 </div>
@@ -704,31 +704,31 @@
         <div x-show="current === 14" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TECON-1</h2>
-                    <p class="text-2xl text-purple-400 font-bold">Atenção Concentrada Complexa</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TECON-1</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Atenção Concentrada Complexa</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">3:30</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">3:30</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/tecon/tecon1_exemplo.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">96</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">96</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <span class="block text-xl text-white">Prepare-se para identificar padrões lógicos de
+                        <span class="block text-xl text-slate-800">Prepare-se para identificar padrões lógicos de
                             cores.</span>
                     </div>
                     <button @click="next()"
-                        class="block w-full py-5 text-center bg-white/10 text-white font-bold text-2xl rounded-xl hover:bg-white/20 transition border border-white/20">
+                        class="block w-full py-5 text-center bg-slate-100 border border-slate-200/60 text-slate-800 font-bold text-2xl rounded-xl hover:bg-white/20 transition border border-white/20">
                         <i class="fas fa-arrow-right mr-2"></i> VER REGRAS
                     </button>
                 </div>
@@ -739,21 +739,21 @@
         <div x-show="current === 15" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex flex-col h-full gap-8">
                 <div class="text-center">
-                    <h2 class="text-5xl font-black text-white mb-2">Lógica das Cores</h2>
-                    <p class="text-xl text-purple-400">Regras fundamentais para o TECON-1</p>
+                    <h2 class="text-5xl font-black text-slate-800 mb-2">Lógica das Cores</h2>
+                    <p class="text-xl text-blue-600">Regras fundamentais para o TECON-1</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-8 flex-1">
                     <div
-                        class="bg-yellow-500/10 p-8 rounded-3xl border-l-4 border-yellow-500 flex flex-col justify-center">
-                        <h4 class="text-yellow-400 font-bold text-3xl mb-6"><i class="fas fa-lightbulb mr-3"></i>Padrão
+                        class="bg-amber-50 border border-amber-200/60 p-8 rounded-3xl border-l-4 border-yellow-500 flex flex-col justify-center">
+                        <h4 class="text-yellow-800 font-bold text-3xl mb-6"><i class="fas fa-lightbulb mr-3"></i>Padrão
                             Oposto</h4>
-                        <div class="space-y-4 text-xl text-gray-200">
+                        <div class="space-y-4 text-xl text-slate-800">
                             <p>Se tiver <strong>2 AZUIS</strong> (Céu/Alto),</p>
                             <p>Terá <strong>2 VERMELHOS</strong> (Inferno/Baixo).</p>
                             <div class="w-full h-px bg-white/20 my-4"></div>
                             <p>Sobra sempre:</p>
-                            <ul class="list-disc pl-6 text-white font-bold">
+                            <ul class="list-disc pl-6 text-slate-800 font-bold">
                                 <li>1 Amarelo</li>
                                 <li>1 Verde</li>
                             </ul>
@@ -761,14 +761,14 @@
                     </div>
 
                     <div class="space-y-6">
-                        <div class="bg-red-500/10 p-6 rounded-2xl border-l-4 border-red-500">
-                            <h4 class="text-red-400 font-bold text-xl mb-2"><i
+                        <div class="bg-red-50 border border-red-200/60 p-6 rounded-2xl border-l-4 border-red-500">
+                            <h4 class="text-red-800 font-bold text-xl mb-2"><i
                                     class="fas fa-times-circle mr-2"></i>Correção</h4>
-                            <p class="text-gray-200">Se marcar errado: Faça um <strong>X</strong> sobre a resposta
+                            <p class="text-slate-800">Se marcar errado: Faça um <strong>X</strong> sobre a resposta
                                 errada e marque a correta. O erro será anulado.</p>
                         </div>
                         <a href="../tecon/tecon1.html"
-                            class="block w-full py-8 text-center bg-purple-600 text-white font-black text-3xl rounded-2xl hover:bg-purple-500 transition shadow-xl shadow-purple-600/30 transform hover:-translate-y-1">
+                            class="block w-full py-8 text-center bg-purple-600 text-slate-900 font-black text-3xl rounded-2xl hover:bg-purple-500 transition shadow-xl shadow-purple-600/30 transform hover:-translate-y-1">
                             <i class="fas fa-play mr-2"></i> INICIAR TECON-1
                         </a>
                     </div>
@@ -780,27 +780,27 @@
         <div x-show="current === 16" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TECON-2</h2>
-                    <p class="text-2xl text-purple-400 font-bold">Dica Visual</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TECON-2</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Dica Visual</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">3:30</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">3:30</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/tecon/tecon2_exemplo.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">96</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">96</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
                     <button @click="next()"
-                        class="block w-full py-5 text-center bg-white/10 text-white font-bold text-2xl rounded-xl hover:bg-white/20 transition border border-white/20">
+                        class="block w-full py-5 text-center bg-slate-100 border border-slate-200/60 text-slate-800 font-bold text-2xl rounded-xl hover:bg-white/20 transition border border-white/20">
                         <i class="fas fa-arrow-right mr-2"></i> VER BIZUS VISUAIS
                     </button>
                 </div>
@@ -811,27 +811,27 @@
         <div x-show="current === 17" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex flex-col h-full gap-6">
                 <div class="text-center">
-                    <h2 class="text-5xl font-black text-white mb-1">Bizus Visuais</h2>
-                    <p class="text-lg text-purple-400">Associações para agilizar a leitura</p>
+                    <h2 class="text-5xl font-black text-slate-800 mb-1">Bizus Visuais</h2>
+                    <p class="text-lg text-blue-600">Associações para agilizar a leitura</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 items-center">
                     <div
-                        class="bg-blue-500/10 p-6 rounded-2xl border-l-4 border-blue-500 h-full flex flex-col justify-center">
-                        <h4 class="text-blue-400 font-bold text-2xl mb-4 text-center">Associação de Quantidade</h4>
+                        class="bg-blue-50 border border-blue-200/60 p-6 rounded-2xl border-l-4 border-blue-500 h-full flex flex-col justify-center">
+                        <h4 class="text-blue-600 font-bold text-2xl mb-4 text-center">Associação de Quantidade</h4>
                         <div class="space-y-4 text-lg">
                             <div class="flex items-center gap-4 bg-black/20 p-3 rounded-lg">
                                 <span class="text-3xl">⬆️⬇️</span>
                                 <div>
-                                    <p class="font-bold text-white">Céu (Azul) e Inferno (Vermelho)</p>
-                                    <p class="text-sm text-gray-400">Sempre aparecem em PARES (2)</p>
+                                    <p class="font-bold text-slate-800">Céu (Azul) e Inferno (Vermelho)</p>
+                                    <p class="text-sm text-slate-500">Sempre aparecem em PARES (2)</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-4 bg-black/20 p-3 rounded-lg">
                                 <span class="text-3xl">🟨🟩</span>
                                 <div>
-                                    <p class="font-bold text-white">Ouro e Floresta</p>
-                                    <p class="text-sm text-gray-400">Sempre aparecem ÚNICOS (1)</p>
+                                    <p class="font-bold text-slate-800">Ouro e Floresta</p>
+                                    <p class="text-sm text-slate-500">Sempre aparecem ÚNICOS (1)</p>
                                 </div>
                             </div>
                         </div>
@@ -840,12 +840,12 @@
                     <div class="space-y-4 flex flex-col items-center">
                         <img src="../../Imagens_base/tecon/tecon2_dica.png"
                             class="h-32 rounded-xl border border-white/20 shadow-lg">
-                        <div class="p-4 bg-purple-900/40 rounded-xl text-center border border-purple-500/30">
-                            <p class="text-white font-bold mb-1">Dica Extra</p>
-                            <p class="text-sm text-gray-300">Procure primeiro os pares Azul/Vermelho.</p>
+                        <div class="p-4 bg-purple-900/40 rounded-xl text-center border border-blue-200">
+                            <p class="text-slate-800 font-bold mb-1">Dica Extra</p>
+                            <p class="text-sm text-slate-600">Procure primeiro os pares Azul/Vermelho.</p>
                         </div>
                         <a href="../tecon/tecon2.html"
-                            class="block w-full py-6 text-center bg-purple-600 text-white font-black text-2xl rounded-xl hover:bg-purple-500 transition shadow-lg shadow-purple-600/30">
+                            class="block w-full py-6 text-center bg-purple-600 text-slate-900 font-black text-2xl rounded-xl hover:bg-purple-500 transition shadow-lg shadow-purple-600/30">
                             <i class="fas fa-play mr-2"></i> SIMULAR TECON-2
                         </a>
                     </div>
@@ -857,27 +857,27 @@
         <div x-show="current === 18" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TECON-3</h2>
-                    <p class="text-2xl text-purple-400 font-bold">Simetria Alterada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TECON-3</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Simetria Alterada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">3:30</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">3:30</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/tecon/tecon3_exemplo.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">96</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">96</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
                     <button @click="next()"
-                        class="block w-full py-5 text-center bg-white/10 text-white font-bold text-2xl rounded-xl hover:bg-white/20 transition border border-white/20">
+                        class="block w-full py-5 text-center bg-slate-100 border border-slate-200/60 text-slate-800 font-bold text-2xl rounded-xl hover:bg-white/20 transition border border-white/20">
                         <i class="fas fa-arrow-right mr-2"></i> ENTENDER DIFERENÇA
                     </button>
                 </div>
@@ -888,19 +888,19 @@
         <div x-show="current === 19" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex flex-col items-center justify-center h-full gap-8">
                 <div class="text-center">
-                    <h2 class="text-5xl font-black text-white mb-4">O que muda?</h2>
+                    <h2 class="text-5xl font-black text-slate-800 mb-4">O que muda?</h2>
                 </div>
 
-                <div class="bg-purple-500/10 p-10 rounded-3xl border-l-4 border-purple-500 max-w-3xl w-full">
-                    <h4 class="text-purple-400 font-bold text-3xl mb-6"><i class="fas fa-random mr-3"></i>Simetria
+                <div class="bg-blue-50 p-10 rounded-3xl border-l-4 border-purple-500 max-w-3xl w-full">
+                    <h4 class="text-blue-600 font-bold text-3xl mb-6"><i class="fas fa-random mr-3"></i>Simetria
                         Alterada</h4>
-                    <ul class="space-y-6 text-xl text-gray-200">
+                    <ul class="space-y-6 text-xl text-slate-800">
                         <li class="flex items-start gap-4">
-                            <i class="fas fa-check text-green-400 mt-1"></i>
+                            <i class="fas fa-check text-green-800 mt-1"></i>
                             <span>As regras de contagem <strong>se mantêm</strong> (6 por linha).</span>
                         </li>
                         <li class="flex items-start gap-4">
-                            <i class="fas fa-exclamation-triangle text-yellow-400 mt-1"></i>
+                            <i class="fas fa-exclamation-triangle text-yellow-800 mt-1"></i>
                             <span>A disposição dos <strong>distratores</strong> é mais complexa e menos
                                 simétrica.</span>
                         </li>
@@ -908,7 +908,7 @@
                 </div>
 
                 <a href="../tecon/tecon3.html"
-                    class="block w-full max-w-2xl py-6 text-center bg-purple-600 text-white font-black text-2xl rounded-xl hover:bg-purple-500 transition shadow-lg shadow-purple-600/30">
+                    class="block w-full max-w-2xl py-6 text-center bg-purple-600 text-slate-900 font-black text-2xl rounded-xl hover:bg-purple-500 transition shadow-lg shadow-purple-600/30">
                     <i class="fas fa-play mr-2"></i> ENCARAR TECON-3
                 </a>
             </div>
@@ -918,18 +918,18 @@
         <div x-show="current === 20" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TEACO</h2>
-                    <p class="text-2xl text-cyan-400 font-bold">Atenção Concentrada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TEACO</h2>
+                    <p class="text-2xl text-blue-500 font-bold">Atenção Concentrada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">4 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">4 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center relative">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center relative">
                     <img src="../../Imagens_base/teaco/teaco_exemplo.png"
                         class="max-h-[50vh] rounded-lg shadow-2xl object-contain">
                     <div
@@ -939,8 +939,8 @@
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">144</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta (9 Acertos/Coluna)</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">144</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta (9 Acertos/Coluna)</span>
                     </div>
 
                     <a href="../teaco/teaco.html"
@@ -955,33 +955,33 @@
         <div x-show="current === 21" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TEADI</h2>
-                    <p class="text-2xl text-pink-400 font-bold">Atenção Dividida</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TEADI</h2>
+                    <p class="text-2xl text-pink-800 font-bold">Atenção Dividida</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">5 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">5 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/teadi/TEADI_exemplo.png" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">126</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">126</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
 
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <p class="text-xl text-white">Encontrar <strong class="text-pink-400">6 figuras</strong>
+                        <p class="text-xl text-slate-800">Encontrar <strong class="text-pink-800">6 figuras</strong>
                             corretas por linha.</p>
                     </div>
 
                     <a href="../teadi/teadi.html"
-                        class="block w-full py-5 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-500 transition shadow-lg shadow-pink-600/30">
+                        class="block w-full py-5 text-center bg-pink-600 text-white font-black text-2xl rounded-xl hover:bg-pink-700 transition shadow-lg shadow-pink-600/30">
                         <i class="fas fa-play mr-2"></i> Simular TEADI
                     </a>
                 </div>
@@ -992,33 +992,33 @@
         <div x-show="current === 22" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">TEALT</h2>
-                    <p class="text-2xl text-yellow-400 font-bold">Atenção Alternada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">TEALT</h2>
+                    <p class="text-2xl text-yellow-800 font-bold">Atenção Alternada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">2:30</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">2:30</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/tealt/tealt_exemplo.jpg" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">96</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">96</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
 
                     <div class="glass-panel p-6 rounded-2xl text-center">
-                        <p class="text-xl text-white">Encontrar <strong class="text-yellow-400">8 figuras</strong>
+                        <p class="text-xl text-slate-800">Encontrar <strong class="text-yellow-800">8 figuras</strong>
                             corretas por linha.</p>
                     </div>
 
                     <a href="../tealt/tealt.html"
-                        class="block w-full py-5 text-center bg-yellow-600 text-white font-black text-2xl rounded-xl hover:bg-yellow-500 transition shadow-lg shadow-yellow-600/30">
+                        class="block w-full py-5 text-center bg-yellow-600 text-white font-black text-2xl rounded-xl hover:bg-yellow-700 transition shadow-lg shadow-yellow-600/30">
                         <i class="fas fa-play mr-2"></i> Simular TEALT
                     </a>
                 </div>
@@ -1029,24 +1029,24 @@
         <div x-show="current === 23" class="slide-container max-w-7xl px-8 slide-enter" style="display: none;">
             <div class="flex items-center justify-between w-full mb-8">
                 <div>
-                    <h2 class="text-6xl font-black text-white mb-2">AC VETOR</h2>
-                    <p class="text-2xl text-blue-400 font-bold">Atenção Concentrada</p>
+                    <h2 class="text-6xl font-black text-slate-800 mb-2">AC VETOR</h2>
+                    <p class="text-2xl text-blue-600 font-bold">Atenção Concentrada</p>
                 </div>
                 <div class="text-right">
-                    <span class="block text-5xl font-black text-white">5 min</span>
-                    <span class="text-lg text-gray-500 uppercase tracking-widest font-bold">Tempo Limite</span>
+                    <span class="block text-5xl font-black text-slate-800">5 min</span>
+                    <span class="text-lg text-slate-600 uppercase tracking-widest font-bold">Tempo Limite</span>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center gap-12 w-full h-3/4">
                 <div
-                    class="bg-black/30 p-8 rounded-3xl border border-white/10 flex-1 h-full flex items-center justify-center">
+                    class="bg-white/80 p-8 rounded-3xl border border-slate-200 flex-1 h-full flex items-center justify-center">
                     <img src="../../Imagens_base/testeac/ac_exemplo.jpg" class="max-h-[50vh] rounded-lg shadow-2xl">
                 </div>
                 <div class="flex-1 space-y-8">
                     <div class="glass-panel p-8 rounded-2xl text-center">
-                        <span class="block text-6xl font-black text-white mb-2">119</span>
-                        <span class="text-green-400 font-bold uppercase tracking-widest">Meta de Acertos</span>
+                        <span class="block text-6xl font-black text-slate-800 mb-2">119</span>
+                        <span class="text-green-800 font-bold uppercase tracking-widest">Meta de Acertos</span>
                     </div>
 
                     <a href="../acvetor.html"
@@ -1061,13 +1061,13 @@
         <div x-show="current === 24" class="slide-container slide-enter" style="display: none;">
             <div class="text-center">
                 <div class="inline-block p-8 rounded-full bg-white/5 mb-8">
-                    <i class="fas fa-check text-6xl text-green-400"></i>
+                    <i class="fas fa-check text-6xl text-green-800"></i>
                 </div>
-                <h2 class="text-6xl font-black text-white mb-6">Fim da Apresentação</h2>
-                <p class="text-2xl text-gray-400 mb-12">Todos os testes de atenção foram abordados.</p>
+                <h2 class="text-6xl font-black text-slate-800 mb-6">Fim da Apresentação</h2>
+                <p class="text-2xl text-slate-500 mb-12">Todos os testes de atenção foram abordados.</p>
                 <div class="flex justify-center gap-6">
                     <button @click="goTo(0)"
-                        class="px-10 py-4 bg-white/10 hover:bg-white/20 rounded-xl transition text-xl font-bold">
+                        class="px-10 py-4 bg-slate-100 border border-slate-200/60 hover:bg-white/20 rounded-xl transition text-xl font-bold">
                         <i class="fas fa-redo mr-2"></i> Reiniciar
                     </button>
                     <a href="apostila_atencao.html"

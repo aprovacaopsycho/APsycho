@@ -36,7 +36,7 @@
         /* O Quadrado de Input */
         .input-box {
             position: absolute;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.04);
             border: 1px solid rgba(0, 255, 255, 0.3);
             cursor: grab;
             display: flex;
@@ -100,11 +100,11 @@
     <aside
         class="w-[350px] h-screen bg-gray-900 border-l border-gray-700 flex flex-col shadow-2xl z-50 fixed right-0 top-0 overflow-y-auto text-xs">
         <div class="p-4 space-y-5">
-            <h2 class="text-lg font-bold text-cyan-400 border-b border-gray-700 pb-2">Config. Beta III</h2>
+            <h2 class="text-lg font-bold text-blue-500 border-b border-gray-700 pb-2">Config. Beta III</h2>
 
             <div class="bg-gray-800 p-3 rounded">
-                <label class="block uppercase text-gray-400 mb-2 font-bold">1. Imagem do Teste</label>
-                <input type="file" @change="loadImage" accept="image/*" class="w-full text-gray-300">
+                <label class="block uppercase text-slate-500 mb-2 font-bold">1. Imagem do Teste</label>
+                <input type="file" @change="loadImage" accept="image/*" class="w-full text-slate-600">
                 <div class="flex justify-between items-center mt-3">
                     <span>Zoom: <span x-text="zoom + '%'"></span></span>
                     <input type="range" x-model="zoom" min="20" max="200" class="w-24 accent-cyan-500">
@@ -112,7 +112,7 @@
             </div>
 
             <div class="bg-gray-800 p-3 rounded space-y-3 border-l-2 border-yellow-500">
-                <h3 class="font-bold text-yellow-400 uppercase">2. Alinhamento em Massa</h3>
+                <h3 class="font-bold text-yellow-700 uppercase">2. Alinhamento em Massa</h3>
 
                 <div class="flex gap-2">
                     <div class="w-1/2">
@@ -168,18 +168,18 @@
                 </button>
             </div>
 
-            <div class="bg-black/30 p-2 rounded text-gray-400 italic">
+            <div class="bg-white/80 p-2 rounded text-slate-500 italic">
                 <p><strong>Gabarito Rápido:</strong> Clique no primeiro quadrado e digite as respostas. O foco mudará
                     automaticamente.</p>
             </div>
 
             <div class="pt-2 pb-10">
                 <button @click="generateCode()"
-                    class="w-full py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-bold rounded shadow-lg">
+                    class="w-full py-3 bg-gradient-to-r from-cyan-600 to-blue-600 text-slate-800 font-bold rounded shadow-lg">
                     GERAR CÓDIGO FINAL
                 </button>
                 <textarea x-model="output" readonly
-                    class="w-full h-24 bg-black text-cyan-400 text-[10px] p-2 rounded border border-gray-700 font-mono mt-2 focus:outline-none"></textarea>
+                    class="w-full h-24 bg-black text-blue-500 text-[10px] p-2 rounded border border-gray-700 font-mono mt-2 focus:outline-none"></textarea>
             </div>
         </div>
     </aside>
@@ -191,7 +191,7 @@
             <img :src="imgSrc" x-show="imgSrc" class="bg-image" :style="`width: 100%; height: 100%;`">
 
             <div x-show="!imgSrc"
-                class="absolute inset-0 flex items-center justify-center text-gray-500 pointer-events-none">
+                class="absolute inset-0 flex items-center justify-center text-slate-600 pointer-events-none">
                 <p class="text-xl font-bold border-2 border-dashed border-gray-700 p-10 rounded-xl">1. Carregue a Imagem
                     Beta III</p>
             </div>

@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>Avaliação IFP-II | Aprovação Psycho</title>
+    <meta name="color-scheme" content="light" />
+    <title>Avaliação IFP-II | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../favicon.png">
 
     <!-- SEGURANÇA -->
@@ -23,17 +23,17 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
-            color: #a0a0a0;
+            background: var(--bg-dark);
+            color: #334155;
             overflow-x: hidden;
         }
 
@@ -46,8 +46,8 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 50%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(14, 165, 233, 0.04) 0%, transparent 50%),
                 radial-gradient(circle at 40% 20%, rgba(0, 194, 255, 0.1) 0%, transparent 50%);
             animation: gradientShift 15s ease infinite;
             z-index: 0;
@@ -120,14 +120,14 @@
 
         .card {
             background: var(--bg-card);
-            border: 1px solid #333;
+            border: 1px solid rgba(0,0,0,0.08);
             border-radius: 12px;
             transition: all 0.3s ease;
         }
 
         .card:hover {
             border-color: var(--primary-purple);
-            box-shadow: 0 10px 30px rgba(159, 84, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.04);
             transform: translateY(-5px);
         }
 
@@ -139,7 +139,7 @@
         .hero-bg {
             position: relative;
             isolation: isolate;
-            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-image: linear-gradient(180deg, rgba(248, 250, 252, .85), rgba(248, 250, 252, .95)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -154,24 +154,24 @@
             z-index: -1;
             opacity: .35;
             background:
-                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
-                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
-                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+                radial-gradient(600px 200px at 10% 0%, rgba(37, 99, 235, .05), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(14, 165, 233, .05), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             filter: blur(40px);
             pointer-events: none
         }
 
         .scale-option input:checked+div {
-            background: rgba(159, 84, 255, 0.2);
+            background: var(--primary-purple);
             border-color: var(--primary-purple);
             color: white;
-            box-shadow: 0 0 10px rgba(159, 84, 255, 0.3);
+            box-shadow: 0 0 15px rgba(30, 64, 175, 0.4);
             transform: scale(1.05);
         }
 
         .neon-text {
-            color: #fff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--primary-purple);
+            color: var(--primary-purple);
+            text-shadow: none;
         }
 
         @media print {
@@ -211,28 +211,28 @@
     </div>
 
     <!-- HEADER -->
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG4kk_B-5aCSWc8T6qM8NNclK0v3Xi3UAxTQ&s"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black text-gray-200">APROVAÇÃO <span class="text-[var(--accent-pink)]"
-                            style="text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">IFP-II INVENTÁRIO</span>
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span class="text-[var(--accent-pink)]"
+                            style="text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">IFP-II INVENTÁRIO</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
                 <a href="testes_personalidade_PMCE.html"
-                    class="text-sm text-gray-400 hover:text-white flex items-center gap-2 transition">
+                    class="text-sm text-slate-500 hover:text-slate-800 flex items-center gap-2 transition">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
             </div>
@@ -245,30 +245,30 @@
         <div id="unified-timer-container"
             class="hidden fixed top-24 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-4">
             <div id="timer-glass-panel"
-                class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md">
-                <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
-                <div id="timer-display" class="font-mono text-3xl font-black text-white tabular-nums leading-none">00:00
+                class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-slate-200 bg-white/90 backdrop-blur-md">
+                <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Restante</div>
+                <div id="timer-display" class="font-mono text-3xl font-black text-slate-800 tabular-nums leading-none">00:00
                 </div>
             </div>
         </div>
 
         <div id="screen-import" class="hidden fade-in max-w-3xl mx-auto">
-            <div class="bg-[#151427] rounded-2xl p-8 border border-white/5">
-                <h2 class="text-2xl font-bold text-white mb-4">Importar Respostas</h2>
-                <p class="text-gray-400 mb-6 text-sm">Cole abaixo suas respostas separadas por espaços, vírgulas ou
+            <div class="bg-white rounded-2xl p-8 border border-slate-100">
+                <h2 class="text-2xl font-bold text-slate-800 mb-4">Importar Respostas</h2>
+                <p class="text-slate-500 mb-6 text-sm">Cole abaixo suas respostas separadas por espaços, vírgulas ou
                     quebras de linha. O sistema espera 100 números (1-7).</p>
 
                 <textarea id="input-answers" rows="10"
-                    class="w-full bg-[#0f0e1a] border border-purple-500/20 rounded-xl p-4 text-white font-mono text-sm focus:outline-none focus:border-purple-500 transition-colors"
+                    class="w-full bg-slate-50 border border-purple-500/20 rounded-xl p-4 text-slate-800 font-mono text-sm focus:outline-none focus:border-purple-500 transition-colors"
                     placeholder="1 2 3 4 5..."></textarea>
 
                 <div class="flex justify-between items-center mt-4">
-                    <span id="count-display" class="text-xs font-bold text-gray-500">0 respostas detectadas</span>
+                    <span id="count-display" class="text-xs font-bold text-slate-600">0 respostas detectadas</span>
                     <div class="flex gap-3">
                         <button onclick="showScreen('dashboard')"
-                            class="px-4 py-2 rounded-lg text-gray-400 hover:text-white transition">Cancelar</button>
+                            class="px-4 py-2 rounded-lg text-slate-500 hover:text-slate-800 transition">Cancelar</button>
                         <button onclick="processarInputImportado()"
-                            class="px-6 py-2 rounded-lg bg-purple-600 text-white font-bold hover:bg-purple-500 transition shadow-lg shadow-purple-600/20">Processar</button>
+                            class="px-6 py-2 rounded-lg bg-purple-600 text-slate-800 font-bold hover:bg-purple-500 transition shadow-lg shadow-purple-600/20">Processar</button>
                     </div>
                 </div>
             </div>
@@ -276,58 +276,58 @@
 
         <div id="screen-dashboard" class="fade-in">
             <div class="mb-10">
-                <h2 class="text-3xl font-bold text-white mb-2">Painel IFP-II</h2>
-                <p class="text-gray-400">Visão geral do seu desempenho no Inventário Fatorial de Personalidade II.</p>
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">Painel IFP-II</h2>
+                <p class="text-slate-500">Visão geral do seu desempenho no Inventário Fatorial de Personalidade II.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div
-                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-purple-500/30 transition-all group">
+                    class="bg-white rounded-2xl p-6 border border-slate-100 hover:border-blue-200 transition-all group">
                     <div class="flex justify-between items-start mb-4">
                         <div
-                            class="p-3 rounded-lg bg-purple-500/10 text-purple-400 group-hover:bg-purple-500/20 transition-colors">
+                            class="p-3 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-purple-500/20 transition-colors">
                             <i class="fas fa-clipboard-check text-xl"></i>
                         </div>
-                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Total</span>
+                        <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Total</span>
                     </div>
-                    <div class="text-4xl font-bold text-white mb-1" id="dash-total">0</div>
-                    <p class="text-sm text-gray-500">Testes realizados</p>
+                    <div class="text-4xl font-bold text-slate-800 mb-1" id="dash-total">0</div>
+                    <p class="text-sm text-slate-600">Testes realizados</p>
                 </div>
 
                 <div
-                    class="bg-[#151427] rounded-2xl p-6 border border-white/5 hover:border-cyan-500/30 transition-all group">
+                    class="bg-white rounded-2xl p-6 border border-slate-100 hover:border-cyan-500/30 transition-all group">
                     <div class="flex justify-between items-start mb-4">
                         <div
-                            class="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 group-hover:bg-cyan-500/20 transition-colors">
+                            class="p-3 rounded-lg bg-blue-50 text-blue-500 group-hover:bg-cyan-500/20 transition-colors">
                             <i class="fas fa-stopwatch text-xl"></i>
                         </div>
-                        <span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Último</span>
+                        <span class="text-xs font-bold text-slate-600 uppercase tracking-wider">Último</span>
                     </div>
-                    <div class="text-lg font-bold text-white mb-1 truncate" id="dash-last-date">-</div>
-                    <p class="text-sm text-gray-500" id="dash-last-status">Sem dados</p>
+                    <div class="text-lg font-bold text-slate-800 mb-1 truncate" id="dash-last-date">-</div>
+                    <p class="text-sm text-slate-600" id="dash-last-status">Sem dados</p>
                 </div>
 
-                <div class="bg-gradient-to-br from-[#151427] to-[#1a1a35] rounded-2xl p-6 border border-white/5 flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg hover:shadow-purple-500/10 transition-all"
+                <div class="bg-gradient-to-br from-[#151427] to-[#1a1a35] rounded-2xl p-6 border border-slate-100 flex flex-col justify-center items-center text-center cursor-pointer hover:shadow-lg hover:shadow-purple-500/10 transition-all"
                     onclick="novoTeste()">
-                    <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center mb-3 text-white">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3 text-slate-800">
                         <i class="fas fa-plus"></i>
                     </div>
-                    <h3 class="text-white font-bold mb-1">Iniciar Novo Teste</h3>
-                    <p class="text-xs text-gray-400">Questionário Completo</p>
+                    <h3 class="text-slate-800 font-bold mb-1">Iniciar Novo Teste</h3>
+                    <p class="text-xs text-slate-500">Questionário Completo</p>
                 </div>
             </div>
 
 
 
-            <div class="bg-[#151427] rounded-2xl border border-white/5 overflow-hidden">
-                <div class="p-6 border-b border-white/5 flex justify-between items-center">
-                    <h3 class="text-lg font-bold text-white">Histórico de Atividades</h3>
-                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+            <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                    <h3 class="text-lg font-bold text-slate-800">Histórico de Atividades</h3>
+                    <button class="text-xs text-blue-600 hover:text-blue-500 font-medium"
                         onclick="limparHistorico()">Limpar Histórico</button>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
-                        <thead class="text-xs text-gray-500 uppercase bg-[#0f0e1a]/50">
+                        <thead class="text-xs text-slate-600 uppercase bg-slate-50/50">
                             <tr>
                                 <th class="px-6 py-4 font-medium">Teste</th>
                                 <th class="px-6 py-4 font-medium">Data</th>
@@ -335,7 +335,7 @@
                                 <th class="px-6 py-4 font-medium text-right">Ação</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/5" id="history-container">
+                        <tbody class="divide-y divide-slate-200" id="history-container">
                         </tbody>
                     </table>
                 </div>
@@ -344,21 +344,21 @@
 
         <div id="screen-quiz" class="hidden fade-in max-w-5xl mx-auto">
             <div
-                class="bg-[#151427] rounded-2xl p-6 border border-white/5 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
+                class="bg-white rounded-2xl p-6 border border-slate-100 mb-8 sticky top-24 z-40 shadow-xl shadow-black/50">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-4 gap-4">
                     <div>
-                        <h2 class="text-xl font-bold text-white">IFP-II</h2>
-                        <p class="text-sm text-gray-400">Inventário Fatorial de Personalidade - II</p>
+                        <h2 class="text-xl font-bold text-slate-800">IFP-II</h2>
+                        <p class="text-sm text-slate-500">Inventário Fatorial de Personalidade - II</p>
                     </div>
 
                     <!-- FILTRO -->
                     <div
-                        class="flex items-center gap-3 bg-[#1c1b29] px-4 py-2 rounded-lg border border-white/10 focus-within:border-purple-500 transition-colors shadow-lg shadow-black/20 w-full md:w-auto">
-                        <i class="fas fa-filter text-purple-400"></i>
+                        class="flex items-center gap-3 bg-white px-4 py-2 rounded-lg border border-slate-200 focus-within:border-purple-500 transition-colors shadow-lg shadow-black/20 w-full md:w-auto">
+                        <i class="fas fa-filter text-blue-600"></i>
                         <select id="facet-filter" onchange="filtrarFacetas()"
-                            class="bg-transparent text-gray-300 text-sm outline-none cursor-pointer w-full font-medium">
-                            <option value="ALL" class="bg-[#151427] text-white">Todas as Facetas</option>
-                            <optgroup label="Itens IFP-II" class="bg-[#1c1b29] text-purple-300">
+                            class="bg-transparent text-slate-600 text-sm outline-none cursor-pointer w-full font-medium">
+                            <option value="ALL" class="bg-white text-slate-800">Todas as Facetas</option>
+                            <optgroup label="Itens IFP-II" class="bg-white text-blue-500">
                                 <option value="ASSISTENCIA">Assistência</option>
                                 <option value="INTRACEPCAO">Intracepção</option>
                                 <option value="AFAGO">Afago</option>
@@ -377,17 +377,17 @@
                     </div>
 
                     <button onclick="abrirImportacao()"
-                        class="flex items-center gap-2 bg-[#1c1b29] px-4 py-2 rounded-lg border border-white/10 text-gray-300 hover:text-white hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium h-[38px]">
-                        <i class="fas fa-paste text-purple-400"></i>
+                        class="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:text-slate-800 hover:border-purple-500 transition-colors shadow-lg shadow-black/20 text-sm font-medium h-[38px]">
+                        <i class="fas fa-paste text-blue-600"></i>
                         Colar Respostas
                     </button>
 
                     <div class="text-right">
-                        <span class="text-2xl font-bold text-cyan-400" id="progress-text">0%</span>
+                        <span class="text-2xl font-bold text-blue-500" id="progress-text">0%</span>
                     </div>
                 </div>
                 <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
-                    <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-500 transition-all duration-300 ease-out"
+                    <div class="h-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-300 ease-out"
                         id="progress-bar" style="width: 0%"></div>
                 </div>
             </div>
@@ -397,7 +397,7 @@
 
             <div class="mt-10 flex flex-col items-center gap-4 pb-20">
                 <button onclick="calcularResultado()"
-                    class="px-10 py-4 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-500 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
+                    class="px-10 py-4 rounded-xl text-lg font-bold text-slate-800 bg-gradient-to-r from-blue-600 to-blue-400 shadow-xl shadow-purple-500/20 hover:shadow-purple-500/40 hover:scale-105 transform transition-all">
                     FINALIZAR AVALIAÇÃO <i class="fas fa-check-circle ml-2"></i>
                 </button>
 
@@ -408,17 +408,17 @@
         <div id="screen-result" class="hidden fade-in">
 
             <div
-                class="flex flex-col md:flex-row justify-between items-center bg-[#151427] p-8 rounded-2xl border border-white/5 mb-8">
+                class="flex flex-col md:flex-row justify-between items-center bg-white p-8 rounded-2xl border border-slate-100 mb-8">
                 <div>
-                    <h2 class="text-3xl font-black text-white mb-2 tracking-tight">RELATÓRIO DE PERFIL</h2>
-                    <p class="text-gray-400 flex items-center gap-2">
+                    <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tight">RELATÓRIO DE PERFIL</h2>
+                    <p class="text-slate-500 flex items-center gap-2">
                         <i class="far fa-calendar-alt"></i> <span id="report-date">...</span>
                     </p>
                 </div>
                 <div class="mt-6 md:mt-0 text-center">
-                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div class="text-sm text-slate-600 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
                     <div id="final-status-badge"
-                        class="px-8 py-3 rounded-full text-xl font-bold bg-gray-800 text-gray-400 border border-gray-700">
+                        class="px-8 py-3 rounded-full text-xl font-bold bg-gray-800 text-slate-500 border border-gray-700">
                         CALCULANDO...
                     </div>
                 </div>
@@ -426,19 +426,19 @@
 
             <div class="flex justify-end gap-3 mb-8 no-print">
                 <button onclick="abrirGabarito()"
-                    class="px-4 py-2 rounded-lg bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 border border-yellow-500/30 transition font-black text-sm">
+                    class="px-4 py-2 rounded-lg bg-yellow-500/20 text-yellow-700 hover:bg-yellow-500/30 border border-yellow-500/30 transition font-black text-sm">
                     <i class="fas fa-key mr-1"></i> Ver Gabarito
                 </button>
                 <button onclick="editarRespostas()"
-                    class="px-4 py-2 rounded-lg bg-purple-500/10 text-purple-400 hover:bg-purple-500/20 border border-purple-500/30 transition font-medium text-sm">
+                    class="px-4 py-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-purple-500/20 border border-blue-200 transition font-medium text-sm">
                     <i class="fas fa-edit mr-1"></i> Editar Respostas
                 </button>
                 <button onclick="showScreen('dashboard')"
-                    class="px-4 py-2 rounded-lg bg-gray-800 text-gray-300 hover:bg-gray-700 transition font-medium text-sm">
+                    class="px-4 py-2 rounded-lg bg-gray-800 text-slate-600 hover:bg-gray-700 transition font-medium text-sm">
                     <i class="fas fa-arrow-left mr-1"></i> Voltar
                 </button>
                 <button onclick="window.print()"
-                    class="px-4 py-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/30 transition font-medium text-sm">
+                    class="px-4 py-2 rounded-lg bg-blue-50 text-blue-500 hover:bg-cyan-500/20 border border-cyan-500/30 transition font-medium text-sm">
                     <i class="fas fa-print mr-1"></i> Imprimir PDF
                 </button>
             </div>
@@ -446,8 +446,8 @@
             <div id="report-content" class="space-y-10">
             </div>
 
-            <div class="mt-20 text-center border-t border-white/5 pt-10 pb-10">
-                <p class="text-gray-600 text-sm">Aprovação Psycho - Método Titan</p>
+            <div class="mt-20 text-center border-t border-slate-100 pt-10 pb-10">
+                <p class="text-gray-600 text-sm">Grupo de Estudos para Psicotécnico - Método Titan</p>
             </div>
         </div>
 
@@ -1034,16 +1034,16 @@
                 el.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
                 if (timeRemaining < 300) { // 5 min warning
-                    el.classList.remove('text-white');
-                    el.classList.add('text-red-400', 'animate-pulse');
+                    el.classList.remove('text-slate-800');
+                    el.classList.add('text-red-700', 'animate-pulse');
                     if (panel) {
-                        panel.classList.add('border-red-500', 'bg-red-900/40');
+                        panel.classList.add('border-red-500', 'bg-red-50/90');
                     }
                 } else {
-                    el.classList.add('text-white');
-                    el.classList.remove('text-red-400', 'animate-pulse');
+                    el.classList.add('text-slate-800');
+                    el.classList.remove('text-red-700', 'animate-pulse');
                     if (panel) {
-                        panel.classList.remove('border-red-500', 'bg-red-900/40');
+                        panel.classList.remove('border-red-500', 'bg-red-50/90');
                     }
                 }
             }
@@ -1095,9 +1095,9 @@
             document.getElementById('count-display').innerText = `${answers.length} respostas detectadas`;
 
             if (answers.length === 100) {
-                document.getElementById('count-display').className = "text-xs font-bold text-green-400";
+                document.getElementById('count-display').className = "text-xs font-bold text-green-700";
             } else {
-                document.getElementById('count-display').className = "text-xs font-bold text-red-400";
+                document.getElementById('count-display').className = "text-xs font-bold text-red-700";
             }
         });
 
@@ -1152,29 +1152,29 @@
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
             if (DATA_QUESTIONS.length === 0) {
-                container.innerHTML = '<div class="text-white">Carregando dados...</div>';
+                container.innerHTML = '<div class="text-slate-800">Carregando dados...</div>';
                 return;
             }
 
             let html = '';
             DATA_QUESTIONS.forEach(q => {
                 html += `
-    <div class="question-card bg-[#1c1b29] p-6 rounded-xl border border-white/5 relative group hover:border-purple-500/20 transition-all scroll-mt-32" data-facet="${q.facet}">
+    <div class="question-card bg-white p-6 rounded-xl border border-slate-100 relative group hover:border-purple-500/20 transition-all scroll-mt-32" data-facet="${q.facet}">
         <div class="flex gap-3 mb-4 pl-2">
-            <span class="text-purple-400 font-bold font-mono">#${q.id}</span>
-            <p class="text-gray-200 font-medium">${q.text}</p>
+            <span class="text-blue-600 font-bold font-mono">#${q.id}</span>
+            <p class="text-slate-800 font-medium">${q.text}</p>
         </div>
         <div class="grid grid-cols-9 gap-1 items-center">
-            <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Discordo</span>
+            <span class="col-span-1 text-[10px] text-slate-600 text-center uppercase font-bold">Discordo</span>
             ${[1, 2, 3, 4, 5, 6, 7].map(v => `
                 <label class="scale-option cursor-pointer relative group/opt">
                     <input type="radio" name="q${q.id}" value="${v}" class="peer sr-only" onchange="updateProgress()" autocomplete="off">
-                    <div class="h-10 w-full bg-[#0f0e1a] border border-white/10 rounded-md flex items-center justify-center text-gray-400 font-bold transition-all peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 hover:bg-white/5 hover:border-white/20">
+                    <div class="h-10 w-full bg-slate-50 border border-slate-200 rounded-md flex items-center justify-center text-slate-500 font-bold transition-all peer-checked:bg-purple-600 peer-checked:text-white peer-checked:border-purple-500 hover:bg-slate-100 hover:border-white/20">
                         ${v}
                     </div>
                 </label>
             `).join('')}
-            <span class="col-span-1 text-[10px] text-gray-500 text-center uppercase font-bold">Concordo</span>
+            <span class="col-span-1 text-[10px] text-slate-600 text-center uppercase font-bold">Concordo</span>
         </div>
     </div>`;
             });
@@ -1287,8 +1287,8 @@
 
             if (globalStatus) {
                 statusContainer.innerHTML = `
-                    <div class="text-sm text-gray-500 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
-                    <div id="final-status-badge" class="px-8 py-3 rounded-full text-xl font-bold bg-green-500/10 text-green-400 border border-green-500/30">
+                    <div class="text-sm text-slate-600 mb-2 uppercase tracking-widest font-bold">Resultado Global</div>
+                    <div id="final-status-badge" class="px-8 py-3 rounded-full text-xl font-bold bg-green-500/10 text-green-700 border border-green-500/30">
                         APTO
                     </div>
                 `;
@@ -1298,7 +1298,7 @@
                         <div class="loser-text">
                             VOCÊ FICOU<br>INAPTO!
                         </div>
-                        <span class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-400 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
+                        <span class="px-6 py-2 rounded-full text-sm font-bold border bg-red-500/20 text-red-700 border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
                             <i class="fas fa-times-circle mr-2"></i> REPROVADO
                         </span>
                     </div>
@@ -1310,7 +1310,7 @@
 
             html += `
                 <div class="mb-8">
-                    <h3 class="text-xl font-bold text-white mb-4 flex items-center gap-2 border-b border-white/10 pb-2">
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2 border-b border-slate-200 pb-2">
                         <i class="fas fa-layer-group text-purple-500" style="text-shadow: 0 0 10px var(--primary-purple);"></i> 
                         <span class="neon-text">NECESSIDADES PSICOLÓGICAS</span>
                     </h3>
@@ -1324,8 +1324,8 @@
                 const isApto = r.apto;
                 const statusText = isApto ? "APTO" : "INAPTO";
                 const statusColor = isApto
-                    ? "text-green-400 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
-                    : "text-red-400 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
+                    ? "text-green-700 bg-green-500/10 border border-green-500/50 shadow-[0_0_10px_rgba(34,197,94,0.3)]"
+                    : "text-red-700 bg-red-500/10 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.3)]";
 
                 const markerColor = isApto ? 'bg-cyan-400 shadow-[0_0_15px_#22d3ee]' : 'bg-red-500 shadow-[0_0_15px_#ef4444]';
 
@@ -1334,14 +1334,14 @@
                 const marker = Math.min(100, Math.max(0, r.pct)) + '%';
 
                 html += `
-                    <div class="bg-[#1a1a2e]/80 backdrop-blur-sm p-4 rounded-xl border border-white/5 flex flex-col gap-3 hover:border-purple-500/30 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
+                    <div class="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-slate-100 flex flex-col gap-3 hover:border-blue-200 transition-all hover:shadow-[0_0_15px_rgba(159,84,255,0.1)]">
                         <div class="flex flex-col md:flex-row items-center gap-4">
-                            <div class="w-full md:w-1/4 font-medium text-gray-300 text-sm flex items-center gap-2">
+                            <div class="w-full md:w-1/4 font-medium text-slate-600 text-sm flex items-center gap-2">
                                  <div class="w-1.5 h-1.5 rounded-full ${isApto ? 'bg-purple-500' : 'bg-red-500'}"></div>
-                                 <div class="font-bold text-white uppercase tracking-wider">${facet}</div>
+                                 <div class="font-bold text-slate-800 uppercase tracking-wider">${facet}</div>
                             </div>
     
-                            <div class="w-full md:w-1/2 h-6 bg-black/50 rounded-full relative overflow-hidden border border-white/10 shadow-inner">
+                            <div class="w-full md:w-1/2 h-6 bg-white/80 rounded-full relative overflow-hidden border border-slate-200 shadow-inner">
                                 <div class="absolute top-1 bottom-1 bg-gradient-to-r from-blue-600/30 to-cyan-400/30 border-x border-cyan-400/50 shadow-[0_0_10px_rgba(34,211,238,0.2)]" 
                                      style="left: ${left}; width: ${width};" 
                                      title="Meta: ${r.min}-${r.max}%">
@@ -1353,8 +1353,8 @@
     
                             <div class="w-full md:w-1/4 flex justify-between md:justify-end items-center gap-4">
                                 <div class="text-right">
-                                    <div class="text-xs text-gray-500">Raw: ${r.raw}</div>
-                                    <div class="text-sm font-mono text-white font-bold">${r.pct}%</div>
+                                    <div class="text-xs text-slate-600">Raw: ${r.raw}</div>
+                                    <div class="text-sm font-mono text-slate-800 font-bold">${r.pct}%</div>
                                 </div>
                                 <span class="text-xs font-bold px-3 py-1 rounded-full ${statusColor}">${statusText}</span>
                             </div>
@@ -1363,8 +1363,8 @@
                 if (!isApto) {
                     const facetQuestions = DATA_QUESTIONS.filter(q => q.facet === facet);
                     html += `
-                        <div class="mt-2 pt-3 border-t border-white/5 animate-fade-in">
-                            <p class="text-xs font-bold text-red-400 mb-2 uppercase flex items-center gap-2">
+                        <div class="mt-2 pt-3 border-t border-slate-100 animate-fade-in">
+                            <p class="text-xs font-bold text-red-700 mb-2 uppercase flex items-center gap-2">
                                 <i class="fas fa-exclamation-triangle"></i> Detalhamento dos Itens (Critério Reprovado)
                             </p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -1373,9 +1373,9 @@
                     facetQuestions.forEach(q => {
                         const val = userAnswers[q.id] || 0;
                         html += `
-                            <div class="flex justify-between items-center bg-black/40 px-3 py-2 rounded border border-white/5">
-                                <span class="text-[10px] text-gray-400 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
-                                <span class="text-xs font-mono font-bold ${val >= 4 ? 'text-yellow-400' : 'text-gray-500'}">Resp: ${val}</span>
+                            <div class="flex justify-between items-center bg-white/80 px-3 py-2 rounded border border-slate-100">
+                                <span class="text-[10px] text-slate-500 line-clamp-2 pr-2" title="${q.text}">#${q.id} ${q.text}</span>
+                                <span class="text-xs font-mono font-bold ${val >= 4 ? 'text-yellow-700' : 'text-slate-600'}">Resp: ${val}</span>
                             </div>
                         `;
                     });
@@ -1403,22 +1403,22 @@
             if (h.length) {
                 document.getElementById('dash-last-date').innerText = h[0].date;
                 document.getElementById('dash-last-status').innerText = h[0].status;
-                document.getElementById('dash-last-status').className = h[0].status == 'APTO' ? 'text-green-400 font-bold text-sm' : 'text-red-400 font-bold text-sm';
+                document.getElementById('dash-last-status').className = h[0].status == 'APTO' ? 'text-green-700 font-bold text-sm' : 'text-red-700 font-bold text-sm';
             }
 
             const dashboardContainer = document.getElementById('history-container');
             if (h.length === 0) {
-                dashboardContainer.innerHTML = '<tr><td colspan="4" class="px-6 py-10 text-center text-gray-500">Nenhum teste detectado.</td></tr>';
+                dashboardContainer.innerHTML = '<tr><td colspan="4" class="px-6 py-10 text-center text-slate-600">Nenhum teste detectado.</td></tr>';
                 return;
             }
 
             dashboardContainer.innerHTML = h.map(i => `
-             <tr class="border-b border-white/5 last:border-0 hover:bg-white/5 transition">
-                <td class="px-6 py-4 font-medium text-white">IFP-II Completo</td>
-                <td class="px-6 py-4 text-gray-400">${i.date}</td>
-                <td class="px-6 py-4 text-center font-bold ${i.status == 'APTO' ? 'text-green-400' : 'text-red-400'}">${i.status}</td>
+             <tr class="border-b border-slate-100 last:border-0 hover:bg-slate-100 transition">
+                <td class="px-6 py-4 font-medium text-slate-800">IFP-II Completo</td>
+                <td class="px-6 py-4 text-slate-500">${i.date}</td>
+                <td class="px-6 py-4 text-center font-bold ${i.status == 'APTO' ? 'text-green-700' : 'text-red-700'}">${i.status}</td>
                 <td class="px-6 py-4 text-right">
-                     <span class="text-xs text-gray-500">Salvo</span>
+                     <span class="text-xs text-slate-600">Salvo</span>
                 </td>
             </tr>
         `).join('');
@@ -1454,19 +1454,19 @@
         <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="fecharGabarito()"></div>
         <!-- Panel -->
-        <div class="absolute inset-4 md:inset-12 bg-[#100f1c] border border-white/10 rounded-2xl flex flex-col shadow-2xl shadow-black/60 overflow-hidden">
+        <div class="absolute inset-4 md:inset-12 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col shadow-2xl shadow-black/60 overflow-hidden">
             <!-- Header do modal -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#151427] shrink-0">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-white shrink-0">
                 <div>
-                    <h2 id="gabarito-title" class="text-xl font-black text-white">Gabarito — Padrão de Resposta IFP-II</h2>
-                    <p class="text-xs text-gray-400 mt-0.5">Respostas esperadas para cada item. Pontuação: 1 a 7.</p>
+                    <h2 id="gabarito-title" class="text-xl font-black text-slate-800">Gabarito — Padrão de Resposta IFP-II</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Respostas esperadas para cada item. Pontuação: 1 a 7.</p>
                 </div>
-                <button onclick="fecharGabarito()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition">
+                <button onclick="fecharGabarito()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-800 transition">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <!-- Legenda -->
-            <div class="px-6 py-3 bg-[#0f0e1a]/60 border-b border-white/5 shrink-0 flex flex-wrap gap-4 text-xs text-gray-400">
+            <div class="px-6 py-3 bg-slate-50/60 border-b border-slate-100 shrink-0 flex flex-wrap gap-4 text-xs text-slate-500">
                 <span><span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-1"></span>6 ou 7 = resposta desejável</span>
                 <span><span class="inline-block w-2 h-2 rounded-full bg-red-500 mr-1"></span>1 ou 2 = resposta indesejável</span>
                 <span><span class="inline-block w-2 h-2 rounded-full bg-gray-500 mr-1"></span>4 = neutro / ponto médio</span>
@@ -1474,22 +1474,22 @@
             <!-- Tabela rolável -->
             <div class="overflow-y-auto flex-grow px-2 py-2">
                 <table class="w-full text-sm border-collapse">
-                    <thead class="sticky top-0 bg-[#151427] z-10">
+                    <thead class="sticky top-0 bg-white z-10">
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider w-12">#</th>
-                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Afirmativa</th>
-                            <th class="px-4 py-3 text-center text-xs font-bold text-gray-500 uppercase tracking-wider w-20">Gabarito</th>
+                            <th class="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider w-12">#</th>
+                            <th class="px-4 py-3 text-left text-xs font-bold text-slate-600 uppercase tracking-wider">Afirmativa</th>
+                            <th class="px-4 py-3 text-center text-xs font-bold text-slate-600 uppercase tracking-wider w-20">Gabarito</th>
                         </tr>
                     </thead>
-                    <tbody id="gabarito-tbody" class="divide-y divide-white/5"></tbody>
+                    <tbody id="gabarito-tbody" class="divide-y divide-slate-200"></tbody>
                 </table>
             </div>
             <!-- Footer -->
-            <div class="px-6 py-3 border-t border-white/10 bg-[#151427] shrink-0 flex justify-between items-center">
-                <button id="btn-copiar-gabarito" onclick="copiarGabarito()" class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white font-bold text-sm transition flex items-center gap-2">
+            <div class="px-6 py-3 border-t border-slate-200 bg-white shrink-0 flex justify-between items-center">
+                <button id="btn-copiar-gabarito" onclick="copiarGabarito()" class="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-slate-600 hover:text-slate-800 font-bold text-sm transition flex items-center gap-2">
                     <i class="fas fa-copy"></i> Copiar Gabarito
                 </button>
-                <button onclick="fecharGabarito()" class="px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition">
+                <button onclick="fecharGabarito()" class="px-6 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-slate-800 font-bold text-sm transition">
                     Fechar
                 </button>
             </div>
@@ -1610,14 +1610,14 @@
             if (!tbody.innerHTML) {
                 tbody.innerHTML = GABARITO_IFPII.map(([num, gab]) => {
                     let colorClass, bgClass;
-                    if (gab >= 6)      { colorClass = 'text-green-400 font-black'; bgClass = 'bg-green-500/10'; }
-                    else if (gab <= 2) { colorClass = 'text-red-400 font-black';   bgClass = 'bg-red-500/10'; }
-                    else               { colorClass = 'text-gray-400 font-bold';   bgClass = ''; }
-                    return `<tr class="hover:bg-white/5 transition ${bgClass}">
-                        <td class="px-4 py-2.5 text-gray-500 text-xs font-mono">${num}</td>
-                        <td class="px-4 py-2.5 text-gray-300 text-xs leading-relaxed">${GABARITO_TEXTOS_IFPII[num-1]}</td>
+                    if (gab >= 6)      { colorClass = 'text-green-700 font-black'; bgClass = 'bg-green-500/10'; }
+                    else if (gab <= 2) { colorClass = 'text-red-700 font-black';   bgClass = 'bg-red-500/10'; }
+                    else               { colorClass = 'text-slate-500 font-bold';   bgClass = ''; }
+                    return `<tr class="hover:bg-slate-100 transition ${bgClass}">
+                        <td class="px-4 py-2.5 text-slate-600 text-xs font-mono">${num}</td>
+                        <td class="px-4 py-2.5 text-slate-600 text-xs leading-relaxed">${GABARITO_TEXTOS_IFPII[num-1]}</td>
                         <td class="px-4 py-2.5 text-center">
-                            <span class="inline-block w-8 h-8 rounded-full flex items-center justify-center text-sm ${colorClass} bg-black/20 border border-white/10">${gab}</span>
+                            <span class="inline-block w-8 h-8 rounded-full flex items-center justify-center text-sm ${colorClass} bg-slate-100 border border-slate-200">${gab}</span>
                         </td>
                     </tr>`;
                 }).join('');
@@ -1642,12 +1642,12 @@
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
                 btn.classList.add('bg-green-600', 'text-white');
-                btn.classList.remove('bg-gray-700', 'text-gray-300');
+                btn.classList.remove('bg-gray-700', 'text-slate-600');
                 
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.classList.remove('bg-green-600', 'text-white');
-                    btn.classList.add('bg-gray-700', 'text-gray-300');
+                    btn.classList.add('bg-gray-700', 'text-slate-600');
                 }, 2000);
             });
         }

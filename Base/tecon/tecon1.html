@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>TECON 1 | Aprovação Psycho</title>
+    <meta name="color-scheme" content="light" />
+    <title>TECON 1 | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
     <script src="../../scripts/auth_guard.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,17 +19,17 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg-dark);
-            color: #a0a0a0;
+            color: #334155;
             user-select: none;
         }
 
@@ -86,7 +86,7 @@
 
         .hero-bg {
             position: relative;
-            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-image: linear-gradient(180deg, rgba(248, 250, 252, .85), rgba(248, 250, 252, .95)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -99,7 +99,7 @@
             inset: -10%;
             z-index: -1;
             opacity: .35;
-            background: radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%), radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%), radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+            background: radial-gradient(600px 200px at 10% 0%, rgba(37, 99, 235, .05), transparent 60%), radial-gradient(600px 200px at 90% 20%, rgba(14, 165, 233, .05), transparent 60%), radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             filter: blur(40px);
             pointer-events: none;
         }
@@ -126,7 +126,7 @@
         }
 
         .hit-zone:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.04);
             border-radius: 4px;
         }
 
@@ -176,7 +176,7 @@
         .glass-panel {
             background: rgba(28, 27, 41, 0.7);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
@@ -266,7 +266,7 @@
         .glass-panel {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
     </style>
@@ -285,30 +285,30 @@
         <div class="particle" style="left: 80%; animation-delay: 4.5s;"></div>
         <div class="particle" style="left: 90%; animation-delay: 1.5s;"></div>
     </div>
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">TECON <span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">TECON <span
                             class="text-[var(--accent-blue)]">1</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
             <div class="flex items-center gap-6">
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
                 <div class="flex items-center gap-4">
                     <a href="../testes_atencao_PMCE.html"
-                        class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                        class="text-sm text-[var(--accent-blue)] hover:text-slate-800 flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -324,8 +324,8 @@
             class="glass-panel max-w-3xl w-full rounded-2xl p-8 text-center fade-in relative overflow-hidden">
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500">
             </div>
-            <h2 class="text-3xl font-black text-white mb-2">TECON-1</h2>
-            <p class="text-gray-400 mb-8">Teste de atenção <strong>CONCENTRADA COMPLEXA</strong>. Identifique e marque
+            <h2 class="text-3xl font-black text-slate-800 mb-2">TECON-1</h2>
+            <p class="text-slate-500 mb-8">Teste de atenção <strong>CONCENTRADA COMPLEXA</strong>. Identifique e marque
                 as figuras
                 conforme o modelo.</p>
             <div class="flex flex-col items-center mb-8 gap-4">
@@ -336,27 +336,27 @@
                     <div style="display:none" class="text-slate-800 font-bold text-sm">Imagem do modelo não carregada
                     </div>
                 </div>
-                <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Exemplo</span>
+                <span class="text-xs text-blue-500 font-bold uppercase tracking-wider">Exemplo</span>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
-                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-100">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-stopwatch"></i></div>
-                        <span class="font-bold text-white">Tempo Limite</span>
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-600"><i class="fas fa-stopwatch"></i></div>
+                        <span class="font-bold text-slate-800">Tempo Limite</span>
                     </div>
-                    <p class="text-sm text-gray-400 pl-11">Você terá exatamente <strong>3min 30s</strong>.</p>
+                    <p class="text-sm text-slate-500 pl-11">Você terá exatamente <strong>3min 30s</strong>.</p>
                 </div>
-                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-100">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-bullseye"></i></div>
-                        <span class="font-bold text-white">Meta de Aprovação</span>
+                        <div class="p-2 bg-green-500/20 rounded-lg text-green-700"><i class="fas fa-bullseye"></i></div>
+                        <span class="font-bold text-slate-800">Meta de Aprovação</span>
                     </div>
-                    <p class="text-sm text-gray-400 pl-11">Mínimo de <strong>96 Pontos</strong> (16 linhas).</p>
+                    <p class="text-sm text-slate-500 pl-11">Mínimo de <strong>96 Pontos</strong> (16 linhas).</p>
                 </div>
             </div>
             <div
                 class="mb-6 p-4 bg-orange-500/10 border border-orange-500/30 rounded-lg text-left text-sm text-orange-200">
-                <strong class="text-orange-400 block mb-1"><i
+                <strong class="text-orange-700 block mb-1"><i
                         class="fas fa-exclamation-triangle mr-2"></i>Atenção:</strong>
                 Se por acaso você riscar um quadrado errado, faça um outro risco completando um X (clique duplo). O erro
                 será
@@ -364,39 +364,39 @@
             </div>
 
             <button @click="startTest()"
-                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-white text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
+                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-slate-900 text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
                 <span class="relative z-10 flex items-center justify-center gap-2">INICIAR AGORA <i
                         class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i></span>
                 <div class="absolute inset-0 rounded-xl bg-white/20 blur opacity-0 group-hover:opacity-100 transition">
                 </div>
             </button>
-            <div class="mt-8 border-t border-white/10 pt-6">
+            <div class="mt-8 border-t border-slate-200 pt-6">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
-                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                    <h3 class="text-lg font-bold text-slate-800">Últimos Resultados</h3>
+                    <button class="text-xs text-blue-600 hover:text-blue-500 font-medium"
                         @click="clearHistory()">Limpar</button>
                 </div>
                 <div class="overflow-x-auto max-h-40">
                     <table class="w-full text-sm text-left">
-                        <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-100">
                             <tr>
                                 <th class="px-4 py-2">Data</th>
                                 <th class="px-4 py-2 text-center">Score</th>
                                 <th class="px-4 py-2 text-center">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/5">
+                        <tbody class="divide-y divide-slate-200">
                             <template x-if="history.length === 0">
                                 <tr>
-                                    <td colspan="3" class="px-4 py-4 text-center text-gray-500">Nenhum registro.</td>
+                                    <td colspan="3" class="px-4 py-4 text-center text-slate-600">Nenhum registro.</td>
                                 </tr>
                             </template>
                             <template x-for="(item, index) in history" :key="index">
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
-                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="item.score"></td>
+                                <tr class="hover:bg-slate-100 transition">
+                                    <td class="px-4 py-2 text-slate-600 text-xs" x-text="item.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-slate-800" x-text="item.score"></td>
                                     <td class="px-4 py-2 text-center font-bold text-xs"
-                                        :class="item.score >= 96 ? 'text-green-400' : 'text-red-400'"
+                                        :class="item.score >= 96 ? 'text-green-700' : 'text-red-700'"
                                         x-text="item.score >= 96 ? 'APTO' : 'INAPTO'"></td>
                                 </tr>
                             </template>
@@ -408,10 +408,10 @@
         <div x-show="state === 'testing'" class="w-full fade-in relative" x-cloak>
             <div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4">
                 <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20"
-                    :class="{'border-red-500 bg-red-900/40': time <= 10}">
-                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
-                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
-                        :class="{'text-red-400 animate-pulse': time <= 10}" x-text="formatTime(time)"></div>
+                    :class="{'border-red-500 bg-red-50/90': time <= 10}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Restante</div>
+                    <div class="font-mono text-3xl font-black text-slate-800 tabular-nums leading-none"
+                        :class="{'text-red-700 animate-pulse': time <= 10}" x-text="formatTime(time)"></div>
                 </div>
                 <button @click="finishTest()"
                     class="h-12 w-12 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transition hover:scale-110"
@@ -450,14 +450,14 @@
             <div class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 border-t border-white/20">
                 <div class="absolute inset-0 opacity-20 pointer-events-none"
                     :class="results.score >= 96 ? 'bg-green-600' : 'bg-red-900'"></div>
-                <h2 class="text-4xl font-black text-white mb-8 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
+                <h2 class="text-4xl font-black text-slate-800 mb-8 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
                 <div class="flex justify-center mb-10 relative">
                     <div x-show="results.score >= 96" class="flex flex-col items-center animate-bounce-in">
                         <div
                             class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(34,197,94,0.6)] mb-4">
                             <i class="fas fa-check"></i>
                         </div>
-                        <h3 class="text-4xl font-black text-green-400 tracking-tighter">APTO</h3>
+                        <h3 class="text-4xl font-black text-green-700 tracking-tighter">APTO</h3>
                         <p class="text-green-200/60 text-sm mt-1">Parabéns! Excelente atenção concentrada.</p>
                     </div>
                     <div x-show="results.score < 96" class="relative flex flex-col items-center justify-center">
@@ -468,28 +468,28 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
-                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Acertos</div>
-                        <div class="text-3xl font-black text-green-400" x-text="results.hits"></div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-xs font-bold text-slate-600 uppercase mb-1">Acertos</div>
+                        <div class="text-3xl font-black text-green-700" x-text="results.hits"></div>
                     </div>
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
-                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Erros</div>
-                        <div class="text-3xl font-black text-red-400" x-text="results.errors"></div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-xs font-bold text-slate-600 uppercase mb-1">Erros</div>
+                        <div class="text-3xl font-black text-red-700" x-text="results.errors"></div>
                     </div>
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
-                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Omissões</div>
-                        <div class="text-3xl font-black text-yellow-400" x-text="results.omissions"></div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-xs font-bold text-slate-600 uppercase mb-1">Omissões</div>
+                        <div class="text-3xl font-black text-yellow-700" x-text="results.omissions"></div>
                     </div>
                     <div
                         class="bg-gradient-to-b from-slate-700 to-slate-900 p-4 rounded-xl border border-white/20 shadow-inner">
-                        <div class="text-xs font-bold text-white/70 uppercase mb-1">Pontuação Final</div>
-                        <div class="text-4xl font-black text-white" x-text="results.score"></div>
-                        <div class="text-[10px] text-cyan-300 mt-1">Meta: 96</div>
+                        <div class="text-xs font-bold text-slate-800/70 uppercase mb-1">Pontuação Final</div>
+                        <div class="text-4xl font-black text-slate-800" x-text="results.score"></div>
+                        <div class="text-[10px] text-blue-600 mt-1">Meta: 96</div>
                     </div>
                 </div>
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
                     <button @click="showVisualReview()"
-                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2"><i
+                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-slate-800 font-semibold transition flex items-center justify-center gap-2"><i
                             class="fas fa-eye"></i> Ver Onde Errei</button>
                     <button onclick="location.reload()"
                         class="px-8 py-3 rounded-lg bg-white text-slate-900 font-bold hover:bg-gray-200 transition shadow-lg flex items-center justify-center gap-2"><i
@@ -499,7 +499,7 @@
         </div>
         <div x-show="reviewMode" class="w-full flex justify-center pb-20 pt-8 animate-fade-in" x-cloak>
             <div class="test-paper-container">
-                <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+                <div class="absolute inset-0 bg-white/80 pointer-events-none"></div>
                 <div class="absolute inset-0">
                     <template x-for="(item, index) in config.items" :key="item.id">
                         <div class="hit-zone"

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turmas Abertas - Aprovação Psycho</title>
+    <title>Turmas Abertas - Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="favicon.png">
 
     <!-- Tailwind CDN -->
@@ -14,7 +14,7 @@
             theme: {
                 extend: {
                     colors: {
-                        bg: { DEFAULT: '#0B0A14', secondary: '#12111F' }
+                        bg: { DEFAULT: '#F8FAFC', secondary: '#F1F5F9' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -36,15 +36,15 @@
     <style>
         /* Global & Variables */
         :root {
-            --color-primary: #9F54FF;
-            --color-secondary: #FF00FF;
-            --color-accent: #0015FF;
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --color-primary: #2563EB;
+            --color-secondary: #0EA5E9;
+            --color-accent: #1D4ED8;
+            --glass-border: rgba(0, 0, 0, 0.08);
         }
 
         body {
-            background-color: #0B0A14;
-            color: #E2E8F0;
+            background-color: #F8FAFC;
+            color: #1E293B;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -52,38 +52,38 @@
 
         /* Enhanced Glassmorphism */
         .glass-nav {
-            background: rgba(11, 10, 20, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--glass-border);
         }
 
         .glass-card {
-            background: linear-gradient(180deg, rgba(24, 23, 40, 0.7) 0%, rgba(18, 17, 31, 0.4) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 245, 249, 0.6) 100%);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
             transition: all 0.3s ease;
         }
 
         .glass-card:hover {
-            background: linear-gradient(180deg, rgba(30, 29, 50, 0.8) 0%, rgba(24, 23, 40, 0.5) 100%);
-            border-color: rgba(159, 84, 255, 0.3);
-            box-shadow: 0 0 25px rgba(159, 84, 255, 0.15);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.8) 100%);
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.1);
             transform: translateY(-4px);
         }
 
         /* Base Buttons */
         .btn-glow {
             position: relative;
-            background: linear-gradient(90deg, #FF00FF, #0015FF);
+            background: linear-gradient(90deg, #2563EB, #1D4ED8);
             color: white;
             font-weight: 700;
             border-radius: 99px;
             padding: 0.8rem 2rem;
             transition: all 0.3s ease;
             z-index: 1;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
             overflow: hidden;
             cursor: pointer;
             display: inline-flex;
@@ -93,7 +93,7 @@
 
         .btn-glow:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
         }
 
         [x-cloak] {
@@ -102,23 +102,23 @@
 
         /* Nav specific */
         .nav-btn-member {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 0, 255, 0.3);
-            color: #fff;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            color: #1D4ED8;
             padding: 0.4rem 1rem;
             border-radius: 8px;
             transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.05);
         }
 
         .nav-btn-member:hover {
-            background: rgba(255, 0, 255, 0.15);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            background: rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
         }
     </style>
 </head>
 
-<body class="antialiased selection:bg-purple-500 selection:text-white">
+<body class="antialiased selection:bg-blue-500 selection:text-white">
 
     <!-- ===== Header ===== -->
     <header class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
@@ -127,27 +127,27 @@
             <a href="index.html" class="flex items-center gap-3 group" aria-label="Home">
                 <div class="relative">
                     <div
-                        class="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-20 blur transition duration-500 group-hover:opacity-60">
+                        class="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 opacity-20 blur transition duration-500 group-hover:opacity-60">
                     </div>
-                    <img src="Imagens_base/logo-principal.png" alt="Aprovação Psycho" class="relative h-10 w-auto" />
+                    <img src="Imagens_base/logo-principal.png" alt="Grupo de Estudos para Psicotécnico" class="relative h-10 w-auto" />
                 </div>
-                <span class="text-xl font-black text-white tracking-tight">
-                    APROVAÇÃO <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">PSYCHO</span>
+                <span class="text-xl font-black text-slate-900 tracking-tight">
+                    GRUPO DE ESTUDOS <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">PARA PSICOTÉCNICO</span>
                 </span>
             </a>
 
             <!-- Desktop Nav -->
             <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="index.html" class="text-gray-300 hover:text-white transition-colors">O Curso</a>
-                <a href="turmas.html" class="text-white transition-colors font-bold">Turmas</a>
-                <a href="depoimentos.html" class="text-gray-300 hover:text-white transition-colors">Depoimentos</a>
-                <a href="simuladores.html" class="text-gray-300 hover:text-white transition-colors">Simuladores</a>
-                <a href="galeria.html" class="text-gray-300 hover:text-white transition-colors">Galeria</a>
-                <a href="equipe.html" class="text-gray-300 hover:text-white transition-colors">Equipe</a>
-                <a href="dicas.html" class="text-gray-300 hover:text-white transition-colors">Dicas</a>
+                <a href="index.html" class="text-slate-600 hover:text-blue-600 transition-colors">O Curso</a>
+                <a href="turm.html" class="text-blue-600 transition-colors font-bold">Turmas</a>
+                <a href="depoimens.html" class="text-slate-600 hover:text-blue-600 transition-colors">Depoimentos</a>
+                <a href="simulador.html" class="text-slate-600 hover:text-blue-600 transition-colors">Simuladores</a>
+                <a href="galer.html" class="text-slate-600 hover:text-blue-600 transition-colors">Galeria</a>
+                <a href="equi.html" class="text-slate-600 hover:text-blue-600 transition-colors">Equipe</a>
+                <a href="dic.html" class="text-slate-600 hover:text-blue-600 transition-colors">Dicas</a>
                 <a href="membros.html" class="nav-btn-member flex items-center gap-2">
-                    <svg class="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                     </svg>
@@ -157,7 +157,7 @@
 
             <!-- Mobile Button -->
             <button id="menu-btn"
-                class="md:hidden p-2 text-gray-300 hover:text-white rounded-lg border border-white/10">
+                class="md:hidden p-2 text-slate-600 hover:text-blue-600 rounded-lg border border-slate-200">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -166,17 +166,17 @@
 
         <!-- Mobile Menu -->
         <div id="mobile-menu"
-            class="md:hidden hidden bg-black/90 backdrop-blur-xl border-b border-white/10 absolute w-full left-0 top-full">
+            class="md:hidden hidden bg-white/90 backdrop-blur-xl border-b border-slate-200 absolute w-full left-0 top-full">
             <div class="p-6 flex flex-col gap-4 text-center">
-                <a href="index.html" class="text-gray-300 py-2">O Curso</a>
-                <a href="turmas.html" class="text-purple-400 py-2 font-bold">Turmas Abertas</a>
-                <a href="depoimentos.html" class="text-gray-300 py-2">Depoimentos</a>
+                <a href="index.html" class="text-slate-600 py-2">O Curso</a>
+                <a href="turm.html" class="text-blue-600 py-2 font-bold">Turmas Abertas</a>
+                <a href="depoimens.html" class="text-slate-600 py-2">Depoimentos</a>
                 <a href="membros.html"
-                    class="text-white font-bold bg-white/10 py-3 rounded-lg border border-purple-500/30">Área de
+                    class="text-slate-800 font-bold bg-white/10 py-3 rounded-lg border border-blue-500/30">Área de
                     Membros</a>
-                <a href="simuladores.html" class="text-gray-300 py-2">Simuladores</a>
-                <a href="galeria.html" class="text-gray-300 py-2">Galeria</a>
-                <a href="equipe.html" class="text-gray-300 py-2">Equipe</a>
+                <a href="simulador.html" class="text-slate-600 py-2">Simuladores</a>
+                <a href="galer.html" class="text-slate-600 py-2">Galeria</a>
+                <a href="equi.html" class="text-slate-600 py-2">Equipe</a>
             </div>
         </div>
     </header>
@@ -189,10 +189,10 @@
                 <span
                     class="inline-block py-1 px-3 rounded-full bg-green-500/10 border border-green-500/20 text-green-300 text-xs font-bold uppercase tracking-wider mb-4 animate-pulse-slow">Inscrições
                     Abertas</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">Escolha Sua <span
+                <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">Escolha Sua <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500">Missão</span>
                 </h1>
-                <p class="text-gray-400 text-lg">Preparação específica e direcionada para o edital do seu concurso.</p>
+                <p class="text-slate-500 text-lg">Preparação específica e direcionada para o edital do seu concurso.</p>
             </div>
 
             <!-- Course Grid -->
@@ -222,28 +222,28 @@
                         </div>
 
                         <h2 class="text-3xl font-bold text-white mb-2">Polícia Penal MG</h2>
-                        <p class="text-gray-400 text-sm mb-4">Curso completo de avaliação psicológica com foco no perfil
+                        <p class="text-slate-500 text-sm mb-4">Curso completo de avaliação psicológica com foco no perfil
                             da PPMG. Aulas ao vivo, simulados e análise individual.</p>
 
                         <!-- Cronograma Turma I -->
-                        <div class="w-full bg-[#0B0A14]/60 rounded-xl p-4 mb-6 border border-white/10 shadow-inner">
+                        <div class="w-full bg-[#0B0A14]/60 rounded-xl p-4 mb-6 border border-slate-200 shadow-inner">
                             <h3 class="text-[#FFC107] font-black text-sm mb-3 text-center uppercase tracking-widest drop-shadow-md">Turma I - Cronograma</h3>
-                            <ul class="space-y-3 text-xs text-gray-300">
-                                <li class="flex justify-between items-center border-b border-white/5 pb-2 transition-colors hover:bg-white/5 rounded px-1">
+                            <ul class="space-y-3 text-xs text-slate-600">
+                                <li class="flex justify-between items-center border-b border-slate-100 pb-2 transition-colors hover:bg-white/5 rounded px-1">
                                     <div class="flex flex-col text-left">
                                         <span class="font-bold text-white">Aula 1 - 07/04</span>
                                         <span class="text-[10px] text-[#FFC107] font-bold">19H30</span>
                                     </div>
                                     <span class="font-semibold text-right max-w-[120px] uppercase">Personalidade 1</span>
                                 </li>
-                                <li class="flex justify-between items-center border-b border-white/5 pb-2 transition-colors hover:bg-white/5 rounded px-1">
+                                <li class="flex justify-between items-center border-b border-slate-100 pb-2 transition-colors hover:bg-white/5 rounded px-1">
                                     <div class="flex flex-col text-left">
                                         <span class="font-bold text-white">Aula 2 - 08/04</span>
                                         <span class="text-[10px] text-[#FFC107] font-bold">19H30</span>
                                     </div>
                                     <span class="font-semibold text-right max-w-[120px] uppercase">Personalidade 2 / PMK</span>
                                 </li>
-                                <li class="flex justify-between items-center border-b border-white/5 pb-2 transition-colors hover:bg-white/5 rounded px-1">
+                                <li class="flex justify-between items-center border-b border-slate-100 pb-2 transition-colors hover:bg-white/5 rounded px-1">
                                     <div class="flex flex-col text-left">
                                         <span class="font-bold text-white">Aula 3 - 09/04</span>
                                         <span class="text-[10px] text-[#FFC107] font-bold">19H30</span>
@@ -258,9 +258,9 @@
                                     <span class="font-semibold text-right max-w-[120px] uppercase">Raciocínio / Simulados</span>
                                 </li>
                             </ul>
-                            <div class="mt-3 text-center bg-white/10 rounded py-2 border border-white/5 shadow-sm">
-                                <span class="text-[11px] font-black text-white uppercase tracking-wider block">Reprise das Aulas:</span>
-                                <span class="text-[10px] font-bold text-gray-300 uppercase block mt-0.5">11, 12 e 13 de Abril</span>
+                            <div class="mt-3 text-center bg-white/10 rounded py-2 border border-slate-100 shadow-sm">
+                                <span class="text-[11px] font-black text-slate-900 uppercase tracking-wider block">Reprise das Aulas:</span>
+                                <span class="text-[10px] font-bold text-slate-600 uppercase block mt-0.5">11, 12 e 13 de Abril</span>
                             </div>
                         </div>
 
@@ -300,7 +300,7 @@
                         </div>
 
                         <h2 class="text-3xl font-bold text-white mb-2">Polícia Civil PI</h2>
-                        <p class="text-gray-400 text-sm mb-8">Preparação oficial para a Polícia Civil. O nível de
+                        <p class="text-slate-500 text-sm mb-8">Preparação oficial para a Polícia Civil. O nível de
                             exigência é alto, a nossa preparação também.</p>
 
                         <div class="mt-auto w-full">
@@ -339,7 +339,7 @@
                         </div>
 
                         <h2 class="text-3xl font-bold text-white mb-2">Polícia Militar CE</h2>
-                        <p class="text-gray-400 text-sm mb-8">Preparação específica para a Polícia Militar do Ceará. Foco total na aprovação e no seu desenvolvimento psicológico.</p>
+                        <p class="text-slate-500 text-sm mb-8">Preparação específica para a Polícia Militar do Ceará. Foco total na aprovação e no seu desenvolvimento psicológico.</p>
 
                         <div class="mt-auto w-full">
                             <span class="btn-glow w-full flex items-center justify-center gap-2"
@@ -359,9 +359,9 @@
             <!-- CTA -->
             <div class="mt-20 text-center">
                 <div class="inline-block p-[2px] rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
-                    <div class="px-8 py-3 bg-[#0B0A14] rounded-full text-white font-bold">
+                    <div class="px-8 py-3 bg-[#0B0A14] rounded-full text-slate-800 font-bold">
                         Dúvidas? <a href="https://wa.me/5585991982168"
-                            class="text-purple-400 hover:text-white transition-colors">Fale com o suporte.</a>
+                            class="text-blue-600 hover:text-white transition-colors">Fale com o suporte.</a>
                     </div>
                 </div>
             </div>
@@ -370,18 +370,18 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 bg-[#08070F] py-10 mt-auto">
+    <footer class="border-t border-slate-100 bg-slate-50 py-10 mt-auto">
         <div class="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3 opacity-80 hover:opacity-100 transition">
                 <img src="Imagens_base/logo-principal.png" alt="Logo" class="h-8 w-auto grayscale">
-                <span class="font-bold text-gray-500 text-sm">© <span x-data
-                        x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos
+                <span class="font-bold text-slate-400 text-sm">© <span x-data
+                        x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico. Todos direitos
                     reservados.</span>
             </div>
-            <div class="flex gap-6 text-sm text-gray-500">
-                <a href="#" class="hover:text-purple-400 transition">Termos</a>
-                <a href="#" class="hover:text-purple-400 transition">Privacidade</a>
-                <a href="https://wa.me/5585991982168" class="hover:text-green-400 transition">Contato</a>
+            <div class="flex gap-6 text-sm text-slate-400">
+                <a href="#" class="hover:text-blue-600 transition">Termos</a>
+                <a href="#" class="hover:text-blue-600 transition">Privacidade</a>
+                <a href="https://wa.me/5585991982168" class="hover:text-green-700 transition">Contato</a>
             </div>
         </div>
     </footer>

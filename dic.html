@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dicas e Bizus - Aprovação Psycho</title>
+    <title>Dicas e Bizus - Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="favicon.png">
 
     <!-- Tailwind CDN -->
@@ -14,7 +14,7 @@
             theme: {
                 extend: {
                     colors: {
-                        bg: { DEFAULT: '#0B0A14', secondary: '#12111F' }
+                        bg: { DEFAULT: '#F8FAFC', secondary: '#F1F5F9' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -36,15 +36,15 @@
     <style>
         /* Global & Variables */
         :root {
-            --color-primary: #9F54FF;
-            --color-secondary: #FF00FF;
-            --color-accent: #0015FF;
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --color-primary: #2563EB;
+            --color-secondary: #0EA5E9;
+            --color-accent: #1D4ED8;
+            --glass-border: rgba(0, 0, 0, 0.08);
         }
 
         body {
-            background-color: #0B0A14;
-            color: #E2E8F0;
+            background-color: #F8FAFC;
+            color: #1E293B;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -52,37 +52,37 @@
 
         /* Enhanced Glassmorphism */
         .glass-nav {
-            background: rgba(11, 10, 20, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--glass-border);
         }
 
         .glass-card {
-            background: linear-gradient(180deg, rgba(24, 23, 40, 0.7) 0%, rgba(18, 17, 31, 0.4) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 245, 249, 0.6) 100%);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
             transition: all 0.3s ease;
         }
 
         .glass-card:hover {
-            background: linear-gradient(180deg, rgba(30, 29, 50, 0.8) 0%, rgba(24, 23, 40, 0.5) 100%);
-            border-color: rgba(159, 84, 255, 0.3);
-            box-shadow: 0 0 25px rgba(159, 84, 255, 0.15);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.8) 100%);
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.1);
         }
 
         /* Base Buttons */
         .btn-glow {
             position: relative;
-            background: linear-gradient(90deg, #FF00FF, #0015FF);
+            background: linear-gradient(90deg, #2563EB, #1D4ED8);
             color: white;
             font-weight: 700;
             border-radius: 99px;
             padding: 0.8rem 2rem;
             transition: all 0.3s ease;
             z-index: 1;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
             overflow: hidden;
             cursor: pointer;
             display: inline-flex;
@@ -92,7 +92,7 @@
 
         .btn-glow:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
         }
 
         /* Custom Accordion/Tab styles */
@@ -113,23 +113,23 @@
 
         /* Nav specific */
         .nav-btn-member {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 0, 255, 0.3);
-            color: #fff;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            color: #1D4ED8;
             padding: 0.4rem 1rem;
             border-radius: 8px;
             transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.05);
         }
 
         .nav-btn-member:hover {
-            background: rgba(255, 0, 255, 0.15);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            background: rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
         }
     </style>
 </head>
 
-<body class="antialiased selection:bg-purple-500 selection:text-white" x-data="{ currentTab: 'bfp' }">
+<body class="antialiased selection:bg-blue-500 selection:text-white" x-data="{ currentTab: 'bfp' }">
 
     <!-- ===== Header ===== -->
     <header class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
@@ -138,27 +138,27 @@
             <a href="index.html" class="flex items-center gap-3 group" aria-label="Home">
                 <div class="relative">
                     <div
-                        class="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-20 blur transition duration-500 group-hover:opacity-60">
+                        class="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 opacity-20 blur transition duration-500 group-hover:opacity-60">
                     </div>
-                    <img src="Imagens_base/logo-principal.png" alt="Aprovação Psycho" class="relative h-10 w-auto" />
+                    <img src="Imagens_base/logo-principal.png" alt="Grupo de Estudos para Psicotécnico" class="relative h-10 w-auto" />
                 </div>
-                <span class="text-xl font-black text-white tracking-tight">
-                    APROVAÇÃO <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">PSYCHO</span>
+                <span class="text-xl font-black text-slate-900 tracking-tight">
+                    GRUPO DE ESTUDOS <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">PARA PSICOTÉCNICO</span>
                 </span>
             </a>
 
             <!-- Desktop Nav -->
             <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="index.html" class="text-gray-300 hover:text-white transition-colors">O Curso</a>
-                <a href="turmas.html" class="text-gray-300 hover:text-white transition-colors">Turmas</a>
-                <a href="equipe.html" class="text-gray-300 hover:text-white transition-colors">Equipe</a>
-                <a href="depoimentos.html" class="text-gray-300 hover:text-white transition-colors">Depoimentos</a>
-                <a href="simuladores.html" class="text-gray-300 hover:text-white transition-colors">Simuladores</a>
-                <a href="galeria.html" class="text-gray-300 hover:text-white transition-colors">Galeria</a>
-                <a href="dicas.html" class="text-white transition-colors font-bold">Dicas</a>
+                <a href="index.html" class="text-slate-600 hover:text-blue-600 transition-colors">O Curso</a>
+                <a href="turm.html" class="text-slate-600 hover:text-blue-600 transition-colors">Turmas</a>
+                <a href="equi.html" class="text-slate-600 hover:text-blue-600 transition-colors">Equipe</a>
+                <a href="depoimens.html" class="text-slate-600 hover:text-blue-600 transition-colors">Depoimentos</a>
+                <a href="simulador.html" class="text-slate-600 hover:text-blue-600 transition-colors">Simuladores</a>
+                <a href="galer.html" class="text-slate-600 hover:text-blue-600 transition-colors">Galeria</a>
+                <a href="dic.html" class="text-blue-600 transition-colors font-bold">Dicas</a>
                 <a href="membros.html" class="nav-btn-member flex items-center gap-2">
-                    <svg class="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                     </svg>
@@ -168,7 +168,7 @@
 
             <!-- Mobile Button -->
             <button id="menu-btn"
-                class="md:hidden p-2 text-gray-300 hover:text-white rounded-lg border border-white/10">
+                class="md:hidden p-2 text-slate-600 hover:text-blue-600 rounded-lg border border-slate-200">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -177,16 +177,16 @@
 
         <!-- Mobile Menu -->
         <div id="mobile-menu"
-            class="md:hidden hidden bg-black/90 backdrop-blur-xl border-b border-white/10 absolute w-full left-0 top-full">
+            class="md:hidden hidden bg-white/90 backdrop-blur-xl border-b border-slate-200 absolute w-full left-0 top-full">
             <div class="p-6 flex flex-col gap-4 text-center">
-                <a href="index.html" class="text-gray-300 py-2">O Curso</a>
-                <a href="turmas.html" class="text-purple-400 py-2 font-bold">Turmas Abertas</a>
-                <a href="depoimentos.html" class="text-gray-300 py-2">Depoimentos</a>
+                <a href="index.html" class="text-slate-600 py-2">O Curso</a>
+                <a href="turm.html" class="text-blue-600 py-2 font-bold">Turmas Abertas</a>
+                <a href="depoimens.html" class="text-slate-600 py-2">Depoimentos</a>
                 <a href="membros.html"
-                    class="text-white font-bold bg-white/10 py-3 rounded-lg border border-purple-500/30">Área de
+                    class="text-slate-800 font-bold bg-white/10 py-3 rounded-lg border border-blue-500/30">Área de
                     Membros</a>
-                <a href="dicas.html" class="text-purple-400 py-2 font-bold">Dicas</a>
-                <a href="simuladores.html" class="text-gray-300 py-2">Simuladores</a>
+                <a href="dic.html" class="text-blue-600 py-2 font-bold">Dicas</a>
+                <a href="simulador.html" class="text-slate-600 py-2">Simuladores</a>
             </div>
         </div>
     </header>
@@ -199,10 +199,10 @@
                 <span
                     class="inline-block py-1 px-3 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-300 text-xs font-bold uppercase tracking-wider mb-4">Bizus
                     Estratégicos</span>
-                <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">Dicas de <span
+                <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">Dicas de <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Mestre</span>
                 </h1>
-                <p class="text-gray-400 text-lg">Detalhes técnicos sobre os principais testes aplicados nos concursos.
+                <p class="text-slate-500 text-lg">Detalhes técnicos sobre os principais testes aplicados nos concursos.
                 </p>
             </div>
 
@@ -210,40 +210,40 @@
                 <!-- Sidebar Tabs -->
                 <div class="md:col-span-1 space-y-2">
                     <button @click="currentTab = 'bfp'" :class="{ 'active': currentTab === 'bfp' }"
-                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-gray-400 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
+                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-slate-500 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
                         BFP
                         <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"
-                            :class="{ 'opacity-100 text-purple-400': currentTab === 'bfp' }" fill="none"
+                            :class="{ 'opacity-100 text-blue-600': currentTab === 'bfp' }" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                             </path>
                         </svg>
                     </button>
                     <button @click="currentTab = 'teadi'" :class="{ 'active': currentTab === 'teadi' }"
-                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-gray-400 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
+                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-slate-500 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
                         TEADI / TEALT
                         <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"
-                            :class="{ 'opacity-100 text-purple-400': currentTab === 'teadi' }" fill="none"
+                            :class="{ 'opacity-100 text-blue-600': currentTab === 'teadi' }" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                             </path>
                         </svg>
                     </button>
                     <button @click="currentTab = 'mvr'" :class="{ 'active': currentTab === 'mvr' }"
-                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-gray-400 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
+                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-slate-500 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
                         Memória Visual (MVR)
                         <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"
-                            :class="{ 'opacity-100 text-purple-400': currentTab === 'mvr' }" fill="none"
+                            :class="{ 'opacity-100 text-blue-600': currentTab === 'mvr' }" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                             </path>
                         </svg>
                     </button>
                     <button @click="currentTab = 'entrevista'" :class="{ 'active': currentTab === 'entrevista' }"
-                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-gray-400 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
+                        class="tab-btn w-full text-left px-5 py-4 rounded-xl text-slate-500 font-medium hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between group">
                         Entrevista
                         <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity"
-                            :class="{ 'opacity-100 text-purple-400': currentTab === 'entrevista' }" fill="none"
+                            :class="{ 'opacity-100 text-blue-600': currentTab === 'entrevista' }" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                             </path>
@@ -262,7 +262,7 @@
                         <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full"></div>
                         <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
                             <span
-                                class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400"><svg
+                                class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-blue-600"><svg
                                     class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
@@ -271,7 +271,7 @@
                             BFP - Bateria Fatorial de Personalidade
                         </h2>
 
-                        <div class="space-y-6 text-gray-300 leading-relaxed">
+                        <div class="space-y-6 text-slate-600 leading-relaxed">
                             <p>O BFP é um dos testes mais complexos e utilizados em concursos policiais. Ele avalia 5
                                 grandes fatores da personalidade (Neuroticismo, Extroversão, Socialização, Realização e
                                 Abertura).</p>
@@ -286,21 +286,21 @@
                             <h3 class="font-bold text-white text-xl mt-6">O que a polícia busca?</h3>
                             <ul class="grid md:grid-cols-2 gap-4 mt-4">
                                 <li class="flex items-start gap-3 bg-white/5 p-4 rounded-lg"><svg
-                                        class="w-5 h-5 text-green-400 mt-1" fill="none" stroke="currentColor"
+                                        class="w-5 h-5 text-green-700 mt-1" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7"></path>
                                     </svg> <span><strong>Baixo Neuroticismo:</strong> Estabilidade emocional sob
                                         pressão.</span></li>
                                 <li class="flex items-start gap-3 bg-white/5 p-4 rounded-lg"><svg
-                                        class="w-5 h-5 text-green-400 mt-1" fill="none" stroke="currentColor"
+                                        class="w-5 h-5 text-green-700 mt-1" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7"></path>
                                     </svg> <span><strong>Alta Socialização:</strong> Respeito à hierarquia e
                                         normas.</span></li>
                                 <li class="flex items-start gap-3 bg-white/5 p-4 rounded-lg"><svg
-                                        class="w-5 h-5 text-green-400 mt-1" fill="none" stroke="currentColor"
+                                        class="w-5 h-5 text-green-700 mt-1" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 13l4 4L19 7"></path>
@@ -329,7 +329,7 @@
                             TEADI e TEALT - Atenção Concentrada/Dividida
                         </h2>
 
-                        <div class="space-y-6 text-gray-300 leading-relaxed">
+                        <div class="space-y-6 text-slate-600 leading-relaxed">
                             <p>Estes testes avaliam sua capacidade de manter o foco em tarefas repetitivas e cansativas,
                                 simulando a vigilância necessária no trabalho policial.</p>
 
@@ -341,7 +341,7 @@
                             </div>
 
                             <h3 class="font-bold text-white text-xl mt-6">Erros Comuns:</h3>
-                            <ul class="list-disc ml-5 space-y-2 text-gray-400">
+                            <ul class="list-disc ml-5 space-y-2 text-slate-500">
                                 <li>Esquecer de marcar um item (Omissão).</li>
                                 <li>Marcar um item que não é o alvo (Comissão).</li>
                                 <li>Perder a linha de raciocínio ao olhar para o relógio.</li>
@@ -366,7 +366,7 @@
                             MVR - Memória Visual de Rosto
                         </h2>
 
-                        <div class="space-y-6 text-gray-300 leading-relaxed">
+                        <div class="space-y-6 text-slate-600 leading-relaxed">
                             <p>A memória fisionômica é vital para identificar suspeitos. O MVR testa sua capacidade de
                                 reter detalhes faciais (olhos, boca, nariz, acessórios) em curto prazo.</p>
 
@@ -388,7 +388,7 @@
                         <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/10 blur-2xl rounded-full"></div>
                         <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
                             <span
-                                class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400"><svg
+                                class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-700"><svg
                                     class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
@@ -397,7 +397,7 @@
                             A Entrevista Devolutiva
                         </h2>
 
-                        <div class="space-y-6 text-gray-300 leading-relaxed">
+                        <div class="space-y-6 text-slate-600 leading-relaxed">
                             <p>A fase final. Onde o psicólogo confirma o que viu nos testes. Não é um bate-papo
                                 informal; é uma prova oral.</p>
 
@@ -417,7 +417,7 @@
             <div class="mt-20 text-center">
                 <div class="inline-block p-[2px] rounded-full bg-gradient-to-r from-purple-500 to-pink-500">
                     <a href="https://wa.me/5585991982168" target="_blank"
-                        class="block px-8 py-3 bg-[#0B0A14] rounded-full text-white font-bold hover:bg-transparent transition-colors">
+                        class="block px-8 py-3 bg-[#0B0A14] rounded-full text-slate-800 font-bold hover:bg-transparent transition-colors">
                         Desbloquear Bizus Exclusivos na Mentoria
                     </a>
                 </div>
@@ -427,18 +427,18 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 bg-[#08070F] py-10 mt-auto">
+    <footer class="border-t border-slate-100 bg-slate-50 py-10 mt-auto">
         <div class="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3 opacity-80 hover:opacity-100 transition">
                 <img src="Imagens_base/logo-principal.png" alt="Logo" class="h-8 w-auto grayscale">
-                <span class="font-bold text-gray-500 text-sm">© <span x-data
-                        x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos
+                <span class="font-bold text-slate-400 text-sm">© <span x-data
+                        x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico. Todos direitos
                     reservados.</span>
             </div>
-            <div class="flex gap-6 text-sm text-gray-500">
-                <a href="#" class="hover:text-purple-400 transition">Termos</a>
-                <a href="#" class="hover:text-purple-400 transition">Privacidade</a>
-                <a href="https://wa.me/5585991982168" class="hover:text-green-400 transition">Contato</a>
+            <div class="flex gap-6 text-sm text-slate-400">
+                <a href="#" class="hover:text-blue-600 transition">Termos</a>
+                <a href="#" class="hover:text-blue-600 transition">Privacidade</a>
+                <a href="https://wa.me/5585991982168" class="hover:text-green-700 transition">Contato</a>
             </div>
         </div>
     </footer>

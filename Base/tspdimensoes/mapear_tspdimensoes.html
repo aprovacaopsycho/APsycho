@@ -9,6 +9,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --text-light: #1E293B;
+        }
+
         body {
             background-color: #0f172a;
             color: white;
@@ -34,13 +43,13 @@
         .glass-sidebar {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(0, 0, 0, 0.04);
             box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
         }
 
         .control-group {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 20px;
@@ -48,8 +57,8 @@
 
         .control-input {
             background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #e2e8f0;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #334155;
             border-radius: 8px;
             padding: 8px;
             font-size: 12px;
@@ -65,7 +74,7 @@
 
         .premium-btn {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
             color: white;
             font-weight: 700;
@@ -85,7 +94,7 @@
             position: relative;
             background: #1e293b;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 8px;
             overflow: hidden;
             transform-origin: top center;
@@ -133,7 +142,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #f1f5f9;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -152,70 +161,70 @@
     <aside class="w-[400px] h-screen glass-sidebar flex flex-col z-50 fixed right-0 top-0 overflow-y-auto text-xs">
         <div class="p-6 space-y-6">
             <h2
-                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-white/10 pb-4 flex items-center gap-2">
-                <i class="fas fa-ruler-combined text-purple-400"></i> TSP MAPPER
+                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-slate-200 pb-4 flex items-center gap-2">
+                <i class="fas fa-ruler-combined text-blue-600"></i> TSP MAPPER
             </h2>
 
             <div class="control-group">
                 <label
-                    class="block uppercase text-xs font-bold text-gray-400 mb-3 tracking-wider flex items-center gap-2">
-                    <i class="fas fa-file-image text-blue-400"></i> 1. Página
+                    class="block uppercase text-xs font-bold text-slate-500 mb-3 tracking-wider flex items-center gap-2">
+                    <i class="fas fa-file-image text-blue-600"></i> 1. Página
                 </label>
                 <div class="flex gap-2">
                     <button @click="setPage(1)" class="flex-1 py-2 rounded text-xs font-bold transition"
-                        :class="page === 1 ? 'bg-purple-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'">
+                        :class="page === 1 ? 'bg-purple-600 text-white' : 'bg-slate-700 text-slate-600 hover:bg-slate-600'">
                         Página 1
                     </button>
                     <button @click="setPage(2)" class="flex-1 py-2 rounded text-xs font-bold transition"
-                        :class="page === 2 ? 'bg-purple-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'">
+                        :class="page === 2 ? 'bg-purple-600 text-white' : 'bg-slate-700 text-slate-600 hover:bg-slate-600'">
                         Página 2
                     </button>
                 </div>
-                <div class="mt-4 flex justify-between items-center text-gray-400 font-medium">
-                    <span>Zoom: <span x-text="zoom + '%'" class="text-white"></span></span>
+                <div class="mt-4 flex justify-between items-center text-slate-500 font-medium">
+                    <span>Zoom: <span x-text="zoom + '%'" class="text-slate-800"></span></span>
                     <input type="range" x-model="zoom" min="20" max="200"
                         class="w-32 accent-purple-500 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
                 </div>
             </div>
 
             <div class="control-group border-l-2 border-l-yellow-500">
-                <h3 class="font-bold text-yellow-400 uppercase mb-3 text-[10px] tracking-widest">2. Ferramentas de Grupo
+                <h3 class="font-bold text-yellow-700 uppercase mb-3 text-[10px] tracking-widest">2. Ferramentas de Grupo
                 </h3>
 
-                <div class="flex bg-black/40 p-1 rounded-lg mb-4">
+                <div class="flex bg-slate-50 p-1 rounded-lg mb-4">
                     <button @click="mode = 'global'"
-                        :class="mode === 'global' ? 'bg-purple-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        :class="mode === 'global' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'"
                         class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">TUDO</button>
                     <button @click="mode = 'row'"
-                        :class="mode === 'row' ? 'bg-yellow-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        :class="mode === 'row' ? 'bg-yellow-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'"
                         class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">LINHA</button>
                     <button @click="mode = 'col'"
-                        :class="mode === 'col' ? 'bg-green-600 text-white shadow-lg' : 'text-gray-400 hover:text-white'"
+                        :class="mode === 'col' ? 'bg-green-600 text-white shadow-lg' : 'text-slate-500 hover:text-white'"
                         class="flex-1 py-1.5 rounded-md text-[10px] font-bold transition">COLUNA</button>
                 </div>
 
                 <div x-show="mode === 'row'"
-                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-white/5">
+                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-slate-100">
                     <button @click="selectedRow = Math.max(0, selectedRow - 1)"
                         class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">-</button>
-                    <span class="font-bold text-yellow-400 text-xs">LINHA <span x-text="selectedRow"
-                            class="text-white ml-1"></span></span>
+                    <span class="font-bold text-yellow-700 text-xs">LINHA <span x-text="selectedRow"
+                            class="text-slate-800 ml-1"></span></span>
                     <button @click="selectedRow = Math.min(rows-1, selectedRow + 1)"
                         class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">+</button>
                 </div>
 
                 <div x-show="mode === 'col'"
-                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-white/5">
+                    class="flex items-center justify-between bg-white/5 p-2 rounded-lg mb-3 border border-slate-100">
                     <button @click="selectedCol = Math.max(0, selectedCol - 1)"
                         class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">-</button>
-                    <span class="font-bold text-green-400 text-xs">COLUNA <span x-text="selectedCol"
-                            class="text-white ml-1"></span></span>
+                    <span class="font-bold text-green-700 text-xs">COLUNA <span x-text="selectedCol"
+                            class="text-slate-800 ml-1"></span></span>
                     <button @click="selectedCol = Math.min(cols-1, selectedCol + 1)"
                         class="w-6 h-6 flex items-center justify-center bg-gray-700 rounded hover:bg-gray-600 transition">+</button>
                 </div>
 
-                <div class="border-t border-white/10 pt-3 mt-3">
-                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Deslocar (Mover)</p>
+                <div class="border-t border-slate-200 pt-3 mt-3">
+                    <p class="text-[9px] text-slate-500 mb-2 uppercase font-bold tracking-wider">Deslocar (Mover)</p>
                     <div class="grid grid-cols-4 gap-2">
                         <button @click="nudge(0, -1)" class="bg-gray-700 hover:bg-gray-600 rounded p-1.5 transition"><i
                                 class="fas fa-arrow-up"></i></button>
@@ -228,8 +237,8 @@
                     </div>
                 </div>
 
-                <div class="border-t border-white/10 pt-3 mt-3">
-                    <p class="text-[9px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Espaçamento</p>
+                <div class="border-t border-slate-200 pt-3 mt-3">
+                    <p class="text-[9px] text-slate-500 mb-2 uppercase font-bold tracking-wider">Espaçamento</p>
                     <div class="flex gap-2 mb-2">
                         <button @click="stretch('x', -0.5)"
                             class="flex-1 bg-gray-700 hover:bg-gray-600 rounded p-1.5 text-[10px] transition"><i
@@ -252,12 +261,12 @@
             <div class="control-group">
                 <div class="flex gap-4">
                     <div class="w-1/2">
-                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Largura</label>
+                        <label class="text-[10px] text-slate-500 uppercase font-bold mb-1 block">Largura</label>
                         <input type="range" x-model="boxW" min="10" max="80"
                             class="w-full accent-blue-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
                     </div>
                     <div class="w-1/2">
-                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Altura</label>
+                        <label class="text-[10px] text-slate-500 uppercase font-bold mb-1 block">Altura</label>
                         <input type="range" x-model="boxH" min="10" max="80"
                             class="w-full accent-blue-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
                     </div>
@@ -265,7 +274,7 @@
             </div>
 
             <div class="control-group border-l-2 border-l-red-500">
-                <h3 class="font-bold text-red-400 uppercase mb-3 text-[10px] tracking-widest">4. Grid Generator</h3>
+                <h3 class="font-bold text-red-700 uppercase mb-3 text-[10px] tracking-widest">4. Grid Generator</h3>
                 <button @click="generateBaseGrid()"
                     class="w-full py-2 bg-red-600/20 hover:bg-red-600/40 text-red-100 font-bold rounded-lg transition border border-red-500/30 uppercase text-[10px] tracking-wider">
                     RE-GERAR GRID (Reset)
@@ -279,7 +288,7 @@
                     <span>GERAR CONFIG JSON</span>
                 </button>
                 <textarea x-model="output" readonly
-                    class="control-input h-32 font-mono text-green-400 border-green-500/30"
+                    class="control-input h-32 font-mono text-green-700 border-green-500/30"
                     placeholder="// O código será gerado aqui..."></textarea>
             </div>
         </div>

@@ -18,8 +18,8 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-dark': '#0f172a',
-                        'brand-panel': '#1e293b',
+                        'brand-dark': '#F8FAFC',
+                        'brand-panel': '#FFFFFF',
                         'brand-blue': '#3b82f6',
                         'brand-accent': '#f59e0b',
                     },
@@ -35,7 +35,7 @@
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
+            background: var(--bg-dark);
             overflow-x: hidden;
         }
 
@@ -157,7 +157,7 @@
             gap: 10px;
             font-weight: 500;
             font-size: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
         .toast.show {
@@ -166,7 +166,7 @@
     </style>
 </head>
 
-<body class="bg-brand-dark text-slate-200 font-sans h-screen flex overflow-hidden">
+<body class="bg-brand-dark text-slate-800 font-sans h-screen flex overflow-hidden">
 
     <!-- Particles -->
     <div class="particles">
@@ -188,22 +188,22 @@
     </div>
 
     <!-- Sidebar / Menu de Bancas -->
-    <aside class="w-64 bg-brand-panel border-r border-slate-700 flex flex-col shadow-2xl z-30 flex-shrink-0">
-        <div class="p-6 border-b border-slate-700">
-            <h1 class="text-xl font-bold text-white flex items-center gap-2">
+    <aside class="w-64 bg-brand-panel border-r border-slate-100 flex flex-col shadow-2xl z-30 flex-shrink-0">
+        <div class="p-6 border-b border-slate-100">
+            <h1 class="text-xl font-bold text-slate-800 flex items-center gap-2">
                 <i class="fas fa-brain text-brand-blue"></i>
-                PsicoData <span class="text-xs bg-brand-blue text-white px-2 py-0.5 rounded-full">2026</span>
+                PsicoData <span class="text-xs bg-brand-blue text-slate-800 px-2 py-0.5 rounded-full">2026</span>
             </h1>
-            <p class="text-xs text-slate-400 mt-2">Banco de Dados Consolidado</p>
+            <p class="text-xs text-slate-600 mt-2">Banco de Dados Consolidado</p>
         </div>
 
         <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="banca-menu">
             <!-- Menu items serão gerados via JS -->
         </nav>
 
-        <div class="p-4 border-t border-slate-700 bg-slate-800/50 space-y-3">
+        <div class="p-4 border-t border-slate-100 bg-slate-50 space-y-3">
             <button onclick="selectManagerView()" id="btn-manager-view"
-                class="w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 text-slate-300 hover:bg-slate-700 hover:text-white border border-transparent hover:border-slate-600">
+                class="w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-transparent hover:border-slate-200">
                 <i class="fas fa-table-list text-brand-accent"></i>
                 <div>
                     <span class="block text-sm font-bold">Catálogo & Edição</span>
@@ -212,17 +212,17 @@
             </button>
 
             <!-- Área de Backup -->
-            <div class="pt-2 border-t border-slate-700/50">
+            <div class="pt-2 border-t border-slate-100">
                 <p class="text-[10px] uppercase text-slate-500 font-bold mb-2 px-1">Backup & Segurança</p>
                 <div class="grid grid-cols-2 gap-2">
                     <button onclick="exportData()"
-                        class="bg-slate-700 hover:bg-slate-600 text-white text-xs py-2 rounded flex flex-col items-center gap-1 transition-colors"
+                        class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs py-2 rounded flex flex-col items-center gap-1 transition-colors"
                         title="Baixar arquivo de segurança">
                         <i class="fas fa-download text-brand-blue"></i>
                         Salvar
                     </button>
                     <label
-                        class="bg-slate-700 hover:bg-slate-600 text-white text-xs py-2 rounded flex flex-col items-center gap-1 cursor-pointer transition-colors"
+                        class="bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs py-2 rounded flex flex-col items-center gap-1 cursor-pointer transition-colors"
                         title="Carregar arquivo salvo">
                         <i class="fas fa-upload text-brand-accent"></i>
                         Ler
@@ -232,7 +232,7 @@
             </div>
 
             <button onclick="resetData()"
-                class="w-full text-xs text-slate-500 hover:text-red-400 transition-colors flex items-center justify-center gap-2 pt-2">
+                class="w-full text-xs text-slate-500 hover:text-red-700 transition-colors flex items-center justify-center gap-2 pt-2">
                 <i class="fas fa-trash-alt"></i> Resetar Fábrica
             </button>
         </div>
@@ -243,10 +243,10 @@
 
         <!-- Header Dinâmico -->
         <header
-            class="bg-brand-panel border-b border-slate-700 p-6 flex justify-between items-center shadow-lg z-20 flex-shrink-0">
+            class="bg-brand-panel border-b border-slate-100 p-6 flex justify-between items-center shadow-lg z-20 flex-shrink-0">
             <div>
-                <h2 id="current-page-title" class="text-3xl font-bold text-white">Carregando...</h2>
-                <p id="current-page-subtitle" class="text-slate-400 text-sm mt-1">...</p>
+                <h2 id="current-page-title" class="text-3xl font-bold text-slate-800">Carregando...</h2>
+                <p id="current-page-subtitle" class="text-slate-600 text-sm mt-1">...</p>
             </div>
             <div class="flex gap-3" id="header-actions">
                 <!-- Botões injetados via JS -->
@@ -261,22 +261,22 @@
 
                 <!-- Barra de Filtros -->
                 <div
-                    class="bg-brand-panel border border-slate-700 p-4 rounded-xl flex flex-col sm:flex-row gap-4 items-center shadow-md flex-shrink-0">
-                    <div class="flex items-center gap-2 text-slate-400 text-sm font-semibold uppercase tracking-wider">
+                    class="bg-brand-panel border border-slate-100 p-4 rounded-xl flex flex-col sm:flex-row gap-4 items-center shadow-md flex-shrink-0">
+                    <div class="flex items-center gap-2 text-slate-600 text-sm font-semibold uppercase tracking-wider">
                         <i class="fas fa-filter text-brand-accent"></i> Filtros
                     </div>
                     <div class="flex-1 grid grid-cols-2 gap-4 w-full">
                         <select id="filter-year" onchange="applyFilters()"
-                            class="bg-slate-800 border border-slate-600 text-white text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block w-full p-2.5">
-                            <option value="all">Todos os Anos</option>
+                            class="bg-slate-100 border border-slate-200 text-slate-800 text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block w-full p-2.5">
+                            <option value="all" class="text-slate-800">Todos os Anos</option>
                         </select>
                         <select id="filter-concurso" onchange="applyFilters()"
-                            class="bg-slate-800 border border-slate-600 text-white text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block w-full p-2.5">
-                            <option value="all">Todos os Concursos</option>
+                            class="bg-slate-100 border border-slate-200 text-slate-800 text-sm rounded-lg focus:ring-brand-blue focus:border-brand-blue block w-full p-2.5">
+                            <option value="all" class="text-slate-800">Todos os Concursos</option>
                         </select>
                     </div>
                     <button onclick="clearFilters()"
-                        class="text-slate-400 hover:text-white text-sm underline px-2">Limpar</button>
+                        class="text-slate-600 hover:text-slate-800 text-sm underline px-2">Limpar</button>
                 </div>
 
                 <!-- Lista de Cards (Scrollable) -->
@@ -288,9 +288,9 @@
             <!-- Coluna Direita: Estatísticas (Sticky) -->
             <div class="w-full lg:w-96 flex-shrink-0 flex flex-col gap-4">
                 <div
-                    class="bg-brand-panel border border-slate-700 rounded-xl p-5 shadow-lg flex flex-col h-full overflow-hidden">
-                    <div class="flex justify-between items-start border-b border-slate-700 pb-3 mb-4">
-                        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    class="bg-brand-panel border border-slate-100 rounded-xl p-5 shadow-lg flex flex-col h-full overflow-hidden">
+                    <div class="flex justify-between items-start border-b border-slate-100 pb-3 mb-4">
+                        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
                             <i class="fas fa-chart-pie text-brand-accent"></i>
                             Estatísticas
                         </h3>
@@ -298,10 +298,10 @@
 
                     <!-- Filtro de Tipo de Teste -->
                     <div class="mb-4">
-                        <label class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1 block">Filtrar por
+                        <label class="text-xs text-slate-600 font-bold uppercase tracking-wider mb-1 block">Filtrar por
                             Tipo:</label>
                         <select id="filter-stats-type" onchange="applyStatsFilter()"
-                            class="bg-slate-800 border border-slate-600 text-white text-xs rounded-lg focus:ring-brand-blue focus:border-brand-blue block w-full p-2">
+                            class="bg-slate-100 border border-slate-200 text-slate-800 text-xs rounded-lg focus:ring-brand-blue focus:border-brand-blue block w-full p-2">
                             <option value="all">Todos os Tipos</option>
                             <option value="Personalidade">🧠 Personalidade</option>
                             <option value="Atenção">🎯 Atenção</option>
@@ -313,9 +313,9 @@
 
                     <div class="flex-1 overflow-y-auto pr-1">
                         <div class="flex justify-between items-center mb-2">
-                            <p class="text-xs text-slate-400 uppercase tracking-wider font-bold">Mais Cobrados</p>
+                            <p class="text-xs text-slate-600 uppercase tracking-wider font-bold">Mais Cobrados</p>
                             <span id="stats-count-badge"
-                                class="text-[10px] bg-slate-700 px-2 py-0.5 rounded-full text-slate-300">0 testes</span>
+                                class="text-[10px] bg-slate-700 px-2 py-0.5 rounded-full text-slate-700">0 testes</span>
                         </div>
 
                         <div id="stats-container" class="space-y-3">
@@ -324,7 +324,7 @@
                     </div>
 
                     <div
-                        class="mt-4 pt-4 border-t border-slate-700 text-[10px] text-slate-500 text-center flex justify-center gap-3">
+                        class="mt-4 pt-4 border-t border-slate-100 text-[10px] text-slate-500 text-center flex justify-center gap-3">
                         <span class="flex items-center gap-1"><span
                                 class="w-2 h-2 rounded-full bg-purple-500"></span>Pers.</span>
                         <span class="flex items-center gap-1"><span
@@ -342,19 +342,19 @@
         <div id="view-manager" class="flex-1 overflow-hidden p-6 flex flex-col hidden">
             <!-- Barra de Busca -->
             <div
-                class="bg-brand-panel border border-slate-700 p-4 rounded-xl mb-4 flex gap-4 items-center shadow-md flex-shrink-0">
-                <i class="fas fa-search text-slate-400 text-lg"></i>
+                class="bg-brand-panel border border-slate-100 p-4 rounded-xl mb-4 flex gap-4 items-center shadow-md flex-shrink-0">
+                <i class="fas fa-search text-slate-600 text-lg"></i>
                 <input type="text" id="manager-search" onkeyup="renderManagerTable()"
                     placeholder="Buscar teste por nome..."
-                    class="bg-transparent border-none text-white w-full focus:ring-0 text-lg outline-none">
+                    class="bg-transparent border-none text-slate-800 w-full focus:ring-0 text-lg outline-none">
             </div>
 
             <!-- Tabela Container -->
             <div
-                class="bg-brand-panel border border-slate-700 rounded-xl shadow-lg flex-1 overflow-hidden flex flex-col">
+                class="bg-brand-panel border border-slate-100 rounded-xl shadow-lg flex-1 overflow-hidden flex flex-col">
                 <div class="overflow-y-auto flex-1">
-                    <table class="w-full text-sm text-left text-slate-300">
-                        <thead class="text-xs uppercase bg-slate-900 text-slate-400 sticky top-0 z-10 shadow-md">
+                    <table class="w-full text-sm text-left text-slate-800">
+                        <thead class="text-xs uppercase bg-white text-slate-600 sticky top-0 z-10 shadow-md">
                             <tr>
                                 <th scope="col" class="px-6 py-4 w-1/3">Nome Original (Dados Brutos)</th>
                                 <th scope="col" class="px-6 py-4 w-1/3">Nome Padrão / Sinônimo <i
@@ -369,10 +369,10 @@
                     </table>
                 </div>
                 <div
-                    class="p-3 bg-slate-800/50 border-t border-slate-700 text-xs text-slate-500 text-center flex justify-between items-center">
-                    <span><i class="fas fa-save text-green-400 mr-1"></i> Alterações salvas automaticamente no
+                    class="p-3 bg-slate-100/50 border-t border-slate-100 text-xs text-slate-500 text-center flex justify-between items-center">
+                    <span><i class="fas fa-save text-green-700 mr-1"></i> Alterações salvas automaticamente no
                         navegador.</span>
-                    <button onclick="exportData()" class="text-brand-blue hover:text-white underline">Fazer backup
+                    <button onclick="exportData()" class="text-brand-blue hover:text-slate-800 underline">Fazer backup
                         externo</button>
                 </div>
             </div>
@@ -384,9 +384,9 @@
     <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
         <div
             class="bg-brand-panel border border-slate-600 rounded-xl w-full max-w-lg shadow-2xl transform transition-all scale-100">
-            <div class="p-6 border-b border-slate-700 flex justify-between items-center">
-                <h3 id="modal-title" class="text-xl font-bold text-white">Adicionar Concurso</h3>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800">Adicionar Concurso</h3>
+                <button onclick="closeModal()" class="text-slate-600 hover:text-slate-800">
                     <i class="fas fa-times text-xl"></i>
                 </button>
             </div>
@@ -396,30 +396,30 @@
 
                 <div class="grid grid-cols-3 gap-4">
                     <div class="col-span-1">
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Ano</label>
+                        <label class="block text-sm font-medium text-slate-600 mb-1">Ano</label>
                         <input type="number" id="modal-ano"
-                            class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-brand-blue outline-none transition-all">
+                            class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:ring-2 focus:ring-brand-blue outline-none transition-all">
                     </div>
                     <div class="col-span-2">
-                        <label class="block text-sm font-medium text-slate-400 mb-1">Nome do Concurso/Órgão</label>
+                        <label class="block text-sm font-medium text-slate-600 mb-1">Nome do Concurso/Órgão</label>
                         <input type="text" id="modal-concurso"
-                            class="w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-brand-blue outline-none transition-all"
+                            class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:ring-2 focus:ring-brand-blue outline-none transition-all"
                             placeholder="Ex: PM-PE (Soldado)">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">Testes Aplicados</label>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Testes Aplicados</label>
                     <p class="text-xs text-slate-500 mb-2">Separe os testes por vírgula ou nova linha.</p>
                     <textarea id="modal-testes" rows="6"
-                        class="w-full bg-slate-800 border border-slate-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-brand-blue outline-none transition-all font-mono text-sm"
+                        class="w-full bg-slate-100 border border-slate-200 rounded-lg p-3 text-slate-800 focus:ring-2 focus:ring-brand-blue outline-none transition-all font-mono text-sm"
                         placeholder="Ex: Palográfico&#10;NEO PI-R&#10;Teste de Memória"></textarea>
                 </div>
             </div>
 
-            <div class="p-6 border-t border-slate-700 bg-slate-800/30 flex justify-end gap-3 rounded-b-xl">
+            <div class="p-6 border-t border-slate-100 bg-slate-100/30 flex justify-end gap-3 rounded-b-xl">
                 <button onclick="closeModal()"
-                    class="px-4 py-2 text-slate-300 hover:text-white font-medium transition-colors">Cancelar</button>
+                    class="px-4 py-2 text-slate-800 hover:text-slate-800 font-medium transition-colors">Cancelar</button>
                 <button onclick="saveData()"
                     class="bg-brand-blue hover:bg-blue-600 text-white px-6 py-2 rounded-lg font-medium transition-all shadow-lg">Salvar</button>
             </div>
@@ -710,7 +710,7 @@
 
                 btn.className = `w-full text-left px-4 py-3 rounded-lg mb-2 transition-all flex justify-between items-center group ${isActive
                     ? 'bg-brand-blue text-white shadow-lg shadow-blue-500/20'
-                    : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                    : 'text-slate-600 hover:bg-slate-100 hover:text-blue-600'
                     }`;
 
                 btn.onclick = () => selectBanca(banca);
@@ -718,7 +718,7 @@
                 const count = appData[banca].length;
                 btn.innerHTML = `
                     <span class="font-medium tracking-wide">${banca}</span>
-                    <span class="text-xs ${isActive ? 'bg-blue-800 text-blue-200' : 'bg-slate-800 text-slate-500 group-hover:bg-slate-700'} px-2 py-0.5 rounded-full min-w-[24px] text-center">${count}</span>
+                    <span class="text-xs ${isActive ? 'bg-blue-800 text-blue-200' : 'bg-slate-100 text-slate-500 group-hover:bg-slate-700'} px-2 py-0.5 rounded-full min-w-[24px] text-center">${count}</span>
                 `;
                 menu.appendChild(btn);
             });
@@ -728,7 +728,7 @@
             if (currentView === 'manager') {
                 btnManager.className = "w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 bg-brand-accent/10 text-brand-accent border border-brand-accent/50";
             } else {
-                btnManager.className = "w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 text-slate-300 hover:bg-slate-700 hover:text-white border border-transparent hover:border-slate-600";
+                btnManager.className = "w-full text-left px-4 py-3 rounded-lg transition-all flex items-center gap-3 text-slate-700 hover:bg-slate-100 hover:text-slate-900 border border-transparent hover:border-slate-200";
             }
         }
 
@@ -784,7 +784,7 @@
             container.innerHTML = '';
 
             if (filteredData.length === 0) {
-                container.innerHTML = `<div class="text-center py-20 text-slate-500 bg-brand-panel/30 rounded-xl border border-slate-700 border-dashed"><p>Nenhum concurso encontrado.</p></div>`;
+                container.innerHTML = `<div class="text-center py-20 text-slate-500 bg-brand-panel/30 rounded-xl border border-slate-100 border-dashed"><p>Nenhum concurso encontrado.</p></div>`;
                 return;
             }
 
@@ -793,34 +793,34 @@
             displayData.forEach((item) => {
                 const realIndex = appData[currentBanca].indexOf(item);
                 const card = document.createElement('div');
-                card.className = "bg-brand-panel border border-slate-700 rounded-xl p-5 shadow-lg hover:border-slate-500 transition-all group relative animate-fade-in";
+                card.className = "bg-brand-panel border border-slate-100 rounded-xl p-5 shadow-lg hover:border-slate-500 transition-all group relative animate-fade-in";
 
                 const badges = item.testes.map(teste => {
                     const resolvedName = resolveTestName(teste);
                     const type = getTestType(resolvedName);
                     const colorClass = typeColors[type] || "bg-gray-500";
-                    let borderColor = "border-slate-700";
-                    let textColor = "text-blue-300";
+                    let borderColor = "border-slate-100";
+                    let textColor = "text-blue-600";
 
-                    if (type === "Personalidade") { borderColor = "border-purple-500/30"; textColor = "text-purple-300"; }
+                    if (type === "Personalidade") { borderColor = "border-blue-200"; textColor = "text-blue-500"; }
                     if (type === "Atenção") { borderColor = "border-yellow-500/30"; textColor = "text-yellow-300"; }
                     if (type === "Memória") { borderColor = "border-green-500/30"; textColor = "text-green-300"; }
-                    if (type === "Raciocínio") { borderColor = "border-blue-500/30"; textColor = "text-blue-300"; }
+                    if (type === "Raciocínio") { borderColor = "border-blue-200"; textColor = "text-blue-600"; }
 
                     const tooltip = resolvedName !== normalizeString(teste) ? `Alias de: ${resolvedName}` : type;
 
-                    return `<span class="inline-block bg-slate-800 ${textColor} text-xs px-2 py-1 rounded border ${borderColor} mr-2 mb-2 hover:bg-slate-700 transition-colors cursor-default" title="${tooltip}">${teste}</span>`;
+                    return `<span class="inline-block bg-slate-100 ${textColor} text-xs px-2 py-1 rounded border ${borderColor} mr-2 mb-2 hover:bg-slate-700 transition-colors cursor-default" title="${tooltip}">${teste}</span>`;
                 }).join('');
 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <span class="bg-brand-accent/10 text-brand-accent text-xs font-bold px-2 py-1 rounded border border-brand-accent/20 mb-2 inline-block">${item.ano}</span>
-                            <h3 class="text-lg font-bold text-white leading-tight">${item.concurso}</h3>
+                            <h3 class="text-lg font-bold text-slate-800 leading-tight">${item.concurso}</h3>
                         </div>
                         <div class="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity absolute top-4 right-4 bg-brand-panel pl-2 shadow-[-10px_0_10px_#1e293b]">
-                            <button onclick="openModal('edit', ${realIndex})" class="text-slate-400 hover:text-brand-blue p-1.5 hover:bg-slate-800 rounded transition-colors" title="Editar"><i class="fas fa-pen"></i></button>
-                            <button onclick="deleteItem(${realIndex})" class="text-slate-400 hover:text-red-400 p-1.5 hover:bg-slate-800 rounded transition-colors" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                            <button onclick="openModal('edit', ${realIndex})" class="text-slate-600 hover:text-brand-blue p-1.5 hover:bg-slate-100 rounded transition-colors" title="Editar"><i class="fas fa-pen"></i></button>
+                            <button onclick="deleteItem(${realIndex})" class="text-slate-600 hover:text-red-700 p-1.5 hover:bg-slate-100 rounded transition-colors" title="Excluir"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>
                     <div class="mt-2"><div class="flex flex-wrap">${badges}</div></div>
@@ -864,27 +864,27 @@
                 const currentType = getTestType(resolved);
 
                 const tr = document.createElement('tr');
-                tr.className = "bg-slate-800 border-b border-slate-700 hover:bg-slate-700/50 transition-colors";
+                tr.className = "bg-slate-100 border-b border-slate-100 hover:bg-slate-700/50 transition-colors";
 
                 // Visual Indicator for customized rows
                 const isCustomized = isAlias || (currentTestTypes[normalized] && currentTestTypes[normalized] !== "Outros");
                 if (isCustomized) tr.classList.add("bg-slate-700/20");
 
                 tr.innerHTML = `
-                    <td class="px-6 py-4 font-medium text-white font-mono text-xs">${rawTestName}</td>
+                    <td class="px-6 py-4 font-medium text-slate-800 font-mono text-xs">${rawTestName}</td>
                     <td class="px-6 py-4">
                         <div class="relative">
                             <input type="text" 
                                 value="${isAlias ? resolved : ''}" 
                                 placeholder="${normalized}"
                                 onchange="saveAlias('${rawTestName}', this.value)"
-                                class="w-full bg-slate-900 border border-slate-600 rounded p-2 text-sm text-brand-accent placeholder-slate-600 focus:ring-1 focus:ring-brand-blue outline-none"
+                                class="w-full bg-white border border-slate-600 rounded p-2 text-sm text-brand-accent placeholder-slate-600 focus:ring-1 focus:ring-brand-blue outline-none"
                             >
                             ${isAlias ? '<i class="fas fa-link absolute right-3 top-3 text-brand-accent text-xs" title="Redirecionamento ativo"></i>' : ''}
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                         <select onchange="saveType('${resolved}', this.value)" class="w-full bg-slate-900 border border-slate-600 text-white text-sm rounded p-2 focus:ring-brand-blue focus:border-brand-blue outline-none">
+                         <select onchange="saveType('${resolved}', this.value)" class="w-full bg-white border border-slate-200 text-slate-800 text-sm rounded p-2 focus:ring-brand-blue focus:border-brand-blue outline-none">
                             <option value="Personalidade" ${currentType === 'Personalidade' ? 'selected' : ''}>Personalidade</option>
                             <option value="Atenção" ${currentType === 'Atenção' ? 'selected' : ''}>Atenção</option>
                             <option value="Memória" ${currentType === 'Memória' ? 'selected' : ''}>Memória</option>
@@ -972,12 +972,12 @@
                 const colorClass = typeColors[type] || "bg-gray-500";
 
                 const item = document.createElement('div');
-                item.className = "mb-2 group hover:bg-slate-800/50 p-1.5 rounded transition-colors";
+                item.className = "mb-2 group hover:bg-slate-100/50 p-1.5 rounded transition-colors";
                 item.innerHTML = `
                     <div class="flex justify-between items-center text-xs mb-1">
                         <div class="flex items-center gap-2 overflow-hidden">
                             <span class="w-1.5 h-1.5 rounded-full flex-shrink-0 ${colorClass}" title="${type}"></span>
-                            <span class="text-slate-200 font-medium truncate" title="${teste} (${type})">${teste}</span>
+                            <span class="text-slate-800 font-medium truncate" title="${teste} (${type})">${teste}</span>
                         </div>
                         <span class="text-brand-accent font-bold ml-2">${count}x</span>
                     </div>

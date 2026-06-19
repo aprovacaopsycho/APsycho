@@ -9,6 +9,15 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --text-light: #1E293B;
+        }
+
         body {
             background-color: #0f172a;
             color: white;
@@ -39,13 +48,13 @@
         .glass-sidebar {
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 1px solid rgba(0, 0, 0, 0.04);
             box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
         }
 
         .control-group {
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 20px;
@@ -53,8 +62,8 @@
 
         .control-input {
             background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #e2e8f0;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #334155;
             border-radius: 8px;
             padding: 8px;
             font-size: 12px;
@@ -70,7 +79,7 @@
 
         .premium-btn {
             background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
             color: white;
             font-weight: 700;
@@ -86,14 +95,14 @@
         }
 
         .tool-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
+            background: rgba(0, 0, 0, 0.02);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #475569;
             transition: all 0.2s;
         }
 
         .tool-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.04);
             color: white;
         }
 
@@ -109,7 +118,7 @@
             position: relative;
             background: #1e293b;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             border-radius: 8px;
             overflow: hidden;
             transform-origin: top center;
@@ -160,7 +169,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #f1f5f9;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -179,21 +188,21 @@
     <aside class="w-[400px] h-screen glass-sidebar flex flex-col z-50 fixed right-0 top-0 overflow-y-auto text-xs">
         <div class="p-6 space-y-6">
             <h2
-                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-white/10 pb-4 flex items-center gap-2">
-                <i class="fas fa-edit text-purple-400"></i> DEBUGGER BPA
+                class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 border-b border-slate-200 pb-4 flex items-center gap-2">
+                <i class="fas fa-edit text-blue-600"></i> DEBUGGER BPA
             </h2>
 
             <!-- 1. IMAGEM -->
             <div class="control-group">
                 <label
-                    class="block uppercase text-xs font-bold text-gray-400 mb-3 tracking-wider flex items-center gap-2">
-                    <i class="fas fa-image text-blue-400"></i> 1. Imagem Base
+                    class="block uppercase text-xs font-bold text-slate-500 mb-3 tracking-wider flex items-center gap-2">
+                    <i class="fas fa-image text-blue-600"></i> 1. Imagem Base
                 </label>
                 <div class="space-y-3">
                     <input type="file" @change="loadImage" accept="image/*"
                         class="control-input file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-violet-500/20 file:text-violet-400 hover:file:bg-violet-500/30">
-                    <div class="flex justify-between items-center text-gray-400 font-medium">
-                        <span>Zoom: <span x-text="zoom + '%'" class="text-white"></span></span>
+                    <div class="flex justify-between items-center text-slate-500 font-medium">
+                        <span>Zoom: <span x-text="zoom + '%'" class="text-slate-800"></span></span>
                         <input type="range" x-model="zoom" min="20" max="200"
                             class="w-32 accent-purple-500 h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer">
                     </div>
@@ -202,18 +211,18 @@
 
             <!-- 2. IMPORTAR -->
             <div class="control-group border-l-2 border-l-blue-500">
-                <h3 class="font-bold text-blue-400 uppercase mb-3 text-[10px] tracking-widest">2. Importar JSON</h3>
+                <h3 class="font-bold text-blue-600 uppercase mb-3 text-[10px] tracking-widest">2. Importar JSON</h3>
                 <textarea x-model="inputCode" class="control-input h-20 font-mono text-[10px] mb-3"
                     placeholder="Cole const ROTAS_CONFIG ou o objeto JSON direto..."></textarea>
                 <button @click="importCode()"
-                    class="w-full py-2 bg-blue-600/80 hover:bg-blue-600 text-white font-bold rounded-lg transition border border-white/10 uppercase text-[10px] tracking-wider">
+                    class="w-full py-2 bg-blue-600/80 hover:bg-blue-600 text-slate-800 font-bold rounded-lg transition border border-slate-200 uppercase text-[10px] tracking-wider">
                     Carregar Pontos
                 </button>
             </div>
 
             <!-- 3. DRAG MODES -->
             <div class="control-group border-l-2 border-l-yellow-500">
-                <h3 class="font-bold text-yellow-400 uppercase mb-3 text-[10px] tracking-widest">3. Modo de Arraste</h3>
+                <h3 class="font-bold text-yellow-700 uppercase mb-3 text-[10px] tracking-widest">3. Modo de Arraste</h3>
 
                 <div class="grid grid-cols-2 gap-2 mb-4">
                     <button @click="dragMode = 'single'" :class="{'active': dragMode === 'single'}"
@@ -234,7 +243,7 @@
                     </button>
                 </div>
 
-                <div class="text-[10px] text-gray-500 leading-relaxed px-2">
+                <div class="text-[10px] text-slate-600 leading-relaxed px-2">
                     <i class="fas fa-info-circle mr-1"></i>
                     <span x-show="dragMode === 'single'">Arraste um item individualmente. Clique para alternar
                         Alvo.</span>
@@ -246,34 +255,34 @@
 
             <!-- 4. AJUSTES FINOS -->
             <div class="control-group">
-                <h3 class="font-bold text-gray-400 uppercase mb-3 text-[10px] tracking-widest">Ajustes da Grade</h3>
+                <h3 class="font-bold text-slate-500 uppercase mb-3 text-[10px] tracking-widest">Ajustes da Grade</h3>
                 <div class="flex gap-4 mb-3">
                     <div class="w-1/2">
-                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Largura (W)</label>
+                        <label class="text-[10px] text-slate-500 uppercase font-bold mb-1 block">Largura (W)</label>
                         <input type="range" x-model="boxW" min="10" max="100"
                             class="w-full accent-pink-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
-                        <div class="text-right text-[9px] text-pink-400" x-text="boxW + 'px'"></div>
+                        <div class="text-right text-[9px] text-pink-700" x-text="boxW + 'px'"></div>
                     </div>
                     <div class="w-1/2">
-                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Altura (H)</label>
+                        <label class="text-[10px] text-slate-500 uppercase font-bold mb-1 block">Altura (H)</label>
                         <input type="range" x-model="boxH" min="10" max="100"
                             class="w-full accent-pink-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
-                        <div class="text-right text-[9px] text-pink-400" x-text="boxH + 'px'"></div>
+                        <div class="text-right text-[9px] text-pink-700" x-text="boxH + 'px'"></div>
                     </div>
                 </div>
 
-                <div class="flex gap-4 mb-3 border-t border-white/5 pt-3">
+                <div class="flex gap-4 mb-3 border-t border-slate-100 pt-3">
                     <div class="w-1/2">
-                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Espaço X</label>
+                        <label class="text-[10px] text-slate-500 uppercase font-bold mb-1 block">Espaço X</label>
                         <input type="range" x-model="spacingX" @input="updateSpacing()" min="10" max="100" step="0.5"
                             class="w-full accent-cyan-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
-                        <div class="text-right text-[9px] text-cyan-400" x-text="spacingX + 'px'"></div>
+                        <div class="text-right text-[9px] text-blue-500" x-text="spacingX + 'px'"></div>
                     </div>
                     <div class="w-1/2">
-                        <label class="text-[10px] text-gray-400 uppercase font-bold mb-1 block">Espaço Y</label>
+                        <label class="text-[10px] text-slate-500 uppercase font-bold mb-1 block">Espaço Y</label>
                         <input type="range" x-model="spacingY" @input="updateSpacing()" min="10" max="100" step="0.5"
                             class="w-full accent-cyan-500 h-1 bg-gray-700 rounded-lg cursor-pointer">
-                        <div class="text-right text-[9px] text-cyan-400" x-text="spacingY + 'px'"></div>
+                        <div class="text-right text-[9px] text-blue-500" x-text="spacingY + 'px'"></div>
                     </div>
                 </div>
 
@@ -313,7 +322,7 @@
                     <span>GERAR JSON FINAL</span>
                 </button>
                 <textarea x-model="output" readonly
-                    class="control-input h-32 font-mono text-green-400 border-green-500/30"
+                    class="control-input h-32 font-mono text-green-700 border-green-500/30"
                     placeholder="// Código gerado..."></textarea>
             </div>
         </div>
@@ -327,7 +336,7 @@
                 :style="`width: 100%; height: 100%;`">
 
             <div x-show="!imgSrc"
-                class="absolute inset-0 flex items-center justify-center text-gray-500 pointer-events-none">
+                class="absolute inset-0 flex items-center justify-center text-slate-600 pointer-events-none">
                 <p class="text-xl font-bold border-2 border-dashed border-gray-700 p-10 rounded-xl">Carregue a imagem
                     (BPA AC2 - Copy.jpg)</p>
             </div>

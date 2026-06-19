@@ -1,0 +1,77 @@
+SUBPAGES CONTRAST & DARK-MODE AUDIT REPORT
+==========================================
+
+FILE: testes_atencao_PMCE.html (1 issues)
+------------------------
+  Line 229 [DARK_GLASS_CONTAINER]: class="mb-10 flex flex-col md:flex-row gap-6 justify-between items-center bg-white/50 p-6 rounded-2xl border border-slate-100 backdrop-blur-sm">
+
+FILE: beta3m.html (1 issues)
+-----------
+  Line 497 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: bpa\bpa_aa.html (2 issues)
+---------------
+  Line 513 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-white/5 blur-xl"></div>
+  Line 524 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-black/20"></div>
+
+FILE: bpa\bpa_ac.html (2 issues)
+---------------
+  Line 496 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-white/5 blur-xl"></div>
+  Line 507 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-black/20"></div>
+
+FILE: bpa\bpa_ad.html (2 issues)
+---------------
+  Line 504 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-white/5 blur-xl"></div>
+  Line 515 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-black/20"></div>
+
+FILE: bpr5rv.html (1 issues)
+-----------
+  Line 432 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: cta\cta_aa.html (1 issues)
+---------------
+  Line 520 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-white/5 blur-xl"></div>
+
+FILE: cta\ctaac.html (2 issues)
+--------------
+  Line 494 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-white/5 blur-xl"></div>
+  Line 505 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-black/20"></div>
+
+FILE: cta\ctaad.html (2 issues)
+--------------
+  Line 494 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-white/5 blur-xl"></div>
+  Line 505 [DARK_GLASS_CONTAINER]: <div class="absolute inset-0 bg-black/20"></div>
+
+FILE: cubos.html (1 issues)
+----------
+  Line 471 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: g36.html (1 issues)
+--------
+  Line 448 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: mig.html (1 issues)
+--------
+  Line 463 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: r1.html (1 issues)
+-------
+  Line 449 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: tig_nv.html (1 issues)
+-----------
+  Line 454 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: tri.html (1 issues)
+--------
+  Line 500 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: trl.html (1 issues)
+--------
+  Line 452 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+FILE: wmt2.html (1 issues)
+---------
+  Line 566 [DARK_GLASS_CONTAINER]: <div class="absolute right-0 top-0 bottom-0 w-2 bg-white/50 animate-pulse"></div>
+
+TOTAL POTENTIAL ISSUES FOUND: 22

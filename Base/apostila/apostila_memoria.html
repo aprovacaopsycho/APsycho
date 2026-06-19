@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Apostila: Testes de Memória — Aprovação Psycho</title>
+    <title>Apostila: Testes de Memória — Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
 
     <!-- SEGURANÇA -->
@@ -39,18 +39,18 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
-            --text-light: #e2e8f0;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --text-light: #1E293B;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
-            color: #e2e8f0;
+            background: var(--bg-dark);
+            color: #334155;
             overflow-x: hidden;
         }
 
@@ -63,8 +63,8 @@
             width: 100%;
             height: 100%;
             background:
-                radial-gradient(circle at 20% 50%, rgba(0, 194, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(159, 84, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 20% 50%, rgba(14, 165, 233, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(37, 99, 235, 0.04) 0%, transparent 50%),
                 radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
             animation: gradientShift 15s ease infinite;
             z-index: -1;
@@ -137,10 +137,10 @@
         }
 
         .glass-panel {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 100%);
             backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.02);
         }
 
         .gradient-text {
@@ -156,7 +156,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: #f1f5f9;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -211,26 +211,26 @@
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">APOSTILA <span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">APOSTILA <span
                             class="text-[var(--accent-pink)]">MEMÓRIA</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
             <div class="flex items-center gap-6">
                 <!-- User Info -->
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
 
                 <div class="flex items-center gap-4">
                     <a href="index.html"
-                        class="text-sm text-[var(--accent-pink)] hover:text-white flex items-center gap-2 font-bold transition">
+                        class="text-sm text-[var(--accent-pink)] hover:text-slate-800 flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -251,51 +251,51 @@
             x-transition:enter-end="opacity-100 translate-x-0" x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-4">
             <div class="glass-panel rounded-2xl p-4 sticky top-28 space-y-2">
-                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 px-2">Conteúdo</h3>
+                <h3 class="text-sm font-bold text-slate-600 uppercase tracking-widest mb-4 px-2">Conteúdo</h3>
 
                 <button
                     @click="section = 'intro'; document.getElementById('intro').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'intro' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'intro' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     1. Introdução <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'intro'"></i>
                 </button>
 
                 <button @click="section = 'tmr'; document.getElementById('tmr').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'tmr' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'tmr' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     2. TMR <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'tmr'"></i>
                 </button>
 
                 <button @click="section = 'temr'; document.getElementById('temr').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'temr' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'temr' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     3. TEM-R-2 <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'temr'"></i>
                 </button>
 
                 <button
                     @click="section = 'tepicm'; document.getElementById('tepicm').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'tepicm' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'tepicm' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     4. TEPIC-M <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'tepicm'"></i>
                 </button>
 
                 <button
                     @click="section = 'memof'; document.getElementById('memof').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'memof' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'memof' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     5. Memória F <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'memof'"></i>
                 </button>
 
                 <button
                     @click="section = 'tspmemo'; document.getElementById('tspmemo').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'tspmemo' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'tspmemo' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     6. TSP Memória <i class="fas fa-chevron-right text-xs opacity-50"
                         x-show="section === 'tspmemo'"></i>
                 </button>
 
                 <button @click="section = 'mvr'; document.getElementById('mvr').scrollIntoView({behavior: 'smooth'})"
-                    :class="section === 'mvr' ? 'bg-primary/20 text-white border-primary/30' : 'text-gray-400 hover:bg-white/5 border-transparent'"
+                    :class="section === 'mvr' ? 'bg-primary/20 text-slate-800 border-primary/30' : 'text-slate-600 hover:bg-slate-100 border-transparent'"
                     class="w-full text-left px-4 py-2 rounded-lg text-base font-medium border transition-colors flex items-center justify-between">
                     7. MVR <i class="fas fa-chevron-right text-xs opacity-50" x-show="section === 'mvr'"></i>
                 </button>
@@ -307,35 +307,35 @@
 
             <!-- BARRA DE FERRAMENTAS (Menu + Fonte) -->
             <div
-                class="glass-panel p-2 rounded-xl flex gap-3 justify-end items-center sticky top-24 z-40 mb-4 bg-black/90 backdrop-blur-xl border border-white/10 w-fit ml-auto shadow-2xl">
+                class="glass-panel p-2 rounded-xl flex gap-3 justify-end items-center sticky top-24 z-40 mb-4 bg-white/90 backdrop-blur-xl border border-slate-200 shadow-lg w-fit ml-auto shadow-2xl">
 
                 <!-- Controle de Fonte -->
-                <div class="flex items-center gap-1 bg-white/5 rounded-lg p-1 border border-white/5">
+                <div class="flex items-center gap-1 bg-slate-100 rounded-lg p-1 border border-slate-200">
                     <button @click="fontSize = Math.max(12, fontSize - 2)"
-                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition"
                         title="Diminuir Fonte">
                         <i class="fas fa-minus text-xs"></i>
                     </button>
-                    <span class="w-8 text-center text-sm font-bold text-white select-none" x-text="fontSize"></span>
+                    <span class="w-8 text-center text-sm font-bold text-slate-800 select-none" x-text="fontSize"></span>
                     <button @click="fontSize = Math.min(24, fontSize + 2)"
-                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition"
                         title="Aumentar Fonte">
                         <i class="fas fa-plus text-xs"></i>
                     </button>
                 </div>
 
                 <!-- Controle de Zoom de Imagem -->
-                <div class="flex items-center gap-1 bg-white/5 rounded-lg p-1 border border-white/5"
+                <div class="flex items-center gap-1 bg-slate-100 rounded-lg p-1 border border-slate-200"
                     x-show="['tmr', 'temr', 'tepicm', 'memof', 'tspmemo', 'mvr'].includes(section)">
                     <button @click="imageScale = Math.max(20, imageScale - 10)"
-                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition"
                         title="Diminuir Imagens">
                         <i class="fas fa-search-minus text-xs"></i>
                     </button>
-                    <span class="w-10 text-center text-xs font-bold text-white select-none"
+                    <span class="w-10 text-center text-xs font-bold text-slate-800 select-none"
                         x-text="imageScale + '%'"></span>
                     <button @click="imageScale = Math.min(100, imageScale + 10)"
-                        class="w-8 h-8 flex items-center justify-center rounded bg-black/40 text-gray-400 hover:text-white hover:bg-white/10 transition"
+                        class="w-8 h-8 flex items-center justify-center rounded bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition"
                         title="Aumentar Imagens">
                         <i class="fas fa-search-plus text-xs"></i>
                     </button>
@@ -344,7 +344,7 @@
                 <!-- Botão Fullscreen -->
                 <button @click="toggleFS()"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all border"
-                    :class="isFullscreen ? 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]' : 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10'"
+                    :class="isFullscreen ? 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'"
                     title="Tela Cheia">
                     <i class="fas" :class="isFullscreen ? 'fa-compress' : 'fa-expand-arrows-alt'"></i>
                 </button>
@@ -352,7 +352,7 @@
                 <!-- Botão Menu Lateral -->
                 <button @click="sidebarOpen = !sidebarOpen"
                     class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold transition-all border"
-                    :class="sidebarOpen ? 'bg-white/5 text-gray-400 border-white/5 hover:bg-white/10' : 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]'"
+                    :class="sidebarOpen ? 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100' : 'bg-primary/20 text-primary border-primary/30 shadow-[0_0_15px_rgba(159,84,255,0.3)]'"
                     title="Alternar Menu">
                     <span x-text="sidebarOpen ? 'Ocultar' : 'Expandir'"></span>
                     <i class="fas" :class="sidebarOpen ? 'fa-columns' : 'fa-expand'"></i>
@@ -365,9 +365,9 @@
                 <!-- 1. INTRODUÇÃO -->
                 <section id="intro" class="scroll-mt-28">
                     <div class="pl-6 border-l-4 border-l-primary py-2">
-                        <h1 class="text-4xl font-black text-white mb-2">Testes de Memória</h1>
-                        <p class="text-xl text-primary font-medium mb-6">Aprovação Psycho – Técnicas e Estratégias</p>
-                        <div class="space-y-4 text-lg text-gray-300 leading-relaxed text-justify">
+                        <h1 class="text-4xl font-black text-slate-800 mb-2">Testes de Memória</h1>
+                        <p class="text-xl text-primary font-medium mb-6">Grupo de Estudos para Psicotécnico – Técnicas e Estratégias</p>
+                        <div class="space-y-4 text-lg text-slate-600 leading-relaxed text-justify">
                             <p>Os testes de memória avaliam a capacidade de retenção e evocação de informações visuais
                                 ou verbais.
                                 São fundamentais para aferir a capacidade do candidato de armazenar instruções e
@@ -378,12 +378,12 @@
 
                 <!-- 2. TMR -->
                 <section id="tmr" class="scroll-mt-28">
-                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">2</span>
                         TMR - Teste de Memória de Reconhecimento
                     </h2>
 
-                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-slate-600">
 
                         <p class="mb-4">
                             O <strong>TMR (Teste de Memória de Reconhecimento)</strong> investiga o funcionamento da
@@ -393,61 +393,61 @@
                         </p>
 
                         <!-- IMG EXEMPLO -->
-                        <div class="my-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                            <div class="overflow-auto border-b border-white/5 p-4">
+                        <div class="my-6 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                            <div class="overflow-auto border-b border-slate-100 p-4">
                                 <img src="../../Imagens_base/tmr/tmr_exemplo.jpg" alt="Exemplo TMR"
                                     class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                             </div>
-                            <p class="text-xs text-gray-500 py-2">Exemplo de item do TMR</p>
+                            <p class="text-xs text-slate-600 py-2">Exemplo de item do TMR</p>
                         </div>
 
                         <!-- CARACTERÍSTICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Características Principais</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Características Principais</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Tempo -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-clock mb-2 text-yellow-400 text-xl"></i>
-                                <span class="text-lg font-bold text-white">1 min (Memo) / 2 min (Resp)</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <i class="fas fa-clock mb-2 text-yellow-800 text-xl"></i>
+                                <span class="text-lg font-bold text-slate-800">1 min (Memo) / 2 min (Resp)</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Pontos -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-list-ol mb-2 text-cyan-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">20</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Total Itens</span>
+                                <i class="fas fa-list-ol mb-2 text-blue-500 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">20</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Total Itens</span>
                             </div>
                             <!-- Meta -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">12</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta Mínima</span>
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">12</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta Mínima</span>
                             </div>
                         </div>
 
                         <!-- AVISOS E ALERTAS -->
                         <div class="space-y-4 mb-8">
-                            <div class="p-4 border-l-4 border-blue-500 bg-blue-500/10 rounded-r-lg">
-                                <h4 class="text-blue-400 font-bold mb-1"><i class="fas fa-info-circle mr-2"></i>Anular
+                            <div class="p-4 border-l-4 border-blue-500 bg-blue-50 border border-blue-200/60 rounded-r-lg">
+                                <h4 class="text-blue-600 font-bold mb-1"><i class="fas fa-info-circle mr-2"></i>Anular
                                     erro</h4>
-                                <p class="text-gray-300 text-sm">Se, por acaso, riscar errado, basta completar o "X"
+                                <p class="text-slate-600 text-sm">Se, por acaso, riscar errado, basta completar o "X"
                                     sobre a figura para anular a marcação.</p>
                             </div>
 
-                            <div class="p-4 border-l-4 border-green-500 bg-green-500/10 rounded-r-lg">
-                                <h4 class="text-green-400 font-bold mb-1"><i class="fas fa-check-circle mr-2"></i>Sem
+                            <div class="p-4 border-l-4 border-green-500 bg-green-50 border border-green-200/60 rounded-r-lg">
+                                <h4 class="text-green-800 font-bold mb-1"><i class="fas fa-check-circle mr-2"></i>Sem
                                     descontos</h4>
-                                <p class="text-gray-300 text-sm">Erros e omissões não são descontados da pontuação.</p>
+                                <p class="text-slate-600 text-sm">Erros e omissões não são descontados da pontuação.</p>
                             </div>
 
-                            <div class="p-4 border-l-4 border-red-500 bg-red-500/10 rounded-r-lg">
-                                <h4 class="text-red-400 font-bold mb-1"><i
+                            <div class="p-4 border-l-4 border-red-500 bg-red-50 border border-red-200/60 rounded-r-lg">
+                                <h4 class="text-red-800 font-bold mb-1"><i
                                         class="fas fa-exclamation-triangle mr-2"></i>CUIDADO! Protocolo Inválido</h4>
-                                <p class="text-gray-300 text-sm mb-2">"Se o número de erros for igual ou superior ao
+                                <p class="text-slate-600 text-sm mb-2">"Se o número de erros for igual ou superior ao
                                     número de acertos, pode ser indicativo de protocolo inválido (chute)."</p>
-                                <p class="text-gray-400 text-xs italic">
+                                <p class="text-slate-500 text-xs italic">
                                     Se você marcar TODAS as figuras, terá acertos máximos, mas também erros máximos. O
                                     psicólogo invalidará o teste.
                                 </p>
@@ -455,29 +455,29 @@
                         </div>
 
                         <!-- PÁGINA DE MEMORIZAÇÃO -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Página de Memorização</h3>
-                        <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                            <div class="overflow-auto border-b border-white/5 p-4">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Página de Memorização</h3>
+                        <div class="mb-6 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                            <div class="overflow-auto border-b border-slate-100 p-4">
                                 <img src="../../Imagens_base/tmr/tmr_memorizar.jpg" alt="TMR Memorização"
                                     class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                             </div>
                         </div>
 
                         <!-- PÁGINAS DE RESPOSTA -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Páginas de Resposta</h3>
-                        <p class="mb-4 text-gray-400">As páginas de resposta estão dispostas lado a lado, como um
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Páginas de Resposta</h3>
+                        <p class="mb-4 text-slate-500">As páginas de resposta estão dispostas lado a lado, como um
                             caderno aberto.</p>
 
                         <div class="grid md:grid-cols-2 gap-4 mb-8">
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                <div class="p-2 border-b border-white/5 font-bold text-xs text-gray-500">Página 1</div>
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                                <div class="p-2 border-b border-slate-100 font-bold text-xs text-slate-600">Página 1</div>
                                 <div class="overflow-auto p-4">
                                     <img src="../../Imagens_base/tmr/tmr_pg1.jpg" alt="TMR Pág 1"
                                         class="mx-auto rounded" :style="'width: ' + imageScale + '%;'">
                                 </div>
                             </div>
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                <div class="p-2 border-b border-white/5 font-bold text-xs text-gray-500">Página 2</div>
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                                <div class="p-2 border-b border-slate-100 font-bold text-xs text-slate-600">Página 2</div>
                                 <div class="overflow-auto p-4">
                                     <img src="../../Imagens_base/tmr/tmr_pg2.jpg" alt="TMR Pág 2"
                                         class="mx-auto rounded" :style="'width: ' + imageScale + '%;'">
@@ -486,21 +486,21 @@
                         </div>
 
                         <!-- DICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Estratégias e Dicas</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Estratégias e Dicas</h3>
 
                         <!-- Dica 1 -->
                         <div class="mb-8">
                             <h4 class="text-xl font-bold text-primary mb-2">Dica 1: Posição Geométrica</h4>
-                            <p class="text-gray-300 mb-2">Memorize a posição das figuras corretas. Em cada linha de 5
+                            <p class="text-slate-600 mb-2">Memorize a posição das figuras corretas. Em cada linha de 5
                                 figuras, o gabarito segue o padrão:</p>
                             <ul
-                                class="list-disc pl-5 text-gray-400 mb-4 bg-black/30 p-4 rounded-lg border border-white/5 font-mono text-sm">
+                                class="list-disc pl-5 text-slate-500 mb-4 bg-white/80 p-4 rounded-lg border border-slate-100 font-mono text-sm">
                                 <li><strong>Linha 1:</strong> 3, 5</li>
                                 <li><strong>Linha 2:</strong> 2, 3, 5</li>
                                 <li><strong>Linha 3:</strong> 1, 4</li>
                                 <li><strong>Linha 4:</strong> 2, 4, 5</li>
                             </ul>
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
                                 <img src="../../Imagens_base/tmr/tmr_dica 1.jpg" alt="Dica 1 TMR" class="mx-auto"
                                     :style="'width: ' + imageScale + '%;'">
                             </div>
@@ -509,9 +509,9 @@
                         <!-- Dica 2 -->
                         <div class="mb-8">
                             <h4 class="text-xl font-bold text-primary mb-2">Dica 2: Traçado Mental</h4>
-                            <p class="text-gray-300 mb-4">Visualize linhas imaginárias (garfo, seta, sinal de menos)
+                            <p class="text-slate-600 mb-4">Visualize linhas imaginárias (garfo, seta, sinal de menos)
                                 conectando as figuras corretas.</p>
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
                                 <img src="../../Imagens_base/tmr/tmr_dica 2.jpg" alt="Dica 2 TMR" class="mx-auto"
                                     :style="'width: ' + imageScale + '%;'">
                             </div>
@@ -521,37 +521,37 @@
                         <div class="grid md:grid-cols-2 gap-4 mt-12">
                             <!-- SIMULADOR -->
                             <a href="../tmr.html"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 hover:from-purple-900/60 hover:to-indigo-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 hover:from-purple-900/60 hover:to-indigo-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
                                         <i class="fas fa-play text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Simulador TMR</h4>
-                                        <p class="text-sm text-gray-300">Treinar agora</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Simulador TMR</h4>
+                                        <p class="text-sm text-slate-600">Treinar agora</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <!-- DOWNLOAD -->
                             <a href="https://drive.google.com/file/d/18vE2Uonis-V9ArpVx9zGXWKkfXq0NZ7j/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
                                         <i class="fas fa-cloud-download-alt text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Baixar TMR</h4>
-                                        <p class="text-sm text-gray-300">Material completo</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Baixar TMR</h4>
+                                        <p class="text-sm text-slate-600">Material completo</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
 
@@ -560,12 +560,12 @@
 
                 <!-- 3. TEM-R-2 -->
                 <section id="temr" class="scroll-mt-28">
-                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">3</span>
                         TEM-R-2 - Teste de Memória de Reconhecimento
                     </h2>
 
-                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-slate-600">
                         <p class="mb-4">
                             O <strong>TEM-R-2</strong> possibilita realizar uma avaliação da memória de reconhecimento.
                             Para tal finalidade, são oferecidas figuras e palavras para memorização, solicitando
@@ -573,68 +573,68 @@
                         </p>
 
                         <!-- CARACTERÍSTICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Características Principais</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Características Principais</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Tempo -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-clock mb-2 text-yellow-400 text-xl"></i>
-                                <span class="text-lg font-bold text-white">1 min (Memo) / 1 min (Resp)</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <i class="fas fa-clock mb-2 text-yellow-800 text-xl"></i>
+                                <span class="text-lg font-bold text-slate-800">1 min (Memo) / 1 min (Resp)</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Pontos -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-list-ol mb-2 text-cyan-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">50</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Pontuação Máxima</span>
+                                <i class="fas fa-list-ol mb-2 text-blue-500 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">50</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Pontuação Máxima</span>
                             </div>
                             <!-- Meta -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">26</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta Mínima</span>
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">26</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta Mínima</span>
                             </div>
                         </div>
 
                         <!-- REGRAS -->
-                        <div class="p-4 border-l-4 border-purple-500 bg-purple-500/10 rounded-r-lg mb-8">
-                            <h4 class="text-purple-400 font-bold mb-2"><i class="fas fa-gavel mr-2"></i>Regras de
+                        <div class="p-4 border-l-4 border-purple-500 bg-blue-50 rounded-r-lg mb-8">
+                            <h4 class="text-blue-600 font-bold mb-2"><i class="fas fa-gavel mr-2"></i>Regras de
                                 Pontuação</h4>
-                            <ul class="list-disc pl-5 text-gray-300 text-sm space-y-2">
+                            <ul class="list-disc pl-5 text-slate-600 text-sm space-y-2">
                                 <li>Algumas figuras valem <strong>2 pontos</strong>.</li>
                                 <li>Outras figuras valem <strong>1 ponto</strong>.</li>
-                                <li class="text-red-400 font-bold">Cada erro desconta 3 pontos.</li>
+                                <li class="text-red-800 font-bold">Cada erro desconta 3 pontos.</li>
                             </ul>
                         </div>
 
                         <!-- PÁGINA DE MEMORIZAÇÃO -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Página de Memorização</h3>
-                        <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                            <div class="overflow-auto border-b border-white/5 p-4">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Página de Memorização</h3>
+                        <div class="mb-6 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                            <div class="overflow-auto border-b border-slate-100 p-4">
                                 <img src="../../Imagens_base/tem-r/tem-r_Page1.png" alt="TEM-R Memorização"
                                     class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                             </div>
                         </div>
 
                         <!-- PÁGINA DE RESPOSTA -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Página de Resposta</h3>
-                        <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                            <div class="overflow-auto border-b border-white/5 p-4">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Página de Resposta</h3>
+                        <div class="mb-6 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                            <div class="overflow-auto border-b border-slate-100 p-4">
                                 <img src="../../Imagens_base/tem-r/tem-r_Page2.png" alt="TEM-R Resposta"
                                     class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                             </div>
                         </div>
 
                         <!-- DICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Estratégias e Dicas</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Estratégias e Dicas</h3>
 
                         <div class="mb-8">
                             <h4 class="text-xl font-bold text-primary mb-2">Dica: Sequência Numérica 753-413</h4>
-                            <p class="text-gray-300 mb-2">Marque os itens por coluna seguindo a numeração:</p>
+                            <p class="text-slate-600 mb-2">Marque os itens por coluna seguindo a numeração:</p>
                             <ul
-                                class="list-disc pl-5 text-gray-400 mb-4 bg-black/30 p-4 rounded-lg border border-white/5 font-mono text-sm leading-relaxed">
+                                class="list-disc pl-5 text-slate-500 mb-4 bg-white/80 p-4 rounded-lg border border-slate-100 font-mono text-sm leading-relaxed">
                                 <li><strong>Coluna 1:</strong> Marque 7 itens</li>
                                 <li><strong>Coluna 2:</strong> Marque 5 itens (de cima para baixo)</li>
                                 <li><strong>Coluna 3:</strong> Marque 3 itens</li>
@@ -643,7 +643,7 @@
                                 <li><strong>Coluna 6:</strong> Marque 1 item</li>
                                 <li><strong>Coluna 7:</strong> Marque 3 itens</li>
                             </ul>
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
                                 <img src="../../Imagens_base/tem-r/tem-r_dica1.png" alt="Dica TEM-R" class="mx-auto"
                                     :style="'width: ' + imageScale + '%;'">
                             </div>
@@ -653,38 +653,38 @@
                         <div class="grid md:grid-cols-2 gap-4 mt-12">
                             <!-- SIMULADOR -->
                             <a href="../tem-r/tem_r_2.html"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 hover:from-purple-900/60 hover:to-indigo-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 hover:from-purple-900/60 hover:to-indigo-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
                                         <i class="fas fa-play text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Simulador TEM-R</h4>
-                                        <p class="text-sm text-gray-300">Treinar agora</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Simulador TEM-R</h4>
+                                        <p class="text-sm text-slate-600">Treinar agora</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <!-- DOWNLOAD -->
                             <!-- DOWNLOAD -->
                             <a href="https://drive.google.com/file/d/19i8dkZNh6W2FrypBLIcVc1C_gRQGRxu0/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
                                         <i class="fas fa-cloud-download-alt text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Baixar TEM-R</h4>
-                                        <p class="text-sm text-gray-300">Material completo</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Baixar TEM-R</h4>
+                                        <p class="text-sm text-slate-600">Material completo</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
                     </div>
@@ -692,7 +692,7 @@
 
                 <!-- 4. TEPIC-M -->
                 <section id="tepicm" class="scroll-mt-28">
-                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3 w-full flex-wrap">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3 w-full flex-wrap">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">4</span>
                         TEPIC-M - Teste Pictórico de Memória
                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/30 text-red-500 text-xs font-bold uppercase tracking-wider ml-auto lg:ml-3 shadow-[0_0_10px_rgba(239,68,68,0.2)]">
@@ -700,7 +700,7 @@
                         </span>
                     </h2>
 
-                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-slate-600">
                         <p class="mb-4">
                             O <strong>TEPIC-M</strong> é um instrumento psicológico que avalia a memória visual de curto
                             prazo usando figuras simples (como casa, balão, avião). É comum em concursos públicos,
@@ -709,53 +709,53 @@
                         </p>
 
                         <!-- CARACTERÍSTICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Características Principais</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Características Principais</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Tempo -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-clock mb-2 text-yellow-400 text-xl"></i>
-                                <span class="text-lg font-bold text-white">1 min (Memo) / 2 min (Resp)</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <i class="fas fa-clock mb-2 text-yellow-800 text-xl"></i>
+                                <span class="text-lg font-bold text-slate-800">1 min (Memo) / 2 min (Resp)</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Itens -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-cubes mb-2 text-purple-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">55</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Total de Itens</span>
+                                <i class="fas fa-cubes mb-2 text-blue-600 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">55</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Total de Itens</span>
                             </div>
                             <!-- Meta -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">17</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta Mínima</span>
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">17</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta Mínima</span>
                             </div>
                         </div>
 
                         <!-- REGRAS -->
-                        <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-8">
-                            <h4 class="text-yellow-400 font-bold mb-2"><i
+                        <div class="p-4 border-l-4 border-yellow-500 bg-amber-50 border border-amber-200/60 rounded-r-lg mb-8">
+                            <h4 class="text-yellow-800 font-bold mb-2"><i
                                     class="fas fa-exclamation-triangle mr-2"></i>Atenção à Correção</h4>
-                            <ul class="list-disc pl-5 text-gray-300 text-sm space-y-2">
+                            <ul class="list-disc pl-5 text-slate-600 text-sm space-y-2">
                                 <li>Quando a pessoa escreve <strong>pescador</strong>, é atribuído o ponto apenas ao
                                     pescador; não é subentendido que a vara de pescar e linha foram percebidas pelo
                                     respondente.
-                                    <ul class="list-disc pl-5 mt-1 text-gray-400">
+                                    <ul class="list-disc pl-5 mt-1 text-slate-500">
                                         <li>O mesmo vale para a palavra barco ou navio. Não se pontua a palavra vela se
                                             ela não foi escrita.</li>
                                     </ul>
                                 </li>
                                 <li>Quando aparece a palavra <strong>pessoa em trampolim</strong>, pontua-se o trampolim
                                     e a pessoa; mas, quando é colocado apenas trampolim, a pessoa não é pontuada.
-                                    <ul class="list-disc pl-5 mt-1 text-gray-400">
+                                    <ul class="list-disc pl-5 mt-1 text-slate-500">
                                         <li>O mesmo vale para o item balão e pessoa em balão.</li>
                                     </ul>
                                 </li>
                                 <li>No caso de aparecer a palavra <strong>paraquedas</strong>, pontua-se apenas essa
                                     palavra.
-                                    <ul class="list-disc pl-5 mt-1 text-gray-400">
+                                    <ul class="list-disc pl-5 mt-1 text-slate-500">
                                         <li>Quando o indivíduo escreve pessoa em paraquedas são pontuados a pessoa e o
                                             paraquedas (2 pontos). No caso de escrever paraquedista é atribuído apenas 1
                                             (um) ponto.</li>
@@ -764,7 +764,7 @@
                                 <li>No caso de aparecer a palavra <strong>pessoa de forma isolada</strong>, deve-se
                                     prestar atenção para a(s) palavra(s) anterior(es) para verificar qual item deve ser
                                     pontuado.
-                                    <ul class="list-disc pl-5 mt-1 text-gray-400">
+                                    <ul class="list-disc pl-5 mt-1 text-slate-500">
                                         <li>Por exemplo, se a pessoa responder: casa, árvore, carro, pato, trampolim,
                                             pessoa, avião, helicóptero, etc., o ponto é atribuído à pessoa que está no
                                             trampolim, por se tratar do item mais próximo que a pessoa assinalou.</li>
@@ -774,18 +774,18 @@
                         </div>
 
                         <!-- PÁGINA DE ESTUDO -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Imagem de Estudo</h3>
-                        <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                            <div class="overflow-auto border-b border-white/5 p-4">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Imagem de Estudo</h3>
+                        <div class="mb-6 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                            <div class="overflow-auto border-b border-slate-100 p-4">
                                 <img src="../../Imagens_base/tepic/tepic_m.png" alt="TEPIC Estudo"
                                     class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                             </div>
                         </div>
 
                         <!-- LISTA DE ITENS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Itens para Memorizar</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Itens para Memorizar</h3>
                         <div
-                            class="bg-black/20 border border-white/5 rounded-xl p-6 text-sm text-gray-400 columns-2 md:columns-3 gap-8">
+                            class="bg-black/20 border border-slate-100 rounded-xl p-6 text-sm text-slate-500 columns-2 md:columns-3 gap-8">
                             <ul class="space-y-1">
                                 <li>Água</li>
                                 <li>Arco-íris</li>
@@ -855,38 +855,38 @@
                         <div class="grid md:grid-cols-2 gap-4 mt-12">
                             <!-- SIMULADOR -->
                             <a href="../tepic/tepic.html"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-pink-900/40 to-purple-900/40 hover:from-pink-900/60 hover:to-purple-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-pink-900/40 to-purple-900/40 hover:from-pink-900/60 hover:to-purple-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400 shadow-[0_0_15px_rgba(236,72,153,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-800 shadow-[0_0_15px_rgba(236,72,153,0.2)]">
                                         <i class="fas fa-play text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Simulador TEPIC-M</h4>
-                                        <p class="text-sm text-gray-300">Treinar agora</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Simulador TEPIC-M</h4>
+                                        <p class="text-sm text-slate-600">Treinar agora</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <!-- DOWNLOAD -->
                             <!-- DOWNLOAD -->
                             <a href="https://drive.google.com/file/d/1ekP-W--J-L_fDkgiVwQBFARl-fD4Txk3/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
                                         <i class="fas fa-cloud-download-alt text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Baixar TEPIC-M</h4>
-                                        <p class="text-sm text-gray-300">Material completo</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Baixar TEPIC-M</h4>
+                                        <p class="text-sm text-slate-600">Material completo</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
                     </div>
@@ -894,12 +894,12 @@
 
                 <!-- 5. MEMÓRIA F -->
                 <section id="memof" class="scroll-mt-28">
-                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">5</span>
                         Memória F - Teste de Memória de Rostos
                     </h2>
 
-                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-slate-600">
                         <p class="mb-4">
                             O <strong>Teste de Memória de Rostos</strong> (comumente catalogado como <strong>Memória
                                 F</strong>) é um instrumento psicométrico utilizado para avaliar a capacidade do
@@ -915,75 +915,75 @@
                         </p>
 
                         <!-- IMG EXEMPLO -->
-                        <div class="my-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                            <div class="overflow-auto border-b border-white/5 p-4">
+                        <div class="my-6 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                            <div class="overflow-auto border-b border-slate-100 p-4">
                                 <img src="../../Imagens_base/memof/memof_exemplo.png" alt="Exemplo Memória F"
                                     class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                             </div>
-                            <p class="text-xs text-gray-500 py-2">Exemplo de item do Memória F</p>
+                            <p class="text-xs text-slate-600 py-2">Exemplo de item do Memória F</p>
                         </div>
 
                         <!-- PÁGINA DE MEMORIZAÇÃO -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Página de Memorização</h3>
-                        <div class="mb-6 rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                            <div class="overflow-auto border-b border-white/5 p-4">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Página de Memorização</h3>
+                        <div class="mb-6 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                            <div class="overflow-auto border-b border-slate-100 p-4">
                                 <img src="../../Imagens_base/memof/memof_estudo.png" alt="Memória F - Estudo"
                                     class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                             </div>
                         </div>
 
                         <!-- PÁGINA DE RESPOSTAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Folhas de Resposta (Frente e Verso)</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Folhas de Resposta (Frente e Verso)</h3>
                         <div class="grid md:grid-cols-2 gap-4 mb-8">
                             <!-- Lado A -->
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                <div class="overflow-auto border-b border-white/5 p-4">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                                <div class="overflow-auto border-b border-slate-100 p-4">
                                     <img src="../../Imagens_base/memof/memofA.png" alt="Memória F - Lado A"
                                         class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                                 </div>
-                                <p class="text-xs text-gray-500 py-2">Lado A</p>
+                                <p class="text-xs text-slate-600 py-2">Lado A</p>
                             </div>
                             <!-- Lado B -->
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                <div class="overflow-auto border-b border-white/5 p-4">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                                <div class="overflow-auto border-b border-slate-100 p-4">
                                     <img src="../../Imagens_base/memof/memofB.png" alt="Memória F - Lado B"
                                         class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                                 </div>
-                                <p class="text-xs text-gray-500 py-2">Lado B</p>
+                                <p class="text-xs text-slate-600 py-2">Lado B</p>
                             </div>
                         </div>
 
                         <!-- CARACTERÍSTICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Características Principais</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Características Principais</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Tempo -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-clock mb-2 text-yellow-400 text-xl"></i>
-                                <span class="text-lg font-bold text-white">3 min (Memo) / 2 min (Resp)</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Tempo</span>
+                                <i class="fas fa-clock mb-2 text-yellow-800 text-xl"></i>
+                                <span class="text-lg font-bold text-slate-800">3 min (Memo) / 2 min (Resp)</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Tempo</span>
                             </div>
                             <!-- Itens -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-cubes mb-2 text-purple-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">28</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Total de Itens</span>
+                                <i class="fas fa-cubes mb-2 text-blue-600 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">28</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Total de Itens</span>
                             </div>
                             <!-- Meta -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">22</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta Mínima</span>
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">22</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta Mínima</span>
                             </div>
                         </div>
 
                         <!-- REGRAS -->
-                        <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-8">
-                            <h4 class="text-yellow-400 font-bold mb-2"><i
+                        <div class="p-4 border-l-4 border-yellow-500 bg-amber-50 border border-amber-200/60 rounded-r-lg mb-8">
+                            <h4 class="text-yellow-800 font-bold mb-2"><i
                                     class="fas fa-exclamation-triangle mr-2"></i>Atenção à Correção</h4>
-                            <ul class="list-disc pl-5 text-gray-300 text-sm space-y-2">
+                            <ul class="list-disc pl-5 text-slate-600 text-sm space-y-2">
                                 <li><strong>Pontuação:</strong> acertos - (erros/2). Ou seja, a cada duas erradas
                                     elimina uma correta.</li>
                                 <li>A forma correta de marcar é com um <strong>X</strong>.</li>
@@ -993,17 +993,17 @@
                         </div>
 
                         <!-- DICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Estratégias e Dicas</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Estratégias e Dicas</h3>
 
                         <!-- Dica 1 -->
                         <div class="mb-8">
                             <h4 class="text-xl font-bold text-primary mb-2">Dica 1: Posição Geométrica</h4>
-                            <p class="text-gray-300 mb-2">Memorize a o gabarito pela posição das figuras corretas.
+                            <p class="text-slate-600 mb-2">Memorize a o gabarito pela posição das figuras corretas.
                                 Primeiro devemos entender que em cada linha há 8 figuras. Vamos contar da borda da
                                 página para o centro em ambas as páginas.</p>
-                            <p class="text-gray-300 mb-2">O gabarito será (em ambas as páginas):</p>
+                            <p class="text-slate-600 mb-2">O gabarito será (em ambas as páginas):</p>
                             <ul
-                                class="list-disc pl-5 text-gray-400 mb-4 bg-black/30 p-4 rounded-lg border border-white/5 font-mono text-sm leading-relaxed">
+                                class="list-disc pl-5 text-slate-500 mb-4 bg-white/80 p-4 rounded-lg border border-slate-100 font-mono text-sm leading-relaxed">
                                 <li><strong>Linha 1:</strong> 3 5 6</li>
                                 <li><strong>Linha 2:</strong> 2 5 7</li>
                                 <li><strong>Linha 3:</strong> 2 8</li>
@@ -1011,7 +1011,7 @@
                                 <li><strong>Linha 5:</strong> 2 6</li>
                                 <li><strong>Linha 6:</strong> 2 6</li>
                             </ul>
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
                                 <img src="../../Imagens_base/memof/memof_dica1.png" alt="Dica 1 Memória F"
                                     class="mx-auto" :style="'width: ' + imageScale + '%;'">
                             </div>
@@ -1020,10 +1020,10 @@
                         <!-- Dica 2 -->
                         <div class="mb-8">
                             <h4 class="text-xl font-bold text-primary mb-2">Dica 2: Traçado Mental</h4>
-                            <p class="text-gray-300 mb-2">Memorizar mentalmente as linhas em que cada vértice
+                            <p class="text-slate-600 mb-2">Memorizar mentalmente as linhas em que cada vértice
                                 corresponde a uma figura correta. Lembre-se que não pode riscar o caderno no dia da
                                 prova. Deve-se ter esse traçado mentalmente.</p>
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
                                 <img src="../../Imagens_base/memof/memof_dica2.png" alt="Dica 2 Memória F"
                                     class="mx-auto" :style="'width: ' + imageScale + '%;'">
                             </div>
@@ -1034,38 +1034,38 @@
                         <div class="grid md:grid-cols-2 gap-4 mt-12">
                             <!-- SIMULADOR -->
                             <a href="../memof/memof.html"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-green-900/40 to-emerald-900/40 hover:from-green-900/60 hover:to-emerald-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-green-900/40 to-emerald-900/40 hover:from-green-900/60 hover:to-emerald-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-green-500/20 flex items-center justify-center text-green-800 shadow-[0_0_15px_rgba(74,222,128,0.2)]">
                                         <i class="fas fa-play text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Simulador Memória F</h4>
-                                        <p class="text-sm text-gray-300">Treinar agora</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Simulador Memória F</h4>
+                                        <p class="text-sm text-slate-600">Treinar agora</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <!-- DOWNLOAD -->
                             <!-- DOWNLOAD -->
                             <a href="https://drive.google.com/file/d/1Ruclv7kXQyC1GctGJOxF2mvUwi5YFNPv/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
                                         <i class="fas fa-cloud-download-alt text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Baixar Memória F</h4>
-                                        <p class="text-sm text-gray-300">Material completo</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Baixar Memória F</h4>
+                                        <p class="text-sm text-slate-600">Material completo</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
                     </div>
@@ -1073,12 +1073,12 @@
 
                 <!-- 6. TSP MEMÓRIA -->
                 <section id="tspmemo" class="scroll-mt-28">
-                    <h2 class="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
                         <span class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">6</span>
                         TSP Memória
                     </h2>
 
-                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-slate-600">
                         <p class="mb-4">
                             O <strong>TSP Memória</strong> é um teste psicotécnico difícil, parte da Bateria TSP, que
                             avalia a capacidade de reter e evocar nomes e fisionomias, crucial em concursos policiais.
@@ -1090,34 +1090,34 @@
 
                         <!-- COMO FUNCIONA -->
                         <div class="mb-8">
-                            <h3 class="text-xl font-bold text-white mb-4">Como Funciona</h3>
+                            <h3 class="text-xl font-bold text-slate-800 mb-4">Como Funciona</h3>
                             <ul class="space-y-4">
-                                <li class="bg-black/20 p-4 rounded-lg border border-white/5">
+                                <li class="bg-black/20 p-4 rounded-lg border border-slate-100">
                                     <strong class="text-primary block mb-1">1. Fase de Memorização (2 min)</strong>
-                                    <p class="text-sm text-gray-400">Você tem cerca de 2 minutos para ver e decorar 16
+                                    <p class="text-sm text-slate-500">Você tem cerca de 2 minutos para ver e decorar 16
                                         fotos de pessoas com seus respectivos nomes.</p>
-                                    <div class="mt-4 rounded-lg overflow-hidden border border-white/10">
+                                    <div class="mt-4 rounded-lg overflow-hidden border border-slate-200">
                                         <img src="../../Imagens_base/tspmemo/memorizacao.png"
                                             alt="TSP Memória - Memorização" class="w-full"
                                             :style="'width: ' + imageScale + '%;'">
                                     </div>
                                 </li>
-                                <li class="bg-black/20 p-4 rounded-lg border border-white/5">
+                                <li class="bg-black/20 p-4 rounded-lg border border-slate-100">
                                     <strong class="text-primary block mb-1">2. Fase de Associação (3 min)</strong>
-                                    <p class="text-sm text-gray-400">Identificar essas mesmas pessoas (ou indicar "não
+                                    <p class="text-sm text-slate-500">Identificar essas mesmas pessoas (ou indicar "não
                                         encontrado") em um conjunto de 36 imagens.</p>
                                     <div class="mt-4 grid grid-cols-2 gap-2">
-                                        <div class="rounded-lg overflow-hidden border border-white/10">
+                                        <div class="rounded-lg overflow-hidden border border-slate-200">
                                             <img src="../../Imagens_base/tspmemo/teste_pag1.png"
                                                 alt="TSP Memória - Página 1" class="w-full"
                                                 :style="'width: ' + imageScale + '%;'">
-                                            <p class="text-xs text-center p-1 text-gray-500">Página 1</p>
+                                            <p class="text-xs text-center p-1 text-slate-600">Página 1</p>
                                         </div>
-                                        <div class="rounded-lg overflow-hidden border border-white/10">
+                                        <div class="rounded-lg overflow-hidden border border-slate-200">
                                             <img src="../../Imagens_base/tspmemo/teste_pag2.png"
                                                 alt="TSP Memória - Página 2" class="w-full"
                                                 :style="'width: ' + imageScale + '%;'">
-                                            <p class="text-xs text-center p-1 text-gray-500">Página 2</p>
+                                            <p class="text-xs text-center p-1 text-slate-600">Página 2</p>
                                         </div>
                                     </div>
                                 </li>
@@ -1125,36 +1125,36 @@
                         </div>
 
                         <!-- CARACTERÍSTICAS -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Características Principais</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Características Principais</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <!-- Tempo -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-clock mb-2 text-yellow-400 text-xl"></i>
-                                <span class="text-lg font-bold text-white">2 min / 3 min</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Memo / Resp</span>
+                                <i class="fas fa-clock mb-2 text-yellow-800 text-xl"></i>
+                                <span class="text-lg font-bold text-slate-800">2 min / 3 min</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Memo / Resp</span>
                             </div>
                             <!-- Itens -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-cubes mb-2 text-purple-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">36</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Itens Totais</span>
+                                <i class="fas fa-cubes mb-2 text-blue-600 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">36</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Itens Totais</span>
                             </div>
                             <!-- Meta -->
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">46</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta Mínima</span>
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">46</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta Mínima</span>
                             </div>
                         </div>
 
                         <!-- PONTUAÇÃO E REGRAS -->
-                        <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-8">
-                            <h4 class="text-yellow-400 font-bold mb-2"><i class="fas fa-star mr-2"></i>Pontuação e
+                        <div class="p-4 border-l-4 border-yellow-500 bg-amber-50 border border-amber-200/60 rounded-r-lg mb-8">
+                            <h4 class="text-yellow-800 font-bold mb-2"><i class="fas fa-star mr-2"></i>Pontuação e
                                 Regras</h4>
-                            <ul class="list-disc pl-5 text-gray-300 text-sm space-y-2">
+                            <ul class="list-disc pl-5 text-slate-600 text-sm space-y-2">
                                 <li><strong>36 itens corretos:</strong> valem 1 ponto cada.</li>
                                 <li><strong>20 itens "não encontrado":</strong> valem 2 pontos cada (Total 40 pontos).
                                 </li>
@@ -1165,39 +1165,39 @@
                         </div>
 
                         <!-- ESTRATÉGIA -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Estratégia Vencedora</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Estratégia Vencedora</h3>
                         <div
                             class="bg-gradient-to-r from-green-900/20 to-emerald-900/20 p-6 rounded-xl border border-green-500/20 mb-8">
-                            <h4 class="text-green-400 font-bold text-lg mb-2">Foco nos "Não Encontrados"</h4>
-                            <p class="text-gray-300 mb-4">
+                            <h4 class="text-green-800 font-bold text-lg mb-2">Foco nos "Não Encontrados"</h4>
+                            <p class="text-slate-600 mb-4">
                                 A estratégia é garantir os 40 pontos das questões "Não foi mostrado" e depois acertar
                                 pelo menos 6 nomes das 16 figuras memorizadas.
                             </p>
                             <div
-                                class="bg-black/40 p-4 rounded-lg font-mono text-center text-gray-300 border border-white/5">
-                                <span class="text-green-400">20</span> não encontrados x <span
-                                    class="text-green-400">2</span> pts = <span class="text-white font-bold">40
+                                class="bg-white/80 p-4 rounded-lg font-mono text-center text-slate-600 border border-slate-100">
+                                <span class="text-green-800">20</span> não encontrados x <span
+                                    class="text-green-800">2</span> pts = <span class="text-slate-800 font-bold">40
                                     pontos</span><br>
-                                + <span class="text-green-400">6</span> acertos nominais = <span
-                                    class="text-white font-bold">46 pontos</span> (Meta Atingida)
+                                + <span class="text-green-800">6</span> acertos nominais = <span
+                                    class="text-slate-800 font-bold">46 pontos</span> (Meta Atingida)
                             </div>
                         </div>
 
                         <!-- DICAS -->
                         <div class="mb-8">
                             <h4 class="text-xl font-bold text-primary mb-2">Dica: Sequência Numérica</h4>
-                            <p class="text-gray-300 mb-2">Para acertar o gabarito das questões de 1 ponto na segunda
+                            <p class="text-slate-600 mb-2">Para acertar o gabarito das questões de 1 ponto na segunda
                                 página, memorize a sequência numérica: <strong>24 13 13 21</strong>.</p>
-                            <p class="text-gray-300 mb-4">É importante atentar-se para o espaçamento entre os números.
+                            <p class="text-slate-600 mb-4">É importante atentar-se para o espaçamento entre os números.
                             </p>
 
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
                                 <img src="../../Imagens_base/tspmemo/tspmemo_dica1.png" alt="Dica TSP Memória"
                                     class="mx-auto" :style="'width:20%;'">
                             </div>
                             <br>
-                            <p class="text-gray-300 mb-2">Veja como deve ficar:</p>
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
+                            <p class="text-slate-600 mb-2">Veja como deve ficar:</p>
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
                                 <img src="../../Imagens_base/tspmemo/tspmemo_dica2.png" alt="Dica TSP Memória"
                                     class="mx-auto" :style="'width:60%;'">
                             </div>
@@ -1208,37 +1208,37 @@
                         <div class="grid md:grid-cols-2 gap-4 mt-12">
                             <!-- SIMULADOR -->
                             <a href="../tspmemo/tspmemo.html"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 hover:from-purple-900/60 hover:to-indigo-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-purple-900/40 to-indigo-900/40 hover:from-purple-900/60 hover:to-indigo-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center text-blue-600 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
                                         <i class="fas fa-play text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Simulador TSP Memo</h4>
-                                        <p class="text-sm text-gray-300">Treinar agora</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Simulador TSP Memo</h4>
+                                        <p class="text-sm text-slate-600">Treinar agora</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <!-- DOWNLOAD -->
                             <a href="https://drive.google.com/file/d/1g3hzvrLoQUlH9U5YK1iGN-84CA05SM54/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group shadow-lg">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
+                                        class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-600 shadow-[0_0_15px_rgba(96,165,250,0.2)]">
                                         <i class="fas fa-cloud-download-alt text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Baixar TSP Memória</h4>
-                                        <p class="text-sm text-gray-300">Material completo</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Baixar TSP Memória</h4>
+                                        <p class="text-sm text-slate-600">Material completo</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
                         </div>
                     </div>
@@ -1246,19 +1246,19 @@
 
                 <!-- 7. MVR -->
                 <section id="mvr" class="scroll-mt-28">
-                    <h2 class="text-3xl font-bold text-white mb-6 flex flex-col items-start gap-3">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-6 flex flex-col items-start gap-3">
                         <div class="flex items-center gap-3">
                             <span
                                 class="bg-white/10 w-10 h-10 rounded flex items-center justify-center text-lg">7</span>
                             MVR - Memória Visual de Rostos
                         </div>
                         <div
-                            class="inline-flex items-center gap-2 px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-red-500 text-xs font-bold uppercase tracking-wider ml-12">
+                            class="inline-flex items-center gap-2 px-3 py-1 bg-red-50 border border-red-200/60 border border-red-500/20 rounded-full text-red-500 text-xs font-bold uppercase tracking-wider ml-12">
                             <i class="fas fa-exclamation-triangle"></i> Desfavorável pelo SATEPSI
                         </div>
                     </h2>
 
-                    <div class="pl-6 border-l-4 border-l-primary py-2 text-gray-300">
+                    <div class="pl-6 border-l-4 border-l-primary py-2 text-slate-600">
                         <p class="mb-4">
                             O <strong>Teste MVR</strong> (Memória Visual de Rostos) é um exame psicotécnico que avalia a
                             capacidade de memorizar rostos e informações associadas (nome, profissão, cidade) em curto
@@ -1268,189 +1268,189 @@
 
                         <!-- APLICAÇÃO -->
                         <div class="mb-8">
-                            <h3 class="text-2xl font-bold text-white mb-4">Aplicação</h3>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-4">Aplicação</h3>
 
                             <div class="mb-6">
                                 <strong class="text-primary block mb-2">Memorização</strong>
-                                <p class="text-gray-400 mb-2">O candidato vê uma ficha com 12 rostos (6 homens e 6
+                                <p class="text-slate-500 mb-2">O candidato vê uma ficha com 12 rostos (6 homens e 6
                                     mulheres), cada um com nome, sobrenome, profissão e cidade. Tendo um tempo de 4
                                     minutos para memorizar o máximo possível.</p>
-                                <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center">
-                                    <div class="overflow-auto border-b border-white/5 p-4">
+                                <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center">
+                                    <div class="overflow-auto border-b border-slate-100 p-4">
                                         <img src="../../Imagens_base/mvr/mvr_memo.jpg" alt="Ficha de Memorização MVR"
                                             class="mx-auto rounded-lg shadow-lg" :style="'width: ' + imageScale + '%;'">
                                     </div>
-                                    <p class="text-xs text-gray-500 py-2">Ficha de Memorização</p>
+                                    <p class="text-xs text-slate-600 py-2">Ficha de Memorização</p>
                                 </div>
                             </div>
 
                             <div class="mb-6">
                                 <strong class="text-primary block mb-2">Aplicação/Reconhecimento</strong>
-                                <p class="text-gray-400 mb-4">Em seguida, recebe uma folha com perguntas sobre os rostos
+                                <p class="text-slate-500 mb-4">Em seguida, recebe uma folha com perguntas sobre os rostos
                                     e informações, devendo responder dentro de outro tempo de <strong>6
                                         minutos</strong>, lembrando detalhes como localização e características.</p>
 
                                 <!-- ATENCAO 1 -->
-                                <div class="bg-yellow-500/10 border-l-4 border-yellow-500 p-4 rounded-r-lg mb-4">
-                                    <h4 class="text-yellow-400 font-bold text-sm uppercase mb-1"><i
+                                <div class="bg-amber-50 border border-amber-200/60 border-l-4 border-yellow-500 p-4 rounded-r-lg mb-4">
+                                    <h4 class="text-yellow-800 font-bold text-sm uppercase mb-1"><i
                                             class="fas fa-exclamation-triangle mr-2"></i>Atenção</h4>
-                                    <p class="text-sm text-gray-300">Em hipótese nenhuma deve-se responder no próprio
+                                    <p class="text-sm text-slate-600">Em hipótese nenhuma deve-se responder no próprio
                                         teste, portanto responda exclusivamente na folha de resposta onde vão marcar com
                                         X em uma dentre as quatro opções para cada questão.</p>
                                 </div>
 
                                 <div
-                                    class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center mb-4">
-                                    <div class="overflow-auto border-b border-white/5 p-4">
+                                    class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center mb-4">
+                                    <div class="overflow-auto border-b border-slate-100 p-4">
                                         <img src="../../Imagens_base/mvr/mvr_gab.jpg" alt="Folha de Resposta MVR"
                                             class="mx-auto rounded-lg shadow-lg" :style="'width: 60%;'">
                                     </div>
-                                    <p class="text-xs text-gray-500 py-2">Folha de Resposta (Exemplo)</p>
+                                    <p class="text-xs text-slate-600 py-2">Folha de Resposta (Exemplo)</p>
                                 </div>
 
                                 <!-- ATENCAO 2 -->
-                                <div class="bg-yellow-500/10 border-l-4 border-yellow-500 p-4 rounded-r-lg mb-6">
-                                    <h4 class="text-yellow-400 font-bold text-sm uppercase mb-1"><i
+                                <div class="bg-amber-50 border border-amber-200/60 border-l-4 border-yellow-500 p-4 rounded-r-lg mb-6">
+                                    <h4 class="text-yellow-800 font-bold text-sm uppercase mb-1"><i
                                             class="fas fa-exclamation-triangle mr-2"></i>Atenção 2</h4>
-                                    <p class="text-sm text-gray-300">Note que o gabarito começa com os exemplos. Tome
+                                    <p class="text-sm text-slate-600">Note que o gabarito começa com os exemplos. Tome
                                         cuidado com isso para não confundir e começar a marcar a sequência das questões
                                         como se o primeiro item fosse a primeira questão.</p>
                                 </div>
                             </div>
 
                             <!-- EXEMPLOS -->
-                            <div class="bg-black/20 rounded-xl p-6 border border-white/5">
-                                <h4 class="text-xl font-bold text-white mb-4">Exemplos</h4>
+                            <div class="bg-black/20 rounded-xl p-6 border border-slate-100">
+                                <h4 class="text-xl font-bold text-slate-800 mb-4">Exemplos</h4>
 
                                 <div class="space-y-6">
-                                    <div class="text-sm text-gray-300">
+                                    <div class="text-sm text-slate-600">
                                         <p class="font-bold mb-2">E1. A pessoa apresentada no quadro à direita...</p>
-                                        <ul class="pl-4 space-y-1 text-gray-400">
+                                        <ul class="pl-4 space-y-1 text-slate-500">
                                             <li>A. estava na primeira linha de rostos da ficha</li>
                                             <li>B. estava na última linha de rostos da ficha</li>
                                             <li>C. estava com uma linha no centro da ficha</li>
-                                            <li class="text-green-400 font-bold">D. não estava na ficha (Correta)</li>
+                                            <li class="text-green-800 font-bold">D. não estava na ficha (Correta)</li>
                                         </ul>
                                     </div>
 
-                                    <div class="text-sm text-gray-300">
+                                    <div class="text-sm text-slate-600">
                                         <p class="font-bold mb-2">E2. A pessoa identificada como Alberto Hering era de
                                             ...</p>
-                                        <ul class="pl-4 space-y-1 text-gray-400">
+                                        <ul class="pl-4 space-y-1 text-slate-500">
                                             <li>A. Belo Horizonte</li>
                                             <li>B. Brasília</li>
-                                            <li class="text-green-400 font-bold">C. Blumenau (Correta)</li>
+                                            <li class="text-green-800 font-bold">C. Blumenau (Correta)</li>
                                             <li>D. Porto Alegre</li>
                                         </ul>
                                     </div>
 
-                                    <div class="text-sm text-gray-300">
+                                    <div class="text-sm text-slate-600">
                                         <p class="font-bold mb-2">E3. Na ficha tinha...</p>
-                                        <ul class="pl-4 space-y-1 text-gray-400">
+                                        <ul class="pl-4 space-y-1 text-slate-500">
                                             <li>A. mais homens que mulheres</li>
-                                            <li class="text-green-400 font-bold">B. doze pessoas (Correta)</li>
+                                            <li class="text-green-800 font-bold">B. doze pessoas (Correta)</li>
                                             <li>C. mais mulheres que homens</li>
                                             <li>D. dez pessoas</li>
                                         </ul>
                                     </div>
 
-                                    <p class="text-xs text-gray-500 mt-2 italic">As RESPOSTAS CORRETAS para estes três
+                                    <p class="text-xs text-slate-600 mt-2 italic">As RESPOSTAS CORRETAS para estes três
                                         exemplos são: D, C e B.</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- CARACTERÍSTICAS (Adaptado) -->
-                        <h3 class="text-2xl font-bold text-white mb-4 mt-8">Características Principais</h3>
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4 mt-8">Características Principais</h3>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-clock mb-2 text-yellow-400 text-xl"></i>
-                                <span class="text-lg font-bold text-white">4 min / 6 min</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Memo / Resp</span>
+                                <i class="fas fa-clock mb-2 text-yellow-800 text-xl"></i>
+                                <span class="text-lg font-bold text-slate-800">4 min / 6 min</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Memo / Resp</span>
                             </div>
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-cubes mb-2 text-purple-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">20</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Itens</span>
+                                <i class="fas fa-cubes mb-2 text-blue-600 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">20</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Itens</span>
                             </div>
                             <div
                                 class="glass-panel p-4 rounded-xl flex flex-col items-center justify-center text-center">
-                                <i class="fas fa-bullseye mb-2 text-green-400 text-xl"></i>
-                                <span class="text-xl font-bold text-white">13</span>
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Meta Mínima</span>
+                                <i class="fas fa-bullseye mb-2 text-green-800 text-xl"></i>
+                                <span class="text-xl font-bold text-slate-800">13</span>
+                                <span class="text-[10px] text-slate-500 uppercase font-bold">Meta Mínima</span>
                             </div>
                         </div>
 
-                        <div class="p-4 border-l-4 border-yellow-500 bg-yellow-500/10 rounded-r-lg mb-8">
-                            <p class="text-gray-300 text-sm"><strong>Pontuação:</strong> acertos - (erros/3). A cada 3
+                        <div class="p-4 border-l-4 border-yellow-500 bg-amber-50 border border-amber-200/60 rounded-r-lg mb-8">
+                            <p class="text-slate-600 text-sm"><strong>Pontuação:</strong> acertos - (erros/3). A cada 3
                                 erros elimina uma correta.</p>
                         </div>
 
                         <!-- DICA 1 -->
                         <div class="mb-12">
-                            <h3 class="text-2xl font-bold text-white mb-4">Dica 1: Associações Mentais</h3>
-                            <p class="text-gray-300 mb-4">Vamos memorizar apenas os rostos que serão cobrados nas
+                            <h3 class="text-2xl font-bold text-slate-800 mb-4">Dica 1: Associações Mentais</h3>
+                            <p class="text-slate-600 mb-4">Vamos memorizar apenas os rostos que serão cobrados nas
                                 questões. Serão apenas esses 6:</p>
 
-                            <div class="rounded-xl overflow-hidden border border-white/10 bg-black/20 text-center mb-6">
+                            <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-50 text-center mb-6">
                                 <img src="../../Imagens_base/mvr/mvr_rostos.png" alt="Rostos Cobrados" class="mx-auto"
                                     :style="'width: ' + imageScale + '%;'">
                             </div>
 
                             <div class="grid md:grid-cols-2 gap-4">
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">2. Na primeira coluna tem <strong>3
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">2. Na primeira coluna tem <strong>3
                                             mulheres</strong>;</p>
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">3. Alexandre de <strong>Moraes</strong> tem
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">3. Alexandre de <strong>Moraes</strong> tem
                                         uma psicóloga (<strong>mulher</strong>);</p>
                                     <img src="../../Imagens_base/mvr/d1.png" class="w-full rounded mt-2">
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">4. Todo professor é
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">4. Todo professor é
                                         <strong>Guerreiro</strong>, mas no final do mês só toma em
                                         <strong>Curitiba</strong>;
                                     </p>
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">5. Todo professor trabalha demais... Logo há
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">5. Todo professor trabalha demais... Logo há
                                         <strong>dois professores</strong>, Jaime Guerreiro e <strong>Inácio
                                             Bigode</strong>.
                                     </p>
                                     <img src="../../Imagens_base/mvr/d2.png" class="w-full rounded mt-2">
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">6. A mossa chamada <strong>Rosa</strong> é
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">6. A mossa chamada <strong>Rosa</strong> é
                                         filha de Galvão <strong>Bueno</strong>.</p>
                                     <img src="../../Imagens_base/mvr/d3.png" class="w-full rounded mt-2">
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">7. Memorize o poema: <strong>Jorge
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">7. Memorize o poema: <strong>Jorge
                                             Batista</strong> <em>eletricista</em>, e em <strong>Goiana</strong> há uma
                                         <strong>recepcionista</strong>.
                                     </p>
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">8. A <strong>nutricionista</strong> é a
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">8. A <strong>nutricionista</strong> é a
                                         melhor, por isso ela é de <strong>primeira linha</strong>.</p>
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">9. O <strong>advogado</strong> de
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">9. O <strong>advogado</strong> de
                                         <strong>Campinas</strong> usa <strong>gravata</strong>. Todo advogado tem uma
                                         <strong>secretária</strong> que usa <strong>penteado de rabo de cavalo</strong>.
                                     </p>
                                     <img src="../../Imagens_base/mvr/d4.png" class="w-full rounded mt-2">
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">10. Em <strong>Brasília não tem
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">10. Em <strong>Brasília não tem
                                             nutricionista</strong>, por isso os deputados são gordos.</p>
                                     <img src="../../Imagens_base/mvr/d5.png" class="w-full rounded mt-2">
                                 </div>
-                                <div class="bg-black/20 p-4 rounded-lg border border-white/5">
-                                    <p class="text-gray-300 text-sm mb-2">11. O <strong>Padre</strong> está
+                                <div class="bg-black/20 p-4 rounded-lg border border-slate-100">
+                                    <p class="text-slate-600 text-sm mb-2">11. O <strong>Padre</strong> está
                                         <strong>Alegre</strong>, mesmo usando <strong>óculos de última linha</strong>.
                                     </p>
                                     <img src="../../Imagens_base/mvr/d6.png" class="w-full rounded mt-2">
@@ -1460,11 +1460,11 @@
 
                         <!-- DICA 2 -->
                         <div class="mb-12">
-                            <h3 class="text-2xl font-bold text-white mb-4">Dica 2: Poema Mnemônico</h3>
-                            <p class="text-gray-300 mb-4">Memorizar esse poema que corresponde ao gabarito das questões:
+                            <h3 class="text-2xl font-bold text-slate-800 mb-4">Dica 2: Poema Mnemônico</h3>
+                            <p class="text-slate-600 mb-4">Memorizar esse poema que corresponde ao gabarito das questões:
                             </p>
                             <div
-                                class="bg-black/30 p-8 rounded-xl border border-white/10 font-serif italic text-gray-300 text-center leading-relaxed text-lg">
+                                class="bg-white/80 p-8 rounded-xl border border-slate-200 font-serif italic text-slate-600 text-center leading-relaxed text-lg">
                                 <p class="mb-6">"<strong>Rosa</strong> era <strong>Buena</strong>, sem dúvida, de
                                     coração,<br>
                                     <strong>Em Brasília</strong>, <em>nutricionista não se encontrava</em>,<br>
@@ -1491,43 +1491,43 @@
 
                         <!-- TESTE COMPLETO -->
                         <div class="mb-12">
-                            <h3 class="text-2xl font-bold text-white mb-6">Teste Prático</h3>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-6">Teste Prático</h3>
 
                             <!-- PÁGINA 1 -->
-                            <div class="mb-8 p-6 bg-white/5 rounded-xl border border-white/5">
-                                <h4 class="text-xl font-bold text-purple-400 mb-4">Página 1</h4>
+                            <div class="mb-8 p-6 bg-white/5 rounded-xl border border-slate-100">
+                                <h4 class="text-xl font-bold text-blue-600 mb-4">Página 1</h4>
 
                                 <div class="grid gap-8">
                                     <!-- Q1 -->
                                     <div>
-                                        <p class="text-gray-300 mb-2 font-bold">1. Escolha a pessoa vista na Ficha de
+                                        <p class="text-slate-600 mb-2 font-bold">1. Escolha a pessoa vista na Ficha de
                                             Memorização. Marque sua letra na Folha de Resposta.</p>
                                         <img src="../../Imagens_base/mvr/q1.png"
-                                            class="rounded border border-white/10 mb-2"
+                                            class="rounded border border-slate-200 mb-2"
                                             :style="'width: ' + imageScale + '%;'">
                                     </div>
                                     <!-- Q2 -->
                                     <div>
-                                        <p class="text-gray-300 mb-2 font-bold">2. Escolha a pessoa vista na Ficha de
+                                        <p class="text-slate-600 mb-2 font-bold">2. Escolha a pessoa vista na Ficha de
                                             Memorização.</p>
                                         <img src="../../Imagens_base/mvr/q2.png"
-                                            class="rounded border border-white/10 mb-2"
+                                            class="rounded border border-slate-200 mb-2"
                                             :style="'width: ' + imageScale + '%;'">
                                     </div>
                                     <!-- Q3 -->
                                     <div>
-                                        <p class="text-gray-300 mb-2 font-bold">3. Escolha a pessoa vista na Ficha de
+                                        <p class="text-slate-600 mb-2 font-bold">3. Escolha a pessoa vista na Ficha de
                                             Memorização.</p>
                                         <img src="../../Imagens_base/mvr/q3.png"
-                                            class="rounded border border-white/10 mb-2"
+                                            class="rounded border border-slate-200 mb-2"
                                             :style="'width: ' + imageScale + '%;'">
                                     </div>
 
                                     <!-- Q4 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">4. O sobrenome da mulher chamada Rosa era...
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">4. O sobrenome da mulher chamada Rosa era...
                                         </p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>Pinho</li>
                                             <li>Lourenço</li>
                                             <li>Bueno</li>
@@ -1536,10 +1536,10 @@
                                     </div>
 
                                     <!-- Q5 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">5. A pessoa que estava na cidade de Brasília:
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">5. A pessoa que estava na cidade de Brasília:
                                         </p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>era um homem</li>
                                             <li>não era nutricionista</li>
                                             <li>estava na primeira linha</li>
@@ -1548,9 +1548,9 @@
                                     </div>
 
                                     <!-- Q6 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">6. Havia um homem de óculos...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">6. Havia um homem de óculos...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>na coluna à esquerda</li>
                                             <li>na última linha</li>
                                             <li>na primeira linha</li>
@@ -1559,10 +1559,10 @@
                                     </div>
 
                                     <!-- Q7 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">7. O professor de sobrenome Guerreiro era de:
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">7. O professor de sobrenome Guerreiro era de:
                                         </p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>Goiânia</li>
                                             <li>Curitiba</li>
                                             <li>Santo André</li>
@@ -1571,9 +1571,9 @@
                                     </div>
 
                                     <!-- Q8 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">8. Havia um homem de gravata que era ...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">8. Havia um homem de gravata que era ...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>de Campinas</li>
                                             <li>da primeira linha</li>
                                             <li>da primeira coluna</li>
@@ -1582,10 +1582,10 @@
                                     </div>
 
                                     <!-- Q9 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">9. A mulher penteada com rabo de cavalo...
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">9. A mulher penteada com rabo de cavalo...
                                         </p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>era professora</li>
                                             <li>estava em São Paulo</li>
                                             <li>era psicóloga</li>
@@ -1594,9 +1594,9 @@
                                     </div>
 
                                     <!-- Q10 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">10. Na primeira coluna havia...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">10. Na primeira coluna havia...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>dois homens</li>
                                             <li>três mulheres</li>
                                             <li>quatro homens</li>
@@ -1605,9 +1605,9 @@
                                     </div>
 
                                     <!-- Q11 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">11. A pessoa chamada Jorge Batista era...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">11. A pessoa chamada Jorge Batista era...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>médico</li>
                                             <li>professor</li>
                                             <li>padre</li>
@@ -1618,40 +1618,40 @@
                             </div>
 
                             <!-- PÁGINA 2 -->
-                            <div class="mb-8 p-6 bg-white/5 rounded-xl border border-white/5">
-                                <h4 class="text-xl font-bold text-purple-400 mb-4">Página 2</h4>
+                            <div class="mb-8 p-6 bg-white/5 rounded-xl border border-slate-100">
+                                <h4 class="text-xl font-bold text-blue-600 mb-4">Página 2</h4>
 
                                 <div class="grid gap-8">
                                     <!-- Q12 -->
                                     <div>
-                                        <p class="text-gray-300 mb-2 font-bold">12. Escolha a pessoa vista na Ficha de
+                                        <p class="text-slate-600 mb-2 font-bold">12. Escolha a pessoa vista na Ficha de
                                             Memorização. Marque sua letra na Folha de Resposta.</p>
                                         <img src="../../Imagens_base/mvr/q12.png"
-                                            class="rounded border border-white/10 mb-2"
+                                            class="rounded border border-slate-200 mb-2"
                                             :style="'width: ' + imageScale + '%;'">
                                     </div>
                                     <!-- Q13 -->
                                     <div>
-                                        <p class="text-gray-300 mb-2 font-bold">13. Escolha a pessoa vista na Ficha de
+                                        <p class="text-slate-600 mb-2 font-bold">13. Escolha a pessoa vista na Ficha de
                                             Memorização.</p>
                                         <img src="../../Imagens_base/mvr/q13.png"
-                                            class="rounded border border-white/10 mb-2"
+                                            class="rounded border border-slate-200 mb-2"
                                             :style="'width: ' + imageScale + '%;'">
                                     </div>
                                     <!-- Q14 -->
                                     <div>
-                                        <p class="text-gray-300 mb-2 font-bold">14. Escolha a pessoa vista na Ficha de
+                                        <p class="text-slate-600 mb-2 font-bold">14. Escolha a pessoa vista na Ficha de
                                             Memorização.</p>
                                         <img src="../../Imagens_base/mvr/q14.png"
-                                            class="rounded border border-white/10 mb-2"
+                                            class="rounded border border-slate-200 mb-2"
                                             :style="'width: ' + imageScale + '%;'">
                                     </div>
 
                                     <!-- Q15 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">15. A mulher que era nutricionista também
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">15. A mulher que era nutricionista também
                                             era...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>da primeira linha</li>
                                             <li>de Brasília</li>
                                             <li>da primeira coluna</li>
@@ -1660,9 +1660,9 @@
                                     </div>
 
                                     <!-- Q19 (Mixed order in markdown, keeping consistent with text) -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">19. Na ficha havia...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">19. Na ficha havia...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>duas secretárias</li>
                                             <li>duas professoras</li>
                                             <li>duas assistentes social</li>
@@ -1671,9 +1671,9 @@
                                     </div>
 
                                     <!-- Q16 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">16. A pessoa com sobrenome Moraes era...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">16. A pessoa com sobrenome Moraes era...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>um médico</li>
                                             <li>um professor</li>
                                             <li>uma mulher</li>
@@ -1682,10 +1682,10 @@
                                     </div>
 
                                     <!-- Q20 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">20. Entre os homens tinha um padre que era de
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">20. Entre os homens tinha um padre que era de
                                             ...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>Curitiba</li>
                                             <li>Porto Alegre</li>
                                             <li>Blumenau</li>
@@ -1694,9 +1694,9 @@
                                     </div>
 
                                     <!-- Q17 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">17. Era de Goiânia...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">17. Era de Goiânia...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>Alberto Hering</li>
                                             <li>uma recepcionista</li>
                                             <li>uma nutricionista</li>
@@ -1705,9 +1705,9 @@
                                     </div>
 
                                     <!-- Q18 -->
-                                    <div class="pl-4 border-l-2 border-white/10">
-                                        <p class="text-gray-300 font-bold">18. A pessoa chamada Inácio Barbosa...</p>
-                                        <ul class="ml-4 text-sm text-gray-400 list-[upper-alpha]">
+                                    <div class="pl-4 border-l-2 border-slate-200">
+                                        <p class="text-slate-600 font-bold">18. A pessoa chamada Inácio Barbosa...</p>
+                                        <ul class="ml-4 text-sm text-slate-500 list-[upper-alpha]">
                                             <li>olhava de frente</li>
                                             <li>usava gravata</li>
                                             <li>tinha bigode</li>
@@ -1721,93 +1721,93 @@
 
                         <!-- GABARITO -->
                         <div class="mb-12">
-                            <h3 class="text-2xl font-bold text-white mb-4">Gabarito</h3>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-4">Gabarito</h3>
                             <div class="overflow-x-auto">
                                 <table
-                                    class="w-full max-w-md text-sm text-left text-gray-400 border border-white/10 rounded-lg">
-                                    <thead class="text-xs text-uppercase bg-black/20 text-gray-200">
+                                    class="w-full max-w-md text-sm text-left text-slate-500 border border-slate-200 rounded-lg">
+                                    <thead class="text-xs text-uppercase bg-black/20 text-slate-800">
                                         <tr>
-                                            <th class="px-6 py-3 border-b border-white/10">Questões</th>
-                                            <th class="px-6 py-3 border-b border-white/10">Gab</th>
-                                            <th class="px-6 py-3 border-b border-white/10 border-l">Questões</th>
-                                            <th class="px-6 py-3 border-b border-white/10">Gab</th>
+                                            <th class="px-6 py-3 border-b border-slate-200">Questões</th>
+                                            <th class="px-6 py-3 border-b border-slate-200">Gab</th>
+                                            <th class="px-6 py-3 border-b border-slate-200 border-l">Questões</th>
+                                            <th class="px-6 py-3 border-b border-slate-200">Gab</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <!-- Exemplos -->
-                                        <tr class="bg-blue-500/10 border-b border-blue-500/20">
-                                            <td class="px-6 py-2 font-bold text-blue-300">E1</td>
-                                            <td class="px-6 py-2 font-bold text-white">D</td>
-                                            <td class="px-6 py-2 border-l border-white/10 font-bold text-blue-300">E2
+                                        <tr class="bg-blue-50 border border-blue-200/60 border-b border-blue-500/20">
+                                            <td class="px-6 py-2 font-bold text-blue-600">E1</td>
+                                            <td class="px-6 py-2 font-bold text-slate-800">D</td>
+                                            <td class="px-6 py-2 border-l border-slate-200 font-bold text-blue-600">E2
                                             </td>
-                                            <td class="px-6 py-2 font-bold text-white">C</td>
+                                            <td class="px-6 py-2 font-bold text-slate-800">C</td>
                                         </tr>
-                                        <tr class="bg-blue-500/10 border-b border-white/10">
-                                            <td class="px-6 py-2 font-bold text-blue-300">E3</td>
-                                            <td class="px-6 py-2 font-bold text-white">B</td>
-                                            <td class="px-6 py-2 border-l border-white/10"></td>
+                                        <tr class="bg-blue-50 border border-blue-200/60 border-b border-slate-200">
+                                            <td class="px-6 py-2 font-bold text-blue-600">E3</td>
+                                            <td class="px-6 py-2 font-bold text-slate-800">B</td>
+                                            <td class="px-6 py-2 border-l border-slate-200"></td>
                                             <td class="px-6 py-2"></td>
                                         </tr>
                                         <!-- Questões -->
-                                        <tr class="bg-white/5 border-b border-white/5">
+                                        <tr class="bg-white/5 border-b border-slate-100">
                                             <td class="px-6 py-2">1</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">C</td>
-                                            <td class="px-6 py-2 border-l border-white/10">11</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">D</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">C</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">11</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">D</td>
                                         </tr>
-                                        <tr class="border-b border-white/5">
+                                        <tr class="border-b border-slate-100">
                                             <td class="px-6 py-2">2</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">D</td>
-                                            <td class="px-6 py-2 border-l border-white/10">12</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">D</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">D</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">12</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">D</td>
                                         </tr>
-                                        <tr class="bg-white/5 border-b border-white/5">
+                                        <tr class="bg-white/5 border-b border-slate-100">
                                             <td class="px-6 py-2">3</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">C</td>
-                                            <td class="px-6 py-2 border-l border-white/10">13</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">A</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">C</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">13</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">A</td>
                                         </tr>
-                                        <tr class="border-b border-white/5">
+                                        <tr class="border-b border-slate-100">
                                             <td class="px-6 py-2">4</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">C</td>
-                                            <td class="px-6 py-2 border-l border-white/10">14</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">C</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">C</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">14</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">C</td>
                                         </tr>
-                                        <tr class="bg-white/5 border-b border-white/5">
+                                        <tr class="bg-white/5 border-b border-slate-100">
                                             <td class="px-6 py-2">5</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">B</td>
-                                            <td class="px-6 py-2 border-l border-white/10">15</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">A</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">B</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">15</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">A</td>
                                         </tr>
-                                        <tr class="border-b border-white/5">
+                                        <tr class="border-b border-slate-100">
                                             <td class="px-6 py-2">6</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">B</td>
-                                            <td class="px-6 py-2 border-l border-white/10">16</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">C</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">B</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">16</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">C</td>
                                         </tr>
-                                        <tr class="bg-white/5 border-b border-white/5">
+                                        <tr class="bg-white/5 border-b border-slate-100">
                                             <td class="px-6 py-2">7</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">B</td>
-                                            <td class="px-6 py-2 border-l border-white/10">17</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">B</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">B</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">17</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">B</td>
                                         </tr>
-                                        <tr class="border-b border-white/5">
+                                        <tr class="border-b border-slate-100">
                                             <td class="px-6 py-2">8</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">A</td>
-                                            <td class="px-6 py-2 border-l border-white/10">18</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">C</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">A</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">18</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">C</td>
                                         </tr>
-                                        <tr class="bg-white/5 border-b border-white/5">
+                                        <tr class="bg-white/5 border-b border-slate-100">
                                             <td class="px-6 py-2">9</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">D</td>
-                                            <td class="px-6 py-2 border-l border-white/10">19</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">D</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">D</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">19</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">D</td>
                                         </tr>
-                                        <tr class="border-b border-white/5">
+                                        <tr class="border-b border-slate-100">
                                             <td class="px-6 py-2">10</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">B</td>
-                                            <td class="px-6 py-2 border-l border-white/10">20</td>
-                                            <td class="px-6 py-2 font-bold text-green-400">B</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">B</td>
+                                            <td class="px-6 py-2 border-l border-slate-200">20</td>
+                                            <td class="px-6 py-2 font-bold text-green-800">B</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1819,37 +1819,37 @@
                             <!-- SIMULADOR (Placeholder) -->
                             <!-- SIMULADOR -->
                             <a href="../mvr/mvr.html" target="_blank"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-primary/50 transition-all group">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-white/5 hover:bg-white/10 hover:border-primary/50 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
                                         class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                                         <i class="fas fa-play text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Simulador MVR</h4>
-                                        <p class="text-sm text-gray-400">Iniciar teste prático</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Simulador MVR</h4>
+                                        <p class="text-sm text-slate-500">Iniciar teste prático</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-chevron-right text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-chevron-right text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                             <!-- DOWNLOAD -->
                             <a href="https://drive.google.com/file/d/1AGqvXhhJMYbywWjsCynNtpCGogGqAuQm/view?usp=sharing"
                                 target="_blank"
-                                class="w-full flex items-center justify-between p-6 rounded-xl border border-white/10 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group">
+                                class="w-full flex items-center justify-between p-6 rounded-xl border border-slate-200 bg-gradient-to-r from-blue-900/40 to-cyan-900/40 hover:from-blue-900/60 hover:to-cyan-900/60 transition-all group">
                                 <div class="flex items-center gap-4">
                                     <div
-                                        class="w-12 h-12 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
+                                        class="w-12 h-12 rounded-lg bg-cyan-500/20 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
                                         <i class="fas fa-cloud-download-alt text-xl"></i>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-white text-lg">Baixar MVR</h4>
-                                        <p class="text-sm text-gray-300">PDF com Ficha e Questões</p>
+                                        <h4 class="font-bold text-slate-900 text-lg">Baixar MVR</h4>
+                                        <p class="text-sm text-slate-600">PDF com Ficha e Questões</p>
                                     </div>
                                 </div>
                                 <i
-                                    class="fas fa-external-link-alt text-gray-500 group-hover:text-white transition-colors"></i>
+                                    class="fas fa-external-link-alt text-slate-400 group-hover:text-white transition-colors"></i>
                             </a>
 
                         </div>

@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <title>Aulas - Módulo Exclusivo | Aprovação Psycho</title>
+    <meta name="color-scheme" content="light" />
+    <title>Aulas - Módulo Exclusivo | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../favicon.png">
 
     <!-- PROTEÇÃO: redireciona para login se não autenticado -->
@@ -21,20 +21,20 @@
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --header-hover: #2a2938;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --border-color: rgba(0, 0, 0, 0.04);
+            --header-hover: #F1F5F9;
             --text-light: #a0a0a0;
         }
 
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
-            background: #000000;
-            color: #a0a0a0;
+            background: var(--bg-dark);
+            color: #334155;
             overflow-x: hidden;
         }
 
@@ -178,7 +178,7 @@
         }
 
         .lesson-info h3 {
-            color: white;
+            color: #1e293b;
             font-weight: 700;
             font-size: 1.125rem;
             margin-bottom: 0.25rem;
@@ -232,7 +232,7 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.02);
         }
 
         .collapse-container.active .collapse-body {
@@ -246,7 +246,7 @@
 
         /* Video Placeholders */
         .video-wrapper {
-            background: #000;
+            background: var(--bg-dark);
             border-radius: 8px;
             overflow: hidden;
             position: relative;
@@ -304,34 +304,34 @@
 
     <!-- HEADER -->
     <header class="glass-panel sticky top-0 z-50 border-b-0 relative"
-        style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);">
+        style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%); backdrop-filter: blur(16px); border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG4kk_B-5aCSWc8T6qM8NNclK0v3Xi3UAxTQ&s"
                     alt="Brasão PM-CE" referrerpolicy="no-referrer"
-                    class="h-10 w-10 rounded-full border border-[#9f54ff] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)] bg-white p-1">
+                    class="h-10 w-10 rounded-full border border-slate-200 object-cover shadow-sm bg-white p-1">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:#a0a0a0">APROVAÇÃO <span
-                            style="color:#ff00ff;text-shadow:0 0 8px #ff00ff">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">PM-CE <span
-                            class="text-[#ff00ff]">2026</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
+                    <span class="text-xl font-black" style="color:#1e293b">GRUPO DE ESTUDOS <span
+                            style="color:#2563eb">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">PM-CE <span
+                            class="text-[#2563eb]">2026</span></span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">MÓDULO EXCLUSIVO</span>
                 </div>
             </div>
             <div class="flex items-center gap-4">
                 <!-- User Profile -->
-                <div class="flex items-center gap-2 border-r border-white/10 pr-4 hidden md:flex">
+                <div class="flex items-center gap-2 border-r border-slate-200 pr-4 hidden md:flex">
                     <div
-                        class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold text-xs"
+                        class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-slate-800 font-bold text-xs"
                         x-text="getInitials()"></div>
                     <div class="flex flex-col text-right">
-                        <span class="text-xs font-bold text-white leading-none" x-text="userName"></span>
-                        <span class="text-[10px] text-gray-400">Aluno</span>
+                        <span class="text-xs font-bold text-slate-800 leading-none" x-text="userName"></span>
+                        <span class="text-[10px] text-slate-500">Aluno</span>
                     </div>
                 </div>
                 <a href="index_PMCE_2026.html"
-                    class="text-sm font-bold text-cyan-400 hover:text-white transition flex items-center gap-2">
+                    class="text-sm font-bold text-blue-500 hover:text-slate-800 transition flex items-center gap-2">
                     <i class="fas fa-arrow-left"></i> Voltar
                 </a>
             </div>
@@ -341,9 +341,9 @@
     <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
 
         <div class="text-center mb-10">
-            <h1 class="text-3xl sm:text-4xl font-black text-white mb-2">Aulas <span class="gradient-text">Ao Vivo</span>
+            <h1 class="text-3xl sm:text-4xl font-black text-slate-800 mb-2">Aulas <span class="gradient-text">Ao Vivo</span>
             </h1>
-            <p class="text-gray-400">Marque as aulas concluídas para acompanhar seu progresso.</p>
+            <p class="text-slate-500">Marque as aulas concluídas para acompanhar seu progresso.</p>
         </div>
 
         <div class="space-y-4">
@@ -375,14 +375,14 @@
                             <!-- TOPICS -->
                             <div class="mb-6" x-show="lesson.topics && lesson.topics.length > 0">
                                 <h4
-                                    class="text-xs font-bold text-gray-500 uppercase mb-3 border-b border-gray-800 pb-1">
+                                    class="text-xs font-bold text-slate-600 uppercase mb-3 border-b border-gray-800 pb-1">
                                     Tópicos da Aula</h4>
-                                <ul class="space-y-2 text-sm text-gray-300">
+                                <ul class="space-y-2 text-sm text-slate-600">
                                     <template x-for="(topic, tIndex) in lesson.topics" :key="tIndex">
                                         <li class="flex items-start gap-2">
                                             <template x-if="topic.type === 'break'">
                                                 <span
-                                                    class="w-full text-center text-xs italic text-gray-500 py-1 bg-white/5 rounded my-1 border border-white/5">
+                                                    class="w-full text-center text-xs italic text-slate-600 py-1 bg-white/5 rounded my-1 border border-slate-100">
                                                     <i class="fas fa-coffee mr-1"></i> Intervalo
                                                 </span>
                                             </template>
@@ -399,13 +399,13 @@
 
                             <!-- LINKS -->
                             <div class="mb-6" x-show="lesson.links && lesson.links.length > 0">
-                                <h4 class="text-xs font-bold text-gray-500 uppercase mb-3 border-b border-gray-800 pb-1">
+                                <h4 class="text-xs font-bold text-slate-600 uppercase mb-3 border-b border-gray-800 pb-1">
                                     Links e Materiais</h4>
                                 <ul class="space-y-2">
                                     <template x-for="(link, lIndex) in lesson.links" :key="lIndex">
                                         <li>
                                             <a :href="link.url"
-                                                class="flex items-center gap-2 text-sm text-cyan-400 hover:text-cyan-300 hover:underline transition group">
+                                                class="flex items-center gap-2 text-sm text-blue-500 hover:text-blue-600 hover:underline transition group">
                                                 <i class="fas fa-link text-xs opacity-50 group-hover:opacity-100"></i>
                                                 <span x-text="link.label || link.url"></span>
                                             </a>
@@ -441,15 +441,15 @@
             </template>
             
             
-            <div x-show="lessons.length === 0" class="text-center py-20 text-gray-500">
+            <div x-show="lessons.length === 0" class="text-center py-20 text-slate-600">
                 <i class="fas fa-book-open text-4xl mb-4 opacity-50"></i>
                 <p>Nenhuma aula disponivel ainda.</p>
             </div>
 
     </main>
 
-    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
-        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    <footer class="border-t border-slate-200 mt-auto py-8 bg-slate-50 text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico. Todos direitos reservados.
     </footer>
 
     <script>

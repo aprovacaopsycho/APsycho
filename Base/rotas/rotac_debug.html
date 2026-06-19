@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="light" />
     <title>Rota C - DEBUG MODE</title>
     <link rel="icon" type="image/png" href="../../favicon.png" />
 
@@ -22,7 +22,13 @@
 
     <style>
         :root {
-            --bg-dark: #0f172a;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
+            --text-light: #1E293B;
+            --bg-dark: #F8FAFC;
             --primary-purple: #8b5cf6;
             --accent-pink: #ec4899;
             --accent-blue: #06b6d4;
@@ -40,7 +46,7 @@
             background-image: radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
                 radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.15) 0px, transparent 50%);
             background-attachment: fixed;
-            color: #e2e8f0;
+            color: #334155;
             overflow-x: hidden;
         }
 
@@ -68,7 +74,7 @@
         }
 
         .hit-zone:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: rgba(0, 0, 0, 0.04);
             border-radius: 4px;
         }
 
@@ -192,7 +198,7 @@
         .glass-panel {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
@@ -229,13 +235,13 @@
 
     <!-- DEBUG TOOL PANEL -->
     <div
-        class="fixed top-20 right-4 bg-gray-900/95 backdrop-blur p-4 rounded-xl shadow-2xl z-[100] w-80 border border-gray-700 max-h-[80vh] overflow-y-auto">
-        <h2 class="text-lg font-bold mb-4 text-purple-400 flex items-center gap-2">
+        class="fixed top-20 right-4 bg-slate-100/95 backdrop-blur p-4 rounded-xl shadow-2xl z-[100] w-80 border border-gray-700 max-h-[80vh] overflow-y-auto">
+        <h2 class="text-lg font-bold mb-4 text-blue-600 flex items-center gap-2">
             <i class="fas fa-tools"></i> Debug Tool
         </h2>
 
-        <div class="mb-4 bg-black/40 p-3 rounded-lg">
-            <p class="text-[10px] text-gray-400 mb-2 uppercase font-bold tracking-wider">Legenda</p>
+        <div class="mb-4 bg-slate-50 p-3 rounded-lg">
+            <p class="text-[10px] text-slate-500 mb-2 uppercase font-bold tracking-wider">Legenda</p>
             <div class="flex gap-4 text-xs font-medium">
                 <div class="flex items-center gap-2">
                     <div class="w-3 h-3 bg-green-500/50 border border-green-500 rounded"></div>
@@ -248,28 +254,28 @@
             </div>
         </div>
 
-        <div class="mb-4 bg-black/40 p-3 rounded-lg space-y-2">
-            <p class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Ajuste de Fundo</p>
+        <div class="mb-4 bg-slate-50 p-3 rounded-lg space-y-2">
+            <p class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Ajuste de Fundo</p>
             <div class="grid grid-cols-2 gap-2">
                 <div>
-                    <label class="text-[10px] text-gray-500">Pos X (px)</label>
+                    <label class="text-[10px] text-slate-600">Pos X (px)</label>
                     <input type="number" x-model="bgX"
-                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                        class="w-full bg-slate-50 border border-gray-600 rounded px-1 text-xs text-slate-800">
                 </div>
                 <div>
-                    <label class="text-[10px] text-gray-500">Pos Y (px)</label>
+                    <label class="text-[10px] text-slate-600">Pos Y (px)</label>
                     <input type="number" x-model="bgY"
-                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                        class="w-full bg-slate-50 border border-gray-600 rounded px-1 text-xs text-slate-800">
                 </div>
                 <div>
-                    <label class="text-[10px] text-gray-500">Largura (%)</label>
+                    <label class="text-[10px] text-slate-600">Largura (%)</label>
                     <input type="number" step="0.1" x-model="bgW"
-                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                        class="w-full bg-slate-50 border border-gray-600 rounded px-1 text-xs text-slate-800">
                 </div>
                 <div>
-                    <label class="text-[10px] text-gray-500">Altura (%)</label>
+                    <label class="text-[10px] text-slate-600">Altura (%)</label>
                     <input type="number" step="0.1" x-model="bgH"
-                        class="w-full bg-black/50 border border-gray-600 rounded px-1 text-xs text-white">
+                        class="w-full bg-slate-50 border border-gray-600 rounded px-1 text-xs text-slate-800">
                 </div>
             </div>
         </div>
@@ -282,7 +288,7 @@
 
             <div class="relative">
                 <textarea x-model="jsonOutput"
-                    class="w-full h-24 bg-black text-[10px] font-mono text-green-400 p-2 rounded-lg border border-gray-700 outline-none resize-none"
+                    class="w-full h-24 bg-black text-[10px] font-mono text-green-700 p-2 rounded-lg border border-gray-700 outline-none resize-none"
                     readonly placeholder="JSON Output..."></textarea>
                 <button @click="copyJSON()" x-show="jsonOutput"
                     class="absolute bottom-2 right-2 bg-gray-700 hover:bg-gray-600 text-white rounded px-2 py-1 text-[10px] transition">
@@ -291,12 +297,12 @@
             </div>
         </div>
 
-        <div class="mt-4 mb-4 bg-black/40 p-3 rounded-lg space-y-2 border border-purple-500/30">
-            <p class="text-[10px] text-purple-300 uppercase font-bold tracking-wider mb-2">Movimentação</p>
+        <div class="mt-4 mb-4 bg-slate-50 p-3 rounded-lg space-y-2 border border-blue-200">
+            <p class="text-[10px] text-blue-500 uppercase font-bold tracking-wider mb-2">Movimentação</p>
 
             <!-- Global -->
             <div class="flex items-center justify-between mb-2">
-                <span class="text-[10px] text-gray-400">Global</span>
+                <span class="text-[10px] text-slate-500">Global</span>
                 <div class="flex gap-1">
                     <button @click="moveGlobal(0, -1)"
                         class="w-6 h-6 bg-gray-700 rounded text-xs hover:bg-gray-600">⬆</button>
@@ -312,9 +318,9 @@
             <!-- Row -->
             <div class="flex items-center gap-2 mb-2">
                 <div class="flex flex-col w-12">
-                    <label class="text-[9px] text-gray-500">Linha</label>
+                    <label class="text-[9px] text-slate-600">Linha</label>
                     <input type="number" x-model="selectedRow" @focus="activeMode='row'"
-                        class="bg-black/50 border border-gray-600 rounded text-xs px-1 text-center">
+                        class="bg-slate-50 border border-gray-600 rounded text-xs px-1 text-center">
                 </div>
                 <div class="flex gap-1">
                     <button @click="moveRow(selectedRow, 0, -1)"
@@ -331,9 +337,9 @@
             <!-- Col -->
             <div class="flex items-center gap-2">
                 <div class="flex flex-col w-12">
-                    <label class="text-[9px] text-gray-500">Coluna</label>
+                    <label class="text-[9px] text-slate-600">Coluna</label>
                     <input type="number" x-model="selectedCol" @focus="activeMode='col'"
-                        class="bg-black/50 border border-gray-600 rounded text-xs px-1 text-center">
+                        class="bg-slate-50 border border-gray-600 rounded text-xs px-1 text-center">
                 </div>
                 <div class="flex gap-1">
                     <button @click="moveCol(selectedCol, 0, -1)"
@@ -348,28 +354,28 @@
             </div>
         </div>
 
-        <div class="mt-4 text-[10px] text-center text-gray-500">
-            Itens: <span x-text="config.items.length" class="text-white"></span> |
-            Corretos: <span x-text="config.items.filter(i=>i.t===1).length" class="text-green-400"></span>
+        <div class="mt-4 text-[10px] text-center text-slate-600">
+            Itens: <span x-text="config.items.length" class="text-slate-800"></span> |
+            Corretos: <span x-text="config.items.filter(i=>i.t===1).length" class="text-green-700"></span>
         </div>
     </div>
 
-    <header class="fixed top-0 w-full z-40 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+    <header class="fixed top-0 w-full z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-200">
         <div class="container mx-auto px-6 py-3 flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <div
                     class="h-10 w-10 bg-gradient-to-tr from-purple-600 to-blue-500 rounded-lg flex items-center justify-center shadow-lg">
-                    <i class="fas fa-brain text-white text-xl"></i>
+                    <i class="fas fa-brain text-slate-900 text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="font-black text-lg tracking-tight text-white leading-tight">ROTA C <span
-                            class="text-purple-400">SIMULADOR</span></h1>
-                    <p class="text-[10px] text-gray-400 font-medium tracking-widest uppercase">Atenção Concentrada</p>
+                    <h1 class="font-black text-lg tracking-tight text-slate-800 leading-tight">ROTA C <span
+                            class="text-blue-600">SIMULADOR</span></h1>
+                    <p class="text-[10px] text-slate-500 font-medium tracking-widest uppercase">Atenção Concentrada</p>
                 </div>
             </div>
 
             <button onclick="location.reload()"
-                class="text-xs font-bold text-gray-400 hover:text-white transition flex items-center gap-2">
+                class="text-xs font-bold text-slate-500 hover:text-slate-800 transition flex items-center gap-2">
                 <i class="fas fa-sign-out-alt"></i> SAIR
             </button>
         </div>
@@ -382,8 +388,8 @@
             <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500">
             </div>
 
-            <h2 class="text-3xl font-black text-white mb-2">Instruções do Teste</h2>
-            <p class="text-gray-400 mb-8">Identifique e marque todas as figuras idênticas ao modelo abaixo.</p>
+            <h2 class="text-3xl font-black text-slate-800 mb-2">Instruções do Teste</h2>
+            <p class="text-slate-500 mb-8">Identifique e marque todas as figuras idênticas ao modelo abaixo.</p>
 
             <div class="flex flex-col items-center mb-8 gap-4">
                 <div
@@ -393,28 +399,28 @@
                     <div style="display:none" class="text-slate-800 font-bold text-sm">Imagem do modelo não carregada
                     </div>
                 </div>
-                <span class="text-xs text-purple-300 font-bold uppercase tracking-wider">Figura Alvo</span>
+                <span class="text-xs text-blue-500 font-bold uppercase tracking-wider">Figura Alvo</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 text-left">
-                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-100">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-400"><i class="fas fa-stopwatch"></i></div>
-                        <span class="font-bold text-white">Tempo Limite</span>
+                        <div class="p-2 bg-blue-500/20 rounded-lg text-blue-600"><i class="fas fa-stopwatch"></i></div>
+                        <span class="font-bold text-slate-800">Tempo Limite</span>
                     </div>
-                    <p class="text-sm text-gray-400 pl-11">Você terá exatamente <strong>2 minutos</strong>.</p>
+                    <p class="text-sm text-slate-500 pl-11">Você terá exatamente <strong>2 minutos</strong>.</p>
                 </div>
-                <div class="bg-slate-800/50 p-4 rounded-lg border border-white/5">
+                <div class="bg-slate-800/50 p-4 rounded-lg border border-slate-100">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="p-2 bg-green-500/20 rounded-lg text-green-400"><i class="fas fa-bullseye"></i></div>
-                        <span class="font-bold text-white">Meta de Aprovação</span>
+                        <div class="p-2 bg-green-500/20 rounded-lg text-green-700"><i class="fas fa-bullseye"></i></div>
+                        <span class="font-bold text-slate-800">Meta de Aprovação</span>
                     </div>
-                    <p class="text-sm text-gray-400 pl-11">Mínimo de <strong>168 Pontos</strong> Líquidos.</p>
+                    <p class="text-sm text-slate-500 pl-11">Mínimo de <strong>168 Pontos</strong> Líquidos.</p>
                 </div>
             </div>
 
             <button @click="startTest()"
-                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-white text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
+                class="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-black text-slate-900 text-lg shadow-lg hover:shadow-purple-500/25 transition-all w-full md:w-auto hover:-translate-y-1">
                 <span class="relative z-10 flex items-center justify-center gap-2">
                     INICIAR AGORA <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                 </span>
@@ -427,16 +433,16 @@
 
             <!-- Removed Timer specific UI for Debug or kept as dummy -->
             <div class="text-center py-4">
-                <h1 class="text-2xl font-black text-white">MODO DE DEBUG</h1>
-                <p class="text-gray-400">Clique nos itens para alternar entre Correto/Incorreto</p>
+                <h1 class="text-2xl font-black text-slate-800">MODO DE DEBUG</h1>
+                <p class="text-slate-500">Clique nos itens para alternar entre Correto/Incorreto</p>
             </div>
 
             <div class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4">
-                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20"
-                    :class="{'border-red-500 bg-red-900/40': time <= 10}">
-                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
-                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
-                        :class="{'text-red-400 animate-pulse': time <= 10}" x-text="formatTime(time)">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-slate-200"
+                    :class="{'border-red-500 bg-red-50/90': time <= 10}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Restante</div>
+                    <div class="font-mono text-3xl font-black text-slate-800 tabular-nums leading-none"
+                        :class="{'text-red-700 animate-pulse': time <= 10}" x-text="formatTime(time)">
                     </div>
                 </div>
 
@@ -478,12 +484,12 @@
 
         <div x-show="state === 'results'" class="max-w-4xl w-full text-center fade-in z-50" x-cloak>
 
-            <div class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 border-t border-white/20">
+            <div class="glass-panel rounded-3xl p-10 relative overflow-hidden mb-8 border-t border-slate-200">
 
                 <div class="absolute inset-0 opacity-20 pointer-events-none"
                     :class="results.score >= 168 ? 'bg-green-600' : 'bg-red-900'"></div>
 
-                <h2 class="text-4xl font-black text-white mb-8 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
+                <h2 class="text-4xl font-black text-slate-800 mb-8 drop-shadow-lg">RELATÓRIO DE DESEMPENHO</h2>
 
                 <div class="flex justify-center mb-10 relative">
                     <div x-show="results.score >= 168" class="flex flex-col items-center animate-bounce-in">
@@ -491,7 +497,7 @@
                             class="h-24 w-24 rounded-full bg-green-500 text-white flex items-center justify-center text-5xl shadow-[0_0_40px_rgba(34,197,94,0.6)] mb-4">
                             <i class="fas fa-check"></i>
                         </div>
-                        <h3 class="text-4xl font-black text-green-400 tracking-tighter">APTO</h3>
+                        <h3 class="text-4xl font-black text-green-700 tracking-tighter">APTO</h3>
                         <p class="text-green-200/60 text-sm mt-1">Parabéns! Excelente atenção.</p>
                     </div>
 
@@ -507,29 +513,29 @@
                 </div>
 
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
-                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Acertos</div>
-                        <div class="text-3xl font-black text-green-400" x-text="results.hits"></div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-xs font-bold text-slate-600 uppercase mb-1">Acertos</div>
+                        <div class="text-3xl font-black text-green-700" x-text="results.hits"></div>
                     </div>
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
-                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Erros</div>
-                        <div class="text-3xl font-black text-red-400" x-text="results.errors"></div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-xs font-bold text-slate-600 uppercase mb-1">Erros</div>
+                        <div class="text-3xl font-black text-red-700" x-text="results.errors"></div>
                     </div>
-                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
-                        <div class="text-xs font-bold text-gray-500 uppercase mb-1">Omissões</div>
-                        <div class="text-3xl font-black text-yellow-400" x-text="results.omissions"></div>
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-100">
+                        <div class="text-xs font-bold text-slate-600 uppercase mb-1">Omissões</div>
+                        <div class="text-3xl font-black text-yellow-700" x-text="results.omissions"></div>
                     </div>
                     <div
-                        class="bg-gradient-to-b from-slate-700 to-slate-900 p-4 rounded-xl border border-white/20 shadow-inner">
-                        <div class="text-xs font-bold text-white/70 uppercase mb-1">Pontuação Final</div>
-                        <div class="text-4xl font-black text-white" x-text="results.score"></div>
-                        <div class="text-[10px] text-cyan-300 mt-1">Meta: 168</div>
+                        class="bg-gradient-to-b from-slate-700 to-slate-900 p-4 rounded-xl border border-slate-200 shadow-inner">
+                        <div class="text-xs font-bold text-slate-800/70 uppercase mb-1">Pontuação Final</div>
+                        <div class="text-4xl font-black text-slate-800" x-text="results.score"></div>
+                        <div class="text-[10px] text-blue-600 mt-1">Meta: 168</div>
                     </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-4 justify-center">
                     <button @click="showVisualReview()"
-                        class="px-6 py-3 rounded-lg border border-white/20 hover:bg-white/10 text-white font-semibold transition flex items-center justify-center gap-2">
+                        class="px-6 py-3 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-800 font-semibold transition flex items-center justify-center gap-2">
                         <i class="fas fa-eye"></i> Ver Onde Errei
                     </button>
                     <button onclick="location.reload()"
@@ -542,7 +548,7 @@
 
         <div x-show="reviewMode" class="w-full flex justify-center pb-20 pt-8 animate-fade-in" x-cloak>
             <div class="test-paper-container">
-                <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+                <div class="absolute inset-0 bg-slate-50 pointer-events-none"></div>
 
                 <div class="absolute inset-0">
                     <template x-for="(item, index) in config.items" :key="item.id">

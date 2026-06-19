@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Beta III (Códigos) | Aprovação Psycho</title>
+    <title>Beta III (Códigos) | Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="../../favicon.png">
 
     <!-- SEGURANÇA -->
@@ -19,11 +19,11 @@
 
     <style>
         :root {
-            --bg-dark: #100f1c;
-            --bg-card: #1c1b29;
-            --primary-purple: #9f54ff;
-            --accent-pink: #ff00ff;
-            --accent-blue: #00c2ff;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --primary-purple: #1E40AF;
+            --accent-pink: #2563EB;
+            --accent-blue: #0EA5E9;
             --accent-green: #22c55e;
             --accent-red: #ef4444;
         }
@@ -31,13 +31,13 @@
         body {
             font-family: 'Outfit', 'Inter', sans-serif;
             background: var(--bg-dark);
-            color: #a0a0a0;
+            color: #334155;
         }
 
         .hero-bg {
             position: relative;
             isolation: isolate;
-            background-image: linear-gradient(180deg, rgba(15, 14, 26, .82), rgba(15, 14, 26, .94)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
+            background-image: linear-gradient(180deg, rgba(248, 250, 252, .85), rgba(248, 250, 252, .95)), url('https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -51,9 +51,9 @@
             z-index: -1;
             opacity: .35;
             background:
-                radial-gradient(600px 200px at 10% 0%, rgba(159, 84, 255, .18), transparent 60%),
-                radial-gradient(600px 200px at 90% 20%, rgba(0, 194, 255, .18), transparent 60%),
-                radial-gradient(1000px 400px at 50% 110%, rgba(255, 0, 255, .18), transparent 60%);
+                radial-gradient(600px 200px at 10% 0%, rgba(37, 99, 235, .05), transparent 60%),
+                radial-gradient(600px 200px at 90% 20%, rgba(14, 165, 233, .05), transparent 60%),
+                radial-gradient(1000px 400px at 50% 110%, rgba(37, 99, 235, .05), transparent 60%);
             filter: blur(40px);
             pointer-events: none;
             animation: gradientShift 15s ease infinite;
@@ -149,7 +149,7 @@
         .input-box input {
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 4px;
             text-align: center;
@@ -293,33 +293,33 @@
     </div>
 
     <!-- HEADER -->
-    <header class="bg-black/40 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
+    <header class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="../../Imagens_base/logo-principal.png" alt="Logo" class="h-8">
                 <img src="https://www.pmpr.pr.gov.br/sites/default/arquivos_restritos/files/imagem/2025-07/img_1121_0.jpg"
                     alt="Brasão Base"
-                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-[0_0_10px_rgba(159,84,255,0.3)]">
+                    class="h-10 w-10 rounded-full border border-[var(--primary-purple)] object-cover shadow-sm">
                 <div class="flex flex-col">
-                    <span class="text-xl font-black" style="color:var(--text-light)">APROVAÇÃO <span
-                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PSYCHO</span></span>
-                    <span class="text-white font-black text-lg leading-none">BETA III <span
+                    <span class="text-xl font-black text-slate-800">GRUPO DE ESTUDOS <span
+                            style="color:var(--accent-pink);text-shadow:0 0 8px var(--accent-pink)">PARA PSICOTÉCNICO</span></span>
+                    <span class="text-slate-900 font-black text-lg leading-none">BETA III <span
                             class="text-[var(--accent-pink)]">CÓDIGOS</span></span>
-                    <span class="text-[10px] text-gray-400 font-medium tracking-wider">PROCESSAMENTO VELOZ</span>
+                    <span class="text-[10px] text-slate-500 font-medium tracking-wider">PROCESSAMENTO VELOZ</span>
                 </div>
             </div>
 
             <div class="flex items-center gap-6">
                 <!-- User Info -->
                 <div class="hidden md:flex flex-col text-right">
-                    <span class="text-white font-bold text-sm" id="header-student-name">Visitante</span>
+                    <span class="text-slate-800 font-bold text-sm" id="header-student-name">Visitante</span>
                     <span class="text-[10px] text-[var(--accent-pink)] uppercase tracking-wider font-bold">BASE
                         2026</span>
                 </div>
 
                 <div class="flex items-center gap-4">
                     <a href="../testes_inteligencia_PMCE.html"
-                        class="text-sm text-[var(--accent-blue)] hover:text-white flex items-center gap-2 font-bold transition">
+                        class="text-sm text-[var(--accent-blue)] hover:text-slate-800 flex items-center gap-2 font-bold transition">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M11 17l-5-5m0 0l5-5m-5 5h12" />
@@ -335,20 +335,20 @@
 
         <!-- INSTRUCTIONS SCREEN -->
         <div x-show="state === 'instructions'"
-            class="max-w-4xl w-full bg-[#1c1b29] rounded-2xl p-8 border border-white/5 text-center shadow-2xl mt-10 fade-in relative overflow-hidden">
+            class="max-w-4xl w-full bg-white rounded-2xl p-8 border border-slate-100 text-center shadow-2xl mt-10 fade-in relative overflow-hidden">
             <!-- Glow Effect -->
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-cyan-500"></div>
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-600 to-blue-400"></div>
 
-            <h1 class="text-4xl font-black text-white mb-4">Beta III - Códigos</h1>
-            <p class="text-gray-400 mb-8 text-lg">Digite o número correspondente a cada símbolo conforme a legenda.</p>
+            <h1 class="text-4xl font-black text-slate-800 mb-4">Beta III - Códigos</h1>
+            <p class="text-slate-500 mb-8 text-lg">Digite o número correspondente a cada símbolo conforme a legenda.</p>
 
             <div class="flex justify-center gap-6 mb-8 flex-wrap">
                 <div
-                    class="bg-black/30 p-6 rounded-xl border border-white/10 text-left max-w-sm hover:border-cyan-500/50 transition duration-300">
-                    <h3 class="text-white font-bold mb-3 flex items-center gap-2 text-xl">
-                        <i class="fas fa-gamepad text-cyan-400"></i> Como Jogar
+                    class="bg-white/80 p-6 rounded-xl border border-slate-200 text-left max-w-sm hover:border-cyan-500/50 transition duration-300">
+                    <h3 class="text-slate-800 font-bold mb-3 flex items-center gap-2 text-xl">
+                        <i class="fas fa-gamepad text-blue-500"></i> Como Jogar
                     </h3>
-                    <ul class="text-sm text-gray-400 space-y-3">
+                    <ul class="text-sm text-slate-500 space-y-3">
                         <li class="flex items-start gap-2"><span class="text-cyan-500 font-bold">1.</span> Observe a
                             legenda no topo com Símbolos e Números.</li>
                         <li class="flex items-start gap-2"><span class="text-cyan-500 font-bold">2.</span> Digite o
@@ -361,20 +361,20 @@
                 </div>
 
                 <div
-                    class="bg-black/30 p-6 rounded-xl border border-white/10 text-left max-w-sm hover:border-purple-500/50 transition duration-300">
-                    <h3 class="text-white font-bold mb-3 flex items-center gap-2 text-xl">
-                        <i class="fas fa-trophy text-yellow-400"></i> Desafio
+                    class="bg-white/80 p-6 rounded-xl border border-slate-200 text-left max-w-sm hover:border-purple-500/50 transition duration-300">
+                    <h3 class="text-slate-800 font-bold mb-3 flex items-center gap-2 text-xl">
+                        <i class="fas fa-trophy text-yellow-700"></i> Desafio
                     </h3>
                     <div class="space-y-4">
                         <div>
-                            <div class="text-xs text-gray-500 uppercase font-bold mb-1">Tempo Limite</div>
-                            <div class="text-2xl font-bold text-white flex items-center gap-2">
-                                <i class="fas fa-clock text-gray-400 text-lg"></i> 2 Minutos
+                            <div class="text-xs text-slate-600 uppercase font-bold mb-1">Tempo Limite</div>
+                            <div class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fas fa-clock text-slate-500 text-lg"></i> 2 Minutos
                             </div>
                         </div>
                         <div>
-                            <div class="text-xs text-gray-500 uppercase font-bold mb-1">Meta para Aptidão</div>
-                            <div class="text-2xl font-bold text-green-400 flex items-center gap-2">
+                            <div class="text-xs text-slate-600 uppercase font-bold mb-1">Meta para Aptidão</div>
+                            <div class="text-2xl font-bold text-green-700 flex items-center gap-2">
                                 <i class="fas fa-check-circle text-lg"></i> 70 Acertos
                             </div>
                         </div>
@@ -384,7 +384,7 @@
 
             <!-- Voice Control Info -->
             <div class="mb-8 p-4 bg-purple-900/20 rounded-lg border border-purple-500/20 inline-block">
-                <p class="text-purple-300 text-sm font-medium">
+                <p class="text-blue-500 text-sm font-medium">
                     <i class="fas fa-volume-up mr-2 animate-pulse"></i>
                     O teste iniciará com comandos de voz. Aumente o volume!
                 </p>
@@ -393,42 +393,42 @@
             <br>
 
             <button @click="prepareTest()" x-show="!isPreparing"
-                class="px-16 py-5 rounded-xl text-xl font-black text-white bg-gradient-to-r from-purple-600 to-cyan-600 shadow-xl hover:scale-105 hover:from-purple-500 hover:to-cyan-500 transition transform border border-white/20">
+                class="px-16 py-5 rounded-xl text-xl font-black text-slate-800 bg-gradient-to-r from-purple-600 to-cyan-600 shadow-xl hover:scale-105 hover:from-purple-500 hover:to-cyan-500 transition transform border border-white/20">
                 INICIAR DESAFIO
             </button>
 
-            <div x-show="isPreparing" class="text-2xl font-bold text-white animate-pulse">
+            <div x-show="isPreparing" class="text-2xl font-bold text-slate-800 animate-pulse">
                 PREPARANDO... <span x-text="prepareStatus"></span>
             </div>
 
             <!-- HISTÓRICO -->
-            <div class="mt-8 border-t border-white/5 pt-6 text-left">
+            <div class="mt-8 border-t border-slate-100 pt-6 text-left">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-white">Últimos Resultados</h3>
-                    <button class="text-xs text-purple-400 hover:text-purple-300 font-medium"
+                    <h3 class="text-lg font-bold text-slate-800">Últimos Resultados</h3>
+                    <button class="text-xs text-blue-600 hover:text-blue-500 font-medium"
                         @click="clearHistory()">Limpar</button>
                 </div>
                 <div class="overflow-x-auto max-h-40">
                     <table class="w-full text-sm text-left">
-                        <thead class="text-xs text-gray-500 uppercase bg-black/20">
+                        <thead class="text-xs text-slate-500 uppercase bg-slate-100">
                             <tr>
-                                <th class="px-4 py-2 text-gray-400">Data</th>
-                                <th class="px-4 py-2 text-center text-gray-400">Score</th>
-                                <th class="px-4 py-2 text-center text-gray-400">Status</th>
+                                <th class="px-4 py-2 text-slate-500">Data</th>
+                                <th class="px-4 py-2 text-center text-slate-500">Score</th>
+                                <th class="px-4 py-2 text-center text-slate-500">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-white/5">
+                        <tbody class="divide-y divide-slate-200">
                             <template x-if="history.length === 0">
                                 <tr>
-                                    <td colspan="3" class="px-4 py-4 text-center text-gray-500">Nenhum registro.</td>
+                                    <td colspan="3" class="px-4 py-4 text-center text-slate-600">Nenhum registro.</td>
                                 </tr>
                             </template>
                             <template x-for="(item, index) in history" :key="index">
-                                <tr class="hover:bg-white/5 transition">
-                                    <td class="px-4 py-2 text-gray-300 text-xs" x-text="item.date"></td>
-                                    <td class="px-4 py-2 text-center font-bold text-white" x-text="item.correct"></td>
+                                <tr class="hover:bg-slate-100 transition">
+                                    <td class="px-4 py-2 text-slate-600 text-xs" x-text="item.date"></td>
+                                    <td class="px-4 py-2 text-center font-bold text-slate-800" x-text="item.correct"></td>
                                     <td class="px-4 py-2 text-center font-bold text-xs"
-                                        :class="item.passed ? 'text-green-400' : 'text-red-400'"
+                                        :class="item.passed ? 'text-green-700' : 'text-red-700'"
                                         x-text="item.passed ? 'APTO' : 'INAPTO'"></td>
                                 </tr>
                             </template>
@@ -444,8 +444,8 @@
 
             <!-- HUD Gamification -->
             <div class="fixed top-20 left-4 z-50 flex flex-col gap-2 pointer-events-none">
-                <div class="bg-black/60 backdrop-blur-md p-3 rounded-lg border border-white/10 shadow-lg glow-box">
-                    <div class="text-[10px] text-gray-400 uppercase font-bold">Combo</div>
+                <div class="bg-black/60 backdrop-blur-md p-3 rounded-lg border border-slate-200 shadow-lg glow-box">
+                    <div class="text-[10px] text-slate-500 uppercase font-bold">Combo</div>
                     <div class="text-3xl font-black text-yellow-500 italic" x-text="streak + 'x'"></div>
                 </div>
                 <!-- XP Pops will be appended here via JS -->
@@ -454,11 +454,11 @@
             <!-- Timer & Controls floating bottom -->
             <!-- Unified Fixed Timer -->
             <div class="fixed top-24 left-1/2 transform -translate-x-1/2 z-[110] flex items-center gap-4">
-                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-white/20 bg-[#1c1b29]/90 backdrop-blur-md"
-                    :class="{'border-red-500 bg-red-900/40': timeLeft < 30}">
-                    <div class="text-xs font-bold uppercase tracking-wider text-gray-400">Restante</div>
-                    <div class="font-mono text-3xl font-black text-white tabular-nums leading-none"
-                        :class="{'text-red-400 animate-pulse': timeLeft < 30}" x-text="formatTime(timeLeft)">
+                <div class="glass-panel px-6 py-3 rounded-full flex items-center gap-4 shadow-2xl border border-slate-200 bg-white/90 backdrop-blur-md"
+                    :class="{'border-red-500 bg-red-50/90': timeLeft < 30}">
+                    <div class="text-xs font-bold uppercase tracking-wider text-slate-500">Restante</div>
+                    <div class="font-mono text-3xl font-black text-slate-800 tabular-nums leading-none"
+                        :class="{'text-red-700 animate-pulse': timeLeft < 30}" x-text="formatTime(timeLeft)">
                     </div>
                 </div>
 
@@ -489,9 +489,9 @@
             <!-- Zoom Controls (Optional convenience) -->
             <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-2">
                 <button @click="zoomLevel = Math.min(zoomLevel + 0.1, 1.5)"
-                    class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/10 shadow-lg">+</button>
+                    class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-slate-800 flex items-center justify-center border border-slate-200 shadow-lg">+</button>
                 <button @click="zoomLevel = Math.max(zoomLevel - 0.1, 0.5)"
-                    class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center border border-white/10 shadow-lg">-</button>
+                    class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-slate-800 flex items-center justify-center border border-slate-200 shadow-lg">-</button>
             </div>
         </div>
 
@@ -502,24 +502,24 @@
             <canvas id="confetti" class="fixed top-0 left-0 w-full h-full pointer-events-none z-[200]"
                 x-show="showConfetti"></canvas>
 
-            <div class="bg-[#1c1b29] rounded-2xl p-8 border border-white/5 shadow-2xl relative overflow-hidden">
+            <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-2xl relative overflow-hidden">
                 <!-- Rank Gradient Bg -->
                 <div class="absolute inset-0 opacity-10" :class="getRankColorClass()"></div>
 
-                <h2 class="text-3xl font-black text-white mb-2 relative z-10">RESULTADO FINAL</h2>
-                <div class="text-gray-400 mb-8 font-medium relative z-10">Performance Detalhada</div>
+                <h2 class="text-3xl font-black text-slate-800 mb-2 relative z-10">RESULTADO FINAL</h2>
+                <div class="text-slate-500 mb-8 font-medium relative z-10">Performance Detalhada</div>
 
                 <!-- RANKING DISPLAY -->
                 <div class="flex justify-center mb-10 relative z-10">
                     <template x-if="results.correct >= 70">
                         <div class="flex flex-col items-center">
-                            <div class="w-24 h-24 rounded-full border-4 flex items-center justify-center bg-black/40 mb-3 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+                            <div class="w-24 h-24 rounded-full border-4 flex items-center justify-center bg-white/80 mb-3 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
                                 :class="getRankBorderClass()">
                                 <i class="fas text-4xl" :class="getRankIcon()"></i>
                             </div>
                             <div class="text-3xl font-black uppercase tracking-widest" :class="getRankTextClass()"
                                 x-text="getRankTitle()"></div>
-                            <div class="text-sm text-gray-500 font-bold mt-1">APTO</div>
+                            <div class="text-sm text-slate-600 font-bold mt-1">APTO</div>
                         </div>
                     </template>
 
@@ -530,58 +530,58 @@
                             </div>
 
                             <div
-                                class="w-24 h-24 rounded-full border-4 border-gray-500 flex items-center justify-center bg-black/40 mb-3 shadow-[0_0_30px_rgba(239,68,68,0.3)] mt-2">
-                                <i class="fas fa-thumbs-down text-4xl text-gray-500"></i>
+                                class="w-24 h-24 rounded-full border-4 border-gray-500 flex items-center justify-center bg-white/80 mb-3 shadow-[0_0_30px_rgba(239,68,68,0.3)] mt-2">
+                                <i class="fas fa-thumbs-down text-4xl text-slate-600"></i>
                             </div>
-                            <div class="text-3xl font-black uppercase tracking-widest text-gray-500"
+                            <div class="text-3xl font-black uppercase tracking-widest text-slate-600"
                                 x-text="getRankTitle()"></div>
-                            <div class="text-sm text-gray-500 font-bold mt-1">INAPTO</div>
+                            <div class="text-sm text-slate-600 font-bold mt-1">INAPTO</div>
                         </div>
                     </template>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-4xl mx-auto relative z-10">
                     <!-- Acertos -->
-                    <div class="bg-black/30 p-6 rounded-xl border border-white/10 hover:bg-black/40 transition">
+                    <div class="bg-white/80 p-6 rounded-xl border border-slate-200 hover:bg-white/80 transition">
                         <div
-                            class="text-sm text-gray-500 font-bold uppercase mb-2 flex items-center justify-center gap-2">
+                            class="text-sm text-slate-600 font-bold uppercase mb-2 flex items-center justify-center gap-2">
                             <i class="fas fa-check text-green-500"></i> Acertos
                         </div>
                         <div class="text-5xl font-bold "
-                            :class="results.correct >= 70 ? 'text-green-400' : 'text-red-500'" x-text="results.correct">
+                            :class="results.correct >= 70 ? 'text-green-700' : 'text-red-500'" x-text="results.correct">
                         </div>
                     </div>
 
                     <!-- Erros/Brancos -->
-                    <div class="bg-black/30 p-6 rounded-xl border border-white/10 hover:bg-black/40 transition">
+                    <div class="bg-white/80 p-6 rounded-xl border border-slate-200 hover:bg-white/80 transition">
                         <div
-                            class="text-sm text-gray-500 font-bold uppercase mb-2 flex items-center justify-center gap-2">
+                            class="text-sm text-slate-600 font-bold uppercase mb-2 flex items-center justify-center gap-2">
                             <i class="fas fa-times text-red-500"></i> Erros / Brancos
                         </div>
-                        <div class="text-5xl font-bold text-red-400" x-text="results.wrong + results.blank"></div>
+                        <div class="text-5xl font-bold text-red-700" x-text="results.wrong + results.blank"></div>
                     </div>
 
                     <!-- Precisão -->
-                    <div class="bg-black/30 p-6 rounded-xl border border-white/10 hover:bg-black/40 transition">
+                    <div class="bg-white/80 p-6 rounded-xl border border-slate-200 hover:bg-white/80 transition">
                         <div
-                            class="text-sm text-gray-500 font-bold uppercase mb-2 flex items-center justify-center gap-2">
+                            class="text-sm text-slate-600 font-bold uppercase mb-2 flex items-center justify-center gap-2">
                             <i class="fas fa-crosshairs text-blue-500"></i> Precisão
                         </div>
-                        <div class="text-5xl font-bold text-blue-400" x-text="getAccuracy() + '%'"></div>
+                        <div class="text-5xl font-bold text-blue-600" x-text="getAccuracy() + '%'"></div>
                     </div>
                 </div>
 
                 <div class="flex gap-4 justify-center relative z-10">
                     <button @click="reviewAnswers()"
-                        class="px-8 py-3 border border-white/20 text-white rounded-lg hover:bg-white/5 transition flex items-center gap-2">
+                        class="px-8 py-3 border border-white/20 text-slate-800 rounded-lg hover:bg-slate-100 transition flex items-center gap-2">
                         <i class="fas fa-search"></i> Ver Correção
                     </button>
                     <button onclick="location.reload()"
-                        class="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-lg hover:shadow-lg hover:scale-105 transition transform flex items-center gap-2">
+                        class="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-slate-800 font-bold rounded-lg hover:shadow-lg hover:scale-105 transition transform flex items-center gap-2">
                         <i class="fas fa-redo"></i> Tentar Novamente
                     </button>
                     <button onclick="window.print()"
-                        class="px-8 py-3 bg-gray-700 text-white font-bold rounded-lg hover:bg-gray-600 transition flex items-center gap-2">
+                        class="px-8 py-3 bg-gray-700 text-slate-800 font-bold rounded-lg hover:bg-gray-600 transition flex items-center gap-2">
                         <i class="fas fa-print"></i> Imprimir
                     </button>
                 </div>
@@ -591,8 +591,8 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="border-t border-white/10 mt-auto py-8 bg-[#0f0e1a] text-center text-sm text-gray-600">
-        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Aprovação Psycho. Todos direitos reservados.
+    <footer class="border-t border-slate-200 mt-auto py-8 bg-slate-50 text-center text-sm text-gray-600">
+        &copy; <span x-data x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico. Todos direitos reservados.
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
@@ -844,12 +844,12 @@
 
                 getRankTextClass() {
                     const r = this.getRankTitle();
-                    if (r === 'FERRO') return 'text-gray-500';
+                    if (r === 'FERRO') return 'text-slate-400';
                     if (r === 'BRONZE') return 'text-amber-600';
-                    if (r === 'PRATA') return 'text-gray-300';
-                    if (r === 'OURO') return 'text-yellow-400';
-                    if (r === 'PLATINA') return 'text-cyan-400';
-                    return 'text-blue-400';
+                    if (r === 'PRATA') return 'text-slate-600';
+                    if (r === 'OURO') return 'text-yellow-700';
+                    if (r === 'PLATINA') return 'text-blue-500';
+                    return 'text-blue-600';
                 },
 
                 getRankBorderClass() {
@@ -864,12 +864,12 @@
 
                 getRankIcon() {
                     const r = this.getRankTitle();
-                    if (r === 'FERRO') return 'fa-dumbbell text-gray-500';
+                    if (r === 'FERRO') return 'fa-dumbbell text-slate-400';
                     if (r === 'BRONZE') return 'fa-shield-alt text-amber-600';
-                    if (r === 'PRATA') return 'fa-medal text-gray-300';
-                    if (r === 'OURO') return 'fa-crown text-yellow-400';
-                    if (r === 'PLATINA') return 'fa-star text-cyan-400';
-                    return 'fa-gem text-blue-400';
+                    if (r === 'PRATA') return 'fa-medal text-slate-600';
+                    if (r === 'OURO') return 'fa-crown text-yellow-700';
+                    if (r === 'PLATINA') return 'fa-star text-blue-500';
+                    return 'fa-gem text-blue-600';
                 },
 
                 getAccuracy() {

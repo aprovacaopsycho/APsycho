@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simuladores - Aprovação Psycho</title>
+    <title>Simuladores - Grupo de Estudos para Psicotécnico</title>
     <link rel="icon" type="image/png" href="favicon.png">
 
     <!-- Tailwind CDN -->
@@ -14,7 +14,7 @@
             theme: {
                 extend: {
                     colors: {
-                        bg: { DEFAULT: '#0B0A14', secondary: '#12111F' }
+                        bg: { DEFAULT: '#F8FAFC', secondary: '#F1F5F9' }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -36,15 +36,15 @@
     <style>
         /* Global & Variables */
         :root {
-            --color-primary: #9F54FF;
-            --color-secondary: #FF00FF;
-            --color-accent: #0015FF;
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --color-primary: #2563EB;
+            --color-secondary: #0EA5E9;
+            --color-accent: #1D4ED8;
+            --glass-border: rgba(0, 0, 0, 0.08);
         }
 
         body {
-            background-color: #0B0A14;
-            color: #E2E8F0;
+            background-color: #F8FAFC;
+            color: #1E293B;
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
@@ -52,24 +52,24 @@
 
         /* Enhanced Glassmorphism */
         .glass-nav {
-            background: rgba(11, 10, 20, 0.7);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--glass-border);
         }
 
         .glass-card {
-            background: linear-gradient(180deg, rgba(24, 23, 40, 0.7) 0%, rgba(18, 17, 31, 0.4) 100%);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 245, 249, 0.6) 100%);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
             transition: all 0.3s ease;
         }
 
         .glass-card:hover {
-            background: linear-gradient(180deg, rgba(30, 29, 50, 0.8) 0%, rgba(24, 23, 40, 0.5) 100%);
-            border-color: rgba(159, 84, 255, 0.3);
-            box-shadow: 0 0 25px rgba(159, 84, 255, 0.15);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(241, 245, 249, 0.8) 100%);
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 0 25px rgba(37, 99, 235, 0.1);
             transform: translateY(-4px);
         }
 
@@ -89,14 +89,14 @@
         /* Base Buttons */
         .btn-glow {
             position: relative;
-            background: linear-gradient(90deg, #FF00FF, #0015FF);
+            background: linear-gradient(90deg, #2563EB, #1D4ED8);
             color: white;
             font-weight: 700;
             border-radius: 99px;
             padding: 0.8rem 2rem;
             transition: all 0.3s ease;
             z-index: 1;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
             overflow: hidden;
             cursor: pointer;
             display: inline-flex;
@@ -106,11 +106,11 @@
 
         .btn-glow:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.4);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(37, 99, 235, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             padding: 0.6rem 1.5rem;
@@ -148,23 +148,23 @@
 
         /* Nav specific */
         .nav-btn-member {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 0, 255, 0.3);
-            color: #fff;
+            background: rgba(37, 99, 235, 0.05);
+            border: 1px solid rgba(37, 99, 235, 0.3);
+            color: #1D4ED8;
             padding: 0.4rem 1rem;
             border-radius: 8px;
             transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255, 0, 255, 0.1);
+            box-shadow: 0 0 10px rgba(37, 99, 235, 0.05);
         }
 
         .nav-btn-member:hover {
-            background: rgba(255, 0, 255, 0.15);
-            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            background: rgba(37, 99, 235, 0.15);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.2);
         }
     </style>
 </head>
 
-<body class="antialiased selection:bg-purple-500 selection:text-white" x-data="{ currentSimulator: 'selection' }">
+<body class="antialiased selection:bg-blue-500 selection:text-white" x-data="{ currentSimulator: 'selection' }">
 
     <!-- ===== Header ===== -->
     <header class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
@@ -173,27 +173,27 @@
             <a href="index.html" class="flex items-center gap-3 group" aria-label="Home">
                 <div class="relative">
                     <div
-                        class="absolute -inset-1 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-20 blur transition duration-500 group-hover:opacity-60">
+                        class="absolute -inset-1 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 opacity-20 blur transition duration-500 group-hover:opacity-60">
                     </div>
-                    <img src="Imagens_base/logo-principal.png" alt="Aprovação Psycho" class="relative h-10 w-auto" />
+                    <img src="Imagens_base/logo-principal.png" alt="Grupo de Estudos para Psicotécnico" class="relative h-10 w-auto" />
                 </div>
-                <span class="text-xl font-black text-white tracking-tight">
-                    APROVAÇÃO <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">PSYCHO</span>
+                <span class="text-xl font-black text-slate-900 tracking-tight">
+                    GRUPO DE ESTUDOS <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">PARA PSICOTÉCNICO</span>
                 </span>
             </a>
 
             <!-- Desktop Nav -->
             <div class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="index.html" class="text-gray-300 hover:text-white transition-colors">O Curso</a>
-                <a href="turmas.html" class="text-gray-300 hover:text-white transition-colors">Turmas</a>
-                <a href="depoimentos.html" class="text-gray-300 hover:text-white transition-colors">Depoimentos</a>
-                <a href="equipe.html" class="text-gray-300 hover:text-white transition-colors">Equipe</a>
-                <a href="simuladores.html" class="text-white transition-colors font-bold">Simuladores</a>
-                <a href="galeria.html" class="text-gray-300 hover:text-white transition-colors">Galeria</a>
-                <a href="dicas.html" class="text-gray-300 hover:text-white transition-colors">Dicas</a>
+                <a href="index.html" class="text-slate-600 hover:text-blue-600 transition-colors">O Curso</a>
+                <a href="turm.html" class="text-slate-600 hover:text-blue-600 transition-colors">Turmas</a>
+                <a href="depoimens.html" class="text-slate-600 hover:text-blue-600 transition-colors">Depoimentos</a>
+                <a href="equi.html" class="text-slate-600 hover:text-blue-600 transition-colors">Equipe</a>
+                <a href="simulador.html" class="text-blue-600 transition-colors font-bold">Simuladores</a>
+                <a href="galer.html" class="text-slate-600 hover:text-blue-600 transition-colors">Galeria</a>
+                <a href="dic.html" class="text-slate-600 hover:text-blue-600 transition-colors">Dicas</a>
                 <a href="membros.html" class="nav-btn-member flex items-center gap-2">
-                    <svg class="w-4 h-4 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                     </svg>
@@ -203,7 +203,7 @@
 
             <!-- Mobile Button -->
             <button id="menu-btn"
-                class="md:hidden p-2 text-gray-300 hover:text-white rounded-lg border border-white/10">
+                class="md:hidden p-2 text-slate-600 hover:text-blue-600 rounded-lg border border-slate-200">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -212,18 +212,18 @@
 
         <!-- Mobile Menu -->
         <div id="mobile-menu"
-            class="md:hidden hidden bg-black/90 backdrop-blur-xl border-b border-white/10 absolute w-full left-0 top-full">
+            class="md:hidden hidden bg-white/90 backdrop-blur-xl border-b border-slate-200 absolute w-full left-0 top-full">
             <div class="p-6 flex flex-col gap-4 text-center">
-                <a href="index.html" class="text-gray-300 py-2">O Curso</a>
-                <a href="turmas.html" class="text-purple-400 py-2 font-bold">Turmas Abertas</a>
-                <a href="depoimentos.html" class="text-gray-300 py-2">Depoimentos</a>
-                <a href="equipe.html" class="text-gray-300 py-2">Equipe</a>
-                <a href="simuladores.html" class="text-purple-400 py-2 font-bold">Simuladores</a>
-                <a href="galeria.html" class="text-gray-300 py-2">Galeria</a>
+                <a href="index.html" class="text-slate-600 py-2">O Curso</a>
+                <a href="turm.html" class="text-blue-600 py-2 font-bold">Turmas Abertas</a>
+                <a href="depoimens.html" class="text-slate-600 py-2">Depoimentos</a>
+                <a href="equi.html" class="text-slate-600 py-2">Equipe</a>
+                <a href="simulador.html" class="text-blue-600 py-2 font-bold">Simuladores</a>
+                <a href="galer.html" class="text-slate-600 py-2">Galeria</a>
                 <a href="membros.html"
-                    class="text-white font-bold bg-white/10 py-3 rounded-lg border border-purple-500/30">Área de
+                    class="text-slate-800 font-bold bg-white/10 py-3 rounded-lg border border-blue-500/30">Área de
                     Membros</a>
-                <a href="equipe.html" class="text-gray-300 py-2">Equipe</a>
+                <a href="equi.html" class="text-slate-600 py-2">Equipe</a>
             </div>
         </div>
     </header>
@@ -235,12 +235,12 @@
                 <!-- Header Section -->
                 <div class="text-center max-w-3xl mx-auto mb-16">
                     <span
-                        class="inline-block py-1 px-3 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-bold uppercase tracking-wider mb-4">Ferramentas
+                        class="inline-block py-1 px-3 rounded-full bg-purple-500/10 border border-purple-500/20 text-blue-500 text-xs font-bold uppercase tracking-wider mb-4">Ferramentas
                         Gratuitas</span>
-                    <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight mb-4">Nossos <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Simuladores</span>
+                    <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-4">Nossos <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Simuladores</span>
                     </h1>
-                    <p class="text-gray-400 text-lg">Tenha uma prévia prática do que você aprenderá na mentoria. Teste
+                    <p class="text-slate-500 text-lg">Tenha uma prévia prática do que você aprenderá na mentoria. Teste
                         suas habilidades agora mesmo.</p>
                 </div>
 
@@ -250,7 +250,7 @@
                     <div @click="currentSimulator = 'bfp'"
                         class="glass-card p-8 rounded-2xl text-center group cursor-pointer flex flex-col h-full border-t-4 border-t-purple-500">
                         <div
-                            class="mb-6 mx-auto w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                            class="mb-6 mx-auto w-16 h-16 rounded-full bg-purple-500/10 flex items-center justify-center text-blue-600 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
@@ -258,10 +258,10 @@
                             </svg>
                         </div>
                         <h3 class="text-2xl font-bold text-white mb-3">Amostra BFP</h3>
-                        <p class="text-gray-400 text-sm mb-6 flex-grow">Teste de Personalidade preliminar. Responda 10
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Teste de Personalidade preliminar. Responda 10
                             questões e receba uma análise do seu perfil.</p>
                         <span
-                            class="inline-block w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm transition-colors">Acessar
+                            class="inline-block w-full py-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-slate-800 font-bold text-sm transition-colors">Acessar
                             Simulador</span>
                     </div>
 
@@ -279,10 +279,10 @@
                             </svg>
                         </div>
                         <h3 class="text-2xl font-bold text-white mb-3">Atenção Seletiva</h3>
-                        <p class="text-gray-400 text-sm mb-6 flex-grow">Encontre os padrões idênticos ao modelo e teste
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Encontre os padrões idênticos ao modelo e teste
                             sua capacidade de foco sob pressão.</p>
                         <span
-                            class="inline-block w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm transition-colors">Acessar
+                            class="inline-block w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-slate-800 font-bold text-sm transition-colors">Acessar
                             Simulador</span>
                     </a>
 
@@ -298,10 +298,10 @@
                             </svg>
                         </div>
                         <h3 class="text-2xl font-bold text-white mb-3">Memória (Rostos)</h3>
-                        <p class="text-gray-400 text-sm mb-6 flex-grow">Desafie sua memória visual: memorize rostos e
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Desafie sua memória visual: memorize rostos e
                             identifique-os corretamente.</p>
                         <span
-                            class="inline-block w-full py-3 rounded-lg bg-pink-600 hover:bg-pink-500 text-white font-bold text-sm transition-colors">Acessar
+                            class="inline-block w-full py-3 rounded-lg bg-pink-600 hover:bg-pink-500 text-slate-800 font-bold text-sm transition-colors">Acessar
                             Simulador</span>
                     </a>
 
@@ -309,7 +309,7 @@
                     <div @click="currentSimulator = 'interview'"
                         class="glass-card p-8 rounded-2xl text-center group cursor-pointer flex flex-col h-full border-t-4 border-t-green-500">
                         <div
-                            class="mb-6 mx-auto w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 group-hover:scale-110 transition-transform duration-300">
+                            class="mb-6 mx-auto w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center text-green-700 group-hover:scale-110 transition-transform duration-300">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
@@ -317,10 +317,10 @@
                             </svg>
                         </div>
                         <h3 class="text-2xl font-bold text-white mb-3">Entrevista com IA</h3>
-                        <p class="text-gray-400 text-sm mb-6 flex-grow">Receba feedback instantâneo da nossa IA para
+                        <p class="text-slate-500 text-sm mb-6 flex-grow">Receba feedback instantâneo da nossa IA para
                             perguntas comuns de entrevista.</p>
                         <span
-                            class="inline-block w-full py-3 rounded-lg bg-green-600 hover:bg-green-500 text-white font-bold text-sm transition-colors">Acessar
+                            class="inline-block w-full py-3 rounded-lg bg-green-600 hover:bg-green-500 text-slate-800 font-bold text-sm transition-colors">Acessar
                             Simulador</span>
                     </div>
                 </div>
@@ -331,7 +331,7 @@
                         class="glass-card p-8 rounded-2xl max-w-4xl mx-auto inline-flex flex-col md:flex-row items-center gap-6">
                         <div class="text-left">
                             <h4 class="text-xl font-bold text-white">Quer acesso a todos os simuladores?</h4>
-                            <p class="text-gray-400 text-sm mt-1">Nossa plataforma completa tem mais de 20 testes
+                            <p class="text-slate-500 text-sm mt-1">Nossa plataforma completa tem mais de 20 testes
                                 práticos com cronômetro e ranking.</p>
                         </div>
                         <a href="https://wa.me/5585991982168" target="_blank" class="btn-glow whitespace-nowrap">
@@ -350,7 +350,7 @@
             <div class="container mx-auto max-w-4xl">
                 <!-- Back Button -->
                 <button @click="currentSimulator = 'selection'"
-                    class="mb-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-medium">
+                    class="mb-8 flex items-center gap-2 text-slate-500 hover:text-white transition-colors font-medium">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -361,21 +361,21 @@
                 <div x-data="bfpSimulator()" class="glass-card p-8 md:p-12 rounded-2xl shadow-2xl">
                     <!-- Title -->
                     <div class="text-center mb-10">
-                        <h1 class="text-3xl font-black text-white mb-2">Amostra do Teste (BFP)</h1>
-                        <p class="text-gray-400">Responda com sinceridade para uma análise preliminar.</p>
+                        <h1 class="text-3xl font-black text-slate-900 mb-2">Amostra do Teste (BFP)</h1>
+                        <p class="text-slate-500">Responda com sinceridade para uma análise preliminar.</p>
                     </div>
 
                     <!-- Instructions -->
                     <div x-show="state === 'instructions'" class="text-center max-w-2xl mx-auto">
-                        <div class="bg-white/5 rounded-xl p-6 mb-8 text-left space-y-3 border border-white/10">
-                            <p class="flex items-center gap-3 text-gray-300"><span
-                                    class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">1</span>
+                        <div class="bg-white/5 rounded-xl p-6 mb-8 text-left space-y-3 border border-slate-200">
+                            <p class="flex items-center gap-3 text-slate-600"><span
+                                    class="w-6 h-6 rounded-full bg-purple-500/20 text-blue-600 flex items-center justify-center font-bold text-sm">1</span>
                                 Serão apresentadas 10 afirmações.</p>
-                            <p class="flex items-center gap-3 text-gray-300"><span
-                                    class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">2</span>
+                            <p class="flex items-center gap-3 text-slate-600"><span
+                                    class="w-6 h-6 rounded-full bg-purple-500/20 text-blue-600 flex items-center justify-center font-bold text-sm">2</span>
                                 Você terá 3 minutos no total.</p>
-                            <p class="flex items-center gap-3 text-gray-300"><span
-                                    class="w-6 h-6 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">3</span>
+                            <p class="flex items-center gap-3 text-slate-600"><span
+                                    class="w-6 h-6 rounded-full bg-purple-500/20 text-blue-600 flex items-center justify-center font-bold text-sm">3</span>
                                 Indique o quanto você concorda na escala de 1 a 7.</p>
                         </div>
                         <button @click="startTest()" class="btn-glow text-lg px-10">
@@ -386,7 +386,7 @@
                     <!-- Testing State -->
                     <div x-show="state === 'testing'">
                         <div class="flex justify-between items-end mb-6">
-                            <span class="text-sm font-bold text-gray-400 uppercase tracking-wider">Questão <span
+                            <span class="text-sm font-bold text-slate-500 uppercase tracking-wider">Questão <span
                                     x-text="currentQuestionIndex + 1"></span>/10</span>
                             <span class="text-xl font-mono font-bold text-pink-500 bg-pink-500/10 px-3 py-1 rounded"
                                 x-text="timer">03:00</span>
@@ -411,19 +411,19 @@
                                     :class="{ 'selected': answers[questions[currentQuestionIndex]?.id] === i }"
                                     class="bfp-scale-option p-4 rounded-xl cursor-pointer flex flex-col items-center justify-center gap-2 group hover:border-white/30">
                                     <span
-                                        class="font-black text-xl text-white group-hover:text-purple-300 transition-colors"
+                                        class="font-black text-xl text-white group-hover:text-blue-500 transition-colors"
                                         x-text="i"></span>
                                     <span
-                                        class="text-[10px] uppercase font-bold text-gray-500 text-center leading-tight"
+                                        class="text-[10px] uppercase font-bold text-slate-400 text-center leading-tight"
                                         x-text="scaleLabels[i-1]"></span>
                                 </div>
                             </template>
                         </div>
 
                         <!-- Controls -->
-                        <div class="flex justify-between items-center border-t border-white/5 pt-8">
+                        <div class="flex justify-between items-center border-t border-slate-100 pt-8">
                             <button @click="prevQuestion()" :disabled="currentQuestionIndex === 0"
-                                class="text-gray-400 hover:text-white disabled:opacity-30 font-medium px-4 py-2 transition-colors">
+                                class="text-slate-500 hover:text-white disabled:opacity-30 font-medium px-4 py-2 transition-colors">
                                 Anterior
                             </button>
                             <button x-show="currentQuestionIndex < 9" @click="nextQuestion()"
@@ -442,7 +442,7 @@
                     <!-- Results -->
                     <div x-show="state === 'results'" class="text-center">
                         <div
-                            class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-green-400">
+                            class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 text-green-700">
                             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -452,13 +452,13 @@
 
                         <div class="grid md:grid-cols-2 gap-6 text-left mb-8">
                             <div class="bg-green-500/5 border border-green-500/20 p-6 rounded-xl">
-                                <h4 class="font-bold text-green-400 mb-2 flex items-center gap-2">
+                                <h4 class="font-bold text-green-700 mb-2 flex items-center gap-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                                     </svg> Pontos Fortes
                                 </h4>
-                                <p class="text-sm text-gray-300">Suas respostas indicam traços positivos de
+                                <p class="text-sm text-slate-600">Suas respostas indicam traços positivos de
                                     <strong>sociabilidade</strong> e respeito à hierarquia, essenciais para o perfil.
                                 </p>
                             </div>
@@ -470,14 +470,14 @@
                                         </path>
                                     </svg> Atenção
                                 </h4>
-                                <p class="text-sm text-gray-300">Alguns traços de impulsividade foram detectados. É
+                                <p class="text-sm text-slate-600">Alguns traços de impulsividade foram detectados. É
                                     crucial trabalhar o controle emocional.</p>
                             </div>
                         </div>
 
                         <div class="bg-purple-500/10 p-6 rounded-xl border border-purple-500/20 mb-8">
                             <p class="font-bold text-white mb-2">Quer o laudo completo?</p>
-                            <p class="text-gray-400 text-sm">O teste oficial tem 126 questões e avalia 5 fatores. Não vá
+                            <p class="text-slate-500 text-sm">O teste oficial tem 126 questões e avalia 5 fatores. Não vá
                                 para a prova no escuro.</p>
                         </div>
 
@@ -486,7 +486,7 @@
                             Solicitar Análise Completa
                         </a>
                         <button @click="resetTest()"
-                            class="block w-full mt-6 text-sm text-gray-500 hover:text-white transition-colors">
+                            class="block w-full mt-6 text-sm text-slate-400 hover:text-white transition-colors">
                             Refazer Amostra Grátis
                         </button>
                     </div>
@@ -502,7 +502,7 @@
             <div class="container mx-auto max-w-3xl">
                 <!-- Back Button -->
                 <button @click="currentSimulator = 'selection'"
-                    class="mb-8 flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-medium">
+                    class="mb-8 flex items-center gap-2 text-slate-500 hover:text-white transition-colors font-medium">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -513,20 +513,20 @@
                 <div x-data="interviewSimulator()"
                     class="glass-card p-8 md:p-12 rounded-2xl shadow-2xl border-t-4 border-t-green-500">
                     <div class="text-center mb-8">
-                        <div class="inline-flex p-3 rounded-full bg-green-500/10 text-green-400 mb-4">
+                        <div class="inline-flex p-3 rounded-full bg-green-500/10 text-green-700 mb-4">
                             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
                                 </path>
                             </svg>
                         </div>
-                        <h1 class="text-3xl font-black text-white">Simulador de Entrevista (IA)</h1>
-                        <p class="text-gray-400 mt-2">Receba feedback imediato sobre sua argumentação.</p>
+                        <h1 class="text-3xl font-black text-slate-900">Simulador de Entrevista (IA)</h1>
+                        <p class="text-slate-500 mt-2">Receba feedback imediato sobre sua argumentação.</p>
                     </div>
 
                     <div class="space-y-6">
                         <div>
-                            <label class="block text-sm font-bold text-gray-300 uppercase tracking-wider mb-2">Pergunta
+                            <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Pergunta
                                 do Entrevistador</label>
                             <div
                                 class="bg-white/5 p-4 rounded-xl border-l-4 border-purple-500 text-white font-medium text-lg">
@@ -536,10 +536,10 @@
 
                         <div>
                             <label for="user-answer"
-                                class="block text-sm font-bold text-gray-300 uppercase tracking-wider mb-2">Sua
+                                class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Sua
                                 Resposta</label>
                             <textarea id="user-answer" x-model="userInput" rows="6"
-                                class="w-full bg-black/40 border border-white/10 rounded-xl p-4 text-white placeholder-gray-600 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all outline-none resize-none"
+                                class="w-full bg-black/40 border border-slate-200 rounded-xl p-4 text-white placeholder-gray-600 focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all outline-none resize-none"
                                 placeholder="Escreva sua resposta aqui como se estivesse falando com o psicólogo..."></textarea>
                         </div>
 
@@ -565,7 +565,7 @@
                         <div x-show="feedback" x-transition
                             class="mt-8 bg-black/40 rounded-xl border border-green-500/20 overflow-hidden">
                             <div class="bg-green-500/10 p-4 border-b border-green-500/10">
-                                <h3 class="font-bold text-green-400 flex items-center gap-2">
+                                <h3 class="font-bold text-green-700 flex items-center gap-2">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -575,11 +575,11 @@
                             <div class="p-6 prose prose-invert max-w-none text-sm leading-relaxed" x-html="feedback">
                             </div>
 
-                            <div class="p-6 bg-white/5 text-center border-t border-white/5">
-                                <p class="text-gray-400 mb-4 text-sm">Essa é apenas uma análise automática. Na mentoria,
+                            <div class="p-6 bg-white/5 text-center border-t border-slate-100">
+                                <p class="text-slate-500 mb-4 text-sm">Essa é apenas uma análise automática. Na mentoria,
                                     simulamos entrevistas reais com pressão psicológica.</p>
                                 <a href="https://wa.me/5585991982168" target="_blank"
-                                    class="text-white font-bold hover:text-purple-400 transition-colors text-sm underline">Quero
+                                    class="text-slate-800 font-bold hover:text-blue-600 transition-colors text-sm underline">Quero
                                     agendar uma simulação real</a>
                             </div>
                         </div>
@@ -590,17 +590,17 @@
     </div>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 bg-[#08070F] py-10 mt-auto">
+    <footer class="border-t border-slate-100 bg-slate-50 py-10 mt-auto">
         <div class="mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-3 opacity-80 hover:opacity-100 transition">
                 <img src="Imagens_base/logo-principal.png" alt="Logo" class="h-8 w-auto grayscale">
-                <span class="font-bold text-gray-500 text-sm">© <span x-data
-                        x-text="new Date().getFullYear()">2026</span> Aprovação Psycho</span>
+                <span class="font-bold text-slate-400 text-sm">© <span x-data
+                        x-text="new Date().getFullYear()">2026</span> Grupo de Estudos para Psicotécnico</span>
             </div>
-            <div class="flex gap-6 text-sm text-gray-500">
-                <a href="#" class="hover:text-purple-400 transition">Termos</a>
-                <a href="#" class="hover:text-purple-400 transition">Privacidade</a>
-                <a href="https://wa.me/5585991982168" class="hover:text-green-400 transition">Contato</a>
+            <div class="flex gap-6 text-sm text-slate-400">
+                <a href="#" class="hover:text-blue-600 transition">Termos</a>
+                <a href="#" class="hover:text-blue-600 transition">Privacidade</a>
+                <a href="https://wa.me/5585991982168" class="hover:text-green-700 transition">Contato</a>
             </div>
         </div>
     </footer>
@@ -633,8 +633,8 @@
                         const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
                         if (text) {
                             // Basic formatting cleanup
-                            let formatted = text.replace(/### (.*)/g, '<h4 class="text-white font-bold mt-4 mb-2">$1</h4>')
-                                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-green-400">$1</strong>');
+                            let formatted = text.replace(/### (.*)/g, '<h4 class="text-slate-800 font-bold mt-4 mb-2">$1</h4>')
+                                .replace(/\*\*(.*?)\*\*/g, '<strong class="text-green-700">$1</strong>');
                             this.feedback = formatted;
                         } else {
                             throw new Error('Sem resposta');
@@ -643,13 +643,13 @@
                         // Fallback mock response if API fails (common in demos without backend)
                         setTimeout(() => {
                             this.feedback = `
-                                <h4 class="text-white font-bold mb-2">Análise Simulada (Modo Demo)</h4>
-                                <p class="text-gray-300 mb-2">Sua resposta demonstra boa intenção. Pontos observados:</p>
-                                <ul class="list-disc ml-5 space-y-1 text-gray-400">
+                                <h4 class="text-slate-800 font-bold mb-2">Análise Simulada (Modo Demo)</h4>
+                                <p class="text-slate-600 mb-2">Sua resposta demonstra boa intenção. Pontos observados:</p>
+                                <ul class="list-disc ml-5 space-y-1 text-slate-500">
                                     <li><strong>Pontos Fortes:</strong> Clareza na comunicação e objetividade.</li>
                                     <li><strong>Atenção:</strong> Evite clichês como "ajudar as pessoas" sem conectar com a função policial real.</li>
                                 </ul>
-                                <p class="mt-4 text-xs text-gray-500">*Para análise real com IA, configure a API Key ou contate o suporte.*</p>
+                                <p class="mt-4 text-xs text-slate-400">*Para análise real com IA, configure a API Key ou contate o suporte.*</p>
                             `;
                             this.loading = false;
                         }, 1500);
