@@ -8,6 +8,23 @@
   <link rel="icon" type="image/png" href="favicon.png" />
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563EB',
+            secondary: '#0ea5e9',
+            'accent-cyan': '#0284c7',
+            bg: { DEFAULT: '#F8FAFC', secondary: '#F1F5F9' }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js" defer></script>
 
   <style>
@@ -356,7 +373,7 @@
       100% {
         transform: rotateZ(60deg) translate(12em, -10em);
       }
-    }   }
+    }
   </style>
 </head>
 
@@ -505,7 +522,8 @@
         </p>
       </div>
 
-      <div class="max-w         <!-- PMPR / Base -->
+      <div class="max-w-5xl mx-auto flex flex-col gap-8">
+        <!-- PMPR / Base -->
         <div @click="handleCardClick('Base', 'Polícia Militar do Paraná')"
           class="glass-card p-10 rounded-3xl flex flex-col md:flex-row items-center gap-10 cursor-pointer group">
 
@@ -520,7 +538,7 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-5">
               <div>
                 <h2
-                  class="text-4xl md:text-5xl font-black text-slate-900 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-cyan transition-all">
+                  class="text-4xl md:text-5xl font-black text-slate-900 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-secondary transition-all">
                   PM-PR</h2>
                 <div
                   class="h-1.5 w-16 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto md:mx-0 group-hover:w-32 transition-all duration-500">
@@ -563,10 +581,10 @@
               <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-5">
                 <div>
                   <h2
-                    class="text-4xl md:text-5xl font-black text-slate-900 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-cyan transition-all"
+                    class="text-4xl md:text-5xl font-black text-slate-900 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-secondary transition-all"
                     x-text="turma.nome"></h2>
                   <div
-                    class="h-1.5 w-16 bg-gradient-to-r from-primary to-cyan rounded-full mx-auto md:mx-0 group-hover:w-32 transition-all duration-500">
+                    class="h-1.5 w-16 bg-gradient-to-r from-primary to-secondary rounded-full mx-auto md:mx-0 group-hover:w-32 transition-all duration-500">
                   </div>
                 </div>
               </div>
@@ -587,7 +605,6 @@
               </button>
             </div>
           </div>
-        </template>          </div>
         </template>
       </div>
     </div>
