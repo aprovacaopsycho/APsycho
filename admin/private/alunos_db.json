@@ -1520,26 +1520,42 @@
   {
     "nome": "RAILTON CARLOS COUTO E SOUZA",
     "email": "railtoncarlosc2@gmail.com",
+    "cpf": "700.006.734-98",
     "inscricao": "RCCES700006",
-    "cpf": "700.006.734-98"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "JOSÉ RIAN RODRIGUES DA SILVA",
     "email": "jose15rian@gmail.com",
+    "cpf": "709.075.304-27",
     "inscricao": "JRRDS709075",
-    "cpf": "709.075.304-27"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "RUBEN LUAN BESSA SILVA",
     "email": "rubensluanbs@gmail.com",
+    "cpf": "082.763.683-01",
     "inscricao": "RLBS082763",
-    "cpf": "082.763.683-01"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "Marcos Antônio de Almeida Sousa Filho",
     "email": "marcosousaa888@gmail.com",
+    "cpf": "083.989.573-95",
     "inscricao": "MADASF083989",
-    "cpf": "083.989.573-95"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "DANÚBIA DO AMARAL RODRIGUES",
@@ -1554,26 +1570,42 @@
   {
     "nome": "LÍVIA SÂMIA DE SOUZA OLIVEIRA",
     "email": "liviasamiaoliver@gmail.com",
+    "cpf": "086.520.413-69",
     "inscricao": "LSDSO086520",
-    "cpf": "086.520.413-69"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "RODRIGO DOS SANTOS MARQUES",
     "email": "rodrigomarques.r1019@gmail.com",
+    "cpf": "021.949.683-85",
     "inscricao": "RDSM021949",
-    "cpf": "021.949.683-85"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "HANDERSON SILVA OLIVEIRA",
     "email": "handim3123.silva@gmail.com",
+    "cpf": "062.978.583-06",
     "inscricao": "HSO062978",
-    "cpf": "062.978.583-06"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "Lucas Girão Sena",
     "email": "lucassenna714@gmail.com",
+    "cpf": "613.526.643-80",
     "inscricao": "LGS613526",
-    "cpf": "613.526.643-80"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "CARLOS JEFFERSON DE OLIVEIRA ABREU",
@@ -1598,32 +1630,52 @@
   {
     "nome": "JOÃO BENTO DUARTE NETO",
     "email": "joaonetoduarte51@gmail.com",
+    "cpf": "082.760.763-60",
     "inscricao": "JBDN082760",
-    "cpf": "082.760.763-60"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "MARCELA SILVA SOARES",
     "email": "marcelasoares1307@gmail.com",
+    "cpf": "074.138.293-80",
     "inscricao": "MSS074138",
-    "cpf": "074.138.293-80"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "WELLINGTON CARLOS DE SOUSA",
     "email": "wellingtoncarlos3232@gmail.com",
+    "cpf": "071.923.583-98",
     "inscricao": "WCDS071923",
-    "cpf": "071.923.583-98"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "JOSÉ ÁTILA LIMA SOUSA",
     "email": "liimasousa50@gmail.com",
+    "cpf": "073.503.693-44",
     "inscricao": "JÁLS073503",
-    "cpf": "073.503.693-44"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "JELIEL MARTILIANO PEREIRA MOREIRA",
     "email": "jeliel23araujo@gmail.com",
+    "cpf": "608.866.893-84",
     "inscricao": "JMPM608866",
-    "cpf": "608.866.893-84"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "ANTÔNIO SAMUEL SILVA DE SOUZA",
