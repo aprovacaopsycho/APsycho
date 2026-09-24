@@ -1570,8 +1570,12 @@
   {
     "nome": "CARLOS JEFFERSON DE OLIVEIRA ABREU",
     "email": "carlos.abreu.empreendedor18@gmail.com",
+    "cpf": "086.141.733-00",
     "inscricao": "CJDOA086141",
-    "cpf": "086.141.733-00"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "EDGLEUSON XAVIER DANTAS",

@@ -1109,7 +1109,9 @@
   },
   "f3a79a314013fda5f4913bfc5445126b6370e9cd10476d8b7652a280af49b0f7": {
     "validity": null,
-    "permissions": [],
+    "permissions": [
+      "PMCE_2026"
+    ],
     "name": "CARLOS JEFFERSON DE OLIVEIRA ABREU"
   },
   "4f4387baf9a130dbf55b0074c317c14c58c06504c961bf12fb7226a54a845a46": {
