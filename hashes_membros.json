@@ -1084,7 +1084,9 @@
   },
   "6bb0d6f30940573e01c5b5917b7e5e4e73deee03bb5766b5a08de00f62b88232": {
     "validity": null,
-    "permissions": [],
+    "permissions": [
+      "PMCE_2026"
+    ],
     "name": "DANÚBIA DO AMARAL RODRIGUES"
   },
   "a940243dfc207f7cc5e0ae7a8bbd045b480ff8a3f7c7dae95e4ceda6cb4c29f9": {

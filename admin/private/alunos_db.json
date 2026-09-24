@@ -1540,8 +1540,12 @@
   {
     "nome": "DANÚBIA DO AMARAL RODRIGUES",
     "email": "danubiaamaral432@gmail.com",
+    "cpf": "076.146.583-96",
     "inscricao": "DDAR076146",
-    "cpf": "076.146.583-96"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "LÍVIA SÂMIA DE SOUZA OLIVEIRA",
