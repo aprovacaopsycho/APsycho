@@ -1510,8 +1510,12 @@
   {
     "nome": "Felipe Barros Brito",
     "email": "barrasbrito@gmail.com",
+    "cpf": "076.971.304-16",
     "inscricao": "FBB076971",
-    "cpf": "076.971.304-16"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "RAILTON CARLOS COUTO E SOUZA",
@@ -1584,8 +1588,12 @@
   {
     "nome": "EDGLEUSON XAVIER DANTAS",
     "email": "edgleusondantas8055@gmail.com",
+    "cpf": "118.900.894-78",
     "inscricao": "EXD118900",
-    "cpf": "118.900.894-78"
+    "validade": "",
+    "permissions": [
+      "PMCE_2026"
+    ]
   },
   {
     "nome": "JOÃO BENTO DUARTE NETO",

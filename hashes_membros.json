@@ -1059,7 +1059,9 @@
   },
   "ab0909dea5373173a611ff8336599bc258099df881ff1aa81ef8af427001456e": {
     "validity": null,
-    "permissions": [],
+    "permissions": [
+      "PMCE_2026"
+    ],
     "name": "Felipe Barros Brito"
   },
   "a16d6985341c167893764664eee734b4bc03e102751b15f563626a2560501526": {
@@ -1118,7 +1120,9 @@
   },
   "4f4387baf9a130dbf55b0074c317c14c58c06504c961bf12fb7226a54a845a46": {
     "validity": null,
-    "permissions": [],
+    "permissions": [
+      "PMCE_2026"
+    ],
     "name": "EDGLEUSON XAVIER DANTAS"
   },
   "4de5dba3f28cf68d8bce48b90987526af620212b5614dd057b5886317df865be": {
