@@ -2,10 +2,7 @@
   "316db7298e4ee7c2378d82a1d9342c42cfb94ae1ef47996f0de7a6609b7bfe61": {
     "validity": null,
     "permissions": [
-      "PMPR",
       "Base",
-      "PPMG_2026",
-      "PC-PI_2026",
       "PMCE_2026"
     ],
     "name": "Titan da Silva Pinto"
@@ -13,123 +10,90 @@
   "142fd6017000dbf2520a410feca80446a962237b662b4260a66ffe5ae7a14f7c": {
     "validity": null,
     "permissions": [
-      "PPMG_2026",
-      "PC-PI_2026",
       "PMCE_2026"
     ],
     "name": "APROVACAO PSYCHO"
   },
   "f60edc1d0eecd004d84b5e733c6b9c0485f08ff78d673fabe2ec4839812db80f": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "LUANNA SOUZA MENDES"
   },
   "1079921bdd718d2d4ecadcd9b69060e53470fb57a97fd089a1565094ba9c9d1d": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
+    "permissions": [],
     "name": "MAURO RICARDO DE FRANCA FONTELES FILHO"
   },
   "edc601e62557211ce19a1241782e9d04387cf3ccdb17a087cf945abd8977557b": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
+    "permissions": [],
     "name": "CALEBE DE SOUSA RODRIGUES"
   },
   "af6d316eddbafb0a90ff8b64f1decb8970559cfbd085f943efaa3bb663466b0d": {
     "validity": "2026-11-30T01:01",
     "permissions": [
-      "PC-PI_2026",
       "PMCE_2026"
     ],
     "name": "MATEUS HENRIQUE DE ALMEIDA CORDEIRO"
   },
   "1a46117baab159b707e4e613c6a0120440a8ea7aed8483988f616d4507e1f50a": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
+    "permissions": [],
     "name": "MARCOS ANTONIO SOLANO VIDAL FILHO"
   },
   "675cdcfdc3459e0614f882aaaaab9a653b350b67689d9b32e40440217eb0f53b": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "GRACE KELLY RIBEIRO DE NOVAES NASCIMENTO"
   },
   "0167bc14020ed7f557636154b95dcb1323ed8f0e549e5e996f954da275308102": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "DOUGLAS EDUARDO DE OLIVEIRA SILVA"
   },
   "a90f9acbdcc06fd0fc3a9e2e4966052a7fed38865a951ed8853edcaae5d51998": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
+    "permissions": [],
     "name": "DAVI PORTO FERREIRA"
   },
   "4f45b49973a675c7a73ad50fbd090e8ae0a8423f022892e9baab125d4ec2a250": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "LUCAS ANDREW DE SOUZA"
   },
   "182997283ca240a51e84fb5629891c139aa8ae39f79505812ce2d1fe14c6ab53": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
+    "permissions": [],
     "name": "LUIZA CAVALCANTE RIBEIRO"
   },
   "edf88a61821971ae151b88dd1414e586a2ebd7f5459ddf18fd1b8d6ff375c331": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "EMILLY DO CARMO LAURENTINO"
   },
   "5a36186e68d210917622e3fc64d3ca57aeec102fb7909c7b20825b4dfbd9221a": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
+    "permissions": [],
     "name": "MARINA COELHO SOUSA"
   },
   "b391c8c5813c31f55ad2dd71b2e02bbe28ba69dfb3c7ff37091fc4d1c9e27532": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "DANRLEI RODRIGUES CARVALHO"
   },
   "b9877a6dfa82040c05443e7ff538b79a91ce28e09b3771a3962ceac1684ae6e0": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ],
+    "permissions": [],
     "name": "IVANKSWELL DE FRANCA FERREIRA"
   },
   "afcc21424296660b2f18b0650b8970b070704540a09b7bb25f110b1f864285cc": {
     "validity": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "Guilherme Lopes de Freitas"
   },
   "111f6c8174bfce08321dc0718c944d2801eb06a60590cba96f510e21828eea2c": {
     "validity": null,
-    "permissions": [
-      "PPMG_2026"
-    ],
+    "permissions": [],
     "name": "Giovani Batista Xavier"
   },
   "de18f77fd303a4fe58598b5bae9ee77fa98ec104b449259eb8399ab03f75dc96": {
@@ -394,7 +358,6 @@
   "b69af69ba6f197eef618b3ff2c51a08bf2ab7ad352d404c92f54e85ce7b7ba8b": {
     "validity": null,
     "permissions": [
-      "PMPR",
       "PMCE_2026"
     ],
     "name": "AGUINALDO ALEXANDRE FERREIRA"
@@ -1179,7 +1142,6 @@
   "de88328c21f25400afee0adb17b199ae0c4d69642da0738973ec88beba280f3a": {
     "validity": null,
     "permissions": [
-      "PMPR",
       "PMCE_2026"
     ],
     "name": "ANTÔNIO SAMUEL SILVA DE SOUZA"

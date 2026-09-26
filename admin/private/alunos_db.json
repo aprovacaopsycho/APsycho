@@ -6,10 +6,7 @@
     "inscricao": "TDSP076775",
     "validade": "",
     "permissions": [
-      "PMPR",
       "Base",
-      "PPMG_2026",
-      "PC-PI_2026",
       "PMCE_2026"
     ]
   },
@@ -20,8 +17,6 @@
     "inscricao": "AP076775",
     "validade": "",
     "permissions": [
-      "PPMG_2026",
-      "PC-PI_2026",
       "PMCE_2026"
     ]
   },
@@ -31,9 +26,7 @@
     "cpf": "130.491.696-05",
     "inscricao": "LSM130491",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "MAURO RICARDO DE FRANCA FONTELES FILHO",
@@ -41,9 +34,7 @@
     "cpf": "608.234.513-48",
     "inscricao": "MRDFFF608234",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "CALEBE DE SOUSA RODRIGUES",
@@ -51,9 +42,7 @@
     "cpf": "013.673.793-50",
     "inscricao": "CDSR013673",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "MATEUS HENRIQUE DE ALMEIDA CORDEIRO",
@@ -62,7 +51,6 @@
     "inscricao": "MHDAC701077",
     "validade": "2026-11-30T01:01",
     "permissions": [
-      "PC-PI_2026",
       "PMCE_2026"
     ]
   },
@@ -72,9 +60,7 @@
     "cpf": "047.909.003-39",
     "inscricao": "MASVF047909",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "GRACE KELLY RIBEIRO DE NOVAES NASCIMENTO",
@@ -82,9 +68,7 @@
     "cpf": "109.395.376-48",
     "inscricao": "GKRDNN109395",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "DOUGLAS EDUARDO DE OLIVEIRA SILVA",
@@ -92,9 +76,7 @@
     "cpf": "120.239.346-21",
     "inscricao": "DEDOS120239",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "DAVI PORTO FERREIRA",
@@ -102,9 +84,7 @@
     "cpf": "091.502.206-08",
     "inscricao": "DPF091502",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "LUCAS ANDREW DE SOUZA",
@@ -112,9 +92,7 @@
     "cpf": "814.305.822-00",
     "inscricao": "LADS814305",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "LUIZA CAVALCANTE RIBEIRO",
@@ -122,9 +100,7 @@
     "cpf": "075.435.133-58",
     "inscricao": "LCR075435",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "EMILLY DO CARMO LAURENTINO",
@@ -132,9 +108,7 @@
     "cpf": "130.057.766-54",
     "inscricao": "EDCL130057",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "MARINA COELHO SOUSA",
@@ -142,9 +116,7 @@
     "cpf": "033.027.083-43",
     "inscricao": "MCS033027",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "DANRLEI RODRIGUES CARVALHO",
@@ -152,9 +124,7 @@
     "cpf": "064.818.193-69",
     "inscricao": "DRC064818",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "IVANKSWELL DE FRANCA FERREIRA",
@@ -162,9 +132,7 @@
     "cpf": "073.562.434-82",
     "inscricao": "IDFF073562",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PC-PI_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "Guilherme Lopes de Freitas",
@@ -172,9 +140,7 @@
     "cpf": "022.903.566-38",
     "inscricao": "GLDF022903",
     "validade": "2026-07-31T01:01",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "Giovani Batista Xavier",
@@ -182,9 +148,7 @@
     "cpf": "953.763.481-72",
     "inscricao": "GBX953763",
     "validade": "",
-    "permissions": [
-      "PPMG_2026"
-    ]
+    "permissions": []
   },
   {
     "nome": "FRANCISCO CLESTENIO FEIJAO MESQUITA",
@@ -563,7 +527,6 @@
     "inscricao": "AAF050166",
     "validade": "",
     "permissions": [
-      "PMPR",
       "PMCE_2026"
     ]
   },
@@ -1684,7 +1647,6 @@
     "inscricao": "ASSDS615832",
     "validade": "",
     "permissions": [
-      "PMPR",
       "PMCE_2026"
     ]
   },
@@ -1692,36 +1654,42 @@
     "nome": "GUSTAVO DE SOUZA COSTA",
     "email": "gustavosouza1982@icloud.com",
     "inscricao": "",
-    "cpf": "70391266217"
+    "cpf": "70391266217",
+    "permissions": []
   },
   {
     "nome": "KALEBE NUNES PEREIRA",
     "email": "kalebep141@gmail.com",
     "inscricao": "",
-    "cpf": "70690996497"
+    "cpf": "70690996497",
+    "permissions": []
   },
   {
     "nome": "JÚLIO KEVEN MARÇAL BARROS",
     "email": "juliokeven200@gmail.com",
     "inscricao": "",
-    "cpf": "08534724326"
+    "cpf": "08534724326",
+    "permissions": []
   },
   {
     "nome": "DANILO DE ARAUJO CLEMENTINO SOUSA",
     "email": "danilodanharaujo@gmail.com",
     "inscricao": "",
-    "cpf": "059.347.333-70"
+    "cpf": "059.347.333-70",
+    "permissions": []
   },
   {
     "nome": "DAVID RYAN LIMA DE MORAIS",
     "email": "david.morais5351@gmail.com",
     "inscricao": "",
-    "cpf": "11265584354"
+    "cpf": "11265584354",
+    "permissions": []
   },
   {
     "nome": "WERMERSON DE SOUSA SILVA",
     "email": "wermersondss@gmail.com",
     "inscricao": "",
-    "cpf": "072.284.603-75"
+    "cpf": "072.284.603-75",
+    "permissions": []
   }
 ]
